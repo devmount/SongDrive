@@ -8,7 +8,7 @@ var authorsRef = firebase.database().ref('authors');
 var ListSongs = Vue.extend({
     template: '#song-list',
     firebase: {
-        songs: songsRef
+        songs: songsRef.orderByChild('title')
     },
     data: function () {
         return {searchKey: ''};
