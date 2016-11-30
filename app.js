@@ -1,8 +1,8 @@
 // Setup Firebase
-firebase.initializeApp(config)
+firebase.initializeApp(config);
 
-var songsRef = firebase.database().ref('songs')
-var authorsRef = firebase.database().ref('authors')
+var songsRef = firebase.database().ref('songs');
+var authorsRef = firebase.database().ref('authors');
 
 // component: list songs
 var ListSongs = Vue.extend({
@@ -19,8 +19,9 @@ var ListSongs = Vue.extend({
             var self = this;
             return self.songs.filter(function (song) {
                 // filter fields: title, subtitle
-                return song.title.indexOf(self.searchKey) !== -1 || song.subtitle.indexOf(self.searchKey) !== -1
-            })
+                var searchKey = self.searchKey.toLowerCase()
+                return song.title.toLowerCase().indexOf(searchKey) !== -1 || song.subtitle.toLowerCase().indexOf(searchKey) !== -1;
+            });
         }
     }
 });
@@ -63,7 +64,7 @@ var EditSong = Vue.extend({
     template: '#edit-song',
     data: function () {
         // get song from firebase and bind it to this.song
-        this.$bindAsObject('song', songsRef.child(this.$route.params.song_id))
+        this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         return {
             song: this.song
         };
@@ -90,14 +91,14 @@ var DeleteSong = Vue.extend({
     template: '#delete-song',
     data: function () {
         // get song from firebase and bind it to this.song
-        this.$bindAsObject('song', songsRef.child(this.$route.params.song_id))
+        this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         return {
             song: this.song
         };
     },
     methods: {
         removeSong: function() {
-            songsRef.child(this.$route.params.song_id).remove()
+            songsRef.child(this.$route.params.song_id).remove();
             router.push('/');
         }
     }
@@ -108,7 +109,7 @@ var ShowSong = Vue.extend({
     template: '#show-song',
     data: function () {
         // get song from firebase and bind it to this.song
-        this.$bindAsObject('song', songsRef.child(this.$route.params.song_id))
+        this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         return {
             song: this.song
         };
@@ -131,4 +132,4 @@ var app = new Vue({
     el: '#app',
     router: router,
     template: '<router-view></router-view>'
-})
+});
