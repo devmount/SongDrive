@@ -89,28 +89,44 @@
         <form id="form" v-on:submit.prevent="createSong">
             <div class="row">
                 <div class="medium-6 columns">
-                    <input type="text" v-model="newSong.title" placeholder="title">
+                    <label>Title
+                        <input type="text" v-model="newSong.title" placeholder="title">
+                    </label>
                 </div>
                 <div class="medium-6 columns">
-                    <input type="text" v-model="newSong.subtitle" placeholder="subtitle">
+                    <label>Subtitle
+                        <input type="text" v-model="newSong.subtitle" placeholder="subtitle">
+                    </label>
                 </div>
                 <div class="medium-6 columns">
-                    <input type="text" v-model="newSong.textauthors" placeholder="text authors">
+                    <label>Text authors
+                        <input type="text" v-model="newSong.textauthors" placeholder="text authors">
+                    </label>
                 </div>
                 <div class="medium-6 columns">
-                    <input type="text" v-model="newSong.musicauthors" placeholder="music authors">
+                    <label>Music authors
+                        <input type="text" v-model="newSong.musicauthors" placeholder="music authors">
+                    </label>
                 </div>
                 <div class="medium-6 columns">
-                    <input type="number" v-model="newSong.year" placeholder="year">
+                    <label>Year
+                        <input type="number" v-model="newSong.year" placeholder="year">
+                    </label>
                 </div>
                 <div class="medium-6 columns">
-                    <input type="text" v-model="newSong.tuning" placeholder="tuning">
+                    <label>Tuning
+                        <input type="text" v-model="newSong.tuning" placeholder="tuning">
+                    </label>
                 </div>
                 <div class="medium-12 columns">
-                    <textarea v-model="newSong.publisher" placeholder="publisher"></textarea>
+                    <label>publisher
+                        <textarea v-model="newSong.publisher" placeholder="publisher"></textarea>
+                    </label>
                 </div>
                 <div class="medium-12 columns">
-                    <textarea v-model="newSong.content" placeholder="content"></textarea>
+                    <label>Content
+                        <textarea v-model="newSong.content" placeholder="content"></textarea>
+                    </label>
                 </div>
                 <div class="medium-12 columns">
                     <input type="submit" value="Create Song" class="button">
@@ -127,28 +143,44 @@
         <form id="form" v-on:submit.prevent="updateSong">
             <div class="row">
                 <div class="medium-6 columns">
-                    <input type="text" v-model="song.title" placeholder="title">
+                    <label>Title
+                        <input type="text" v-model="song.title" placeholder="title">
+                    </label>
                 </div>
                 <div class="medium-6 columns">
-                    <input type="text" v-model="song.subtitle" placeholder="subtitle">
+                    <label>Subtitle
+                        <input type="text" v-model="song.subtitle" placeholder="subtitle">
+                    </label>
                 </div>
                 <div class="medium-6 columns">
-                    <input type="text" v-model="song.textauthors" placeholder="text authors">
+                    <label>Text authors
+                        <input type="text" v-model="song.textauthors" placeholder="text authors">
+                    </label>
                 </div>
                 <div class="medium-6 columns">
-                    <input type="text" v-model="song.musicauthors" placeholder="music authors">
+                    <label>Music authors
+                        <input type="text" v-model="song.musicauthors" placeholder="music authors">
+                    </label>
                 </div>
                 <div class="medium-6 columns">
-                    <input type="number" v-model="song.year" placeholder="year">
+                    <label>Year
+                        <input type="number" v-model="song.year" placeholder="year">
+                    </label>
                 </div>
                 <div class="medium-6 columns">
-                    <input type="text" v-model="song.tuning" placeholder="tuning">
+                    <label>Tuning
+                        <input type="text" v-model="song.tuning" placeholder="tuning">
+                    </label>
                 </div>
                 <div class="medium-12 columns">
-                    <textarea v-model="song.publisher" placeholder="publisher"></textarea>
+                    <label>publisher
+                        <textarea v-model="song.publisher" placeholder="publisher"></textarea>
+                    </label>
                 </div>
                 <div class="medium-12 columns">
-                    <textarea v-model="song.content" placeholder="content"></textarea>
+                    <label>Content
+                        <textarea v-model="song.content" placeholder="content"></textarea>
+                    </label>
                 </div>
                 <div class="medium-12 columns">
                     <input type="submit" value="Update Song" class="button">
