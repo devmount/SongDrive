@@ -25,6 +25,7 @@ pre {
 .container {
     position: relative;
     min-height: 100vh;
+    padding-bottom: 5em;
 }
 
 /* app header */
@@ -83,7 +84,7 @@ section > header > p {
     font-weight: normal;
     font-style: normal;
     font-size: 1.5em;
-    color: #888;
+    color: #999;
     display: inline-block;
     text-decoration: inherit;
 }

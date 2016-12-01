@@ -1,6 +1,13 @@
 # SongDrive
 
-A song management web app to store and synchronize songs, based on [Vue.js](vuejs.org/) and [Firebase](firebase.google.com/).
+A song management web application to store and synchronize songs, based on [Vue.js](vuejs.org/) and [Firebase](firebase.google.com/).
+
+## Features
+- Create, read, update and delete songs
+- Filter songs
+- Transpose song tuning
+- Create, read, update and delete setlists
+- PDF export for songs and setlists
 
 ## Installation
 
@@ -21,7 +28,7 @@ A song management web app to store and synchronize songs, based on [Vue.js](vuej
     ```
     
 6. Now just open your browser and call the url of the location where you downloaded the project files to, e.g. `www.example.com/songdrive/index.html`
-7. You're ready to go and synchronize your song data on every device with this url
+7. You're ready to go and synchronize your song data live on every device accessing this url
 
 ## Licence
 MIT
