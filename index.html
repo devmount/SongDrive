@@ -27,7 +27,7 @@
 <div class="container" id="app">
     <header class="page-header">
     <div data-sticky-container>
-        <div class="title-bar" data-sticky data-options="marginTop:0;" style="width:100%">
+        <div class="title-bar" data-sticky data-options="marginTop:0;">
             <div class="title-bar-left"><router-link :to="{name: 'home'}">SongDrive</router-link></div>
             <div class="title-bar-right"><router-link :to="{name: 'home'}">Songs</router-link> Setlists</div>
         </div>
@@ -39,6 +39,9 @@
 <!-- song list -->
 <template id="song-list">
     <section>
+        <header>
+            <h1>Songs</h1>
+        </header>
         <div class="row">
             <div class="actions">
                 <router-link class="button" :to="{path: '/add-song'}"><i class="fa fa-plus fa-rm" aria-hidden="true"></i> Song</router-link>
@@ -85,9 +88,12 @@
 <!-- show a song -->
 <template id="show-song">
     <section>
+        <header>
+            <h1>{{song.title}}</h1>
+            <p>{{song.subtitle}}</p>
+        </header>
         <div class="row">
-            <h2>{{song.title}} [{{song.tuning}}]</h2>
-            <h4>{{song.subtitle}}</h4>
+            <p>Tuning: {{song.tuning}}</p>
             <p>Text: {{song.textauthors}}, Music: {{song.musicauthors}}</p>
             <pre>{{song.content}}</pre>
             <p>&copy; {{song.year}} {{song.publisher}}</p>
@@ -99,6 +105,9 @@
 <!-- add a song -->
 <template id="add-song">
     <section>
+        <header>
+            <h1>New song</h1>
+        </header>
         <form id="form" v-on:submit.prevent="createSong">
             <div class="row">
                 <div class="medium-6 columns">
@@ -153,6 +162,9 @@
 <!-- edit a song -->
 <template id="edit-song">
     <section>
+        <header>
+            <h1>Edit &raquo;{{song.title}}&laquo;</h1>
+        </header>
         <form id="form" v-on:submit.prevent="updateSong">
             <div class="row">
                 <div class="medium-6 columns">
@@ -207,10 +219,14 @@
 <!-- delete a song -->
 <template id="delete-song">
     <section>
+        <header>
+            <h1>Delete &raquo;{{song.title}}&laquo;</h1>
+        </header>
         <div class="row">
-            <h2>Delete song {{song.title}}</h2>
+            <div class="alert callout">
+                <p>This action cannot be undone.</p>
+            </div>
             <form v-on:submit="removeSong">
-                <p>The action cannot be undone.</p>
                 <button type="submit" class="alert button">Delete</button>
                 <router-link class="hollow button" :to="{path: '/'}">Cancel</router-link>
             </form>
@@ -222,6 +238,7 @@
 <script type="text/javascript" src="app.js"></script>
 
 <script>
+// init sticky title bar
 $(document).foundation();
 $('.title-bar').on('sticky.zf.stuckto:top', function(){
     $(this).addClass('shrink');

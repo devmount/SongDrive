@@ -14,18 +14,35 @@ h1, h2, h3, h4, h5, h6 {
 h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
 }
+h1 {
+    font-size: 2.5rem;
+}
 pre {
     font-family: 'Fira Mono', monospace;
 }
 
 /* title bar */
 .title-bar {
+    width: 100%;
     height: 4rem;
     line-height: 3rem;
 }
 .title-bar.shrink {
     height: 3rem;
     line-height: 2rem;
+}
+
+/* section header */
+section > header {
+    background: #444;
+    color: #fff;
+    padding: 1em;
+    margin-bottom: 1em;
+    text-align: center;
+}
+section > header > h1,
+section > header > p {
+    margin: 0;
 }
 
 /* font awesome */
