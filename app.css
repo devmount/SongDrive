@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Fira+Mono');
 
 * {
-    transition: all 0.3s ease;
+    /*transition: all 0.3s ease;*/
 }
 
 /* basic styles */
@@ -32,14 +32,19 @@ pre {
 .title-bar {
     width: 100%;
     height: 4rem;
-    line-height: 3rem;
+    transition: height .25s ease;
 }
 .title-bar.shrink {
     height: 3rem;
-    line-height: 2rem;
 }
 .title-bar a {
     color: #fff;
+}
+
+/* app header*/
+.container > header {
+    position: absolute;
+    width: 100vw;
 }
 
 /* app footer */
@@ -57,7 +62,7 @@ pre {
 section > header {
     background: #444;
     color: #fff;
-    padding: 1em;
+    padding: 5em 1em 1em 1em;
     margin-bottom: 1em;
     text-align: center;
 }

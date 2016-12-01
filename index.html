@@ -26,14 +26,12 @@
 <!-- container -->
 <div class="container" id="app">
     <!-- app header -->
-    <header>
-        <div data-sticky-container>
-            <div class="title-bar" data-sticky data-options="marginTop:0;">
-                <div class="title-bar-left"><router-link :to="{name: 'home'}">SongDrive</router-link></div>
-                <div class="title-bar-right">
-                    <router-link :to="{name: 'home'}">Songs</router-link>
-                    <router-link :to="{name: 'setlists'}">Setlists</router-link>
-                </div>
+    <header data-sticky-container>
+        <div class="title-bar" data-sticky data-options="marginTop:0;">
+            <div class="title-bar-left"><router-link :to="{name: 'home'}">SongDrive</router-link></div>
+            <div class="title-bar-right">
+                <router-link :to="{name: 'home'}">Songs</router-link>
+                <router-link :to="{name: 'setlists'}">Setlists</router-link>
             </div>
         </div>
     </header>
