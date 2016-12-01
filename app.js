@@ -26,6 +26,11 @@ var ListSongs = Vue.extend({
     }
 });
 
+// component: list songs
+var ListSetlists = Vue.extend({
+    template: '#setlist-list',
+});
+
 // component: add a song
 var AddSong = Vue.extend({
     template: '#add-song',
@@ -120,6 +125,7 @@ var ShowSong = Vue.extend({
 var router = new VueRouter({
     routes: [
         {path: '/', component: ListSongs, name: 'home'},
+        {path: '/setlists', component: ListSetlists, name: 'setlists'},
         {path: '/song/:song_id', component: ShowSong, name: 'show-song'},
         {path: '/add-song', component: AddSong},
         {path: '/song/:song_id/edit', component: EditSong, name: 'edit-song'},

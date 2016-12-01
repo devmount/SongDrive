@@ -29,7 +29,10 @@
     <div data-sticky-container>
         <div class="title-bar" data-sticky data-options="marginTop:0;">
             <div class="title-bar-left"><router-link :to="{name: 'home'}">SongDrive</router-link></div>
-            <div class="title-bar-right"><router-link :to="{name: 'home'}">Songs</router-link> Setlists</div>
+            <div class="title-bar-right">
+                <router-link :to="{name: 'home'}">Songs</router-link>
+                <router-link :to="{name: 'setlists'}">Setlists</router-link>
+            </div>
         </div>
     </div>
     </header>
@@ -81,6 +84,18 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </section>
+</template>
+
+<!-- setlist list -->
+<template id="setlist-list">
+    <section>
+        <header>
+            <h1>Setlists</h1>
+        </header>
+        <div class="row">
+            <p>Not implemented yet.</p>
         </div>
     </section>
 </template>
