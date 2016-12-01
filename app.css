@@ -37,6 +37,9 @@ pre {
     height: 3rem;
     line-height: 2rem;
 }
+.title-bar a {
+    color: #fff;
+}
 
 /* app footer */
 .container > footer {
@@ -60,6 +63,29 @@ section > header {
 section > header > h1,
 section > header > p {
     margin: 0;
+}
+
+/* search */
+.search {
+    position: relative;
+}
+.search input {
+    padding-left: 3em;
+    height: 3rem;
+    margin-top: -1em;
+}
+.search::before {
+    position: absolute;
+    left: 1rem;
+    top: -.6rem;
+    content: "\f002";
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 1.5em;
+    color: #888;
+    display: inline-block;
+    text-decoration: inherit;
 }
 
 /* font awesome */

@@ -51,14 +51,14 @@
         <header>
             <h1>Songs</h1>
         </header>
+        <div class="row medium-collapse search">
+            <div class="small-12 columns">
+                <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
+            </div>
+        </div>
         <div class="row">
             <div class="actions">
                 <router-link class="button" :to="{path: '/add-song'}"><i class="fa fa-plus fa-rm" aria-hidden="true"></i> Song</router-link>
-            </div>
-        </div>
-        <div class="row medium-collapse">
-            <div class="medium-6 columns">
-                <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
             </div>
         </div>
         <div class="row">
