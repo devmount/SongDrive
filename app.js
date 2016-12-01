@@ -119,7 +119,7 @@ var ShowSong = Vue.extend({
 // router
 var router = new VueRouter({
     routes: [
-        {path: '/', component: ListSongs},
+        {path: '/', component: ListSongs, name: 'home'},
         {path: '/song/:song_id', component: ShowSong, name: 'show-song'},
         {path: '/add-song', component: AddSong},
         {path: '/song/:song_id/edit', component: EditSong, name: 'edit-song'},
@@ -130,6 +130,5 @@ var router = new VueRouter({
 // create Vue app
 var app = new Vue({
     el: '#app',
-    router: router,
-    template: '<router-view></router-view>'
+    router: router
 });

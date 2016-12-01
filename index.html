@@ -22,16 +22,16 @@
 <body>
 
 <!-- container -->
-<div class="container">
+<div class="container" id="app">
     <header class="page-header">
     <div data-sticky-container>
         <div class="title-bar" data-sticky data-options="marginTop:0;" style="width:100%">
-            <div class="title-bar-left">SongDrive</div>
-            <div class="title-bar-right">Songs Setlists</div>
+            <div class="title-bar-left"><router-link :to="{name: 'home'}">SongDrive</router-link></div>
+            <div class="title-bar-right"><router-link :to="{name: 'home'}">Songs</router-link> Setlists</div>
         </div>
     </div>
     </header>
-    <main id="app"></main>
+    <router-view></router-view>
 </div>
 
 <!-- song list -->
