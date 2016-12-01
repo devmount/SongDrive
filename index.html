@@ -25,18 +25,24 @@
 
 <!-- container -->
 <div class="container" id="app">
-    <header class="page-header">
-    <div data-sticky-container>
-        <div class="title-bar" data-sticky data-options="marginTop:0;">
-            <div class="title-bar-left"><router-link :to="{name: 'home'}">SongDrive</router-link></div>
-            <div class="title-bar-right">
-                <router-link :to="{name: 'home'}">Songs</router-link>
-                <router-link :to="{name: 'setlists'}">Setlists</router-link>
+    <!-- app header -->
+    <header>
+        <div data-sticky-container>
+            <div class="title-bar" data-sticky data-options="marginTop:0;">
+                <div class="title-bar-left"><router-link :to="{name: 'home'}">SongDrive</router-link></div>
+                <div class="title-bar-right">
+                    <router-link :to="{name: 'home'}">Songs</router-link>
+                    <router-link :to="{name: 'setlists'}">Setlists</router-link>
+                </div>
             </div>
         </div>
-    </div>
     </header>
+    <!-- app content -->
     <router-view></router-view>
+    <!-- app footer -->
+    <footer>
+        <p>&copy; 2016 <a href="http://devmount.de">devmount</a></p>
+    </footer>
 </div>
 
 <!-- song list -->

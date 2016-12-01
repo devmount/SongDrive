@@ -21,7 +21,13 @@ pre {
     font-family: 'Fira Mono', monospace;
 }
 
-/* title bar */
+/* app container */
+.container {
+    position: relative;
+    min-height: 100vh;
+}
+
+/* app header */
 .title-bar {
     width: 100%;
     height: 4rem;
@@ -30,6 +36,17 @@ pre {
 .title-bar.shrink {
     height: 3rem;
     line-height: 2rem;
+}
+
+/* app footer */
+.container > footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #000;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
 }
 
 /* section header */
