@@ -2,10 +2,20 @@
 <html>
 <head>
     <title>SongDrive</title>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- Vue -->
     <script type="text/javascript" src="https://unpkg.com/vue@latest/dist/vue.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.0.3/vue-router.min.js"></script>
+    <!-- Firebase -->
     <script type="text/javascript" src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+    <!-- Foundation  -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/plugins/foundation.core.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/plugins/foundation.sticky.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/plugins/foundation.util.triggers.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/plugins/foundation.util.mediaQuery.js"></script>
+    <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/foundation.min.css">
     <link rel="stylesheet" type="text/css" href="app.css">
 </head>
@@ -14,11 +24,12 @@
 <!-- container -->
 <div class="container">
     <header class="page-header">
-        <div class="row">
-            <div class="branding">
-                <h1>SongDrive</h1>
-            </div>
+    <div data-sticky-container>
+        <div class="title-bar" data-sticky data-options="marginTop:0;" style="width:100%">
+            <div class="title-bar-left">SongDrive</div>
+            <div class="title-bar-right">Songs Setlists</div>
         </div>
+    </div>
     </header>
     <main id="app"></main>
 </div>
@@ -207,6 +218,15 @@
 
 <script type="text/javascript" src="config.js"></script>
 <script type="text/javascript" src="app.js"></script>
+
+<script>
+$(document).foundation();
+$('.title-bar').on('sticky.zf.stuckto:top', function(){
+    $(this).addClass('shrink');
+}).on('sticky.zf.unstuckfrom:top', function(){
+    $(this).removeClass('shrink');
+})
+</script>
 
 </body>
 </html>

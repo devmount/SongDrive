@@ -1,13 +1,29 @@
-@import url('https://fonts.googleapis.com/css?family=Lato');
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700');
 @import url('https://fonts.googleapis.com/css?family=Fira+Mono');
 
+* {
+    transition: all 0.3s ease;
+}
+
+/* basic styles */
 body,
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Fira sans', sans-serif;
+    font-weight: 300;
 }
-h1 {
-    font-weight: thin;
+h1, h2, h3, h4, h5, h6 {
+    text-transform: uppercase;
 }
 pre {
     font-family: 'Fira Mono', monospace;
+}
+
+/* title bar */
+.title-bar {
+    height: 4rem;
+    line-height: 3rem;
+}
+.title-bar.shrink {
+    height: 3rem;
+    line-height: 2rem;
 }
