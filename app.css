@@ -27,3 +27,8 @@ pre {
     height: 3rem;
     line-height: 2rem;
 }
+
+/* font awesome */
+.fa-rm {
+    margin-right: .5em;
+}
