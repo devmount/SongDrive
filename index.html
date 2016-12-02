@@ -133,49 +133,39 @@
             <h1>New song</h1>
         </header>
         <form id="form" v-on:submit.prevent="createSong">
-            <div class="row">
+            <div class="row align-stretch">
                 <div class="medium-6 columns">
                     <label>Title
                         <input type="text" v-model="song.title" placeholder="title">
                     </label>
-                </div>
-                <div class="medium-6 columns">
                     <label>Subtitle
                         <input type="text" v-model="song.subtitle" placeholder="subtitle">
                     </label>
-                </div>
-                <div class="medium-6 columns">
                     <label>Text authors
                         <input type="text" v-model="song.textauthors" placeholder="text authors">
                     </label>
-                </div>
-                <div class="medium-6 columns">
                     <label>Music authors
                         <input type="text" v-model="song.musicauthors" placeholder="music authors">
                     </label>
-                </div>
-                <div class="medium-6 columns">
                     <label>Year
                         <input type="number" v-model="song.year" placeholder="year">
                     </label>
-                </div>
-                <div class="medium-6 columns">
                     <label>Tuning
                         <input type="text" v-model="song.tuning" placeholder="tuning">
                     </label>
-                </div>
-                <div class="medium-12 columns">
                     <label>publisher
-                        <textarea v-model="song.publisher" placeholder="publisher"></textarea>
+                        <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
                     </label>
                 </div>
-                <div class="medium-12 columns">
+                <div class="medium-6 columns content-column">
                     <label>Content
                         <textarea v-model="song.content" placeholder="content"></textarea>
                     </label>
                 </div>
+            </div>
+            <div class="row">
                 <div class="medium-12 columns">
-                    <input type="submit" value="Create Song" class="button">
+                    <input type="submit" value="Update Song" class="button">
                     <router-link class="hollow button" :to="{path: '/'}">Cancel</router-link>
                 </div>
             </div>
