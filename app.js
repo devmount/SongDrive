@@ -36,7 +36,7 @@ var AddSong = Vue.extend({
     template: '#add-song',
     data: function () {
         return {
-            newSong: {
+            song: {
                 title: '',
                 subtitle: '',
                 textauthors: '',
@@ -50,15 +50,15 @@ var AddSong = Vue.extend({
     },
     methods: {
         createSong: function() {
-            songsRef.push(this.newSong)
-            this.newSong.title = ''
-            this.newSong.subtitle = ''
-            this.newSong.textauthors = ''
-            this.newSong.musicauthors = ''
-            this.newSong.year = ''
-            this.newSong.tuning = ''
-            this.newSong.publisher = ''
-            this.newSong.content = ''
+            songsRef.push(this.song)
+            this.song.title = ''
+            this.song.subtitle = ''
+            this.song.textauthors = ''
+            this.song.musicauthors = ''
+            this.song.year = ''
+            this.song.tuning = ''
+            this.song.publisher = ''
+            this.song.content = ''
             router.push('/');
         }
     }
