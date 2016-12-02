@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700');
 @import url('https://fonts.googleapis.com/css?family=Fira+Mono');
 
-* {
-    /*transition: all 0.3s ease;*/
-}
-
 /* basic styles */
 body,
 h1, h2, h3, h4, h5, h6 {
@@ -26,25 +22,40 @@ pre {
     position: relative;
     min-height: 100vh;
     padding-bottom: 5em;
+    background: #f1f1f1;
 }
 
 /* app header */
 .title-bar {
-    width: 100%;
+    width: inherit;
     height: 4rem;
-    transition: height .25s ease;
+    line-height: 4rem;
+    transition: all .25s ease;
+    padding: 0 1.5em;
 }
 .title-bar.shrink {
     height: 3rem;
+    line-height: 3rem;
 }
 .title-bar a {
     color: #fff;
+    text-transform: uppercase;
 }
+.title-bar .title-bar-right a {
+    display: inline-block;
+    padding: 0 1em;
+    transition: all .25s ease;
+}
+.title-bar .title-bar-right a:hover {
+    background: #222;
+}
+
 
 /* app header*/
 .container > header {
-    position: absolute;
-    width: 100vw;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
 }
 
 /* app footer */
@@ -60,9 +71,9 @@ pre {
 
 /* section header */
 section > header {
-    background: #444;
+    background: #222;
     color: #fff;
-    padding: 5em 1em 1em 1em;
+    padding: 5.5em 1em 1em 1em;
     margin-bottom: 1em;
     text-align: center;
 }
