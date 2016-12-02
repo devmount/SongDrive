@@ -109,3 +109,11 @@ section > header > p {
 .fa-rm {
     margin-right: .5em;
 }
+
+/* app content elements */
+.content-column label {
+    height: 100%;
+}
+.content-column textarea{
+    height: calc(100% - 2.5rem);
+}
