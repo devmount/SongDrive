@@ -16,6 +16,9 @@ h1 {
 pre {
     font-family: 'Fira Mono', monospace;
 }
+input, textarea {
+    font-weight: 300;
+}
 
 /* app container */
 .container {
@@ -116,4 +119,7 @@ section > header > p {
 }
 .content-column textarea{
     height: calc(100% - 2.5rem);
+    font-family: 'Fira Mono', monospace;
+    font-size: .8rem;
+    line-height: 1rem;
 }
