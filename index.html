@@ -117,11 +117,18 @@
             <p>{{song.subtitle}}</p>
         </header>
         <div class="row">
-            <p>Tuning: {{song.tuning}}</p>
-            <p>Text: {{song.textauthors}}, Music: {{song.musicauthors}}</p>
-            <pre>{{song.content}}</pre>
-            <p>&copy; {{song.year}} {{song.publisher}}</p>
-            <router-link class="hollow button" :to="{path: '/'}">Back</router-link>
+            <div class="columns">
+                <pre>{{song.content}}</pre>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="columns">
+                <p>Tuning: {{song.tuning}}</p>
+                <p>Text: {{song.textauthors}}, Music: {{song.musicauthors}}</p>
+                <p>&copy; {{song.year}} {{song.publisher}}</p>
+                <router-link class="hollow button" :to="{path: '/'}">Back</router-link>
+            </div>
         </div>
     </section>
 </template>
@@ -227,13 +234,15 @@
             <h1>Delete &raquo;{{song.title}}&laquo;</h1>
         </header>
         <div class="row">
-            <div class="alert callout">
-                <p>This action cannot be undone.</p>
+            <div class="columns">
+                <div class="alert callout">
+                    <p>This action cannot be undone.</p>
+                </div>
+                <form v-on:submit="removeSong">
+                    <button type="submit" class="alert button">Delete</button>
+                    <router-link class="hollow button" :to="{path: '/'}">Cancel</router-link>
+                </form>
             </div>
-            <form v-on:submit="removeSong">
-                <button type="submit" class="alert button">Delete</button>
-                <router-link class="hollow button" :to="{path: '/'}">Cancel</router-link>
-            </form>
         </div>
     </section>
 </template>
