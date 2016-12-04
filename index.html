@@ -60,11 +60,6 @@
             </div>
         </div>
         <div class="row">
-            <div class="actions">
-                <router-link class="button" :to="{path: '/add-song'}"><i class="fa fa-plus fa-rm" aria-hidden="true"></i> Song</router-link>
-            </div>
-        </div>
-        <div class="row">
             <table class="hover">
                 <thead>
                     <tr>
@@ -94,6 +89,9 @@
                 </tbody>
             </table>
         </div>
+        <footer>
+             <router-link class="small button" :to="{path: '/add-song'}" title="New Song"><i class="fa fa-plus" aria-hidden="true"></i></router-link>
+        </footer>
     </section>
 </template>
 
@@ -106,6 +104,8 @@
         <div class="row">
             <p>Not implemented yet.</p>
         </div>
+        <footer>
+        </footer>
     </section>
 </template>
 
@@ -127,9 +127,11 @@
                 <p>Tuning: {{song.tuning}}</p>
                 <p>Text: {{song.textauthors}}, Music: {{song.musicauthors}}</p>
                 <p>&copy; {{song.year}} {{song.publisher}}</p>
-                <router-link class="hollow button" :to="{path: '/'}">Back</router-link>
             </div>
         </div>
+        <footer>
+            <router-link class="small hollow button" :to="{path: '/'}">Back</router-link>
+        </footer>
     </section>
 </template>
 
@@ -170,12 +172,10 @@
                     </label>
                 </div>
             </div>
-            <div class="row">
-                <div class="medium-12 columns">
-                    <input type="submit" value="Create Song" class="button">
-                    <router-link class="hollow button" :to="{path: '/'}">Cancel</router-link>
-                </div>
-            </div>
+            <footer>
+                <router-link class="small hollow button" :to="{path: '/'}">Cancel</router-link>
+                <input type="submit" value="Create Song" class="small button">
+            </footer>
         </form>
     </section>
 </template>
@@ -217,12 +217,10 @@
                     </label>
                 </div>
             </div>
-            <div class="row">
-                <div class="medium-12 columns">
-                    <input type="submit" value="Update Song" class="button">
-                    <router-link class="hollow button" :to="{path: '/'}">Cancel</router-link>
-                </div>
-            </div>
+            <footer>
+                <router-link class="small hollow button" :to="{path: '/'}">Cancel</router-link>
+                <input type="submit" value="Update Song" class="small button">
+            </footer>
         </form>
     </section>
 </template>
@@ -235,15 +233,18 @@
         </header>
         <div class="row">
             <div class="columns">
+                <p>Are you sure you want to delete &raquo;{{song.title}}&laquo;?</p>
                 <div class="alert callout">
-                    <p>This action cannot be undone.</p>
+                    <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This action cannot be undone!</p>
                 </div>
-                <form v-on:submit="removeSong">
-                    <button type="submit" class="alert button">Delete</button>
-                    <router-link class="hollow button" :to="{path: '/'}">Cancel</router-link>
-                </form>
             </div>
         </div>
+        <footer>
+            <form v-on:submit="removeSong">
+                <router-link class="small hollow button" :to="{path: '/'}">Cancel</router-link>
+                <button type="submit" class="small alert button">Delete</button>
+            </form>
+        </footer>
     </section>
 </template>
 

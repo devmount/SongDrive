@@ -24,11 +24,10 @@ input, textarea {
 .container {
     position: relative;
     min-height: 100vh;
-    padding-bottom: 5em;
     background: #f1f1f1;
 }
 
-/* app header */
+/* title bar */
 .title-bar {
     width: inherit;
     height: 4rem;
@@ -53,7 +52,6 @@ input, textarea {
     background: #222;
 }
 
-
 /* app header*/
 .container > header {
     position: fixed;
@@ -61,11 +59,19 @@ input, textarea {
     z-index: 10;
 }
 
+/* app content */
+.container > section {
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 8.5em;
+}
+
 /* app footer */
 .container > footer {
     position: absolute;
     bottom: 0;
     width: 100%;
+    height: 5em;
     background: #000;
     color: #fff;
     padding: 1em;
@@ -83,6 +89,30 @@ section > header {
 section > header > h1,
 section > header > p {
     margin: 0;
+}
+
+/* app content elements */
+.content-column label {
+    height: 100%;
+}
+.content-column textarea{
+    height: calc(100% - 2.5rem);
+    font-family: 'Fira Mono', monospace;
+    font-size: .8rem;
+    line-height: 1rem;
+}
+
+/* section footer */
+section > footer,
+section > form > footer {
+    width: 100%;
+    background: #222;
+    color: #fff;
+    padding: .9em;
+    text-align: right;
+    position: absolute;
+    bottom: 5em;
+    height: 4em;
 }
 
 /* search */
@@ -111,15 +141,4 @@ section > header > p {
 /* font awesome */
 .fa-rm {
     margin-right: .5em;
-}
-
-/* app content elements */
-.content-column label {
-    height: 100%;
-}
-.content-column textarea{
-    height: calc(100% - 2.5rem);
-    font-family: 'Fira Mono', monospace;
-    font-size: .8rem;
-    line-height: 1rem;
 }
