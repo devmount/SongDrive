@@ -62,8 +62,8 @@
                         <th width="200">Subtitle</th>
                         <th class="show-for-large">Text</th>
                         <th class="show-for-large">Music</th>
-                        <th width="80">Year</th>
-                        <th width="80">Tuning</th>
+                        <th class="show-for-medium" width="80">Year</th>
+                        <th class="show-for-medium" width="80">Tuning</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -73,12 +73,21 @@
                         <td>{{song.subtitle}}</td>
                         <td class="show-for-large">{{song.textauthors}}</td>
                         <td class="show-for-large">{{song.musicauthors}}</td>
-                        <td>{{song.year}}</td>
-                        <td>{{song.tuning}}</td>
+                        <td class="show-for-medium" >{{song.year}}</td>
+                        <td class="show-for-medium" >{{song.tuning}}</td>
                         <td>
-                            <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">Show</router-link>
-                            <router-link class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">Edit</router-link>
-                            <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">Delete</router-link>
+                            <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                                <i class="fa fa-eye fa-fw show-for-small-only" aria-hidden="true"></i>
+                                <span class="show-for-medium">Show</span>
+                            </router-link>
+                            <router-link class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
+                                <i class="fa fa-pencil fa-fw show-for-small-only" aria-hidden="true"></i>
+                                <span class="show-for-medium">Edit</span>
+                            </router-link>
+                            <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
+                                <i class="fa fa-trash-o fa-fw show-for-small-only" aria-hidden="true"></i>
+                                <span class="show-for-medium">Delete</span>
+                            </router-link>
                         </td>
                     </tr>
                 </tbody>
