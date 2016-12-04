@@ -89,6 +89,7 @@ section > header {
 section > header > h1,
 section > header > p {
     margin: 0;
+    text-transform: uppercase;
 }
 
 /* app content elements */

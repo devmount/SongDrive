@@ -128,6 +128,7 @@
             <div class="columns">
                 <p>Tuning: {{song.tuning}}</p>
                 <p>Text: {{song.textauthors}}, Music: {{song.musicauthors}}</p>
+                <p>CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{song.ccli}}</a></p>
                 <p>&copy; {{song.year}} {{song.publisher}}</p>
             </div>
         </div>
@@ -158,9 +159,18 @@
                     <label>Music authors
                         <input type="text" v-model="song.musicauthors" placeholder="music authors">
                     </label>
-                    <label>Year
-                        <input type="number" v-model="song.year" placeholder="year">
-                    </label>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <label>Year
+                                <input type="number" v-model="song.year" placeholder="year">
+                            </label>
+                        </div>
+                        <div class="medium-6 columns">
+                            <label>CCLI
+                                <input type="number" v-model="song.ccli" placeholder="CCLI song number">
+                            </label>
+                        </div>
+                    </div>
                     <label>Tuning
                         <input type="text" v-model="song.tuning" placeholder="tuning">
                     </label>
@@ -203,9 +213,18 @@
                     <label>Music authors
                         <input type="text" v-model="song.musicauthors" placeholder="music authors">
                     </label>
-                    <label>Year
-                        <input type="number" v-model="song.year" placeholder="year">
-                    </label>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <label>Year
+                                <input type="number" v-model="song.year" placeholder="year">
+                            </label>
+                        </div>
+                        <div class="medium-6 columns">
+                            <label>CCLI
+                                <input type="number" v-model="song.ccli" placeholder="CCLI song number">
+                            </label>
+                        </div>
+                    </div>
                     <label>Tuning
                         <input type="text" v-model="song.tuning" placeholder="tuning">
                     </label>

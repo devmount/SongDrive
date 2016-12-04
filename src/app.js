@@ -42,6 +42,7 @@ var AddSong = Vue.extend({
                 textauthors: '',
                 musicauthors: '',
                 year: '',
+                ccli: '',
                 tuning: '',
                 publisher: '',
                 content: ''
@@ -56,6 +57,7 @@ var AddSong = Vue.extend({
             this.song.textauthors = ''
             this.song.musicauthors = ''
             this.song.year = ''
+            this.song.ccli = ''
             this.song.tuning = ''
             this.song.publisher = ''
             this.song.content = ''
@@ -82,6 +84,7 @@ var EditSong = Vue.extend({
                 textauthors: this.song.textauthors,
                 musicauthors: this.song.musicauthors,
                 year: this.song.year,
+                ccli: this.song.ccli,
                 tuning: this.song.tuning,
                 publisher: this.song.publisher,
                 content: this.song.content
