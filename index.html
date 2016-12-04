@@ -126,9 +126,9 @@
         <hr>
         <div class="row">
             <div class="columns">
-                <p>Tuning: {{song.tuning}}</p>
-                <p>Text: {{song.textauthors}}, Music: {{song.musicauthors}}</p>
-                <p>CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{song.ccli}}</a></p>
+                <p v-if="song.tuning">Tuning: {{song.tuning}}</p>
+                <p v-if="song.textauthors">Text: {{song.textauthors}}<span v-if="song.musicauthors">, Music: {{song.musicauthors}}</span></p>
+                <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{song.ccli}}</a></p>
                 <p>&copy; {{song.year}} {{song.publisher}}</p>
             </div>
         </div>
