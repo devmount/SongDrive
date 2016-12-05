@@ -129,11 +129,11 @@ var ShowSong = Vue.extend({
 var router = new VueRouter({
     routes: [
         {path: '/', component: ListSongs, name: 'home'},
-        {path: '/setlists', component: ListSetlists, name: 'setlists'},
+        {path: '/song/add', component: AddSong},
         {path: '/song/:song_id', component: ShowSong, name: 'show-song'},
-        {path: '/add-song', component: AddSong},
         {path: '/song/:song_id/edit', component: EditSong, name: 'edit-song'},
-        {path: '/song/:song_id/delete', component: DeleteSong, name: 'delete-song'}
+        {path: '/song/:song_id/delete', component: DeleteSong, name: 'delete-song'},
+        {path: '/setlists', component: ListSetlists, name: 'setlists'}
     ]
 });
 
