@@ -172,7 +172,7 @@
             </div>
             <footer>
                 <router-link class="small hollow button" :to="{path: '/'}">Cancel</router-link>
-                <input type="submit" value="Create Song" class="small button">
+                <input type="submit" value="Create" class="small button">
             </footer>
         </form>
     </section>
@@ -298,6 +298,24 @@
     </section>
 </template>
 
+<!-- show a setlist -->
+<template id="show-setlist">
+    <section>
+        <header>
+            <h1>{{setlist.title}}</h1>
+            <p>{{setlist.date}}</p>
+        </header>
+        <div class="row">
+            <div class="columns">
+                {{setlist.songs}}
+            </div>
+        </div>
+        <footer>
+            <router-link class="small hollow button" :to="{path: '/setlists'}">Back</router-link>
+        </footer>
+    </section>
+</template>
+
 <!-- add a setlist -->
 <template id="add-setlist">
     <section>
@@ -325,10 +343,67 @@
                 </div>
             </div>
             <footer>
-                <router-link class="small hollow button" :to="{path: '/'}">Cancel</router-link>
-                <input type="submit" value="Create Setlist" class="small button">
+                <router-link class="small hollow button" :to="{path: '/setlists'}">Cancel</router-link>
+                <input type="submit" value="Create" class="small button">
             </footer>
         </form>
+    </section>
+</template>
+
+<!-- edit a setlist -->
+<template id="edit-setlist">
+    <section>
+        <header>
+            <h1>Edit &raquo;{{setlist.title}}&laquo;</h1>
+        </header>
+        <form id="form" v-on:submit.prevent="updateSetlist">
+            <div class="row">
+                <div class="medium-6 columns">
+                    <label>Date
+                        <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
+                    </label>
+                </div>
+                <div class="medium-6 columns">
+                    <label>Title
+                        <input type="text" v-model="setlist.title" placeholder="title">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-12 columns">
+                    <label>Songs
+                        <input type="text" v-model="setlist.songs" placeholder="songs">
+                    </label>
+                </div>
+            </div>
+            <footer>
+                <router-link class="small hollow button" :to="{path: '/setlists'}">Cancel</router-link>
+                <input type="submit" value="Save and back" class="small button">
+            </footer>
+        </form>
+    </section>
+</template>
+
+<!-- delete a setlist -->
+<template id="delete-setlist">
+    <section>
+        <header>
+            <h1>Delete &raquo;{{setlist.title}}&laquo;</h1>
+        </header>
+        <div class="row">
+            <div class="columns">
+                <p>Are you sure you want to delete &raquo;{{setlist.title}}&laquo;?</p>
+                <div class="alert callout">
+                    <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This action cannot be undone!</p>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <form v-on:submit="removeSetlist">
+                <router-link class="small hollow button" :to="{path: '/setlists'}">Cancel</router-link>
+                <button type="submit" class="small alert button">Delete</button>
+            </form>
+        </footer>
     </section>
 </template>
 
