@@ -32,6 +32,20 @@ var ListSetlists = Vue.extend({
     template: '#setlist-list',
     firebase: {
         setlists: setlistsRef.orderByChild('date')
+    },
+    data: function () {
+        return {searchKey: ''};
+    },
+    computed : {
+        // apply filter
+        filteredSetlists: function () {
+            var self = this;
+            return self.setlists.filter(function (setlist) {
+                // filter fields: date, title
+                var searchKey = self.searchKey.toLowerCase()
+                return setlist.date.toLowerCase().indexOf(searchKey) !== -1 || setlist.title.toLowerCase().indexOf(searchKey) !== -1;
+            });
+        }
     }
 });
 

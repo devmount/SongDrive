@@ -261,6 +261,11 @@
         <header>
             <h1>Setlists</h1>
         </header>
+        <div class="row medium-collapse small-collapse search">
+            <div class="small-12 columns">
+                <input type="search" v-model="searchKey" placeholder="search for setlists" requred />
+            </div>
+        </div>
         <div class="row">
             <table class="hover">
                 <thead>
@@ -271,7 +276,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="setlist in setlists" :key="setlist['.key']">
+                    <tr v-for="setlist in filteredSetlists" :key="setlist['.key']">
                         <td>{{setlist.date}}</td>
                         <td>{{setlist.title}}</td>
                         <td>
