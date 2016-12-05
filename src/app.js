@@ -3,6 +3,7 @@ firebase.initializeApp(config);
 
 var songsRef = firebase.database().ref('songs');
 var authorsRef = firebase.database().ref('authors');
+var setlistsRef = firebase.database().ref('setlists');
 
 // component: list songs
 var ListSongs = Vue.extend({
@@ -26,9 +27,12 @@ var ListSongs = Vue.extend({
     }
 });
 
-// component: list songs
+// component: list setlists
 var ListSetlists = Vue.extend({
     template: '#setlist-list',
+    firebase: {
+        setlists: setlistsRef.orderByChild('date')
+    }
 });
 
 // component: add a song
@@ -66,6 +70,29 @@ var AddSong = Vue.extend({
     }
 });
 
+// component: add a setlist
+var AddSetlist = Vue.extend({
+    template: '#add-setlist',
+    data: function () {
+        return {
+            setlist: {
+                date: '',
+                title: '',
+                songs: ''
+            }
+        }
+    },
+    methods: {
+        createSetlist: function() {
+            setlistsRef.push(this.setlist)
+            this.setlist.date = ''
+            this.setlist.title = ''
+            this.setlist.songs = ''
+            router.push('/setlists');
+        }
+    }
+});
+
 // component: edit a song
 var EditSong = Vue.extend({
     template: '#edit-song',
@@ -95,6 +122,29 @@ var EditSong = Vue.extend({
     }
 });
 
+// component: edit a setlist
+var EditSetlist = Vue.extend({
+    template: '#edit-setlist',
+    data: function () {
+        // get setlist from firebase and bind it to this.setlist
+        this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
+        return {
+            setlist: this.setlist
+        };
+    },
+    methods: {
+        updateSetlist: function() {
+            setlistsRef.child(this.$route.params.setlist_id).update({
+                date: this.setlist.date,
+                title: this.setlist.title,
+                songs: this.setlist.songs
+            })
+            router.push('/setlists');
+            // router.push('/setlist/' + this.$route.params.setlist_id + '/edit');
+        }
+    }
+});
+
 // component: delete song
 var DeleteSong = Vue.extend({
     template: '#delete-song',
@@ -113,6 +163,24 @@ var DeleteSong = Vue.extend({
     }
 });
 
+// component: delete setlist
+var DeleteSetlist = Vue.extend({
+    template: '#delete-setlist',
+    data: function () {
+        // get setlist from firebase and bind it to this.setlist
+        this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
+        return {
+            setlist: this.setlist
+        };
+    },
+    methods: {
+        removeSetlist: function() {
+            setlistsRef.child(this.$route.params.setlist_id).remove();
+            router.push('/setlists');
+        }
+    }
+});
+
 // component: show song
 var ShowSong = Vue.extend({
     template: '#show-song',
@@ -125,6 +193,18 @@ var ShowSong = Vue.extend({
     }
 });
 
+// component: show setlist
+var ShowSetlist = Vue.extend({
+    template: '#show-setlist',
+    data: function () {
+        // get setlist from firebase and bind it to this.setlist
+        this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
+        return {
+            setlist: this.setlist
+        };
+    }
+});
+
 // router
 var router = new VueRouter({
     routes: [
@@ -133,7 +213,11 @@ var router = new VueRouter({
         {path: '/song/:song_id', component: ShowSong, name: 'show-song'},
         {path: '/song/:song_id/edit', component: EditSong, name: 'edit-song'},
         {path: '/song/:song_id/delete', component: DeleteSong, name: 'delete-song'},
-        {path: '/setlists', component: ListSetlists, name: 'setlists'}
+        {path: '/setlists', component: ListSetlists, name: 'setlists'},
+        {path: '/setlist/add', component: AddSetlist},
+        {path: '/setlist/:setlist_id', component: ShowSetlist, name: 'show-setlist'},
+        {path: '/setlist/:setlist_id/edit', component: EditSetlist, name: 'edit-setlist'},
+        {path: '/setlist/:setlist_id/delete', component: DeleteSetlist, name: 'delete-setlist'}
     ]
 });
 

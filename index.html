@@ -97,20 +97,6 @@
     </section>
 </template>
 
-<!-- setlist list -->
-<template id="setlist-list">
-    <section>
-        <header>
-            <h1>Setlists</h1>
-        </header>
-        <div class="row">
-            <p>Not implemented yet.</p>
-        </div>
-        <footer>
-        </footer>
-    </section>
-</template>
-
 <!-- show a song -->
 <template id="show-song">
     <section>
@@ -268,6 +254,84 @@
         </footer>
     </section>
 </template>
+
+<!-- setlist list -->
+<template id="setlist-list">
+    <section>
+        <header>
+            <h1>Setlists</h1>
+        </header>
+        <div class="row">
+            <table class="hover">
+                <thead>
+                    <tr>
+                        <th width="200">Date</th>
+                        <th width="200">Title</th>
+                        <th width="225"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="setlist in setlists" :key="setlist['.key']">
+                        <td>{{setlist.date}}</td>
+                        <td>{{setlist.title}}</td>
+                        <td>
+                            <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                                <i class="fa fa-eye fa-fw show-for-small-only" aria-hidden="true"></i>
+                                <span class="show-for-medium">Show</span>
+                            </router-link>
+                            <router-link class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
+                                <i class="fa fa-pencil fa-fw show-for-small-only" aria-hidden="true"></i>
+                                <span class="show-for-medium">Edit</span>
+                            </router-link>
+                            <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
+                                <i class="fa fa-trash-o fa-fw show-for-small-only" aria-hidden="true"></i>
+                                <span class="show-for-medium">Delete</span>
+                            </router-link>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <footer>
+             <router-link class="small button" :to="{path: '/setlist/add'}" title="New Setlist"><i class="fa fa-plus" aria-hidden="true"></i></router-link>
+        </footer>
+    </section>
+</template>
+
+<!-- add a setlist -->
+<template id="add-setlist">
+    <section>
+        <header>
+            <h1>New Setlist</h1>
+        </header>
+        <form id="form" v-on:submit.prevent="createSetlist">
+            <div class="row">
+                <div class="medium-6 columns">
+                    <label>Date
+                        <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
+                    </label>
+                </div>
+                <div class="medium-6 columns">
+                    <label>Title
+                        <input type="text" v-model="setlist.title" placeholder="title">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-12 columns">
+                    <label>Songs
+                        <input type="text" v-model="setlist.songs" placeholder="songs">
+                    </label>
+                </div>
+            </div>
+            <footer>
+                <router-link class="small hollow button" :to="{path: '/'}">Cancel</router-link>
+                <input type="submit" value="Create Setlist" class="small button">
+            </footer>
+        </form>
+    </section>
+</template>
+
 
 <script type="text/javascript" src="src/config.js"></script>
 <script type="text/javascript" src="src/app.js"></script>
