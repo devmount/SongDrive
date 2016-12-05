@@ -90,6 +90,7 @@ var EditSong = Vue.extend({
                 content: this.song.content
             })
             router.push('/');
+            // router.push('/song/' + this.$route.params.song_id + '/edit');
         }
     }
 });
