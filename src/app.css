@@ -5,7 +5,7 @@
 body,
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Fira sans', sans-serif;
-    font-weight: 300;
+    /*font-weight: 300;*/
 }
 h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
@@ -18,6 +18,10 @@ pre {
 }
 input, textarea {
     font-weight: 300;
+}
+.button {
+    vertical-align: text-bottom;
+    margin: 0;
 }
 
 /* app container */
@@ -63,19 +67,15 @@ input, textarea {
 .container > section {
     position: relative;
     min-height: 100vh;
-    padding-bottom: 8.5em;
+    padding-bottom: 5em;
 }
 
 /* app footer */
 .container > footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 5em;
-    background: #000;
+    position: fixed;
+    bottom: .5em;
     color: #fff;
-    padding: 1em;
-    text-align: center;
+    padding: 0 2em;
 }
 
 /* section header */
@@ -106,14 +106,14 @@ section > header > p {
 /* section footer */
 section > footer,
 section > form > footer {
+    position: fixed;
+    bottom: 0;
+    height: 4.5em;
     width: 100%;
     background: #222;
     color: #fff;
     padding: .9em;
     text-align: right;
-    position: absolute;
-    bottom: 5em;
-    height: 4em;
 }
 
 /* search */

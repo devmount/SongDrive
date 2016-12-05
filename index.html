@@ -63,7 +63,7 @@
                         <th class="show-for-large">Text</th>
                         <th class="show-for-medium">Year</th>
                         <th class="show-for-medium">Tuning</th>
-                        <th width="225"></th>
+                        <th width="300"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,16 +75,16 @@
                         <td class="show-for-medium" >{{song.tuning}}</td>
                         <td>
                             <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                <i class="fa fa-eye fa-fw show-for-small-only" aria-hidden="true"></i>
-                                <span class="show-for-medium">Show</span>
+                                <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-large">Show</span>
                             </router-link>
                             <router-link class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
-                                <i class="fa fa-pencil fa-fw show-for-small-only" aria-hidden="true"></i>
-                                <span class="show-for-medium">Edit</span>
+                                <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-large">Edit</span>
                             </router-link>
                             <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
-                                <i class="fa fa-trash-o fa-fw show-for-small-only" aria-hidden="true"></i>
-                                <span class="show-for-medium">Delete</span>
+                                <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-large">Delete</span>
                             </router-link>
                         </td>
                     </tr>
@@ -92,7 +92,14 @@
             </table>
         </div>
         <footer>
-             <router-link class="small button" :to="{path: '/song/add'}" title="New Song"><i class="fa fa-plus" aria-hidden="true"></i></router-link>
+            <router-link class="button" :to="{path: '/song/add'}" title="New Song">
+                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                <span class="show-for-large">Add </span> Song
+            </router-link>
+            <router-link class="button" :to="{path: '/setlist/add'}" title="New Setlist">
+                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                <span class="show-for-large">Add </span> Setlist
+            </router-link>
         </footer>
     </section>
 </template>
@@ -119,7 +126,10 @@
             </div>
         </div>
         <footer>
-            <router-link class="small hollow button" :to="{path: '/'}">Back</router-link>
+            <router-link class="hollow button" :to="{path: '/'}">
+                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                Back
+            </router-link>
         </footer>
     </section>
 </template>
@@ -171,8 +181,14 @@
                 </div>
             </div>
             <footer>
-                <router-link class="small hollow button" :to="{path: '/'}">Cancel</router-link>
-                <input type="submit" value="Create" class="small button">
+                <router-link class="hollow button" :to="{path: '/'}">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                    Cancel
+                </router-link>
+                <button type="submit" class="button">
+                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                    Create
+                </button>
             </footer>
         </form>
     </section>
@@ -225,8 +241,14 @@
                 </div>
             </div>
             <footer>
-                <router-link class="small hollow button" :to="{path: '/'}">Cancel</router-link>
-                <input type="submit" value="Save and back" class="small button">
+                <router-link class="hollow button" :to="{path: '/'}">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                    Cancel
+                </router-link>
+                <button type="submit" class="button">
+                    <i class="fa fa-check fa-fw" aria-hidden="true"></i>
+                    Update
+                </button>
             </footer>
         </form>
     </section>
@@ -248,8 +270,14 @@
         </div>
         <footer>
             <form v-on:submit="removeSong">
-                <router-link class="small hollow button" :to="{path: '/'}">Cancel</router-link>
-                <button type="submit" class="small alert button">Delete</button>
+                <router-link class="hollow button" :to="{path: '/'}">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                    Cancel
+                </router-link>
+                <button type="submit" class="alert button">
+                    <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
+                    Remove
+                </button>
             </form>
         </footer>
     </section>
@@ -281,16 +309,16 @@
                         <td>{{setlist.title}}</td>
                         <td>
                             <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
-                                <i class="fa fa-eye fa-fw show-for-small-only" aria-hidden="true"></i>
-                                <span class="show-for-medium">Show</span>
+                                <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-large">Show</span>
                             </router-link>
                             <router-link class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
-                                <i class="fa fa-pencil fa-fw show-for-small-only" aria-hidden="true"></i>
-                                <span class="show-for-medium">Edit</span>
+                                <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-large">Edit</span>
                             </router-link>
                             <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
-                                <i class="fa fa-trash-o fa-fw show-for-small-only" aria-hidden="true"></i>
-                                <span class="show-for-medium">Delete</span>
+                                <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-large">Delete</span>
                             </router-link>
                         </td>
                     </tr>
@@ -298,7 +326,14 @@
             </table>
         </div>
         <footer>
-             <router-link class="small button" :to="{path: '/setlist/add'}" title="New Setlist"><i class="fa fa-plus" aria-hidden="true"></i></router-link>
+            <router-link class="button" :to="{path: '/song/add'}" title="New Song">
+                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                <span class="show-for-large">Add </span> Song
+            </router-link>
+            <router-link class="button" :to="{path: '/setlist/add'}" title="New Setlist">
+                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                <span class="show-for-large">Add </span> Setlist
+            </router-link>
         </footer>
     </section>
 </template>
@@ -316,7 +351,10 @@
             </div>
         </div>
         <footer>
-            <router-link class="small hollow button" :to="{path: '/setlists'}">Back</router-link>
+            <router-link class="hollow button" :to="{path: '/setlists'}">
+                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                Back
+            </router-link>
         </footer>
     </section>
 </template>
@@ -348,8 +386,14 @@
                 </div>
             </div>
             <footer>
-                <router-link class="small hollow button" :to="{path: '/setlists'}">Cancel</router-link>
-                <input type="submit" value="Create" class="small button">
+                <router-link class="hollow button" :to="{path: '/setlists'}">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                    Cancel
+                </router-link>
+                <button type="submit" class="button">
+                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                    Create
+                </button>
             </footer>
         </form>
     </section>
@@ -382,8 +426,14 @@
                 </div>
             </div>
             <footer>
-                <router-link class="small hollow button" :to="{path: '/setlists'}">Cancel</router-link>
-                <input type="submit" value="Save and back" class="small button">
+                <router-link class="hollow button" :to="{path: '/setlists'}">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                    Cancel
+                </router-link>
+                <button type="submit" class="button">
+                    <i class="fa fa-check fa-fw" aria-hidden="true"></i>
+                    Update
+                </button>
             </footer>
         </form>
     </section>
@@ -405,8 +455,14 @@
         </div>
         <footer>
             <form v-on:submit="removeSetlist">
-                <router-link class="small hollow button" :to="{path: '/setlists'}">Cancel</router-link>
-                <button type="submit" class="small alert button">Delete</button>
+                <router-link class="hollow button" :to="{path: '/setlists'}">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                    Cancel
+                </router-link>
+                <button type="submit" class="alert button">
+                    <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
+                    Remove
+                </button>
             </form>
         </footer>
     </section>
