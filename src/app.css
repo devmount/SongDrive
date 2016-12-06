@@ -5,7 +5,7 @@
 body,
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Fira sans', sans-serif;
-    /*font-weight: 300;*/
+    font-weight: 300;
 }
 h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
@@ -36,6 +36,8 @@ input, textarea {
     width: inherit;
     height: 4rem;
     line-height: 4rem;
+    font-weight: 300;
+    letter-spacing: 2px;
     transition: all .25s ease;
     padding: 0 1.5em;
 }
@@ -90,6 +92,7 @@ section > header > h1,
 section > header > p {
     margin: 0;
     text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 /* app content elements */
