@@ -126,9 +126,43 @@
             </div>
         </div>
         <footer>
+            <router-link class="hollow button" :to="{path: '/song/' + song['.key'] + '/fullscreen'}">
+                <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
+                Fullscreen
+            </router-link>
             <router-link class="hollow button" :to="{path: '/'}">
                 <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                 Back
+            </router-link>
+        </footer>
+    </section>
+</template>
+
+<!-- show a song in fullscreen -->
+<template id="show-song-fullscreen">
+    <section class="fullscreen">
+        <header>
+            <h1>{{song.title}}</h1>
+            <p>{{song.subtitle}}</p>
+        </header>
+        <div class="row">
+            <div class="columns">
+                <pre>{{song.content}}</pre>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="columns">
+                <p v-if="song.tuning">Tuning: {{song.tuning}}</p>
+                <p v-if="song.textauthors">Text: {{song.textauthors}}<span v-if="song.musicauthors">, Music: {{song.musicauthors}}</span></p>
+                <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{song.ccli}}</a></p>
+                <p>&copy; {{song.year}} {{song.publisher}}</p>
+            </div>
+        </div>
+        <footer>
+            <router-link class="hollow button" :to="{path: '/song/' + song['.key']}">
+                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                Close
             </router-link>
         </footer>
     </section>

@@ -119,6 +119,24 @@ section > form > footer {
     text-align: right;
 }
 
+/* section fullscreen */
+.container > .fullscreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+}
+.container > .fullscreen > header {
+    padding: 1em;
+}
+.container > .fullscreen > footer {
+    background: transparent;
+}
+
 /* search */
 .search {
     position: relative;

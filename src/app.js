@@ -207,6 +207,18 @@ var ShowSong = Vue.extend({
     }
 });
 
+// component: show song fullscreen
+var ShowSongFullscreen = Vue.extend({
+    template: '#show-song-fullscreen',
+    data: function () {
+        // get song from firebase and bind it to this.song
+        this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
+        return {
+            song: this.song
+        };
+    }
+});
+
 // component: show setlist
 var ShowSetlist = Vue.extend({
     template: '#show-setlist',
@@ -225,6 +237,7 @@ var router = new VueRouter({
         {path: '/', component: ListSongs, name: 'home'},
         {path: '/song/add', component: AddSong},
         {path: '/song/:song_id', component: ShowSong, name: 'show-song'},
+        {path: '/song/:song_id/fullscreen', component: ShowSongFullscreen, name: 'show-song-fullscreen'},
         {path: '/song/:song_id/edit', component: EditSong, name: 'edit-song'},
         {path: '/song/:song_id/delete', component: DeleteSong, name: 'delete-song'},
         {path: '/setlists', component: ListSetlists, name: 'setlists'},
