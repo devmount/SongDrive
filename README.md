@@ -1,5 +1,5 @@
 # SongDrive
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)]()
+[![license](https://img.shields.io/badge/license-MIT License-blue.svg?style=flat-square)]() <!--[![release](https://img.shields.io/badge/release-v0.0.1-blue.svg?style=flat-square)]()-->
 
 A song management web application to store and synchronize songs, based on [Vue.js](vuejs.org/) and [Firebase](firebase.google.com/).
 
@@ -32,4 +32,4 @@ A song management web application to store and synchronize songs, based on [Vue.
 7. You're ready to go and synchronize your song data live on every device accessing this url
 
 ## Licence
-[MIT](./LICENSE)
+[MIT License](./LICENSE)
