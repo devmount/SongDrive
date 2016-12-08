@@ -24,8 +24,13 @@
 <body>
 
 <!-- container -->
-<div class="container" id="app">
-    <!-- app header -->
+<div id="app">
+    <!-- app content -->
+    <router-view></router-view>
+</div>
+
+<!-- partial: app header -->
+<partial id="app-header">
     <header data-sticky-container>
         <div class="title-bar" data-sticky data-options="marginTop:0;">
             <div class="title-bar-left"><router-link :to="{name: 'home'}">SongDrive</router-link></div>
@@ -35,73 +40,78 @@
             </div>
         </div>
     </header>
-    <!-- app content -->
-    <router-view></router-view>
-    <!-- app footer -->
+</partial>
+
+<!-- partial: app footer -->
+<partial id="app-footer">
     <footer>
         <p>&copy; 2016 <a href="http://devmount.de">devmount</a></p>
     </footer>
-</div>
+</partial>
 
 <!-- song list -->
 <template id="song-list">
-    <section>
-        <header>
-            <h1>Songs</h1>
-        </header>
-        <div class="row medium-collapse small-collapse search">
-            <div class="small-12 columns">
-                <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>Songs</h1>
+            </header>
+            <div class="row medium-collapse small-collapse search">
+                <div class="small-12 columns">
+                    <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <table class="hover">
-                <thead>
-                    <tr>
-                        <th width="200">Title</th>
-                        <th width="200">Subtitle</th>
-                        <th class="show-for-large">Text</th>
-                        <th class="show-for-medium">Year</th>
-                        <th class="show-for-medium">Tuning</th>
-                        <th width="300"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="song in filteredSongs" class="song" :key="song['.key']">
-                        <td>{{song.title}}</td>
-                        <td>{{song.subtitle}}</td>
-                        <td class="show-for-large">{{song.textauthors}}</td>
-                        <td class="show-for-medium" >{{song.year}}</td>
-                        <td class="show-for-medium" >{{song.tuning}}</td>
-                        <td>
-                            <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
-                                <span class="show-for-large">Show</span>
-                            </router-link>
-                            <router-link class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
-                                <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                                <span class="show-for-large">Edit</span>
-                            </router-link>
-                            <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
-                                <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                                <span class="show-for-large">Delete</span>
-                            </router-link>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <footer>
-            <router-link class="button" :to="{path: '/song/add'}" title="New Song">
-                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                <span class="show-for-large">Add </span> Song
-            </router-link>
-            <router-link class="button" :to="{path: '/setlist/add'}" title="New Setlist">
-                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                <span class="show-for-large">Add </span> Setlist
-            </router-link>
-        </footer>
-    </section>
+            <div class="row">
+                <table class="hover">
+                    <thead>
+                        <tr>
+                            <th width="200">Title</th>
+                            <th width="200">Subtitle</th>
+                            <th class="show-for-large">Text</th>
+                            <th class="show-for-medium">Year</th>
+                            <th class="show-for-medium">Tuning</th>
+                            <th width="300"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="song in filteredSongs" class="song" :key="song['.key']">
+                            <td>{{song.title}}</td>
+                            <td>{{song.subtitle}}</td>
+                            <td class="show-for-large">{{song.textauthors}}</td>
+                            <td class="show-for-medium" >{{song.year}}</td>
+                            <td class="show-for-medium" >{{song.tuning}}</td>
+                            <td>
+                                <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                                    <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                                    <span class="show-for-large">Show</span>
+                                </router-link>
+                                <router-link class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
+                                    <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                    <span class="show-for-large">Edit</span>
+                                </router-link>
+                                <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
+                                    <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                                    <span class="show-for-large">Delete</span>
+                                </router-link>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <footer>
+                <router-link class="button" :to="{path: '/song/add'}" title="New Song">
+                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                    <span class="show-for-large">Add </span> Song
+                </router-link>
+                <router-link class="button" :to="{path: '/setlist/add'}" title="New Setlist">
+                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                    <span class="show-for-large">Add </span> Setlist
+                </router-link>
+            </footer>
+        </section>
+        <app-footer></app-footer>
+    </div>
 </template>
 
 <!-- show a song -->

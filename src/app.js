@@ -5,6 +5,16 @@ var songsRef = firebase.database().ref('songs');
 var authorsRef = firebase.database().ref('authors');
 var setlistsRef = firebase.database().ref('setlists');
 
+// global component: app header
+Vue.component('app-header', {
+  template: '#app-header'
+})
+
+// global component: app footer
+Vue.component('app-footer', {
+  template: '#app-footer'
+})
+
 // component: list songs
 var ListSongs = Vue.extend({
     template: '#song-list',
