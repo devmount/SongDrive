@@ -24,7 +24,7 @@ input, textarea {
     margin: 0;
 }
 
-/* app container */
+/* app content container */
 .container {
     position: relative;
     min-height: 100vh;
@@ -129,6 +129,7 @@ section > form > footer {
     z-index: 10;
     margin: 0;
     padding: 0;
+    background: #f1f1f1;
 }
 .container > .fullscreen > header {
     padding: 1em;
