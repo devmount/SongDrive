@@ -78,22 +78,26 @@ var AddSong = Vue.extend({
                 ccli: '',
                 tuning: '',
                 publisher: '',
-                content: ''
+                content: '',
+                language: '',
+                note: ''
             }
         }
     },
     methods: {
         createSong: function() {
             songsRef.push(this.song)
-            this.song.title = ''
-            this.song.subtitle = ''
-            this.song.textauthors = ''
-            this.song.musicauthors = ''
-            this.song.year = ''
-            this.song.ccli = ''
-            this.song.tuning = ''
-            this.song.publisher = ''
-            this.song.content = ''
+            this.song.title = '';
+            this.song.subtitle = '';
+            this.song.textauthors = '';
+            this.song.musicauthors = '';
+            this.song.year = '';
+            this.song.ccli = '';
+            this.song.tuning = '';
+            this.song.publisher = '';
+            this.song.content = '';
+            this.song.language = '';
+            this.song.note = '';
             router.push('/');
         }
     }
@@ -143,7 +147,9 @@ var EditSong = Vue.extend({
                 ccli: this.song.ccli,
                 tuning: this.song.tuning,
                 publisher: this.song.publisher,
-                content: this.song.content
+                content: this.song.content,
+                language: this.song.language,
+                note: this.song.note
             })
             router.push('/');
             // router.push('/song/' + this.$route.params.song_id + '/edit');

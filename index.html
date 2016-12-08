@@ -198,9 +198,18 @@
                         <label>Title
                             <input type="text" v-model="song.title" placeholder="title" required>
                         </label>
-                        <label>Subtitle
-                            <input type="text" v-model="song.subtitle" placeholder="subtitle">
-                        </label>
+                        <div class="row">
+                            <div class="medium-9 columns">
+                                <label>Subtitle
+                                    <input type="text" v-model="song.subtitle" placeholder="subtitle">
+                                </label>
+                            </div>
+                            <div class="medium-3 columns">
+                                <label>Language
+                                    <input type="text" v-model="song.language" placeholder="language">
+                                </label>
+                            </div>
+                        </div>
                         <label>Text authors
                             <input type="text" v-model="song.textauthors" placeholder="text authors">
                         </label>
@@ -208,27 +217,32 @@
                             <input type="text" v-model="song.musicauthors" placeholder="music authors">
                         </label>
                         <div class="row">
-                            <div class="medium-6 columns">
+                            <div class="medium-4 columns">
                                 <label>Year
                                     <input type="number" v-model="song.year" placeholder="year">
                                 </label>
                             </div>
-                            <div class="medium-6 columns">
+                            <div class="medium-5 columns">
                                 <label>CCLI
                                     <input type="number" v-model="song.ccli" placeholder="CCLI song number">
                                 </label>
                             </div>
+                            <div class="medium-3 columns">
+                                <label>Tuning
+                                    <input type="text" v-model="song.tuning" placeholder="tuning">
+                                </label>
+                            </div>
                         </div>
-                        <label>Tuning
-                            <input type="text" v-model="song.tuning" placeholder="tuning">
-                        </label>
-                        <label>publisher
+                        <label>Publisher
                             <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
+                        </label>
+                        <label>Note
+                            <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
                         </label>
                     </div>
                     <div class="medium-6 columns content-column">
                         <label>Content
-                            <textarea v-model="song.content" placeholder="content" rows="33" required></textarea>
+                            <textarea v-model="song.content" placeholder="A song with chords" rows="33" required></textarea>
                         </label>
                     </div>
                 </div>
@@ -262,9 +276,18 @@
                         <label>Title
                             <input type="text" v-model="song.title" placeholder="title" required>
                         </label>
-                        <label>Subtitle
-                            <input type="text" v-model="song.subtitle" placeholder="subtitle">
-                        </label>
+                        <div class="row">
+                            <div class="medium-9 columns">
+                                <label>Subtitle
+                                    <input type="text" v-model="song.subtitle" placeholder="subtitle">
+                                </label>
+                            </div>
+                            <div class="medium-3 columns">
+                                <label>Language
+                                    <input type="text" v-model="song.language" placeholder="language">
+                                </label>
+                            </div>
+                        </div>
                         <label>Text authors
                             <input type="text" v-model="song.textauthors" placeholder="text authors">
                         </label>
@@ -272,27 +295,32 @@
                             <input type="text" v-model="song.musicauthors" placeholder="music authors">
                         </label>
                         <div class="row">
-                            <div class="medium-6 columns">
+                            <div class="medium-4 columns">
                                 <label>Year
                                     <input type="number" v-model="song.year" placeholder="year">
                                 </label>
                             </div>
-                            <div class="medium-6 columns">
+                            <div class="medium-5 columns">
                                 <label>CCLI
                                     <input type="number" v-model="song.ccli" placeholder="CCLI song number">
                                 </label>
                             </div>
+                            <div class="medium-3 columns">
+                                <label>Tuning
+                                    <input type="text" v-model="song.tuning" placeholder="tuning">
+                                </label>
+                            </div>
                         </div>
-                        <label>Tuning
-                            <input type="text" v-model="song.tuning" placeholder="tuning">
-                        </label>
-                        <label>publisher
+                        <label>Publisher
                             <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
+                        </label>
+                        <label>Note
+                            <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
                         </label>
                     </div>
                     <div class="medium-6 columns content-column">
                         <label>Content
-                            <textarea v-model="song.content" placeholder="content" rows="33" required></textarea>
+                            <textarea v-model="song.content" placeholder="A song with chords" rows="33" required></textarea>
                         </label>
                     </div>
                 </div>
