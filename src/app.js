@@ -5,6 +5,11 @@ var songsRef = firebase.database().ref('songs');
 var authorsRef = firebase.database().ref('authors');
 var setlistsRef = firebase.database().ref('setlists');
 
+// snippet to add fields
+// songsRef.on('child_added', function(snapshot) {
+//     snapshot.ref.update({ note: '' });
+// });
+
 // global component: app header
 Vue.component('app-header', {
   template: '#app-header'
