@@ -30,7 +30,7 @@
 </div>
 
 <!-- partial: app header -->
-<partial id="app-header">
+<template id="app-header">
     <header data-sticky-container>
         <div class="title-bar" data-sticky data-options="marginTop:0;">
             <div class="title-bar-left"><router-link :to="{name: 'home'}">SongDrive</router-link></div>
@@ -40,14 +40,14 @@
             </div>
         </div>
     </header>
-</partial>
+</template>
 
 <!-- partial: app footer -->
-<partial id="app-footer">
+<template id="app-footer">
     <footer>
         <p>&copy; 2016 <a href="http://devmount.de">devmount</a></p>
     </footer>
-</partial>
+</template>
 
 <!-- song list -->
 <template id="song-list">
@@ -116,400 +116,438 @@
 
 <!-- show a song -->
 <template id="show-song">
-    <section>
-        <header>
-            <h1>{{song.title}}</h1>
-            <p>{{song.subtitle}}</p>
-        </header>
-        <div class="row">
-            <div class="columns">
-                <pre>{{song.content}}</pre>
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>{{song.title}}</h1>
+                <p>{{song.subtitle}}</p>
+            </header>
+            <div class="row">
+                <div class="columns">
+                    <pre>{{song.content}}</pre>
+                </div>
             </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="columns">
-                <p v-if="song.tuning">Tuning: {{song.tuning}}</p>
-                <p v-if="song.textauthors">Text: {{song.textauthors}}<span v-if="song.musicauthors">, Music: {{song.musicauthors}}</span></p>
-                <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{song.ccli}}</a></p>
-                <p>&copy; {{song.year}} {{song.publisher}}</p>
+            <hr>
+            <div class="row">
+                <div class="columns">
+                    <p v-if="song.tuning">Tuning: {{song.tuning}}</p>
+                    <p v-if="song.textauthors">Text: {{song.textauthors}}<span v-if="song.musicauthors">, Music: {{song.musicauthors}}</span></p>
+                    <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{song.ccli}}</a></p>
+                    <p>&copy; {{song.year}} {{song.publisher}}</p>
+                </div>
             </div>
-        </div>
-        <footer>
-            <router-link class="hollow button" :to="{path: '/song/' + song['.key'] + '/fullscreen'}">
-                <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
-                Fullscreen
-            </router-link>
-            <router-link class="hollow button" :to="{path: '/'}">
-                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                Back
-            </router-link>
-        </footer>
-    </section>
+            <footer>
+                <router-link class="hollow button" :to="{path: '/song/' + song['.key'] + '/fullscreen'}">
+                    <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
+                    Fullscreen
+                </router-link>
+                <router-link class="hollow button" :to="{path: '/'}">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                    Back
+                </router-link>
+            </footer>
+        </section>
+        <app-footer></app-footer>
+    </div>
 </template>
 
 <!-- show a song in fullscreen -->
 <template id="show-song-fullscreen">
-    <section class="fullscreen">
-        <header>
-            <h1>{{song.title}}</h1>
-            <p>{{song.subtitle}}</p>
-        </header>
-        <div class="row">
-            <div class="columns">
-                <pre>{{song.content}}</pre>
+    <div class="container">
+        <section class="fullscreen">
+            <header>
+                <h1>{{song.title}}</h1>
+                <p>{{song.subtitle}}</p>
+            </header>
+            <div class="row">
+                <div class="columns">
+                    <pre>{{song.content}}</pre>
+                </div>
             </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="columns">
-                <p v-if="song.tuning">Tuning: {{song.tuning}}</p>
-                <p v-if="song.textauthors">Text: {{song.textauthors}}<span v-if="song.musicauthors">, Music: {{song.musicauthors}}</span></p>
-                <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{song.ccli}}</a></p>
-                <p>&copy; {{song.year}} {{song.publisher}}</p>
+            <hr>
+            <div class="row">
+                <div class="columns">
+                    <p v-if="song.tuning">Tuning: {{song.tuning}}</p>
+                    <p v-if="song.textauthors">Text: {{song.textauthors}}<span v-if="song.musicauthors">, Music: {{song.musicauthors}}</span></p>
+                    <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{song.ccli}}</a></p>
+                    <p>&copy; {{song.year}} {{song.publisher}}</p>
+                </div>
             </div>
-        </div>
-        <footer>
-            <router-link class="hollow button" :to="{path: '/song/' + song['.key']}">
-                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                Close
-            </router-link>
-        </footer>
-    </section>
+            <footer>
+                <router-link class="hollow button" :to="{path: '/song/' + song['.key']}">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                    Close
+                </router-link>
+            </footer>
+        </section>
+    </div>
 </template>
 
 <!-- add a song -->
 <template id="add-song">
-    <section>
-        <header>
-            <h1>New song</h1>
-        </header>
-        <form id="form" v-on:submit.prevent="createSong">
-            <div class="row align-stretch">
-                <div class="medium-6 columns">
-                    <label>Title
-                        <input type="text" v-model="song.title" placeholder="title" required>
-                    </label>
-                    <label>Subtitle
-                        <input type="text" v-model="song.subtitle" placeholder="subtitle">
-                    </label>
-                    <label>Text authors
-                        <input type="text" v-model="song.textauthors" placeholder="text authors">
-                    </label>
-                    <label>Music authors
-                        <input type="text" v-model="song.musicauthors" placeholder="music authors">
-                    </label>
-                    <div class="row">
-                        <div class="medium-6 columns">
-                            <label>Year
-                                <input type="number" v-model="song.year" placeholder="year">
-                            </label>
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>New song</h1>
+            </header>
+            <form id="form" v-on:submit.prevent="createSong">
+                <div class="row align-stretch">
+                    <div class="medium-6 columns">
+                        <label>Title
+                            <input type="text" v-model="song.title" placeholder="title" required>
+                        </label>
+                        <label>Subtitle
+                            <input type="text" v-model="song.subtitle" placeholder="subtitle">
+                        </label>
+                        <label>Text authors
+                            <input type="text" v-model="song.textauthors" placeholder="text authors">
+                        </label>
+                        <label>Music authors
+                            <input type="text" v-model="song.musicauthors" placeholder="music authors">
+                        </label>
+                        <div class="row">
+                            <div class="medium-6 columns">
+                                <label>Year
+                                    <input type="number" v-model="song.year" placeholder="year">
+                                </label>
+                            </div>
+                            <div class="medium-6 columns">
+                                <label>CCLI
+                                    <input type="number" v-model="song.ccli" placeholder="CCLI song number">
+                                </label>
+                            </div>
                         </div>
-                        <div class="medium-6 columns">
-                            <label>CCLI
-                                <input type="number" v-model="song.ccli" placeholder="CCLI song number">
-                            </label>
-                        </div>
+                        <label>Tuning
+                            <input type="text" v-model="song.tuning" placeholder="tuning">
+                        </label>
+                        <label>publisher
+                            <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
+                        </label>
                     </div>
-                    <label>Tuning
-                        <input type="text" v-model="song.tuning" placeholder="tuning">
-                    </label>
-                    <label>publisher
-                        <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
-                    </label>
+                    <div class="medium-6 columns content-column">
+                        <label>Content
+                            <textarea v-model="song.content" placeholder="content" rows="33" required></textarea>
+                        </label>
+                    </div>
                 </div>
-                <div class="medium-6 columns content-column">
-                    <label>Content
-                        <textarea v-model="song.content" placeholder="content" rows="33" required></textarea>
-                    </label>
-                </div>
-            </div>
-            <footer>
-                <router-link class="hollow button" :to="{path: '/'}">
-                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    Cancel
-                </router-link>
-                <button type="submit" class="button">
-                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    Create
-                </button>
-            </footer>
-        </form>
-    </section>
+                <footer>
+                    <router-link class="hollow button" :to="{path: '/'}">
+                        <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                        Cancel
+                    </router-link>
+                    <button type="submit" class="button">
+                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        Create
+                    </button>
+                </footer>
+            </form>
+        </section>
+        <app-footer></app-footer>
+    </div>
 </template>
 
 <!-- edit a song -->
 <template id="edit-song">
-    <section>
-        <header>
-            <h1>Edit &raquo;{{song.title}}&laquo;</h1>
-        </header>
-        <form id="form" v-on:submit.prevent="updateSong">
-            <div class="row align-stretch">
-                <div class="medium-6 columns">
-                    <label>Title
-                        <input type="text" v-model="song.title" placeholder="title" required>
-                    </label>
-                    <label>Subtitle
-                        <input type="text" v-model="song.subtitle" placeholder="subtitle">
-                    </label>
-                    <label>Text authors
-                        <input type="text" v-model="song.textauthors" placeholder="text authors">
-                    </label>
-                    <label>Music authors
-                        <input type="text" v-model="song.musicauthors" placeholder="music authors">
-                    </label>
-                    <div class="row">
-                        <div class="medium-6 columns">
-                            <label>Year
-                                <input type="number" v-model="song.year" placeholder="year">
-                            </label>
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>Edit &raquo;{{song.title}}&laquo;</h1>
+            </header>
+            <form id="form" v-on:submit.prevent="updateSong">
+                <div class="row align-stretch">
+                    <div class="medium-6 columns">
+                        <label>Title
+                            <input type="text" v-model="song.title" placeholder="title" required>
+                        </label>
+                        <label>Subtitle
+                            <input type="text" v-model="song.subtitle" placeholder="subtitle">
+                        </label>
+                        <label>Text authors
+                            <input type="text" v-model="song.textauthors" placeholder="text authors">
+                        </label>
+                        <label>Music authors
+                            <input type="text" v-model="song.musicauthors" placeholder="music authors">
+                        </label>
+                        <div class="row">
+                            <div class="medium-6 columns">
+                                <label>Year
+                                    <input type="number" v-model="song.year" placeholder="year">
+                                </label>
+                            </div>
+                            <div class="medium-6 columns">
+                                <label>CCLI
+                                    <input type="number" v-model="song.ccli" placeholder="CCLI song number">
+                                </label>
+                            </div>
                         </div>
-                        <div class="medium-6 columns">
-                            <label>CCLI
-                                <input type="number" v-model="song.ccli" placeholder="CCLI song number">
-                            </label>
-                        </div>
+                        <label>Tuning
+                            <input type="text" v-model="song.tuning" placeholder="tuning">
+                        </label>
+                        <label>publisher
+                            <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
+                        </label>
                     </div>
-                    <label>Tuning
-                        <input type="text" v-model="song.tuning" placeholder="tuning">
-                    </label>
-                    <label>publisher
-                        <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
-                    </label>
+                    <div class="medium-6 columns content-column">
+                        <label>Content
+                            <textarea v-model="song.content" placeholder="content" rows="33" required></textarea>
+                        </label>
+                    </div>
                 </div>
-                <div class="medium-6 columns content-column">
-                    <label>Content
-                        <textarea v-model="song.content" placeholder="content" rows="33" required></textarea>
-                    </label>
-                </div>
-            </div>
-            <footer>
-                <router-link class="hollow button" :to="{path: '/'}">
-                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    Cancel
-                </router-link>
-                <button type="submit" class="button">
-                    <i class="fa fa-check fa-fw" aria-hidden="true"></i>
-                    Update
-                </button>
-            </footer>
-        </form>
-    </section>
+                <footer>
+                    <router-link class="hollow button" :to="{path: '/'}">
+                        <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                        Cancel
+                    </router-link>
+                    <button type="submit" class="button">
+                        <i class="fa fa-check fa-fw" aria-hidden="true"></i>
+                        Update
+                    </button>
+                </footer>
+            </form>
+        </section>
+        <app-footer></app-footer>
+    </div>
 </template>
 
 <!-- delete a song -->
 <template id="delete-song">
-    <section>
-        <header>
-            <h1>Delete &raquo;{{song.title}}&laquo;</h1>
-        </header>
-        <div class="row">
-            <div class="columns">
-                <p>Are you sure you want to delete &raquo;{{song.title}}&laquo;?</p>
-                <div class="alert callout">
-                    <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This action cannot be undone!</p>
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>Delete &raquo;{{song.title}}&laquo;</h1>
+            </header>
+            <div class="row">
+                <div class="columns">
+                    <p>Are you sure you want to delete &raquo;{{song.title}}&laquo;?</p>
+                    <div class="alert callout">
+                        <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This action cannot be undone!</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <footer>
-            <form v-on:submit="removeSong">
-                <router-link class="hollow button" :to="{path: '/'}">
-                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    Cancel
-                </router-link>
-                <button type="submit" class="alert button">
-                    <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                    Remove
-                </button>
-            </form>
-        </footer>
-    </section>
+            <footer>
+                <form v-on:submit="removeSong">
+                    <router-link class="hollow button" :to="{path: '/'}">
+                        <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                        Cancel
+                    </router-link>
+                    <button type="submit" class="alert button">
+                        <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                        Remove
+                    </button>
+                </form>
+            </footer>
+        </section>
+        <app-footer></app-footer>
+    </div>
 </template>
 
 <!-- setlist list -->
 <template id="setlist-list">
-    <section>
-        <header>
-            <h1>Setlists</h1>
-        </header>
-        <div class="row medium-collapse small-collapse search">
-            <div class="small-12 columns">
-                <input type="search" v-model="searchKey" placeholder="search for setlists" requred />
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>Setlists</h1>
+            </header>
+            <div class="row medium-collapse small-collapse search">
+                <div class="small-12 columns">
+                    <input type="search" v-model="searchKey" placeholder="search for setlists" requred />
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <table class="hover">
-                <thead>
-                    <tr>
-                        <th width="200">Date</th>
-                        <th width="200">Title</th>
-                        <th width="225"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="setlist in filteredSetlists" :key="setlist['.key']">
-                        <td>{{setlist.date}}</td>
-                        <td>{{setlist.title}}</td>
-                        <td>
-                            <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
-                                <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
-                                <span class="show-for-large">Show</span>
-                            </router-link>
-                            <router-link class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
-                                <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                                <span class="show-for-large">Edit</span>
-                            </router-link>
-                            <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
-                                <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                                <span class="show-for-large">Delete</span>
-                            </router-link>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <footer>
-            <router-link class="button" :to="{path: '/song/add'}" title="New Song">
-                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                <span class="show-for-large">Add </span> Song
-            </router-link>
-            <router-link class="button" :to="{path: '/setlist/add'}" title="New Setlist">
-                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                <span class="show-for-large">Add </span> Setlist
-            </router-link>
-        </footer>
-    </section>
+            <div class="row">
+                <table class="hover">
+                    <thead>
+                        <tr>
+                            <th width="200">Date</th>
+                            <th width="200">Title</th>
+                            <th width="225"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="setlist in filteredSetlists" :key="setlist['.key']">
+                            <td>{{setlist.date}}</td>
+                            <td>{{setlist.title}}</td>
+                            <td>
+                                <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                                    <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                                    <span class="show-for-large">Show</span>
+                                </router-link>
+                                <router-link class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
+                                    <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                    <span class="show-for-large">Edit</span>
+                                </router-link>
+                                <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
+                                    <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                                    <span class="show-for-large">Delete</span>
+                                </router-link>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <footer>
+                <router-link class="button" :to="{path: '/song/add'}" title="New Song">
+                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                    <span class="show-for-large">Add </span> Song
+                </router-link>
+                <router-link class="button" :to="{path: '/setlist/add'}" title="New Setlist">
+                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                    <span class="show-for-large">Add </span> Setlist
+                </router-link>
+            </footer>
+        </section>
+        <app-footer></app-footer>
+    </div>
 </template>
 
 <!-- show a setlist -->
 <template id="show-setlist">
-    <section>
-        <header>
-            <h1>{{setlist.title}}</h1>
-            <p>{{setlist.date}}</p>
-        </header>
-        <div class="row">
-            <div class="columns">
-                {{setlist.songs}}
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>{{setlist.title}}</h1>
+                <p>{{setlist.date}}</p>
+            </header>
+            <div class="row">
+                <div class="columns">
+                    {{setlist.songs}}
+                </div>
             </div>
-        </div>
-        <footer>
-            <router-link class="hollow button" :to="{path: '/setlists'}">
-                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                Back
-            </router-link>
-        </footer>
-    </section>
+            <footer>
+                <router-link class="hollow button" :to="{path: '/setlists'}">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                    Back
+                </router-link>
+            </footer>
+        </section>
+        <app-footer></app-footer>
+    </div>
 </template>
 
 <!-- add a setlist -->
 <template id="add-setlist">
-    <section>
-        <header>
-            <h1>New Setlist</h1>
-        </header>
-        <form id="form" v-on:submit.prevent="createSetlist">
-            <div class="row">
-                <div class="medium-6 columns">
-                    <label>Date
-                        <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
-                    </label>
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>New Setlist</h1>
+            </header>
+            <form id="form" v-on:submit.prevent="createSetlist">
+                <div class="row">
+                    <div class="medium-6 columns">
+                        <label>Date
+                            <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
+                        </label>
+                    </div>
+                    <div class="medium-6 columns">
+                        <label>Title
+                            <input type="text" v-model="setlist.title" placeholder="title" required>
+                        </label>
+                    </div>
                 </div>
-                <div class="medium-6 columns">
-                    <label>Title
-                        <input type="text" v-model="setlist.title" placeholder="title" required>
-                    </label>
+                <div class="row">
+                    <div class="medium-12 columns">
+                        <label>Songs
+                            <input type="text" v-model="setlist.songs" placeholder="songs">
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="medium-12 columns">
-                    <label>Songs
-                        <input type="text" v-model="setlist.songs" placeholder="songs">
-                    </label>
-                </div>
-            </div>
-            <footer>
-                <router-link class="hollow button" :to="{path: '/setlists'}">
-                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    Cancel
-                </router-link>
-                <button type="submit" class="button">
-                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    Create
-                </button>
-            </footer>
-        </form>
-    </section>
+                <footer>
+                    <router-link class="hollow button" :to="{path: '/setlists'}">
+                        <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                        Cancel
+                    </router-link>
+                    <button type="submit" class="button">
+                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        Create
+                    </button>
+                </footer>
+            </form>
+        </section>
+        <app-footer></app-footer>
+    </div>
 </template>
 
 <!-- edit a setlist -->
 <template id="edit-setlist">
-    <section>
-        <header>
-            <h1>Edit &raquo;{{setlist.title}}&laquo;</h1>
-        </header>
-        <form id="form" v-on:submit.prevent="updateSetlist">
-            <div class="row">
-                <div class="medium-6 columns">
-                    <label>Date
-                        <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
-                    </label>
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>Edit &raquo;{{setlist.title}}&laquo;</h1>
+            </header>
+            <form id="form" v-on:submit.prevent="updateSetlist">
+                <div class="row">
+                    <div class="medium-6 columns">
+                        <label>Date
+                            <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
+                        </label>
+                    </div>
+                    <div class="medium-6 columns">
+                        <label>Title
+                            <input type="text" v-model="setlist.title" placeholder="title" required>
+                        </label>
+                    </div>
                 </div>
-                <div class="medium-6 columns">
-                    <label>Title
-                        <input type="text" v-model="setlist.title" placeholder="title" required>
-                    </label>
+                <div class="row">
+                    <div class="medium-12 columns">
+                        <label>Songs
+                            <input type="text" v-model="setlist.songs" placeholder="songs">
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="medium-12 columns">
-                    <label>Songs
-                        <input type="text" v-model="setlist.songs" placeholder="songs">
-                    </label>
-                </div>
-            </div>
-            <footer>
-                <router-link class="hollow button" :to="{path: '/setlists'}">
-                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    Cancel
-                </router-link>
-                <button type="submit" class="button">
-                    <i class="fa fa-check fa-fw" aria-hidden="true"></i>
-                    Update
-                </button>
-            </footer>
-        </form>
-    </section>
+                <footer>
+                    <router-link class="hollow button" :to="{path: '/setlists'}">
+                        <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                        Cancel
+                    </router-link>
+                    <button type="submit" class="button">
+                        <i class="fa fa-check fa-fw" aria-hidden="true"></i>
+                        Update
+                    </button>
+                </footer>
+            </form>
+        </section>
+        <app-footer></app-footer>
+    </div>
 </template>
 
 <!-- delete a setlist -->
 <template id="delete-setlist">
-    <section>
-        <header>
-            <h1>Delete &raquo;{{setlist.title}}&laquo;</h1>
-        </header>
-        <div class="row">
-            <div class="columns">
-                <p>Are you sure you want to delete &raquo;{{setlist.title}}&laquo;?</p>
-                <div class="alert callout">
-                    <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This action cannot be undone!</p>
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>Delete &raquo;{{setlist.title}}&laquo;</h1>
+            </header>
+            <div class="row">
+                <div class="columns">
+                    <p>Are you sure you want to delete &raquo;{{setlist.title}}&laquo;?</p>
+                    <div class="alert callout">
+                        <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This action cannot be undone!</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <footer>
-            <form v-on:submit="removeSetlist">
-                <router-link class="hollow button" :to="{path: '/setlists'}">
-                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    Cancel
-                </router-link>
-                <button type="submit" class="alert button">
-                    <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                    Remove
-                </button>
-            </form>
-        </footer>
-    </section>
+            <footer>
+                <form v-on:submit="removeSetlist">
+                    <router-link class="hollow button" :to="{path: '/setlists'}">
+                        <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                        Cancel
+                    </router-link>
+                    <button type="submit" class="alert button">
+                        <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                        Remove
+                    </button>
+                </form>
+            </footer>
+        </section>
+        <app-footer></app-footer>
+    </div>
 </template>
 
 
