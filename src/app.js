@@ -12,12 +12,28 @@ var setlistsRef = firebase.database().ref('setlists');
 
 // global component: app header
 Vue.component('app-header', {
-  template: '#app-header'
+    template: '#app-header'
 })
 
 // global component: app footer
 Vue.component('app-footer', {
-  template: '#app-footer'
+    template: '#app-footer'
+})
+
+// partial component: song form fields
+Vue.component('song-form-fields', {
+    template: '#song-form-fields',
+    props: {
+        song: this.song
+    }
+})
+
+// partial component: song form fields
+Vue.component('setlist-form-fields', {
+    template: '#setlist-form-fields',
+    props: {
+        setlist: this.setlist
+    }
 })
 
 // component: list songs

@@ -29,7 +29,7 @@
     <router-view></router-view>
 </div>
 
-<!-- partial: app header -->
+<!-- global partial: app header -->
 <template id="app-header">
     <header data-sticky-container>
         <div class="title-bar" data-sticky data-options="marginTop:0;">
@@ -42,11 +42,91 @@
     </header>
 </template>
 
-<!-- partial: app footer -->
+<!-- global partial: app footer -->
 <template id="app-footer">
     <footer>
         <p>&copy; 2016 <a href="http://devmount.de">devmount</a></p>
     </footer>
+</template>
+
+<!-- partial: song form fields -->
+<template id="song-form-fields">
+    <div class="row align-stretch">
+        <div class="medium-6 columns">
+            <label>Title
+                <input type="text" v-model="song.title" placeholder="title" required>
+            </label>
+            <div class="row">
+                <div class="medium-9 columns">
+                    <label>Subtitle
+                        <input type="text" v-model="song.subtitle" placeholder="subtitle">
+                    </label>
+                </div>
+                <div class="medium-3 columns">
+                    <label>Language
+                        <input type="text" v-model="song.language" placeholder="language">
+                    </label>
+                </div>
+            </div>
+            <label>Text authors
+                <input type="text" v-model="song.textauthors" placeholder="text authors">
+            </label>
+            <label>Music authors
+                <input type="text" v-model="song.musicauthors" placeholder="music authors">
+            </label>
+            <div class="row">
+                <div class="medium-4 columns">
+                    <label>Year
+                        <input type="number" v-model="song.year" placeholder="year">
+                    </label>
+                </div>
+                <div class="medium-5 columns">
+                    <label>CCLI
+                        <input type="number" v-model="song.ccli" placeholder="CCLI song number">
+                    </label>
+                </div>
+                <div class="medium-3 columns">
+                    <label>Tuning
+                        <input type="text" v-model="song.tuning" placeholder="tuning">
+                    </label>
+                </div>
+            </div>
+            <label>Publisher
+                <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
+            </label>
+            <label>Note
+                <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
+            </label>
+        </div>
+        <div class="medium-6 columns content-column">
+            <label>Content
+                <textarea v-model="song.content" placeholder="A song with chords" rows="33" required></textarea>
+            </label>
+        </div>
+    </div>
+</template>
+
+<!-- partial: setlist form fields -->
+<template id="setlist-form-fields">
+    <div class="row">
+        <div class="medium-6 columns">
+            <label>Date
+                <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
+            </label>
+        </div>
+        <div class="medium-6 columns">
+            <label>Title
+                <input type="text" v-model="setlist.title" placeholder="title" required>
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>Songs
+                <input type="text" v-model="setlist.songs" placeholder="songs">
+            </label>
+        </div>
+    </div>
 </template>
 
 <!-- song list -->
@@ -193,59 +273,7 @@
                 <h1>New song</h1>
             </header>
             <form id="form" v-on:submit.prevent="createSong">
-                <div class="row align-stretch">
-                    <div class="medium-6 columns">
-                        <label>Title
-                            <input type="text" v-model="song.title" placeholder="title" required>
-                        </label>
-                        <div class="row">
-                            <div class="medium-9 columns">
-                                <label>Subtitle
-                                    <input type="text" v-model="song.subtitle" placeholder="subtitle">
-                                </label>
-                            </div>
-                            <div class="medium-3 columns">
-                                <label>Language
-                                    <input type="text" v-model="song.language" placeholder="language">
-                                </label>
-                            </div>
-                        </div>
-                        <label>Text authors
-                            <input type="text" v-model="song.textauthors" placeholder="text authors">
-                        </label>
-                        <label>Music authors
-                            <input type="text" v-model="song.musicauthors" placeholder="music authors">
-                        </label>
-                        <div class="row">
-                            <div class="medium-4 columns">
-                                <label>Year
-                                    <input type="number" v-model="song.year" placeholder="year">
-                                </label>
-                            </div>
-                            <div class="medium-5 columns">
-                                <label>CCLI
-                                    <input type="number" v-model="song.ccli" placeholder="CCLI song number">
-                                </label>
-                            </div>
-                            <div class="medium-3 columns">
-                                <label>Tuning
-                                    <input type="text" v-model="song.tuning" placeholder="tuning">
-                                </label>
-                            </div>
-                        </div>
-                        <label>Publisher
-                            <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
-                        </label>
-                        <label>Note
-                            <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
-                        </label>
-                    </div>
-                    <div class="medium-6 columns content-column">
-                        <label>Content
-                            <textarea v-model="song.content" placeholder="A song with chords" rows="33" required></textarea>
-                        </label>
-                    </div>
-                </div>
+                <song-form-fields :song="song"></song-form-fields>
                 <footer>
                     <router-link class="hollow button" :to="{path: '/'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
@@ -271,59 +299,7 @@
                 <h1>Edit &raquo;{{song.title}}&laquo;</h1>
             </header>
             <form id="form" v-on:submit.prevent="updateSong">
-                <div class="row align-stretch">
-                    <div class="medium-6 columns">
-                        <label>Title
-                            <input type="text" v-model="song.title" placeholder="title" required>
-                        </label>
-                        <div class="row">
-                            <div class="medium-9 columns">
-                                <label>Subtitle
-                                    <input type="text" v-model="song.subtitle" placeholder="subtitle">
-                                </label>
-                            </div>
-                            <div class="medium-3 columns">
-                                <label>Language
-                                    <input type="text" v-model="song.language" placeholder="language">
-                                </label>
-                            </div>
-                        </div>
-                        <label>Text authors
-                            <input type="text" v-model="song.textauthors" placeholder="text authors">
-                        </label>
-                        <label>Music authors
-                            <input type="text" v-model="song.musicauthors" placeholder="music authors">
-                        </label>
-                        <div class="row">
-                            <div class="medium-4 columns">
-                                <label>Year
-                                    <input type="number" v-model="song.year" placeholder="year">
-                                </label>
-                            </div>
-                            <div class="medium-5 columns">
-                                <label>CCLI
-                                    <input type="number" v-model="song.ccli" placeholder="CCLI song number">
-                                </label>
-                            </div>
-                            <div class="medium-3 columns">
-                                <label>Tuning
-                                    <input type="text" v-model="song.tuning" placeholder="tuning">
-                                </label>
-                            </div>
-                        </div>
-                        <label>Publisher
-                            <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
-                        </label>
-                        <label>Note
-                            <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
-                        </label>
-                    </div>
-                    <div class="medium-6 columns content-column">
-                        <label>Content
-                            <textarea v-model="song.content" placeholder="A song with chords" rows="33" required></textarea>
-                        </label>
-                    </div>
-                </div>
+                <song-form-fields :song="song"></song-form-fields>
                 <footer>
                     <router-link class="hollow button" :to="{path: '/'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
@@ -466,25 +442,7 @@
                 <h1>New Setlist</h1>
             </header>
             <form id="form" v-on:submit.prevent="createSetlist">
-                <div class="row">
-                    <div class="medium-6 columns">
-                        <label>Date
-                            <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
-                        </label>
-                    </div>
-                    <div class="medium-6 columns">
-                        <label>Title
-                            <input type="text" v-model="setlist.title" placeholder="title" required>
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="medium-12 columns">
-                        <label>Songs
-                            <input type="text" v-model="setlist.songs" placeholder="songs">
-                        </label>
-                    </div>
-                </div>
+                <setlist-form-fields :setlist="setlist"></setlist-form-fields>
                 <footer>
                     <router-link class="hollow button" :to="{path: '/setlists'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
@@ -510,25 +468,7 @@
                 <h1>Edit &raquo;{{setlist.title}}&laquo;</h1>
             </header>
             <form id="form" v-on:submit.prevent="updateSetlist">
-                <div class="row">
-                    <div class="medium-6 columns">
-                        <label>Date
-                            <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
-                        </label>
-                    </div>
-                    <div class="medium-6 columns">
-                        <label>Title
-                            <input type="text" v-model="setlist.title" placeholder="title" required>
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="medium-12 columns">
-                        <label>Songs
-                            <input type="text" v-model="setlist.songs" placeholder="songs">
-                        </label>
-                    </div>
-                </div>
+                <setlist-form-fields :setlist="setlist"></setlist-form-fields>
                 <footer>
                     <router-link class="hollow button" :to="{path: '/setlists'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
