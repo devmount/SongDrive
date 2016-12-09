@@ -249,32 +249,43 @@ var ShowSong = Vue.extend({
                 pageMargins: [ 40, 60, 40, 60 ],
                 content: [
                     { text: this.song.title.toString().toUpperCase(), style: 'header' },
-                    { text: this.song.content.toString(), style: 'code' }
+                    { text: this.song.content.toString().replace(/ /g, '\u200B'), style: 'code' }
                 ],
-                footer: this.song.publisher.toString(),
+                footer: {
+                    stack: [
+                        { text: 'Text: ' + this.song.textauthors.toString(), style: 'copyright' },
+                        { text: 'Music: ' + this.song.musicauthors.toString(), style: 'copyright' },
+                        { text: '\u00A9 ' + this.song.publisher.toString(), style: 'copyright' },
+                    ],
+                    margin: [40,15]
+                },
                 styles: {
                     header: {
                         font: 'FiraSans',
-                        fontSize: 22,
-                        regular: true
+                        fontSize: 22
                     },
                     code: {
                         font: 'FiraMono',
                         fontSize: 10
+                    },
+                    copyright: {
+                        font: 'FiraSans',
+                        fontSize: 8,
+                        italics: true
                     }
                 }
             };
             pdfMake.fonts = {
                 FiraSans: {
-                    normal: 'FiraSans-Regular.ttf',
+                    normal: 'FiraSans-Light.ttf',
                     bold: 'FiraSans-Bold.ttf',
-                    light: 'FiraSans-Light.ttf',
-                    medium: 'FiraSans-Medium.ttf'
+                    italics: 'FiraSans-Regular.ttf',
+                    bolditalics: 'FiraSans-Medium.ttf'
                 },
                 FiraMono: {
                     normal: 'FiraMono-Regular.ttf',
                     bold: 'FiraMono-Bold.ttf',
-                    medium: 'FiraMono-Medium.ttf'
+                    italics: 'FiraMono-Medium.ttf'
                 },
                 Roboto: {
                     normal: 'Roboto-Regular.ttf',
