@@ -244,10 +244,46 @@ var ShowSong = Vue.extend({
     },
     methods: {
         exportPdf: function() {
-            var doc = new jsPDF();
-            doc.text(this.song.title, 10, 10);
-            doc.text(this.song.subtitle, 10, 10);
-            doc.save('song.pdf');
+            var doc = {
+                pageSize: 'A4',
+                pageMargins: [ 40, 60, 40, 60 ],
+                content: [
+                    { text: this.song.title.toString().toUpperCase(), style: 'header' },
+                    { text: this.song.content.toString(), style: 'code' }
+                ],
+                footer: this.song.publisher.toString(),
+                styles: {
+                    header: {
+                        font: 'FiraSans',
+                        fontSize: 22,
+                        regular: true
+                    },
+                    code: {
+                        font: 'FiraMono',
+                        fontSize: 10
+                    }
+                }
+            };
+            pdfMake.fonts = {
+                FiraSans: {
+                    normal: 'FiraSans-Regular.ttf',
+                    bold: 'FiraSans-Bold.ttf',
+                    light: 'FiraSans-Light.ttf',
+                    medium: 'FiraSans-Medium.ttf'
+                },
+                FiraMono: {
+                    normal: 'FiraMono-Regular.ttf',
+                    bold: 'FiraMono-Bold.ttf',
+                    medium: 'FiraMono-Medium.ttf'
+                },
+                Roboto: {
+                    normal: 'Roboto-Regular.ttf',
+                    bold: 'Roboto-Medium.ttf',
+                    italics: 'Roboto-Italic.ttf',
+                    bolditalics: 'Roboto-Italic.ttf'
+                }
+            }
+            pdfMake.createPdf(doc).open();
             router.push('/song/' + this.$route.params.song_id);
         }
     }
