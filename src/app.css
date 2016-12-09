@@ -118,6 +118,9 @@ section > form > footer {
     padding: .9em;
     text-align: right;
 }
+section > footer > form {
+    display: inline;
+}
 
 /* section fullscreen */
 .container > .fullscreen {

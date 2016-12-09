@@ -241,6 +241,15 @@ var ShowSong = Vue.extend({
         return {
             song: this.song
         };
+    },
+    methods: {
+        exportPdf: function() {
+            var doc = new jsPDF();
+            doc.text(this.song.title, 10, 10);
+            doc.text(this.song.subtitle, 10, 10);
+            doc.save('song.pdf');
+            router.push('/song/' + this.$route.params.song_id);
+        }
     }
 });
 
