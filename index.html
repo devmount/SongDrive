@@ -5,7 +5,7 @@
     <!-- jQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!-- Vue -->
-    <script type="text/javascript" src="https://unpkg.com/vue@latest/dist/vue.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.0.3/vue-router.min.js"></script>
     <!-- VueFire, Firebase -->
     <script type="text/javascript" src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
@@ -138,7 +138,7 @@
         <app-header></app-header>
         <section>
             <header>
-                <h1>Songs</h1>
+                <h1>{{filteredSongs.length}} Songs</h1>
             </header>
             <div class="row medium-collapse small-collapse search">
                 <div class="small-12 columns">
