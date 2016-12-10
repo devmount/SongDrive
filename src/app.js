@@ -246,15 +246,15 @@ var ShowSong = Vue.extend({
         exportPdf: function() {
             var doc = {
                 pageSize: 'A4',
-                pageMargins: [ 40, 60, 40, 60 ],
+                pageMargins: [ 60, 50, 40, 60 ],
                 content: [
                     { text: this.song.title.toString().toUpperCase(), style: 'header' },
+                    { text: ' ' },
                     { text: this.song.content.toString().replace(/ /g, '\u200B'), style: 'code' }
                 ],
                 footer: {
                     stack: [
-                        { text: 'Text: ' + this.song.textauthors.toString(), style: 'copyright' },
-                        { text: 'Music: ' + this.song.musicauthors.toString(), style: 'copyright' },
+                        { text: this.song.textauthors.toString(), style: 'copyright' },
                         { text: '\u00A9 ' + this.song.publisher.toString(), style: 'copyright' },
                     ],
                     margin: [40,15]
