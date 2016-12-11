@@ -245,16 +245,25 @@ var ShowSong = Vue.extend({
                 pageSize: 'A4',
                 pageMargins: [ 60, 50, 40, 60 ],
                 content: [
-                    { text: this.song.title.toString().toUpperCase(), style: 'header' },
+                    { text: this.song.title.toString().toUpperCase() + '  [' + this.song.tuning.toString() + ']', style: 'header' },
+                    { canvas: [
+                        {
+                            type: 'line',
+                            x1: 0, y1: 0,
+                            x2: 480, y2: 0,
+                            lineWidth: .5
+                        }
+                    ]},
                     { text: ' ' },
                     { text: this.song.content.toString().replace(/ /g, '\u200B'), style: 'code' }
                 ],
                 footer: {
                     stack: [
+                        { text: 'CCLI: ' + this.song.ccli.toString(), style: 'copyright' },
                         { text: this.song.authors.toString(), style: 'copyright' },
-                        { text: '\u00A9 ' + this.song.publisher.toString(), style: 'copyright' },
+                        { text: '\u00A9 ' + this.song.year.toString() + ' ' + this.song.publisher.toString(), style: 'copyright' },
                     ],
-                    margin: [40,15]
+                    margin: [40,0]
                 },
                 styles: {
                     header: {
@@ -263,12 +272,11 @@ var ShowSong = Vue.extend({
                     },
                     code: {
                         font: 'FiraMono',
-                        fontSize: 10
+                        fontSize: 10.5
                     },
                     copyright: {
                         font: 'FiraSans',
-                        fontSize: 8,
-                        italics: true
+                        fontSize: 8
                     }
                 }
             };
