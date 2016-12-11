@@ -16,7 +16,7 @@ h1 {
 pre {
     font-family: 'Fira Mono', monospace;
 }
-input, textarea {
+input, textarea, select {
     font-weight: 300;
 }
 .button {

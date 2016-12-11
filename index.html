@@ -67,7 +67,10 @@
                 </div>
                 <div class="medium-3 columns">
                     <label>Language
-                        <input type="text" v-model="song.language" placeholder="language">
+                        <select v-model="song.language">
+                            <option value="de">de</option>
+                            <option value="en">en</option>
+                        </select>
                     </label>
                 </div>
             </div>

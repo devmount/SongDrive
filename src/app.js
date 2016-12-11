@@ -7,7 +7,7 @@ var setlistsRef = firebase.database().ref('setlists');
 
 // snippet to add fields
 // songsRef.on('child_added', function(snapshot) {
-//     snapshot.ref.update({ authors: '' });
+//     snapshot.ref.update({ translations: '' });
 // });
 
 // global component: app header
