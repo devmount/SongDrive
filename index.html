@@ -71,11 +71,8 @@
                     </label>
                 </div>
             </div>
-            <label>Text authors
-                <input type="text" v-model="song.textauthors" placeholder="text authors">
-            </label>
-            <label>Music authors
-                <input type="text" v-model="song.musicauthors" placeholder="music authors">
+            <label>Authors
+                <input type="text" v-model="song.authors" placeholder="authors">
             </label>
             <div class="row">
                 <div class="medium-4 columns">
@@ -151,7 +148,7 @@
                         <tr>
                             <th width="200">Title</th>
                             <th width="200">Subtitle</th>
-                            <th class="show-for-large">Text</th>
+                            <th class="show-for-large">Authors</th>
                             <th class="show-for-medium">Year</th>
                             <th class="show-for-medium">Tuning</th>
                             <th width="300"></th>
@@ -161,7 +158,7 @@
                         <tr v-for="song in filteredSongs" class="song" :key="song['.key']">
                             <td>{{song.title}}</td>
                             <td>{{song.subtitle}}</td>
-                            <td class="show-for-large">{{song.textauthors}}</td>
+                            <td class="show-for-large">{{song.authors}}</td>
                             <td class="show-for-medium" >{{song.year}}</td>
                             <td class="show-for-medium" >{{song.tuning}}</td>
                             <td>
@@ -215,7 +212,7 @@
             <div class="row">
                 <div class="columns">
                     <p v-if="song.tuning">Tuning: {{song.tuning}}</p>
-                    <p v-if="song.textauthors">Text: {{song.textauthors}}<span v-if="song.musicauthors">, Music: {{song.musicauthors}}</span></p>
+                    <p v-if="song.authors">{{song.authors}}</p>
                     <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{song.ccli}}</a></p>
                     <p>&copy; {{song.year}} {{song.publisher}}</p>
                 </div>
@@ -258,7 +255,7 @@
             <div class="row">
                 <div class="columns">
                     <p v-if="song.tuning">Tuning: {{song.tuning}}</p>
-                    <p v-if="song.textauthors">Text: {{song.textauthors}}<span v-if="song.musicauthors">, Music: {{song.musicauthors}}</span></p>
+                    <p v-if="song.authors">{{song.authors}}</p>
                     <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{song.ccli}}</a></p>
                     <p>&copy; {{song.year}} {{song.publisher}}</p>
                 </div>

@@ -7,7 +7,7 @@ var setlistsRef = firebase.database().ref('setlists');
 
 // snippet to add fields
 // songsRef.on('child_added', function(snapshot) {
-//     snapshot.ref.update({ note: '' });
+//     snapshot.ref.update({ authors: '' });
 // });
 
 // global component: app header
@@ -88,8 +88,7 @@ var AddSong = Vue.extend({
             song: {
                 title: '',
                 subtitle: '',
-                textauthors: '',
-                musicauthors: '',
+                authors: '',
                 year: '',
                 ccli: '',
                 tuning: '',
@@ -105,8 +104,7 @@ var AddSong = Vue.extend({
             songsRef.push(this.song)
             this.song.title = '';
             this.song.subtitle = '';
-            this.song.textauthors = '';
-            this.song.musicauthors = '';
+            this.song.authors = '';
             this.song.year = '';
             this.song.ccli = '';
             this.song.tuning = '';
@@ -157,8 +155,7 @@ var EditSong = Vue.extend({
             songsRef.child(this.$route.params.song_id).update({
                 title: this.song.title,
                 subtitle: this.song.subtitle,
-                textauthors: this.song.textauthors,
-                musicauthors: this.song.musicauthors,
+                authors: this.song.authors,
                 year: this.song.year,
                 ccli: this.song.ccli,
                 tuning: this.song.tuning,
@@ -254,7 +251,7 @@ var ShowSong = Vue.extend({
                 ],
                 footer: {
                     stack: [
-                        { text: this.song.textauthors.toString(), style: 'copyright' },
+                        { text: this.song.authors.toString(), style: 'copyright' },
                         { text: '\u00A9 ' + this.song.publisher.toString(), style: 'copyright' },
                     ],
                     margin: [40,15]
