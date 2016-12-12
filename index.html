@@ -111,23 +111,25 @@
 
 <!-- partial: setlist form fields -->
 <template id="setlist-form-fields">
-    <div class="row">
-        <div class="medium-6 columns">
-            <label>Date
-                <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
-            </label>
+    <div class="container">
+        <div class="row">
+            <div class="medium-6 columns">
+                <label>Date
+                    <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
+                </label>
+            </div>
+            <div class="medium-6 columns">
+                <label>Title
+                    <input type="text" v-model="setlist.title" placeholder="title" required>
+                </label>
+            </div>
         </div>
-        <div class="medium-6 columns">
-            <label>Title
-                <input type="text" v-model="setlist.title" placeholder="title" required>
-            </label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="medium-12 columns">
-            <label>Songs
-                <input type="text" v-model="setlist.songs" placeholder="songs">
-            </label>
+        <div class="row">
+            <div class="columns">
+                <label>Songs
+                    <input type="text" v-model="setlist.songs" placeholder="songs">
+                </label>
+            </div>
         </div>
     </div>
 </template>
