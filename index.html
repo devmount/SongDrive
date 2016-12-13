@@ -134,11 +134,12 @@
             </div>
             <div class="medium-6 columns">
                 <label>Selected Songs</label>
-                <ul v-if="setlist.songs">
+                <ul v-if="setlist.songs != ''">
                     <li v-for="songkey in setlist.songs">
                         {{ songkey }}
                     </li>
                 </ul>
+                <div v-else>No songs selected.</div>
             </div>
         </div>
     </div>
