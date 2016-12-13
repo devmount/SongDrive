@@ -32,7 +32,8 @@ Vue.component('song-form-fields', {
 Vue.component('setlist-form-fields', {
     template: '#setlist-form-fields',
     props: {
-        setlist: this.setlist
+        setlist: this.setlist,
+        songs: this.songs
     }
 })
 
@@ -120,6 +121,9 @@ var AddSong = Vue.extend({
 // component: add a setlist
 var AddSetlist = Vue.extend({
     template: '#add-setlist',
+    firebase: {
+        songs: songsRef.orderByChild('title')
+    },
     data: function () {
         return {
             setlist: {
@@ -173,6 +177,9 @@ var EditSong = Vue.extend({
 // component: edit a setlist
 var EditSetlist = Vue.extend({
     template: '#edit-setlist',
+    firebase: {
+        songs: songsRef.orderByChild('title')
+    },
     data: function () {
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
