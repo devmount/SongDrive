@@ -327,6 +327,9 @@ var ShowSongFullscreen = Vue.extend({
 // component: show setlist
 var ShowSetlist = Vue.extend({
     template: '#show-setlist',
+    firebase: {
+        songs: songsRef
+    },
     data: function () {
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));

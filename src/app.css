@@ -164,10 +164,14 @@ section > footer > form {
     text-decoration: inherit;
 }
 
-/* simple song list */
+/* setlists */
 .list-subtitle {
     color: #aaa;
     font-weight: 300;
+}
+.setlist {
+    list-style-type: none;
+    margin: 0;
 }
 
 /* font awesome */

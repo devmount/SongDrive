@@ -171,7 +171,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="song in filteredSongs" class="song" :key="song['.key']">
+                        <tr v-for="song in filteredSongs" :key="song['.key']">
                             <td>{{ song.title }}</td>
                             <td>{{ song.subtitle }}</td>
                             <td class="show-for-large">{{ song.authors }}</td>
@@ -441,7 +441,19 @@
             </header>
             <div class="row">
                 <div class="columns">
-                    {{ setlist.songs }}
+                    <table v-if="setlist.songs != ''" class="hover">
+                        <thead></thead>
+                        <tbody>
+                            <tr v-for="songkey in setlist.songs">
+                                <template v-for="song in songs">
+                                    <td v-if="song['.key'] == songkey">
+                                        {{ song.title }}
+                                    </td>
+                                </template>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div v-else>No songs selected.</div>
                 </div>
             </div>
             <footer>
