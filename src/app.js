@@ -129,7 +129,7 @@ var AddSetlist = Vue.extend({
             setlist: {
                 date: '',
                 title: '',
-                songs: ''
+                songs: []
             }
         }
     },
@@ -138,7 +138,7 @@ var AddSetlist = Vue.extend({
             setlistsRef.push(this.setlist)
             this.setlist.date = ''
             this.setlist.title = ''
-            this.setlist.songs = ''
+            this.setlist.songs = []
             router.push('/setlists');
         }
     }

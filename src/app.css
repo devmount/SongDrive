@@ -164,6 +164,12 @@ section > footer > form {
     text-decoration: inherit;
 }
 
+/* simple song list */
+.list-subtitle {
+    color: #aaa;
+    font-weight: 300;
+}
+
 /* font awesome */
 .fa-rm {
     margin-right: .5em;
