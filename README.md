@@ -1,7 +1,7 @@
 # SongDrive
 [![license](https://img.shields.io/badge/license-MIT License-blue.svg?style=flat-square)](./LICENSE) <!--[![release](https://img.shields.io/badge/release-v0.0.1-blue.svg?style=flat-square)]()-->
 
-A song management web application to store and synchronize songs, based on [Vue.js](vuejs.org/) and [Firebase](firebase.google.com/).
+A song management web application to store and synchronize songs, based on [Vue.js 2.1](vuejs.org/), [Firebase 3.4](firebase.google.com/) and [Foundation 6.2](http://foundation.zurb.com).
 
 ## Features
 - Create, read, update and delete songs
