@@ -248,65 +248,7 @@ var ShowSong = Vue.extend({
     },
     methods: {
         exportPdf: function() {
-            var doc = {
-                pageSize: 'A4',
-                pageMargins: [ 60, 50, 40, 60 ],
-                content: [
-                    { text: this.song.title.toString().toUpperCase() + '  [' + this.song.tuning.toString() + ']', style: 'header' },
-                    { canvas: [
-                        {
-                            type: 'line',
-                            x1: 0, y1: 0,
-                            x2: 480, y2: 0,
-                            lineWidth: .5
-                        }
-                    ]},
-                    { text: ' ' },
-                    { text: this.song.content.toString().replace(/ /g, '\u200B'), style: 'code' }
-                ],
-                footer: {
-                    stack: [
-                        { text: 'CCLI: ' + this.song.ccli.toString(), style: 'copyright' },
-                        { text: this.song.authors.toString(), style: 'copyright' },
-                        { text: '\u00A9 ' + this.song.year.toString() + ' ' + this.song.publisher.toString(), style: 'copyright' },
-                    ],
-                    margin: [40,0]
-                },
-                styles: {
-                    header: {
-                        font: 'FiraSans',
-                        fontSize: 22
-                    },
-                    code: {
-                        font: 'FiraMono',
-                        fontSize: 10.5
-                    },
-                    copyright: {
-                        font: 'FiraSans',
-                        fontSize: 8
-                    }
-                }
-            };
-            pdfMake.fonts = {
-                FiraSans: {
-                    normal: 'FiraSans-Light.ttf',
-                    bold: 'FiraSans-Bold.ttf',
-                    italics: 'FiraSans-Regular.ttf',
-                    bolditalics: 'FiraSans-Medium.ttf'
-                },
-                FiraMono: {
-                    normal: 'FiraMono-Regular.ttf',
-                    bold: 'FiraMono-Bold.ttf',
-                    italics: 'FiraMono-Medium.ttf'
-                },
-                Roboto: {
-                    normal: 'Roboto-Regular.ttf',
-                    bold: 'Roboto-Medium.ttf',
-                    italics: 'Roboto-Italic.ttf',
-                    bolditalics: 'Roboto-Italic.ttf'
-                }
-            }
-            pdfMake.createPdf(doc).open();
+            createPdfSong(this.song);
             router.push('/song/' + this.$route.params.song_id);
         }
     }
@@ -361,3 +303,68 @@ var app = new Vue({
     el: '#app',
     router: router
 });
+
+/**
+ * 
+ */
+function createPdfSong(song) {
+    var doc = {
+        pageSize: 'A4',
+        pageMargins: [ 60, 50, 40, 60 ],
+        content: [
+            { text: song.title.toString().toUpperCase() + '  [' + song.tuning.toString() + ']', style: 'header' },
+            { canvas: [
+                {
+                    type: 'line',
+                    x1: 0, y1: 0,
+                    x2: 480, y2: 0,
+                    lineWidth: .5
+                }
+            ]},
+            { text: ' ' },
+            { text: song.content.toString().replace(/ /g, '\u200B'), style: 'code' }
+        ],
+        footer: {
+            stack: [
+                { text: 'CCLI: ' + song.ccli.toString(), style: 'copyright' },
+                { text: song.authors.toString(), style: 'copyright' },
+                { text: '\u00A9 ' + song.year.toString() + ' ' + song.publisher.toString(), style: 'copyright' },
+            ],
+            margin: [40,0]
+        },
+        styles: {
+            header: {
+                font: 'FiraSans',
+                fontSize: 22
+            },
+            code: {
+                font: 'FiraMono',
+                fontSize: 10.5
+            },
+            copyright: {
+                font: 'FiraSans',
+                fontSize: 8
+            }
+        }
+    };
+    pdfMake.fonts = {
+        FiraSans: {
+            normal: 'FiraSans-Light.ttf',
+            bold: 'FiraSans-Bold.ttf',
+            italics: 'FiraSans-Regular.ttf',
+            bolditalics: 'FiraSans-Medium.ttf'
+        },
+        FiraMono: {
+            normal: 'FiraMono-Regular.ttf',
+            bold: 'FiraMono-Bold.ttf',
+            italics: 'FiraMono-Medium.ttf'
+        },
+        Roboto: {
+            normal: 'Roboto-Regular.ttf',
+            bold: 'Roboto-Medium.ttf',
+            italics: 'Roboto-Italic.ttf',
+            bolditalics: 'Roboto-Italic.ttf'
+        }
+    }
+    pdfMake.createPdf(doc).open();
+}

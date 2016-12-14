@@ -20,6 +20,7 @@
     <script type="text/javascript" src="src/vfs_fonts.js"></script>
     <!-- Fontawesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
     <!-- Foundation 6.2.4 Styles -->
     <link rel="stylesheet" type="text/css" href="src/foundation.min.css">
     <!-- App Styles -->
@@ -447,9 +448,14 @@
                         <tbody>
                             <tr v-for="songkey in setlist.songs">
                                 <template v-for="song in songs">
-                                    <td v-if="song['.key'] == songkey">
-                                        {{ song.title }}
-                                    </td>
+                                    <template v-if="song['.key'] == songkey">
+                                        <td>
+                                            {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
+                                        </td>
+                                        <td>
+                                            {{ song.tuning }}
+                                        </td>
+                                    </template>
                                 </template>
                             </tr>
                         </tbody>
