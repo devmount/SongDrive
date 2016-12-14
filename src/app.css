@@ -169,10 +169,6 @@ section > footer > form {
     color: #aaa;
     font-weight: 300;
 }
-.setlist {
-    list-style-type: none;
-    margin: 0;
-}
 
 /* font awesome */
 .fa-rm {
