@@ -5,6 +5,27 @@ var songsRef = firebase.database().ref('songs');
 var authorsRef = firebase.database().ref('authors');
 var setlistsRef = firebase.database().ref('setlists');
 
+// Setup PDF export
+pdfMake.fonts = {
+    FiraSans: {
+        normal: 'FiraSans-Light.ttf',
+        bold: 'FiraSans-Bold.ttf',
+        italics: 'FiraSans-Regular.ttf',
+        bolditalics: 'FiraSans-Medium.ttf'
+    },
+    FiraMono: {
+        normal: 'FiraMono-Regular.ttf',
+        bold: 'FiraMono-Bold.ttf',
+        italics: 'FiraMono-Medium.ttf'
+    },
+    Roboto: {
+        normal: 'Roboto-Regular.ttf',
+        bold: 'Roboto-Medium.ttf',
+        italics: 'Roboto-Italic.ttf',
+        bolditalics: 'Roboto-Italic.ttf'
+    }
+}
+
 // snippet to add fields
 // songsRef.on('child_added', function(snapshot) {
 //     snapshot.ref.update({ translations: '' });
@@ -248,7 +269,8 @@ var ShowSong = Vue.extend({
     },
     methods: {
         exportPdf: function() {
-            createPdfSong(this.song);
+            var doc = getPdfSongObject(this.song);
+            pdfMake.createPdf(doc).open();
             router.push('/song/' + this.$route.params.song_id);
         }
     }
@@ -304,11 +326,12 @@ var app = new Vue({
     router: router
 });
 
-/**
- * 
- */
-function createPdfSong(song) {
-    var doc = {
+
+/* --- Additional functions --- */
+
+// create a single page pdf for a song 
+function getPdfSongObject(song) {
+    return {
         pageSize: 'A4',
         pageMargins: [ 60, 50, 40, 60 ],
         content: [
@@ -347,24 +370,4 @@ function createPdfSong(song) {
             }
         }
     };
-    pdfMake.fonts = {
-        FiraSans: {
-            normal: 'FiraSans-Light.ttf',
-            bold: 'FiraSans-Bold.ttf',
-            italics: 'FiraSans-Regular.ttf',
-            bolditalics: 'FiraSans-Medium.ttf'
-        },
-        FiraMono: {
-            normal: 'FiraMono-Regular.ttf',
-            bold: 'FiraMono-Bold.ttf',
-            italics: 'FiraMono-Medium.ttf'
-        },
-        Roboto: {
-            normal: 'Roboto-Regular.ttf',
-            bold: 'Roboto-Medium.ttf',
-            italics: 'Roboto-Italic.ttf',
-            bolditalics: 'Roboto-Italic.ttf'
-        }
-    }
-    pdfMake.createPdf(doc).open();
 }
