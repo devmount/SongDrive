@@ -178,8 +178,8 @@
                             <th width="200">Title</th>
                             <th width="200">Subtitle</th>
                             <th class="show-for-large">Authors</th>
-                            <th class="show-for-medium">Year</th>
-                            <th class="show-for-medium">Tuning</th>
+                            <th class="show-for-medium text-center">Year</th>
+                            <th class="show-for-medium text-center">Tuning</th>
                             <th width="300"></th>
                         </tr>
                     </thead>
@@ -188,9 +188,9 @@
                             <td>{{ song.title }}</td>
                             <td>{{ song.subtitle }}</td>
                             <td class="show-for-large">{{ song.authors }}</td>
-                            <td class="show-for-medium" >{{ song.year }}</td>
-                            <td class="show-for-medium" >{{ song.tuning }}</td>
-                            <td>
+                            <td class="show-for-medium text-center">{{ song.year }}</td>
+                            <td class="show-for-medium text-center">{{ song.tuning }}</td>
+                            <td class="text-right">
                                 <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                                     <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
                                     <span class="show-for-large">Show</span>
@@ -405,7 +405,7 @@
                 <table class="hover">
                     <thead>
                         <tr>
-                            <th width="200">Date</th>
+                            <th width="150">Date</th>
                             <th width="200">Title</th>
                             <th width="225"></th>
                         </tr>
@@ -414,7 +414,7 @@
                         <tr v-for="setlist in filteredSetlists" :key="setlist['.key']">
                             <td>{{ setlist.date }}</td>
                             <td>{{ setlist.title }}</td>
-                            <td>
+                            <td class="text-right">
                                 <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
                                     <span class="show-for-large">Show</span>
@@ -462,9 +462,9 @@
                         <thead>
                             <tr>
                                 <th>Title</th>
-                                <th>Lang</th>
-                                <th>Tun</th>
-                                <th>CCLI#</th>
+                                <th class="text-center">Language</th>
+                                <th class="text-center">Tuning</th>
+                                <th class="text-center">CCLI#</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -474,13 +474,13 @@
                                         <td>
                                             {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ song.language }}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ song.tuning }}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a>
                                         </td>
                                     </template>
