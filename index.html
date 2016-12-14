@@ -257,6 +257,10 @@
                     <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
                     Fullscreen
                 </router-link>
+                <router-link class="button" :to="{path: song['.key'] + '/edit'}">
+                    <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                    <span class="show-for-large">Edit</span>
+                </router-link>
                 <router-link class="secondary hollow button" :to="{path: '/'}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     Back
@@ -500,6 +504,10 @@
                         PDF Setlist
                     </button>
                 </form>
+                <router-link class="button" :to="{path: setlist['.key'] + '/edit'}">
+                    <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                    <span class="show-for-large">Edit</span>
+                </router-link>
                 <router-link class="secondary hollow button" :to="{path: '/setlists'}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     Back
