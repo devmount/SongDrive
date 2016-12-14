@@ -341,28 +341,15 @@ var app = new Vue({
 function getPdfSongObject(song) {
     return {
         pageSize: 'A4',
-        pageMargins: [ 60, 50, 40, 60 ],
+        pageMargins: [ 50, 50, 40, 30 ],
         content: [
-            { text: song.title.toString().toUpperCase() + '  [' + song.tuning.toString() + ']', style: 'header' },
-            { canvas: [
-                {
-                    type: 'line',
-                    x1: 0, y1: 0,
-                    x2: 480, y2: 0,
-                    lineWidth: .5
-                }
-            ]},
-            { text: ' ' },
-            { text: song.content.toString().replace(/ /g, '\u200B'), style: 'code' }
+            { text: song.title.toString().toUpperCase() + (song.tuning ? '  [' + song.tuning.toString() + ']' : ''), style: 'header' },
+            { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
+            { text: song.content.toString().replace(/ /g, '\u200B'), style: 'code' },
+            { text: song.ccli ? 'CCLI: ' + song.ccli.toString() : '', style: 'copyright' },
+            { text: song.authors ? song.authors.toString() : '', style: 'copyright' },
+            { text: '\u00A9 ' + song.year.toString() + ' ' + song.publisher.toString(), style: 'copyright' }
         ],
-        footer: {
-            stack: [
-                { text: 'CCLI: ' + song.ccli.toString(), style: 'copyright' },
-                { text: song.authors.toString(), style: 'copyright' },
-                { text: '\u00A9 ' + song.year.toString() + ' ' + song.publisher.toString(), style: 'copyright' },
-            ],
-            margin: [40,0]
-        },
         styles: {
             header: {
                 font: 'FiraSans',
@@ -370,11 +357,13 @@ function getPdfSongObject(song) {
             },
             code: {
                 font: 'FiraMono',
-                fontSize: 10.5
+                fontSize: 10.5,
+                margin: [ 0, 15 ]
             },
             copyright: {
                 font: 'FiraSans',
-                fontSize: 8
+                fontSize: 8,
+                alignment: 'right'
             }
         }
     }
