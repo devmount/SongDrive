@@ -248,7 +248,7 @@
             </div>
             <footer>
                 <form v-on:submit.prevent="exportPdf" target="_blank">
-                    <button type="submit" class="button">
+                    <button type="submit" class="hollow button">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         PDF
                     </button>
@@ -257,7 +257,7 @@
                     <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
                     Fullscreen
                 </router-link>
-                <router-link class="hollow button" :to="{path: '/'}">
+                <router-link class="secondary hollow button" :to="{path: '/'}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     Back
                 </router-link>
@@ -290,7 +290,7 @@
                 </div>
             </div>
             <footer>
-                <router-link class="hollow button" :to="{path: '/song/' + song['.key']}">
+                <router-link class="secondary button" :to="{path: '/song/' + song['.key']}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     Close
                 </router-link>
@@ -310,7 +310,7 @@
             <form id="form" v-on:submit.prevent="createSong">
                 <song-form-fields :song="song"></song-form-fields>
                 <footer>
-                    <router-link class="hollow button" :to="{path: '/'}">
+                    <router-link class="alert button" :to="{path: '/'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
                     </router-link>
@@ -336,7 +336,7 @@
             <form id="form" v-on:submit.prevent="updateSong">
                 <song-form-fields :song="song"></song-form-fields>
                 <footer>
-                    <router-link class="hollow button" :to="{path: '/'}">
+                    <router-link class="alert button" :to="{path: '/'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
                     </router-link>
@@ -369,7 +369,7 @@
             </div>
             <footer>
                 <form v-on:submit="removeSong">
-                    <router-link class="hollow button" :to="{path: '/'}">
+                    <router-link class="secondary hollow button" :to="{path: '/'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
                     </router-link>
@@ -489,18 +489,18 @@
             </div>
             <footer>
                 <form v-on:submit.prevent="exportSongsheets" target="_blank">
-                    <button type="submit" class="button">
+                    <button type="submit" class="hollow button">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         PDF Songsheets
                     </button>
                 </form>
                 <form v-on:submit.prevent="exportSetlist" target="_blank">
-                    <button type="submit" class="button">
+                    <button type="submit" class="hollow button">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         PDF Setlist
                     </button>
                 </form>
-                <router-link class="hollow button" :to="{path: '/setlists'}">
+                <router-link class="secondary hollow button" :to="{path: '/setlists'}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     Back
                 </router-link>
@@ -524,7 +524,7 @@
                     :songs="songs"
                 ></setlist-form-fields>
                 <footer>
-                    <router-link class="hollow button" :to="{path: '/setlists'}">
+                    <router-link class="alert button" :to="{path: '/setlists'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
                     </router-link>
@@ -550,7 +550,7 @@
             <form id="form" v-on:submit.prevent="updateSetlist">
                 <setlist-form-fields :setlist="setlist" :songs="songs"></setlist-form-fields>
                 <footer>
-                    <router-link class="hollow button" :to="{path: '/setlists'}">
+                    <router-link class="alert button" :to="{path: '/setlists'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
                     </router-link>
@@ -583,7 +583,7 @@
             </div>
             <footer>
                 <form v-on:submit="removeSetlist">
-                    <router-link class="hollow button" :to="{path: '/setlists'}">
+                    <router-link class="secondary hollow button" :to="{path: '/setlists'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
                     </router-link>
