@@ -116,31 +116,42 @@
     <div class="container">
         <div class="row">
             <div class="medium-6 columns">
-                <label>Date
-                    <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
+                <label>Title
+                    <input type="text" v-model="setlist.title" placeholder="title" required>
                 </label>
             </div>
             <div class="medium-6 columns">
-                <label>Title
-                    <input type="text" v-model="setlist.title" placeholder="title" required>
+                <label>Date
+                    <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
                 </label>
             </div>
         </div>
         <div class="row">
             <div class="medium-6 columns">
                 <label>All Songs</label>
-                <label v-for="song in songs" :key="song['.key']" >
-                    <input type="checkbox" :value="song['.key']" v-model="setlist.songs">
-                    {{ song.title }} <span v-if="song.subtitle" class="list-subtitle">({{ song.subtitle }})</span>
-                </label>
+                <div class="checklist">
+                    <label v-for="song in songs" :key="song['.key']" >
+                        <input type="checkbox" :value="song['.key']" v-model="setlist.songs">
+                        {{ song.title }} <span v-if="song.subtitle" class="list-subtitle">({{ song.subtitle }})</span>
+                    </label>
+                </div>
             </div>
             <div class="medium-6 columns">
                 <label>Selected Songs</label>
-                <ul v-if="setlist.songs != ''">
-                    <li v-for="songkey in setlist.songs">
-                        {{ songkey }}
-                    </li>
-                </ul>
+                <table v-if="setlist.songs != ''" class="hover">
+                    <thead></thead>
+                    <tbody>
+                        <tr v-for="songkey in setlist.songs">
+                            <template v-for="song in songs">
+                                <template v-if="song['.key'] == songkey">
+                                    <td>
+                                        {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
+                                    </td>
+                                </template>
+                            </template>
+                        </tr>
+                    </tbody>
+                </table>
                 <div v-else>No songs selected.</div>
             </div>
         </div>
@@ -454,6 +465,9 @@
                                         </td>
                                         <td>
                                             {{ song.tuning }}
+                                        </td>
+                                        <td>
+                                            <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a>
                                         </td>
                                     </template>
                                 </template>
