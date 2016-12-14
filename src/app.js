@@ -269,7 +269,7 @@ var ShowSong = Vue.extend({
     },
     methods: {
         exportPdf: function() {
-            var doc = getPdfSongObject(this.song);
+            var doc = getPdfSongsObject(this.song);
             pdfMake.createPdf(doc).open();
             router.push('/song/' + this.$route.params.song_id);
         }
@@ -308,7 +308,7 @@ var ShowSetlist = Vue.extend({
             router.push('/setlist/' + this.$route.params.setlist_id);
         },
         exportSongsheets: function() {
-            var doc = getPdfSongsheetsObject(this.setlist, this.songs);
+            var doc = getPdfSongsObject(this.songs, this.setlist);
             pdfMake.createPdf(doc).open();
             router.push('/setlist/' + this.$route.params.setlist_id);
         }
@@ -341,61 +341,31 @@ var app = new Vue({
 
 /* --- Additional functions --- */
 
-// create a single page pdf for a song 
-function getPdfSongObject(song) {
-    return {
-        pageSize: 'A4',
-        pageMargins: [ 50, 50, 40, 30 ],
-        content: [
-            { text: song.title.toString().toUpperCase() + (song.tuning ? '  [' + song.tuning.toString() + ']' : ''), style: 'header' },
-            { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
-            { text: song.content.toString().replace(/ /g, '\u200B'), style: 'code' },
-            { text: song.ccli ? 'CCLI: ' + song.ccli.toString() : '', style: 'copyright' },
-            { text: song.authors ? song.authors.toString() : '', style: 'copyright' },
-            { text: '\u00A9 ' + song.year.toString() + ' ' + song.publisher.toString(), style: 'copyright' }
-        ],
-        styles: {
-            header: {
-                font: 'FiraSans',
-                fontSize: 22
-            },
-            code: {
-                font: 'FiraMono',
-                fontSize: 10.5,
-                margin: [ 0, 15 ]
-            },
-            copyright: {
-                font: 'FiraSans',
-                fontSize: 8,
-                alignment: 'right'
-            }
-        }
-    }
-}
-
-// create a multipage page pdf for a setlist: song sheets
-function getPdfSongsheetsObject(setlist, songs) {
+// create a single or multipage page pdf for a song or setlist (song sheets)
+function getPdfSongsObject(songs, setlist = null) {
     var content = [];
-    for (var j = 0; j < setlist.songs.length; j++) {
-        for (var i = 0; i < songs.length; i++) {
-            if (songs[i]['.key'] == setlist.songs[j]) {
-                var song = songs[i];
-                // add song content
-                content.push(
-                    { text: song.title.toString().toUpperCase() + (song.tuning ? '  [' + song.tuning.toString() + ']' : ''), style: 'header' },
-                    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
-                    { text: song.content.toString().replace(/ /g, '\u200B'), style: 'code' },
-                    { text: song.ccli ? 'CCLI: ' + song.ccli.toString() : '', style: 'copyright' },
-                    { text: song.authors ? song.authors.toString() : '', style: 'copyright' },
-                    { text: '\u00A9 ' + song.year.toString() + ' ' + song.publisher.toString(), style: 'copyright' }
-                );
-                // add page break after every song exept for the last
-                if (j < setlist.songs.length-1) {
-                    content.push({ text: '', pageBreak: 'after' });
+    // create multiple songsheets in one PDF
+    if (setlist) {
+        for (var j = 0; j < setlist.songs.length; j++) {
+            for (var i = 0; i < songs.length; i++) {
+                if (songs[i]['.key'] == setlist.songs[j]) {
+                    var song = songs[i];
+                    // add song content
+                    content = content.concat(getPdfSongContent(song));
+                    // add page break after every song exept for the last
+                    if (j < setlist.songs.length-1) {
+                        content.push({ text: '', pageBreak: 'after' });
+                    }
                 }
             }
         }
     }
+    // create only one songsheet (songs contains only a single song)
+    else {
+        var song = songs;
+        content = content.concat(getPdfSongContent(song));
+    }
+    // return page configuration with computed content
     return {
         pageSize: 'A4',
         pageMargins: [ 50, 50, 40, 30 ],
@@ -419,6 +389,21 @@ function getPdfSongsheetsObject(setlist, songs) {
     }
 }
 
+// return an array of the song configuration for pdfmake
+function getPdfSongContent(song) {
+    return [
+        // song title [tuning] with a line beneath
+        { text: song.title.toString().toUpperCase() + (song.tuning ? '  [' + song.tuning.toString() + ']' : ''), style: 'header' },
+        { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
+        // song content with respect to leading whitespaces
+        { text: song.content.toString().replace(/ /g, '\u200B'), style: 'code' },
+        // imprint with ccli#, author names and (c) year publisher
+        { text: song.ccli ? 'CCLI: ' + song.ccli.toString() : '', style: 'copyright' },
+        { text: song.authors ? song.authors.toString() : '', style: 'copyright' },
+        { text: '\u00A9 ' + song.year.toString() + ' ' + song.publisher.toString(), style: 'copyright' }
+    ]
+}
+
 // create a single page pdf for a setlist 
 function getPdfSetlistObject(setlist, songs) {
     // get all titles from songs of setlist
@@ -430,6 +415,7 @@ function getPdfSetlistObject(setlist, songs) {
             }
         }
     }
+    // return page configuration with setlist content
     return {
         pageSize: 'A4',
         pageMargins: [ 60, 50, 40, 60 ],
