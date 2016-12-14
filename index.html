@@ -478,6 +478,12 @@
                 </div>
             </div>
             <footer>
+                <form v-on:submit.prevent="exportSongsheets" target="_blank">
+                    <button type="submit" class="button">
+                        <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                        PDF Songsheets
+                    </button>
+                </form>
                 <form v-on:submit.prevent="exportSetlist" target="_blank">
                     <button type="submit" class="button">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
