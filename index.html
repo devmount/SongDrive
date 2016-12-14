@@ -455,13 +455,23 @@
             <div class="row">
                 <div class="columns">
                     <table v-if="setlist.songs != ''" class="hover">
-                        <thead></thead>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Lang</th>
+                                <th>Tun</th>
+                                <th>CCLI#</th>
+                            </tr>
+                        </thead>
                         <tbody>
                             <tr v-for="songkey in setlist.songs">
                                 <template v-for="song in songs">
                                     <template v-if="song['.key'] == songkey">
                                         <td>
                                             {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
+                                        </td>
+                                        <td>
+                                            {{ song.language }}
                                         </td>
                                         <td>
                                             {{ song.tuning }}
