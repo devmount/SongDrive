@@ -300,6 +300,14 @@ var ShowSetlist = Vue.extend({
         return {
             setlist: this.setlist
         };
+    },
+    methods: {
+        exportSetlist: function() {
+            // console.log(this.songs);
+            var doc = getPdfSetlistObject(this.setlist, this.songs);
+            pdfMake.createPdf(doc).open();
+            router.push('/setlist/' + this.$route.params.setlist_id);
+        }
     }
 });
 
@@ -369,5 +377,46 @@ function getPdfSongObject(song) {
                 fontSize: 8
             }
         }
-    };
+    }
+}
+
+// create a single page pdf for a setlist 
+function getPdfSetlistObject(setlist, songs) {
+    // get all titles from songs of setlist
+    var titles = [];
+    for (var j = 0; j < setlist.songs.length; j++) {
+        for (var i = 0; i < songs.length; i++) {
+            if (songs[i]['.key'] == setlist.songs[j]) {
+                titles.push((j+1) + '.  \u2012  ' + songs[i]['title']);
+            }
+        }
+    }
+    return {
+        pageSize: 'A4',
+        pageMargins: [ 60, 50, 40, 60 ],
+        content: [
+            { text: setlist.date.toString() + ' ' + setlist.title.toString().toUpperCase(), style: 'header' },
+            { canvas: [
+                {
+                    type: 'line',
+                    x1: 0, y1: 0,
+                    x2: 480, y2: 0,
+                    lineWidth: .5
+                }
+            ]},
+            { text: ' ' },
+            { text: ' ' },
+            { text: titles.join('\n'), style: 'standard' }
+        ],
+        styles: {
+            header: {
+                font: 'FiraSans',
+                fontSize: 22
+            },
+            standard: {
+                font: 'FiraSans',
+                fontSize: 14
+            }
+        }
+    }
 }

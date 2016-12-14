@@ -478,6 +478,12 @@
                 </div>
             </div>
             <footer>
+                <form v-on:submit.prevent="exportSetlist" target="_blank">
+                    <button type="submit" class="button">
+                        <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                        PDF Setlist
+                    </button>
+                </form>
                 <router-link class="hollow button" :to="{path: '/setlists'}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     Back
