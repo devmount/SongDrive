@@ -170,7 +170,7 @@ section > footer > form {
     font-weight: 300;
 }
 .checklist {
-    max-height: 40vh;
+    max-height: calc(85vh - 20rem);
     overflow-y: scroll;
 }
 

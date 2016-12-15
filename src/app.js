@@ -63,7 +63,6 @@ Vue.component('setlist-form-fields', {
             var self = this;
             return self.songs.filter(function (song) {
                 // filter fields: title, subtitle
-                console.log(self);
                 var key = self.searchKey.toLowerCase()
                 return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1;
             });
@@ -86,8 +85,8 @@ var ListSongs = Vue.extend({
             var self = this;
             return self.songs.filter(function (song) {
                 // filter fields: title, subtitle
-                var searchKey = self.searchKey.toLowerCase()
-                return song.title.toLowerCase().indexOf(searchKey) !== -1 || song.subtitle.toLowerCase().indexOf(searchKey) !== -1;
+                var key = self.searchKey.toLowerCase()
+                return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1;
             });
         }
     }
@@ -108,8 +107,8 @@ var ListSetlists = Vue.extend({
             var self = this;
             return self.setlists.filter(function (setlist) {
                 // filter fields: date, title
-                var searchKey = self.searchKey.toLowerCase()
-                return setlist.date.toLowerCase().indexOf(searchKey) !== -1 || setlist.title.toLowerCase().indexOf(searchKey) !== -1;
+                var key = self.searchKey.toLowerCase()
+                return setlist.date.toLowerCase().indexOf(key) !== -1 || setlist.title.toLowerCase().indexOf(key) !== -1;
             });
         }
     }
