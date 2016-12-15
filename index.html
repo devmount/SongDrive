@@ -18,9 +18,11 @@
     <!-- pdfmake -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/pdfmake.min.js"></script>
     <script type="text/javascript" src="src/vfs_fonts.js"></script>
+    <!-- SortableJS -->
+    <script src="https://unpkg.com/sortablejs@latest"></script>
+
     <!-- Fontawesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
     <!-- Foundation 6.2.4 Styles -->
     <link rel="stylesheet" type="text/css" href="src/foundation.min.css">
     <!-- App Styles -->
@@ -467,8 +469,8 @@
                                 <th class="text-center">CCLI#</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr v-for="songkey in setlist.songs">
+                        <tbody id="show-setlist-sort">
+                            <tr v-for="songkey in setlist.songs" :key="songkey">
                                 <template v-for="song in songs">
                                     <template v-if="song['.key'] == songkey">
                                         <td>

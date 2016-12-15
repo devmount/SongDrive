@@ -312,6 +312,23 @@ var ShowSetlist = Vue.extend({
             pdfMake.createPdf(doc).open();
             router.push('/setlist/' + this.$route.params.setlist_id);
         }
+    },
+    mounted: function(){
+        var self = this;
+        self.$nextTick(function(){
+            var sortable = Sortable.create(document.getElementById('show-setlist-sort'), {
+            onEnd: function(e) {
+                var clonedItems = self.setlist.songs.filter(function(item){
+                    return item;
+                });
+                clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0]);
+                    self.$nextTick(function(){
+                        // update setlist's songs with new order
+                        setlistsRef.child(this.$route.params.setlist_id).update({songs: clonedItems});
+                    });
+                }
+            }); 
+        });
     }
 });
 
