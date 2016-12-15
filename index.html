@@ -131,8 +131,9 @@
         <div class="row">
             <div class="medium-6 columns">
                 <label>All Songs</label>
+                <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
                 <div class="checklist">
-                    <label v-for="song in songs" :key="song['.key']" >
+                    <label v-for="song in filteredSongs" :key="song['.key']" >
                         <input type="checkbox" :value="song['.key']" v-model="setlist.songs">
                         {{ song.title }} <span v-if="song.subtitle" class="list-subtitle">({{ song.subtitle }})</span>
                     </label>
@@ -534,6 +535,7 @@
                 <setlist-form-fields
                     :setlist="setlist"
                     :songs="songs"
+                    :search-key="searchKey"
                 ></setlist-form-fields>
                 <footer>
                     <router-link class="alert button" :to="{path: '/setlists'}">
@@ -563,6 +565,7 @@
                 <setlist-form-fields
                     :setlist="setlist"
                     :songs="songs"
+                    :search-key="searchKey"
                 ></setlist-form-fields>
                 <footer>
                     <router-link class="alert button" :to="{path: '/setlists'}">

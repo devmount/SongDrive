@@ -54,7 +54,20 @@ Vue.component('setlist-form-fields', {
     template: '#setlist-form-fields',
     props: {
         setlist: this.setlist,
-        songs: this.songs
+        songs: this.songs,
+        searchKey: this.searchKey
+    },
+    computed: {
+        // apply filter
+        filteredSongs: function () {
+            var self = this;
+            return self.songs.filter(function (song) {
+                // filter fields: title, subtitle
+                console.log(self);
+                var key = self.searchKey.toLowerCase()
+                return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1;
+            });
+        }
     }
 })
 
@@ -141,7 +154,8 @@ var AddSetlist = Vue.extend({
                 date: '',
                 title: '',
                 songs: [{}]
-            }
+            },
+            searchKey: ''
         }
     },
     methods: {
@@ -211,7 +225,8 @@ var EditSetlist = Vue.extend({
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
         return {
-            setlist: this.setlist
+            setlist: this.setlist,
+            searchKey: ''
         };
     },
     methods: {
