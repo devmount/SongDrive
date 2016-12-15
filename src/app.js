@@ -162,6 +162,25 @@ var AddSetlist = Vue.extend({
             this.setlist.songs = []
             router.push('/setlists');
         }
+    },
+    mounted: function(){
+        var self = this;
+        self.$nextTick(function(){
+            // make song table rows sortable (drag and drop)
+            var sortable = Sortable.create(document.getElementById('change-setlist-sort'), {
+                // on drop: clone items, set new order and update setlist with new ordered items
+                onEnd: function(e) {
+                    var clonedItems = self.setlist.songs.filter(function(item){
+                        return item;
+                    });
+                    clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0]);
+                    self.$nextTick(function(){
+                        // update setlist objects's songs with new order
+                        self.setlist.songs = clonedItems;
+                    });
+                }
+            }); 
+        });
     }
 });
 
@@ -218,6 +237,25 @@ var EditSetlist = Vue.extend({
             router.push('/setlists');
             // router.push('/setlist/' + this.$route.params.setlist_id + '/edit');
         }
+    },
+    mounted: function(){
+        var self = this;
+        self.$nextTick(function(){
+            // make song table rows sortable (drag and drop)
+            var sortable = Sortable.create(document.getElementById('change-setlist-sort'), {
+                // on drop: clone items, set new order and update setlist with new ordered items
+                onEnd: function(e) {
+                    var clonedItems = self.setlist.songs.filter(function(item){
+                        return item;
+                    });
+                    clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0]);
+                    self.$nextTick(function(){
+                        // update setlist objects's songs with new order
+                        self.setlist.songs = clonedItems;
+                    });
+                }
+            }); 
+        });
     }
 });
 
@@ -316,12 +354,14 @@ var ShowSetlist = Vue.extend({
     mounted: function(){
         var self = this;
         self.$nextTick(function(){
+            // make song table rows sortable (drag and drop)
             var sortable = Sortable.create(document.getElementById('show-setlist-sort'), {
-            onEnd: function(e) {
-                var clonedItems = self.setlist.songs.filter(function(item){
-                    return item;
-                });
-                clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0]);
+                // on drop: clone items, set new order and update setlist with new ordered items
+                onEnd: function(e) {
+                    var clonedItems = self.setlist.songs.filter(function(item){
+                        return item;
+                    });
+                    clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0]);
                     self.$nextTick(function(){
                         // update setlist's songs with new order
                         setlistsRef.child(this.$route.params.setlist_id).update({songs: clonedItems});

@@ -142,8 +142,8 @@
                 <label>Selected Songs</label>
                 <table v-if="setlist.songs != ''" class="hover">
                     <thead></thead>
-                    <tbody>
-                        <tr v-for="songkey in setlist.songs">
+                    <tbody id="change-setlist-sort">
+                        <tr v-for="songkey in setlist.songs" :key="songkey">
                             <template v-for="song in songs">
                                 <template v-if="song['.key'] == songkey">
                                     <td>
@@ -558,7 +558,10 @@
                 <h1>Edit &raquo;{{ setlist.title }}&laquo;</h1>
             </header>
             <form id="form" v-on:submit.prevent="updateSetlist">
-                <setlist-form-fields :setlist="setlist" :songs="songs"></setlist-form-fields>
+                <setlist-form-fields
+                    :setlist="setlist"
+                    :songs="songs"
+                ></setlist-form-fields>
                 <footer>
                     <router-link class="alert button" :to="{path: '/setlists'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
