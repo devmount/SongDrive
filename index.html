@@ -140,7 +140,7 @@
             </div>
             <div class="medium-6 columns">
                 <label>Selected Songs</label>
-                <table v-if="setlist.songs != ''" class="hover">
+                <table class="hover">
                     <thead></thead>
                     <tbody id="change-setlist-sort">
                         <tr v-for="songkey in setlist.songs" :key="songkey">
@@ -154,7 +154,9 @@
                         </tr>
                     </tbody>
                 </table>
-                <div v-else>No songs selected.</div>
+                <div v-if="setlist.songs && setlist.songs.length <= 1" class="secondary callout">
+                    <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> No songs selected.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -369,7 +371,7 @@
                 <div class="columns">
                     <p>Are you sure you want to delete &raquo;{{ song.title }}&laquo;?</p>
                     <div class="alert callout">
-                        <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This action cannot be undone!</p>
+                        <p><i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i> This action cannot be undone!</p>
                     </div>
                 </div>
             </div>

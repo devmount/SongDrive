@@ -124,16 +124,6 @@ var AddSong = Vue.extend({
     methods: {
         createSong: function() {
             songsRef.push(this.song)
-            this.song.title = '';
-            this.song.subtitle = '';
-            this.song.authors = '';
-            this.song.year = '';
-            this.song.ccli = '';
-            this.song.tuning = '';
-            this.song.publisher = '';
-            this.song.content = '';
-            this.song.language = '';
-            this.song.note = '';
             router.push('/');
         }
     }
@@ -150,16 +140,13 @@ var AddSetlist = Vue.extend({
             setlist: {
                 date: '',
                 title: '',
-                songs: []
+                songs: [{}]
             }
         }
     },
     methods: {
         createSetlist: function() {
             setlistsRef.push(this.setlist)
-            this.setlist.date = ''
-            this.setlist.title = ''
-            this.setlist.songs = []
             router.push('/setlists');
         }
     },
