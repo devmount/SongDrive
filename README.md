@@ -1,14 +1,16 @@
 # SongDrive
 [![license](https://img.shields.io/badge/license-MIT License-blue.svg?style=flat-square)](./LICENSE) <!--[![release](https://img.shields.io/badge/release-v0.0.1-blue.svg?style=flat-square)]()-->
 
-A song management web application to store and synchronize songs, based on [Vue.js 2.1](vuejs.org/), [Firebase 3.4](firebase.google.com/) and [Foundation 6.2](http://foundation.zurb.com).
+A song management web application to store and synchronize songs and setlists, based on [Vue.js 2.1](vuejs.org/), [Firebase 3.4](firebase.google.com/) and [Foundation 6.2](http://foundation.zurb.com).
 
 ## Features
-- Create, read, update and delete songs
-- Filter songs
-- Transpose song tuning
-- Create, read, update and delete setlists
-- PDF export for songs and setlists
+- Create, edit and delete songs
+- Normal and fullscreen view for a song
+- Filter songs and setlists
+<!-- - Transpose song tuning-->
+- Create, edit and delete setlists
+- Rearrange songs in setlists with simple drag and drop
+- PDF export for songs, setlists and songsheets
 
 ## Installation
 
