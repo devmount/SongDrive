@@ -146,7 +146,7 @@ var AddSong = Vue.extend({
                 content: '',
                 language: '',
                 note: '',
-                translations: [{}]
+                translations: []
             },
             searchKey: ''
         }
@@ -167,11 +167,7 @@ var AddSetlist = Vue.extend({
     },
     data: function () {
         return {
-            setlist: {
-                date: '',
-                title: '',
-                songs: []
-            },
+            setlist: getCleanSetlistObject(),
             searchKey: ''
         }
     },
@@ -247,13 +243,8 @@ var EditSetlist = Vue.extend({
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
         if (!('songs' in this.setlist)) {
-            this.setlist = {
-                date: this.setlist.date,
-                title: this.setlist.title,
-                songs: []
-            }
+            this.setlist = getCleanSetlistObject(this.setlist, true);
         }
-        console.log(this.setlist);
         return {
             setlist: this.setlist,
             searchKey: ''
@@ -261,11 +252,7 @@ var EditSetlist = Vue.extend({
     },
     methods: {
         updateSetlist: function() {
-            setlistsRef.child(this.$route.params.setlist_id).update({
-                date: this.setlist.date,
-                title: this.setlist.title,
-                songs: this.setlist.songs
-            })
+            setlistsRef.child(this.$route.params.setlist_id).update(getCleanSetlistObject(this.setlist));
             router.push('/setlists');
             // router.push('/setlist/' + this.$route.params.setlist_id + '/edit');
         }
@@ -534,6 +521,28 @@ function getPdfSetlistObject(setlist, songs) {
                 font: 'FiraSans',
                 fontSize: 14
             }
+        }
+    }
+}
+
+// return a clean setlist object with only the properties to store/read from firebase
+function getCleanSetlistObject(setlist = null, noSongs = false) {
+    // return setlist with existing properties
+    if(setlist) {
+        // handle empty song list
+        var songs = noSongs ? [] : setlist.songs;
+        return {
+            date: setlist.date,
+            title: setlist.title,
+            songs: songs
+        }
+    } 
+    // return initialized empty setlist
+    else {
+        return {
+            date: '',
+            title: '',
+            songs: []
         }
     }
 }
