@@ -506,60 +506,30 @@ function getPdfSetlistObject(setlist, songs) {
 
 // return a clean song object with only the properties to store/read from firebase
 function getCleanSongObject(song = null, noTranslations = false) {
-    // return song with existing properties
-    if(song) {
-        // handle empty song list
-        var translations = noTranslations ? [] : song.translations;
-        return {
-            title: song.title,
-            subtitle: song.subtitle,
-            authors: song.authors,
-            year: song.year,
-            ccli: song.ccli,
-            tuning: song.tuning,
-            publisher: song.publisher,
-            content: song.content,
-            language: song.language,
-            note: song.note,
-            translations: translations
-        }
+    // if song is given, return proper song object with existing properties
+    // else return empty property
+    return {
+        title:        song ? song.title : '',
+        subtitle:     song ? song.subtitle : '',
+        authors:      song ? song.authors : '',
+        year:         song ? song.year : '',
+        ccli:         song ? song.ccli : '',
+        tuning:       song ? song.tuning : '',
+        publisher:    song ? song.publisher : '',
+        content:      song ? song.content : '',
+        language:     song ? song.language : '',
+        note:         song ? song.note : '',
+        translations: song ? (noTranslations ? [] : song.translations) : []
     } 
-    // return initialized empty song
-    else {
-        return {
-            title: '',
-            subtitle: '',
-            authors: '',
-            year: '',
-            ccli: '',
-            tuning: '',
-            publisher: '',
-            content: '',
-            language: '',
-            note: '',
-            translations: []
-        }
-    }
 }
 
 // return a clean setlist object with only the properties to store/read from firebase
 function getCleanSetlistObject(setlist = null, noSongs = false) {
-    // return setlist with existing properties
-    if(setlist) {
-        // handle empty song list
-        var songs = noSongs ? [] : setlist.songs;
-        return {
-            date: setlist.date,
-            title: setlist.title,
-            songs: songs
-        }
-    } 
-    // return initialized empty setlist
-    else {
-        return {
-            date: '',
-            title: '',
-            songs: []
-        }
+    // if setlist is given, return setlist with existing properties
+    // else return empty property
+    return {
+        date:  setlist ? setlist.date : '',
+        title: setlist ? setlist.title : '',
+        songs: setlist ? (noSongs ? [] : setlist.songs) : []
     }
 }
