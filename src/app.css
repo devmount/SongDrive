@@ -173,6 +173,10 @@ section > footer > form {
     max-height: calc(85vh - 20rem);
     overflow-y: scroll;
 }
+.song-checklist {
+    max-height: 5rem;
+    overflow-y: scroll;
+}
 
 /* font awesome */
 .fa-rm {

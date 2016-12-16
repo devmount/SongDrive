@@ -58,57 +58,91 @@
 
 <!-- partial: song form fields -->
 <template id="song-form-fields">
-    <div class="row align-stretch">
-        <div class="small-12 medium-6 columns">
-            <label>Title
-                <input type="text" v-model="song.title" placeholder="title" required>
-            </label>
-            <div class="row">
-                <div class="medium-9 columns">
-                    <label>Subtitle
-                        <input type="text" v-model="song.subtitle" placeholder="subtitle">
-                    </label>
+    <div class="container">
+        <div class="row align-stretch">
+            <div class="small-12 medium-6 columns">
+                <label>Title
+                    <input type="text" v-model="song.title" placeholder="title" required>
+                </label>
+                <div class="row">
+                    <div class="medium-9 columns">
+                        <label>Subtitle
+                            <input type="text" v-model="song.subtitle" placeholder="subtitle">
+                        </label>
+                    </div>
+                    <div class="medium-3 columns">
+                        <label>Language
+                            <select v-model="song.language">
+                                <option value="de">de</option>
+                                <option value="en">en</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
-                <div class="medium-3 columns">
-                    <label>Language
-                        <select v-model="song.language">
-                            <option value="de">de</option>
-                            <option value="en">en</option>
-                        </select>
-                    </label>
+                <label>Authors
+                    <input type="text" v-model="song.authors" placeholder="authors">
+                </label>
+                <div class="row">
+                    <div class="medium-4 columns">
+                        <label>Year
+                            <input type="number" v-model="song.year" placeholder="year">
+                        </label>
+                    </div>
+                    <div class="medium-5 columns">
+                        <label>CCLI
+                            <input type="number" v-model="song.ccli" placeholder="CCLI song number">
+                        </label>
+                    </div>
+                    <div class="medium-3 columns">
+                        <label>Tuning
+                            <input type="text" v-model="song.tuning" placeholder="tuning">
+                        </label>
+                    </div>
                 </div>
+                <label>Publisher
+                    <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
+                </label>
+                <label>Note
+                    <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
+                </label>
             </div>
-            <label>Authors
-                <input type="text" v-model="song.authors" placeholder="authors">
-            </label>
-            <div class="row">
-                <div class="medium-4 columns">
-                    <label>Year
-                        <input type="number" v-model="song.year" placeholder="year">
-                    </label>
-                </div>
-                <div class="medium-5 columns">
-                    <label>CCLI
-                        <input type="number" v-model="song.ccli" placeholder="CCLI song number">
-                    </label>
-                </div>
-                <div class="medium-3 columns">
-                    <label>Tuning
-                        <input type="text" v-model="song.tuning" placeholder="tuning">
-                    </label>
-                </div>
+            <div class="small-12 medium-6 columns content-column">
+                <label>Content
+                    <textarea v-model="song.content" placeholder="A song with chords" rows="33" required></textarea>
+                </label>
             </div>
-            <label>Publisher
-                <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
-            </label>
-            <label>Note
-                <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
-            </label>
         </div>
-        <div class="small-12 medium-6 columns content-column">
-            <label>Content
-                <textarea v-model="song.content" placeholder="A song with chords" rows="33" required></textarea>
-            </label>
+        <div class="row">
+            <div class="small-12 medium-6 columns">
+                <label>Existing Translations</label>
+                <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
+                <div class="song-checklist">
+                    <label v-for="fsong in filteredSongs" :key="fsong['.key']" >
+                        <input type="checkbox" :value="fsong['.key']" v-model="song.translations">
+                        {{ fsong.title }} <span v-if="fsong.subtitle" class="list-subtitle">({{ fsong.subtitle }})</span>
+                    </label>
+                </div>
+            </div>
+            <div class="small-12 medium-6 columns">
+                <label>Selected Songs</label>
+                <table class="hover">
+                    <thead></thead>
+                    <tbody>
+                        <tr v-for="songkey in song.translations">
+                            <template v-for="song in songs">
+                                <template v-if="song['.key'] == songkey">
+                                    <td>
+                                        {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
+                                    </td>
+                                </template>
+                            </template>
+                        </tr>
+                    </tbody>
+                </table>
+                <div v-if="song.translations && song.translations.length <= 1" class="secondary callout">
+                    <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> No songs selected.</p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -317,7 +351,11 @@
                 <h1>New song</h1>
             </header>
             <form id="form" v-on:submit.prevent="createSong">
-                <song-form-fields :song="song"></song-form-fields>
+                <song-form-fields
+                    :song="song"
+                    :songs="songs"
+                    :search-key="searchKey"
+                ></song-form-fields>
                 <footer>
                     <router-link class="alert button" :to="{path: '/'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
@@ -343,7 +381,11 @@
                 <h1>Edit &raquo;{{ song.title }}&laquo;</h1>
             </header>
             <form id="form" v-on:submit.prevent="updateSong">
-                <song-form-fields :song="song"></song-form-fields>
+                <song-form-fields
+                    :song="song"
+                    :songs="songs"
+                    :search-key="searchKey"
+                ></song-form-fields>
                 <footer>
                     <router-link class="alert button" :to="{path: '/'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>

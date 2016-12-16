@@ -45,7 +45,20 @@ Vue.component('app-footer', {
 Vue.component('song-form-fields', {
     template: '#song-form-fields',
     props: {
-        song: this.song
+        song: this.song,
+        songs: this.songs,
+        searchKey: this.searchKey
+    },
+    computed: {
+        // apply filter
+        filteredSongs: function () {
+            var self = this;
+            return self.songs.filter(function (song) {
+                // filter fields: title, subtitle
+                var key = self.searchKey.toLowerCase()
+                return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1;
+            });
+        }
     }
 })
 
@@ -117,6 +130,9 @@ var ListSetlists = Vue.extend({
 // component: add a song
 var AddSong = Vue.extend({
     template: '#add-song',
+    firebase: {
+        songs: songsRef.orderByChild('title')
+    },
     data: function () {
         return {
             song: {
@@ -129,8 +145,10 @@ var AddSong = Vue.extend({
                 publisher: '',
                 content: '',
                 language: '',
-                note: ''
-            }
+                note: '',
+                translations: [{}]
+            },
+            searchKey: ''
         }
     },
     methods: {
@@ -187,11 +205,15 @@ var AddSetlist = Vue.extend({
 // component: edit a song
 var EditSong = Vue.extend({
     template: '#edit-song',
+    firebase: {
+        songs: songsRef.orderByChild('title')
+    },
     data: function () {
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         return {
-            song: this.song
+            song: this.song,
+            searchKey: ''
         };
     },
     methods: {
@@ -206,7 +228,8 @@ var EditSong = Vue.extend({
                 publisher: this.song.publisher,
                 content: this.song.content,
                 language: this.song.language,
-                note: this.song.note
+                note: this.song.note,
+                translations: this.song.translations
             })
             router.push('/');
             // router.push('/song/' + this.$route.params.song_id + '/edit');
