@@ -135,7 +135,7 @@ var AddSong = Vue.extend({
     },
     data: function () {
         return {
-            song: getCleanSongObject(),
+            song: getSongObject(),
             searchKey: ''
         }
     },
@@ -155,7 +155,7 @@ var AddSetlist = Vue.extend({
     },
     data: function () {
         return {
-            setlist: getCleanSetlistObject(),
+            setlist: getSetlistObject(),
             searchKey: ''
         }
     },
@@ -196,7 +196,7 @@ var EditSong = Vue.extend({
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         if (!('translations' in this.song)) {
-            this.song = getCleanSongObject(this.song, true);
+            this.song = getSongObject(this.song, true);
         }
         return {
             song: this.song,
@@ -205,7 +205,26 @@ var EditSong = Vue.extend({
     },
     methods: {
         updateSong: function() {
-            songsRef.child(this.$route.params.song_id).update(getCleanSongObject(this.song));
+            // update song data
+            songsRef.child(this.$route.params.song_id).update(getSongObject(this.song));
+            // update all songs that are a translation with back link
+            if (this.song.translations && this.song.translations.length > 0) {
+                this.song.translations.forEach(function(id) {
+                    // get translated song
+                    this.$bindAsObject('tsong', songsRef.child(id));
+                    // set 'translations' property if not exists
+                    if (!this.tsong.hasOwnProperty('translations')) {
+                        this.tsong.translations = [];
+                    }
+                    // get proper song object
+                    this.tsong = getSongObject(this.tsong);
+                    // add this.song to translations of translated song, if it not already exists
+                    if (this.tsong.translations.indexOf(this.song['.key']) == -1) {
+                        this.tsong.translations.push(this.song['.key']);
+                    }
+                    songsRef.child(id).set(this.tsong);
+                }, this);
+            }
             router.push('/');
             // router.push('/song/' + this.$route.params.song_id + '/edit');
         }
@@ -222,7 +241,7 @@ var EditSetlist = Vue.extend({
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
         if (!('songs' in this.setlist)) {
-            this.setlist = getCleanSetlistObject(this.setlist, true);
+            this.setlist = getSetlistObject(this.setlist, true);
         }
         return {
             setlist: this.setlist,
@@ -231,7 +250,7 @@ var EditSetlist = Vue.extend({
     },
     methods: {
         updateSetlist: function() {
-            setlistsRef.child(this.$route.params.setlist_id).update(getCleanSetlistObject(this.setlist));
+            setlistsRef.child(this.$route.params.setlist_id).update(getSetlistObject(this.setlist));
             router.push('/setlists');
             // router.push('/setlist/' + this.$route.params.setlist_id + '/edit');
         }
@@ -505,7 +524,7 @@ function getPdfSetlistObject(setlist, songs) {
 }
 
 // return a clean song object with only the properties to store/read from firebase
-function getCleanSongObject(song = null, noTranslations = false) {
+function getSongObject(song = null, noTranslations = false) {
     // if song is given, return proper song object with existing properties
     // else return empty property
     return {
@@ -524,7 +543,7 @@ function getCleanSongObject(song = null, noTranslations = false) {
 }
 
 // return a clean setlist object with only the properties to store/read from firebase
-function getCleanSetlistObject(setlist = null, noSongs = false) {
+function getSetlistObject(setlist = null, noSongs = false) {
     // if setlist is given, return setlist with existing properties
     // else return empty property
     return {
