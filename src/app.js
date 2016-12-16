@@ -135,19 +135,7 @@ var AddSong = Vue.extend({
     },
     data: function () {
         return {
-            song: {
-                title: '',
-                subtitle: '',
-                authors: '',
-                year: '',
-                ccli: '',
-                tuning: '',
-                publisher: '',
-                content: '',
-                language: '',
-                note: '',
-                translations: []
-            },
+            song: getCleanSongObject(),
             searchKey: ''
         }
     },
@@ -207,6 +195,9 @@ var EditSong = Vue.extend({
     data: function () {
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
+        if (!('translations' in this.song)) {
+            this.song = getCleanSongObject(this.song, true);
+        }
         return {
             song: this.song,
             searchKey: ''
@@ -214,19 +205,7 @@ var EditSong = Vue.extend({
     },
     methods: {
         updateSong: function() {
-            songsRef.child(this.$route.params.song_id).update({
-                title: this.song.title,
-                subtitle: this.song.subtitle,
-                authors: this.song.authors,
-                year: this.song.year,
-                ccli: this.song.ccli,
-                tuning: this.song.tuning,
-                publisher: this.song.publisher,
-                content: this.song.content,
-                language: this.song.language,
-                note: this.song.note,
-                translations: this.song.translations
-            })
+            songsRef.child(this.$route.params.song_id).update(getCleanSongObject(this.song));
             router.push('/');
             // router.push('/song/' + this.$route.params.song_id + '/edit');
         }
@@ -521,6 +500,44 @@ function getPdfSetlistObject(setlist, songs) {
                 font: 'FiraSans',
                 fontSize: 14
             }
+        }
+    }
+}
+
+// return a clean song object with only the properties to store/read from firebase
+function getCleanSongObject(song = null, noTranslations = false) {
+    // return song with existing properties
+    if(song) {
+        // handle empty song list
+        var translations = noTranslations ? [] : song.translations;
+        return {
+            title: song.title,
+            subtitle: song.subtitle,
+            authors: song.authors,
+            year: song.year,
+            ccli: song.ccli,
+            tuning: song.tuning,
+            publisher: song.publisher,
+            content: song.content,
+            language: song.language,
+            note: song.note,
+            translations: translations
+        }
+    } 
+    // return initialized empty song
+    else {
+        return {
+            title: '',
+            subtitle: '',
+            authors: '',
+            year: '',
+            ccli: '',
+            tuning: '',
+            publisher: '',
+            content: '',
+            language: '',
+            note: '',
+            translations: []
         }
     }
 }
