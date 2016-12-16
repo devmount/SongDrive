@@ -141,7 +141,7 @@ var AddSong = Vue.extend({
     },
     methods: {
         createSong: function() {
-            songsRef.push(this.song);
+            var newsong = songsRef.push(this.song);
             // update all songs that are a translation with back link
             if (this.song.translations && this.song.translations.length > 0) {
                 this.song.translations.forEach(function(id) {
@@ -153,10 +153,8 @@ var AddSong = Vue.extend({
                     }
                     // get proper song object
                     this.tsong = getSongObject(this.tsong);
-                    // add this.song to translations of translated song, if it not already exists
-                    if (this.tsong.translations.indexOf(this.song['.key']) == -1) {
-                        this.tsong.translations.push(this.song['.key']);
-                    }
+                    // add this.song to translations of translated song
+                    this.tsong.translations.push(newsong.key);
                     songsRef.child(id).set(this.tsong);
                 }, this);
             }
