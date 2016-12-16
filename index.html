@@ -59,7 +59,7 @@
 <!-- partial: song form fields -->
 <template id="song-form-fields">
     <div class="row align-stretch">
-        <div class="medium-6 columns">
+        <div class="small-12 medium-6 columns">
             <label>Title
                 <input type="text" v-model="song.title" placeholder="title" required>
             </label>
@@ -105,7 +105,7 @@
                 <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
             </label>
         </div>
-        <div class="medium-6 columns content-column">
+        <div class="small-12 medium-6 columns content-column">
             <label>Content
                 <textarea v-model="song.content" placeholder="A song with chords" rows="33" required></textarea>
             </label>
@@ -129,7 +129,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="medium-6 columns">
+            <div class="small-12 medium-6 columns">
                 <label>All Songs</label>
                 <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
                 <div class="checklist">
@@ -139,7 +139,7 @@
                     </label>
                 </div>
             </div>
-            <div class="medium-6 columns">
+            <div class="small-12 medium-6 columns">
                 <label>Selected Songs</label>
                 <table class="hover">
                     <thead></thead>
