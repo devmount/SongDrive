@@ -170,7 +170,7 @@ var AddSetlist = Vue.extend({
             setlist: {
                 date: '',
                 title: '',
-                songs: [{}]
+                songs: []
             },
             searchKey: ''
         }
@@ -246,6 +246,14 @@ var EditSetlist = Vue.extend({
     data: function () {
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
+        if (!('songs' in this.setlist)) {
+            this.setlist = {
+                date: this.setlist.date,
+                title: this.setlist.title,
+                songs: []
+            }
+        }
+        console.log(this.setlist);
         return {
             setlist: this.setlist,
             searchKey: ''
@@ -359,6 +367,9 @@ var ShowSetlist = Vue.extend({
     data: function () {
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
+        if (!('songs' in this.setlist)) {
+            this.setlist.songs = [];
+        }
         return {
             setlist: this.setlist
         };

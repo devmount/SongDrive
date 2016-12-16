@@ -189,7 +189,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div v-if="setlist.songs && setlist.songs.length <= 1" class="secondary callout">
+                <div v-if="setlist.songs && setlist.songs.length == 0" class="secondary callout">
                     <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> No songs selected.</p>
                 </div>
             </div>
@@ -505,7 +505,7 @@
             </header>
             <div class="row">
                 <div class="columns">
-                    <table v-if="setlist.songs != ''" class="hover">
+                    <table class="hover">
                         <thead>
                             <tr>
                                 <th>Title</th>
@@ -535,7 +535,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div v-else>No songs selected.</div>
+                    <div v-if="setlist.songs.length == 0">No songs selected.</div>
                 </div>
             </div>
             <footer>
