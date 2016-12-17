@@ -33,7 +33,7 @@
 <!-- container -->
 <main id="app">
     <!-- app content -->
-    <router-view></router-view>
+    <router-view :key="$route.path"></router-view>
 </main>
 
 <!-- global partial: app header -->
@@ -286,7 +286,7 @@
                                     <router-link class="secondary tiny button" :to="{ name: 'show-song', params: { song_id: key }}">
                                         {{ tsong.language }}
                                     </router-link>
-                                </template>                                
+                                </template>
                             </template>
                         </template>
                     </p>

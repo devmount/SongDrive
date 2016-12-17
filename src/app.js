@@ -348,11 +348,6 @@ var ShowSong = Vue.extend({
             pdfMake.createPdf(doc).open();
             router.push('/song/' + this.$route.params.song_id);
         }
-    },
-    watch: {
-        '$route' (to, from) {
-            router.push(to.path);
-        }
     }
 });
 
