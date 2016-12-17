@@ -479,8 +479,7 @@ function getPdfSongsObject(songs, setlist = null) {
             },
             copyright: {
                 font: 'FiraSans',
-                fontSize: 8,
-                alignment: 'right'
+                fontSize: 8
             }
         }
     }
