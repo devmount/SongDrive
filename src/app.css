@@ -100,11 +100,17 @@ section > header > p {
 .content-column label {
     height: 100%;
 }
-.content-column textarea{
+.content-column textarea {
     height: calc(100% - 2.5rem);
     font-family: 'Fira Mono', monospace;
     font-size: .8rem;
     line-height: 1rem;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.song-form-fields textarea {
+    font-size: .8rem;
 }
 
 .toolbar {

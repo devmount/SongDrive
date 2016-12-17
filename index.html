@@ -53,7 +53,7 @@
 <template id="song-form-fields">
     <div class="container">
         <div class="row align-stretch">
-            <div class="small-12 medium-6 columns">
+            <div class="small-12 medium-6 columns song-form-fields">
                 <label>Title
                     <input type="text" v-model="song.title" placeholder="title" required>
                 </label>
@@ -68,6 +68,7 @@
                             <select v-model="song.language" required>
                                 <option value="de">de</option>
                                 <option value="en">en</option>
+                                <option value="fr">fr</option>
                             </select>
                         </label>
                     </div>
