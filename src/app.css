@@ -33,6 +33,8 @@ input, textarea, select {
 
 /* title bar */
 .title-bar {
+    position: fixed;
+    top: 0;
     width: inherit;
     height: 4rem;
     line-height: 4rem;
@@ -40,10 +42,6 @@ input, textarea, select {
     letter-spacing: 2px;
     transition: all .25s ease;
     padding: 0 1.5em;
-}
-.title-bar.shrink {
-    height: 3rem;
-    line-height: 3rem;
 }
 .title-bar a {
     color: #fff;
