@@ -459,6 +459,7 @@
                         <tr>
                             <th width="150">Date</th>
                             <th width="200">Title</th>
+                            <th width="50">#</th>
                             <th width="225"></th>
                         </tr>
                     </thead>
@@ -466,6 +467,7 @@
                         <tr v-for="setlist in filteredSetlists" :key="setlist['.key']">
                             <td>{{ setlist.date }}</td>
                             <td>{{ setlist.title }}</td>
+                            <td>{{ setlist.songs ? setlist.songs.length : '0' }}</td>
                             <td class="text-right">
                                 <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-eye fa-fw" aria-hidden="true"></i>

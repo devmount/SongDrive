@@ -127,6 +127,8 @@ section > header > p {
 }
 .toolbar a {
     text-transform: uppercase;
+    font-family: 'Fira Mono', sans-serif;
+    font-weight: 300;
 }
 
 /* section footer */
