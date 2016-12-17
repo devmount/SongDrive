@@ -94,6 +94,9 @@ section > header > p {
 }
 
 /* app content elements */
+.content-column {
+    position: relative;
+}
 .content-column label {
     height: 100%;
 }
@@ -102,6 +105,22 @@ section > header > p {
     font-family: 'Fira Mono', monospace;
     font-size: .8rem;
     line-height: 1rem;
+}
+
+.toolbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: .5em;
+    width: 3.5em;
+    text-align: center;
+    transition: all .25s ease;
+}
+.toolbar:hover {
+    background: #aaa;
+}
+.toolbar a {
+    text-transform: uppercase;
 }
 
 /* section footer */
