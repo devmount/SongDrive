@@ -331,11 +331,15 @@ var DeleteSetlist = Vue.extend({
 // component: show song
 var ShowSong = Vue.extend({
     template: '#show-song',
+    firebase: {
+        songs: songsRef
+    },
     data: function () {
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         return {
-            song: this.song
+            song: this.song,
+            songs: this.songs
         };
     },
     methods: {
@@ -343,6 +347,11 @@ var ShowSong = Vue.extend({
             var doc = getPdfSongsObject(this.song);
             pdfMake.createPdf(doc).open();
             router.push('/song/' + this.$route.params.song_id);
+        }
+    },
+    watch: {
+        '$route' (to, from) {
+            router.push(to.path);
         }
     }
 });

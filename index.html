@@ -279,7 +279,17 @@
             <hr>
             <div class="row">
                 <div class="columns">
-                    <p v-if="song.tuning">Tuning: {{ song.tuning }}</p>
+                    <p v-if="song.translations">Translations:
+                        <template v-for="key in song.translations">
+                            <template v-for="tsong in songs">
+                                <template v-if="tsong['.key'] == key">
+                                    <router-link class="secondary tiny button" :to="{ name: 'show-song', params: { song_id: key }}">
+                                        {{ tsong.language }}
+                                    </router-link>
+                                </template>                                
+                            </template>
+                        </template>
+                    </p>
                     <p v-if="song.authors">{{ song.authors }}</p>
                     <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
                     <p>&copy; {{ song.year }} {{ song.publisher }}</p>
