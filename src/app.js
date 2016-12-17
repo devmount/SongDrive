@@ -49,6 +49,11 @@ Vue.component('song-form-fields', {
         songs: this.songs,
         searchKey: this.searchKey
     },
+    data: function () {
+        return {
+            languages: getLanguages()
+        }
+    },
     computed: {
         // apply filter
         filteredSongs: function () {
@@ -542,7 +547,7 @@ function getPdfSetlistObject(setlist, songs) {
     }
 }
 
-// return a clean song object with only the properties to store/read from firebase
+// return a proper song object with only the properties to store/read from firebase
 function getSongObject(song = null, noTranslations = false) {
     // if song is given, return proper song object with existing properties
     // else return empty property
@@ -561,7 +566,7 @@ function getSongObject(song = null, noTranslations = false) {
     } 
 }
 
-// return a clean setlist object with only the properties to store/read from firebase
+// return a proper setlist object with only the properties to store/read from firebase
 function getSetlistObject(setlist = null, noSongs = false) {
     // if setlist is given, return setlist with existing properties
     // else return empty property
@@ -569,5 +574,14 @@ function getSetlistObject(setlist = null, noSongs = false) {
         date:  setlist ? setlist.date : '',
         title: setlist ? setlist.title : '',
         songs: setlist ? (noSongs ? [] : setlist.songs) : []
+    }
+}
+
+// return all existing languages
+function getLanguages() {
+    return {
+        de: 'de',
+        en: 'en',
+        fr: 'fr'
     }
 }
