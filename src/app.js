@@ -5,6 +5,9 @@ var songsRef = firebase.database().ref('songs');
 var authorsRef = firebase.database().ref('authors');
 var setlistsRef = firebase.database().ref('setlists');
 
+// Setup toastr
+toastr.options.closeButton = true;
+
 // Setup PDF export
 pdfMake.fonts = {
     FiraSans: {
@@ -246,6 +249,7 @@ var EditSong = Vue.extend({
                     songsRef.child(id).set(this.tsong);
                 }, this);
             }
+            toastr.success('Song was succesfully updated!');
             router.push('/');
             // router.push('/song/' + this.$route.params.song_id + '/edit');
         }

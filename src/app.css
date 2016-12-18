@@ -45,6 +45,7 @@ input, textarea, select {
     letter-spacing: 2px;
     transition: all .25s ease;
     padding: 0 1.5em;
+    display: none;
 }
 .title-bar a {
     color: #fff;
