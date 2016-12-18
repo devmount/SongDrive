@@ -286,7 +286,7 @@
                     <p v-if="song.authors">{{ song.authors }}</p>
                     <p>
                         <span v-if="song.ccli">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a><br /></span>
-                        &copy; {{ song.year }} {{ song.publisher }}
+                        &copy; {{ song.year }} <span v-if="song.publisher" class="show-linebreaks">{{ song.publisher }}</span>
                     </p>
                 </div>
             </div>

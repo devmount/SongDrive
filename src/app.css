@@ -23,6 +23,9 @@ input, textarea, select {
     vertical-align: text-bottom;
     margin: 0;
 }
+.show-linebreaks {
+    white-space: pre-line;
+}
 
 /* app content container */
 .container {
