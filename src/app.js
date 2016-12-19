@@ -428,6 +428,7 @@ var ShowSetlist = Vue.extend({
                         // update setlist's songs with new order
                         setlistsRef.child(this.$route.params.setlist_id).update({songs: clonedItems});
                     });
+                    toastr.success('Sorting was successfully saved.', 'Setlist saved');
                 }
             }); 
         });
