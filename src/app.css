@@ -221,3 +221,9 @@ section > footer > form {
     border-radius: 0;
     box-shadow: none;
 }
+.toast-success {
+    background-color: #88b544;
+}
+.toast-error {
+    background-color: #c60f13;
+}

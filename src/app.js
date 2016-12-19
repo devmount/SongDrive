@@ -9,8 +9,8 @@ var setlistsRef = firebase.database().ref('setlists');
 toastr.options.closeButton = true;
 toastr.options.closeHtml = '<button><i class="fa fa-times" aria-hidden="true"></i></button>';
 toastr.options.positionClass = "toast-bottom-right",
-toastr.options.timeOut = "50000",
-toastr.options.extendedTimeOut = "50000",
+toastr.options.timeOut = "5000",
+toastr.options.extendedTimeOut = "5000",
 
 // Setup PDF export
 pdfMake.fonts = {
@@ -170,6 +170,7 @@ var AddSong = Vue.extend({
                     songsRef.child(id).set(this.tsong);
                 }, this);
             }
+            toastr.success('Data was successfully saved.', 'Song added');
             router.push('/');
         }
     }
@@ -189,7 +190,8 @@ var AddSetlist = Vue.extend({
     },
     methods: {
         createSetlist: function() {
-            setlistsRef.push(this.setlist)
+            setlistsRef.push(this.setlist);
+            toastr.success('Data was successfully saved.', 'Setlist added');
             router.push('/setlists');
         }
     },
@@ -253,9 +255,8 @@ var EditSong = Vue.extend({
                     songsRef.child(id).set(this.tsong);
                 }, this);
             }
-            toastr.success('Data was successfully saved.', 'Song updated', {timeOut: 50000});
-            router.push('/');
-            // router.push('/song/' + this.$route.params.song_id + '/edit');
+            toastr.success('Data was successfully saved.', 'Song updated');
+            router.push('/song/' + this.$route.params.song_id);
         }
     }
 });
@@ -280,8 +281,8 @@ var EditSetlist = Vue.extend({
     methods: {
         updateSetlist: function() {
             setlistsRef.child(this.$route.params.setlist_id).update(getSetlistObject(this.setlist));
-            router.push('/setlists');
-            // router.push('/setlist/' + this.$route.params.setlist_id + '/edit');
+            toastr.success('Data was successfully saved.', 'Setlist updated');
+            router.push('/setlist/' + this.$route.params.setlist_id);
         }
     },
     mounted: function(){
@@ -318,6 +319,7 @@ var DeleteSong = Vue.extend({
     methods: {
         removeSong: function() {
             songsRef.child(this.$route.params.song_id).remove();
+            toastr.success('Data was successfully deleted.', 'Song deleted');
             router.push('/');
         }
     }
@@ -336,6 +338,7 @@ var DeleteSetlist = Vue.extend({
     methods: {
         removeSetlist: function() {
             setlistsRef.child(this.$route.params.setlist_id).remove();
+            toastr.success('Data was successfully deleted.', 'Setlist deleted');
             router.push('/setlists');
         }
     }
