@@ -45,7 +45,6 @@ input, textarea, select {
     letter-spacing: 2px;
     transition: all .25s ease;
     padding: 0 1.5em;
-    display: none;
 }
 .title-bar a {
     color: #fff;
@@ -210,4 +209,15 @@ section > footer > form {
 /* font awesome */
 .fa-rm {
     margin-right: .5em;
+}
+
+/* toastr (notifications) */
+.toast-bottom-right {
+    right: 12px;
+    bottom: 5em;
+}
+#toast-container > div:hover,
+#toast-container > div {
+    border-radius: 0;
+    box-shadow: none;
 }

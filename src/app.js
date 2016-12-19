@@ -7,6 +7,10 @@ var setlistsRef = firebase.database().ref('setlists');
 
 // Setup toastr
 toastr.options.closeButton = true;
+toastr.options.closeHtml = '<button><i class="fa fa-times" aria-hidden="true"></i></button>';
+toastr.options.positionClass = "toast-bottom-right",
+toastr.options.timeOut = "50000",
+toastr.options.extendedTimeOut = "50000",
 
 // Setup PDF export
 pdfMake.fonts = {
@@ -249,7 +253,7 @@ var EditSong = Vue.extend({
                     songsRef.child(id).set(this.tsong);
                 }, this);
             }
-            toastr.success('Song was succesfully updated!');
+            toastr.success('Data was successfully saved.', 'Song updated', {timeOut: 50000});
             router.push('/');
             // router.push('/song/' + this.$route.params.song_id + '/edit');
         }
