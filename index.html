@@ -396,10 +396,10 @@
                     :search-key="searchKey"
                 ></song-form-fields>
                 <footer>
-                    <router-link class="alert button" :to="{path: '/'}">
+                    <button class="alert button" @click.prevent="back">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
-                    </router-link>
+                    </button>
                     <button type="submit" class="button">
                         <i class="fa fa-check fa-fw" aria-hidden="true"></i>
                         Update
@@ -621,10 +621,10 @@
                     :search-key="searchKey"
                 ></setlist-form-fields>
                 <footer>
-                    <router-link class="alert button" :to="{path: '/setlists'}">
+                    <button class="alert button" @click.prevent="back">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
-                    </router-link>
+                    </button>
                     <button type="submit" class="button">
                         <i class="fa fa-check fa-fw" aria-hidden="true"></i>
                         Update
