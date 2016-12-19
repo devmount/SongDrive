@@ -434,6 +434,24 @@ var ShowSetlist = Vue.extend({
     }
 });
 
+// component: present setlist
+var PresentSetlist = Vue.extend({
+    template: '#present-setlist',
+    firebase: {
+        songs: songsRef
+    },
+    data: function () {
+        // get setlist from firebase and bind it to this.setlist
+        this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
+        if (!('songs' in this.setlist)) {
+            this.setlist.songs = [];
+        }
+        return {
+            setlist: this.setlist
+        };
+    },
+});
+
 // router
 var router = new VueRouter({
     routes: [
@@ -447,7 +465,8 @@ var router = new VueRouter({
         {path: '/setlist/add', component: AddSetlist},
         {path: '/setlist/:setlist_id', component: ShowSetlist, name: 'show-setlist'},
         {path: '/setlist/:setlist_id/edit', component: EditSetlist, name: 'edit-setlist'},
-        {path: '/setlist/:setlist_id/delete', component: DeleteSetlist, name: 'delete-setlist'}
+        {path: '/setlist/:setlist_id/delete', component: DeleteSetlist, name: 'delete-setlist'},
+        {path: '/setlist/:setlist_id/presentation', component: PresentSetlist, name: 'present-setlist'},
     ]
 });
 

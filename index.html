@@ -562,6 +562,10 @@
                         PDF Setlist
                     </button>
                 </form>
+                <router-link class="hollow button" :to="{path: '/setlist/' + setlist['.key'] + '/presentation'}">
+                    <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
+                    Fullscreen
+                </router-link>
                 <router-link class="button" :to="{path: setlist['.key'] + '/edit'}">
                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Edit</span>
@@ -666,6 +670,27 @@
             </footer>
         </section>
         <app-footer></app-footer>
+    </div>
+</template>
+
+<!-- present a setlist -->
+<template id="present-setlist">
+    <div class="container">
+            <div v-for="songkey in setlist.songs" :key="songkey">
+                <template v-for="song in songs">
+                    <template v-if="song['.key'] == songkey">
+                        {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
+                    </template>
+                </template>
+            </div>
+            <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
+            <footer>
+                <router-link class="secondary button" :to="{path: '/setlist/' + setlist['.key']}">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                    Close
+                </router-link>
+            </footer>
+        </section>
     </div>
 </template>
 
