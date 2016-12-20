@@ -169,6 +169,12 @@ section > footer > form {
     background: transparent;
 }
 
+/* section presentation */
+.container > .presentation {
+    background: #222;
+    color: #eee;
+}
+
 /* search */
 .search {
     position: relative;
@@ -234,4 +240,25 @@ section > footer > form {
     bottom: .5em;
     z-index: 1;
     width: calc(100vw - 8em);
+}
+.orbit button,
+.orbit-container {
+    outline: 0;
+}
+.orbit-slide {
+    padding: 4em 6em;
+}
+.orbit-slide pre {
+    column-count: 2;
+    column-gap: 1em;
+}
+.orbit-bullets button {
+    transition: all .25s ease;
+    background-color: #777;
+}
+.orbit-bullets button.is-active {
+    background-color: #88b544;
+}
+.orbit-bullets button:hover {
+    opacity: .5;
 }

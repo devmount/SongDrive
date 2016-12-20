@@ -678,7 +678,7 @@
 <!-- present a setlist -->
 <template id="present-setlist">
     <div class="container">
-        <section>
+        <section class="presentation">
             <div class="orbit" id="setlist-presentation" data-orbit>
                 <ul class="orbit-container">
                     <button class="orbit-previous">&#9664;&#xFE0E;</button>
@@ -698,7 +698,7 @@
             </div>
             <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
             <footer>
-                <router-link class="secondary button" :to="{path: '/setlist/' + setlist['.key']}">
+                <router-link class="secondary hollow button" :to="{path: '/setlist/' + setlist['.key']}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     Close
                 </router-link>

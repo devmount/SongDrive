@@ -456,6 +456,10 @@ var PresentSetlist = Vue.extend({
         new Foundation.Orbit($('#setlist-presentation'), {
             autoPlay: false,
             infiniteWrap: false,
+            animInFromRight: 'fade-in',
+            animOutToRight: 'fade-out',
+            animInFromLeft: 'fade-in',
+            animOutToLeft: 'fade-out',
         });
     }
 });
