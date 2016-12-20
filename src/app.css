@@ -174,6 +174,21 @@ section > footer > form {
     background: #222;
     color: #eee;
 }
+.container > .presentation li h1 {
+    margin: 1em 0 .5em 0;
+}
+.container > .presentation li pre {
+    font-size: 1.1vw;
+}
+.container > .presentation li footer {
+    margin-top: 5em;
+    font-size: .8em;
+}
+.container > .presentation li footer p,
+.container > .presentation li footer a {
+    color: #555;
+    margin: 0;
+}
 
 /* search */
 .search {
@@ -246,11 +261,7 @@ section > footer > form {
     outline: 0;
 }
 .orbit-slide {
-    padding: 4em 6em;
-}
-.orbit-slide pre {
-    column-count: 2;
-    column-gap: 1em;
+    padding: 0 6em;
 }
 .orbit-bullets button {
     transition: all .25s ease;
