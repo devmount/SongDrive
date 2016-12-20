@@ -9,8 +9,8 @@ var setlistsRef = firebase.database().ref('setlists');
 toastr.options.closeButton = true;
 toastr.options.closeHtml = '<button><i class="fa fa-times" aria-hidden="true"></i></button>';
 toastr.options.positionClass = "toast-bottom-right",
-toastr.options.timeOut = "5000",
-toastr.options.extendedTimeOut = "5000",
+toastr.options.timeOut = "4000",
+toastr.options.extendedTimeOut = "4000",
 
 // Setup PDF export
 pdfMake.fonts = {
