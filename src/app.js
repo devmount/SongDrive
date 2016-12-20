@@ -451,6 +451,13 @@ var PresentSetlist = Vue.extend({
             setlist: this.setlist
         };
     },
+    mounted: function(){
+        // init orbit slider for presentation view
+        new Foundation.Orbit($('#setlist-presentation'), {
+            autoPlay: false,
+            infiniteWrap: false,
+        });
+    }
 });
 
 // router

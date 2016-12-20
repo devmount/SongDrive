@@ -13,16 +13,18 @@
     <script type="text/javascript" src="src/vfs_fonts.js"></script>
     <!-- SortableJS -->
     <script src="https://unpkg.com/sortablejs@latest"></script>
-    <!-- Toastr notifications-->
+    <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- Toastr (notifications) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <!-- Foundation Orbit (slider) -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/js/foundation.min.js"></script>
     <!-- Fontawesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <!-- Foundation 6.2.4 Styles -->
-    <link rel="stylesheet" type="text/css" href="src/foundation.min.css">
     <!-- App Styles -->
+    <link rel="stylesheet" type="text/css" href="src/foundation.min.css">
     <link rel="stylesheet" type="text/css" href="src/app.css">
 </head>
 <body>
@@ -564,7 +566,7 @@
                 </form>
                 <router-link class="hollow button" :to="{path: '/setlist/' + setlist['.key'] + '/presentation'}">
                     <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
-                    Fullscreen
+                    Present
                 </router-link>
                 <router-link class="button" :to="{path: setlist['.key'] + '/edit'}">
                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
@@ -676,12 +678,23 @@
 <!-- present a setlist -->
 <template id="present-setlist">
     <div class="container">
-            <div v-for="songkey in setlist.songs" :key="songkey">
-                <template v-for="song in songs">
-                    <template v-if="song['.key'] == songkey">
-                        {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
-                    </template>
-                </template>
+        <section>
+            <div class="orbit" id="setlist-presentation" data-orbit>
+                <ul class="orbit-container">
+                    <button class="orbit-previous">&#9664;&#xFE0E;</button>
+                    <button class="orbit-next">&#9654;&#xFE0E;</button>
+                    <li v-for="songkey in setlist.songs" :key="songkey" class="orbit-slide">
+                        <template v-for="song in songs">
+                            <div v-if="song['.key'] == songkey">
+                                <h1>{{ song.title }}</h1>
+                                <pre>{{ song.content }}</pre>
+                            </div>
+                        </template>
+                    </li>
+                </ul>
+                <nav class="orbit-bullets">
+                    <button v-for="(key, index) in setlist.songs" :class="index == 0 ? 'is-active' : ''" :data-slide="index"></button>
+                </nav>
             </div>
             <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
             <footer>

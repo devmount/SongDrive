@@ -227,3 +227,11 @@ section > footer > form {
 .toast-error {
     background-color: #c60f13;
 }
+
+/* orbit (slideshow) */
+.orbit > nav {
+    position: fixed;
+    bottom: .5em;
+    z-index: 1;
+    width: calc(100vw - 8em);
+}
