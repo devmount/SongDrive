@@ -329,22 +329,20 @@
                 <h1>{{ song.title }}</h1>
                 <p>{{ song.subtitle }}</p>
             </header>
-            <div class="row">
-                <div class="columns">
-                    <pre>{{ song.content }}</pre>
+            <div class="row small-up-1 medium-up-1 large-up-2">
+                <div class="columns" v-for="column in getTwoColumns(song.content)">
+                    <pre>{{ column }}</pre>
                 </div>
             </div>
-            <hr>
             <div class="row">
-                <div class="columns">
-                    <p v-if="song.tuning">Tuning: {{ song.tuning }}</p>
+                <div class="columns footer">
                     <p v-if="song.authors">{{ song.authors }}</p>
                     <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
                     <p>&copy; {{ song.year }} {{ song.publisher }}</p>
                 </div>
             </div>
             <footer>
-                <router-link class="secondary button" :to="{path: '/song/' + song['.key']}">
+                <router-link class="secondary hollow button" :to="{path: '/song/' + song['.key']}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     Close
                 </router-link>

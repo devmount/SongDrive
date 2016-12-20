@@ -150,44 +150,40 @@ section > footer > form {
     display: inline;
 }
 
-/* section fullscreen */
-.container > .fullscreen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100vh;
-    z-index: 10;
-    margin: 0;
-    padding: 0;
-    background: #f1f1f1;
-}
-.container > .fullscreen > header {
-    padding: 1em;
-}
-.container > .fullscreen > footer {
-    background: transparent;
-}
-
-/* section presentation */
+/* section fullscreen/presentation */
+.container > .fullscreen,
 .container > .presentation {
     background: #222;
     color: #eee;
 }
+.container > .fullscreen > header {
+    padding: .8em 0 1em 0;
+}
+.container > .fullscreen h1 {
+    margin: .8em 0 0 0;
+}
 .container > .presentation li h1 {
     margin: 1em 0 .5em 0;
 }
+.container > .fullscreen pre,
 .container > .presentation li pre {
     font-size: 1.1vw;
 }
+.container > .fullscreen .footer,
 .container > .presentation li footer {
     margin-top: 5em;
     font-size: .8em;
 }
+.container > .fullscreen .footer p,
+.container > .fullscreen .footer a,
 .container > .presentation li footer p,
 .container > .presentation li footer a {
     color: #555;
     margin: 0;
+}
+.container > .fullscreen > footer,
+.container > .presentation > footer {
+    background: transparent;
 }
 
 /* search */
