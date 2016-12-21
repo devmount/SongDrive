@@ -65,11 +65,7 @@ Vue.component('song-form-fields', {
         // apply filter
         filteredSongs: function () {
             var self = this;
-            return self.songs.filter(function (song) {
-                // filter fields: title, subtitle
-                var key = self.searchKey.toLowerCase()
-                return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1;
-            });
+            return filterSongs(self.songs, self.searchKey);
         }
     }
 })
@@ -86,11 +82,7 @@ Vue.component('setlist-form-fields', {
         // apply filter
         filteredSongs: function () {
             var self = this;
-            return self.songs.filter(function (song) {
-                // filter fields: title, subtitle
-                var key = self.searchKey.toLowerCase()
-                return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1;
-            });
+            return filterSongs(self.songs, self.searchKey);
         }
     },
     mounted: function(){
@@ -115,11 +107,7 @@ var ListSongs = Vue.extend({
         // apply filter
         filteredSongs: function () {
             var self = this;
-            return self.songs.filter(function (song) {
-                // filter fields: title, subtitle
-                var key = self.searchKey.toLowerCase()
-                return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1;
-            });
+            return filterSongs(self.songs, self.searchKey);
         }
     }
 });
@@ -700,4 +688,13 @@ function isChordLine(line) {
     }
     var ratio = (line.split(' ').length - 1)/line.length;
     return ratio > 0.4 || line.length < 4;
+}
+
+// filter song list
+function filterSongs(songs, searchKey) {
+    return songs.filter(function (song) {
+        // filter fields: title, subtitle
+        var key = searchKey.toLowerCase()
+        return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1;
+    });
 }
