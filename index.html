@@ -21,6 +21,9 @@
     <!-- Foundation Orbit (slider) -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/js/foundation.min.js"></script>
+    <!-- Flatpickr (calendar date picker) -->
+    <link rel="stylesheet" href="https://unpkg.com/flatpickr/dist/flatpickr.min.css">
+    <script src="https://unpkg.com/flatpickr"></script>
     <!-- Fontawesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <!-- App Styles -->
@@ -148,15 +151,23 @@
 <!-- partial: setlist form fields -->
 <template id="setlist-form-fields">
     <div class="container">
-        <div class="row">
-            <div class="medium-6 columns">
+        <div class="row small-up-1 medium-up-2 large-up-2">
+            <div class="columns">
                 <label>Title
                     <input type="text" v-model="setlist.title" placeholder="title" required>
                 </label>
             </div>
-            <div class="medium-6 columns">
-                <label>Date
-                    <input type="text" v-model="setlist.date" placeholder="YYYY-MM-DD">
+            <div class="columns">
+                <label class="flatpickr">Date
+                    <div class="input-group">
+                        <input type="text" class="input-group-field" v-model="setlist.date" placeholder="JJJJ-MM-DD" data-input>
+                        <div class="input-group-button">
+                            <a class="secondary button" data-toggle><i class="fa fa-calendar-o" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="input-group-button">
+                            <a class="secondary button" data-clear><i class="fa fa-times" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
                 </label>
             </div>
         </div>

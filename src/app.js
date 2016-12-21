@@ -92,6 +92,13 @@ Vue.component('setlist-form-fields', {
                 return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1;
             });
         }
+    },
+    mounted: function(){
+        flatpickr(".flatpickr", {
+            wrap: true,
+            clickOpens: false,
+            allowInput: true
+        });
     }
 })
 
