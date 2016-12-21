@@ -165,9 +165,17 @@ section > footer > form {
 .container > .presentation li h1 {
     margin: 1em 0 .5em 0;
 }
-.container > .fullscreen pre,
-.container > .presentation li pre {
-    font-size: 1.1vw;
+@media screen and (max-width: 45em) {
+    .container > .fullscreen pre,
+    .container > .presentation li pre {
+        font-size: 2.4vw;
+    }
+}
+@media screen and (min-width: 64em) {
+    .container > .fullscreen pre,
+    .container > .presentation li pre {
+        font-size: 1.1vw;
+    }
 }
 .container > .fullscreen .footer,
 .container > .presentation li footer {
@@ -252,12 +260,20 @@ section > footer > form {
     z-index: 1;
     width: calc(100vw - 8em);
 }
+.orbit-container {
+    height: calc(100vh - 6.3em) !important;
+}
 .orbit button,
 .orbit-container {
     outline: 0;
 }
 .orbit-slide {
-    padding: 0 6em;
+    padding: 0 5em;
+}
+@media screen and (max-width: 45em) {
+    .orbit-slide {
+        padding: 0 3em;
+    }
 }
 .orbit-bullets button {
     transition: all .25s ease;
