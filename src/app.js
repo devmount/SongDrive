@@ -378,8 +378,10 @@ var ShowSong = Vue.extend({
             router.push('/song/' + this.$route.params.song_id);
         },
         toggleChords: function(event) {
+            // select proper button element (make sure to take the button, even if symbol tag <i> is clicked)
+            var target = event.path[0].tagName == 'BUTTON' ? event.path[0] : event.path[1];
             // show text only
-            if (event.target.value == '1') {
+            if (target.value == '1') {
                 var lines = this.song.content.split('\n');
                 var newLines = [];
                 lines.forEach(function(line) {
@@ -390,15 +392,17 @@ var ShowSong = Vue.extend({
                     }
                 }, this);
                 this.song.content = newLines.join('\n');
-                event.target.value = '0';
-                event.target.innerHTML = '<i class="fa fa-music fa-fw" aria-hidden="true" title="Show text and chords"></i>';
+                target.value = '0';
+                target.title = 'Show text and chords';
+                target.innerHTML = '<i class="fa fa-music fa-fw" aria-hidden="true"></i>';
             }
             // show text + chords (default)
             else {
                 // get original song content
                 this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
-                event.target.value = '1';
-                event.target.innerHTML = '<i class="fa fa-align-left fa-fw" aria-hidden="true" title="Show text only"></i>';
+                target.value = '1';
+                target.title = 'Show text only';
+                target.innerHTML = '<i class="fa fa-align-left fa-fw" aria-hidden="true"></i>';
             }
         }
     }
