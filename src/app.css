@@ -159,6 +159,12 @@ section > footer > form {
     display: inline;
 }
 
+/* content footer */
+section .footer {
+    margin-top: 2em;
+    font-size: .8em;
+}
+
 /* section fullscreen/presentation */
 .container > .fullscreen,
 .container > .presentation {

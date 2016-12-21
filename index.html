@@ -283,23 +283,28 @@
             <div class="row">
                 <div class="columns content-column">
                     <pre>{{ song.content }}</pre>
-                    <div v-if="song.translations" class="toolbar">
-                        <i class="fa fa-flag fa-fw" aria-hidden="true" title="Translations"></i>
-                        <template v-for="key in song.translations">
-                            <template v-for="tsong in songs">
-                                <template v-if="tsong['.key'] == key">
-                                    <router-link class="secondary small button" :to="{ name: 'show-song', params: { song_id: key }}">
-                                        {{ tsong.language }}
-                                    </router-link>
+                    <div class="toolbar">
+                        <template v-if="song.translations" >
+                            <i class="fa fa-flag fa-fw" aria-hidden="true" title="Translations"></i>
+                            <template v-for="key in song.translations">
+                                <template v-for="tsong in songs">
+                                    <template v-if="tsong['.key'] == key">
+                                        <router-link class="secondary small button" :to="{ name: 'show-song', params: { song_id: key }}">
+                                            {{ tsong.language }}
+                                        </router-link>
+                                    </template>
                                 </template>
                             </template>
+                            <hr />
                         </template>
+                        <button class="secondary small button" @click.prevent="toggleChords" value="1">
+                            <i class="fa fa-align-left fa-fw" aria-hidden="true" title="Show text only"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-            <hr>
             <div class="row">
-                <div class="columns">
+                <div class="columns footer">
                     <p v-if="song.authors">{{ song.authors }}</p>
                     <p>
                         <span v-if="song.ccli">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a><br /></span>

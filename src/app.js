@@ -376,6 +376,30 @@ var ShowSong = Vue.extend({
             var doc = getPdfSongsObject(this.song);
             pdfMake.createPdf(doc).open();
             router.push('/song/' + this.$route.params.song_id);
+        },
+        toggleChords: function(event) {
+            // show text only
+            if (event.target.value == '1') {
+                var lines = this.song.content.split('\n');
+                var newLines = [];
+                lines.forEach(function(line) {
+                    // identify chord lines
+                    if(!isChordLine(line)) {
+                        // only add text lines to new content
+                        newLines.push(line);
+                    }
+                }, this);
+                this.song.content = newLines.join('\n');
+                event.target.value = '0';
+                event.target.innerHTML = '<i class="fa fa-music fa-fw" aria-hidden="true" title="Show text and chords"></i>';
+            }
+            // show text + chords (default)
+            else {
+                // get original song content
+                this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
+                event.target.value = '1';
+                event.target.innerHTML = '<i class="fa fa-align-left fa-fw" aria-hidden="true" title="Show text only"></i>';
+            }
         }
     }
 });
@@ -663,4 +687,13 @@ function getLanguages() {
         en: 'en',
         fr: 'fr'
     }
+}
+
+// check if a string represents most likely a chord line, based on the number of spaces
+function isChordLine(line) {
+    if (line == '') {
+        return false;
+    }
+    var ratio = (line.split(' ').length - 1)/line.length;
+    return ratio > 0.4 || line.length < 4;
 }
