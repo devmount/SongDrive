@@ -160,10 +160,19 @@ section > footer > form {
     padding: .8em 0 1em 0;
 }
 .container > .fullscreen h1 {
-    margin: .8em 0 0 0;
+    margin: .2em 0 0 0;
 }
 .container > .presentation li h1 {
     margin: 1em 0 .5em 0;
+}
+.container > .fullscreen pre,
+.container > .presentation li pre {
+    overflow: hidden;
+}
+@media screen and (max-width: 63.9375em) {
+    .container > .fullscreen .row:nth-child(2) .columns:first-child {
+        margin-bottom: 1.5em;
+    }
 }
 @media screen and (max-width: 45em) {
     .container > .fullscreen pre,
@@ -175,6 +184,10 @@ section > footer > form {
     .container > .fullscreen pre,
     .container > .presentation li pre {
         font-size: 1.1vw;
+    }
+    .container > .fullscreen .row,
+    .container > .presentation li .row {
+        margin: 0 2em;
     }
 }
 .container > .fullscreen .footer,
