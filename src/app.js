@@ -370,7 +370,9 @@ var ShowSong = Vue.extend({
             var target = event.path[0].tagName == 'BUTTON' ? event.path[0] : event.path[1];
             // show text only
             if (target.value == '1') {
+                // set song content to content without chords
                 this.song.content = removeChords(this.song);
+                // restyle toggle button
                 target.value = '0';
                 target.title = 'Show text and chords';
                 target.innerHTML = '<i class="fa fa-music fa-fw" aria-hidden="true"></i>';
@@ -379,6 +381,7 @@ var ShowSong = Vue.extend({
             else {
                 // get original song content
                 this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
+                // restyle toggle button
                 target.value = '1';
                 target.title = 'Show text only';
                 target.innerHTML = '<i class="fa fa-align-left fa-fw" aria-hidden="true"></i>';
@@ -407,6 +410,38 @@ var ShowSongFullscreen = Vue.extend({
                 leftSide.join('\n\n'),
                 parts.join('\n\n'),
             ];
+        },
+        toggleChords: function(event) {
+            // select proper button element (make sure to take the button, even if symbol tag <i> is clicked)
+            var target = event.path[0].tagName == 'BUTTON' ? event.path[0] : event.path[1];
+            // show text only
+            if (target.value == '1') {
+                // set song content to content without chords
+                this.song.content = removeChords(this.song);
+                // set new class to all <pre> to restyle font
+                var elements = document.getElementsByTagName('PRE');
+                [].slice.call(elements).forEach(function(element) {
+                    element.className += ' textonly';
+                }, this);
+                // restyle toggle button
+                target.value = '0';
+                target.title = 'Show text and chords';
+                target.innerHTML = '<i class="fa fa-music fa-fw" aria-hidden="true"></i>';
+            }
+            // show text + chords (default)
+            else {
+                // get original song content
+                this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
+                // remove class from all <pre> to reset font
+                var elements = document.getElementsByTagName('PRE');
+                [].slice.call(elements).forEach(function(element) {
+                    element.className = '';
+                }, this);
+                // restyle toggle button
+                target.value = '1';
+                target.title = 'Show text only';
+                target.innerHTML = '<i class="fa fa-align-left fa-fw" aria-hidden="true"></i>';
+            }
         }
     }
 });

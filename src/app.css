@@ -184,6 +184,11 @@ section .footer {
 .container > .presentation li pre {
     overflow: hidden;
 }
+.container > .fullscreen pre.textonly,
+.container > .presentation li pre.textonly {
+    font-family: "Fira Sans";
+    font-size: 1.4em;
+}
 @media screen and (max-width: 63.9375em) {
     .container > .fullscreen .row:nth-child(2) .columns:first-child {
         margin-bottom: 1.5em;
