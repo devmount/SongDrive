@@ -370,16 +370,7 @@ var ShowSong = Vue.extend({
             var target = event.path[0].tagName == 'BUTTON' ? event.path[0] : event.path[1];
             // show text only
             if (target.value == '1') {
-                var lines = this.song.content.split('\n');
-                var newLines = [];
-                lines.forEach(function(line) {
-                    // identify chord lines
-                    if(!isChordLine(line)) {
-                        // only add text lines to new content
-                        newLines.push(line);
-                    }
-                }, this);
-                this.song.content = newLines.join('\n');
+                this.song.content = removeChords(this.song);
                 target.value = '0';
                 target.title = 'Show text and chords';
                 target.innerHTML = '<i class="fa fa-music fa-fw" aria-hidden="true"></i>';
@@ -697,4 +688,18 @@ function filterSongs(songs, searchKey) {
         var key = searchKey.toLowerCase()
         return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1;
     });
+}
+
+// remove chord lines from given multiline string
+function removeChords(str) {
+    var lines = str.content.split('\n');
+    var newLines = [];
+    lines.forEach(function(line) {
+        // identify chord lines
+        if(!isChordLine(line)) {
+            // only add text lines to new content
+            newLines.push(line);
+        }
+    }, this);
+    return newLines.join('\n');
 }
