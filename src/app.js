@@ -109,6 +109,9 @@ var ListSongs = Vue.extend({
             var self = this;
             return filterSongs(self.songs, self.searchKey);
         }
+    },
+    mounted: function() {
+        document.getElementById('search').focus();
     }
 });
 
@@ -131,6 +134,9 @@ var ListSetlists = Vue.extend({
                 return setlist.date.toLowerCase().indexOf(key) !== -1 || setlist.title.toLowerCase().indexOf(key) !== -1;
             });
         }
+    },
+    mounted: function() {
+        document.getElementById('search').focus();
     }
 });
 
