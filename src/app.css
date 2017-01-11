@@ -260,7 +260,7 @@ section .footer {
 
 /* setlists */
 .list-subtitle {
-    color: #aaa;
+    color: #777;
     font-weight: 300;
 }
 .list-item {
