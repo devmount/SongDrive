@@ -508,7 +508,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="setlist in filteredSetlists" :key="setlist['.key']">
+                        <tr v-for="setlist in filteredSetlists.reverse()" :key="setlist['.key']">
                             <td class="link-cell">
                                 <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                                     {{ setlist.date }}
