@@ -70,13 +70,26 @@ Vue.component('song-form-fields', {
     }
 })
 
-// partial component: song form fields
+// partial component: setlist form fields
 Vue.component('setlist-form-fields', {
     template: '#setlist-form-fields',
     props: {
         setlist: this.setlist,
         songs: this.songs,
         searchKey: this.searchKey
+    },
+    methods: {
+        // remove song manually
+        removeSong: function(key) {
+            for (var i = 0; i < this.setlist.songs.length; i++) {
+                var song = this.setlist.songs[i];
+                // find song to remove in all setlist songs
+                if (song == key) {
+                    // remove song key from setlist songs list
+                    this.setlist.songs.splice(this.setlist.songs.indexOf(song), 1);
+                }
+            }
+        }
     },
     computed: {
         // apply filter

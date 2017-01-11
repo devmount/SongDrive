@@ -191,8 +191,11 @@
                         <tr v-for="songkey in setlist.songs" :key="songkey">
                             <template v-for="song in songs">
                                 <template v-if="song['.key'] == songkey">
-                                    <td>
+                                    <td class="list-item">
                                         {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
+                                        <span class="list-item-remove" v-on:click="removeSong(songkey)">
+                                            <i class="fa fa-close fa-fw" aria-hidden="true"></i>
+                                        </span>
                                     </td>
                                 </template>
                             </template>
