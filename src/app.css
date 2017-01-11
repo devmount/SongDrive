@@ -35,6 +35,14 @@ input, textarea, select {
     height: 2.7em;
     padding: 0.75em 1em;
 }
+.link-cell {
+    padding: 0;
+}
+.link-cell a {
+    color: inherit;
+    display: block;
+    padding: .5rem .625rem .625rem;
+}
 
 /* app content container */
 .container {

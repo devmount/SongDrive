@@ -234,11 +234,31 @@
                     </thead>
                     <tbody>
                         <tr v-for="song in filteredSongs" :key="song['.key']">
-                            <td>{{ song.title }}</td>
-                            <td>{{ song.subtitle }}</td>
-                            <td class="show-for-large">{{ song.authors }}</td>
-                            <td class="show-for-medium text-center">{{ song.year }}</td>
-                            <td class="show-for-medium text-center">{{ song.tuning }}</td>
+                            <td class="link-cell">
+                                <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                                    {{ song.title }}
+                                </router-link>
+                            </td>
+                            <td class="link-cell">
+                                <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                                    {{ song.subtitle }}
+                                </router-link>
+                            </td>
+                            <td class="show-for-large link-cell">
+                                <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                                    {{ song.authors }}
+                                </router-link>
+                            </td>
+                            <td class="show-for-medium text-center link-cell">
+                                <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                                    {{ song.year }}
+                                </router-link>
+                            </td>
+                            <td class="show-for-medium text-center link-cell">
+                                <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                                    {{ song.tuning }}
+                                </router-link>
+                            </td>
                             <td class="text-right">
                                 <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                                     <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
@@ -489,9 +509,21 @@
                     </thead>
                     <tbody>
                         <tr v-for="setlist in filteredSetlists" :key="setlist['.key']">
-                            <td>{{ setlist.date }}</td>
-                            <td>{{ setlist.title }}</td>
-                            <td>{{ setlist.songs ? setlist.songs.length : '0' }}</td>
+                            <td class="link-cell">
+                                <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                                    {{ setlist.date }}
+                                </router-link>
+                            </td>
+                            <td class="link-cell">
+                                <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                                    {{ setlist.title }}
+                                </router-link>
+                            </td>
+                            <td class="link-cell">
+                                <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                                    {{ setlist.songs ? setlist.songs.length : '0' }}
+                                </router-link>
+                            </td>
                             <td class="text-right">
                                 <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
