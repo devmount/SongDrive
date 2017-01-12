@@ -292,21 +292,21 @@ section .footer {
     margin-right: .5em;
 }
 
-/* toastr (notifications) */
-.toast-bottom-right {
-    right: 12px;
-    bottom: 5em;
+/* Notyf (notifications) */
+.notyf {
+    bottom: 6em;
+    right: 1.5em;
+    width: 22em;
+    opacity: .9;
 }
-#toast-container > div:hover,
-#toast-container > div {
-    border-radius: 0;
-    box-shadow: none;
+.notyf__toast {
+    padding: 0 13px;
 }
-.toast-success {
-    background-color: #88b544;
+.notyf__toast.notyf--confirm {
+    background: #88b544;
 }
-.toast-error {
-    background-color: #c60f13;
+.notyf__toast.notyf--alert {
+    background: #c60f13;
 }
 
 /* orbit (slideshow) */

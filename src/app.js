@@ -5,12 +5,12 @@ var songsRef = firebase.database().ref('songs');
 var authorsRef = firebase.database().ref('authors');
 var setlistsRef = firebase.database().ref('setlists');
 
-// Setup toastr
-toastr.options.closeButton = true;
-toastr.options.closeHtml = '<button><i class="fa fa-times" aria-hidden="true"></i></button>';
-toastr.options.positionClass = "toast-bottom-right",
-toastr.options.timeOut = "4000",
-toastr.options.extendedTimeOut = "4000",
+// Setup Notyf
+var notyf = new Notyf({
+    delay: 4000,
+    alertIcon: 'fa fa-exclamation fa-2x',
+    confirmIcon: 'fa fa-check fa-2x'  
+})
 
 // Setup PDF export
 pdfMake.fonts = {
@@ -184,7 +184,7 @@ var AddSong = Vue.extend({
                     songsRef.child(id).set(this.tsong);
                 }, this);
             }
-            toastr.success('Data was successfully saved.', 'Song added');
+            notify('success', 'Song added', 'Data was successfully saved.');
             router.push('/');
         }
     }
@@ -205,7 +205,7 @@ var AddSetlist = Vue.extend({
     methods: {
         createSetlist: function() {
             setlistsRef.push(this.setlist);
-            toastr.success('Data was successfully saved.', 'Setlist added');
+            notify('success', 'Setlist added', 'Data was successfully saved.');
             router.push('/setlists');
         }
     },
@@ -269,7 +269,7 @@ var EditSong = Vue.extend({
                     songsRef.child(id).set(this.tsong);
                 }, this);
             }
-            toastr.success('Data was successfully saved.', 'Song updated');
+            notify('success', 'Song updated', 'Data was successfully saved.');
             router.push('/song/' + this.$route.params.song_id);
         },
         back: function() {
@@ -298,7 +298,7 @@ var EditSetlist = Vue.extend({
     methods: {
         updateSetlist: function() {
             setlistsRef.child(this.$route.params.setlist_id).update(getSetlistObject(this.setlist));
-            toastr.success('Data was successfully saved.', 'Setlist updated');
+            notify('success', 'Setlist updated', 'Data was successfully saved.');
             router.push('/setlist/' + this.$route.params.setlist_id);
         },
         back: function() {
@@ -339,7 +339,7 @@ var DeleteSong = Vue.extend({
     methods: {
         removeSong: function() {
             songsRef.child(this.$route.params.song_id).remove();
-            toastr.success('Data was successfully deleted.', 'Song deleted');
+            notify('success', 'Song deleted', 'Data was successfully deleted.');
             router.push('/');
         }
     }
@@ -358,7 +358,7 @@ var DeleteSetlist = Vue.extend({
     methods: {
         removeSetlist: function() {
             setlistsRef.child(this.$route.params.setlist_id).remove();
-            toastr.success('Data was successfully deleted.', 'Setlist deleted');
+            notify('success', 'Setlist deleted', 'Data was successfully deleted.');
             router.push('/setlists');
         }
     }
@@ -508,7 +508,7 @@ var ShowSetlist = Vue.extend({
                         // update setlist's songs with new order
                         setlistsRef.child(this.$route.params.setlist_id).update({songs: clonedItems});
                     });
-                    toastr.success('Sorting was successfully saved.', 'Setlist saved');
+                    notify('success', 'Setlist saved', 'Sorting was successfully saved.');
                 }
             }); 
         });
@@ -792,4 +792,14 @@ function removeChords(str) {
         }
     }, this);
     return newLines.join('\n');
+}
+
+// display notification message
+function notify(type, title, text) {
+    if (type == 'success') {
+        notyf.confirm('<strong>' + title + '</strong><br />' + text);
+    }
+    if (type == 'error') {
+        notyf.alert('<strong>' + title + '</strong><br />' + text);
+    }
 }
