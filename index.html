@@ -43,7 +43,12 @@
 <template id="app-header">
     <header>
         <div class="title-bar">
-            <div class="title-bar-left"><router-link :to="{name: 'home'}">SongDrive</router-link></div>
+            <div class="title-bar-left">
+                <router-link :to="{name: 'home'}">
+                    <img src="src/songdrive_logo.svg" alt="SongDrive Logo" width="32px" />
+                    SongDrive
+                </router-link>
+            </div>
             <div class="title-bar-right">
                 <router-link :to="{name: 'home'}">Songs</router-link>
                 <router-link :to="{name: 'setlists'}">Setlists</router-link>

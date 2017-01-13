@@ -67,6 +67,11 @@ input, textarea, select {
     color: #fff;
     text-transform: uppercase;
 }
+.title-bar .title-bar-left a img {
+    margin-right: 1em;
+    padding-bottom: .5em;
+}
+.title-bar .title-bar-left a,
 .title-bar .title-bar-right a {
     display: inline-block;
     padding: 0 1em;
