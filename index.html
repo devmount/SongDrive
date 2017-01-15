@@ -189,7 +189,7 @@
                 </div>
             </div>
             <div class="small-12 medium-6 columns">
-                <label>Selected Songs</label>
+                <label>Selected Songs ({{ setlist.songs.length }})</label>
                 <table class="hover">
                     <thead></thead>
                     <tbody id="change-setlist-sort">
@@ -572,7 +572,7 @@
         <section>
             <header>
                 <h1>{{ setlist.title }}</h1>
-                <p>{{ setlist.date }}</p>
+                <p>{{ setlist.date }} | {{ setlist.songs.length }} Songs</p>
             </header>
             <div class="row">
                 <div class="columns">

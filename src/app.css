@@ -117,6 +117,10 @@ section > header > p {
     text-transform: uppercase;
     letter-spacing: 2px;
 }
+section > header > p {
+    display: inline-block;
+    margin: 0 1em;
+}
 
 /* app content elements */
 .content-column {
