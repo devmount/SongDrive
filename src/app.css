@@ -122,6 +122,13 @@ section > header > p {
 .content-column {
     position: relative;
 }
+.content-column pre {
+    margin-bottom: 1.8em;
+}
+.content-column pre.verse {
+    border-left: .5em solid #ddd;
+    padding-left: 1em;
+}
 .content-column label {
     height: 100%;
 }

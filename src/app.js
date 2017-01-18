@@ -373,9 +373,6 @@ var ShowSong = Vue.extend({
     data: function () {
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
-        if (this.song.content !== undefined) {
-            this.song.content = parseSongContent(this.song.content);
-        }
         return {
             song: this.song,
             songs: this.songs
@@ -809,12 +806,59 @@ function notify(type, title, text) {
 
 // parse song content
 function parseSongContent(content) {
-    var newContent = [];
-    // content.split('\n').forEach(function(line) {
-    //     if (line.indexOf('--') < 0) {
-    //         newContent.push(line);
-    //     }
-    // }, this);
-    console.log(content);
-    return content + '#';
+    // check if content is already loaded by firebase
+    if (typeof content != 'undefined' && content) {
+        // initialize array for parsed linex, array for classes of parts, and part index
+        var parsed = [], classes = [], part = 0;
+        var lines = content.split('\n');
+        // check every content line
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            // if normal song line is found
+            if (line.indexOf('--') < 0) {
+                // only consider line if not empty
+                if (line.trim() != '') {
+                    if (!parsed[part]) {
+                        parsed[part] = [];
+                    }
+                    // add line to current part
+                    parsed[part].push(line);
+                }
+            }
+            // if song part is found (e.g. --V1)
+            else {
+                // add class to part
+                switch (line.trim().charAt(2)) {
+                    case 'V':
+                    case 'v':
+                        classes.push('verse');
+                        break;
+                    case 'C':
+                    case 'c':
+                        classes.push('chorus');
+                        break;
+                    case 'B':
+                    case 'b':
+                        classes.push('bridge');
+                        break;
+                    default:
+                        console.log('Ooops, something went wrong on parsing this line: "' + line + '"');
+                }
+                // consider next part
+                part++;
+            }
+        }
+        // rejoin lines of every part
+        var newContent = [];
+        for (var i = 1; i < parsed.length; i++) {
+            newContent.push({
+                class: classes[i-1],
+                content: parsed[i].join('\n')
+            });
+        }
+        console.log(newContent);
+        return newContent;
+    }
+    // show nothing if content is not set
+    return '';
 }

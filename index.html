@@ -311,7 +311,7 @@
             </header>
             <div class="row">
                 <div class="columns content-column">
-                    <pre>{{ parseSongContent(song.content) }}</pre>
+                    <pre v-for="part in parseSongContent(song.content)" :class="part.class">{{ part.content }}</pre>
                     <div class="toolbar">
                         <template v-if="song.translations" >
                             <i class="fa fa-flag fa-fw" aria-hidden="true" title="Translations"></i>
