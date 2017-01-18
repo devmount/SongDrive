@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>SongDrive</title>
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="./favicon.ico">
     <!-- foundation styles -->
     <link rel="stylesheet" type="text/css" href="src/foundation.min.css">
     <!-- Vue -->
@@ -311,7 +311,7 @@
             </header>
             <div class="row">
                 <div class="columns content-column">
-                    <pre>{{ song.content }}</pre>
+                    <pre>{{ parseSongContent(song.content) }}</pre>
                     <div class="toolbar">
                         <template v-if="song.translations" >
                             <i class="fa fa-flag fa-fw" aria-hidden="true" title="Translations"></i>

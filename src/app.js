@@ -373,6 +373,9 @@ var ShowSong = Vue.extend({
     data: function () {
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
+        if (this.song.content !== undefined) {
+            this.song.content = parseSongContent(this.song.content);
+        }
         return {
             song: this.song,
             songs: this.songs
@@ -802,4 +805,16 @@ function notify(type, title, text) {
     if (type == 'error') {
         notyf.alert('<strong>' + title + '</strong><br />' + text);
     }
+}
+
+// parse song content
+function parseSongContent(content) {
+    var newContent = [];
+    // content.split('\n').forEach(function(line) {
+    //     if (line.indexOf('--') < 0) {
+    //         newContent.push(line);
+    //     }
+    // }, this);
+    console.log(content);
+    return content + '#';
 }
