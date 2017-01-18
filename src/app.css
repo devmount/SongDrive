@@ -127,8 +127,13 @@ section > header > p {
     overflow: visible;
 }
 .content-column pre.verse {
-    position: relative;
     border-left: 1px solid #ccc;
+}
+.content-column pre.verse:before {
+    background: #f1f1f1;
+}
+pre.verse {
+    position: relative;
     padding-left: 1em;
     margin-left: .6em;
 }
@@ -141,7 +146,6 @@ section > header > p {
     line-height: 1.3em;
     text-align: center;
     font-size: 2em;
-    background: #f1f1f1;
 }
 .verse.part1::before {
     content: '1';
@@ -244,7 +248,16 @@ section .footer {
 }
 .container > .fullscreen pre,
 .container > .presentation li pre {
-    overflow: hidden;
+    margin-bottom: 1.8em;
+    overflow: visible;
+}
+.container > .fullscreen pre.verse,
+.container > .presentation li pre.verse {
+    border-left: 1px solid #555;
+}
+.container > .fullscreen pre.verse::before,
+.container > .presentation li pre.verse::before {
+    background: #222;
 }
 .container > .fullscreen pre.textonly,
 .container > .presentation li pre.textonly {
