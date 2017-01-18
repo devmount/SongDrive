@@ -124,11 +124,53 @@ section > header > p {
 }
 .content-column pre {
     margin-bottom: 1.8em;
+    overflow: visible;
 }
 .content-column pre.verse {
-    border-left: .5em solid #ddd;
+    position: relative;
+    border-left: 1px solid #ccc;
     padding-left: 1em;
+    margin-left: .6em;
 }
+.verse::before {
+    display: inline-block;
+    position: absolute;
+    left: -.45em;
+    top: .3em;
+    width: .8em;
+    line-height: 1.3em;
+    text-align: center;
+    font-size: 2em;
+    background: #f1f1f1;
+}
+.verse.part1::before {
+    content: '1';
+}
+.verse.part2::before {
+    content: '2';
+}
+.verse.part3::before {
+    content: '3';
+}
+.verse.part4::before {
+    content: '4';
+}
+.verse.part5::before {
+    content: '5';
+}
+.verse.part6::before {
+    content: '6';
+}
+.verse.part7::before {
+    content: '7';
+}
+.verse.part8::before {
+    content: '8';
+}
+.verse.part9::before {
+    content: '9';
+}
+
 .content-column label {
     height: 100%;
 }

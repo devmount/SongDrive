@@ -813,11 +813,11 @@ function parseSongContent(content) {
         var lines = content.split('\n');
         // check every content line
         for (var i = 0; i < lines.length; i++) {
-            var line = lines[i];
+            var line = lines[i].trim();
             // if normal song line is found
             if (line.indexOf('--') < 0) {
                 // only consider line if not empty
-                if (line.trim() != '') {
+                if (line != '') {
                     if (!parsed[part]) {
                         parsed[part] = [];
                     }
@@ -828,10 +828,10 @@ function parseSongContent(content) {
             // if song part is found (e.g. --V1)
             else {
                 // add class to part
-                switch (line.trim().charAt(2)) {
+                switch (line.charAt(2)) {
                     case 'V':
                     case 'v':
-                        classes.push('verse');
+                        classes.push('verse ' + ((!isNaN(parseInt(line.charAt(3)))) ? 'part' + line.charAt(3) : ''));
                         break;
                     case 'C':
                     case 'c':
