@@ -768,7 +768,7 @@ function isChordLine(line) {
         return false;
     }
     var ratio = (line.split(' ').length - 1)/line.length;
-    return ratio > 0.4 || line.length < 4;
+    return ratio > 0.4 || (line.length < 4 && line.charAt(0) != '-');
 }
 
 // filter song list
@@ -848,15 +848,23 @@ function parseSongContent(content) {
                 part++;
             }
         }
-        // rejoin lines of every part
         var newContent = [];
-        for (var i = 1; i < parsed.length; i++) {
+        // if multiple parts: rejoin lines of every part
+        if (parsed.length > 1) {
+            for (var i = 1; i < parsed.length; i++) {
+                newContent.push({
+                    class: classes[i-1],
+                    content: parsed[i].join('\n')
+                });
+            }
+        }
+        // if no parts (no markers set): take whole content as one unclassified part
+        else {
             newContent.push({
-                class: classes[i-1],
-                content: parsed[i].join('\n')
+                class: '',
+                content: content
             });
         }
-        console.log(newContent);
         return newContent;
     }
     // show nothing if content is not set
