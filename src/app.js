@@ -454,7 +454,7 @@ var ShowSongFullscreen = Vue.extend({
                 // remove class from all <pre> to reset font
                 var elements = document.getElementsByTagName('PRE');
                 [].slice.call(elements).forEach(function(element) {
-                    element.className = element.className.replace(/\b textonly\b/,'');
+                    element.className = element.className.replace(/\stextonly\b/,'');
                 }, this);
                 // restyle toggle button
                 target.value = '1';
@@ -581,7 +581,7 @@ var PresentSetlist = Vue.extend({
                 // remove class from all <pre> to reset font
                 var elements = document.getElementsByTagName('PRE');
                 [].slice.call(elements).forEach(function(element) {
-                    element.className = element.className.replace(/\b textonly\b/,'');
+                    element.className = element.className.replace(/\stextonly\b/,'');
                 }, this);
                 // restyle toggle button
                 target.value = '1';
