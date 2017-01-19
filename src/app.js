@@ -833,6 +833,10 @@ function parseSongContent(content) {
                     case 'v':
                         classes.push('verse ' + ((!isNaN(parseInt(line.trim().charAt(3)))) ? 'part' + line.trim().charAt(3) : ''));
                         break;
+                    case 'P':
+                    case 'p':
+                        classes.push('prechorus');
+                        break;
                     case 'C':
                     case 'c':
                         classes.push('chorus');
