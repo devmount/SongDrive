@@ -146,6 +146,8 @@ pre.verse {
     line-height: 1.3em;
     text-align: center;
     font-size: 2em;
+    font-family: "Fira Sans";
+    font-weight: 300;
 }
 .verse.part1::before {
     content: '1';
