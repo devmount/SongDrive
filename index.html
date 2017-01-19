@@ -754,7 +754,7 @@
                                 <h1>{{ song.title }}</h1>
                                 <div class="expanded row collapse small-up-1 medium-up-1 large-up-2">
                                     <div class="columns" v-for="column in getTwoColumns(song.content)">
-                                        <pre>{{ column }}</pre>
+                                        <pre v-for="part in parseSongContent(column)" :class="part.class">{{ part.content }}</pre>
                                     </div>
                                 </div>
                                 <footer>
