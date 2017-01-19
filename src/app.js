@@ -758,7 +758,8 @@ function getLanguages() {
     return {
         de: 'de',
         en: 'en',
-        fr: 'fr'
+        fr: 'fr',
+        ln: 'ln',
     }
 }
 
