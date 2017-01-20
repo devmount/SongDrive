@@ -427,7 +427,7 @@ var ShowSong = Vue.extend({
             // show text only
             if (target.value == '1') {
                 // set song content to content without chords
-                this.song.content = removeChords(this.song);
+                this.song.content = removeChords(this.song.content);
                 // restyle toggle button
                 target.value = '0';
                 target.title = 'Show text and chords';
@@ -473,7 +473,7 @@ var ShowSongFullscreen = Vue.extend({
             // show text only
             if (target.value == '1') {
                 // set song content to content without chords
-                this.song.content = removeChords(this.song);
+                this.song.content = removeChords(this.song.content);
                 // set new class to all <pre> to restyle font
                 var elements = document.getElementsByTagName('PRE');
                 [].slice.call(elements).forEach(function(element) {
@@ -598,7 +598,7 @@ var PresentSetlist = Vue.extend({
                 // for each song in setlist song list set song content to content without chords
                 this.songs.forEach(function(song) {
                     if (this.setlist.songs.indexOf(song['.key']) >= 0) {
-                        song.content = removeChords(song);
+                        song.content = removeChords(song.content);
                     }
                 }, this);
                 // set new class to all <pre> to restyle font
@@ -879,7 +879,7 @@ function filterSongs(songs, searchKey) {
 
 // remove chord lines from given multiline string
 function removeChords(str) {
-    var lines = str.content.split('\n');
+    var lines = str.split('\n');
     var newLines = [];
     lines.forEach(function(line) {
         // identify chord lines
