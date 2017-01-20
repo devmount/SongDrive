@@ -382,6 +382,7 @@ var ShowSong = Vue.extend({
         exportPdf: function() {
             var doc = getPdfSongsObject(this.song);
             pdfMake.createPdf(doc).open();
+            notify('success', 'PDF export', 'Song was successfully exported as PDF.');
         },
         exportSng: function() {
             var content = 
@@ -419,6 +420,7 @@ var ShowSong = Vue.extend({
                 content += '\n' + removeChords(part.content) + '\n--\n';
             }, this);
             download(content, this.song.title + '.sng');
+            notify('success', 'SNG export', 'Song was successfully exported as SNG.');
         },
         toggleChords: function(event) {
             // select proper button element (make sure to take the button, even if symbol tag <i> is clicked)
@@ -521,10 +523,12 @@ var ShowSetlist = Vue.extend({
         exportSetlist: function() {
             var doc = getPdfSetlistObject(this.setlist, this.songs);
             pdfMake.createPdf(doc).open();
+            notify('success', 'PDF export', 'Setlist was successfully exported as PDF.');
         },
         exportSongsheets: function() {
             var doc = getPdfSongsObject(this.songs, this.setlist);
             pdfMake.createPdf(doc).open();
+            notify('success', 'PDF export', 'Songsheets were successfully exported as PDF.');
         }
     },
     mounted: function(){
