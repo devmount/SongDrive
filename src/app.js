@@ -114,7 +114,10 @@ var ListSongs = Vue.extend({
         songs: songsRef.orderByChild('title')
     },
     data: function () {
-        return {searchKey: ''};
+        return {
+            searchKey: '',
+            admin: admin
+        };
     },
     computed : {
         // apply filter
@@ -532,24 +535,26 @@ var ShowSetlist = Vue.extend({
         }
     },
     mounted: function(){
-        var self = this;
-        self.$nextTick(function(){
-            // make song table rows sortable (drag and drop)
-            var sortable = Sortable.create(document.getElementById('show-setlist-sort'), {
-                // on drop: clone items, set new order and update setlist with new ordered items
-                onEnd: function(e) {
-                    var clonedItems = self.setlist.songs.filter(function(item){
-                        return item;
-                    });
-                    clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0]);
-                    self.$nextTick(function(){
-                        // update setlist's songs with new order
-                        setlistsRef.child(this.$route.params.setlist_id).update({songs: clonedItems});
-                    });
-                    notify('success', 'Setlist saved', 'Sorting was successfully saved.');
-                }
-            }); 
-        });
+        if (admin) {
+            var self = this;
+            self.$nextTick(function(){
+                // make song table rows sortable (drag and drop)
+                var sortable = Sortable.create(document.getElementById('show-setlist-sort'), {
+                    // on drop: clone items, set new order and update setlist with new ordered items
+                    onEnd: function(e) {
+                        var clonedItems = self.setlist.songs.filter(function(item){
+                            return item;
+                        });
+                        clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0]);
+                        self.$nextTick(function(){
+                            // update setlist's songs with new order
+                            setlistsRef.child(this.$route.params.setlist_id).update({songs: clonedItems});
+                        });
+                        notify('success', 'Setlist saved', 'Sorting was successfully saved.');
+                    }
+                }); 
+            });
+        }
     }
 });
 

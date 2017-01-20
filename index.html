@@ -272,11 +272,11 @@
                                     <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
                                     <span class="show-for-large">Show</span>
                                 </router-link>
-                                <router-link class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
+                                <router-link v-if="admin" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
                                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                                     <span class="show-for-large">Edit</span>
                                 </router-link>
-                                <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
+                                <router-link v-if="admin" class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
                                     <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                                     <span class="show-for-large">Delete</span>
                                 </router-link>
@@ -286,11 +286,11 @@
                 </table>
             </div>
             <footer>
-                <router-link class="button" :to="{path: '/song/add'}" title="New Song">
+                <router-link v-if="admin" class="button" :to="{path: '/song/add'}" title="New Song">
                     <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Add </span> Song
                 </router-link>
-                <router-link class="button" :to="{path: '/setlist/add'}" title="New Setlist">
+                <router-link v-if="admin" class="button" :to="{path: '/setlist/add'}" title="New Setlist">
                     <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Add </span> Setlist
                 </router-link>
@@ -358,7 +358,7 @@
                     <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
                     Fullscreen
                 </router-link>
-                <router-link class="button" :to="{path: song['.key'] + '/edit'}">
+                <router-link v-if="admin" class="button" :to="{path: song['.key'] + '/edit'}">
                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Edit</span>
                 </router-link>
@@ -543,11 +543,11 @@
                                     <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
                                     <span class="show-for-large">Show</span>
                                 </router-link>
-                                <router-link class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
+                                <router-link v-if="admin" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                                     <span class="show-for-large">Edit</span>
                                 </router-link>
-                                <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
+                                <router-link v-if="admin" class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                                     <span class="show-for-large">Delete</span>
                                 </router-link>
@@ -557,11 +557,11 @@
                 </table>
             </div>
             <footer>
-                <router-link class="button" :to="{path: '/song/add'}" title="New Song">
+                <router-link v-if="admin" class="button" :to="{path: '/song/add'}" title="New Song">
                     <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Add </span> Song
                 </router-link>
-                <router-link class="button" :to="{path: '/setlist/add'}" title="New Setlist">
+                <router-link v-if="admin" class="button" :to="{path: '/setlist/add'}" title="New Setlist">
                     <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Add </span> Setlist
                 </router-link>
@@ -639,7 +639,7 @@
                     <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
                     Present
                 </router-link>
-                <router-link class="button" :to="{path: setlist['.key'] + '/edit'}">
+                <router-link v-if="admin" class="button" :to="{path: setlist['.key'] + '/edit'}">
                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Edit</span>
                 </router-link>
