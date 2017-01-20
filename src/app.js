@@ -950,6 +950,18 @@ function parseSongContent(content) {
                         classes.push('bridge');
                         numbers.push('0')
                         break;
+                    case 'I':
+                    case 'i':
+                        types.push('i');
+                        classes.push('intro');
+                        numbers.push('0')
+                        break;
+                    case 'O':
+                    case 'o':
+                        types.push('o');
+                        classes.push('outro');
+                        numbers.push('0')
+                        break;
                     default:
                         console.log('Ooops, something went wrong on parsing this line: "' + line + '"');
                 }
