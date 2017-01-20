@@ -417,7 +417,7 @@ var ShowSong = Vue.extend({
                         break;
                 }
                 content += part.number > 0 ? ' ' + part.number : '';
-                content += '\n' + part.content + '\n--\n';
+                content += '\n' + removeChords(part.content) + '\n--\n';
             }, this);
             download(content, this.song.title + '.sng');
         },
