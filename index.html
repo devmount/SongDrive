@@ -60,7 +60,10 @@
 <!-- global partial: app footer -->
 <template id="app-footer">
     <footer>
-        <p>&copy; 2016 <a href="http://devmount.de">devmount</a></p>
+        <p>
+            &copy; 2016 – {{ new Date().getFullYear() }}
+            <a class="devmount" href="http://devmount.de" target="_blank">created by<span>devmount</span></a>
+        </p>
     </footer>
 </template>
 

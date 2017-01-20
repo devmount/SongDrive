@@ -438,3 +438,31 @@ section .footer {
 .flatpickr-day {
     border-radius: 0;
 }
+
+/* devmount author hint */
+.devmount {
+  position: relative;
+  height: 20px;
+  line-height: 20px;
+  text-decoration: none;
+  font-size: 1em;
+  padding: 10px 40px 10px 0;
+  margin-left: .2em;
+  background: url(http://media.devmount.de/devmount_small_light.png) right center no-repeat;
+  transition: background-position .3s, color .3s;
+}
+.devmount span {
+  position: absolute;
+  right: 3px;
+  font: inherit;
+  color: transparent;
+  transition: inherit;
+}
+.devmount:hover {
+  opacity: 1;
+  background-position: left center;
+  color: transparent;
+}
+.devmount:hover span {
+  color: #fff;
+}
