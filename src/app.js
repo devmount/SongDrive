@@ -653,14 +653,20 @@ function getPdfSongsObject(songs, setlist = null) {
                 font: 'FiraSans',
                 fontSize: 22
             },
+            partnumber: {
+                font: 'FiraSans',
+                fontSize: 24,
+                margin: [ 0, 17, 0, 0 ]
+            },
             code: {
                 font: 'FiraMono',
                 fontSize: 10.5,
-                margin: [ 0, 15 ]
+                margin: [ 0, 15, 0, 0 ]
             },
             copyright: {
                 font: 'FiraSans',
-                fontSize: 8
+                fontSize: 8,
+                margin: [ 0, 20, 0, 0 ]
             }
         }
     }
@@ -668,16 +674,50 @@ function getPdfSongsObject(songs, setlist = null) {
 
 // return an array of the song configuration for pdfmake
 function getPdfSongContent(song) {
+    // handle song content parts
+    var content = [], parts = parseSongContent(song.content);
+    parts.forEach(function(part) {
+        if (part.type == 'v') {
+            content.push({
+    			columnGap: 8,
+    			columns: [
+    				{
+    				    style: 'partnumber',
+    				    width: 'auto',
+    					text: part.number
+    				},
+    				{
+                        style: 'code',
+    				    width: '*',
+    					text: part.content.toString().replace(/ /g, '\u200B')
+    				}
+    			]
+            });
+        } else {
+            content.push({
+                style: 'code',
+                text: part.content.toString().replace(/ /g, '\u200B')
+            });
+        }
+    }, this);
+    console.log(parts);
+    // return array with song data
     return [
         // song title [tuning] with a line beneath
         { text: song.title.toString().toUpperCase() + (song.tuning ? '  [' + song.tuning.toString() + ']' : ''), style: 'header' },
         { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
         // song content with respect to leading whitespaces
-        { text: song.content.toString().replace(/ /g, '\u200B'), style: 'code' },
+        // { text: song.content.toString().replace(/ /g, '\u200B'), style: 'code' },
+        content,
         // imprint with ccli#, author names and (c) year publisher
-        { text: song.ccli ? 'CCLI: ' + song.ccli.toString() : '', style: 'copyright' },
-        { text: song.authors ? song.authors.toString() : '', style: 'copyright' },
-        { text: '\u00A9 ' + song.year.toString() + ' ' + song.publisher.toString(), style: 'copyright' }
+        {
+            style: 'copyright',
+            text: [
+                song.ccli ? 'CCLI Song Nr.: ' + song.ccli.toString() + '\n' : '',
+                song.authors ? song.authors.toString() + '\n' : '',
+                '\u00A9 ' + song.year.toString() + ' ' + song.publisher.toString()
+            ]
+        }
     ]
 }
 
@@ -809,8 +849,8 @@ function notify(type, title, text) {
 function parseSongContent(content) {
     // check if content is already loaded by firebase
     if (typeof content != 'undefined' && content) {
-        // initialize array for parsed linex, array for classes of parts, and part index
-        var parsed = [], classes = [], part = 0;
+        // initialize arrays for parsed linex, classes of parts, type abbr., numbers of type and part index
+        var parsed = [], classes = [], types = [], numbers = [], part = 0;
         var lines = content.split('\n');
         // check every content line
         for (var i = 0; i < lines.length; i++) {
@@ -832,19 +872,27 @@ function parseSongContent(content) {
                 switch (line.charAt(2)) {
                     case 'V':
                     case 'v':
+                        types.push('v');
                         classes.push('verse ' + ((!isNaN(parseInt(line.trim().charAt(3)))) ? 'part' + line.trim().charAt(3) : ''));
+                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
                         break;
                     case 'P':
                     case 'p':
+                        types.push('p');
                         classes.push('prechorus');
+                        numbers.push('0')
                         break;
                     case 'C':
                     case 'c':
+                        types.push('c');
                         classes.push('chorus');
+                        numbers.push('0')
                         break;
                     case 'B':
                     case 'b':
+                        types.push('b');
                         classes.push('bridge');
+                        numbers.push('0')
                         break;
                     default:
                         console.log('Ooops, something went wrong on parsing this line: "' + line + '"');
@@ -858,6 +906,8 @@ function parseSongContent(content) {
         if (parsed.length > 1) {
             for (var i = 1; i < parsed.length; i++) {
                 newContent.push({
+                    type: types[i-1],
+                    number: numbers[i-1],
                     class: classes[i-1],
                     content: parsed[i].join('\n')
                 });
