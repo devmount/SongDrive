@@ -384,6 +384,43 @@ var ShowSong = Vue.extend({
             pdfMake.createPdf(doc).open();
             router.push('/song/' + this.$route.params.song_id);
         },
+        exportSng: function() {
+            var content = 
+                '#LangCount=1' + '\n' +
+                '#Title=' + this.song.title + '\n' +
+                '#Author=' + this.song.authors + '\n' +
+                '#(c)=' + this.song.year + ' ' + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '\n' +
+                '#Key=' + this.song.tuning + '\n' +
+                '#CCLI=' + this.song.ccli + '\n' +
+                '---' + '\n';
+            parseSongContent(this.song.content).forEach(function(part) {
+                switch (part.type) {
+                    case 'v':
+                        content += 'verse';
+                        break;
+                    case 'p':
+                        content += 'pre-chorus';
+                        break;
+                    case 'c':
+                        content += 'chorus';
+                        break;
+                    case 'b':
+                        content += 'bridge';
+                        break;
+                    case 'i':
+                        content += 'intro';
+                        break;
+                    case 'o':
+                        content += 'outro';
+                        break;
+                    default:
+                        break;
+                }
+                content += part.number > 0 ? ' ' + part.number : '';
+                content += '\n' + part.content + '\n--\n';
+            }, this);
+            download(content, this.song.title + '.sng');
+        },
         toggleChords: function(event) {
             // select proper button element (make sure to take the button, even if symbol tag <i> is clicked)
             var target = event.path[0].tagName == 'BUTTON' ? event.path[0] : event.path[1];
@@ -759,6 +796,26 @@ function getPdfSetlistObject(setlist, songs) {
                 fontSize: 14
             }
         }
+    }
+}
+
+// download data to a file
+// http://stackoverflow.com/questions/13405129/javascript-create-and-save-file
+function download(data, filename) {
+    var a = document.createElement("a"),
+        file = new Blob([data], {type: 'text/plain'});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0); 
     }
 }
 
