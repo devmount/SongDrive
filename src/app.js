@@ -382,7 +382,6 @@ var ShowSong = Vue.extend({
         exportPdf: function() {
             var doc = getPdfSongsObject(this.song);
             pdfMake.createPdf(doc).open();
-            router.push('/song/' + this.$route.params.song_id);
         },
         exportSng: function() {
             var content = 
@@ -522,12 +521,10 @@ var ShowSetlist = Vue.extend({
         exportSetlist: function() {
             var doc = getPdfSetlistObject(this.setlist, this.songs);
             pdfMake.createPdf(doc).open();
-            router.push('/setlist/' + this.$route.params.setlist_id);
         },
         exportSongsheets: function() {
             var doc = getPdfSongsObject(this.songs, this.setlist);
             pdfMake.createPdf(doc).open();
-            router.push('/setlist/' + this.$route.params.setlist_id);
         }
     },
     mounted: function(){
