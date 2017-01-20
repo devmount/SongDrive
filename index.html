@@ -244,7 +244,7 @@
                         <tr v-for="song in filteredSongs" :key="song['.key']">
                             <td class="link-cell">
                                 <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                    {{ song.title }}
+                                    {{ song.title }} {{ song.content.substr(0,3) }}
                                 </router-link>
                             </td>
                             <td class="link-cell">

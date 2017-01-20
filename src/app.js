@@ -677,7 +677,7 @@ function getPdfSongContent(song) {
     // handle song content parts
     var content = [], parts = parseSongContent(song.content);
     parts.forEach(function(part) {
-        if (part.type == 'v') {
+        if (part.type == 'v' && part.number != '0') {
             content.push({
     			columnGap: 8,
     			columns: [
@@ -700,7 +700,6 @@ function getPdfSongContent(song) {
             });
         }
     }, this);
-    console.log(parts);
     // return array with song data
     return [
         // song title [tuning] with a line beneath
