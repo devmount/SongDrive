@@ -933,31 +933,31 @@ function parseSongContent(content) {
                     case 'p':
                         types.push('p');
                         classes.push('prechorus');
-                        numbers.push('0')
+                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
                         break;
                     case 'C':
                     case 'c':
                         types.push('c');
                         classes.push('chorus');
-                        numbers.push('0')
+                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
                         break;
                     case 'B':
                     case 'b':
                         types.push('b');
                         classes.push('bridge');
-                        numbers.push('0')
+                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
                         break;
                     case 'I':
                     case 'i':
                         types.push('i');
                         classes.push('intro');
-                        numbers.push('0')
+                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
                         break;
                     case 'O':
                     case 'o':
                         types.push('o');
                         classes.push('outro');
-                        numbers.push('0')
+                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
                         break;
                     default:
                         console.log('Ooops, something went wrong on parsing this line: "' + line + '"');
