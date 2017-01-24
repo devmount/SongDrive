@@ -439,30 +439,48 @@ section .footer {
     border-radius: 0;
 }
 
-/* devmount author hint */
+/* devmount author link */
 .devmount {
-  position: relative;
-  height: 20px;
-  line-height: 20px;
-  text-decoration: none;
-  font-size: 1em;
-  padding: 10px 40px 10px 0;
-  margin-left: .2em;
-  background: url(http://media.devmount.de/devmount_small_light.png) right center no-repeat;
-  transition: background-position .3s, color .3s;
+    position: relative;
+    text-decoration: none;
+    font-size: 1em;
+    margin-left: .2em;
+    transition: all .3s;
+    color: #777;
+}
+.devmount svg {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: -5px;
+    right: -36px;
+    transition: all .3s;
+}
+.devmount svg path {
+    fill: none;
+    stroke: #777;
+    stroke-width: 12;
+    stroke-linecap: round;
+    transition: all .3s;
 }
 .devmount span {
-  position: absolute;
-  right: 3px;
-  font: inherit;
-  color: transparent;
-  transition: inherit;
+    position: absolute;
+    top: 0;
+    right: -36px;
+    font: inherit;
+    color: transparent;
+    transition: inherit;
 }
 .devmount:hover {
-  opacity: 1;
-  background-position: left center;
-  color: transparent;
+    opacity: 1;
+    color: transparent;
 }
 .devmount:hover span {
-  color: #fff;
+    color: #fff;
+}
+.devmount:hover svg {
+    right: 40px;
+}
+.devmount:hover svg path {
+    stroke: #fff;
 }
