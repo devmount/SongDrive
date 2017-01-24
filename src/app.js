@@ -809,7 +809,7 @@ function getPdfSetlistObject(setlist, songs) {
 // http://stackoverflow.com/questions/13405129/javascript-create-and-save-file
 function download(data, filename) {
     var a = document.createElement("a"),
-        file = new Blob([data], {type: 'text/plain'});
+        file = new Blob([data], {encoding:"UTF-8", type:"text/plain;charset=UTF-8"});
     if (window.navigator.msSaveOrOpenBlob) // IE10+
         window.navigator.msSaveOrOpenBlob(file, filename);
     else { // Others
