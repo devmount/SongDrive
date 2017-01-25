@@ -188,7 +188,7 @@ var AddSong = Vue.extend({
                 }, this);
             }
             notify('success', 'Song added', 'Data was successfully saved.');
-            router.push('/');
+            router.push('/songs');
         }
     }
 });
@@ -343,7 +343,7 @@ var DeleteSong = Vue.extend({
         removeSong: function() {
             songsRef.child(this.$route.params.song_id).remove();
             notify('success', 'Song deleted', 'Data was successfully deleted.');
-            router.push('/');
+            router.push('/songs');
         }
     }
 });
@@ -639,6 +639,7 @@ var PresentSetlist = Vue.extend({
 var router = new VueRouter({
     routes: [
         {path: '/', component: ListSongs, name: 'home'},
+        {path: '/songs', component: ListSongs, name: 'songs'},
         {path: '/song/add', component: AddSong},
         {path: '/song/:song_id', component: ShowSong, name: 'show-song'},
         {path: '/song/:song_id/fullscreen', component: ShowSongFullscreen, name: 'show-song-fullscreen'},
