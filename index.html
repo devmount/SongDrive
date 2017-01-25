@@ -365,7 +365,7 @@
                         SNG
                     </button>
                 </form>
-                <router-link class="hollow button" :to="{name: 'show-song-fullscreen', params: {song_id: song['.key']}}">
+                <router-link class="hollow button" :to="{name: 'present-song', params: {song_id: song['.key']}}">
                     <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
                     Fullscreen
                 </router-link>
@@ -384,7 +384,7 @@
 </template>
 
 <!-- show a song in fullscreen -->
-<template id="show-song-fullscreen">
+<template id="present-song">
     <div class="container">
         <section class="fullscreen">
             <header>

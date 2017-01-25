@@ -451,8 +451,8 @@ var ShowSong = Vue.extend({
 });
 
 // component: show song fullscreen
-var ShowSongFullscreen = Vue.extend({
-    template: '#show-song-fullscreen',
+var PresentSong = Vue.extend({
+    template: '#present-song',
     data: function () {
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
@@ -638,19 +638,19 @@ var PresentSetlist = Vue.extend({
 // router
 var router = new VueRouter({
     routes: [
-        {name: 'home',                 component: ListSongs,          path: '/'},
-        {name: 'songs',                component: ListSongs,          path: '/songs'},
-        {name: 'add-song',             component: AddSong,            path: '/song/add'},
-        {name: 'show-song',            component: ShowSong,           path: '/song/:song_id'},
-        {name: 'show-song-fullscreen', component: ShowSongFullscreen, path: '/song/:song_id/fullscreen'},
-        {name: 'edit-song',            component: EditSong,           path: '/song/:song_id/edit'},
-        {name: 'delete-song',          component: DeleteSong,         path: '/song/:song_id/delete'},
-        {name: 'setlists',             component: ListSetlists,       path: '/setlists'},
-        {name: 'add-setlist',          component: AddSetlist,         path: '/setlist/add'},
-        {name: 'show-setlist',         component: ShowSetlist,        path: '/setlist/:setlist_id'},
-        {name: 'edit-setlist',         component: EditSetlist,        path: '/setlist/:setlist_id/edit'},
-        {name: 'delete-setlist',       component: DeleteSetlist,      path: '/setlist/:setlist_id/delete'},
-        {name: 'present-setlist',      component: PresentSetlist,     path: '/setlist/:setlist_id/presentation'},
+        {name: 'home',            component: ListSongs,      path: '/'},
+        {name: 'songs',           component: ListSongs,      path: '/songs'},
+        {name: 'add-song',        component: AddSong,        path: '/song/add'},
+        {name: 'show-song',       component: ShowSong,       path: '/song/:song_id'},
+        {name: 'present-song',    component: PresentSong,    path: '/song/:song_id/fullscreen'},
+        {name: 'edit-song',       component: EditSong,       path: '/song/:song_id/edit'},
+        {name: 'delete-song',     component: DeleteSong,     path: '/song/:song_id/delete'},
+        {name: 'setlists',        component: ListSetlists,   path: '/setlists'},
+        {name: 'add-setlist',     component: AddSetlist,     path: '/setlist/add'},
+        {name: 'show-setlist',    component: ShowSetlist,    path: '/setlist/:setlist_id'},
+        {name: 'edit-setlist',    component: EditSetlist,    path: '/setlist/:setlist_id/edit'},
+        {name: 'delete-setlist',  component: DeleteSetlist,  path: '/setlist/:setlist_id/delete'},
+        {name: 'present-setlist', component: PresentSetlist, path: '/setlist/:setlist_id/presentation'},
     ]
 });
 
