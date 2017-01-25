@@ -638,19 +638,19 @@ var PresentSetlist = Vue.extend({
 // router
 var router = new VueRouter({
     routes: [
-        {path: '/', component: ListSongs, name: 'home'},
-        {path: '/songs', component: ListSongs, name: 'songs'},
-        {path: '/song/add', component: AddSong, name: 'add-song'},
-        {path: '/song/:song_id', component: ShowSong, name: 'show-song'},
-        {path: '/song/:song_id/fullscreen', component: ShowSongFullscreen, name: 'show-song-fullscreen'},
-        {path: '/song/:song_id/edit', component: EditSong, name: 'edit-song'},
-        {path: '/song/:song_id/delete', component: DeleteSong, name: 'delete-song'},
-        {path: '/setlists', component: ListSetlists, name: 'setlists'},
-        {path: '/setlist/add', component: AddSetlist, name: 'add-setlist'},
-        {path: '/setlist/:setlist_id', component: ShowSetlist, name: 'show-setlist'},
-        {path: '/setlist/:setlist_id/edit', component: EditSetlist, name: 'edit-setlist'},
-        {path: '/setlist/:setlist_id/delete', component: DeleteSetlist, name: 'delete-setlist'},
-        {path: '/setlist/:setlist_id/presentation', component: PresentSetlist, name: 'present-setlist'},
+        {name: 'home',                 component: ListSongs,          path: '/'},
+        {name: 'songs',                component: ListSongs,          path: '/songs'},
+        {name: 'add-song',             component: AddSong,            path: '/song/add'},
+        {name: 'show-song',            component: ShowSong,           path: '/song/:song_id'},
+        {name: 'show-song-fullscreen', component: ShowSongFullscreen, path: '/song/:song_id/fullscreen'},
+        {name: 'edit-song',            component: EditSong,           path: '/song/:song_id/edit'},
+        {name: 'delete-song',          component: DeleteSong,         path: '/song/:song_id/delete'},
+        {name: 'setlists',             component: ListSetlists,       path: '/setlists'},
+        {name: 'add-setlist',          component: AddSetlist,         path: '/setlist/add'},
+        {name: 'show-setlist',         component: ShowSetlist,        path: '/setlist/:setlist_id'},
+        {name: 'edit-setlist',         component: EditSetlist,        path: '/setlist/:setlist_id/edit'},
+        {name: 'delete-setlist',       component: DeleteSetlist,      path: '/setlist/:setlist_id/delete'},
+        {name: 'present-setlist',      component: PresentSetlist,     path: '/setlist/:setlist_id/presentation'},
     ]
 });
 
