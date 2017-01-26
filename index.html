@@ -94,7 +94,7 @@
                     <div class="medium-3 columns">
                         <label>Language
                             <select v-model="song.language" required>
-                                <option v-for="language in languages" :value="language">{{ language }}</option>
+                                <option v-for="language in languages" :value="language.key">{{ language.label }}</option>
                             </select>
                         </label>
                     </div>
