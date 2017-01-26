@@ -107,6 +107,20 @@ Vue.component('setlist-form-fields', {
     }
 })
 
+// component: dashboard
+var Dashboard = Vue.extend({
+    template: '#dashboard',
+    firebase: {
+        songs: songsRef.orderByChild('title'),
+        setlists: setlistsRef.orderByChild('date')
+    },
+    data: function () {
+        return {
+            admin: admin
+        };
+    }
+});
+
 // component: list songs
 var ListSongs = Vue.extend({
     template: '#song-list',
@@ -638,13 +652,16 @@ var PresentSetlist = Vue.extend({
 // router
 var router = new VueRouter({
     routes: [
-        {name: 'home',            component: ListSongs,      path: '/'},
+        // dashboard
+        {name: 'home',            component: Dashboard,      path: '/'},
+        // songs
         {name: 'songs',           component: ListSongs,      path: '/songs'},
         {name: 'add-song',        component: AddSong,        path: '/song/add'},
         {name: 'show-song',       component: ShowSong,       path: '/song/:song_id'},
         {name: 'present-song',    component: PresentSong,    path: '/song/:song_id/fullscreen'},
         {name: 'edit-song',       component: EditSong,       path: '/song/:song_id/edit'},
         {name: 'delete-song',     component: DeleteSong,     path: '/song/:song_id/delete'},
+        // setlists
         {name: 'setlists',        component: ListSetlists,   path: '/setlists'},
         {name: 'add-setlist',     component: AddSetlist,     path: '/setlist/add'},
         {name: 'show-setlist',    component: ShowSetlist,    path: '/setlist/:setlist_id'},

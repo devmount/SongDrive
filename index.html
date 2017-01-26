@@ -226,6 +226,30 @@
     </div>
 </template>
 
+
+<!-- song list -->
+<template id="dashboard">
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>Dashboard</h1>
+            </header>
+            <div class="row">
+                <div class="small-12 columns">
+                    {{ songs.length }} Songs registered
+                </div>
+                <div class="small-12 columns">
+                    {{ setlists.length }} Setlists registered
+                </div>
+            </div>
+            <footer>
+            </footer>
+        </section>
+        <app-footer></app-footer>
+    </div>
+</template>
+
 <!-- song list -->
 <template id="song-list">
     <div class="container">
