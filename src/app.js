@@ -120,27 +120,26 @@ var Dashboard = Vue.extend({
         };
     },
     mounted: function() {
-        // And for a doughnut for song languages
-        var languages = new Chart('languages', {
+        // a doughnut chart for song languages
+        var data = [], labels = [], colors = [];
+        var languages = getLanguages();
+        for (var l in languages) {
+            // console.log(l);
+            // data.push(Object.keys(songsRef.orderByChild('language').startAt(l).endAt(l)).length);
+            // this.$bindAsObject('songsByLang', songsRef);
+            // console.log(songsByLang);
+            data.push(5);
+            labels.push(languages[l].label);
+            colors.push(languages[l].color);
+        }
+        new Chart('languages', {
             type: 'doughnut',
             data: {
-                labels: [
-                    "Red",
-                    "Blue",
-                    "Yellow"
-                ],
+                labels: labels,
                 datasets: [{
-                    data: [300, 50, 100],
-                    backgroundColor: [
-                        "#FF6384",
-                        "#36A2EB",
-                        "#FFCE56"
-                    ],
-                    hoverBackgroundColor: [
-                        "#FF6384",
-                        "#36A2EB",
-                        "#FFCE56"
-                    ]
+                    data: data,
+                    backgroundColor: colors,
+                    hoverBackgroundColor: colors
                 }]
             },
             options: {
@@ -905,9 +904,9 @@ function getSetlistObject(setlist = null, noSongs = false) {
 // return all existing languages
 function getLanguages() {
     return {
-        de: {key:'de', label:'German',  color:'#d9fb95'},
-        en: {key:'en', label:'English', color:'#bbdd77'},
-        fr: {key:'fr', label:'French',  color:'#88b544'},
+        de: {key:'de', label:'German',  color:'#bbdd77'},
+        en: {key:'en', label:'English', color:'#88b544'},
+        fr: {key:'fr', label:'French',  color:'#5c7d2a'},
         ln: {key:'ln', label:'Lingala', color:'#445b22'},
     }
 }
