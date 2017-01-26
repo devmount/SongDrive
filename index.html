@@ -27,6 +27,8 @@
     <!-- Flatpickr (calendar date picker) -->
     <link rel="stylesheet" href="https://unpkg.com/flatpickr/dist/flatpickr.min.css">
     <script src="https://unpkg.com/flatpickr"></script>
+    <!-- ChartJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <!-- Fontawesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <!-- App Styles -->
@@ -236,11 +238,23 @@
                 <h1>Dashboard</h1>
             </header>
             <div class="row">
-                <div class="small-12 columns">
-                    {{ songs.length }} Songs registered
+                <div class="small-6 columns">
+                    <h2>Songs</h2>
+                    <p>{{ songs.length }} Songs registered</p>
+                    <div class="row">
+                        <div class="small-6 columns">
+                            <h4>Languages</h4>
+                            <canvas id="languages"></canvas>
+                        </div>
+                        <div class="small-6 columns">
+                            <h4>...</h4>
+                            <canvas id="..."></canvas>
+                        </div>
+                    </div>
                 </div>
-                <div class="small-12 columns">
-                    {{ setlists.length }} Setlists registered
+                <div class="small-6 columns">
+                    <h2>Setlists</h2>
+                    <p>{{ setlists.length }} Setlists registered</p>
                 </div>
             </div>
             <footer>
