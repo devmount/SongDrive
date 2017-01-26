@@ -905,10 +905,10 @@ function getSetlistObject(setlist = null, noSongs = false) {
 // return all existing languages
 function getLanguages() {
     return {
-        de: {key:'de', label:'German',  color:''},
-        en: {key:'en', label:'English', color:''},
-        fr: {key:'fr', label:'French',  color:''},
-        ln: {key:'ln', label:'Lingala', color:''},
+        de: {key:'de', label:'German',  color:'#d9fb95'},
+        en: {key:'en', label:'English', color:'#bbdd77'},
+        fr: {key:'fr', label:'French',  color:'#88b544'},
+        ln: {key:'ln', label:'Lingala', color:'#445b22'},
     }
 }
 
