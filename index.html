@@ -258,6 +258,14 @@
                 </div>
             </div>
             <footer>
+                <router-link v-if="admin" class="button" :to="{name: 'add-song'}" title="New Song">
+                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                    <span class="show-for-large">Add </span> Song
+                </router-link>
+                <router-link v-if="admin" class="button" :to="{name: 'add-setlist'}" title="New Setlist">
+                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                    <span class="show-for-large">Add </span> Setlist
+                </router-link>
             </footer>
         </section>
         <app-footer></app-footer>
