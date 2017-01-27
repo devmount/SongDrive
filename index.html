@@ -238,7 +238,7 @@
                 <h1>Dashboard</h1>
             </header>
             <div class="row">
-                <div class="small-6 columns">
+                <div class="small-12 medium-6 columns">
                     <h2>Songs</h2>
                     <p>Total: {{ songs.length }} Songs</p>
                     <div class="row">
@@ -252,13 +252,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="small-6 columns">
+                <div class="small-12 medium-6 columns">
                     <h2>Setlists</h2>
                     <p>Total: {{ setlists.length }} Setlists</p>
                     <div class="row">
                         <div class="small-6 columns">
-                            <h4>Per Year</h4>
+                            <h4>Setlists per year</h4>
                             <canvas id="setlists-per-year"></canvas>
+                            <h4>Songs per year</h4>
+                            <canvas id="songs-per-year"></canvas>
                         </div>
                         <div class="small-6 columns">
                         </div>

@@ -159,24 +159,25 @@ var Dashboard = Vue.extend({
         setlistsRef.on("value", function(snap) {
             // a bar chart for number of setlists per year
             var setlists = snap.val();
-            var data = {};
+            var setlistNumber = {}, songNumber = {};
             for (var setlist in setlists) {
                 if (setlists[setlist].date.length > 0) {
                     var year = setlists[setlist].date.substr(0, 4);
-                    if (!data[year] || parseInt(data[year]) < 1) {
-                        data[year] = 1;
-                    } else {
-                        data[year]++;
+                    if (!setlistNumber[year] || parseInt(setlistNumber[year]) < 1) {
+                        setlistNumber[year] = 0;
+                        songNumber[year] = 0;
                     }
+                    setlistNumber[year]++;
+                    songNumber[year] += setlists[setlist].songs.length;
                 }
             }
-            // create bar chart with data arrays
+            // create bar chart with setlist number arrays
             new Chart('setlists-per-year', {
                 type: 'bar',
                 data: {
-                    labels: Object.keys(data),
+                    labels: Object.keys(setlistNumber),
                     datasets: [{
-                        data: Object.values(data),
+                        data: Object.values(setlistNumber),
                         backgroundColor: '#88b544',
                         borderColor: '#fff',
                         borderWidth: 2,
@@ -187,7 +188,30 @@ var Dashboard = Vue.extend({
                     scales: {
                         yAxes: [{
                             ticks: {
-                                beginAtZero:true
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            // create bar chart with song number arrays
+            new Chart('songs-per-year', {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(songNumber),
+                    datasets: [{
+                        data: Object.values(songNumber),
+                        backgroundColor: '#88b544',
+                        borderColor: '#fff',
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    legend: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
                             }
                         }]
                     }
