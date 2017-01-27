@@ -1,3 +1,6 @@
+// Setup admin mode (if set to false, SongDrive will be in reading mode only)
+var admin = true;
+
 // Setup Firebase
 firebase.initializeApp(config);
 
