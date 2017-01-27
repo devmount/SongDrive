@@ -120,31 +120,33 @@ var Dashboard = Vue.extend({
         };
     },
     mounted: function() {
-        // a doughnut chart for song languages
-        var data = [], labels = [], colors = [];
-        var languages = getLanguages();
-        for (var l in languages) {
-            // console.log(l);
-            // data.push(Object.keys(songsRef.orderByChild('language').startAt(l).endAt(l)).length);
-            // this.$bindAsObject('songsByLang', songsRef);
-            // console.log(songsByLang);
-            data.push(5);
-            labels.push(languages[l].label);
-            colors.push(languages[l].color);
-        }
-        new Chart('languages', {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: colors,
-                    hoverBackgroundColor: colors
-                }]
-            },
-            options: {
-                responsive: true
+        songsRef.on("value", function(snap) {
+            // a doughnut chart for song languages
+            var songs = snap.val();
+            var data = [], labels = [], colors = [];
+            var languages = getLanguages();
+            for (var l in languages) {
+                var n = 0;
+                for (var song in songs) {
+                    if (songs[song].language == l) {
+                        n++;
+                    }
+                }
+                data.push(n);
+                labels.push(languages[l].label);
+                colors.push(languages[l].color);
             }
+            new Chart('languages', {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors,
+                        hoverBackgroundColor: colors
+                    }]
+                }
+            });
         });
     }
 });
