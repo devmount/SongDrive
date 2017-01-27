@@ -123,11 +123,13 @@ var Dashboard = Vue.extend({
         };
     },
     mounted: function() {
+        // get snapshot of song list
         songsRef.on("value", function(snap) {
             // a doughnut chart for song languages
             var songs = snap.val();
             var data = [], labels = [], colors = [];
             var languages = getLanguages();
+            // for each existing languages count number of songs in that language
             for (var l in languages) {
                 var n = 0;
                 for (var song in songs) {
@@ -135,10 +137,12 @@ var Dashboard = Vue.extend({
                         n++;
                     }
                 }
+                // add data to arrays
                 data.push(n);
                 labels.push(languages[l].label);
                 colors.push(languages[l].color);
             }
+            // create doughnut chart with data arrays
             new Chart('languages', {
                 type: 'doughnut',
                 data: {
@@ -148,6 +152,45 @@ var Dashboard = Vue.extend({
                         backgroundColor: colors,
                         hoverBackgroundColor: colors
                     }]
+                }
+            });
+        });
+        // get snapshot of setlist list
+        setlistsRef.on("value", function(snap) {
+            // a bar chart for number of setlists per year
+            var setlists = snap.val();
+            var data = {};
+            for (var setlist in setlists) {
+                if (setlists[setlist].date.length > 0) {
+                    var year = setlists[setlist].date.substr(0, 4);
+                    if (!data[year] || parseInt(data[year]) < 1) {
+                        data[year] = 1;
+                    } else {
+                        data[year]++;
+                    }
+                }
+            }
+            // create bar chart with data arrays
+            new Chart('setlists-per-year', {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        data: Object.values(data),
+                        backgroundColor: '#88b544',
+                        borderColor: '#fff',
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    legend: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
                 }
             });
         });
