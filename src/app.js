@@ -122,6 +122,11 @@ var Dashboard = Vue.extend({
             admin: admin
         };
     },
+    computed: {
+        getRandomSongs: function() {
+            return getRandomProperty(this.songs, 5);
+        }
+    },
     mounted: function() {
         // get snapshot of song list
         songsRef.on("value", function(snap) {

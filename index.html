@@ -249,7 +249,7 @@
                         <div class="small-6 columns">
                             <h4>Random</h4>
                             <table class="hover" v-if="songs.length > 5">
-                                <tr v-for="song in getRandomProperty(songs, 5)">
+                                <tr v-for="song in getRandomSongs">
                                     <td>{{ song.title }}</td>
                                 </tr>
                             </table>
