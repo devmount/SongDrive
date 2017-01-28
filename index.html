@@ -229,7 +229,7 @@
 </template>
 
 
-<!-- song list -->
+<!-- dashboard -->
 <template id="dashboard">
     <div class="container">
         <app-header></app-header>
@@ -248,9 +248,14 @@
                         </div>
                         <div class="small-6 columns">
                             <h4>Random</h4>
-                            <ul v-if="songs.length > 5">
-                                <li v-for="song in getRandomProperty(songs, 5)">{{ song.title }}</li>
-                            </ul>
+                            <table class="hover" v-if="songs.length > 5">
+                                <tr v-for="song in getRandomProperty(songs, 5)">
+                                    <td>{{ song.title }}</td>
+                                </tr>
+                            </table>
+                            <div v-else class="secondary callout">
+                                <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
