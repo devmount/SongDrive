@@ -250,7 +250,11 @@
                             <h4>Random</h4>
                             <table class="hover" v-if="songs.length > 0 && shuffle">
                                 <tr v-for="song in getRandomProperty(songs, 5)">
-                                    <td>{{ song.title }}</td>
+                                    <td class="link-cell">
+                                        <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                                            {{ song.title }}
+                                        </router-link>
+                                    </td>
                                 </tr>
                             </table>
                             <div v-else class="secondary callout">
