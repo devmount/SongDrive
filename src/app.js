@@ -1117,3 +1117,10 @@ function parseSongContent(content) {
     // show nothing if content is not set
     return '';
 }
+
+// get a random property from given object
+// http://stackoverflow.com/questions/2532218/pick-random-property-from-a-javascript-object
+function getRandomProperty(obj) {
+    var keys = Object.keys(obj)
+    return obj[keys[ keys.length * Math.random() << 0]];
+};

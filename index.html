@@ -248,7 +248,9 @@
                         </div>
                         <div class="small-6 columns">
                             <h4>Random</h4>
-                            ...
+                            <ul v-if="songs.length > 0">
+                                <li v-for="n in 5">{{ getRandomProperty(songs).title }}</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
