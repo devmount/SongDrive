@@ -1119,8 +1119,15 @@ function parseSongContent(content) {
 }
 
 // get a random property from given object
-// http://stackoverflow.com/questions/2532218/pick-random-property-from-a-javascript-object
-function getRandomProperty(obj) {
-    var keys = Object.keys(obj)
-    return obj[keys[ keys.length * Math.random() << 0]];
+function getRandomProperty(obj, n) {
+    // get object keys
+    var keys = Object.keys(obj), elements = [];
+    for (var i = 0; i < n; i++) {
+        // add a property of random key in obj
+        var key = keys.length * Math.random() << 0;
+        elements.push(obj[keys[key]]);
+        // delete that key for avoiding duplicates
+        keys.splice(key, 1);
+    }
+    return elements;
 };
