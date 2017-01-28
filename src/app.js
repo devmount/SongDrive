@@ -119,12 +119,13 @@ var Dashboard = Vue.extend({
     },
     data: function () {
         return {
+            randomSongs: [],
             admin: admin
         };
     },
-    computed: {
-        getRandomSongs: function() {
-            return getRandomProperty(this.songs, 5);
+    methods: {
+        randomizeSongs: function() {
+            this.randomSongs = getRandomProperty(this.songs, 5);
         }
     },
     mounted: function() {
@@ -1123,7 +1124,7 @@ function parseSongContent(content) {
     return '';
 }
 
-// get a random property from given object
+// get <n> different random properties from given object
 function getRandomProperty(obj, n) {
     // get object keys
     var keys = Object.keys(obj), elements = [];

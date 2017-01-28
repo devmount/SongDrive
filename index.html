@@ -248,14 +248,20 @@
                         </div>
                         <div class="small-6 columns">
                             <h4>Random</h4>
-                            <table class="hover" v-if="songs.length > 5">
-                                <tr v-for="song in getRandomSongs">
+                            <table class="hover" v-if="songs.length > 0 && randomSongs.length == 0">
+                                <tr v-for="song in getRandomProperty(songs, 5)">
+                                    <td>{{ song.title }}</td>
+                                </tr>
+                            </table>
+                            <table class="hover" v-else-if="randomSongs.length > 0">
+                                <tr v-for="song in getRandomProperty(songs, 5)">
                                     <td>{{ song.title }}</td>
                                 </tr>
                             </table>
                             <div v-else class="secondary callout">
                                 <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs.</p>
                             </div>
+                            <button class="button" @click.prevent="randomizeSongs">Refresh</button>
                         </div>
                     </div>
                 </div>
