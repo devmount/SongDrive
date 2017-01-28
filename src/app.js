@@ -119,13 +119,15 @@ var Dashboard = Vue.extend({
     },
     data: function () {
         return {
-            randomSongs: [],
+            shuffle: [],
             admin: admin
         };
     },
     methods: {
-        randomizeSongs: function() {
-            this.randomSongs = getRandomProperty(this.songs, 5);
+        // shuffle song list
+        shuffleSongs: function() {
+            // dummy variable to force recalculation of getRandomProperty()
+            this.shuffle = []
         }
     },
     mounted: function() {
