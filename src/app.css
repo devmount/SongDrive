@@ -43,6 +43,9 @@ input, textarea, select {
     display: block;
     padding: .5rem .625rem .625rem;
 }
+.tm {
+    margin-top: .5em;
+}
 
 /* app content container */
 .container {
