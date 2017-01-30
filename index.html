@@ -247,7 +247,7 @@
                             <canvas id="languages"></canvas>
                         </div>
                         <div class="small-6 columns">
-                            <h4>Random</h4>
+                            <h4>Random Song</h4>
                             <table class="hover" v-if="songs.length > 0 && shuffle">
                                 <tr v-for="song in getRandomProperty(songs, 5)">
                                     <td class="link-cell">
@@ -275,6 +275,19 @@
                             <canvas id="songs-per-year"></canvas>
                         </div>
                         <div class="small-6 columns">
+                            <h4>Latest Setlists</h4>
+                            <table class="hover" v-if="setlists.length > 4">
+                                <tr v-for="setlist in setlists.slice(setlists.length-5, setlists.length).reverse()">
+                                    <td class="link-cell">
+                                        <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                                            {{ setlist.title }}
+                                        </router-link>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div v-else class="secondary callout">
+                                <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few setlists.</p>
+                            </div>
                         </div>
                     </div>                    
                 </div>
