@@ -573,7 +573,13 @@ var ShowSong = Vue.extend({
             // select proper button element (make sure to take the button, even if symbol tag <i> is clicked)
             var target = event.path[0].tagName == 'BUTTON' ? event.path[0] : event.path[1];
             // set song content to content transposed chords
-            this.song.content = transposeChords(target.value, this.song.content);
+            if (target.value == 0) {
+                // reset tuning: get original song content
+                this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
+            } else {
+                // adapt tuning
+                this.song.content = transposeChords(target.value, this.song.content);
+            }
         }
     }
 });
@@ -1031,29 +1037,29 @@ function removeChords(str) {
 
 // remove chord lines from given multiline string
 function transposeChords(action, str) {
-    var lines = str.split('\n');
-    var newLines = [];
-    for (line in lines) {
+    var lines = str.split('\n'), newLines = [];
+    var tunes = ['C', 'D', 'E', 'F', 'G', 'A', 'H', 'C'];
+    for (var key in lines) {
+        // get single line
+        var line = lines[key];
         // identify chord lines
         if(isChordLine(line)) {
-            // remove multiple whitespaces
-            line = line.replace(/\s\s+/g, ' ');
-            // check transpose action
-            switch (action) {
-                // transpose chords up
-                case 1:
-                    // TODO
-                    break;
-                // reset transposed chords to default
-                case 0:
-                    // TODO
-                    break;
-                // transpose chords down
-                case -1:
-                    // TODO
-                    break;
-                default:
-                    break;
+            for (var i in line) {
+                // get single character in line
+                var c = line[i];
+                // check if character is from a chord
+                if (tunes.indexOf(c) >= 0) {
+                    // transpose chords up
+                    if (action == 1) {
+                        // replace character by next tune character
+                        line = line.substr(0, i) + tunes[tunes.indexOf(c) + 1] + line.substr(i + 1);
+                    } else 
+                    // transpose chords down
+                    if (action == -1) {
+                        // replace character by next tune character
+                        line = line.substr(0, i) + tunes[tunes.lastIndexOf(c) - 1] + line.substr(i + 1);
+                    }
+                }
             }
         }
         // add lines to new content
