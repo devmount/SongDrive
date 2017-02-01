@@ -421,6 +421,16 @@
                         <button class="secondary small button" @click.prevent="toggleChords" value="1" title="Show text only">
                             <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
                         </button>
+                        <hr />
+                        <button class="secondary small button" @click.prevent="transposeChords" value="1" title="Transpose chords up">
+                            <i class="fa fa-arrow-up fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button class="secondary small button" @click.prevent="transposeChords" value="0" title="Reset transposed chords">
+                            <i class="fa fa-circle-o fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button class="secondary small button" @click.prevent="transposeChords" value="-1" title="Transpose chords up">
+                            <i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
             </div>
