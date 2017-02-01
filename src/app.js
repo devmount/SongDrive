@@ -568,6 +568,12 @@ var ShowSong = Vue.extend({
                 target.title = 'Show text only';
                 target.innerHTML = '<i class="fa fa-align-left fa-fw" aria-hidden="true"></i>';
             }
+        },
+        transposeChords: function() {
+            // select proper button element (make sure to take the button, even if symbol tag <i> is clicked)
+            var target = event.path[0].tagName == 'BUTTON' ? event.path[0] : event.path[1];
+            // set song content to content transposed chords
+            this.song.content = transposeChords(target.value, this.song.content);
         }
     }
 });
@@ -1020,6 +1026,39 @@ function removeChords(str) {
             newLines.push(line);
         }
     }, this);
+    return newLines.join('\n');
+}
+
+// remove chord lines from given multiline string
+function transposeChords(action, str) {
+    var lines = str.split('\n');
+    var newLines = [];
+    for (line in lines) {
+        // identify chord lines
+        if(isChordLine(line)) {
+            // remove multiple whitespaces
+            line = line.replace(/\s\s+/g, ' ');
+            // check transpose action
+            switch (action) {
+                // transpose chords up
+                case 1:
+                    // TODO
+                    break;
+                // reset transposed chords to default
+                case 0:
+                    // TODO
+                    break;
+                // transpose chords down
+                case -1:
+                    // TODO
+                    break;
+                default:
+                    break;
+            }
+        }
+        // add lines to new content
+        newLines.push(line);
+    }
     return newLines.join('\n');
 }
 
