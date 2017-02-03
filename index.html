@@ -3,7 +3,7 @@
 <head>
     <title>SongDrive</title>
     <link rel="shortcut icon" href="./favicon.ico">
-    <meta charset="utf-8" /> 
+    <meta charset="utf-8" />
     <!-- foundation styles -->
     <link rel="stylesheet" type="text/css" href="src/foundation.min.css">
     <!-- Vue -->
@@ -21,7 +21,7 @@
     <link href="https://cdn.rawgit.com/caroso1222/notyf/e85b3315/dist/notyf.min.css" rel="stylesheet"/>
     <script src="https://cdn.rawgit.com/caroso1222/notyf/e85b3315/dist/notyf.min.js"></script>
     <!-- Foundation Orbit (slider) + jQuery -->
-    <script src="http://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/js/foundation.min.js"></script>
     <!-- Flatpickr (calendar date picker) -->
@@ -30,7 +30,7 @@
     <!-- ChartJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <!-- Fontawesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- App Styles -->
     <link rel="stylesheet" type="text/css" href="src/app.css">
 </head>
@@ -325,11 +325,11 @@
                     <thead>
                         <tr>
                             <th width="200">Title</th>
-                            <th width="200">Subtitle</th>
+                            <th>Subtitle</th>
                             <th class="show-for-large">Authors</th>
                             <th class="show-for-medium text-center">Year</th>
                             <th class="show-for-medium text-center">Tuning</th>
-                            <th width="300"></th>
+                            <th width="180px"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -341,12 +341,12 @@
                             </td>
                             <td class="link-cell">
                                 <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                    {{ song.subtitle }}
+                                    {{ song.subtitle.substr(0, 40) }} <span v-if="song.subtitle.length > 40">...</span>
                                 </router-link>
                             </td>
                             <td class="show-for-large link-cell">
                                 <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                    {{ song.authors }}
+                                    {{ song.authors.substr(0, 30) }} <span v-if="song.authors.length > 30">...</span>
                                 </router-link>
                             </td>
                             <td class="show-for-medium text-center link-cell">
@@ -362,15 +362,12 @@
                             <td class="text-right">
                                 <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                                     <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-large">Show</span>
                                 </router-link>
                                 <router-link v-if="admin" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
                                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-large">Edit</span>
                                 </router-link>
                                 <router-link v-if="admin" class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
                                     <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-large">Delete</span>
                                 </router-link>
                             </td>
                         </tr>
