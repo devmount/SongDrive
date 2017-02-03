@@ -185,7 +185,7 @@ var Dashboard = Vue.extend({
                 data: {
                     labels: Object.keys(setlistNumber),
                     datasets: [{
-                        data: Object.values(setlistNumber),
+                        data: Object.keys(setlistNumber).map(function(key) { return setlistNumber[key] }),
                         backgroundColor: '#88b544',
                         borderColor: '#fff',
                         borderWidth: 2,
@@ -208,7 +208,7 @@ var Dashboard = Vue.extend({
                 data: {
                     labels: Object.keys(songNumber),
                     datasets: [{
-                        data: Object.values(songNumber),
+                        data: Object.keys(songNumber).map(function(key ) {return songNumber[key] }),
                         backgroundColor: '#88b544',
                         borderColor: '#fff',
                         borderWidth: 2,
