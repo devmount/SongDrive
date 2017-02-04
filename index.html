@@ -615,10 +615,10 @@
                 <table class="hover">
                     <thead>
                         <tr>
-                            <th width="150">Date</th>
-                            <th width="200">Title</th>
-                            <th width="50">#</th>
-                            <th width="225"></th>
+                            <th>Date</th>
+                            <th>Title</th>
+                            <th class="show-for-medium">#</th>
+                            <th width="180"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -633,7 +633,7 @@
                                     {{ setlist.title }}
                                 </router-link>
                             </td>
-                            <td class="link-cell">
+                            <td class="show-for-medium link-cell">
                                 <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                                     {{ setlist.songs ? setlist.songs.length : '0' }}
                                 </router-link>
