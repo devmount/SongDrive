@@ -641,15 +641,12 @@
                             <td class="text-right">
                                 <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-large">Show</span>
                                 </router-link>
                                 <router-link v-if="admin" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-large">Edit</span>
                                 </router-link>
                                 <router-link v-if="admin" class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-large">Delete</span>
                                 </router-link>
                             </td>
                         </tr>
