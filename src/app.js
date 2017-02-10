@@ -126,13 +126,13 @@ var Dashboard = Vue.extend({
     methods: {
         // shuffle song list
         shuffleSongs: function() {
-            // dummy variable to force recalculation of getRandomProperty()
+            // dummy variable to invoke recalculation of getRandomProperty()
             this.shuffle = []
         }
     },
     mounted: function() {
         // get snapshot of song list
-        songsRef.on("value", function(snap) {
+        songsRef.on('value', function(snap) {
             // a doughnut chart for song languages
             var songs = snap.val();
             var data = [], labels = [], colors = [];
@@ -164,7 +164,7 @@ var Dashboard = Vue.extend({
             });
         });
         // get snapshot of setlist list
-        setlistsRef.on("value", function(snap) {
+        setlistsRef.on('value', function(snap) {
             // a bar chart for number of setlists per year
             var setlists = snap.val();
             var setlistNumber = {}, songNumber = {};
@@ -241,7 +241,7 @@ var ListSongs = Vue.extend({
             admin: admin
         };
     },
-    computed : {
+    computed: {
         // apply filter
         filteredSongs: function () {
             var self = this;
@@ -249,6 +249,7 @@ var ListSongs = Vue.extend({
         }
     },
     mounted: function() {
+        // set initial focus to search input
         document.getElementById('search').focus();
     }
 });
@@ -260,9 +261,11 @@ var ListSetlists = Vue.extend({
         setlists: setlistsRef.orderByChild('date')
     },
     data: function () {
-        return {searchKey: ''};
+        return {
+            searchKey: ''
+        };
     },
-    computed : {
+    computed: {
         // apply filter
         filteredSetlists: function () {
             var self = this;
@@ -274,6 +277,7 @@ var ListSetlists = Vue.extend({
         }
     },
     mounted: function() {
+        // set initial focus to search input
         document.getElementById('search').focus();
     }
 });
