@@ -46,11 +46,13 @@ input, textarea, select {
 .tm {
     margin-top: .5em;
 }
+.columns {
+    overflow: hidden;
+}
 
 /* app content container */
 .container {
     position: relative;
-    /*min-height: 100vh;*/
     background: #f1f1f1;
 }
 
