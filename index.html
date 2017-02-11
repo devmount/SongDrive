@@ -454,11 +454,11 @@
                         SNG
                     </button>
                 </form>
-                <router-link class="hollow button" :to="{name: 'present-song', params: {song_id: song['.key']}}">
+                <router-link v-if="song['.key']" class="hollow button" :to="{name: 'present-song', params: {song_id: song['.key']}}">
                     <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
                     Fullscreen
                 </router-link>
-                <router-link v-if="admin" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
+                <router-link v-if="admin && song['.key']" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Edit</span>
                 </router-link>
@@ -480,7 +480,7 @@
                 <h1>{{ song.title }}</h1>
                 <p>{{ song.subtitle }}</p>
             </header>
-            <div class="row expanded small-up-1 medium-up-1 large-up-2">
+            <div v-if="song.content" class="row expanded small-up-1 medium-up-1 large-up-2">
                 <div class="columns" v-for="column in getTwoColumns(song.content)">
                     <pre v-for="part in parseSongContent(column)" :class="part.class">{{ part.content }}</pre>
                 </div>
@@ -496,7 +496,7 @@
                 <button class="hollow button" @click.prevent="toggleChords" value="1" title="Show text only">
                     <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
                 </button>
-                <router-link class="secondary hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                <router-link v-if="song['.key']" class="secondary hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     Close
                 </router-link>
@@ -732,11 +732,11 @@
                         PDF Setlist
                     </button>
                 </form>
-                <router-link class="hollow button" :to="{name: 'present-setlist', params: {setlist_id: setlist['.key']}}">
+                <router-link v-if="setlist['.key']" class="hollow button" :to="{name: 'present-setlist', params: {setlist_id: setlist['.key']}}">
                     <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
                     Present
                 </router-link>
-                <router-link v-if="admin" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
+                <router-link v-if="admin && setlist['.key']" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Edit</span>
                 </router-link>
@@ -878,7 +878,7 @@
                 <button class="hollow button" @click.prevent="toggleChords" value="1" title="Show text only">
                     <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
                 </button>
-                <router-link class="secondary hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                <router-link v-if="setlist['.key']" class="secondary hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     Close
                 </router-link>
