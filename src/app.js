@@ -1045,29 +1045,31 @@ function transposeChords(action, str) {
     var tunes = ['C', 'D', 'E', 'F', 'G', 'A', 'H', 'C'];
     for (var key in lines) {
         // get single line
-        var line = lines[key];
+        var line = lines[key], newLine = line;
         // identify chord lines
         if(isChordLine(line)) {
             for (var i in line) {
                 // get single character in line
                 var c = line[i];
-                // check if character is from a chord
-                if (tunes.indexOf(c) >= 0) {
+                // check if character is a transposable character
+                if (tunes.indexOf(c) > -1) {
                     // transpose chords up
                     if (action == 1) {
                         // replace character by next tune character
-                        line = line.substr(0, i) + tunes[tunes.indexOf(c) + 1] + line.substr(i + 1);
+                        newLine = newLine.substr(0, i) + tunes[tunes.indexOf(c) + 1] + newLine.substr(i + 1);
                     } else 
                     // transpose chords down
                     if (action == -1) {
                         // replace character by next tune character
-                        line = line.substr(0, i) + tunes[tunes.lastIndexOf(c) - 1] + line.substr(i + 1);
+                        newLine = newLine.substr(0, i) + tunes[tunes.lastIndexOf(c) - 1] + newLine.substr(i + 1);
                     }
+                } else {
+                    newLine = newLine.substr(0, i) + c + newLine.substr(i + 1);
                 }
             }
         }
         // add lines to new content
-        newLines.push(line);
+        newLines.push(newLine);
     }
     return newLines.join('\n');
 }
