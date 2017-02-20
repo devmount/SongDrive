@@ -1042,31 +1042,49 @@ function removeChords(str) {
 // remove chord lines from given multiline string
 function transposeChords(action, str) {
     var lines = str.split('\n'), newLines = [];
-    var tunes = ['C', 'D', 'E', 'F', 'G', 'A', 'H', 'C'];
+    var tunes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H', 'C'];
     for (var key in lines) {
         // get single line
-        var line = lines[key], newLine = line;
+        var line = lines[key], newLine = '';
         // identify chord lines
         if(isChordLine(line)) {
-            for (var i in line) {
+            var i = 0;
+            while (i < line.length) {
                 // get single character in line
                 var c = line[i];
+                // on '#': skip to next character as it will be handled together with tune
+                if (c == '#') {
+                    i++;
+                    continue;
+                }
+                var isHalf = line[i+1] == '#';
+                // check if character is a tune with #
+                if (isHalf) {
+                    c = c + '#';
+                }
                 // check if character is a transposable character
                 if (tunes.indexOf(c) > -1) {
                     // transpose chords up
                     if (action == 1) {
                         // replace character by next tune character
-                        newLine = newLine.substr(0, i) + tunes[tunes.indexOf(c) + 1] + newLine.substr(i + 1);
+                        var nextTune = tunes[tunes.indexOf(c) + 1];
+                        newLine += nextTune;
                     } else 
                     // transpose chords down
                     if (action == -1) {
                         // replace character by next tune character
-                        newLine = newLine.substr(0, i) + tunes[tunes.lastIndexOf(c) - 1] + newLine.substr(i + 1);
+                        var prevTune = tunes[tunes.lastIndexOf(c) - 1];
+                        newLine += prevTune;
                     }
                 } else {
-                    newLine = newLine.substr(0, i) + c + newLine.substr(i + 1);
+                    newLine += c;
                 }
+                i++;
             }
+        }
+        // if no chord line: leave line as is
+        else {
+            newLine = line;
         }
         // add lines to new content
         newLines.push(newLine);
