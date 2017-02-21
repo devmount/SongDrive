@@ -566,16 +566,14 @@ var ShowSong = Vue.extend({
                 this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
             }
         },
-        transposeChords: function() {
-            // select proper button element (make sure to take the button, even if symbol tag <i> is clicked)
-            var target = event.path[0].tagName == 'BUTTON' ? event.path[0] : event.path[1];
+        transposeChords: function(mode) {
             // set song content to content transposed chords
-            if (target.value == 0) {
+            if (mode == 0) {
                 // reset tuning: get original song content
                 this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
             } else {
                 // adapt tuning
-                this.song.content = transposeChords(target.value, this.song.content);
+                this.song.content = transposeChords(mode, this.song.content);
             }
         }
     }

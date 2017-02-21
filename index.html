@@ -420,21 +420,21 @@
                             </template>
                             <hr />
                         </template>
-                        <button v-if="!textOnly" class="secondary small button" @click.prevent="toggleChords(1)" value="1" title="Show text only">
+                        <button v-if="!textOnly" class="secondary small button" @click="toggleChords(1)" title="Show text only">
                             <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
                         </button>
-                        <button v-else class="secondary small button" @click.prevent="toggleChords(0)" value="0" title="Show text and chords">
+                        <button v-else class="secondary small button" @click="toggleChords(0)" title="Show text and chords">
                             <i class="fa fa-music fa-fw" aria-hidden="true"></i>
                         </button>
                         <template v-if="!textOnly">
                             <hr />
-                            <button class="secondary small button" @click.prevent="transposeChords" value="1" title="Transpose chords up">
+                            <button class="secondary small button" @click="transposeChords(1)" title="Transpose chords up">
                                 <i class="fa fa-arrow-up fa-fw" aria-hidden="true"></i>
                             </button>
-                            <button class="secondary small button" @click.prevent="transposeChords" value="0" title="Reset transposed chords">
+                            <button class="secondary small button" @click="transposeChords(0)" title="Reset transposed chords">
                                 <i class="fa fa-circle-o fa-fw" aria-hidden="true"></i>
                             </button>
-                            <button class="secondary small button" @click.prevent="transposeChords" value="-1" title="Transpose chords up">
+                            <button class="secondary small button" @click="transposeChords(-1)" title="Transpose chords up">
                                 <i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>
                             </button>
                         </template>
