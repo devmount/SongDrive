@@ -1045,13 +1045,27 @@ function transposeChords(action, str) {
     var tunes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H', 'C'];
     for (var key in lines) {
         // get single line
-        var line = lines[key], newLine = '';
+        var line = lines[key]
+        // init the new line to build and the current over- or underflow of spaces due to different chord string lenghts
+        var newLine = '', spaces = 0;
         // identify chord lines
         if(isChordLine(line)) {
             var i = 0;
             while (i < line.length) {
                 // get single character in line
                 var c = line[i];
+                // handle over- or underflow of spaces
+                if (spaces > 0 && c == ' ') {
+                    // to few spaces: double next existing space and decrease space count
+                    c = '  ';
+                    spaces--;
+                }
+                if (spaces < 0 && c == ' ' && line[i+1] == ' ') {
+                    // to many spaces: skip one of two consecutive spaces and increase space count
+                    spaces++;
+                    i++;
+                    continue;
+                }
                 // on '#': skip to next character as it will be handled together with tune
                 if (c == '#') {
                     i++;
@@ -1069,12 +1083,16 @@ function transposeChords(action, str) {
                         // replace character by next tune character
                         var nextTune = tunes[tunes.indexOf(c) + 1];
                         newLine += nextTune;
+                        // update over- or underflow of spaces
+                        spaces += c.length - nextTune.length;
                     } else 
                     // transpose chords down
                     if (action == -1) {
                         // replace character by next tune character
                         var prevTune = tunes[tunes.lastIndexOf(c) - 1];
                         newLine += prevTune;
+                        // update over- or underflow of spaces
+                        spaces += c.length - prevTune.length;
                     }
                 } else {
                     newLine += c;
