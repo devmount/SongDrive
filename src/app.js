@@ -504,7 +504,8 @@ var ShowSong = Vue.extend({
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         return {
             song: this.song,
-            songs: this.songs
+            songs: this.songs,
+            textOnly: false
         };
     },
     methods: {
@@ -551,26 +552,18 @@ var ShowSong = Vue.extend({
             download(content, this.song.title + '.sng');
             notify('success', 'SNG export', 'Song was successfully exported as SNG.');
         },
-        toggleChords: function(event) {
-            // select proper button element (make sure to take the button, even if symbol tag <i> is clicked)
-            var target = event.path[0].tagName == 'BUTTON' ? event.path[0] : event.path[1];
-            // show text only
-            if (target.value == '1') {
+        toggleChords: function(textOnly) {
+            // update toggle button
+            this.textOnly = textOnly;
+            // show text without chord lines
+            if (textOnly) {
                 // set song content to content without chords
                 this.song.content = removeChords(this.song.content);
-                // restyle toggle button
-                target.value = '0';
-                target.title = 'Show text and chords';
-                target.innerHTML = '<i class="fa fa-music fa-fw" aria-hidden="true"></i>';
             }
             // show text + chords (default)
             else {
                 // get original song content
                 this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
-                // restyle toggle button
-                target.value = '1';
-                target.title = 'Show text only';
-                target.innerHTML = '<i class="fa fa-align-left fa-fw" aria-hidden="true"></i>';
             }
         },
         transposeChords: function() {
@@ -1013,7 +1006,7 @@ function isChordLine(line) {
         return false;
     }
     var ratio = (line.split(' ').length - 1)/line.length;
-    return ratio > 0.4 || (line.length < 4 && line.charAt(0) != '-');
+    return ratio > 0.25 || (line.length < 4 && line.charAt(0) != '-');
 }
 
 // filter song list
