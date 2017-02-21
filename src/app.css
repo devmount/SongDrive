@@ -23,6 +23,9 @@ input, textarea, select {
     vertical-align: text-bottom;
     margin: 0;
 }
+:focus {
+    outline:none;
+}
 .show-linebreaks {
     white-space: pre-line;
 }
