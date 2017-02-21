@@ -491,7 +491,7 @@
             </header>
             <div v-if="song.content" class="row expanded small-up-1 medium-up-1 large-up-2">
                 <div class="columns" v-for="column in getTwoColumns(song.content)">
-                    <pre v-for="part in parseSongContent(column)" :class="part.class">{{ part.content }}</pre>
+                    <pre v-for="part in parseSongContent(column)" :class="part.class + (textOnly ? ' textonly' : '')">{{ part.content }}</pre>
                 </div>
             </div>
             <div class="row expanded">
@@ -502,8 +502,11 @@
                 </div>
             </div>
             <footer>
-                <button class="hollow button" @click.prevent="toggleChords" value="1" title="Show text only">
+                <button v-if="!textOnly" class="hollow button" @click="toggleChords(1)" title="Show text only">
                     <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
+                </button>
+                <button v-else class="hollow button" @click="toggleChords(0)" title="Show text and chords">
+                    <i class="fa fa-music fa-fw" aria-hidden="true"></i>
                 </button>
                 <router-link v-if="song['.key']" class="secondary hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>

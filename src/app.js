@@ -586,7 +586,8 @@ var PresentSong = Vue.extend({
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         return {
-            song: this.song
+            song: this.song,
+            textOnly: false
         };
     },
     methods: {
@@ -600,36 +601,18 @@ var PresentSong = Vue.extend({
                 parts.join('\n\n'),
             ];
         },
-        toggleChords: function(event) {
-            // select proper button element (make sure to take the button, even if symbol tag <i> is clicked)
-            var target = event.path[0].tagName == 'BUTTON' ? event.path[0] : event.path[1];
+        toggleChords: function(textOnly) {
+            // update toggle button
+            this.textOnly = textOnly;
             // show text only
-            if (target.value == '1') {
+            if (textOnly) {
                 // set song content to content without chords
                 this.song.content = removeChords(this.song.content);
-                // set new class to all <pre> to restyle font
-                var elements = document.getElementsByTagName('PRE');
-                [].slice.call(elements).forEach(function(element) {
-                    element.className += ' textonly';
-                }, this);
-                // restyle toggle button
-                target.value = '0';
-                target.title = 'Show text and chords';
-                target.innerHTML = '<i class="fa fa-music fa-fw" aria-hidden="true"></i>';
             }
             // show text + chords (default)
             else {
                 // get original song content
                 this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
-                // remove class from all <pre> to reset font
-                var elements = document.getElementsByTagName('PRE');
-                [].slice.call(elements).forEach(function(element) {
-                    element.className = element.className.replace(/\stextonly\b/,'');
-                }, this);
-                // restyle toggle button
-                target.value = '1';
-                target.title = 'Show text only';
-                target.innerHTML = '<i class="fa fa-align-left fa-fw" aria-hidden="true"></i>';
             }
         }
     }
