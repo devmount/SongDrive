@@ -409,11 +409,10 @@
                     <pre v-for="part in parseSongContent(song.content)" :class="part.class">{{ part.content }}</pre>
                     <div class="toolbar">
                         <template v-if="song.translations" >
-                            <i class="fa fa-flag fa-fw" aria-hidden="true" title="Translations"></i>
                             <template v-for="key in song.translations">
                                 <template v-for="tsong in songs">
                                     <template v-if="tsong['.key'] == key">
-                                        <router-link class="secondary small button" :to="{name: 'show-song', params: {song_id: key}}">
+                                        <router-link class="secondary small button" :to="{name: 'show-song', params: {song_id: key}}" :title="tsong.title">
                                             {{ tsong.language }}
                                         </router-link>
                                     </template>

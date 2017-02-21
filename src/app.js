@@ -1058,7 +1058,7 @@ function transposeChords(action, str) {
                     continue;
                 }
                 var isHalf = line[i+1] == '#';
-                // check if character is a tune with #
+                // check if character is a tune with '#'
                 if (isHalf) {
                     c = c + '#';
                 }
