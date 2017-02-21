@@ -869,7 +869,7 @@
                                 <h1>{{ song.title }}</h1>
                                 <div class="expanded row collapse small-up-1 medium-up-1 large-up-2">
                                     <div class="columns" v-for="column in getTwoColumns(song.content)">
-                                        <pre v-for="part in parseSongContent(column)" :class="part.class">{{ part.content }}</pre>
+                                        <pre v-for="part in parseSongContent(column)" :class="part.class + (textOnly ? ' textonly' : '')">{{ part.content }}</pre>
                                     </div>
                                 </div>
                                 <footer>
@@ -887,8 +887,11 @@
             </div>
             <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
             <footer>
-                <button class="hollow button" @click.prevent="toggleChords" value="1" title="Show text only">
+                <button v-if="!textOnly" class="hollow button" @click="toggleChords(1)" title="Show text only">
                     <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
+                </button>
+                <button v-else class="hollow button" @click="toggleChords(0)" title="Show text and chords">
+                    <i class="fa fa-music fa-fw" aria-hidden="true"></i>
                 </button>
                 <router-link v-if="setlist['.key']" class="secondary hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>

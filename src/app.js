@@ -683,7 +683,8 @@ var PresentSetlist = Vue.extend({
             this.setlist.songs = [];
         }
         return {
-            setlist: this.setlist
+            setlist: this.setlist,
+            textOnly: false
         };
     },
     mounted: function(){
@@ -708,40 +709,22 @@ var PresentSetlist = Vue.extend({
                 parts.join('\n\n'),
             ];
         },
-        toggleChords: function(event) {
-            // select proper button element (make sure to take the button, even if symbol tag <i> is clicked)
-            var target = event.path[0].tagName == 'BUTTON' ? event.path[0] : event.path[1];
+        toggleChords: function(textOnly) {
+            // update toggle button
+            this.textOnly = textOnly;
             // show text only
-            if (target.value == '1') {
+            if (textOnly) {
                 // for each song in setlist song list set song content to content without chords
                 this.songs.forEach(function(song) {
                     if (this.setlist.songs.indexOf(song['.key']) >= 0) {
                         song.content = removeChords(song.content);
                     }
                 }, this);
-                // set new class to all <pre> to restyle font
-                var elements = document.getElementsByTagName('PRE');
-                [].slice.call(elements).forEach(function(element) {
-                    element.className += ' textonly';
-                }, this);
-                // restyle toggle button
-                target.value = '0';
-                target.title = 'Show text and chords';
-                target.innerHTML = '<i class="fa fa-music fa-fw" aria-hidden="true"></i>';
             }
             // show text + chords (default)
             else {
                 // get original setlist song content
                 this.$bindAsArray('songs', songsRef);
-                // remove class from all <pre> to reset font
-                var elements = document.getElementsByTagName('PRE');
-                [].slice.call(elements).forEach(function(element) {
-                    element.className = element.className.replace(/\stextonly\b/,'');
-                }, this);
-                // restyle toggle button
-                target.value = '1';
-                target.title = 'Show text only';
-                target.innerHTML = '<i class="fa fa-align-left fa-fw" aria-hidden="true"></i>';
             }
         }
     }
