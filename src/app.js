@@ -1,3 +1,6 @@
+// SongDrive version
+var VERSION = '0.1.225';
+
 // Setup admin mode (if set to false, SongDrive will be in reading mode only)
 var ADMIN = true;
 
@@ -119,7 +122,8 @@ var Dashboard = Vue.extend({
     data: function () {
         return {
             shuffle: [],
-            admin: ADMIN
+            admin: ADMIN,
+            version: VERSION
         };
     },
     methods: {
