@@ -450,6 +450,7 @@ section .footer {
 /* devmount author link */
 .devmount {
     position: relative;
+    display: inline-block;
     text-decoration: none;
     font-size: 1em;
     margin-left: .2em;

@@ -3,7 +3,6 @@ var admin = true;
 
 // Setup Firebase
 firebase.initializeApp(config);
-
 var songsRef = firebase.database().ref('songs');
 var authorsRef = firebase.database().ref('authors');
 var setlistsRef = firebase.database().ref('setlists');
