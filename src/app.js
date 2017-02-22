@@ -1,5 +1,5 @@
 // Setup admin mode (if set to false, SongDrive will be in reading mode only)
-var admin = true;
+var ADMIN = true;
 
 // Setup Firebase
 firebase.initializeApp(config);
@@ -119,7 +119,7 @@ var Dashboard = Vue.extend({
     data: function () {
         return {
             shuffle: [],
-            admin: admin
+            admin: ADMIN
         };
     },
     methods: {
@@ -237,7 +237,7 @@ var ListSongs = Vue.extend({
     data: function () {
         return {
             searchKey: '',
-            admin: admin
+            admin: ADMIN
         };
     },
     computed: {
@@ -646,7 +646,7 @@ var ShowSetlist = Vue.extend({
         }
     },
     mounted: function(){
-        if (admin) {
+        if (ADMIN) {
             var self = this;
             self.$nextTick(function(){
                 // make song table rows sortable (drag and drop)
@@ -998,7 +998,7 @@ function removeChords(str) {
 // remove chord lines from given multiline string
 function transposeChords(action, str) {
     var lines = str.split('\n'), newLines = [];
-    var tunes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H', 'C'];
+    var TUNES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H', 'C'];
     for (var key in lines) {
         // get single line
         var line = lines[key]
@@ -1033,11 +1033,11 @@ function transposeChords(action, str) {
                     c = c + '#';
                 }
                 // check if character is a transposable character
-                if (tunes.indexOf(c) > -1) {
+                if (TUNES.indexOf(c) > -1) {
                     // transpose chords up
                     if (action == 1) {
                         // replace character by next tune character
-                        var nextTune = tunes[tunes.indexOf(c) + 1];
+                        var nextTune = TUNES[TUNES.indexOf(c) + 1];
                         newLine += nextTune;
                         // update over- or underflow of spaces
                         spaces += c.length - nextTune.length;
@@ -1045,7 +1045,7 @@ function transposeChords(action, str) {
                     // transpose chords down
                     if (action == -1) {
                         // replace character by next tune character
-                        var prevTune = tunes[tunes.lastIndexOf(c) - 1];
+                        var prevTune = TUNES[TUNES.lastIndexOf(c) - 1];
                         newLine += prevTune;
                         // update over- or underflow of spaces
                         spaces += c.length - prevTune.length;
