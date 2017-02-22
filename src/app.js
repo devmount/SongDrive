@@ -121,9 +121,7 @@ var Dashboard = Vue.extend({
     },
     data: function () {
         return {
-            shuffle: [],
-            admin: ADMIN,
-            version: VERSION
+            shuffle: []
         };
     },
     methods: {
@@ -240,8 +238,7 @@ var ListSongs = Vue.extend({
     },
     data: function () {
         return {
-            searchKey: '',
-            admin: ADMIN
+            searchKey: ''
         };
     },
     computed: {

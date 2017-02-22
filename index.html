@@ -295,15 +295,15 @@
             </div>
             <div class="row">
                 <div class="small-12 columns">
-                    SongDrive <span class="pre">v{{ version }}</span>
+                    SongDrive <span class="pre">v{{ VERSION }}</span>
                 </div>
             </div>
             <footer>
-                <router-link v-if="admin" class="button" :to="{name: 'add-song'}" title="New Song">
+                <router-link v-if="ADMIN" class="button" :to="{name: 'add-song'}" title="New Song">
                     <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Add </span> Song
                 </router-link>
-                <router-link v-if="admin" class="button" :to="{name: 'add-setlist'}" title="New Setlist">
+                <router-link v-if="ADMIN" class="button" :to="{name: 'add-setlist'}" title="New Setlist">
                     <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Add </span> Setlist
                 </router-link>
@@ -369,10 +369,10 @@
                                 <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                                     <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
                                 </router-link>
-                                <router-link v-if="admin" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
+                                <router-link v-if="ADMIN" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
                                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                                 </router-link>
-                                <router-link v-if="admin" class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
+                                <router-link v-if="ADMIN" class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
                                     <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                                 </router-link>
                             </td>
@@ -381,11 +381,11 @@
                 </table>
             </div>
             <footer>
-                <router-link v-if="admin" class="button" :to="{name: 'add-song'}" title="New Song">
+                <router-link v-if="ADMIN" class="button" :to="{name: 'add-song'}" title="New Song">
                     <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Add </span> Song
                 </router-link>
-                <router-link v-if="admin" class="button" :to="{name: 'add-setlist'}" title="New Setlist">
+                <router-link v-if="ADMIN" class="button" :to="{name: 'add-setlist'}" title="New Setlist">
                     <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Add </span> Setlist
                 </router-link>
@@ -467,7 +467,7 @@
                     <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
                     Fullscreen
                 </router-link>
-                <router-link v-if="admin && song['.key']" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
+                <router-link v-if="ADMIN && song['.key']" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Edit</span>
                 </router-link>
@@ -654,10 +654,10 @@
                                 <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
                                 </router-link>
-                                <router-link v-if="admin" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
+                                <router-link v-if="ADMIN" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                                 </router-link>
-                                <router-link v-if="admin" class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
+                                <router-link v-if="ADMIN" class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                                 </router-link>
                             </td>
@@ -666,11 +666,11 @@
                 </table>
             </div>
             <footer>
-                <router-link v-if="admin" class="button" :to="{name: 'add-song'}" title="New Song">
+                <router-link v-if="ADMIN" class="button" :to="{name: 'add-song'}" title="New Song">
                     <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Add </span> Song
                 </router-link>
-                <router-link v-if="admin" class="button" :to="{name: 'add-setlist'}" title="New Setlist">
+                <router-link v-if="ADMIN" class="button" :to="{name: 'add-setlist'}" title="New Setlist">
                     <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Add </span> Setlist
                 </router-link>
@@ -748,7 +748,7 @@
                     <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
                     Present
                 </router-link>
-                <router-link v-if="admin && setlist['.key']" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
+                <router-link v-if="ADMIN && setlist['.key']" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Edit</span>
                 </router-link>
