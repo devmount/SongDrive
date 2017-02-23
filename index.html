@@ -454,18 +454,18 @@
                 <form v-on:submit.prevent="exportPdf" target="_blank">
                     <button type="submit" class="hollow button">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                        PDF
+                        <span class="show-for-medium">PDF</span>
                     </button>
                 </form>
                 <form v-on:submit.prevent="exportSng" target="_blank">
                     <button type="submit" class="hollow button">
                         <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                        SNG
+                        <span class="show-for-medium">SNG</span>
                     </button>
                 </form>
                 <router-link v-if="song['.key']" class="hollow button" :to="{name: 'present-song', params: {song_id: song['.key']}}">
                     <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
-                    Fullscreen
+                    <span class="show-for-large">Fullscreen</span>
                 </router-link>
                 <router-link v-if="ADMIN && song['.key']" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
@@ -473,7 +473,7 @@
                 </router-link>
                 <router-link class="secondary hollow button" :to="{name: 'songs'}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    Back
+                    <span class="show-for-large">Back</span>
                 </router-link>
             </footer>
         </section>
