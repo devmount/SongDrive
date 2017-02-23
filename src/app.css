@@ -88,6 +88,9 @@ input, textarea, select {
 .title-bar .title-bar-right a:hover {
     background: #222;
 }
+.title-bar .title-bar-right {
+    flex: 2;
+}
 
 /* app header*/
 .container > header {
