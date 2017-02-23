@@ -510,7 +510,7 @@
                 </button>
                 <router-link v-if="song['.key']" class="secondary hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    Close
+                    <span class="show-for-large">Close</span>
                 </router-link>
             </footer>
         </section>
@@ -735,18 +735,20 @@
                 <form v-on:submit.prevent="exportSongsheets" target="_blank">
                     <button type="submit" class="hollow button">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                        PDF Songsheets
+                        <span class="show-for-large">PDF </span><span class="show-for-medium">Songsheets</span>
+                        <span class="hide-for-medium">Sheets</span>
                     </button>
                 </form>
                 <form v-on:submit.prevent="exportSetlist" target="_blank">
                     <button type="submit" class="hollow button">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                        PDF Setlist
+                        <span class="show-for-large">PDF </span><span class="show-for-medium">Setlist</span>
+                        <span class="hide-for-medium">List</span>
                     </button>
                 </form>
                 <router-link v-if="setlist['.key']" class="hollow button" :to="{name: 'present-setlist', params: {setlist_id: setlist['.key']}}">
                     <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
-                    Present
+                    <span class="show-for-large">Present</span>
                 </router-link>
                 <router-link v-if="ADMIN && setlist['.key']" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
@@ -754,7 +756,7 @@
                 </router-link>
                 <router-link class="secondary hollow button" :to="{name: 'setlists'}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    Back
+                    <span class="show-for-large">Back</span>
                 </router-link>
             </footer>
         </section>
@@ -895,7 +897,7 @@
                 </button>
                 <router-link v-if="setlist['.key']" class="secondary hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    Close
+                    <span class="show-for-large">Close</span>
                 </router-link>
             </footer>
         </section>
