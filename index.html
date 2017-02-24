@@ -494,6 +494,7 @@
             </header>
             <div class="row">
                 <div class="columns content-column">
+                    <template v-if="song['.key'] && textOnly">{{ toggleChords(1) }}</template>
                     <pre v-if="song['.key']">{{ song.title }}<br /><br />{{ parseTxtSongContent(song.content) }}</pre>
                     <div class="toolbar">
                         <template v-if="song.translations" >

@@ -591,7 +591,7 @@ var TxtSong = Vue.extend({
         return {
             song: this.song,
             songs: this.songs,
-            textOnly: false
+            textOnly: true
         };
     },
     methods: {
