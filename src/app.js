@@ -579,6 +579,49 @@ var ShowSong = Vue.extend({
     }
 });
 
+// component: export song as copyable text
+var TxtSong = Vue.extend({
+    template: '#txt-song',
+    firebase: {
+        songs: songsRef
+    },
+    data: function () {
+        // get song from firebase and bind it to this.song
+        this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
+        return {
+            song: this.song,
+            songs: this.songs,
+            textOnly: false
+        };
+    },
+    methods: {
+        toggleChords: function(textOnly) {
+            // update toggle button
+            this.textOnly = textOnly;
+            // show text without chord lines
+            if (textOnly) {
+                // set song content to content without chords
+                this.song.content = removeChords(this.song.content);
+            }
+            // show text + chords (default)
+            else {
+                // get original song content
+                this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
+            }
+        },
+        transposeChords: function(mode) {
+            // set song content to content transposed chords
+            if (mode == 0) {
+                // reset tuning: get original song content
+                this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
+            } else {
+                // adapt tuning
+                this.song.content = transposeChords(mode, this.song.content);
+            }
+        }
+    }
+});
+
 // component: show song fullscreen
 var PresentSong = Vue.extend({
     template: '#present-song',
@@ -742,6 +785,7 @@ var router = new VueRouter({
         {name: 'present-song',    component: PresentSong,    path: '/song/:song_id/fullscreen'},
         {name: 'edit-song',       component: EditSong,       path: '/song/:song_id/edit'},
         {name: 'delete-song',     component: DeleteSong,     path: '/song/:song_id/delete'},
+        {name: 'txt-song',        component: TxtSong,        path: '/song/:song_id/txt'},
         // setlists
         {name: 'setlists',        component: ListSetlists,   path: '/setlists'},
         {name: 'add-setlist',     component: AddSetlist,     path: '/setlist/add'},
@@ -1075,6 +1119,42 @@ function notify(type, title, text) {
     if (type == 'error') {
         notyf.alert('<strong>' + title + '</strong><br />' + text);
     }
+}
+
+// parse txt song content
+function parseTxtSongContent(content) {
+    // check if content is already loaded by firebase
+    if (typeof content != 'undefined' && content) {
+        // initialize arrays for parsed lines
+        var parsed = [];
+        var lines = content.split('\n');
+        // check every content line
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            // if normal song line is found
+            if (line.trim().indexOf('--') < 0) {
+                // add line
+                parsed.push(line);
+            }
+            // if song part is found (e.g. --V1)
+            else {
+                // if song part is 'verse', prepend number to next text line 
+                if ((line.charAt(2) == 'v' || line.charAt(2) == 'V') && !isNaN(parseInt(line.trim().charAt(3)))) {
+                    // if next line is chord line, prepend number to the line after
+                    if (isChordLine(lines[i+1])) {
+                        lines[i+2] = line.trim().charAt(3) + '. ' + lines[i+2]
+                        // add 3 spaces to next line to sync chords with text again
+                        lines[i+1] = '   ' + lines[i+1]
+                    } else {
+                        lines[i+1] = line.trim().charAt(3) + '. ' + lines[i+1]
+                    }
+                }
+            }
+        }
+        return parsed.join('\n');
+    }
+    // show nothing if content is not set
+    return '';
 }
 
 // parse song content

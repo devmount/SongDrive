@@ -459,10 +459,14 @@
                 </form>
                 <form v-on:submit.prevent="exportSng" target="_blank">
                     <button type="submit" class="hollow button">
-                        <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                        <i class="fa fa-file-video-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-medium">SNG</span>
                     </button>
                 </form>
+                <router-link v-if="song['.key']" class="hollow button" :to="{name: 'txt-song', params: {song_id: song['.key']}}">
+                    <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                    <span class="show-for-medium">TXT</span>
+                </router-link>
                 <router-link v-if="song['.key']" class="hollow button" :to="{name: 'present-song', params: {song_id: song['.key']}}">
                     <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Fullscreen</span>
@@ -472,6 +476,70 @@
                     <span class="show-for-large">Edit</span>
                 </router-link>
                 <router-link class="secondary hollow button" :to="{name: 'songs'}">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                    <span class="show-for-large">Back</span>
+                </router-link>
+            </footer>
+        </section>
+        <app-footer></app-footer>
+    </div>
+</template>
+
+<!-- export song as txt -->
+<template id="txt-song">
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+            </header>
+            <div class="row">
+                <div class="columns content-column">
+                    <pre v-if="song['.key']">{{ song.title }}<br /><br />{{ parseTxtSongContent(song.content) }}</pre>
+                    <div class="toolbar">
+                        <template v-if="song.translations" >
+                            <template v-for="key in song.translations">
+                                <template v-for="tsong in songs">
+                                    <template v-if="tsong['.key'] == key">
+                                        <router-link class="secondary small button" :to="{name: 'txt-song', params: {song_id: key}}" :title="tsong.title">
+                                            {{ tsong.language }}
+                                        </router-link>
+                                    </template>
+                                </template>
+                            </template>
+                            <hr />
+                        </template>
+                        <button v-if="!textOnly" class="secondary small button" @click="toggleChords(1)" title="Show text only">
+                            <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button v-else class="secondary small button" @click="toggleChords(0)" title="Show text and chords">
+                            <i class="fa fa-music fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <template v-if="!textOnly">
+                            <hr />
+                            <button class="secondary small button" @click="transposeChords(1)" title="Transpose chords up">
+                                <i class="fa fa-arrow-up fa-fw" aria-hidden="true"></i>
+                            </button>
+                            <button class="secondary small button" @click="transposeChords(0)" title="Reset transposed chords">
+                                <i class="fa fa-circle-o fa-fw" aria-hidden="true"></i>
+                            </button>
+                            <button class="secondary small button" @click="transposeChords(-1)" title="Transpose chords up">
+                                <i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="columns footer">
+                    <p v-if="song.authors">{{ song.authors }}</p>
+                    <p>
+                        <span v-if="song.ccli">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a><br /></span>
+                        &copy; {{ song.year }} <span v-if="song.publisher" class="show-linebreaks">{{ song.publisher }}</span>
+                    </p>
+                </div>
+            </div>
+            <footer>
+                <router-link v-if="song['.key']" class="secondary hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                     <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     <span class="show-for-large">Back</span>
                 </router-link>
