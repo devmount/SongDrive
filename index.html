@@ -406,7 +406,9 @@
             </header>
             <div class="row">
                 <div class="columns content-column">
-                    <pre v-for="part in parseSongContent(song.content)" :class="part.class">{{ part.content }}</pre>
+                    <template v-if="song['.key']" >
+                        <pre v-for="part in parseSongContent(song.content)" :class="part.class">{{ part.content }}</pre>
+                    </template>
                     <div class="toolbar">
                         <template v-if="song.translations" >
                             <template v-for="key in song.translations">

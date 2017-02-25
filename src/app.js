@@ -1123,131 +1123,121 @@ function notify(type, title, text) {
 
 // parse txt song content
 function parseTxtSongContent(content) {
-    // check if content is already loaded by firebase
-    if (typeof content != 'undefined' && content) {
-        // initialize arrays for parsed lines
-        var parsed = [];
-        var lines = content.split('\n');
-        // check every content line
-        for (var i = 0; i < lines.length; i++) {
-            var line = lines[i];
-            // if normal song line is found
-            if (line.trim().indexOf('--') < 0) {
-                // add line
-                parsed.push(line);
-            }
-            // if song part is found (e.g. --V1)
-            else {
-                // if song part is 'verse', prepend number to next text line 
-                if ((line.charAt(2) == 'v' || line.charAt(2) == 'V') && !isNaN(parseInt(line.trim().charAt(3)))) {
-                    // if next line is chord line, prepend number to the line after
-                    if (isChordLine(lines[i+1])) {
-                        lines[i+2] = line.trim().charAt(3) + '. ' + lines[i+2]
-                        // add 3 spaces to next line to sync chords with text again
-                        lines[i+1] = '   ' + lines[i+1]
-                    } else {
-                        lines[i+1] = line.trim().charAt(3) + '. ' + lines[i+1]
-                    }
+    // initialize arrays for parsed lines
+    var parsed = [];
+    var lines = content.split('\n');
+    // check every content line
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        // if normal song line is found
+        if (line.trim().indexOf('--') < 0) {
+            // add line
+            parsed.push(line);
+        }
+        // if song part is found (e.g. --V1)
+        else {
+            // if song part is 'verse', prepend number to next text line 
+            if ((line.charAt(2) == 'v' || line.charAt(2) == 'V') && !isNaN(parseInt(line.trim().charAt(3)))) {
+                // if next line is chord line, prepend number to the line after
+                if (isChordLine(lines[i+1])) {
+                    lines[i+2] = line.trim().charAt(3) + '. ' + lines[i+2]
+                    // add 3 spaces to next line to sync chords with text again
+                    lines[i+1] = '   ' + lines[i+1]
+                } else {
+                    lines[i+1] = line.trim().charAt(3) + '. ' + lines[i+1]
                 }
             }
         }
-        return parsed.join('\n');
     }
-    // show nothing if content is not set
-    return '';
+    return parsed.join('\n');
 }
 
 // parse song content
 function parseSongContent(content) {
-    // check if content is already loaded by firebase
-    if (typeof content != 'undefined' && content) {
-        // initialize arrays for parsed linex, classes of parts, type abbr., numbers of type and part index
-        var parsed = [], classes = [], types = [], numbers = [], part = 0;
-        var lines = content.split('\n');
-        // check every content line
-        for (var i = 0; i < lines.length; i++) {
-            var line = lines[i];
-            // if normal song line is found
-            if (line.trim().indexOf('--') < 0) {
-                // only consider line if not empty
-                if (line.trim() != '') {
-                    if (!parsed[part]) {
-                        parsed[part] = [];
-                    }
-                    // add line to current part
-                    parsed[part].push(line);
+    // initialize arrays for parsed linex, classes of parts, type abbr., numbers of type and part index
+    var parsed = [], classes = [], types = [], numbers = [], part = 0;
+    var lines = content.split('\n');
+    // check every content line
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        // if normal song line is found
+        if (line.trim().indexOf('--') < 0) {
+            // only consider line if not empty
+            if (line.trim() != '') {
+                if (!parsed[part]) {
+                    parsed[part] = [];
                 }
-            }
-            // if song part is found (e.g. --V1)
-            else {
-                // add class to part
-                switch (line.charAt(2)) {
-                    case 'V':
-                    case 'v':
-                        types.push('v');
-                        classes.push('verse ' + ((!isNaN(parseInt(line.trim().charAt(3)))) ? 'part' + line.trim().charAt(3) : ''));
-                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
-                        break;
-                    case 'P':
-                    case 'p':
-                        types.push('p');
-                        classes.push('prechorus');
-                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
-                        break;
-                    case 'C':
-                    case 'c':
-                        types.push('c');
-                        classes.push('chorus');
-                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
-                        break;
-                    case 'B':
-                    case 'b':
-                        types.push('b');
-                        classes.push('bridge');
-                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
-                        break;
-                    case 'I':
-                    case 'i':
-                        types.push('i');
-                        classes.push('intro');
-                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
-                        break;
-                    case 'O':
-                    case 'o':
-                        types.push('o');
-                        classes.push('outro');
-                        numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
-                        break;
-                    default:
-                        console.log('Ooops, something went wrong on parsing this line: "' + line + '"');
-                }
-                // consider next part
-                part++;
+                // add line to current part
+                parsed[part].push(line);
             }
         }
-        var newContent = [];
-        // if multiple parts: rejoin lines of every part
-        if (parsed.length > 1) {
-            for (var i = 1; i < parsed.length; i++) {
-                newContent.push({
-                    type: types[i-1],
-                    number: numbers[i-1],
-                    class: classes[i-1],
-                    content: parsed[i].join('\n')
-                });
-            }
-        }
-        // if no parts (no markers set): take whole content as one unclassified part
+        // if song part is found (e.g. --V1)
         else {
+            // add class to part
+            switch (line.charAt(2)) {
+                case 'V':
+                case 'v':
+                    types.push('v');
+                    classes.push('verse ' + ((!isNaN(parseInt(line.trim().charAt(3)))) ? 'part' + line.trim().charAt(3) : ''));
+                    numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+                    break;
+                case 'P':
+                case 'p':
+                    types.push('p');
+                    classes.push('prechorus');
+                    numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+                    break;
+                case 'C':
+                case 'c':
+                    types.push('c');
+                    classes.push('chorus');
+                    numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+                    break;
+                case 'B':
+                case 'b':
+                    types.push('b');
+                    classes.push('bridge');
+                    numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+                    break;
+                case 'I':
+                case 'i':
+                    types.push('i');
+                    classes.push('intro');
+                    numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+                    break;
+                case 'O':
+                case 'o':
+                    types.push('o');
+                    classes.push('outro');
+                    numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+                    break;
+                default:
+                    console.log('Ooops, something went wrong on parsing this line: "' + line + '"');
+            }
+            // consider next part
+            part++;
+        }
+    }
+    var newContent = [];
+    // if multiple parts: rejoin lines of every part
+    if (parsed.length > 1) {
+        for (var i = 1; i < parsed.length; i++) {
             newContent.push({
-                class: '',
-                content: content
+                type: types[i-1],
+                number: numbers[i-1],
+                class: classes[i-1],
+                content: parsed[i].join('\n')
             });
         }
-        return newContent;
     }
-    // show nothing if content is not set
-    return '';
+    // if no parts (no markers set): take whole content as one unclassified part
+    else {
+        newContent.push({
+            class: '',
+            content: content
+        });
+    }
+    return newContent;
 }
 
 // get <n> different random properties from given object
