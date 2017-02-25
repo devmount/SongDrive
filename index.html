@@ -802,6 +802,13 @@
                     <div v-if="setlist.songs.length == 0">No songs selected.</div>
                 </div>
             </div>
+            <div class="row">
+                <div class="small-12 medium-6 large-3 columns">
+                    <h4>Languages</h4>
+                    <template v-if="setlist['.key'] && songs">{{ showSetlistLanguagesChart() }}</template>
+                    <canvas id="setlist-languages"></canvas>
+                </div>
+            </div>
             <footer>
                 <form v-on:submit.prevent="exportSongsheets" target="_blank">
                     <button type="submit" class="hollow button">

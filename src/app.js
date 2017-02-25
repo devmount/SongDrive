@@ -678,6 +678,40 @@ var ShowSetlist = Vue.extend({
         };
     },
     methods: {
+        showSetlistLanguagesChart: function() {
+            // a doughnut chart for setlist languages
+            var data = [], labels = [], colors = [];
+            var languages = getLanguages();
+            // for each existing languages count number of setlist songs in that language
+            for (var l in languages) {
+                var n = 0;
+                for (var i in this.setlist.songs) {
+                    for (var j in this.songs) {
+                        if (this.songs[j]['.key'] == this.setlist.songs[i] && this.songs[j].language == l) {
+                            n++;
+                        }
+                    }
+                }
+                // add data to arrays
+                if (n > 0) {
+                    data.push(n);
+                    labels.push(languages[l].label);
+                    colors.push(languages[l].color);
+                }
+            }
+            // create doughnut chart with data arrays
+            new Chart('setlist-languages', {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors,
+                        hoverBackgroundColor: colors
+                    }]
+                }
+            });
+        },
         exportSetlist: function() {
             var doc = getPdfSetlistObject(this.setlist, this.songs);
             pdfMake.createPdf(doc).open();
@@ -690,6 +724,7 @@ var ShowSetlist = Vue.extend({
         }
     },
     mounted: function(){
+        // make setlist sortable
         if (ADMIN) {
             var self = this;
             self.$nextTick(function(){
