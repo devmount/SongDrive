@@ -709,6 +709,11 @@ var ShowSetlist = Vue.extend({
                         backgroundColor: colors,
                         hoverBackgroundColor: colors
                     }]
+                },
+                options: {
+                    animation:{
+                        animateRotate: false
+                    }
                 }
             });
         },
