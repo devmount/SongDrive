@@ -953,7 +953,7 @@ function getPdfSetlistObject(setlist, songs) {
     for (var j = 0; j < setlist.songs.length; j++) {
         for (var i = 0; i < songs.length; i++) {
             if (songs[i]['.key'] == setlist.songs[j]) {
-                titles.push((j+1) + '.  \u2012  ' + songs[i]['title']);
+                titles.push((j+1) + '.  \u2012  ' + songs[i]['title'] + '  [' + songs[i]['tuning'] + ']');
             }
         }
     }

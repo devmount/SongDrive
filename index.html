@@ -805,7 +805,7 @@
             <div class="row tm">
                 <div class="small-12 medium-6 large-3 columns">
                     <h4>Languages</h4>
-                    <template v-if="songs">{{ showSetlistLanguagesChart() }}</template>
+                    <template v-if="setlist['.key'] && songs">{{ showSetlistLanguagesChart() }}</template>
                     <canvas id="setlist-languages"></canvas>
                 </div>
             </div>
