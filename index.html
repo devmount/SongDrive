@@ -261,7 +261,12 @@
                             <div v-else class="secondary callout">
                                 <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs.</p>
                             </div>
-                            <button class="button" @click.prevent="shuffleSongs">Shuffle</button>
+                            <button class="button" @click.prevent="shuffleSongs">
+                                <i class="fa fa-random" aria-hidden="true"></i> Shuffle
+                            </button>
+                            <router-link class="button" :to="{name: 'songs'}">
+                                <i class="fa fa-list-ul" aria-hidden="true"></i> Songs
+                            </router-link>
                         </div>
                     </div>
                 </div>
@@ -289,6 +294,9 @@
                             <div v-else class="secondary callout">
                                 <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few setlists.</p>
                             </div>
+                            <router-link class="button" :to="{name: 'setlists'}">
+                                <i class="fa fa-list-ul" aria-hidden="true"></i> Setlists
+                            </router-link>
                         </div>
                     </div>                    
                 </div>
