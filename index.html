@@ -373,7 +373,7 @@
                                     {{ song.tuning }}
                                 </router-link>
                             </td>
-                            <td class="text-right">
+                            <td>
                                 <div class="stacked-for-small button-group">
                                     <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                                         <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
@@ -731,7 +731,7 @@
                                     {{ setlist.songs ? setlist.songs.length : '0' }}
                                 </router-link>
                             </td>
-                            <td class="text-right">
+                            <td>
                                 <div class="stacked-for-small button-group">
                                     <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                                         <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
@@ -820,7 +820,6 @@
             <div class="row tm">
                 <div class="small-12 medium-6 large-3 columns">
                     <h4>Languages</h4>
-                    <template v-if="setlist['.key'] && songs">{{ showSetlistLanguagesChart() }}</template>
                     <canvas id="setlist-languages"></canvas>
                 </div>
             </div>
