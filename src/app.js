@@ -172,6 +172,11 @@ var Dashboard = Vue.extend({
                         backgroundColor: colors,
                         hoverBackgroundColor: colors
                     }]
+                },
+                options: {
+                    title: {
+                        text: 'LANGUAGES'
+                    }
                 }
             });
         });
@@ -211,6 +216,9 @@ var Dashboard = Vue.extend({
                                 beginAtZero: true
                             }
                         }]
+                    },
+                    title: {
+                        text: 'SETLISTS PER YEAR'
                     }
                 }
             });
@@ -234,6 +242,9 @@ var Dashboard = Vue.extend({
                                 beginAtZero: true
                             }
                         }]
+                    },
+                    title: {
+                        text: 'SONGS PER YEAR'
                     }
                 }
             });

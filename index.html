@@ -244,8 +244,9 @@
                     <p>Total: {{ songs.length }} Songs</p>
                     <div class="row">
                         <div class="small-6 columns">
-                            <h4>Languages</h4>
-                            <canvas id="languages"></canvas>
+                            <div class="callout">
+                                <canvas id="languages"></canvas>
+                            </div>
                         </div>
                         <div class="small-6 columns">
                             <h4>Random Song</h4>
@@ -275,10 +276,12 @@
                     <p>Total: {{ setlists.length }} Setlists</p>
                     <div class="row">
                         <div class="small-6 columns">
-                            <h4>Setlists per year</h4>
-                            <canvas id="setlists-per-year"></canvas>
-                            <h4 class="tm">Songs per year</h4>
-                            <canvas id="songs-per-year"></canvas>
+                            <div class="callout">
+                                <canvas id="setlists-per-year"></canvas>
+                            </div>
+                            <div class="callout">
+                                <canvas id="songs-per-year"></canvas>
+                            </div>
                         </div>
                         <div class="small-6 columns">
                             <h4>Latest Setlists</h4>
