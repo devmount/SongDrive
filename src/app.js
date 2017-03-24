@@ -17,6 +17,17 @@ var notyf = new Notyf({
     confirmIcon: 'fa fa-check fa-2x'  
 })
 
+// Setup ChartJS
+Chart.defaults.global.defaultFontFamily     = 'Fira Sans';
+Chart.defaults.global.title.display         = true;
+Chart.defaults.global.title.fontSize        = 24;
+Chart.defaults.global.title.fontColor       = '#000';
+Chart.defaults.global.title.fontStyle       = '300';
+Chart.defaults.global.legend.position       = 'bottom';
+Chart.defaults.global.tooltips.cornerRadius = 0;
+Chart.defaults.global.tooltips.xPadding     = 10;
+Chart.defaults.global.tooltips.yPadding     = 10;
+
 // Setup PDF export
 pdfMake.fonts = {
     FiraSans: {
@@ -753,6 +764,9 @@ var ShowSetlist = Vue.extend({
                     options: {
                         animation:{
                             animateRotate: false
+                        },
+                        title: {
+                            text: 'LANGUAGES'
                         }
                     }
                 });
