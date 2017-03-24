@@ -963,7 +963,7 @@
                 </div>
             </div>
             <footer>
-                <form v-on:submit="removeSetlist">
+                <form v-on:submit.prevent="removeSetlist">
                     <router-link class="secondary hollow button" :to="{name: 'setlists'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
