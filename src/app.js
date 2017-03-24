@@ -23,6 +23,7 @@ Chart.defaults.global.title.display         = true;
 Chart.defaults.global.title.fontSize        = 24;
 Chart.defaults.global.title.fontColor       = '#000';
 Chart.defaults.global.title.fontStyle       = '300';
+Chart.defaults.global.title.padding         = 15;
 Chart.defaults.global.legend.position       = 'bottom';
 Chart.defaults.global.tooltips.cornerRadius = 0;
 Chart.defaults.global.tooltips.xPadding     = 10;
