@@ -706,10 +706,10 @@
                 <table class="hover">
                     <thead>
                         <tr>
-                            <th>Date</th>
+                            <th width="140">Date</th>
                             <th>Title</th>
                             <th class="show-for-medium"># Songs</th>
-                            <th width="180"></th>
+                            <th width="260"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -735,6 +735,9 @@
                                 </router-link>
                                 <router-link v-if="ADMIN" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                </router-link>
+                                <router-link v-if="ADMIN" class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
+                                    <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
                                 </router-link>
                                 <router-link v-if="ADMIN" class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
                                     <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
@@ -905,6 +908,39 @@
                     </button>
                 </footer>
             </form>
+        </section>
+        <app-footer></app-footer>
+    </div>
+</template>
+
+<!-- clone setlist -->
+<template id="clone-setlist">
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+                <h1>Clone &raquo;{{ setlist.title }}&laquo;</h1>
+            </header>
+            <div class="row">
+                <div class="columns">
+                    <p>Are you sure you want to clone &raquo;{{ setlist.title }}&laquo;?</p>
+                    <div class="primary callout">
+                        <p><i class="fa fa-info-circle" aria-hidden="true"></i></i> The setlist will be copied to &raquo;{{ setlist.title }} cloned&laquo; with the current date.</p>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <form v-on:submit.prevent="cloneSetlist">
+                    <router-link class="secondary hollow button" :to="{name: 'setlists'}">
+                        <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                        Cancel
+                    </router-link>
+                    <button type="submit" class="button">
+                        <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+                        Clone
+                    </button>
+                </form>
+            </footer>
         </section>
         <app-footer></app-footer>
     </div>

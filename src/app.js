@@ -474,6 +474,31 @@ var DeleteSong = Vue.extend({
     }
 });
 
+// component: clone setlist
+var CloneSetlist = Vue.extend({
+    template: '#clone-setlist',
+    data: function () {
+        // get setlist from firebase and bind it to this.setlist
+        this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
+        return {
+            setlist: this.setlist
+        };
+    },
+    methods: {
+        cloneSetlist: function() {
+            // create new setlist with given setlist
+            clonedSetlist = getSetlistObject(this.setlist, false);
+            // updated title to indicate cloned item
+            clonedSetlist.title = this.setlist.title + ' cloned';
+            // set date to today's date
+            clonedSetlist.date = getCurrentDate();
+            setlistsRef.push(clonedSetlist);
+            notify('success', 'Setlist cloned', 'Setlist was successfully cloned.');
+            router.push('/setlists');
+        }
+    }
+});
+
 // component: delete setlist
 var DeleteSetlist = Vue.extend({
     template: '#delete-setlist',
@@ -831,6 +856,7 @@ var router = new VueRouter({
         {name: 'add-setlist',     component: AddSetlist,     path: '/setlist/add'},
         {name: 'show-setlist',    component: ShowSetlist,    path: '/setlist/:setlist_id'},
         {name: 'edit-setlist',    component: EditSetlist,    path: '/setlist/:setlist_id/edit'},
+        {name: 'clone-setlist',   component: CloneSetlist,   path: '/setlist/:setlist_id/clone'},
         {name: 'delete-setlist',  component: DeleteSetlist,  path: '/setlist/:setlist_id/delete'},
         {name: 'present-setlist', component: PresentSetlist, path: '/setlist/:setlist_id/presentation'},
     ]
@@ -1293,3 +1319,23 @@ function getRandomProperty(obj, n) {
     }
     return elements;
 };
+
+// get current date in yyyy-mm-dd format
+// http://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
+function getCurrentDate() {
+    // get current date object
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    // add preceding zeros
+    if(dd < 10) {
+        dd = '0' + dd
+    } 
+    if(mm < 10) {
+        mm = '0' + mm
+    }
+    // return formatted date
+    return yyyy + '-' + mm + '-' + dd;
+};
+
