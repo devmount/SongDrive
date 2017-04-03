@@ -866,7 +866,8 @@
         <app-header></app-header>
         <section>
             <header>
-                <h1>New Setlist</h1>
+                <h1 v-if="isCloned">New Setlist (cloned)</h1>
+                <h1 v-else>New Setlist</h1>
             </header>
             <form id="form" v-on:submit.prevent="createSetlist">
                 <setlist-form-fields
@@ -915,39 +916,6 @@
                     </button>
                 </footer>
             </form>
-        </section>
-        <app-footer></app-footer>
-    </div>
-</template>
-
-<!-- clone setlist -->
-<template id="clone-setlist">
-    <div class="container">
-        <app-header></app-header>
-        <section>
-            <header>
-                <h1>Clone &raquo;{{ setlist.title }}&laquo;</h1>
-            </header>
-            <div class="row">
-                <div class="columns">
-                    <p>Are you sure you want to clone &raquo;{{ setlist.title }}&laquo;?</p>
-                    <div class="primary callout">
-                        <p><i class="fa fa-info-circle" aria-hidden="true"></i></i> The setlist will be copied to &raquo;{{ setlist.title }} cloned&laquo; with the current date.</p>
-                    </div>
-                </div>
-            </div>
-            <footer>
-                <form v-on:submit.prevent="cloneSetlist">
-                    <router-link class="secondary hollow button" :to="{name: 'setlists'}">
-                        <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                        Cancel
-                    </router-link>
-                    <button type="submit" class="button">
-                        <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
-                        Clone
-                    </button>
-                </form>
-            </footer>
         </section>
         <app-footer></app-footer>
     </div>

@@ -349,8 +349,20 @@ var AddSetlist = Vue.extend({
         songs: songsRef.orderByChild('title')
     },
     data: function () {
+        var setlist = {}, isCloned = false;
+        // check if an existing setlist should be used as template: setlist id exists
+        if (this.$route.params.setlist_id) {
+            // get existing setlist content
+            this.$bindAsObject('clone', setlistsRef.child(this.$route.params.setlist_id));
+            setlist = getSetlistObject(this.clone, false);
+            isCloned = true;
+        } else {
+            // get empty setlist object
+            setlist = getSetlistObject(null, false);
+        }
         return {
-            setlist: getSetlistObject(null, false),
+            setlist: setlist,
+            isCloned: isCloned,
             searchKey: ''
         }
     },
@@ -887,7 +899,7 @@ var router = new VueRouter({
         {name: 'add-setlist',     component: AddSetlist,     path: '/setlist/add'},
         {name: 'show-setlist',    component: ShowSetlist,    path: '/setlist/:setlist_id'},
         {name: 'edit-setlist',    component: EditSetlist,    path: '/setlist/:setlist_id/edit'},
-        {name: 'clone-setlist',   component: CloneSetlist,   path: '/setlist/:setlist_id/clone'},
+        {name: 'clone-setlist',   component: AddSetlist,     path: '/setlist/:setlist_id/clone'},
         {name: 'delete-setlist',  component: DeleteSetlist,  path: '/setlist/:setlist_id/delete'},
         {name: 'present-setlist', component: PresentSetlist, path: '/setlist/:setlist_id/presentation'},
     ]
