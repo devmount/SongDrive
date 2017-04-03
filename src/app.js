@@ -312,8 +312,20 @@ var AddSong = Vue.extend({
         songs: songsRef.orderByChild('title')
     },
     data: function () {
+        var song = {}, isCloned = false;
+        // check if an existing song should be used as template: song id exists
+        if (this.$route.params.song_id) {
+            // get existing song content
+            this.$bindAsObject('clone', songsRef.child(this.$route.params.song_id));
+            song = getSongObject(this.clone, false);
+            isCloned = true;
+        } else {
+            // get empty song object
+            song = getSongObject(null, false);
+        }
         return {
-            song: getSongObject(null, false),
+            song: song,
+            isCloned: isCloned,
             searchKey: ''
         }
     },
@@ -892,6 +904,7 @@ var router = new VueRouter({
         {name: 'show-song',       component: ShowSong,       path: '/song/:song_id'},
         {name: 'present-song',    component: PresentSong,    path: '/song/:song_id/fullscreen'},
         {name: 'edit-song',       component: EditSong,       path: '/song/:song_id/edit'},
+        {name: 'clone-song',      component: AddSong,        path: '/song/:song_id/clone'},
         {name: 'delete-song',     component: DeleteSong,     path: '/song/:song_id/delete'},
         {name: 'txt-song',        component: TxtSong,        path: '/song/:song_id/txt'},
         // setlists
