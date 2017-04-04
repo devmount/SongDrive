@@ -25,6 +25,8 @@
     <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/js/foundation.min.js"></script>
+    <!-- Foundation Dropdown -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/plugins/foundation.dropdown.min.js"></script>
     <!-- Flatpickr (calendar date picker) -->
     <link rel="stylesheet" href="https://unpkg.com/flatpickr/dist/flatpickr.min.css">
     <script src="https://unpkg.com/flatpickr"></script>
@@ -346,7 +348,7 @@
                             <th class="show-for-large">Authors</th>
                             <th class="show-for-medium text-center">Year</th>
                             <th class="show-for-medium text-center">Tuning</th>
-                            <th width="230"></th>
+                            <th width="130"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -377,10 +379,15 @@
                                 </router-link>
                             </td>
                             <td>
-                                <div class="stacked-for-small button-group">
+                                <div class="button-group float-right">
                                     <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                                         <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
                                     </router-link>
+                                    <a class="dropdown button arrow-only" :data-toggle="song['.key']">
+                                        <span class="show-for-sr">Show menu</span>
+                                    </a>
+                                </div>
+                                <div class="dropdown-pane left" :id="song['.key']" data-dropdown data-hover="true" data-hover-pane="true">
                                     <router-link v-if="ADMIN" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
                                         <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                                     </router-link>

@@ -60,6 +60,7 @@ input, textarea, select {
 .container {
     position: relative;
     background: #f1f1f1;
+    overflow: hidden;
 }
 
 /* title bar */
@@ -498,4 +499,16 @@ section .footer {
 }
 .devmount:hover svg path {
     stroke: #fff;
+}
+
+/* dropdown menu */
+table tr td {
+    background-color: inherit;
+}
+.dropdown-pane {
+    background-color: inherit;
+    border: none;
+    padding: 0px .2rem 0 0;
+    width: 300px;
+    text-align: right;
 }

@@ -274,6 +274,8 @@ var ListSongs = Vue.extend({
     mounted: function() {
         // set initial focus to search input
         document.getElementById('search').focus();
+        // initialize foundation plugins
+        $(document).foundation();
     }
 });
 
