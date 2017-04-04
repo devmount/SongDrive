@@ -511,4 +511,13 @@ table tr td {
     padding: 0px .2rem 0 0;
     width: 300px;
     text-align: right;
+    opacity: 0;
+    transition: opacity .3s;
+}
+.dropdown-pane.is-open {
+    opacity: 1;
+}
+.arrow-only:hover:after {
+    transition: transform .3s;
+    transform: rotate(90deg);
 }
