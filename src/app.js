@@ -581,7 +581,8 @@ var ShowSong = Vue.extend({
         return {
             song: this.song,
             songs: this.songs,
-            textOnly: false
+            textOnly: false,
+            tuning: 0
         };
     },
     methods: {
@@ -646,9 +647,11 @@ var ShowSong = Vue.extend({
             // set song content to content transposed chords
             if (mode == 0) {
                 // reset tuning: get original song content
+                this.tuning = 0;
                 this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
             } else {
-                // adapt tuning
+                // adapt tuning and update song content
+                this.tuning += mode;
                 this.song.content = transposeChords(mode, this.song.content);
             }
         }
@@ -704,6 +707,18 @@ var PresentSong = Vue.extend({
     data: function () {
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
+        // check if tuning is set and transpose song content accordingly
+        var tuning = this.$route.params.tuning;
+        if (tuning && tuning > 0) {
+            for (var i = 0; i < tuning; i++) {
+                this.song.content = transposeChords(1, this.song.content);
+            }
+        }
+        else if (tuning && tuning < 0) {
+            for (var i = 0; i < tuning*(-1); i++) {
+                this.song.content = transposeChords(-1, this.song.content);
+            }
+        }
         return {
             song: this.song,
             textOnly: false
@@ -906,7 +921,7 @@ var router = new VueRouter({
         {name: 'songs',           component: ListSongs,      path: '/songs'},
         {name: 'add-song',        component: AddSong,        path: '/song/add'},
         {name: 'show-song',       component: ShowSong,       path: '/song/:song_id'},
-        {name: 'present-song',    component: PresentSong,    path: '/song/:song_id/fullscreen'},
+        {name: 'present-song',    component: PresentSong,    path: '/song/:song_id/fullscreen/:tuning'},
         {name: 'edit-song',       component: EditSong,       path: '/song/:song_id/edit'},
         {name: 'clone-song',      component: AddSong,        path: '/song/:song_id/clone'},
         {name: 'delete-song',     component: DeleteSong,     path: '/song/:song_id/delete'},
