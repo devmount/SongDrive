@@ -55,6 +55,10 @@ input, textarea, select {
 .columns {
     overflow: hidden;
 }
+.loading {
+    text-align: center;
+    color: #777;
+}
 
 /* app content container */
 .container {

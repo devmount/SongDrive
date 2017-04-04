@@ -332,14 +332,21 @@
         <app-header></app-header>
         <section>
             <header>
-                <h1>{{ filteredSongs.length }} Songs</h1>
+                <h1 v-if="songs.length > 0">{{ filteredSongs.length }} Songs</h1>
+                <h1 v-else>Loading Songs ...</h1>
             </header>
             <div class="row medium-collapse small-collapse search">
                 <div class="small-12 columns">
                     <input id="search" type="search" v-model="searchKey" placeholder="search for song titles" required autofocus />
                 </div>
             </div>
-            <div class="row">
+            <div v-if="songs.length == 0" class="row">
+                <div class="small-12 columns loading">
+                    <i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <span class="sr-only">Refreshing...</span>
+                </div>
+            </div>
+            <div v-else class="row">
                 <table class="hover">
                     <thead>
                         <tr>
@@ -711,14 +718,21 @@
         <app-header></app-header>
         <section>
             <header>
-                <h1>Setlists</h1>
+                <h1 v-if="setlists.length > 0">{{ filteredSetlists.length }} Setlists</h1>
+                <h1 v-else>Loading Setlists ...</h1>
             </header>
             <div class="row medium-collapse small-collapse search">
                 <div class="small-12 columns">
                     <input id="search" type="search" v-model="searchKey" placeholder="search for setlists" required autofocus />
                 </div>
             </div> 
-            <div class="row">
+            <div v-if="setlists.length == 0" class="row">
+                <div class="small-12 columns loading">
+                    <i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <span class="sr-only">Refreshing...</span>
+                </div>
+            </div>
+            <div v-else class="row">
                 <table class="hover">
                     <thead>
                         <tr>
