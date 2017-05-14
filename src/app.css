@@ -49,6 +49,12 @@ input, textarea, select {
     display: block;
     padding: .5rem .625rem .625rem;
 }
+.button-cell {
+    padding: 2px;
+}
+.button-cell .button {
+    font-size: 1.25rem;
+}
 .tm {
     margin-top: .5em;
 }
