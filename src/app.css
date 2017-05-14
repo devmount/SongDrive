@@ -41,6 +41,9 @@ input, textarea, select {
 .button-group {
     margin-bottom: 0;
 }
+.button-group .button {
+    margin-right: 2px;
+}
 .link-cell {
     padding: 0;
 }
@@ -518,7 +521,7 @@ table tr td {
 .dropdown-pane {
     background-color: inherit;
     border: none;
-    padding: 0;
+    padding: 0 1px 0 0;
     width: 210px;
     text-align: right;
     opacity: 0;
