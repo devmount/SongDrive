@@ -518,8 +518,8 @@ table tr td {
 .dropdown-pane {
     background-color: inherit;
     border: none;
-    padding: 0px .2rem 0 0;
-    width: 300px;
+    padding: 0;
+    width: 210px;
     text-align: right;
     opacity: 0;
     transition: opacity .3s;

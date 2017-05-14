@@ -395,15 +395,17 @@
                                     </a>
                                 </div>
                                 <div class="dropdown-pane left" :id="song['.key']" data-dropdown data-hover="true" data-hover-pane="true">
-                                    <router-link v-if="ADMIN" class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
-                                        <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                                    </router-link>
-                                    <router-link v-if="ADMIN" class="button" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
-                                        <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
-                                    </router-link>
-                                    <router-link v-if="ADMIN" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
-                                        <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                                    </router-link>
+                                    <div class="button-group float-right">
+                                        <router-link v-if="ADMIN" class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
+                                            <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                                        </router-link>
+                                        <router-link v-if="ADMIN" class="button" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
+                                            <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+                                        </router-link>
+                                        <router-link v-if="ADMIN" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
+                                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                        </router-link>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
