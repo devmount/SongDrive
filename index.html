@@ -762,7 +762,7 @@
                                     {{ setlist.songs ? setlist.songs.length : '0' }}
                                 </router-link>
                             </td>
-                            <td>
+                            <td class="button-cell">
                                 <div class="button-group float-right">
                                     <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                                         <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
@@ -772,15 +772,17 @@
                                     </a>
                                 </div>
                                 <div class="dropdown-pane left" :id="setlist['.key']" data-dropdown data-hover="true" data-hover-pane="true">
-                                    <router-link v-if="ADMIN" class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
-                                        <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                                    </router-link>
-                                    <router-link v-if="ADMIN" class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
-                                        <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
-                                    </router-link>
-                                    <router-link v-if="ADMIN" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
-                                        <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                                    </router-link>
+                                    <div class="button-group float-right">
+                                        <router-link v-if="ADMIN" class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
+                                            <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                                        </router-link>
+                                        <router-link v-if="ADMIN" class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
+                                            <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+                                        </router-link>
+                                        <router-link v-if="ADMIN" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
+                                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                        </router-link>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
