@@ -55,7 +55,8 @@ input, textarea, select {
 .button-cell {
     padding: 2px;
 }
-.button-cell .button {
+.button-cell .button,
+footer > .button-group > .button {
     font-size: 1.25rem;
 }
 .tm {
@@ -126,9 +127,12 @@ input, textarea, select {
 /* app footer */
 .container > footer {
     position: fixed;
-    bottom: .5em;
+    bottom: 1em;
     color: #fff;
     padding: 0 2em;
+}
+.container > footer > p {
+    margin: 0;
 }
 
 /* section header */
@@ -245,11 +249,11 @@ section > footer,
 section > form > footer {
     position: fixed;
     bottom: 0;
-    height: 4.5em;
+    height: 3.75em;
     width: 100%;
     background: #222;
     color: #fff;
-    padding: .9em;
+    padding: 2px;
     text-align: right;
 }
 section > footer > form {
