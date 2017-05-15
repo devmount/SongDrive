@@ -869,7 +869,7 @@
                     <div v-if="setlist.songs.length == 0">No songs selected.</div>
                 </div>
             </div>
-            <div class="row tm">
+            <div class="row tm" v-if="setlist.songs.length > 0">
                 <div class="small-12 medium-6 large-3 columns">
                     <div class="callout small">
                         <canvas id="setlist-languages"></canvas>

@@ -788,43 +788,45 @@ var ShowSetlist = Vue.extend({
                 var songs = songSnap.val();
                 var data = [], labels = [], colors = [];
                 var languages = getLanguages();
-                // for each existing languages count number of setlist songs in that language
-                for (var l in languages) {
-                    var n = 0;
-                    for (var i in setlist.songs) {
-                        for (var j in songs) {
-                            if (j == setlist.songs[i] && songs[j].language == l) {
-                                n++;
+                if (setlist.songs) {
+                    // for each existing languages count number of setlist songs in that language
+                    for (var l in languages) {
+                        var n = 0;
+                        for (var i in setlist.songs) {
+                            for (var j in songs) {
+                                if (j == setlist.songs[i] && songs[j].language == l) {
+                                    n++;
+                                }
                             }
                         }
-                    }
-                    // add data to arrays
-                    if (n > 0) {
-                        data.push(n);
-                        labels.push(languages[l].label);
-                        colors.push(languages[l].color);
-                    }
-                }
-                // create doughnut chart with data arrays
-                new Chart('setlist-languages', {
-                    type: 'doughnut',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            data: data,
-                            backgroundColor: colors,
-                            hoverBackgroundColor: colors
-                        }]
-                    },
-                    options: {
-                        animation:{
-                            animateRotate: false
-                        },
-                        title: {
-                            text: 'LANGUAGES'
+                        // add data to arrays
+                        if (n > 0) {
+                            data.push(n);
+                            labels.push(languages[l].label);
+                            colors.push(languages[l].color);
                         }
                     }
-                });
+                    // create doughnut chart with data arrays
+                    new Chart('setlist-languages', {
+                        type: 'doughnut',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: colors,
+                                hoverBackgroundColor: colors
+                            }]
+                        },
+                        options: {
+                            animation:{
+                                animateRotate: false
+                            },
+                            title: {
+                                text: 'LANGUAGES'
+                            }
+                        }
+                    });
+                }
             });
         });
 
