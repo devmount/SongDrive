@@ -323,11 +323,11 @@ var AddSong = Vue.extend({
         if (this.$route.params.song_id) {
             // get existing song content
             this.$bindAsObject('clone', songsRef.child(this.$route.params.song_id));
-            song = getSongObject(this.clone, false);
+            song = getSongObject(this.clone, !this.clone.hasOwnProperty('translations'));
             isCloned = true;
         } else {
             // get empty song object
-            song = getSongObject(null, false);
+            song = getSongObject(null, true);
         }
         return {
             song: song,
@@ -372,11 +372,11 @@ var AddSetlist = Vue.extend({
         if (this.$route.params.setlist_id) {
             // get existing setlist content
             this.$bindAsObject('clone', setlistsRef.child(this.$route.params.setlist_id));
-            setlist = getSetlistObject(this.clone, false);
+            setlist = getSetlistObject(this.clone, !this.clone.hasOwnProperty('songs'));
             isCloned = true;
         } else {
             // get empty setlist object
-            setlist = getSetlistObject(null, false);
+            setlist = getSetlistObject(null, true);
         }
         return {
             setlist: setlist,
