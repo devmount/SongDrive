@@ -194,7 +194,9 @@ var Dashboard = Vue.extend({
                         songNumber[year] = 0;
                     }
                     setlistNumber[year]++;
-                    songNumber[year] += setlists[setlist].songs.length;
+                    if (setlists[setlist].songs) {
+                        songNumber[year] += setlists[setlist].songs.length;
+                    }
                 }
             }
             // create bar chart with setlist number arrays
