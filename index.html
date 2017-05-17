@@ -491,19 +491,19 @@
             </div>
             <footer>
                 <div class="button-group float-right">
-                    <button class="hollow button" v-on:click.prevent="exportPdf" target="_blank">
+                    <button class="button" v-on:click.prevent="exportPdf" target="_blank">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-medium">PDF</span>
                     </button>
-                    <button class="hollow button" v-on:click.prevent="exportSng" target="_blank">
+                    <button class="button" v-on:click.prevent="exportSng" target="_blank">
                         <i class="fa fa-file-video-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-medium">SNG</span>
                     </button>
-                    <router-link v-if="song['.key']" class="hollow button" :to="{name: 'txt-song', params: {song_id: song['.key']}}">
+                    <router-link v-if="song['.key']" class="button" :to="{name: 'txt-song', params: {song_id: song['.key']}}">
                         <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-medium">TXT</span>
                     </router-link>
-                    <router-link v-if="song['.key']" class="hollow button" :to="{name: 'present-song', params: {song_id: song['.key'], tuning: tuning }}">
+                    <router-link v-if="song['.key']" class="button" :to="{name: 'present-song', params: {song_id: song['.key'], tuning: tuning }}">
                         <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Fullscreen</span>
                     </router-link>
@@ -511,7 +511,7 @@
                         <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Edit</span>
                     </router-link>
-                    <router-link class="secondary hollow button" :to="{name: 'songs'}">
+                    <router-link class="hidden button" :to="{name: 'songs'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Back</span>
                     </router-link>
@@ -578,7 +578,7 @@
             </div>
             <footer>
                 <div class="button-group float-right">
-                    <router-link v-if="song['.key']" class="secondary hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                    <router-link v-if="song['.key']" class="hidden button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Back</span>
                     </router-link>
@@ -710,7 +710,7 @@
             </div>
             <footer>
                 <div class="button-group float-right">
-                    <router-link class="secondary hollow button" :to="{name: 'songs'}">
+                    <router-link class="hidden button" :to="{name: 'songs'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
                     </router-link>
@@ -878,17 +878,17 @@
             </div>
             <footer>
                 <div class="button-group float-right">
-                    <button class="hollow button" v-on:click.prevent="exportSongsheets" target="_blank">
+                    <button class="button" v-on:click.prevent="exportSongsheets" target="_blank">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">PDF </span><span class="show-for-medium">Songsheets</span>
                         <span class="hide-for-medium">Sheets</span>
                     </button>
-                    <button class="hollow button" v-on:click.prevent="exportSetlist" target="_blank">
+                    <button class="button" v-on:click.prevent="exportSetlist" target="_blank">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">PDF </span><span class="show-for-medium">Setlist</span>
                         <span class="hide-for-medium">List</span>
                     </button>
-                    <router-link v-if="setlist['.key']" class="hollow button" :to="{name: 'present-setlist', params: {setlist_id: setlist['.key']}}">
+                    <router-link v-if="setlist['.key']" class="button" :to="{name: 'present-setlist', params: {setlist_id: setlist['.key']}}">
                         <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Present</span>
                     </router-link>
@@ -896,7 +896,7 @@
                         <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Edit</span>
                     </router-link>
-                    <router-link class="secondary hollow button" :to="{name: 'setlists'}">
+                    <router-link class="hidden button" :to="{name: 'setlists'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Back</span>
                     </router-link>
@@ -990,7 +990,7 @@
             </div>
             <footer>
                 <div class="button-group float-right">
-                    <router-link class="secondary hollow button" :to="{name: 'setlists'}">
+                    <router-link class="hidden button" :to="{name: 'setlists'}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
                     </router-link>

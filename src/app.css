@@ -44,6 +44,13 @@ input, textarea, select {
 .button-group .button {
     margin-right: 2px;
 }
+.button.hidden {
+    border: 0;
+    background: transparent;
+}
+.button.hidden:hover {
+    background: #444;
+}
 .link-cell {
     padding: 0;
 }
