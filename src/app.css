@@ -423,7 +423,7 @@ section .footer {
     position: fixed;
     bottom: .5em;
     z-index: 1;
-    width: calc(100vw - 12em);
+    width: calc(100vw - 10em);
 }
 .orbit-container {
     height: calc(100vh - 6.3em) !important;
