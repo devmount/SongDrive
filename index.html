@@ -611,13 +611,13 @@
             </div>
             <footer>
                 <div class="button-group float-right">
-                    <button v-if="!textOnly" class="hollow button" @click="toggleChords(1)" title="Show text only">
+                    <button v-if="!textOnly" class="hollow hidden button" @click="toggleChords(1)" title="Show text only">
                         <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
                     </button>
-                    <button v-else class="hollow button" @click="toggleChords(0)" title="Show text and chords">
+                    <button v-else class="hollow hidden button" @click="toggleChords(0)" title="Show text and chords">
                         <i class="fa fa-music fa-fw" aria-hidden="true"></i>
                     </button>
-                    <router-link v-if="song['.key']" class="secondary hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                    <router-link v-if="song['.key']" class="secondary hollow hidden button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Close</span>
                     </router-link>
@@ -1038,13 +1038,13 @@
             <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
             <footer>
                 <div class="button-group float-right">
-                    <button v-if="!textOnly" class="hollow button" @click="toggleChords(1)" title="Show text only">
+                    <button v-if="!textOnly" class="hollow hidden button" @click="toggleChords(1)" title="Show text only">
                         <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
                     </button>
-                    <button v-else class="hollow button" @click="toggleChords(0)" title="Show text and chords">
+                    <button v-else class="hollow hidden button" @click="toggleChords(0)" title="Show text and chords">
                         <i class="fa fa-music fa-fw" aria-hidden="true"></i>
                     </button>
-                    <router-link v-if="setlist['.key']" class="secondary hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                    <router-link v-if="setlist['.key']" class="secondary hollow hidden button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Close</span>
                     </router-link>

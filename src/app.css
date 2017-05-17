@@ -45,11 +45,11 @@ input, textarea, select {
     margin-right: 2px;
 }
 .button.hidden {
-    border: 0;
+    border: 0 !important;
     background: transparent;
 }
 .button.hidden:hover {
-    background: #444;
+    background: #111;
 }
 .link-cell {
     padding: 0;
