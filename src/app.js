@@ -118,8 +118,11 @@ Vue.component('setlist-form-fields', {
     mounted: function(){
         flatpickr(".flatpickr", {
             wrap: true,
-            clickOpens: false,
-            allowInput: true
+            clickOpens: true,
+            allowInput: true,
+            locale: {
+                firstDayOfWeek: 1 // start week on Monday
+            }
         });
     }
 })
