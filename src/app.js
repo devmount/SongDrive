@@ -453,10 +453,7 @@ var EditSong = Vue.extend({
             }
             notify('success', 'Song updated', 'Data was successfully saved.');
             router.push('/song/' + this.$route.params.song_id);
-        },
-        back: function() {
-            this.$router.go(-1);
-        },
+        }
     }
 });
 
@@ -482,10 +479,7 @@ var EditSetlist = Vue.extend({
             setlistsRef.child(this.$route.params.setlist_id).update(getSetlistObject(this.setlist, false));
             notify('success', 'Setlist updated', 'Data was successfully saved.');
             router.push('/setlist/' + this.$route.params.setlist_id);
-        },
-        back: function() {
-            this.$router.go(-1);
-        },
+        }
     },
     mounted: function(){
         var self = this;

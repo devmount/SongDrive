@@ -214,7 +214,7 @@
                                 <template v-if="song['.key'] == songkey">
                                     <td class="list-item">
                                         {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
-                                        <span class="list-item-remove" v-on:click="removeSong(songkey)">
+                                        <span class="list-item-remove" @click="removeSong(songkey)">
                                             <i class="fa fa-close fa-fw" aria-hidden="true"></i>
                                         </span>
                                     </td>
@@ -491,11 +491,11 @@
             </div>
             <footer>
                 <div class="button-group float-right">
-                    <button class="button" v-on:click.prevent="exportPdf" target="_blank">
+                    <button class="button" @click.prevent="exportPdf" target="_blank">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-medium">PDF</span>
                     </button>
-                    <button class="button" v-on:click.prevent="exportSng" target="_blank">
+                    <button class="button" @click.prevent="exportSng" target="_blank">
                         <i class="fa fa-file-video-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-medium">SNG</span>
                     </button>
@@ -511,10 +511,10 @@
                         <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Edit</span>
                     </router-link>
-                    <router-link class="hidden button" :to="{name: 'songs'}">
+                    <button class="hidden button" @click.prevent="router.go(-1)">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Back</span>
-                    </router-link>
+                    </button>
                 </div>
             </footer>
         </section>
@@ -675,7 +675,7 @@
                 ></song-form-fields>
                 <footer>
                     <div class="button-group float-right">
-                        <button class="alert button" @click.prevent="back">
+                        <button class="alert button" @click.prevent="router.go(-1)">
                             <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                             Cancel
                         </button>
@@ -713,7 +713,7 @@
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
                     </router-link>
-                    <button class="alert button" v-on:click="removeSong">
+                    <button class="alert button" @click="removeSong">
                         <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                         Remove
                     </button>
@@ -877,12 +877,12 @@
             </div>
             <footer>
                 <div class="button-group float-right">
-                    <button class="button" v-on:click.prevent="exportSongsheets" target="_blank">
+                    <button class="button" @click.prevent="exportSongsheets" target="_blank">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">PDF </span><span class="show-for-medium">Songsheets</span>
                         <span class="hide-for-medium">Sheets</span>
                     </button>
-                    <button class="button" v-on:click.prevent="exportSetlist" target="_blank">
+                    <button class="button" @click.prevent="exportSetlist" target="_blank">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">PDF </span><span class="show-for-medium">Setlist</span>
                         <span class="hide-for-medium">List</span>
@@ -895,10 +895,10 @@
                         <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Edit</span>
                     </router-link>
-                    <router-link class="hidden button" :to="{name: 'setlists'}">
+                    <button class="hidden button" @click.prevent="router.go(-1)">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Back</span>
-                    </router-link>
+                    </button>
                 </div>
             </footer>
         </section>
@@ -955,7 +955,7 @@
                 ></setlist-form-fields>
                 <footer>
                     <div class="button-group float-right">
-                        <button class="alert button" @click.prevent="back">
+                        <button class="alert button" @click.prevent="router.go(-1)">
                             <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                             Cancel
                         </button>
@@ -993,7 +993,7 @@
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
                     </router-link>
-                    <button class="alert button" v-on:click.prevent="removeSetlist">
+                    <button class="alert button" @click.prevent="removeSetlist">
                         <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                         Remove
                     </button>
