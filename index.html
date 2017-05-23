@@ -264,7 +264,7 @@
                             <div v-else class="secondary callout">
                                 <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs.</p>
                             </div>
-                            <button class="large button" @click.prevent="shuffleSongs">
+                            <button class="large button" @click="shuffleSongs">
                                 <i class="fa fa-random" aria-hidden="true"></i> Shuffle
                             </button>
                             <router-link class="large button" :to="{name: 'songs'}">
@@ -491,11 +491,11 @@
             </div>
             <footer>
                 <div class="button-group float-right">
-                    <button class="button" @click.prevent="exportPdf" target="_blank">
+                    <button class="button" @click="exportPdf" target="_blank">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-medium">PDF</span>
                     </button>
-                    <button class="button" @click.prevent="exportSng" target="_blank">
+                    <button class="button" @click="exportSng" target="_blank">
                         <i class="fa fa-file-video-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-medium">SNG</span>
                     </button>
@@ -511,7 +511,7 @@
                         <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Edit</span>
                     </router-link>
-                    <button class="hidden button" @click.prevent="router.go(-1)">
+                    <button class="hidden button" @click="router.go(-1)">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Back</span>
                     </button>
@@ -877,12 +877,12 @@
             </div>
             <footer>
                 <div class="button-group float-right">
-                    <button class="button" @click.prevent="exportSongsheets" target="_blank">
+                    <button class="button" @click="exportSongsheets" target="_blank">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">PDF </span><span class="show-for-medium">Songsheets</span>
                         <span class="hide-for-medium">Sheets</span>
                     </button>
-                    <button class="button" @click.prevent="exportSetlist" target="_blank">
+                    <button class="button" @click="exportSetlist" target="_blank">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">PDF </span><span class="show-for-medium">Setlist</span>
                         <span class="hide-for-medium">List</span>
@@ -895,7 +895,7 @@
                         <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Edit</span>
                     </router-link>
-                    <button class="hidden button" @click.prevent="router.go(-1)">
+                    <button class="hidden button" @click="router.go(-1)">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Back</span>
                     </button>
@@ -993,7 +993,7 @@
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         Cancel
                     </router-link>
-                    <button class="alert button" @click.prevent="removeSetlist">
+                    <button class="alert button" @click="removeSetlist">
                         <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                         Remove
                     </button>
