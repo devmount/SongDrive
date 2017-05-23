@@ -617,9 +617,9 @@
                     <button v-else class="hollow hidden button" @click="toggleChords(0)" title="Show text and chords">
                         <i class="fa fa-music fa-fw" aria-hidden="true"></i>
                     </button>
-                    <router-link v-if="song['.key']" class="secondary hollow hidden button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                    <button v-if="song['.key']" class="secondary hollow hidden button" @click="router.go(-1)">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    </router-link>
+                    </button>
                 </div>
             </footer>
         </section>
@@ -1043,9 +1043,9 @@
                     <button v-else class="hollow hidden button" @click="toggleChords(0)" title="Show text and chords">
                         <i class="fa fa-music fa-fw" aria-hidden="true"></i>
                     </button>
-                    <router-link v-if="setlist['.key']" class="secondary hollow hidden button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                    <button v-if="setlist['.key']" class="secondary hollow hidden button" @click="router.go(-1)">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                    </router-link>
+                    </button>
                 </div>
             </footer>
         </section>
