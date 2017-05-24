@@ -719,9 +719,14 @@ var PresentSong = Vue.extend({
                 this.song.content = transposeChords(-1, this.song.content);
             }
         }
+        // check if textOnly mode is set and toggle chords accordingly
+        var textOnly = this.$route.params.textOnly;
+        if (textOnly) {
+            this.toggleChords(textOnly);
+        }
         return {
             song: this.song,
-            textOnly: false
+            textOnly: textOnly
         };
     },
     methods: {
