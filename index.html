@@ -289,14 +289,18 @@
                                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                                     <span class="sr-only">Refreshing...</span>
                                 </div>
-                                <canvas id="setlists-per-year"></canvas>
+                                <canvas id="setlists-per-year">
+                                    Chart for displaying a bar chart for number of setlists per year
+                                </canvas>
                             </div>
                             <div class="callout small">
                                 <div v-if="setlists.length == 0" class="columns loading">
                                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                                     <span class="sr-only">Refreshing...</span>
                                 </div>
-                                <canvas id="songs-per-year"></canvas>
+                                <canvas id="songs-per-year">
+                                    Chart for displaying a bar chart for number of songs used in setlists per year
+                                </canvas>
                             </div>
                         </div>
                         <div class="small-6 columns">
@@ -885,7 +889,9 @@
             <div class="row tm" v-if="setlist.songs.length > 0">
                 <div class="small-12 medium-6 large-3 columns">
                     <div class="callout small">
-                        <canvas id="setlist-languages"></canvas>
+                        <canvas id="setlist-languages">
+                            Chart for displaying a doughnut chart for song languages in setlist
+                        </canvas>
                     </div>
                 </div>
             </div>
