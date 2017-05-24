@@ -596,7 +596,7 @@
             </div>
             <footer>
                 <div class="button-group float-right">
-                    <button v-if="song['.key']" class="hidden button" @click="router.go(-1)">
+                    <button class="hidden button" @click="router.go(-1)">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Back</span>
                     </button>
@@ -635,7 +635,7 @@
                     <button v-else class="hollow hidden button" @click="toggleChords(0)" title="Show text and chords">
                         <i class="fa fa-music fa-fw" aria-hidden="true"></i>
                     </button>
-                    <button v-if="song['.key']" class="secondary hollow hidden button" @click="router.go(-1)">
+                    <button class="secondary hollow hidden button" @click="router.go(-1)">
                         <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -1016,6 +1016,73 @@
                     <button class="alert button" @click="removeSetlist">
                         <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                         Remove
+                    </button>
+                </div>
+            </footer>
+        </section>
+        <app-footer></app-footer>
+    </div>
+</template>
+
+<!-- export setlist as txt -->
+<template id="txt-setlist">
+    <div class="container">
+        <app-header></app-header>
+        <section>
+            <header>
+            </header>
+            <div v-for="song in setlist.songs" class="row">
+                <div class="columns content-column">
+                    <template v-if="song['.key'] && textOnly">{{ toggleChords(1) }}</template>
+                    <pre v-if="song['.key']">{{ song.title }}<br /><br />{{ parseTxtSongContent(song.content) }}</pre>
+                    <div class="toolbar">
+                        <template v-if="song.translations" >
+                            <template v-for="key in song.translations">
+                                <template v-for="tsong in songs">
+                                    <template v-if="tsong['.key'] == key">
+                                        <router-link class="secondary small button" :to="{name: 'txt-song', params: {song_id: key}}" :title="tsong.title">
+                                            {{ tsong.language }}
+                                        </router-link>
+                                    </template>
+                                </template>
+                            </template>
+                            <hr />
+                        </template>
+                        <button v-if="!textOnly" class="secondary small button" @click="toggleChords(1)" title="Show text only">
+                            <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button v-else class="secondary small button" @click="toggleChords(0)" title="Show text and chords">
+                            <i class="fa fa-music fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <template v-if="!textOnly">
+                            <hr />
+                            <button class="secondary small button" @click="transposeChords(1)" title="Transpose chords up">
+                                <i class="fa fa-arrow-up fa-fw" aria-hidden="true"></i>
+                            </button>
+                            <button class="secondary small button" @click="transposeChords(0)" title="Reset transposed chords">
+                                <i class="fa fa-circle-o fa-fw" aria-hidden="true"></i>
+                            </button>
+                            <button class="secondary small button" @click="transposeChords(-1)" title="Transpose chords up">
+                                <i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="row">
+                <div class="columns footer">
+                    <p v-if="song.authors">{{ song.authors }}</p>
+                    <p>
+                        <span v-if="song.ccli">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a><br /></span>
+                        &copy; {{ song.year }} <span v-if="song.publisher" class="show-linebreaks">{{ song.publisher }}</span>
+                    </p>
+                </div>
+            </div>-->
+            <footer>
+                <div class="button-group float-right">
+                    <button class="hidden button" @click="router.go(-1)">
+                        <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                        <span class="show-for-large">Back</span>
                     </button>
                 </div>
             </footer>
