@@ -28,6 +28,7 @@ Chart.defaults.global.legend.position       = 'bottom';
 Chart.defaults.global.tooltips.cornerRadius = 0;
 Chart.defaults.global.tooltips.xPadding     = 10;
 Chart.defaults.global.tooltips.yPadding     = 10;
+Chart.defaults.global.maintainAspectRatio   = false;
 
 // Setup PDF export
 pdfMake.fonts = {
@@ -180,7 +181,7 @@ var Dashboard = Vue.extend({
                 options: {
                     title: {
                         text: 'LANGUAGES'
-                    }
+                    }                   
                 }
             });
         });
