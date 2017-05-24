@@ -247,7 +247,13 @@
                     <div class="row">
                         <div class="small-6 columns">
                             <div class="callout small">
-                                <canvas id="languages"></canvas>
+                                <canvas id="languages">
+                                    Chart for displaying a doughnut chart for song languages
+                                </canvas>
+                                <div v-if="songs.length == 0" class="columns loading">
+                                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                                    <span class="sr-only">Refreshing...</span>
+                                </div>
                             </div>
                         </div>
                         <div class="small-6 columns">
@@ -280,9 +286,17 @@
                         <div class="small-6 columns">
                             <div class="callout small">
                                 <canvas id="setlists-per-year"></canvas>
+                                <div v-if="setlists.length == 0" class="columns loading">
+                                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                                    <span class="sr-only">Refreshing...</span>
+                                </div>
                             </div>
                             <div class="callout small">
                                 <canvas id="songs-per-year"></canvas>
+                                <div v-if="setlists.length == 0" class="columns loading">
+                                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                                    <span class="sr-only">Refreshing...</span>
+                                </div>
                             </div>
                         </div>
                         <div class="small-6 columns">
@@ -344,7 +358,7 @@
             </div>
             <div v-if="songs.length == 0" class="row">
                 <div class="small-12 columns loading">
-                    <i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                     <span class="sr-only">Refreshing...</span>
                 </div>
             </div>
@@ -740,7 +754,7 @@
             </div> 
             <div v-if="setlists.length == 0" class="row">
                 <div class="small-12 columns loading">
-                    <i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                     <span class="sr-only">Refreshing...</span>
                 </div>
             </div>
