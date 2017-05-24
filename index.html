@@ -247,19 +247,19 @@
                     <div class="row">
                         <div class="small-6 columns">
                             <div class="callout small">
-                                <canvas id="languages">
-                                    Chart for displaying a doughnut chart for song languages
-                                </canvas>
                                 <div v-if="songs.length == 0" class="columns loading">
                                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                                     <span class="sr-only">Refreshing...</span>
                                 </div>
+                                <canvas id="languages">
+                                    Chart for displaying a doughnut chart for song languages
+                                </canvas>
                             </div>
                         </div>
                         <div class="small-6 columns">
                             <h4>Random Song</h4>
                             <table class="hover" v-if="songs.length > 0 && shuffle">
-                                <tr v-for="song in getRandomProperty(songs, 5)">
+                                <tr v-for="song in getRandomProperty(songs, 6)">
                                     <td class="link-cell">
                                         <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
                                             {{ song.title }}
@@ -285,24 +285,24 @@
                     <div class="row">
                         <div class="small-6 columns">
                             <div class="callout small">
-                                <canvas id="setlists-per-year"></canvas>
                                 <div v-if="setlists.length == 0" class="columns loading">
                                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                                     <span class="sr-only">Refreshing...</span>
                                 </div>
+                                <canvas id="setlists-per-year"></canvas>
                             </div>
                             <div class="callout small">
-                                <canvas id="songs-per-year"></canvas>
                                 <div v-if="setlists.length == 0" class="columns loading">
                                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                                     <span class="sr-only">Refreshing...</span>
                                 </div>
+                                <canvas id="songs-per-year"></canvas>
                             </div>
                         </div>
                         <div class="small-6 columns">
                             <h4>Latest Setlists</h4>
-                            <table class="hover" v-if="setlists.length > 4">
-                                <tr v-for="setlist in setlists.slice(setlists.length-5, setlists.length).reverse()">
+                            <table class="hover" v-if="setlists.length > 5">
+                                <tr v-for="setlist in setlists.slice(setlists.length-6, setlists.length).reverse()">
                                     <td class="link-cell">
                                         <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                                             {{ setlist.title }}

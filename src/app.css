@@ -76,6 +76,12 @@ footer > .button-group > .button {
     text-align: center;
     color: #777;
 }
+.callout > .loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
 /* app content container */
 .container {
