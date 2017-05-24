@@ -262,7 +262,7 @@
                                 <tr v-for="song in getRandomProperty(songs, 6)">
                                     <td class="link-cell">
                                         <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                            {{ song.title }}
+                                            {{ song.title.substr(0, 30) }} <span v-if="song.title.length > 30">...</span>
                                         </router-link>
                                     </td>
                                 </tr>
@@ -309,7 +309,7 @@
                                 <tr v-for="setlist in setlists.slice(setlists.length-6, setlists.length).reverse()">
                                     <td class="link-cell">
                                         <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
-                                            {{ setlist.title }}
+                                            {{ setlist.title.substr(0, 30) }} <span v-if="setlist.title.length > 30">...</span>
                                         </router-link>
                                     </td>
                                 </tr>
