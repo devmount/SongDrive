@@ -859,6 +859,36 @@ var ShowSetlist = Vue.extend({
     }
 });
 
+
+// component: export song as copyable text
+var TxtSetlist = Vue.extend({
+    template: '#txt-setlist',
+    firebase: {
+        setlists: setlistsRef,
+        songs: songsRef
+    },
+    data: function () {
+        // get setlist from firebase and bind it to this.setlist
+        this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
+        return {
+            setlist: this.setlist,
+            textOnly: true
+        };
+    },
+    methods: {
+        toggleChords: function(song, textOnly) {
+            // update toggle button
+            this.textOnly = textOnly;
+            // show text without chord lines
+            if (textOnly) {
+                // set song content to content without chords
+                song.content = removeChords(song.content);
+            }
+        }
+    }
+});
+
+
 // component: present setlist
 var PresentSetlist = Vue.extend({
     template: '#present-setlist',
@@ -941,6 +971,7 @@ var router = new VueRouter({
         {name: 'clone-setlist',   component: AddSetlist,     path: '/setlist/:setlist_id/clone'},
         {name: 'delete-setlist',  component: DeleteSetlist,  path: '/setlist/:setlist_id/delete'},
         {name: 'present-setlist', component: PresentSetlist, path: '/setlist/:setlist_id/presentation'},
+        {name: 'txt-setlist',     component: TxtSetlist,     path: '/setlist/:setlist_id/txt'},
     ]
 });
 
