@@ -26,6 +26,10 @@ input, textarea, select {
 :focus {
     outline:none;
 }
+::selection {
+  background: #88b544;
+  color: #fff;
+}
 .show-linebreaks {
     white-space: pre-line;
 }
