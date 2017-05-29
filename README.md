@@ -1,9 +1,9 @@
 # SongDrive
-[![license](https://img.shields.io/badge/license-MIT%20License-88b544.svg?style=flat-square)](./LICENSE) [![release](https://img.shields.io/badge/release-v0.1.257%20beta-88b544.svg?style=flat-square)]()
+[![license](https://img.shields.io/badge/license-MIT%20License-88b544.svg?style=flat-square)](./LICENSE) [![release](https://img.shields.io/badge/release-v0.1.306%20beta-88b544.svg?style=flat-square)]()
 
 A song management web application to store, synchronize and present songs and setlists, based on [Vue.js 2.3](//vuejs.org/), [Firebase 4.0](//firebase.google.com/) and [Foundation 6.3](//foundation.zurb.com).
 
-![songdrive-dashboard](https://cloud.githubusercontent.com/assets/5441654/23941555/79934156-0969-11e7-8747-c32c57f5e2c5.png)
+![songdrive-dashboard](https://cloud.githubusercontent.com/assets/5441654/26552994/eb423310-4489-11e7-9566-b0b2c421df7c.png)
 
 ## Features
 - Create, edit and delete songs
