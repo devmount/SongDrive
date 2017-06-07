@@ -379,12 +379,18 @@ section .footer {
 }
 
 /* setlists */
-.list-subtitle {
+.list-subtitle,
+.list-tuning {
     color: #777;
     font-weight: 300;
 }
 .list-item {
     position: relative;
+    font-weight: 400;
+}
+.list-item-tuning {
+    position: absolute;
+    right: 3em;
 }
 .list-item-remove {
     position: absolute;

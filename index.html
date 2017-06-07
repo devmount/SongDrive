@@ -200,7 +200,9 @@
                 <div class="checklist">
                     <label v-for="song in filteredSongs" :key="song['.key']" >
                         <input type="checkbox" :value="song['.key']" v-model="setlist.songs">
-                        {{ song.title }} <span v-if="song.subtitle" class="list-subtitle">({{ song.subtitle }})</span>
+                        {{ song.title }}
+                        <span v-if="song.subtitle" class="list-subtitle">&nbsp;{{ song.subtitle }}</span>
+                        <span v-if="song.tuning" class="list-tuning">&nbsp;[{{ song.tuning }}]</span>
                     </label>
                 </div>
             </div>
@@ -213,7 +215,9 @@
                             <template v-for="song in songs">
                                 <template v-if="song['.key'] == songkey">
                                     <td class="list-item">
-                                        {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
+                                        {{ song.title }}
+                                        <span class="list-subtitle">&nbsp;{{ song.subtitle }}</span>
+                                        <span class="list-tuning list-item-tuning">{{ song.tuning }}</span>
                                         <span class="list-item-remove" @click="removeSong(songkey)">
                                             <i class="fa fa-close fa-fw" aria-hidden="true"></i>
                                         </span>
