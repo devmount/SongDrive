@@ -261,7 +261,7 @@
                             </div>
                         </div>
                         <div class="small-6 columns">
-                            <h4>Random Song</h4>
+                            <h4>Random</h4>
                             <table class="hover" v-if="songs.length > 0 && shuffle">
                                 <tr v-for="song in getRandomProperty(songs, 6)">
                                     <td class="link-cell">
@@ -308,7 +308,7 @@
                             </div>
                         </div>
                         <div class="small-6 columns">
-                            <h4>Latest Setlists</h4>
+                            <h4>Latest</h4>
                             <table class="hover" v-if="setlists.length > 5">
                                 <tr v-for="setlist in setlists.slice(setlists.length-6, setlists.length).reverse()">
                                     <td class="link-cell">
