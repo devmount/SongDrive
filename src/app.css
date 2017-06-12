@@ -444,6 +444,10 @@ section .footer {
 .orbit-container {
     height: calc(100vh - 6.3em) !important;
 }
+.orbit-container > button {
+    height: inherit;
+    width: 4em;
+}
 .orbit button,
 .orbit-container {
     outline: 0;
