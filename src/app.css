@@ -545,22 +545,31 @@ section .footer {
 }
 
 /* dropdown menu */
-table tr td {
-    background-color: inherit;
+.dropdown.button {
+    position: relative;
 }
 .dropdown-pane {
-    background-color: inherit;
+    position: absolute;
+    z-index: 1;
+    top: -1px;
+    right: 58px;
     border: none;
     padding: 0 1px 0 0;
     width: 210px;
     text-align: right;
     opacity: 0;
-    transition: opacity .3s;
+    visibility: hidden;
+    transition: visibility 0.5s;
 }
-.dropdown-pane.is-open {
+.dropdown.button:focus {
+    pointer-events: none;
+}
+.dropdown.button:focus .dropdown-pane {
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
-.arrow-only:hover:after {
+.dropdown.button:focus:after {
     transition: transform .3s;
     transform: rotate(90deg);
 }

@@ -25,8 +25,6 @@
     <script type="text/javascript" src="https://unpkg.com/jquery@3.2.1/dist/jquery.min.js"></script>
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/motion-ui@1.2.2/dist/motion-ui.min.css">
     <script type="text/javascript" src="https://unpkg.com/zurb-foundation-6-prebuilt@6.3.1/js/vendor/foundation.min.js"></script>
-    <!-- Foundation Dropdown -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/plugins/foundation.dropdown.min.js"></script>
     <!-- Flatpickr (calendar date picker) -->
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/flatpickr@2.6.3/dist/flatpickr.min.css">
     <script type="text/javascript" src="https://unpkg.com/flatpickr@2.6.3/dist/flatpickr.min.js"></script>
@@ -798,21 +796,21 @@
                                     <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                                         <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
                                     </router-link>
-                                    <a v-if="ADMIN" class="dropdown button arrow-only" :data-toggle="setlist['.key']">
+                                    <div v-if="ADMIN" class="dropdown button arrow-only" tabindex="0">
                                         <span class="show-for-sr">Show menu</span>
-                                    </a>
-                                </div>
-                                <div v-if="ADMIN" class="dropdown-pane left" :id="setlist['.key']" data-dropdown data-hover="true" data-hover-pane="true">
-                                    <div class="button-group float-right">
-                                        <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
-                                            <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                                        </router-link>
-                                        <router-link class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
-                                            <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
-                                        </router-link>
-                                        <router-link class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
-                                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                                        </router-link>
+                                        <div v-if="ADMIN" class="dropdown-pane left">
+                                            <div class="button-group float-right">
+                                                <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
+                                                    <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                                                </router-link>
+                                                <router-link class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
+                                                    <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+                                                </router-link>
+                                                <router-link class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
+                                                    <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                                </router-link>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </td>
