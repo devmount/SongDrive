@@ -236,7 +236,6 @@ pre.verse {
     font-size: .8rem;
     line-height: 1rem;
     overflow-x: scroll;
-    white-space: nowrap;
 }
 
 .song-form-fields textarea {
