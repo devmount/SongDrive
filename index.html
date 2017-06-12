@@ -412,21 +412,21 @@
                                     <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
                                         <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
                                     </router-link>
-                                    <a v-if="ADMIN" class="dropdown button arrow-only" :data-toggle="song['.key']">
+                                    <div v-if="ADMIN" class="dropdown button arrow-only" tabindex="0">
                                         <span class="show-for-sr">Show menu</span>
-                                    </a>
-                                </div>
-                                <div v-if="ADMIN" class="dropdown-pane left" :id="song['.key']" data-dropdown data-hover="true" data-hover-pane="true">
-                                    <div class="button-group float-right">
-                                        <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
-                                            <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                                        </router-link>
-                                        <router-link class="button" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
-                                            <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
-                                        </router-link>
-                                        <router-link class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
-                                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                                        </router-link>
+                                        <div v-if="ADMIN" class="dropdown-pane">
+                                            <div class="button-group float-right">
+                                                <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
+                                                    <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                                                </router-link>
+                                                <router-link class="button" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
+                                                    <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+                                                </router-link>
+                                                <router-link class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
+                                                    <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                                </router-link>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </td>
@@ -798,7 +798,7 @@
                                     </router-link>
                                     <div v-if="ADMIN" class="dropdown button arrow-only" tabindex="0">
                                         <span class="show-for-sr">Show menu</span>
-                                        <div v-if="ADMIN" class="dropdown-pane left">
+                                        <div v-if="ADMIN" class="dropdown-pane">
                                             <div class="button-group float-right">
                                                 <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
                                                     <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
