@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700');
-@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono');
 
 /* basic styles */
 body,
@@ -14,7 +14,7 @@ h1 {
     font-size: 2.5rem;
 }
 pre, .pre {
-    font-family: 'Ubuntu Mono', monospace;
+    font-family: 'Fira Mono', monospace;
 }
 input, textarea, select {
     font-weight: 300;
@@ -190,7 +190,7 @@ pre.verse {
     display: inline-block;
     position: absolute;
     left: -.45em;
-    top: -.15em;
+    top: .35em;
     width: .8em;
     line-height: 1.3em;
     height: 1.15em;
@@ -232,7 +232,7 @@ pre.verse {
 }
 .content-column textarea {
     height: calc(100% - 2.5rem);
-    font-family: 'Ubuntu Mono', monospace;
+    font-family: 'Fira Mono', monospace;
     font-size: .8rem;
     line-height: 1rem;
     overflow-x: scroll;
@@ -256,7 +256,7 @@ pre.verse {
 }
 .toolbar a {
     text-transform: uppercase;
-    font-family: 'Ubuntu Mono', sans-serif;
+    font-family: 'Fira Mono', sans-serif;
     font-weight: 300;
 }
 
@@ -299,7 +299,6 @@ section .footer {
 }
 .container > .fullscreen pre,
 .container > .presentation li pre {
-    line-height: 1.2;
     margin-bottom: 1.8em;
     overflow: visible;
 }
@@ -331,7 +330,7 @@ section .footer {
 @media screen and (min-width: 64em) {
     .container > .fullscreen pre,
     .container > .presentation li pre {
-        font-size: 1.3vw;
+        font-size: 1.1vw;
     }
     .container > .fullscreen .row,
     .container > .presentation li .row {
