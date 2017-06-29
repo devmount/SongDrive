@@ -74,7 +74,7 @@ footer > .button-group > .button {
     margin-top: .5em;
 }
 .columns {
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 .loading {
     text-align: center;
@@ -572,4 +572,18 @@ section .footer {
 .dropdown.button:focus:after {
     transition: transform .3s;
     transform: rotate(90deg);
+}
+
+/* Vue Multiselect */
+.multiselect__tags {
+    padding: 0;
+    border: 0;
+    background: initial;
+}
+.multiselect__select {
+    z-index: 1;
+    width: 30px;
+}
+.multiselect__content {
+    border-radius: 0;
 }

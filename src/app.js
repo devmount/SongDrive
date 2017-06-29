@@ -56,6 +56,9 @@ pdfMake.fonts = {
 //     snapshot.ref.update({ translations: '' });
 // });
 
+// external compontent: vue-select
+Vue.component('multiselect', VueMultiselect.Multiselect);
+
 // global component: app header
 Vue.component('app-header', {
     template: '#app-header'
@@ -158,7 +161,7 @@ var Dashboard = Vue.extend({
             for (var l in languages) {
                 var n = 0;
                 for (var song in songs) {
-                    if (songs[song].language == l) {
+                    if (songs[song].language == languages[l].key) {
                         n++;
                     }
                 }
@@ -337,6 +340,9 @@ var AddSong = Vue.extend({
     },
     methods: {
         createSong: function() {
+            // TODO: only store language keys
+            // this.song.language = this.song.language.key;
+            // store new song
             var newsong = songsRef.push(this.song);
             // update all songs that are a translation with back link
             if (this.song.translations && this.song.translations.length > 0) {
@@ -424,6 +430,8 @@ var EditSong = Vue.extend({
         if (!('translations' in this.song)) {
             this.song = getSongObject(this.song, true);
         }
+        // TODO:
+        // this.song.language = getLanguageByKey(this.song.language);
         return {
             song: this.song,
             searchKey: ''
@@ -795,7 +803,7 @@ var ShowSetlist = Vue.extend({
                         var n = 0;
                         for (var i in setlist.songs) {
                             for (var j in songs) {
-                                if (j == setlist.songs[i] && songs[j].language == l) {
+                                if (j == setlist.songs[i] && songs[j].language == languages[l].key) {
                                     n++;
                                 }
                             }
@@ -1175,12 +1183,18 @@ function getSetlistObject(setlist, noSongs) {
 
 // return all existing languages
 function getLanguages() {
-    return {
-        de: {key:'de', label:'German',  color:'#bbdd77'},
-        en: {key:'en', label:'English', color:'#88b544'},
-        fr: {key:'fr', label:'French',  color:'#5c7d2a'},
-        ln: {key:'ln', label:'Lingala', color:'#445b22'},
-    }
+    return [
+        { key:'de', label:'German',  color:'#bbdd77' },
+        { key:'en', label:'English', color:'#88b544' },
+        { key:'fr', label:'French',  color:'#5c7d2a' },
+        { key:'ln', label:'Lingala', color:'#445b22' },
+    ]
+}
+
+// return language object given a key
+function getLanguageByKey(key) {
+    var result = getLanguages().filter( function(o){return o.key == key;} );
+    return result ? result[0] : null;
 }
 
 // check if a string represents most likely a chord line, based on the number of spaces
