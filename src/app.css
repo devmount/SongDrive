@@ -379,7 +379,8 @@ section .footer {
 
 /* setlists */
 .list-subtitle,
-.list-tuning {
+.list-tuning,
+.list-popular {
     color: #777;
     font-weight: 300;
 }
@@ -390,6 +391,10 @@ section .footer {
 .list-item-tuning {
     position: absolute;
     right: 3em;
+}
+.list-item-popular {
+    position: absolute;
+    right: 1em;
 }
 .list-item-remove {
     position: absolute;
