@@ -301,11 +301,13 @@
                             <h4>Popular</h4>
                             <table class="hover" v-if="songs.length > 0 && setlists.length > 0">
                                 <tr v-for="song in getPopularSongs(songs, setlists, 10)">
-                                    <td class="link-cell">
+                                    <td class="link-cell list-item">
                                         <template v-for="tsong in songs">
                                             <template v-if="tsong['.key'] == song[0]">
                                                 <router-link :to="{name: 'show-song', params: {song_id: tsong['.key']}}">
-                                                    {{ tsong.title.substr(0, 30) }} <span v-if="tsong.title.length > 30">...</span> {{song[1]}}
+                                                    {{ tsong.title.substr(0, 30) }} <span v-if="tsong.title.length > 30">...</span>
+                                                    <span class="list-subtitle">&nbsp;{{ tsong.subtitle }}</span>
+                                                    <span class="list-tuning list-item-tuning">{{song[1]}}</span>
                                                 </router-link>
                                             </template>
                                         </template>
