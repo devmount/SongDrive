@@ -439,6 +439,8 @@ var EditSong = Vue.extend({
     },
     methods: {
         updateSong: function() {
+            // TODO: only store language keys
+            // this.song.language = this.song.language.key;
             // update song data
             songsRef.child(this.$route.params.song_id).update(getSongObject(this.song, false));
             // update all songs that are a translation with back link
@@ -907,7 +909,7 @@ var PresentSetlist = Vue.extend({
         }
         return {
             setlist: this.setlist,
-            textOnly: false
+            textOnly: false,
         };
     },
     mounted: function(){
