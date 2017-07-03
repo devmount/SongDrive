@@ -296,6 +296,27 @@
                             </router-link>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="small-12 columns">
+                            <h4>Popular</h4>
+                            <table class="hover" v-if="songs.length > 0 && setlists.length > 0">
+                                <tr v-for="song in getPopularSongs(songs, setlists, 10)">
+                                    <td class="link-cell">
+                                        <template v-for="tsong in songs">
+                                            <template v-if="tsong['.key'] == song[0]">
+                                                <router-link :to="{name: 'show-song', params: {song_id: tsong['.key']}}">
+                                                    {{ tsong.title.substr(0, 30) }} <span v-if="tsong.title.length > 30">...</span> {{song[1]}}
+                                                </router-link>
+                                            </template>
+                                        </template>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div v-else class="secondary callout">
+                                <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs or setlists.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="small-12 medium-6 columns">
                     <h2>Setlists</h2>

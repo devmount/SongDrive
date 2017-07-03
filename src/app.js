@@ -1443,6 +1443,29 @@ function getRandomProperty(obj, n) {
     return elements;
 };
 
+// get <n> different popular songs from given songs/setlists objects
+function getPopularSongs(songs, setlists, n) {
+    ids = {};
+    setlists.forEach(function(setlist, i) {
+        setlist.songs.forEach(function(id) {
+            if (!ids.hasOwnProperty(id)) {
+                ids[id] = 0;
+            } else {
+                ids[id]++;
+            }
+        });
+    });
+    var sorted_ids = [];
+    for (var id in ids) {
+        sorted_ids.push([id, ids[id]]);
+    }
+    sorted_ids.sort(function(a, b) {
+        return b[1] - a[1];
+    });
+    sorted_ids.splice(n);
+    return sorted_ids;
+};
+
 // get current date in yyyy-mm-dd format
 // http://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
 function getCurrentDate() {
