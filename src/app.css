@@ -595,5 +595,5 @@ section .footer {
 
 /* Vue Clock */
 .clock {
-    display: inline-block;
+    font-family: 'Fira Mono', monospace;
 }
