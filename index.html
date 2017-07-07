@@ -1131,6 +1131,7 @@
             </div>
             <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
             <footer>
+                <clock></clock>
                 <div class="button-group float-right">
                     <button v-if="!textOnly" class="hollow hidden button" @click="toggleChords(1)" title="Show text only">
                         <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
@@ -1144,6 +1145,13 @@
                 </div>
             </footer>
         </section>
+    </div>
+</template>
+
+<!-- live clock -->
+<template id="clock">
+    <div class=clock>
+        {{hours}} : {{minutes}}
     </div>
 </template>
 

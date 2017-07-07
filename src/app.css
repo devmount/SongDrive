@@ -592,3 +592,8 @@ section .footer {
 .multiselect__content {
     border-radius: 0;
 }
+
+/* Vue Clock */
+.clock {
+    display: inline-block;
+}

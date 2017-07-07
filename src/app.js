@@ -894,10 +894,37 @@ var TxtSetlist = Vue.extend({
     }
 });
 
+// component: live clock
+var Clock = {
+    template: "#clock",
+    data: function() {
+        return {
+            hours: '',
+            minutes: '',
+        };
+    },
+    mounted: function() {
+        this.updateDateTime();
+    },
+    methods: {
+        updateDateTime: function() {
+            var now = new Date();
+            this.hours = this.getZeroPad(now.getHours());
+            this.minutes = this.getZeroPad(now.getMinutes());
+            setTimeout(this.updateDateTime, 1000);
+        },
+        getZeroPad: function(n) {
+            return (parseInt(n, 10) >= 10 ? '' : '0') + n;
+        }
+    }
+};
 
 // component: present setlist
 var PresentSetlist = Vue.extend({
     template: '#present-setlist',
+    components: {
+        Clock: Clock
+    },
     firebase: {
         songs: songsRef
     },
