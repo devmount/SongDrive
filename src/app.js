@@ -1090,32 +1090,32 @@ function getPdfSongContent(song)
     				{
                         style: 'code',
     				    width: '*',
-    					text: part.content.toString().replace(/ /g, '\u200B')
+                        // song content with respect to leading whitespaces
+    					text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B')
     				}
     			]
             });
         } else {
             content.push({
                 style: 'code',
-                text: part.content.toString().replace(/ /g, '\u200B')
+                // song content with respect to leading whitespaces
+                text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B')
             });
         }
     }, this);
     // return array with song data
     return [
         // song title [tuning] with a line beneath
-        { text: song.title.toString().toUpperCase() + (song.tuning ? '  [' + song.tuning.toString() + ']' : ''), style: 'header' },
+        { text: song.title.toUpperCase() + (song.tuning ? '  [' + song.tuning + ']' : ''), style: 'header' },
         { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
-        // song content with respect to leading whitespaces
-        // { text: song.content.toString().replace(/ /g, '\u200B'), style: 'code' },
         content,
         // imprint with ccli#, author names and (c) year publisher
         {
             style: 'copyright',
             text: [
-                song.ccli ? 'CCLI Song Nr.: ' + song.ccli.toString() + '\n' : '',
-                song.authors ? song.authors.toString() + '\n' : '',
-                '\u00A9 ' + song.year.toString() + ' ' + song.publisher.toString()
+                song.ccli ? 'CCLI Song Nr.: ' + song.ccli + '\n' : '',
+                song.authors ? song.authors + '\n' : '',
+                '\u00A9 ' + song.year + ' ' + song.publisher
             ]
         }
     ]
@@ -1138,7 +1138,7 @@ function getPdfSetlistObject(setlist, songs)
         pageSize: 'A4',
         pageMargins: [ 60, 50, 40, 60 ],
         content: [
-            { text: setlist.date.toString() + '  ' + setlist.title.toString().toUpperCase(), style: 'header' },
+            { text: setlist.date + '  ' + setlist.title.toUpperCase(), style: 'header' },
             { canvas: [
                 {
                     type: 'line',
@@ -1149,7 +1149,7 @@ function getPdfSetlistObject(setlist, songs)
             ]},
             { text: ' ' },
             { text: ' ' },
-            { text: titles.join('\n'), style: 'standard' }
+            { text: titles.join("\n"), style: 'standard' }
         ],
         styles: {
             header: {
