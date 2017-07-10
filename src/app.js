@@ -865,10 +865,9 @@ var ShowSetlist = Vue.extend({
     }
 });
 
-
 // component: export song as copyable text
-var TxtSetlist = Vue.extend({
-    template: '#txt-setlist',
+var TxtSheets = Vue.extend({
+    template: '#txt-sheets',
     firebase: {
         setlists: setlistsRef,
         songs: songsRef
@@ -891,6 +890,22 @@ var TxtSetlist = Vue.extend({
                 song.content = removeChords(song.content);
             }
         }
+    }
+});
+
+// component: export song as copyable text
+var TxtList = Vue.extend({
+    template: '#txt-list',
+    firebase: {
+        setlists: setlistsRef,
+        songs: songsRef
+    },
+    data: function() {
+        // get setlist from firebase and bind it to this.setlist
+        this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
+        return {
+            setlist: this.setlist
+        };
     }
 });
 
@@ -1005,7 +1020,8 @@ var router = new VueRouter({
         {name: 'clone-setlist',   component: AddSetlist,     path: '/setlist/:setlist_id/clone'},
         {name: 'delete-setlist',  component: DeleteSetlist,  path: '/setlist/:setlist_id/delete'},
         {name: 'present-setlist', component: PresentSetlist, path: '/setlist/:setlist_id/presentation'},
-        {name: 'txt-setlist',     component: TxtSetlist,     path: '/setlist/:setlist_id/txt'},
+        {name: 'txt-sheets',      component: TxtSheets,      path: '/setlist/:setlist_id/txt-sheets'},
+        {name: 'txt-list',        component: TxtList,        path: '/setlist/:setlist_id/txt-list'},
     ]
 });
 
