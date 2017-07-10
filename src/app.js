@@ -1277,7 +1277,7 @@ function removeChords(str)
     var newLines = [];
     lines.forEach(function(line) {
         // identify chord lines
-        if(!isChordLine(line)) {
+        if (!isChordLine(line)) {
             // only add text lines to new content
             newLines.push(line);
         }
@@ -1296,7 +1296,7 @@ function transposeChords(action, str)
         // init the new line to build and the current over- or underflow of spaces due to different chord string lenghts
         var newLine = '', spaces = 0;
         // identify chord lines
-        if(isChordLine(line)) {
+        if (isChordLine(line)) {
             var i = 0;
             while (i < line.length) {
                 // get single character in line
@@ -1538,10 +1538,10 @@ function getCurrentDate()
     var mm = today.getMonth() + 1; //January is 0!
     var yyyy = today.getFullYear();
     // add preceding zeros
-    if(dd < 10) {
+    if (dd < 10) {
         dd = '0' + dd
     } 
-    if(mm < 10) {
+    if (mm < 10) {
         mm = '0' + mm
     }
     // return formatted date
