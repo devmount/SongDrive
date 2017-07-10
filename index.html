@@ -940,17 +940,17 @@
                 <div class="button-group float-right">
                     <button class="button" @click="exportSongsheets" target="_blank">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                        <span class="show-for-large">PDF </span><span class="show-for-medium">Songsheets</span>
+                        <span class="show-for-large">PDF </span><span class="show-for-medium">Sheets</span>
                         <span class="hide-for-medium">Sheets</span>
                     </button>
                     <button class="button" @click="exportSetlist" target="_blank">
                         <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                        <span class="show-for-large">PDF </span><span class="show-for-medium">Setlist</span>
+                        <span class="show-for-large">PDF </span><span class="show-for-medium">List</span>
                         <span class="hide-for-medium">List</span>
                     </button>
                     <router-link v-if="setlist['.key']" class="button" :to="{name: 'txt-setlist', params: {setlist_id: setlist['.key']}}">
                         <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                        <span class="show-for-medium">TXT</span>
+                        <span class="show-for-medium">TXT </span><span class="show-for-medium">Sheets</span>
                     </router-link>
                     <router-link v-if="setlist['.key']" class="button" :to="{name: 'present-setlist', params: {setlist_id: setlist['.key']}}">
                         <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
