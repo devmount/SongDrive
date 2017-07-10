@@ -1111,11 +1111,22 @@
             <header>
             </header>
             <div class="row">
-                <div class="columns content-column">
+                <div class="small-12 medium-6 columns">
+                    <h2>Normal Text</h2>
                     <div v-for="key, i in setlist.songs">
                         <template v-for="song in songs">
                             <template v-if="song['.key'] == key">
                                 {{ i+1 }}. <b>{{ song.title }}</b> ({{ song.subtitle }}) [{{ song.tuning }}]
+                            </template>
+                        </template>
+                    </div>
+                </div>
+                <div class="small-12 medium-6 columns">
+                    <h2><i class="fa fa-slack" aria-hidden="true"></i> Slack formatted</h2>
+                    <div v-for="key, i in setlist.songs">
+                        <template v-for="song in songs">
+                            <template v-if="song['.key'] == key">
+                                {{ i+1 }}. *{{ song.title }}*&nbsp;&nbsp;– _{{ song.subtitle }}_ *` {{ song.tuning }} `*
                             </template>
                         </template>
                     </div>
