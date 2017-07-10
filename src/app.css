@@ -24,7 +24,7 @@ input, textarea, select {
     margin: 0;
 }
 :focus {
-    outline:none;
+    outline: none;
 }
 ::selection {
   background: #88b544;
@@ -442,8 +442,8 @@ section .footer {
 .orbit > nav {
     position: fixed;
     bottom: .5em;
+    left: 2em;
     z-index: 1;
-    width: calc(100vw - 13em);
 }
 .orbit-container {
     height: calc(100vh - 6.3em) !important;
