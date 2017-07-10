@@ -1132,9 +1132,9 @@
             <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
             <footer>
                 <div class="button-group float-right">
-                    <button class="secondary hollow hidden button">
+                    <button class="secondary hollow hidden button" @click="showClock = !showClock">
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
-                        <clock></clock>
+                        <clock v-if="showClock"></clock>
                     </button>
                     <button v-if="!textOnly" class="hollow hidden button" @click="toggleChords(1)" title="Show text only">
                         <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>

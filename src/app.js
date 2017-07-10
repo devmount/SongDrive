@@ -937,6 +937,7 @@ var PresentSetlist = Vue.extend({
         return {
             setlist: this.setlist,
             textOnly: false,
+            showClock: true,
         };
     },
     mounted: function() {
