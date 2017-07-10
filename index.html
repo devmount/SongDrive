@@ -307,7 +307,7 @@
                                                 <router-link :to="{name: 'show-song', params: {song_id: tsong['.key']}}">
                                                     {{ tsong.title.substr(0, 30) }} <span v-if="tsong.title.length > 30">...</span>
                                                     <span class="list-subtitle">&nbsp;{{ tsong.subtitle }}</span>
-                                                    <span class="list-popular list-item-popular">{{song[1]}}</span>
+                                                    <span class="list-popular list-item-popular">{{ song[1] }}</span>
                                                 </router-link>
                                             </template>
                                         </template>

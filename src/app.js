@@ -77,14 +77,14 @@ Vue.component('song-form-fields', {
         songs: this.songs,
         searchKey: this.searchKey
     },
-    data: function () {
+    data: function() {
         return {
             languages: getLanguages()
         }
     },
     computed: {
         // apply filter
-        filteredSongs: function () {
+        filteredSongs: function() {
             var self = this;
             return filterSongs(self.songs, self.searchKey);
         }
@@ -114,12 +114,12 @@ Vue.component('setlist-form-fields', {
     },
     computed: {
         // apply filter
-        filteredSongs: function () {
+        filteredSongs: function() {
             var self = this;
             return filterSongs(self.songs, self.searchKey);
         }
     },
-    mounted: function(){
+    mounted: function() {
         flatpickr(".flatpickr", {
             wrap: true,
             clickOpens: true,
@@ -138,7 +138,7 @@ var Dashboard = Vue.extend({
         songs: songsRef.orderByChild('title'),
         setlists: setlistsRef.orderByChild('date')
     },
-    data: function () {
+    data: function() {
         return {
             shuffle: []
         };
@@ -238,7 +238,7 @@ var Dashboard = Vue.extend({
                 data: {
                     labels: Object.keys(songNumber),
                     datasets: [{
-                        data: Object.keys(songNumber).map(function(key ) {return songNumber[key] }),
+                        data: Object.keys(songNumber).map(function(key ) { return songNumber[key] }),
                         backgroundColor: '#88b544',
                         borderColor: '#fff',
                         borderWidth: 2,
@@ -268,14 +268,14 @@ var ListSongs = Vue.extend({
     firebase: {
         songs: songsRef.orderByChild('title')
     },
-    data: function () {
+    data: function() {
         return {
             searchKey: ''
         };
     },
     computed: {
         // apply filter
-        filteredSongs: function () {
+        filteredSongs: function() {
             var self = this;
             return filterSongs(self.songs, self.searchKey);
         }
@@ -292,16 +292,16 @@ var ListSetlists = Vue.extend({
     firebase: {
         setlists: setlistsRef.orderByChild('date')
     },
-    data: function () {
+    data: function() {
         return {
             searchKey: ''
         };
     },
     computed: {
         // apply filter
-        filteredSetlists: function () {
+        filteredSetlists: function() {
             var self = this;
-            return self.setlists.filter(function (setlist) {
+            return self.setlists.filter(function(setlist) {
                 // filter fields: date, title
                 var key = self.searchKey.toLowerCase()
                 return setlist.date.toLowerCase().indexOf(key) !== -1 || setlist.title.toLowerCase().indexOf(key) !== -1;
@@ -397,9 +397,9 @@ var AddSetlist = Vue.extend({
             router.push('/setlists');
         }
     },
-    mounted: function(){
+    mounted: function() {
         var self = this;
-        self.$nextTick(function(){
+        self.$nextTick(function() {
             // make song table rows sortable (drag and drop)
             var sortable = Sortable.create(document.getElementById('change-setlist-sort'), {
                 // on drop: clone items, set new order and update setlist with new ordered items
@@ -424,7 +424,7 @@ var EditSong = Vue.extend({
     firebase: {
         songs: songsRef.orderByChild('title')
     },
-    data: function () {
+    data: function() {
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         if (!('translations' in this.song)) {
@@ -473,7 +473,7 @@ var EditSetlist = Vue.extend({
     firebase: {
         songs: songsRef.orderByChild('title')
     },
-    data: function () {
+    data: function() {
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
         if (!('songs' in this.setlist)) {
@@ -491,9 +491,9 @@ var EditSetlist = Vue.extend({
             router.push('/setlist/' + this.$route.params.setlist_id);
         }
     },
-    mounted: function(){
+    mounted: function() {
         var self = this;
-        self.$nextTick(function(){
+        self.$nextTick(function() {
             // make song table rows sortable (drag and drop)
             var sortable = Sortable.create(document.getElementById('change-setlist-sort'), {
                 // on drop: clone items, set new order and update setlist with new ordered items
@@ -515,7 +515,7 @@ var EditSetlist = Vue.extend({
 // component: delete song
 var DeleteSong = Vue.extend({
     template: '#delete-song',
-    data: function () {
+    data: function() {
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         return {
@@ -534,7 +534,7 @@ var DeleteSong = Vue.extend({
 // component: clone setlist
 var CloneSetlist = Vue.extend({
     template: '#clone-setlist',
-    data: function () {
+    data: function() {
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
         return {
@@ -559,7 +559,7 @@ var CloneSetlist = Vue.extend({
 // component: delete setlist
 var DeleteSetlist = Vue.extend({
     template: '#delete-setlist',
-    data: function () {
+    data: function() {
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
         return {
@@ -581,7 +581,7 @@ var ShowSong = Vue.extend({
     firebase: {
         songs: songsRef
     },
-    data: function () {
+    data: function() {
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         return {
@@ -710,7 +710,7 @@ var TxtSong = Vue.extend({
 // component: show song fullscreen
 var PresentSong = Vue.extend({
     template: '#present-song',
-    data: function () {
+    data: function() {
         // get song from firebase and bind it to this.song
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id));
         // check if tuning is set and transpose song content accordingly
@@ -737,7 +737,7 @@ var PresentSong = Vue.extend({
     },
     methods: {
         // split song.content into two parts of most equal length without splitting song parts
-        getTwoColumns: function (content) {
+        getTwoColumns: function(content) {
             var parts = content.split('\n\n');
             var half_length = Math.floor(parts.length / 2);    
             var leftSide = parts.splice(0, half_length);
@@ -769,7 +769,7 @@ var ShowSetlist = Vue.extend({
     firebase: {
         songs: songsRef
     },
-    data: function () {
+    data: function() {
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
         if (!('songs' in this.setlist)) {
@@ -791,7 +791,7 @@ var ShowSetlist = Vue.extend({
             notify('success', 'PDF export', 'Songsheets were successfully exported as PDF.');
         }
     },
-    mounted: function(){
+    mounted: function() {
         setlistsRef.child(this.$route.params.setlist_id).on('value', function(setlistSnap) {
             songsRef.on('value', function(songSnap) {
                 // a doughnut chart for setlist languages
@@ -873,7 +873,7 @@ var TxtSetlist = Vue.extend({
         setlists: setlistsRef,
         songs: songsRef
     },
-    data: function () {
+    data: function() {
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
         return {
@@ -928,7 +928,7 @@ var PresentSetlist = Vue.extend({
     firebase: {
         songs: songsRef
     },
-    data: function () {
+    data: function() {
         // get setlist from firebase and bind it to this.setlist
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
         if (!('songs' in this.setlist)) {
@@ -939,7 +939,7 @@ var PresentSetlist = Vue.extend({
             textOnly: false,
         };
     },
-    mounted: function(){
+    mounted: function() {
         // init orbit slider for presentation view
         new Foundation.Orbit($('#setlist-presentation'), {
             autoPlay: false,
@@ -952,7 +952,7 @@ var PresentSetlist = Vue.extend({
     },
     methods: {
         // split song.content into two parts of most equal length without splitting song parts
-        getTwoColumns: function (content) {
+        getTwoColumns: function(content) {
             var parts = content.split('\n\n');
             var half_length = Math.floor(parts.length / 2);    
             var leftSide = parts.splice(0, half_length);
@@ -1018,7 +1018,8 @@ var app = new Vue({
 /* --- Additional functions --- */
 
 // create a single or multipage page pdf for a song or setlist (song sheets)
-function getPdfSongsObject(songs, setlist) {
+function getPdfSongsObject(songs, setlist)
+{
     var content = [];
     // create multiple songsheets in one PDF
     if (setlist) {
@@ -1071,7 +1072,8 @@ function getPdfSongsObject(songs, setlist) {
 }
 
 // return an array of the song configuration for pdfmake
-function getPdfSongContent(song) {
+function getPdfSongContent(song)
+{
     // handle song content parts
     var content = [], parts = parseSongContent(song.content);
     parts.forEach(function(part) {
@@ -1119,7 +1121,8 @@ function getPdfSongContent(song) {
 }
 
 // create a single page pdf for a setlist 
-function getPdfSetlistObject(setlist, songs) {
+function getPdfSetlistObject(setlist, songs)
+{
     // get all titles from songs of setlist
     var titles = [];
     for (var j = 0; j < setlist.songs.length; j++) {
@@ -1162,7 +1165,8 @@ function getPdfSetlistObject(setlist, songs) {
 
 // download data to a file
 // http://stackoverflow.com/questions/13405129/javascript-create-and-save-file
-function download(data, filename) {
+function download(data, filename)
+{
     var a = document.createElement("a"),
         file = new Blob([data], {encoding:"UTF-8", type:"text/plain;charset=UTF-8"});
     if (window.navigator.msSaveOrOpenBlob) // IE10+
@@ -1181,7 +1185,8 @@ function download(data, filename) {
 }
 
 // return a proper song object with only the properties to store/read from firebase
-function getSongObject(song, noTranslations) {
+function getSongObject(song, noTranslations)
+{
     // if song is given, return proper song object with existing properties
     // else return empty property
     return {
@@ -1200,7 +1205,8 @@ function getSongObject(song, noTranslations) {
 }
 
 // return a proper setlist object with only the properties to store/read from firebase
-function getSetlistObject(setlist, noSongs) {
+function getSetlistObject(setlist, noSongs)
+{
     // if setlist is given, return setlist with existing properties
     // else return empty property
     return {
@@ -1211,7 +1217,8 @@ function getSetlistObject(setlist, noSongs) {
 }
 
 // return all existing languages
-function getLanguages() {
+function getLanguages()
+{
     return [
         { key:'de', label:'German',  color:'#bbdd77' },
         { key:'en', label:'English', color:'#88b544' },
@@ -1221,7 +1228,8 @@ function getLanguages() {
 }
 
 // return language object given a key
-function getLanguageByKey(key) {
+function getLanguageByKey(key)
+{
     var result = getLanguages().filter( function(o){return o.key == key;} );
     return result ? result[0] : null;
 }
@@ -1236,7 +1244,8 @@ function isChordLine(line) {
 }
 
 // filter song list
-function filterSongs(songs, searchKey) {
+function filterSongs(songs, searchKey)
+{
     return songs.filter(function (song) {
         // filter fields: title, subtitle
         var key = searchKey.toLowerCase()
@@ -1245,7 +1254,8 @@ function filterSongs(songs, searchKey) {
 }
 
 // remove chord lines from given multiline string
-function removeChords(str) {
+function removeChords(str)
+{
     var lines = str.split('\n');
     var newLines = [];
     lines.forEach(function(line) {
@@ -1259,7 +1269,8 @@ function removeChords(str) {
 }
 
 // remove chord lines from given multiline string
-function transposeChords(action, str) {
+function transposeChords(action, str)
+{
     var lines = str.split('\n'), newLines = [];
     var TUNES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H', 'C'];
     for (var key in lines) {
@@ -1330,7 +1341,8 @@ function transposeChords(action, str) {
 }
 
 // display notification message
-function notify(type, title, text) {
+function notify(type, title, text)
+{
     if (type == 'success') {
         notyf.confirm('<strong>' + title + '</strong><br />' + text);
     }
@@ -1340,7 +1352,8 @@ function notify(type, title, text) {
 }
 
 // parse txt song content
-function parseTxtSongContent(content) {
+function parseTxtSongContent(content)
+{
     // initialize arrays for parsed lines
     var parsed = [];
     var lines = content.split('\n');
@@ -1371,7 +1384,8 @@ function parseTxtSongContent(content) {
 }
 
 // parse song content
-function parseSongContent(content) {
+function parseSongContent(content)
+{
     // initialize arrays for parsed linex, classes of parts, type abbr., numbers of type and part index
     var parsed = [], classes = [], types = [], numbers = [], part = 0;
     var lines = content.split('\n');
@@ -1459,7 +1473,8 @@ function parseSongContent(content) {
 }
 
 // get <n> different random properties from given object
-function getRandomProperty(obj, n) {
+function getRandomProperty(obj, n)
+{
     // get object keys
     var keys = Object.keys(obj), elements = [];
     for (var i = 0; i < n; i++) {
@@ -1473,7 +1488,8 @@ function getRandomProperty(obj, n) {
 };
 
 // get <n> different popular songs from given songs/setlists objects
-function getPopularSongs(songs, setlists, n) {
+function getPopularSongs(songs, setlists, n)
+{
     ids = {};
     setlists.forEach(function(setlist, i) {
         setlist.songs.forEach(function(id) {
@@ -1497,7 +1513,8 @@ function getPopularSongs(songs, setlists, n) {
 
 // get current date in yyyy-mm-dd format
 // http://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
-function getCurrentDate() {
+function getCurrentDate()
+{
     // get current date object
     var today = new Date();
     var dd = today.getDate();
