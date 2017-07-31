@@ -24,7 +24,7 @@ input, textarea, select {
     margin: 0;
 }
 :focus {
-    outline: none;
+    outline:none;
 }
 ::selection {
   background: #88b544;
@@ -72,6 +72,9 @@ footer > .button-group > .button {
 }
 .tm {
     margin-top: .5em;
+}
+.columns {
+    /*overflow: hidden;*/
 }
 .loading {
     text-align: center;
@@ -376,8 +379,7 @@ section .footer {
 
 /* setlists */
 .list-subtitle,
-.list-tuning,
-.list-popular {
+.list-tuning {
     color: #777;
     font-weight: 300;
 }
@@ -388,10 +390,6 @@ section .footer {
 .list-item-tuning {
     position: absolute;
     right: 3em;
-}
-.list-item-popular {
-    position: absolute;
-    right: 1em;
 }
 .list-item-remove {
     position: absolute;
@@ -439,8 +437,8 @@ section .footer {
 .orbit > nav {
     position: fixed;
     bottom: .5em;
-    left: 2em;
     z-index: 1;
+    width: calc(100vw - 10em);
 }
 .orbit-container {
     height: calc(100vh - 6.3em) !important;
@@ -588,9 +586,4 @@ section .footer {
 }
 .multiselect__content {
     border-radius: 0;
-}
-
-/* Vue Clock */
-.clock {
-    font-family: 'Fira Mono', monospace;
 }
