@@ -56,8 +56,11 @@ pdfMake.fonts = {
 //     snapshot.ref.update({ translations: '' });
 // });
 
-// external compontent: vue-select
+// external compontent: vue-multiselect
 Vue.component('multiselect', VueMultiselect.Multiselect);
+
+// external compontent: vue-scrollbar
+Vue.component('scrollbar', Vue2Scrollbar.Vue2Scrollbar);
 
 // global component: app header
 Vue.component('app-header', {
