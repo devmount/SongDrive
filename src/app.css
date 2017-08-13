@@ -73,9 +73,6 @@ footer > .button-group > .button {
 .tm {
     margin-top: .5em;
 }
-.columns {
-    /*overflow: hidden;*/
-}
 .loading {
     text-align: center;
     color: #777;
