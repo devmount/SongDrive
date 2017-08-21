@@ -1,0 +1,32 @@
+{
+  "name": "songdrive",
+  "homepage": "https://github.com/devmount/songdrive",
+  "authors": [
+    "Andreas Müller <mail@devmount.de>"
+  ],
+  "description": "A song management tool to store, synchronize and present songs and setlists, based on Vue.js and Firebase",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "vue": "^2.4.2",
+    "vue-router": "^2.7.0",
+    "firebase": "^4.3.0",
+    "vuefire": "https://github.com/vuejs/vuefire.git#^1.4.3",
+    "pdfmake": "^0.1.32",
+    "Sortable": "sortablejs#^1.6.0",
+    "notyf": "^2.0.1",
+    "motion-ui": "^1.2.3",
+    "foundation-sites": "^6.4.3",
+    "flatpickr": "^3.0.7",
+    "chart.js": "^2.6.0",
+    "font-awesome": "fontawesome#^4.7.0",
+    "vue-multiselect": "2.0.0-beta.15"
+  }
+}
