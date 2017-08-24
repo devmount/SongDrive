@@ -8,6 +8,7 @@ A song management web application to store, synchronize and present songs and se
 ## Features
 - Create, edit and delete songs
 - Normal and viewport optimized fullscreen view for a song
+- Switch song languages
 - Filter songs and setlists on typing
 - Transpose song tuning
 - Create, edit and delete setlists
@@ -17,7 +18,7 @@ A song management web application to store, synchronize and present songs and se
 
 ## Installation
 
-1. Download this repository and decompress it to the location of your choice
+1. Download this repository and unzip it to the location of your choice
 
     ```
     $ wget https://github.com/devmount/SongDrive/archive/master.zip
@@ -33,9 +34,9 @@ A song management web application to store, synchronize and present songs and se
     ```
 
 2. Create an empty file called `config.js` in the `SongDrive/src` subdirectory
-3. Now log in to your Firebase account and hit the "Create new project" button
+3. Log in to your Firebase account and hit the "Create new project" button
 4. Enter your new project and click "Add Firebase to your web app"
-5. Now copy the following (and only the following) code from the code that is shown to your just created `config.js`:
+5. Copy the following code from the code that is shown to your just created `config.js`:
 
     ```
     var config = {
@@ -48,8 +49,7 @@ A song management web application to store, synchronize and present songs and se
     }
     ```
 
-6. Now just open your browser and call the url of the location where you downloaded the project files to, e.g. `www.example.com/songdrive/index.html`
-7. You're ready to go and synchronize your song data live on every device accessing this url
+6. Now you can open and use SongDrive in your browser by calling the url of the location where you downloaded the project files to, i.e. `example.com/songdrive/` or `file:///your-path/SongDrive/index.html`
 
 ## Licence
 [MIT License](./LICENSE)
