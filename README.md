@@ -17,8 +17,22 @@ A song management web application to store, synchronize and present songs and se
 
 ## Installation
 
-1. Download this repository and download it to the location of your choice (local or remote)
-2. Create an empty file called `config.js` in the `src` subdirectory
+1. Download this repository and decompress it to the location of your choice
+
+    ```
+    $ wget https://github.com/devmount/SongDrive/archive/master.zip
+    $ unzip master.zip
+    $ mv SongDrive-master/ SongDrive/
+    ```
+    
+2. Install all dependencies using [Yarn](https://yarnpkg.com)
+
+    ```
+    $ cd SongDrive/
+    $ yarn
+    ```
+
+2. Create an empty file called `config.js` in the `SongDrive/src` subdirectory
 3. Now log in to your Firebase account and hit the "Create new project" button
 4. Enter your new project and click "Add Firebase to your web app"
 5. Now copy the following (and only the following) code from the code that is shown to your just created `config.js`:
