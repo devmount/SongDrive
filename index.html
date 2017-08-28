@@ -11,8 +11,8 @@
     <script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
     <script type="text/javascript" src="./node_modules/vue-router/dist/vue-router.min.js"></script>
     <!-- Vue Compontent: Vue MultiSelect -->
-    <script type="text/javascript" src="https://unpkg.com/vue-multiselect@2.0.2"></script>
-    <link type="text/css" rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.0.2/dist/vue-multiselect.min.css"></link>
+    <script type="text/javascript" src="./node_modules/vue-multiselect/dist/vue-multiselect.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="./node_modules/vue-multiselect/dist/vue-multiselect.min.css"></link>
     <!-- Vue Compontent: Vue Scrollbar -->
     <!-- <script type="text/javascript" src="./node_modules/vue2-scrollbar"></script>
     <link type="text/css" rel="stylesheet" href="./node_modules/vue2-scrollbar/dist/style/vue2-scrollbar.css"></link>  -->
@@ -100,10 +100,9 @@
                     </div>
                     <div class="medium-3 columns">
                         <label>Language</label>
-                        <!--<multiselect
+                        <multiselect
                             label="label"
-                            track-by="key"
-                            :value="getLanguageByKey(song.language)"
+                            v-model="song.language"
                             :options="languages"
                             :searchable="true"
                             :allow-empty="true"
@@ -112,10 +111,10 @@
                             selected-label=""
                             deselect-label=""
                         >
-                        </multiselect>-->
-                        <select v-model="song.language" required>
+                        </multiselect>
+                        <!-- <select v-model="song.language" required>
                             <option v-for="language in languages" :value="language.key">{{ language.label }}</option>
-                        </select>
+                        </select> -->
                         
                     </div>
                 </div>

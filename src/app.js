@@ -344,7 +344,7 @@ var AddSong = Vue.extend({
     methods: {
         createSong: function() {
             // TODO: only store language keys
-            // this.song.language = this.song.language.key;
+            this.song.language = this.song.language.key;
             // store new song
             var newsong = songsRef.push(this.song);
             // update all songs that are a translation with back link
@@ -434,7 +434,7 @@ var EditSong = Vue.extend({
             this.song = getSongObject(this.song, true);
         }
         // TODO:
-        // this.song.language = getLanguageByKey(this.song.language);
+        this.song.language = getLanguageByKey(this.song.language);
         return {
             song: this.song,
             searchKey: ''
@@ -443,7 +443,7 @@ var EditSong = Vue.extend({
     methods: {
         updateSong: function() {
             // TODO: only store language keys
-            // this.song.language = this.song.language.key;
+            this.song.language = this.song.language.key;
             // update song data
             songsRef.child(this.$route.params.song_id).update(getSongObject(this.song, false));
             // update all songs that are a translation with back link
