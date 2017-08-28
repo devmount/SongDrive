@@ -575,12 +575,22 @@ section .footer {
 .multiselect__tags {
     padding: 0;
     border: 0;
+    border-radius: 0;
     background: initial;
 }
 .multiselect__select {
     z-index: 1;
     width: 30px;
 }
-.multiselect__content {
+.multiselect__content,
+.multiselect__content-wrapper {
     border-radius: 0;
+}
+.multiselect__input {
+    border-radius: 0;
+    border: 1px solid #cacaca;
+    margin-bottom: 0;
+}
+.multiselect__option--highlight {
+    background: #88b544;
 }

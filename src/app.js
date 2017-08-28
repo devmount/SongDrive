@@ -343,7 +343,7 @@ var AddSong = Vue.extend({
     },
     methods: {
         createSong: function() {
-            // TODO: only store language keys
+            // only store language keys, not the whole language object
             this.song.language = this.song.language.key;
             // store new song
             var newsong = songsRef.push(this.song);
@@ -433,7 +433,7 @@ var EditSong = Vue.extend({
         if (!('translations' in this.song)) {
             this.song = getSongObject(this.song, true);
         }
-        // TODO:
+        // get language object from key to use in multiselect element
         this.song.language = getLanguageByKey(this.song.language);
         return {
             song: this.song,
@@ -442,7 +442,7 @@ var EditSong = Vue.extend({
     },
     methods: {
         updateSong: function() {
-            // TODO: only store language keys
+            // only store language keys, not the whole language object
             this.song.language = this.song.language.key;
             // update song data
             songsRef.child(this.$route.params.song_id).update(getSongObject(this.song, false));
