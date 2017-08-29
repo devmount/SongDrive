@@ -268,7 +268,7 @@
                             <div class="callout small">
                                 <div v-if="songs.length == 0" class="columns loading">
                                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                                    <span class="sr-only">Refreshing...</span>
+                                    <span class="sr-only">Loading...</span>
                                 </div>
                                 <canvas id="languages">
                                     Chart for displaying a doughnut chart for song languages
@@ -286,7 +286,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div v-else class="secondary callout">
+                            <div v-else class="secondary callout" title="Have at least 7 songs to shuffle random songs.">
                                 <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs.</p>
                             </div>
                             <button class="large button" @click="shuffleSongs" v-if="songs.length > 6">
@@ -300,7 +300,7 @@
                     <div class="row">
                         <div class="small-12 columns">
                             <h4>Popular</h4>
-                            <table class="hover" v-if="songs.length > 10 && setlists.length > 0">
+                            <table class="hover" v-if="songs.length >= 10 && setlists.length > 1">
                                 <tr v-for="song in getPopularSongs(songs, setlists, 10)">
                                     <td class="link-cell list-item">
                                         <template v-for="tsong in songs">
@@ -315,7 +315,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div v-else class="secondary callout">
+                            <div v-else class="secondary callout" title="Have at least 10 songs and 2 setlists to display popular songs.">
                                 <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs or setlists.</p>
                             </div>
                         </div>
@@ -329,7 +329,7 @@
                             <div class="callout small">
                                 <div v-if="setlists.length == 0" class="columns loading">
                                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                                    <span class="sr-only">Refreshing...</span>
+                                    <span class="sr-only">Loading...</span>
                                 </div>
                                 <canvas id="setlists-per-year">
                                     Chart for displaying a bar chart for number of setlists per year
@@ -338,7 +338,7 @@
                             <div class="callout small">
                                 <div v-if="setlists.length == 0" class="columns loading">
                                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                                    <span class="sr-only">Refreshing...</span>
+                                    <span class="sr-only">Loading...</span>
                                 </div>
                                 <canvas id="songs-per-year">
                                     Chart for displaying a bar chart for number of songs used in setlists per year
@@ -347,7 +347,16 @@
                         </div>
                         <div class="small-6 columns">
                             <h4>Latest</h4>
-                            <table class="hover" v-if="setlists.length > 5">
+                            <table class="hover" v-if="setlists.length > 0 && setlists.length < 6">
+                                <tr v-for="setlist in setlists">
+                                    <td class="link-cell">
+                                        <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                                            {{ setlist.title.substr(0, 30) }} <span v-if="setlist.title.length > 30">...</span>
+                                        </router-link>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table v-else-if="setlists.length >= 6">
                                 <tr v-for="setlist in setlists.slice(setlists.length-6, setlists.length).reverse()">
                                     <td class="link-cell">
                                         <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
@@ -356,9 +365,6 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div v-else class="secondary callout">
-                                <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few setlists.</p>
-                            </div>
                             <router-link class="large button" :to="{name: 'setlists'}">
                                 <i class="fa fa-list-ul" aria-hidden="true"></i> Setlists
                             </router-link>
@@ -405,7 +411,7 @@
             <div v-if="songs.length == 0" class="row">
                 <div class="small-12 columns loading">
                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                    <span class="sr-only">Refreshing...</span>
+                    <span class="sr-only">Loading...</span>
                 </div>
             </div>
             <div v-else class="row">
@@ -801,7 +807,7 @@
             <div v-if="setlists.length == 0" class="row">
                 <div class="small-12 columns loading">
                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                    <span class="sr-only">Refreshing...</span>
+                    <span class="sr-only">Loading...</span>
                 </div>
             </div>
             <div v-else class="row">
