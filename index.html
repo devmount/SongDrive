@@ -456,7 +456,7 @@
                                         <span class="show-for-sr">Show menu</span>
                                         <div v-if="ADMIN" class="dropdown-pane">
                                             <div class="button-group float-right">
-                                                <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}">
+                                                <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}" v-if="songs.length > 1">
                                                     <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                                                 </router-link>
                                                 <router-link class="button" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
@@ -840,7 +840,7 @@
                                         <span class="show-for-sr">Show menu</span>
                                         <div v-if="ADMIN" class="dropdown-pane">
                                             <div class="button-group float-right">
-                                                <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}">
+                                                <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}" v-if="setlists.length > 1">
                                                     <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                                                 </router-link>
                                                 <router-link class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
