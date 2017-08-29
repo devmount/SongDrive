@@ -1,0 +1,37 @@
+{
+  "setlists" : {
+    "-KZ0jZ54KZK8S0y0PYFZ" : {
+      "date" : "2017-09-01",
+      "songs" : [ "-KXgM2YNEA-8V_Qd4COY", "-KY6K3HbGacZu2bXd2aL" ],
+      "title" : "My first setlist"
+    }
+  },
+  "songs" : {
+    "-KXgM2YNEA-8V_Qd4COY" : {
+      "authors" : "Prename Surname",
+      "ccli" : "",
+      "content" : "--v\nC                 F      C\nThis is just an example verse\n  F      G        C\nThis is just an example verse\nC                 F      C\nThis is just an example verse\n  F      G        C\nThis is just an example verse\n\n--c\n          Am       Em        F G\nAnd here comes the example chorus,\n      Am      F C\nthe example chorus.",
+      "language" : "en",
+      "note" : "",
+      "publisher" : "example publisher",
+      "subtitle" : "Example subtitle",
+      "title" : "Example Song",
+      "translations" : [ "-KY6K3HbGacZu2bXd2aL" ],
+      "tuning" : "C",
+      "year" : "2017"
+    },
+    "-KY6K3HbGacZu2bXd2aL" : {
+      "authors" : "Vorname Nachname",
+      "ccli" : "",
+      "content" : "--v\n C            F         C\nDas ist eine Beispielstrophe\n F      G     C\nDas ist eine Beispielstrophe\n C            F         C\nDas ist eine Beispielstrophe\n F      G     C\nDas ist eine Beispielstrophe\n\n--c\n          Am        Em         F  G\nUnd hier kommt der Beispielrefrain\n     Am      F  C\nder Beispielrefrain.",
+      "language" : "de",
+      "note" : "",
+      "publisher" : "Beispiel Verlag",
+      "subtitle" : "Beispiel Untertitel",
+      "title" : "Beispiel Lied",
+      "translations" : [ "-KXgM2YNEA-8V_Qd4COY" ],
+      "tuning" : "C",
+      "year" : "2017"
+    }
+  }
+}

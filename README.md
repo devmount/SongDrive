@@ -33,10 +33,10 @@ A song management web application to store, synchronize and present songs and se
     $ yarn
     ```
 
-2. Create an empty file called `config.js` in the `SongDrive/src` subdirectory
-3. Log in to your Firebase account and hit the "Create new project" button
-4. Enter your new project and click "Add Firebase to your web app"
-5. Copy the following code from the code that is shown to your just created `config.js`:
+3. Create an empty file called `config.js` in the `SongDrive/src` subdirectory
+4. Log in to your [Firebase account](https://console.firebase.google.com) and hit the "Create new project" button
+5. Enter your new project and click "Add Firebase to your web app"
+6. Copy the following code from the code that is shown to your just created `config.js`:
 
     ```
     var config = {
@@ -49,7 +49,8 @@ A song management web application to store, synchronize and present songs and se
     }
     ```
 
-6. Now you can open and use SongDrive in your browser by calling the url of the location where you downloaded the project files to, i.e. `example.com/songdrive/` or `file:///your-path/SongDrive/index.html`
+7. To create the necessary database structure, go to *Database* in the left menu, click on the three dot menu on the upper right corner of the database field and choos *Import JSON*. In the following file selection dialog, browse for the file `database.json` and import it.
+8. Now you can open and use SongDrive in your browser by calling the url of the location where you downloaded the project files to, i.e. `example.com/songdrive/` or `file:///your-path/SongDrive/index.html`. You should see two example songs and one example setlist.
 
 ## Licence
 [MIT License](./LICENSE)
