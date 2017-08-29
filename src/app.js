@@ -1550,4 +1550,3 @@ function getCurrentDate()
     // return formatted date
     return yyyy + '-' + mm + '-' + dd;
 };
-

@@ -277,7 +277,7 @@
                         </div>
                         <div class="small-6 columns">
                             <h4>Random</h4>
-                            <table class="hover" v-if="songs.length > 0 && shuffle">
+                            <table class="hover" v-if="songs.length > 6 && shuffle">
                                 <tr v-for="song in getRandomProperty(songs, 6)">
                                     <td class="link-cell">
                                         <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
@@ -289,7 +289,7 @@
                             <div v-else class="secondary callout">
                                 <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs.</p>
                             </div>
-                            <button class="large button" @click="shuffleSongs">
+                            <button class="large button" @click="shuffleSongs" v-if="songs.length > 6">
                                 <i class="fa fa-random" aria-hidden="true"></i> Shuffle
                             </button>
                             <router-link class="large button" :to="{name: 'songs'}">
@@ -300,7 +300,7 @@
                     <div class="row">
                         <div class="small-12 columns">
                             <h4>Popular</h4>
-                            <table class="hover" v-if="songs.length > 0 && setlists.length > 0">
+                            <table class="hover" v-if="songs.length > 10 && setlists.length > 0">
                                 <tr v-for="song in getPopularSongs(songs, setlists, 10)">
                                     <td class="link-cell list-item">
                                         <template v-for="tsong in songs">
