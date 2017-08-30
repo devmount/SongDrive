@@ -150,9 +150,6 @@ var Dashboard = Vue.extend({
         shuffleSongs: function() {
             // dummy variable to invoke recalculation of getRandomProperty()
             this.shuffle = []
-        },
-        getLatestSetlists: function() {
-            return this.setlists.slice(setlists.length-6, setlists.length).reverse();
         }
     },
     mounted: function() {
