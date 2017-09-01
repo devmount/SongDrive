@@ -550,6 +550,7 @@ section .footer {
 .drop-left .dropdown-pane,
 .drop-up .dropdown-pane {
     position: absolute;
+    width: auto;
     z-index: 1;
     border: none;
     padding: 0;
@@ -560,19 +561,19 @@ section .footer {
 }
 .drop-left .dropdown-pane {
     padding-right: 1px;
-    width: 210px;
     top: -1px;
     right: 58px;
 }
 .drop-up .dropdown-pane {
     background: transparent;
-    width: 166px;
     bottom: 3.55em;
     left: -1px;
 }
 .drop-up .dropdown-pane a,
 .drop-up .dropdown-pane button {
     font-size: 1.25rem;
+    text-align: left;
+    white-space: nowrap;
 }
 .drop-left .dropdown.button:focus,
 .drop-up .dropdown.button:focus {

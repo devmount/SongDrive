@@ -597,20 +597,18 @@
                         <i class="fa fa-upload fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Export</span>
                         <div class="dropdown-pane">
-                            <div class="">
-                                <button class="button expanded" @click="exportPdf" target="_blank">
-                                    <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-medium">PDF</span>
-                                </button>
-                                <button class="button expanded" @click="exportSng" target="_blank">
-                                    <i class="fa fa-file-video-o fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-medium">SNG</span>
-                                </button>
-                                <router-link v-if="song['.key']" class="button expanded" :to="{name: 'txt-song', params: {song_id: song['.key']}}">
-                                    <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-medium">TXT</span>
-                                </router-link>
-                            </div>
+                            <button class="button expanded" @click="exportPdf" target="_blank">
+                                <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-small">PDF</span>
+                            </button>
+                            <button class="button expanded" @click="exportSng" target="_blank">
+                                <i class="fa fa-file-video-o fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-small">SNG</span>
+                            </button>
+                            <router-link v-if="song['.key']" class="button expanded" :to="{name: 'txt-song', params: {song_id: song['.key']}}">
+                                <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-small">TXT</span>
+                            </router-link>
                         </div>
                     </div>
                     <router-link v-if="song['.key']" class="button" :to="{name: 'present-song', params: {song_id: song['.key'], tuning: tuning, textOnly: textOnly }}">
@@ -988,25 +986,29 @@
                 </div>
             </div>
             <footer>
-                <div class="button-group float-right">
-                    <button class="button" @click="exportSongsheets" target="_blank">
-                        <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                        <span class="show-for-large">PDF </span><span class="show-for-medium">Sheets</span>
-                        <span class="hide-for-medium">Sheets</span>
-                    </button>
-                    <button class="button" @click="exportSetlist" target="_blank">
-                        <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                        <span class="show-for-large">PDF </span><span class="show-for-medium">List</span>
-                        <span class="hide-for-medium">List</span>
-                    </button>
-                    <router-link v-if="setlist['.key']" class="button" :to="{name: 'txt-sheets', params: {setlist_id: setlist['.key']}}">
-                        <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                        <span class="show-for-medium">TXT </span><span class="show-for-medium">Sheets</span>
-                    </router-link>
-                    <router-link v-if="setlist['.key']" class="button" :to="{name: 'txt-list', params: {setlist_id: setlist['.key']}}">
-                        <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                        <span class="show-for-medium">TXT </span><span class="show-for-medium">List</span>
-                    </router-link>
+                <div class="button-group float-right drop-up">
+                    <div class="dropdown button" tabindex="0">
+                        <i class="fa fa-upload fa-fw" aria-hidden="true"></i>
+                        <span class="show-for-large">Export</span>
+                        <div class="dropdown-pane">
+                            <button class="button expanded" @click="exportSongsheets" target="_blank">
+                                <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-small">PDF Sheets</span>
+                            </button>
+                            <button class="button expanded" @click="exportSetlist" target="_blank">
+                                <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-small">PDF List</span>
+                            </button>
+                            <router-link v-if="setlist['.key']" class="button expanded" :to="{name: 'txt-sheets', params: {setlist_id: setlist['.key']}}">
+                                <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-small">TXT Sheets</span>
+                            </router-link>
+                            <router-link v-if="setlist['.key']" class="button expanded" :to="{name: 'txt-list', params: {setlist_id: setlist['.key']}}">
+                                <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                                <span class="show-for-small">TXT List</span>
+                            </router-link>
+                        </div>
+                    </div>
                     <router-link v-if="setlist['.key']" class="button" :to="{name: 'present-setlist', params: {setlist_id: setlist['.key']}}">
                         <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Present</span>
