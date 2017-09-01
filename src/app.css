@@ -541,11 +541,11 @@ section .footer {
     stroke: #fff;
 }
 
-/* dropdown menu */
-.dropdown.button {
+/* drop menus */
+.drop-left .dropdown.button {
     position: relative;
 }
-.dropdown-pane {
+.drop-left .dropdown-pane {
     position: absolute;
     z-index: 1;
     top: -1px;
@@ -558,15 +558,15 @@ section .footer {
     visibility: hidden;
     transition: visibility 0.5s;
 }
-.dropdown.button:focus {
+.drop-left .dropdown.button:focus {
     pointer-events: none;
 }
-.dropdown.button:focus .dropdown-pane {
+.drop-left .dropdown.button:focus .dropdown-pane {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
 }
-.dropdown.button:focus:after {
+.drop-left .dropdown.button:focus:after {
     transition: transform .3s;
     transform: rotate(90deg);
 }
