@@ -594,3 +594,14 @@ section .footer {
 .multiselect__option--highlight {
     background: #88b544;
 }
+
+/* Vue Tippy */
+.tippy-tooltip.flat-theme {
+    border-radius: 0;
+}
+.content-tooltip {
+    display: none;
+}
+.content-tooltip p {
+    text-align: left;
+}

@@ -61,6 +61,9 @@ Vue.component('multiselect', VueMultiselect.Multiselect);
 // external compontent: vue-scrollbar
 // Vue.component('scrollbar', Vue2Scrollbar);
 
+// external compontent: vue-tippy
+Vue.component('tippy', VueTippy);
+
 // global component: app header
 Vue.component('app-header', {
     template: '#app-header'

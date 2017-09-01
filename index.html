@@ -16,6 +16,8 @@
     <!-- Vue Compontent: Vue Scrollbar -->
     <!-- <script type="text/javascript" src="./node_modules/vue2-scrollbar"></script>
     <link type="text/css" rel="stylesheet" href="./node_modules/vue2-scrollbar/dist/style/vue2-scrollbar.css"></link>  -->
+    <!-- Vue Compontent: Vue Tippy Tooltips -->
+    <script type="text/javascript" src="./node_modules/vue-tippy/dist/vue-tippy.min.js"></script>
     <!-- VueFire, Firebase -->
     <script type="text/javascript" src="./node_modules/firebase/firebase.js"></script>
     <script type="text/javascript" src="./node_modules/vuefire/dist/vuefire.min.js"></script>
@@ -143,7 +145,28 @@
             </div>
             <div class="small-12 medium-6 columns content-column">
                 <label>Content
-                    <textarea v-model="song.content" placeholder="A song with chords" rows="33" required></textarea>
+                    <textarea
+                        v-model="song.content"
+                        placeholder="A song with chords"
+                        rows="33"
+                        required
+                        title="You can use markers here!"
+                        data-html="#song-content-tooltip"
+                        v-tippy="{ position : 'left',  arrow: true, hideOnClick: false, animation: 'perspective', interactive: true, theme: 'flat dark' }"
+                    ></textarea>
+                    <div id="song-content-tooltip" class="content-tooltip">
+                        <div>
+                            <h4>Marker</h4>
+                            <p>You can use marker to tag different song parts,<br />such as verses and chorus.</p>
+                            <p>
+                                <code>--v</code> verse<br />
+                                <code>--c</code> chorus<br />
+                                <code>--p</code> pre-chorus<br />
+                                <code>--b</code> bridge<br />
+                            </p>
+                            <p>To enumerate a part, just add a number,<br />i.e. for verses one and two, use <code>--v1</code> and <code>--v2</code></p>
+                        </div>
+                    </div>
                 </label>
             </div>
         </div>
