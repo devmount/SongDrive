@@ -542,26 +542,44 @@ section .footer {
 }
 
 /* drop menus */
-.drop-left .dropdown.button {
+.drop-left .dropdown.button,
+.drop-up .dropdown.button {
     position: relative;
+    cursor: pointer;
 }
-.drop-left .dropdown-pane {
+.drop-left .dropdown-pane,
+.drop-up .dropdown-pane {
     position: absolute;
     z-index: 1;
-    top: -1px;
-    right: 58px;
     border: none;
-    padding: 0 1px 0 0;
-    width: 210px;
+    padding: 0;
     text-align: right;
     opacity: 0;
     visibility: hidden;
     transition: visibility 0.5s;
 }
-.drop-left .dropdown.button:focus {
+.drop-left .dropdown-pane {
+    padding-right: 1px;
+    width: 210px;
+    top: -1px;
+    right: 58px;
+}
+.drop-up .dropdown-pane {
+    background: transparent;
+    width: 166px;
+    bottom: 3.55em;
+    left: -1px;
+}
+.drop-up .dropdown-pane a,
+.drop-up .dropdown-pane button {
+    font-size: 1.25rem;
+}
+.drop-left .dropdown.button:focus,
+.drop-up .dropdown.button:focus {
     pointer-events: none;
 }
-.drop-left .dropdown.button:focus .dropdown-pane {
+.drop-left .dropdown.button:focus .dropdown-pane,
+.drop-up .dropdown.button:focus .dropdown-pane {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -569,6 +587,10 @@ section .footer {
 .drop-left .dropdown.button:focus:after {
     transition: transform .3s;
     transform: rotate(90deg);
+}
+.drop-up .dropdown.button:focus:after {
+    transition: transform .5s;
+    transform: rotate(180deg);
 }
 
 /* Vue Multiselect */

@@ -592,19 +592,27 @@
                 </div>
             </div>
             <footer>
-                <div class="button-group float-right">
-                    <button class="button" @click="exportPdf" target="_blank">
-                        <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                        <span class="show-for-medium">PDF</span>
-                    </button>
-                    <button class="button" @click="exportSng" target="_blank">
-                        <i class="fa fa-file-video-o fa-fw" aria-hidden="true"></i>
-                        <span class="show-for-medium">SNG</span>
-                    </button>
-                    <router-link v-if="song['.key']" class="button" :to="{name: 'txt-song', params: {song_id: song['.key']}}">
-                        <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                        <span class="show-for-medium">TXT</span>
-                    </router-link>
+                <div class="button-group float-right drop-up">
+                    <div class="dropdown button" tabindex="0">
+                        <i class="fa fa-upload fa-fw" aria-hidden="true"></i>
+                        <span class="show-for-large">Export</span>
+                        <div class="dropdown-pane">
+                            <div class="">
+                                <button class="button expanded" @click="exportPdf" target="_blank">
+                                    <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                                    <span class="show-for-medium">PDF</span>
+                                </button>
+                                <button class="button expanded" @click="exportSng" target="_blank">
+                                    <i class="fa fa-file-video-o fa-fw" aria-hidden="true"></i>
+                                    <span class="show-for-medium">SNG</span>
+                                </button>
+                                <router-link v-if="song['.key']" class="button expanded" :to="{name: 'txt-song', params: {song_id: song['.key']}}">
+                                    <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                                    <span class="show-for-medium">TXT</span>
+                                </router-link>
+                            </div>
+                        </div>
+                    </div>
                     <router-link v-if="song['.key']" class="button" :to="{name: 'present-song', params: {song_id: song['.key'], tuning: tuning, textOnly: textOnly }}">
                         <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
                         <span class="show-for-large">Fullscreen</span>
