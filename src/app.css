@@ -598,10 +598,11 @@ section .footer {
 /* Vue Tippy */
 .tippy-tooltip.flat-theme {
     border-radius: 0;
+    opacity: .9;
 }
-.content-tooltip {
-    display: none;
+.tippy-tooltip.flat-theme .tippy-tooltip-content {
+    width: 18em;
 }
-.content-tooltip p {
+.tippy-tooltip.flat-theme .tippy-tooltip-content p {
     text-align: left;
 }

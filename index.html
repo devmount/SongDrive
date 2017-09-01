@@ -149,22 +149,35 @@
                         v-model="song.content"
                         placeholder="A song with chords"
                         rows="33"
-                        required
-                        title="You can use markers here!"
                         data-html="#song-content-tooltip"
-                        v-tippy="{ position : 'left',  arrow: true, hideOnClick: false, animation: 'perspective', interactive: true, theme: 'flat dark' }"
+                        v-tippy="{
+                            position: 'left',
+                            arrow: true,
+                            hideOnClick: false,
+                            animation: 'perspective',
+                            interactive: true,
+                            theme: 'flat dark',
+                            popperOptions: {
+                                modifiers: {
+                                    flip: {
+                                        behavior: ['left', 'top']
+                                    }
+                                }
+                            }
+                        }"
+                        required
                     ></textarea>
-                    <div id="song-content-tooltip" class="content-tooltip">
+                    <div id="song-content-tooltip" style="display: none;">
                         <div>
                             <h4>Marker</h4>
-                            <p>You can use marker to tag different song parts,<br />such as verses and chorus.</p>
+                            <p>You can use marker to tag different song parts, such as verses and chorus.</p>
                             <p>
                                 <code>--v</code> verse<br />
                                 <code>--c</code> chorus<br />
                                 <code>--p</code> pre-chorus<br />
                                 <code>--b</code> bridge<br />
                             </p>
-                            <p>To enumerate a part, just add a number,<br />i.e. for verses one and two, use <code>--v1</code> and <code>--v2</code></p>
+                            <p>To enumerate a part, just add a number, i.e. for verses one and two, use <code>--v1</code> and <code>--v2</code></p>
                         </div>
                     </div>
                 </label>
