@@ -551,6 +551,7 @@ section .footer {
 .drop-up .dropdown-pane {
     position: absolute;
     width: auto;
+    min-width: 166px;
     z-index: 1;
     border: none;
     padding: 0;
