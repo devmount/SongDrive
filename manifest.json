@@ -1,6 +1,9 @@
 {
+    "lang": "en",
+    "dir": "ltr",
     "name": "SongDrive",
     "short_name": "SongDrive",
+    "description": "A song management app to store, synchronize and present songs and setlists.",
     "icons": [
         {
             "src": "/src/img/icon@128.png",
