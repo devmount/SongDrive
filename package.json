@@ -16,7 +16,7 @@
     "motion-ui": "^1.2.3",
     "notyf": "^2.0.1",
     "pdfmake": "^0.1.32",
-    "sortablejs": "^1.6.0",
+    "sortablejs": "^1.6.1",
     "vue": "^2.4.2",
     "vue-multiselect": "^2.0.2",
     "vue-router": "^2.7.0",
