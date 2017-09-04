@@ -187,7 +187,7 @@
             <div class="small-12 medium-6 columns">
                 <label>Existing Translations</label>
                 <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
-                <div class="song-checklist" v-bar>
+                <div class="checklist" v-bar>
                     <div>
                         <label v-for="fsong in filteredSongs" :key="fsong['.key']" >
                             <input type="checkbox" :value="fsong['.key']" v-model="song.translations">

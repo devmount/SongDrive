@@ -402,10 +402,10 @@ section .footer {
     color: #c60f13;
 }
 .checklist {
-    height: calc(85vh - 20rem);
+    height:50vh;
 }
 .song-checklist {
-    height: 100px;
+    height: 50vh;
 }
 
 /* font awesome */
