@@ -21,6 +21,7 @@
     "vue-multiselect": "^2.0.2",
     "vue-router": "^2.7.0",
     "vue-tippy": "^0.2.8",
+    "vuebar": "^0.0.16",
     "vuefire": "^1.4.3"
   }
 }

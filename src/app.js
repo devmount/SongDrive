@@ -58,8 +58,8 @@ pdfMake.fonts = {
 // external compontent: vue-multiselect
 Vue.component('multiselect', VueMultiselect.Multiselect);
 
-// external compontent: vue-scrollbar
-// Vue.component('scrollbar', Vue2Scrollbar);
+// external compontent: vue2-scrollbar
+Vue.component('vuebar', Vuebar);
 
 // external compontent: vue-tippy
 Vue.component('tippy', VueTippy);
