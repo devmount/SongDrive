@@ -247,13 +247,15 @@
             <div class="small-12 medium-6 columns">
                 <label>All Songs</label>
                 <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
-                <div class="checklist">
-                    <label v-for="song in filteredSongs" :key="song['.key']" >
-                        <input type="checkbox" :value="song['.key']" v-model="setlist.songs">
-                        {{ song.title }}
-                        <span v-if="song.subtitle" class="list-subtitle">&nbsp;{{ song.subtitle }}</span>
-                        <span v-if="song.tuning" class="list-tuning">&nbsp;[{{ song.tuning }}]</span>
-                    </label>
+                <div class="checklist" v-bar>
+                    <div>
+                        <label v-for="song in filteredSongs" :key="song['.key']" >
+                            <input type="checkbox" :value="song['.key']" v-model="setlist.songs">
+                            {{ song.title }}
+                            <span v-if="song.subtitle" class="list-subtitle">&nbsp;{{ song.subtitle }}</span>
+                            <span v-if="song.tuning" class="list-tuning">&nbsp;[{{ song.tuning }}]</span>
+                        </label>
+                    </div>
                 </div>
             </div>
             <div class="small-12 medium-6 columns">

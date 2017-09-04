@@ -402,8 +402,7 @@ section .footer {
     color: #c60f13;
 }
 .checklist {
-    max-height: calc(85vh - 20rem);
-    overflow-y: scroll;
+    height: calc(85vh - 20rem);
 }
 .song-checklist {
     height: 100px;
