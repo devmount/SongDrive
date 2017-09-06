@@ -52,7 +52,7 @@ pdfMake.fonts = {
 
 // snippet to add fields
 // songsRef.on('child_added', function(snapshot) {
-//     snapshot.ref.update({ translations: '' });
+//     snapshot.ref.update({ tags: '' });
 // });
 
 // external compontent: vue-multiselect
@@ -84,7 +84,18 @@ Vue.component('song-form-fields', {
     },
     data: function() {
         return {
-            languages: getLanguages()
+            languages: getLanguages(),
+            tags: [
+                'Praise',
+                'Love',
+                'Worship',
+                'Jesus',
+                'Adoration',
+                'Declaration',
+                'Joy',
+                'Hope',
+                'Children'
+            ]
         }
     },
     computed: {
@@ -92,6 +103,12 @@ Vue.component('song-form-fields', {
         filteredSongs: function() {
             var self = this;
             return filterSongs(self.songs, self.searchKey);
+        }
+    },
+    methods: {
+        addTag (newTag) {
+            this.tags.push(newTag)
+            this.song.tags.push(newTag)
         }
     }
 })
@@ -1222,6 +1239,7 @@ function getSongObject(song, noTranslations)
         content:      song ? song.content : '',
         language:     song ? song.language : '',
         note:         song ? song.note : '',
+        tags:         song ? song.tags : '',
         translations: song ? (noTranslations ? [] : song.translations) : []
     } 
 }

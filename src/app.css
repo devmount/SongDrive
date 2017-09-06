@@ -404,9 +404,6 @@ section .footer {
 .checklist {
     height:50vh;
 }
-.song-checklist {
-    height: 50vh;
-}
 
 /* font awesome */
 .fa-rm {
@@ -607,7 +604,8 @@ section .footer {
     width: 30px;
 }
 .multiselect__content,
-.multiselect__content-wrapper {
+.multiselect__content-wrapper,
+.multiselect--above .multiselect__content-wrapper {
     border-radius: 0;
 }
 .multiselect__input {
@@ -617,6 +615,45 @@ section .footer {
 }
 .multiselect__option--highlight {
     background: #88b544;
+}
+.multiselect__tag {
+    border-radius: 0;
+    line-height: 1.2;
+    background: #88b544;
+}
+.multiselect__tag-icon {
+    border-radius: 0;
+}
+.multiselect__tag-icon:after {
+    color: rgba(0,0,0,.3);
+    font-size: 18px;
+    line-height: 28px;
+}
+.multiselect__tag-icon:hover {
+    background: #77A03B;
+}
+.tag-select .multiselect__tags {
+    width: 100%;
+    min-height: 2.4375rem;
+    padding: .4rem .4rem 0 .4rem;
+    border: 1px solid #cacaca;
+    margin: 0 0 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    color: #0a0a0a;
+    background-color: #fefefe;
+    box-shadow: inset 0 1px 2px hsla(0,0%,4%,.1);
+    border-radius: 0;
+    transition: box-shadow .5s,border-color .25s ease-in-out;
+}
+.tag-select .multiselect__input {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    height: 25px;
+    line-height: 25px;
 }
 
 /* Vue Tippy */

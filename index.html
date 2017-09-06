@@ -142,6 +142,25 @@
                 <label>Note
                     <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
                 </label>
+                <label>Tags
+                    <multiselect
+                        class="tag-select"
+                        v-model="song.tags"
+                        placeholder=""
+                        :options="tags"
+                        :searchable="true"
+                        :allow-empty="true"
+                        :hide-selected="true"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :preserve-search="true"
+                        :multiple="true"
+                        :taggable="true"
+                        :show-labels="false"
+                        @tag="addTag"
+                    >
+                    </multiselect>
+                </label>
             </div>
             <div class="small-12 medium-6 columns content-column">
                 <label>Content
