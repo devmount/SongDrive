@@ -85,17 +85,7 @@ Vue.component('song-form-fields', {
     data: function() {
         return {
             languages: getLanguages(),
-            tags: [
-                'Praise',
-                'Love',
-                'Worship',
-                'Jesus',
-                'Adoration',
-                'Declaration',
-                'Joy',
-                'Hope',
-                'Children'
-            ]
+            tags: getTags()
         }
     },
     computed: {
@@ -1272,6 +1262,60 @@ function getLanguageByKey(key)
 {
     var result = getLanguages().filter( function(o){return o.key == key;} );
     return result ? result[0] : null;
+}
+
+// return all existing tags
+function getTags()
+{
+    return [
+        'Praise',
+        'Love',
+        'Worship',
+        'Jesus',
+        'Adoration',
+        'Declaration',
+        'Salvation',
+        'Christmas',
+        'Prayer',
+        'Faith',
+        'Trust',
+        'Grace',
+        'Presence',
+        'Joy',
+        'Hope',
+        'Children',
+        'Glory',
+        'Sacrifice',
+        'Faithfulness',
+        'Peace',
+        'Strength',
+        'Surrender',
+        'Thankfulness',
+        'Assurance',
+        'Comfort',
+        'Greatness',
+        'Forgiveness',
+        'Petition',
+        'Blessing',
+        'Guidance',
+        'Victory',
+        'Commitment',
+        'Holy Spirit',
+        'Cross',
+        'Kingship',
+        'Freedom',
+        'Light',
+        'Holiness',
+        'Healing',
+        'Life',
+        'Easter',
+        'Creation',
+        'Resurrection',
+        'Father',
+        'Truth',
+        'Unity',
+        'Communion',
+    ]
 }
 
 // check if a string represents most likely a chord line, based on the number of spaces
