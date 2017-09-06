@@ -368,11 +368,11 @@ section .footer {
     padding-left: 3em;
     height: 3rem;
 }
-.search::before {
+.search::before,
+.search.tags .search-tag::before {
     position: absolute;
     left: 1rem;
     top: .3rem;
-    content: "\f002";
     font-family: FontAwesome;
     font-weight: normal;
     font-style: normal;
@@ -380,6 +380,25 @@ section .footer {
     color: #999;
     display: inline-block;
     text-decoration: inherit;
+    z-index: 1;
+}
+.search::before {
+    content: "\f002";
+}
+.search.tags .search-tag::before {
+    content: "\f02b";
+}
+.search.tags .search-input {
+    display: inline-block;
+    width: 70%;
+}
+.search.tags .search-tag {
+    position: relative;
+    display: inline-block;
+    width: 30%;
+    margin-left: -5px;
+    font-family: inherit;
+    font-size: 1rem;
 }
 
 /* setlists */

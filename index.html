@@ -108,10 +108,8 @@
                             :options="languages"
                             :searchable="true"
                             :allow-empty="true"
+                            :show-labels="false"
                             placeholder=""
-                            select-label=""
-                            selected-label=""
-                            deselect-label=""
                         >
                         </multiselect>
                     </div>
@@ -144,7 +142,7 @@
                 </label>
                 <label>Tags
                     <multiselect
-                        class="tag-select"
+                        class="search-tag"
                         v-model="song.tags"
                         placeholder="Add tag"
                         :options="tags"
@@ -153,7 +151,7 @@
                         :hide-selected="true"
                         :close-on-select="false"
                         :clear-on-select="false"
-                        :preserve-search="true"
+                        :preserve-search="false"
                         :multiple="true"
                         :taggable="true"
                         :show-labels="false"
@@ -462,9 +460,20 @@
                     <h1 v-if="songs.length > 0 || songs.length == 0 && tag">{{ filteredSongs.length }} Songs {{ tag ? '[' + tag + ']' : '' }}</h1>
                     <h1 v-else>Loading Songs ...</h1>
                 </header>
-                <div class="row medium-collapse small-collapse search">
+                <div class="row medium-collapse small-collapse search tags">
                     <div class="small-12 columns">
-                        <input id="search" type="search" v-model="searchKey" placeholder="search for song titles" required autofocus />
+                        <input id="search" class="search-input" type="search" v-model="searchKey" placeholder="search for song titles" required autofocus />
+                        <multiselect
+                            v-model="tag"
+                            class="search-tag"
+                            placeholder="search for tag"
+                            :options="tags"
+                            :searchable="true"
+                            :allow-empty="false"
+                            :show-labels="false"
+                            @input="loadTag"
+                        >
+                        </multiselect>
                     </div>
                 </div>
                 <div v-if="songs.length == 0 && !tag" class="row">

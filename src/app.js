@@ -281,10 +281,21 @@ var ListSongs = Vue.extend({
         songs: songsRef.orderByChild('title')
     },
     data: function() {
+        // get existing tags and add universal tag to reset tag filter if tag is set
+        var tags = getTags();
+        if (this.$route.params.tag) {
+            tags.unshift('All');
+        }
         return {
             searchKey: '',
+            tags: tags,
             tag: this.$route.params.tag
         };
+    },
+    methods: {
+        loadTag: function() {
+            router.push('/songs/' + this.tag);
+        }
     },
     computed: {
         // apply filter
@@ -1020,7 +1031,7 @@ var router = new VueRouter({
         // dashboard
         {name: 'home',            component: Dashboard,      path: '/'},
         // songs
-        {name: 'songs',           component: ListSongs,      path: '/songs'},
+        {name: 'songs',           component: ListSongs,      path: '/songs/(all)?'},
         {name: 'tagged-songs',    component: ListSongs,      path: '/songs/:tag'},
         {name: 'add-song',        component: AddSong,        path: '/song/add'},
         {name: 'show-song',       component: ShowSong,       path: '/song/:song_id'},
