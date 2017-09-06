@@ -210,7 +210,7 @@
                     <div>
                         <label v-for="fsong in filteredSongs" :key="fsong['.key']" >
                             <input type="checkbox" :value="fsong['.key']" v-model="song.translations">
-                            {{ fsong.title }} <span v-if="fsong.subtitle" class="list-subtitle">({{ fsong.subtitle }})</span>
+                            {{ fsong.title }} <span v-if="fsong.subtitle" class="less-important">({{ fsong.subtitle }})</span>
                         </label>
                     </div>
                 </div>
@@ -224,7 +224,7 @@
                             <template v-for="song in songs">
                                 <template v-if="song['.key'] == songkey">
                                     <td>
-                                        {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
+                                        {{ song.title }} <span class="less-important">({{ song.subtitle }})</span>
                                     </td>
                                 </template>
                             </template>
@@ -271,8 +271,8 @@
                         <label v-for="song in filteredSongs" :key="song['.key']" >
                             <input type="checkbox" :value="song['.key']" v-model="setlist.songs">
                             {{ song.title }}
-                            <span v-if="song.subtitle" class="list-subtitle">&nbsp;{{ song.subtitle }}</span>
-                            <span v-if="song.tuning" class="list-tuning">&nbsp;[{{ song.tuning }}]</span>
+                            <span v-if="song.subtitle" class="less-important">&nbsp;{{ song.subtitle }}</span>
+                            <span v-if="song.tuning" class="less-important">&nbsp;[{{ song.tuning }}]</span>
                         </label>
                     </div>
                 </div>
@@ -287,8 +287,8 @@
                                 <template v-if="song['.key'] == songkey">
                                     <td class="list-item">
                                         {{ song.title }}
-                                        <span class="list-subtitle">&nbsp;{{ song.subtitle }}</span>
-                                        <span class="list-tuning list-item-tuning">{{ song.tuning }}</span>
+                                        <span class="less-important">&nbsp;{{ song.subtitle }}</span>
+                                        <span class="less-important list-item-tuning">{{ song.tuning }}</span>
                                         <span class="list-item-remove" @click="removeSong(songkey)">
                                             <i class="fa fa-close fa-fw" aria-hidden="true"></i>
                                         </span>
@@ -356,16 +356,16 @@
                         </div>
                         <div class="row">
                             <div class="small-12 columns">
-                                <h4>Popular</h4>
+                                <h4 title="On how many different setlists does a song occur">Popular</h4>
                                 <table class="hover" v-if="songs.length >= 10 && setlists.length > 1">
                                     <tr v-for="song in getPopularSongs(songs, setlists, 10)">
                                         <td class="link-cell list-item">
                                             <template v-for="tsong in songs">
                                                 <template v-if="tsong['.key'] == song[0]">
                                                     <router-link :to="{name: 'show-song', params: {song_id: tsong['.key']}}">
+                                                        <span class="list-popular list-item-popular">{{ song[1] }}</span><span class="less-important">x</span>
                                                         {{ tsong.title.substr(0, 30) }} <span v-if="tsong.title.length > 30">...</span>
-                                                        <span class="list-subtitle">&nbsp;{{ tsong.subtitle }}</span>
-                                                        <span class="list-popular list-item-popular">{{ song[1] }}</span>
+                                                        <span class="less-important">&nbsp;{{ tsong.subtitle }}</span>
                                                     </router-link>
                                                 </template>
                                             </template>
@@ -993,7 +993,7 @@
                                     <template v-for="song in songs">
                                         <template v-if="song['.key'] == songkey">
                                             <td>
-                                                {{ song.title }} <span class="list-subtitle">({{ song.subtitle }})</span>
+                                                {{ song.title }} <span class="less-important">({{ song.subtitle }})</span>
                                             </td>
                                             <td class="text-center">
                                                 {{ song.language }}

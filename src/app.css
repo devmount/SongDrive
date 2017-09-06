@@ -73,6 +73,10 @@ footer > .button-group > .button {
 .tm {
     margin-top: .5em;
 }
+.less-important {
+    color: #777;
+    font-weight: 300;
+}
 .loading {
     text-align: center;
     color: #777;
@@ -377,11 +381,6 @@ section .footer {
 }
 
 /* setlists */
-.list-subtitle,
-.list-tuning {
-    color: #777;
-    font-weight: 300;
-}
 .list-item {
     position: relative;
     font-weight: 400;
