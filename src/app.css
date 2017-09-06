@@ -150,6 +150,7 @@ footer > .button-group > .button {
     bottom: 1em;
     color: #fff;
     padding: 0 2em;
+    z-index: 10;
 }
 .container > footer > p {
     margin: 0;
@@ -274,6 +275,7 @@ section > form > footer {
     color: #fff;
     padding: 2px;
     text-align: right;
+    z-index: 10;
 }
 section > footer > form {
     display: inline;
@@ -669,9 +671,13 @@ section .footer {
 
 /* VueBar */
 .vb > .vb-dragger {
-    z-index: 15;
+    z-index: 0;
     width: 12px;
     right: 0;
+}
+.vb.vb-scrolling-phantom > .vb-dragger,
+.vb > .vb-dragger:hover {
+    z-index: 15;
 }
 .vb > .vb-dragger > .vb-dragger-styler {
     backface-visibility: hidden;
@@ -680,25 +686,25 @@ section .footer {
         background-color 100ms ease-out,
         margin 100ms ease-out,
         height 100ms ease-out;
-    background-color: rgba(116, 154, 58,.1);
+    background-color: rgba(0, 0, 0,.1);
     margin: 5px 5px 5px 0;
     border-radius: 0;
     height: calc(100% - 10px);
     display: block;
 }
 .vb.vb-scrolling-phantom > .vb-dragger > .vb-dragger-styler {
-    background-color: rgba(116, 154, 58,.3);
+    background-color: rgba(0, 0, 0,.3);
 }
 .vb > .vb-dragger:hover > .vb-dragger-styler {
-    background-color: rgba(116, 154, 58,.5);
+    background-color: rgba(0, 0, 0,.5);
     margin: 0px;
     height: 100%;
 }
 .vb.vb-dragging > .vb-dragger > .vb-dragger-styler {
-    background-color: rgba(116, 154, 58,.5);
+    background-color: rgba(0, 0, 0,.5);
     margin: 0px;
     height: 100%;
 }
 .vb.vb-dragging-phantom > .vb-dragger > .vb-dragger-styler {
-    background-color: rgba(116, 154, 58,.5);
+    background-color: rgba(0, 0, 0,.5);
 }
