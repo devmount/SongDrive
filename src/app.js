@@ -282,7 +282,8 @@ var ListSongs = Vue.extend({
     },
     data: function() {
         return {
-            searchKey: ''
+            searchKey: '',
+            tag: this.$route.params.tag
         };
     },
     computed: {
@@ -295,6 +296,9 @@ var ListSongs = Vue.extend({
     mounted: function() {
         // set initial focus to search input
         document.getElementById('search').focus();
+        if(this.$route.params.tag) {
+            this.songs = taggedSongs(this.songs, this.$route.params.tag);
+        }
     }
 });
 
@@ -1017,6 +1021,7 @@ var router = new VueRouter({
         {name: 'home',            component: Dashboard,      path: '/'},
         // songs
         {name: 'songs',           component: ListSongs,      path: '/songs'},
+        {name: 'tagged-songs',    component: ListSongs,      path: '/songs/:tag'},
         {name: 'add-song',        component: AddSong,        path: '/song/add'},
         {name: 'show-song',       component: ShowSong,       path: '/song/:song_id'},
         {name: 'present-song',    component: PresentSong,    path: '/song/:song_id/fullscreen'},
@@ -1327,13 +1332,26 @@ function isChordLine(line) {
     return ratio > 0.25 || (line.length < 4 && line.charAt(0) != '-');
 }
 
-// filter song list
+// filter song list by search key
 function filterSongs(songs, searchKey)
 {
     return songs.filter(function (song) {
         // filter fields: title, subtitle
         var key = searchKey.toLowerCase()
         return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1;
+    });
+}
+
+// filter song list by tag
+function taggedSongs(songs, tag)
+{
+    return songs.filter(function (song) {
+        // filter field: tags
+        var tags = [];
+        for (var i = 0; i < song.tags.length; i++) {
+            tags.push(song.tags[i].toLowerCase());
+        }
+        return tags.indexOf(tag.toLowerCase()) !== -1;
     });
 }
 

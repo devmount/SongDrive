@@ -459,7 +459,7 @@
             <app-header></app-header>
             <section>
                 <header>
-                    <h1 v-if="songs.length > 0">{{ filteredSongs.length }} Songs</h1>
+                    <h1 v-if="songs.length > 0 || songs.length == 0 && tag">{{ filteredSongs.length }} Songs {{ tag ? '[' + tag + ']' : '' }}</h1>
                     <h1 v-else>Loading Songs ...</h1>
                 </header>
                 <div class="row medium-collapse small-collapse search">
@@ -467,10 +467,15 @@
                         <input id="search" type="search" v-model="searchKey" placeholder="search for song titles" required autofocus />
                     </div>
                 </div>
-                <div v-if="songs.length == 0" class="row">
+                <div v-if="songs.length == 0 && !tag" class="row">
                     <div class="small-12 columns loading">
                         <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                         <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div v-if="songs.length == 0 && tag" class="row">
+                    <div class="small-12 columns loading">
+                        Sorry, there is no song tagged <i>{{ tag }}</i>.
                     </div>
                 </div>
                 <div v-else class="row">
