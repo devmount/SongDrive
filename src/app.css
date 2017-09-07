@@ -652,6 +652,7 @@ section .footer {
 .multiselect__tag-icon:hover {
     background: #77A03B;
 }
+.song-tags .multiselect__tags,
 .tag-select .multiselect__tags {
     width: 100%;
     min-height: 2.4375rem;
@@ -666,6 +667,7 @@ section .footer {
     border-radius: 0;
     transition: box-shadow .5s,border-color .25s ease-in-out;
 }
+.song-tags .multiselect__input,
 .tag-select .multiselect__input {
     border: 0;
     background: transparent;
