@@ -624,6 +624,11 @@
                 <div class="row">
                     <div class="columns footer">
                         <p v-if="song.authors">{{ song.authors }}</p>
+                        <p v-if="song.tags">
+                            <router-link v-for="tag in song.tags" class="tag-link" :to="{name: 'tagged-songs', params: {tag: tag}}">
+                                <span class="label info"><i class="fa fa-tag" aria-hidden="true"></i> {{ tag }}</span>
+                            </router-link>
+                        </p>
                         <p>
                             <span v-if="song.ccli">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a><br /></span>
                             &copy; {{ song.year }} <span v-if="song.publisher" class="show-linebreaks">{{ song.publisher }}</span>

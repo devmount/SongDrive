@@ -87,6 +87,13 @@ footer > .button-group > .button {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.tag-link {
+    display: inline-block;
+    margin-right: 2px;
+}
+.tag-link .label {
+    cursor: pointer;
+}
 
 /* app content container */
 .scrollbar {
@@ -365,7 +372,7 @@ section .footer {
     margin-top: -1em;
 }
 .search input {
-    padding-left: 3em;
+    padding-left: 3.5em;
     height: 3rem;
 }
 .search::before,
@@ -386,7 +393,7 @@ section .footer {
     content: "\f002";
 }
 .search.tags .search-tag::before {
-    content: "\f02b";
+    content: "\f02c";
 }
 .search.tags .search-input {
     display: inline-block;
