@@ -423,7 +423,24 @@
                                     <i class="fa fa-list-ul" aria-hidden="true"></i> Setlists
                                 </router-link>
                             </div>
-                        </div>                    
+                        </div>
+                        <h2>Tags</h2>
+                        <p>Total: {{ tags.length }} Tags</p>
+                        <div class="row">
+                            <div class="small-6 columns">
+                                <div class="callout small">
+                                    <div v-if="songs.length == 0" class="columns loading">
+                                        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <canvas id="tags">
+                                        Chart for displaying a doughnut chart for song tags
+                                    </canvas>
+                                </div>
+                            </div>
+                            <div class="small-6 columns">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

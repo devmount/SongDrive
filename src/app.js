@@ -155,6 +155,7 @@ var Dashboard = Vue.extend({
     },
     data: function() {
         return {
+            tags: getTags(),
             shuffle: []
         };
     },
@@ -168,15 +169,15 @@ var Dashboard = Vue.extend({
     mounted: function() {
         // get snapshot of song list
         songsRef.on('value', function(snap) {
-            // a doughnut chart for song languages
             var songs = snap.val();
+            // a doughnut chart for song languages
             var data = [], labels = [], colors = [];
             var languages = getLanguages();
             // for each existing languages count number of songs in that language
             for (var l in languages) {
                 var n = 0;
-                for (var song in songs) {
-                    if (songs[song].language == languages[l].key) {
+                for (var id in songs) {
+                    if (songs[id].language == languages[l].key) {
                         n++;
                     }
                 }
@@ -199,6 +200,48 @@ var Dashboard = Vue.extend({
                 options: {
                     title: {
                         text: 'LANGUAGES'
+                    }                   
+                }
+            });
+            // a doughnut chart for song tags
+            var data = [], labels = [], counts = [], colors = [];
+            var tags = getTags();
+            // for each existing tag count number of songs with that tag
+            for (var t in tags) {
+                var n = 0;
+                for (var id in songs) {
+                    if (songs[id].tags.indexOf(tags[t]) !== -1) {
+                        n++;
+                    }
+                }
+                // add data to arrays
+                data.push({count: n, label: tags[t]});
+            }
+            // sort data by count in descending order
+            data.sort(function(a, b) {
+                return b.count - a.count;
+            });
+            data = data.slice(0, 10);
+            console.log(data);
+            for (i in data) {
+                labels.push(data[i].label);
+                counts.push(data[i].count);
+                colors.push('hsl(84, 45%, ' + (80 - 6*i) + '%)');
+            }
+            // create doughnut chart with data arrays
+            new Chart('tags', {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: counts,
+                        backgroundColor: colors,
+                        hoverBackgroundColor: colors
+                    }]
+                },
+                options: {
+                    title: {
+                        text: 'TAGS'
                     }                   
                 }
             });
