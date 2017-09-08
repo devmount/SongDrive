@@ -4,6 +4,9 @@ var VERSION = '0.1.306';
 // Setup admin mode (if set to false, SongDrive will be in reading mode only)
 var ADMIN = true;
 
+// Setup language
+var LANGUAGE = 'en';
+
 // Setup Firebase
 firebase.initializeApp(config);
 var songsRef    = firebase.database().ref('songs');
@@ -1309,6 +1312,7 @@ function getTags()
         'Thankfulness',
         'Assurance',
         'Comfort',
+        'Power',
         'Greatness',
         'Forgiveness',
         'Petition',
@@ -1322,15 +1326,25 @@ function getTags()
         'Freedom',
         'Light',
         'Holiness',
+        'Desire',
+        'Evangelism',
         'Healing',
         'Life',
         'Easter',
         'Creation',
+        'Encouragement',
         'Resurrection',
         'Father',
+        'Longing',
         'Truth',
         'Unity',
         'Communion',
+        'Obedience',
+        'Humility',
+        'Beauty',
+        'Rest',
+        'Revival',
+        'Celebration',
     ]
 }
 

@@ -150,10 +150,9 @@
                         :allow-empty="true"
                         :hide-selected="true"
                         :close-on-select="false"
-                        :clear-on-select="false"
-                        :preserve-search="false"
+                        :clear-on-select="true"
                         :multiple="true"
-                        :taggable="true"
+                        :taggable="false"
                         :show-labels="false"
                         @tag="addTag"
                     >
@@ -515,6 +514,11 @@
                                     <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
                                         {{ song.authors.substr(0, 30) }} <span v-if="song.authors.length > 30">...</span>
                                     </router-link>
+                                    <!-- <template v-if="song.tags">
+                                        <span v-for="tag in song.tags" class="tag-link">
+                                            <span class="label info"><i class="fa fa-tag" aria-hidden="true"></i> {{ tag }}</span>
+                                        </span>
+                                    </template> -->
                                 </td>
                                 <td class="show-for-medium text-center link-cell">
                                     <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
