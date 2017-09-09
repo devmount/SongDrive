@@ -1656,8 +1656,8 @@ function getRandomProperty(obj, n)
     return elements;
 };
 
-// get <n> different popular songs from given songs/setlists objects
-function getPopularSongs(songs, setlists, n)
+// get <n> different ids of popular songs from given setlists objects
+function getPopularSongs(setlists, n)
 {
     ids = {};
     setlists.forEach(function(setlist, i) {

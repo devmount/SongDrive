@@ -355,7 +355,7 @@
                             <div class="small-12 columns">
                                 <h4 title="On how many different setlists does a song occur">Popular Songs</h4>
                                 <table class="hover" v-if="songs.length >= 10 && setlists.length > 1">
-                                    <tr v-for="song in getPopularSongs(songs, setlists, 10)">
+                                    <tr v-for="song in getPopularSongs(setlists, 10)">
                                         <td class="link-cell list-item">
                                             <template v-for="tsong in songs">
                                                 <template v-if="tsong['.key'] == song[0]">
@@ -439,6 +439,16 @@
                                 </div>
                             </div>
                             <div class="small-6 columns">
+                                <h4>Top Tags</h4>
+                                <table class="hover" v-if="tags.length > 0">
+                                    <tr v-for="tag in tags">
+                                        <td class="link-cell">
+                                            <router-link :to="{name: 'tagged-songs', params: {tag: tag}}">
+                                                {{ tag }}
+                                            </router-link>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
