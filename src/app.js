@@ -184,7 +184,7 @@ var Dashboard = Vue.extend({
                 // add data to arrays
                 data.push(n);
                 labels.push(languages[l].label);
-                colors.push(languages[l].color);
+                colors.push('hsl(84, ' + (65 - 6*l) + '%, ' + (70 - 12*l) + '%)');
             }
             // create doughnut chart with data arrays
             new Chart('languages', {
@@ -1311,10 +1311,10 @@ function getSetlistObject(setlist, noSongs)
 function getLanguages()
 {
     return [
-        { key:'de', label:'German',  color:'#bbdd77' },
-        { key:'en', label:'English', color:'#88b544' },
-        { key:'fr', label:'French',  color:'#5c7d2a' },
-        { key:'ln', label:'Lingala', color:'#445b22' },
+        { key:'de', label:'German'  },
+        { key:'en', label:'English' },
+        { key:'fr', label:'French'  },
+        { key:'ln', label:'Lingala' },
     ]
 }
 
