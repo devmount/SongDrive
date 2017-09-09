@@ -222,11 +222,10 @@ var Dashboard = Vue.extend({
                 return b.count - a.count;
             });
             data = data.slice(0, 10);
-            console.log(data);
             for (i in data) {
                 labels.push(data[i].label);
                 counts.push(data[i].count);
-                colors.push('hsl(84, 45%, ' + (80 - 6*i) + '%)');
+                colors.push('hsl(84, ' + (65 - 3*i) + '%, ' + (80 - 6*i) + '%)');
             }
             // create doughnut chart with data arrays
             new Chart('tags', {
@@ -241,7 +240,7 @@ var Dashboard = Vue.extend({
                 },
                 options: {
                     title: {
-                        text: 'TAGS'
+                        text: 'TAG USAGE'
                     }                   
                 }
             });
