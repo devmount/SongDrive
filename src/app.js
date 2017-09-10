@@ -1091,7 +1091,7 @@ var app = new Vue({
 
 /* --- Additional functions --- */
 
-// create a single or multipage page pdf for a song or setlist (song sheets)
+// create a single or multipage page pdf for a song or <setlist> (song sheets)
 function getPdfSongsObject(songs, setlist)
 {
     var content = [];
@@ -1145,7 +1145,7 @@ function getPdfSongsObject(songs, setlist)
     }
 }
 
-// return an array of the song configuration for pdfmake
+// return an array of the <song> configuration for pdfmake
 function getPdfSongContent(song)
 {
     // handle song content parts
@@ -1194,7 +1194,7 @@ function getPdfSongContent(song)
     ]
 }
 
-// create a single page pdf for a setlist 
+// create a single page pdf for a <setlist>
 function getPdfSetlistObject(setlist, songs)
 {
     // get all titles from songs of setlist
@@ -1302,7 +1302,7 @@ function getLanguages()
     ]
 }
 
-// return language object given a key
+// return language object given a <key>
 function getLanguageByKey(key)
 {
     var result = getLanguages().filter( function(o){return o.key == key;} );
@@ -1374,7 +1374,7 @@ function getTags()
     ]
 }
 
-// check if a string represents most likely a chord line, based on the number of spaces
+// check if a string <line> represents most likely a chord line, based on the number of spaces
 function isChordLine(line) {
     if (line == '') {
         return false;
@@ -1383,7 +1383,7 @@ function isChordLine(line) {
     return ratio > 0.25 || (line.length < 4 && line.charAt(0) != '-');
 }
 
-// filter song list by search key
+// filter <songs> list by <searchkey>
 function filterSongs(songs, searchKey)
 {
     return songs.filter(function (song) {
@@ -1393,7 +1393,7 @@ function filterSongs(songs, searchKey)
     });
 }
 
-// filter song list by tag
+// filter <songs> list by <tag>
 function taggedSongs(songs, tag)
 {
     return songs.filter(function (song) {
@@ -1406,7 +1406,7 @@ function taggedSongs(songs, tag)
     });
 }
 
-// remove chord lines from given multiline string
+// remove chord lines from given multiline <str>ing
 function removeChords(str)
 {
     var lines = str.split('\n');
@@ -1421,7 +1421,7 @@ function removeChords(str)
     return newLines.join('\n');
 }
 
-// remove chord lines from given multiline string
+// transpose chords <action> (up or down) of given multiline <str>ing
 function transposeChords(action, str)
 {
     var lines = str.split('\n'), newLines = [];
@@ -1493,7 +1493,7 @@ function transposeChords(action, str)
     return newLines.join('\n');
 }
 
-// display notification message
+// display notification message <type> with <title> and <text>
 function notify(type, title, text)
 {
     if (type == 'success') {
@@ -1504,7 +1504,7 @@ function notify(type, title, text)
     }
 }
 
-// parse txt song content
+// parse txt song <content>
 function parseTxtSongContent(content)
 {
     // initialize arrays for parsed lines
@@ -1536,7 +1536,7 @@ function parseTxtSongContent(content)
     return parsed.join('\n');
 }
 
-// parse song content
+// parse song <content>
 function parseSongContent(content)
 {
     // initialize arrays for parsed linex, classes of parts, type abbr., numbers of type and part index
@@ -1625,7 +1625,7 @@ function parseSongContent(content)
     return newContent;
 }
 
-// get <n> different random properties from given object
+// get <n> different random properties from given <obj>ect
 function getRandomProperty(obj, n)
 {
     // get object keys
@@ -1640,7 +1640,7 @@ function getRandomProperty(obj, n)
     return elements;
 };
 
-// get <n> different ids of popular songs from given setlists objects
+// get <n> different ids of popular songs from given <setlists> objects
 function getPopularSongs(setlists, n)
 {
     ids = {};
@@ -1664,7 +1664,7 @@ function getPopularSongs(setlists, n)
     return sorted_ids;
 };
 
-// get <n> most used tags from given songs object
+// get <n> most used tags from given <songs> object
 function getTopTags(songs, n)
 {
     var data = [];
