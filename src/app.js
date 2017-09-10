@@ -870,7 +870,7 @@ var ShowSetlist = Vue.extend({
                         if (n > 0) {
                             data.push(n);
                             labels.push(languages[l].label);
-                            colors.push(languages[l].color);
+                            colors.push('hsl(84, ' + (65 - 6*l) + '%, ' + (70 - 12*l) + '%)');
                         }
                     }
                     // create doughnut chart with data arrays
