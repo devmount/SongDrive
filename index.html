@@ -440,11 +440,11 @@
                             </div>
                             <div class="small-6 columns">
                                 <h4>Top Tags</h4>
-                                <table class="hover" v-if="tags.length > 0">
-                                    <tr v-for="tag in tags">
+                                <table class="hover" v-if="songs.length > 0">
+                                    <tr v-for="tag in getTopTags(songs, 6)">
                                         <td class="link-cell">
-                                            <router-link :to="{name: 'tagged-songs', params: {tag: tag}}">
-                                                {{ tag }}
+                                            <router-link :to="{name: 'tagged-songs', params: {tag: tag.label}}">
+                                                {{ tag.label }} ({{ tag.count }})
                                             </router-link>
                                         </td>
                                     </tr>

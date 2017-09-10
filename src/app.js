@@ -204,24 +204,8 @@ var Dashboard = Vue.extend({
                 }
             });
             // a doughnut chart for song tags
-            var data = [], labels = [], counts = [], colors = [];
-            var tags = getTags();
-            // for each existing tag count number of songs with that tag
-            for (var t in tags) {
-                var n = 0;
-                for (var id in songs) {
-                    if (songs[id].tags.indexOf(tags[t]) !== -1) {
-                        n++;
-                    }
-                }
-                // add data to arrays
-                data.push({count: n, label: tags[t]});
-            }
-            // sort data by count in descending order
-            data.sort(function(a, b) {
-                return b.count - a.count;
-            });
-            data = data.slice(0, 10);
+            var data = getTopTags(songs, 10);
+            var labels = [], counts = [], colors = [];
             for (i in data) {
                 labels.push(data[i].label);
                 counts.push(data[i].count);
@@ -1678,6 +1662,32 @@ function getPopularSongs(setlists, n)
     });
     sorted_ids.splice(n);
     return sorted_ids;
+};
+
+// get <n> most used tags from given songs object
+function getTopTags(songs, n)
+{
+    var data = [];
+    var tags = getTags();
+    // for each existing tag count number of songs with that tag
+    for (var t in tags) {
+        var c = 0;
+        for (var id in songs) {
+            if (songs[id].tags.indexOf(tags[t]) !== -1) {
+                c++;
+            }
+        }
+        // add data to array
+        data.push({count: c, label: tags[t]});
+    }
+    // sort data by count in descending order
+    data.sort(function(a, b) {
+        return b.count - a.count;
+    });
+    if (data.length > n) {
+        data = data.slice(0, n);
+    }
+    return data;
 };
 
 // get current date in yyyy-mm-dd format
