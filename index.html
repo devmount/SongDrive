@@ -324,7 +324,7 @@
                                         <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                                         <span class="sr-only">Loading...</span>
                                     </div>
-                                    <canvas id="languages">
+                                    <canvas id="languages" class="doughnut">
                                         Chart for displaying a doughnut chart for song languages
                                     </canvas>
                                 </div>
@@ -344,10 +344,10 @@
                                     <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs.</p>
                                 </div>
                                 <button class="large button" @click="shuffleSongs" v-if="songs.length > 6">
-                                    <i class="fa fa-random" aria-hidden="true"></i> Shuffle
+                                    <i class="fa fa-random" aria-hidden="true"></i><span class="show-for-large"> Shuffle</span>
                                 </button>
                                 <router-link class="large button" :to="{name: 'songs'}">
-                                    <i class="fa fa-list-ul" aria-hidden="true"></i> Songs
+                                    <i class="fa fa-list-ul" aria-hidden="true"></i><span class="show-for-large"> Songs</span>
                                 </router-link>
                             </div>
                         </div>
@@ -385,7 +385,7 @@
                                         <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                                         <span class="sr-only">Loading...</span>
                                     </div>
-                                    <canvas id="setlists-per-year">
+                                    <canvas id="setlists-per-year" class="bar">
                                         Chart for displaying a bar chart for number of setlists per year
                                     </canvas>
                                 </div>
@@ -394,7 +394,7 @@
                                         <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                                         <span class="sr-only">Loading...</span>
                                     </div>
-                                    <canvas id="songs-per-year">
+                                    <canvas id="songs-per-year" class="bar">
                                         Chart for displaying a bar chart for number of songs used in setlists per year
                                     </canvas>
                                 </div>
@@ -420,7 +420,7 @@
                                     </tr>
                                 </table>
                                 <router-link class="large button" :to="{name: 'setlists'}">
-                                    <i class="fa fa-list-ul" aria-hidden="true"></i> Setlists
+                                    <i class="fa fa-list-ul" aria-hidden="true"></i><span class="show-for-large"> Setlists</span>
                                 </router-link>
                             </div>
                         </div>
@@ -433,7 +433,7 @@
                                         <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
                                         <span class="sr-only">Loading...</span>
                                     </div>
-                                    <canvas id="tags">
+                                    <canvas id="tags" class="doughnut">
                                         Chart for displaying a doughnut chart for song tags
                                     </canvas>
                                 </div>
@@ -441,7 +441,7 @@
                             <div class="small-6 columns">
                                 <h4>Top Tags</h4>
                                 <table class="hover" v-if="songs.length > 0">
-                                    <tr v-for="tag in getTopTags(songs, 6)">
+                                    <tr v-for="tag in getTopTags(songs, 8)">
                                         <td class="link-cell">
                                             <router-link :to="{name: 'tagged-songs', params: {tag: tag.label}}">
                                                 {{ tag.label }} ({{ tag.count }})

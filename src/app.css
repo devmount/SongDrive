@@ -437,6 +437,14 @@ section .footer {
     margin-right: .5em;
 }
 
+/* Chart.js */
+.doughnut {
+    min-height: 350px;
+}
+.bar {
+    min-height: 160px;
+}
+
 /* Notyf (notifications) */
 .notyf {
     bottom: 6em;
