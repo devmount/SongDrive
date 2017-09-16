@@ -398,6 +398,7 @@ section .footer {
 .search.tags .search-input {
     display: inline-block;
     width: 70%;
+    vertical-align: top;
 }
 .search.tags .search-tag {
     position: relative;
@@ -406,6 +407,7 @@ section .footer {
     margin-left: -5px;
     font-family: inherit;
     font-size: 1rem;
+    vertical-align: top;
 }
 
 /* setlists */
