@@ -88,7 +88,7 @@ Vue.component('song-form-fields', {
     data: function() {
         return {
             languages: getLanguages(),
-            tags: getTags()
+            tags: getTags().sort()
         }
     },
     computed: {
@@ -311,7 +311,7 @@ var ListSongs = Vue.extend({
     },
     data: function() {
         // get existing tags and add universal tag to reset tag filter if tag is set
-        var tags = getTags();
+        var tags = getTags().sort();
         if (this.$route.params.tag) {
             tags.unshift('All');
         }
