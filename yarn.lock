@@ -550,6 +550,10 @@ string_decoder@~1.0.3:
   dependencies:
     safe-buffer "~5.1.0"
 
+swipe-js-iso@^2.0.3:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/swipe-js-iso/-/swipe-js-iso-2.0.4.tgz#3371608112b30182e898f61d5bc02f7e38099c3d"
+
 through2@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
@@ -605,6 +609,12 @@ unicode-trie@^0.3.0:
 util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
+
+vswipe@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vswipe/-/vswipe-1.0.1.tgz#9157ae8d7afac265f44625910934738b62485712"
+  dependencies:
+    swipe-js-iso "^2.0.3"
 
 vue-multiselect@^2.0.2:
   version "2.0.2"

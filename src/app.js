@@ -67,6 +67,9 @@ Vue.component('vuebar', Vuebar);
 // external compontent: vue-tippy
 Vue.component('tippy', VueTippy);
 
+// external compontent: vswipe
+Vue.component('vswipe', VSwipe);
+
 // global component: app header
 Vue.component('app-header', {
     template: '#app-header'
@@ -1009,18 +1012,17 @@ var PresentSetlist = Vue.extend({
             setlist: this.setlist,
             textOnly: false,
             showClock: true,
+            swipeOptions: {
+                startSlide: 0,
+                speed: 300,
+                auto: 4000,
+                continuous: true,
+                disableScroll: false,
+                stopPropagation: false,
+                callback: function (index, slide) { console.log('slide changes') },
+                transitionEnd: function (index, slide) { console.log('slide transition ends') }
+            }
         };
-    },
-    mounted: function() {
-        // init orbit slider for presentation view
-        new Foundation.Orbit($('#setlist-presentation'), {
-            autoPlay: false,
-            infiniteWrap: false,
-            animInFromRight: 'fade-in',
-            animOutToRight: 'fade-out',
-            animInFromLeft: 'fade-in',
-            animOutToLeft: 'fade-out',
-        });
     },
     methods: {
         // split song.content into two parts of most equal length without splitting song parts
