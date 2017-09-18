@@ -1025,6 +1025,13 @@ var PresentSetlist = Vue.extend({
         };
     },
     methods: {
+        // navigation buttons
+        prev: function() {
+            this.$refs.presentationSwipe.prev()
+        },
+        next: function() {
+            this.$refs.presentationSwipe.next()
+        },
         // split song.content into two parts of most equal length without splitting song parts
         getTwoColumns: function(content) {
             var parts = content.split('\n\n');
