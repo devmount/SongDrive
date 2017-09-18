@@ -1035,12 +1035,8 @@ var PresentSetlist = Vue.extend({
         slide: function(index, duration) {
             this.$refs.presentationSwipe.slide(index, duration)
         },
-        updatePosition: function(index, slide) {
-            if (this.$refs.presentationSwipe) {
-                this.position = this.$refs.presentationSwipe.getPos()
-            } else {
-                return 0;
-            }
+        updatePosition: function() {
+            this.position = this.$refs.presentationSwipe.getPos()
         },
         // split song.content into two parts of most equal length without splitting song parts
         getTwoColumns: function(content) {
