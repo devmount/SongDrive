@@ -997,7 +997,7 @@ var Clock = {
 var PresentSetlist = Vue.extend({
     template: '#present-setlist',
     components: {
-        Clock: Clock
+        Clock: Clock,
     },
     firebase: {
         songs: songsRef

@@ -479,11 +479,12 @@ section .footer {
 }
 .swipe-bullets a {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 1.2em;
+    height: 1.2em;
     border-radius: 50%;
     transition: all .25s ease;
     background-color: #555;
+    margin-right: .2em;
 }
 .swipe-bullets a.is-active {
     background-color: #88b544;
