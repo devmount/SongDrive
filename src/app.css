@@ -464,8 +464,12 @@ section .footer {
     background: #c60f13;
 }
 
-/* orbit (slideshow) */
-.orbit > nav {
+/* VSwipe (setlist presentation) */
+.swipe-wrap .swipe-item {
+    width: 100vw !important; /* fix a bug concerning wrong width calculation for vswipe items */
+}
+
+/* .orbit > nav {
     position: fixed;
     bottom: .5em;
     z-index: 1;
@@ -499,7 +503,7 @@ section .footer {
 }
 .orbit-bullets button:hover {
     opacity: .5;
-}
+} */
 
 /* flatpickr */
 .flatpickr-day.selected,

@@ -1015,7 +1015,7 @@ var PresentSetlist = Vue.extend({
             swipeOptions: {
                 startSlide: 0,
                 speed: 300,
-                auto: 4000,
+                auto: 0,
                 continuous: true,
                 disableScroll: false,
                 stopPropagation: false,

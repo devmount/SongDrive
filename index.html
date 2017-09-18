@@ -1341,21 +1341,19 @@
                 </div> -->
                 <swipe :options="swipeOptions">
                     <swipe-item v-for="songkey in setlist.songs" :key="songkey">
-                        <template v-for="song in songs">
-                            <div v-if="song['.key'] == songkey">
-                                <h1>{{ song.title }}</h1>
-                                <div class="expanded row collapse small-up-1 medium-up-1 large-up-2">
-                                    <div class="columns" v-for="column in getTwoColumns(song.content)">
-                                        <pre v-for="part in parseSongContent(column)" :class="part.class + (textOnly ? ' textonly' : '')">{{ part.content }}</pre>
-                                    </div>
+                        <div v-for="song in songs" v-if="song['.key'] == songkey">
+                            <h1>{{ song.title }}</h1>
+                            <div class="expanded row collapse small-up-1 medium-up-1 large-up-2">
+                                <div class="columns" v-for="column in getTwoColumns(song.content)">
+                                    <pre v-for="part in parseSongContent(column)" :class="part.class + (textOnly ? ' textonly' : '')">{{ part.content }}</pre>
                                 </div>
-                                <footer>
-                                    <p v-if="song.authors">{{ song.authors }}</p>
-                                    <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
-                                    <p>&copy; {{ song.year }} {{ song.publisher }}</p>
-                                </footer>
                             </div>
-                        </template>
+                            <footer>
+                                <p v-if="song.authors">{{ song.authors }}</p>
+                                <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
+                                <p>&copy; {{ song.year }} {{ song.publisher }}</p>
+                            </footer>
+                        </div>
                     </swipe-item>
                 </swipe>
                 <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
