@@ -29,10 +29,6 @@
     <!-- Notyf (notifications) -->
     <link type="text/css" rel="stylesheet" href="./node_modules/notyf/dist/notyf.min.css" />
     <script type="text/javascript" src="./node_modules/notyf/dist/notyf.min.js"></script>
-    <!-- Foundation Orbit (slider) + jQuery -->
-    <script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="./node_modules/motion-ui/dist/motion-ui.min.css">
-    <script type="text/javascript" src="./node_modules/foundation-sites/dist/js/foundation.min.js"></script>
     <!-- Vue Component: VSwipe -->
     <script type="text/javascript" src="./node_modules/vswipe/dist/vswipe.js"></script>
     <!-- Flatpickr (calendar date picker) -->
@@ -1313,32 +1309,6 @@
     <div class="scrollbar" v-bar>
         <div class="container">
             <section class="presentation">
-                <!-- <div class="orbit" id="setlist-presentation" data-orbit>
-                    <ul class="orbit-container">
-                        <button class="orbit-previous">&#9664;&#xFE0E;</button>
-                        <button class="orbit-next">&#9654;&#xFE0E;</button>
-                        <li v-for="songkey in setlist.songs" :key="songkey" class="orbit-slide">
-                            <template v-for="song in songs">
-                                <div v-if="song['.key'] == songkey">
-                                    <h1>{{ song.title }}</h1>
-                                    <div class="expanded row collapse small-up-1 medium-up-1 large-up-2">
-                                        <div class="columns" v-for="column in getTwoColumns(song.content)">
-                                            <pre v-for="part in parseSongContent(column)" :class="part.class + (textOnly ? ' textonly' : '')">{{ part.content }}</pre>
-                                        </div>
-                                    </div>
-                                    <footer>
-                                        <p v-if="song.authors">{{ song.authors }}</p>
-                                        <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
-                                        <p>&copy; {{ song.year }} {{ song.publisher }}</p>
-                                    </footer>
-                                </div>
-                            </template>
-                        </li>
-                    </ul>
-                    <nav class="orbit-bullets">
-                        <button v-for="(key, index) in setlist.songs" :class="index == 0 ? 'is-active' : ''" :data-slide="index"></button>
-                    </nav>
-                </div> -->
                 <swipe ref="presentationSwipe" :options="swipeOptions">
                     <swipe-item v-for="songkey in setlist.songs" :key="songkey">
                         <div v-for="song in songs" v-if="song['.key'] == songkey">

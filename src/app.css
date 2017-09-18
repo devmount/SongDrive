@@ -492,38 +492,6 @@ section .footer {
     opacity: .5;
 }
 
-/* .orbit > nav {
-}
-.orbit-container {
-    height: calc(100vh - 6.3em) !important;
-}
-.orbit-container > button {
-    height: inherit;
-    width: 4em;
-}
-.orbit button,
-.orbit-container {
-    outline: 0;
-}
-.orbit-slide {
-    padding: 0 4em;
-}
-@media screen and (max-width: 45em) {
-    .orbit-slide {
-        padding: 0 3em;
-    }
-}
-.orbit-bullets button {
-    transition: all .25s ease;
-    background-color: #777;
-}
-.orbit-bullets button.is-active {
-    background-color: #88b544;
-}
-.orbit-bullets button:hover {
-    opacity: .5;
-} */
-
 /* flatpickr */
 .flatpickr-day.selected,
 .flatpickr-day.startRange,

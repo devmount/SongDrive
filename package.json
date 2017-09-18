@@ -12,8 +12,6 @@
     "firebase": "4.3.1",
     "flatpickr": "^3.0.7",
     "font-awesome": "^4.7.0",
-    "foundation-sites": "^6.4.3",
-    "motion-ui": "^1.2.3",
     "notyf": "^2.0.1",
     "pdfmake": "^0.1.32",
     "sortablejs": "^1.6.1",
