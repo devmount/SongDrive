@@ -297,33 +297,34 @@ section .footer {
 /* section fullscreen/presentation */
 .container > .fullscreen,
 .container > .presentation {
-    background: #222;
+    background: #000;
     color: #eee;
 }
 .container > .fullscreen > header {
+    background: #000;
     padding: .8em 0 1em 0;
 }
 .container > .fullscreen h1 {
     margin: .2em 0 0 0;
 }
-.container > .presentation li h1 {
+.container > .presentation .swipe-item h1 {
     margin: 1em 0 .5em 0;
 }
 .container > .fullscreen pre,
-.container > .presentation li pre {
+.container > .presentation .swipe-item pre {
     margin-bottom: 1.8em;
     overflow: visible;
 }
 .container > .fullscreen pre.verse,
-.container > .presentation li pre.verse {
+.container > .presentation .swipe-item pre.verse {
     border-left: 1px solid #555;
 }
 .container > .fullscreen pre.verse::before,
-.container > .presentation li pre.verse::before {
+.container > .presentation .swipe-item pre.verse::before {
     background: #222;
 }
 .container > .fullscreen pre.textonly,
-.container > .presentation li pre.textonly {
+.container > .presentation .swipe-item pre.textonly {
     font-family: "Fira Sans";
     font-size: 1.4em;
 }
@@ -335,35 +336,35 @@ section .footer {
 }
 @media screen and (max-width: 45em) {
     .container > .fullscreen pre,
-    .container > .presentation li pre {
+    .container > .presentation .swipe-item pre {
         font-size: 2.4vw;
     }
 }
 @media screen and (min-width: 64em) {
     .container > .fullscreen pre,
-    .container > .presentation li pre {
+    .container > .presentation .swipe-item pre {
         font-size: 1.1vw;
     }
     .container > .fullscreen .row,
-    .container > .presentation li .row {
+    .container > .presentation .swipe-item .row {
         margin: 0;
     }
 }
 .container > .fullscreen .footer,
-.container > .presentation li footer {
+.container > .presentation .swipe-item footer {
     margin-top: 5em;
     font-size: .8em;
 }
 .container > .fullscreen .footer p,
 .container > .fullscreen .footer a,
-.container > .presentation li footer p,
-.container > .presentation li footer a {
+.container > .presentation .swipe-item footer p,
+.container > .presentation .swipe-item footer a {
     color: #555;
     margin: 0;
 }
 .container > .fullscreen > footer,
 .container > .presentation > footer {
-    background: transparent;
+    background: rgba(0, 0, 0,.5);
 }
 
 /* search */
