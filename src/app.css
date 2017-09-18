@@ -321,7 +321,7 @@ section .footer {
 }
 .container > .fullscreen pre.verse::before,
 .container > .presentation .swipe-item pre.verse::before {
-    background: #222;
+    background: #000;
 }
 .container > .fullscreen pre.textonly,
 .container > .presentation .swipe-item pre.textonly {
@@ -467,7 +467,7 @@ section .footer {
 
 /* VSwipe (setlist presentation) */
 .swipe-wrap .swipe-item {
-    width: 100vw !important; /* fix a bug concerning wrong width calculation for vswipe items */
+    padding: 0 0 0 17px; /* fix a bug concerning wrong width calculation for vswipe items */
 }
 
 /* .orbit > nav {
