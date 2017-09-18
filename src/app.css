@@ -467,14 +467,32 @@ section .footer {
 
 /* VSwipe (setlist presentation) */
 .swipe-wrap .swipe-item {
-    padding: 0 0 0 17px; /* fix a bug concerning wrong width calculation for vswipe items */
+    /* fix a bug concerning wrong width calculation for vswipe items */
+    padding: 0 0 0 17px; 
+    background: #000;
+}
+.swipe-bullets {
+    position: fixed;
+    bottom: .9em;
+    z-index: 20;
+    left: 1em;
+}
+.swipe-bullets a {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    transition: all .25s ease;
+    background-color: #555;
+}
+.swipe-bullets a.is-active {
+    background-color: #88b544;
+}
+.swipe-bullets a:hover {
+    opacity: .5;
 }
 
 /* .orbit > nav {
-    position: fixed;
-    bottom: .5em;
-    z-index: 1;
-    width: calc(100vw - 15em);
 }
 .orbit-container {
     height: calc(100vh - 6.3em) !important;

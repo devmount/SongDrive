@@ -1012,6 +1012,7 @@ var PresentSetlist = Vue.extend({
             setlist: this.setlist,
             textOnly: false,
             showClock: true,
+            position: 0,
             swipeOptions: {
                 startSlide: 0,
                 speed: 300,
@@ -1019,8 +1020,7 @@ var PresentSetlist = Vue.extend({
                 continuous: true,
                 disableScroll: false,
                 stopPropagation: false,
-                callback: function (index, slide) { console.log('slide changes') },
-                transitionEnd: function (index, slide) { console.log('slide transition ends') }
+                callback: this.updatePosition,
             }
         };
     },
@@ -1031,6 +1031,16 @@ var PresentSetlist = Vue.extend({
         },
         next: function() {
             this.$refs.presentationSwipe.next()
+        },
+        slide: function(index, duration) {
+            this.$refs.presentationSwipe.slide(index, duration)
+        },
+        updatePosition: function(index, slide) {
+            if (this.$refs.presentationSwipe) {
+                this.position = this.$refs.presentationSwipe.getPos()
+            } else {
+                return 0;
+            }
         },
         // split song.content into two parts of most equal length without splitting song parts
         getTwoColumns: function(content) {

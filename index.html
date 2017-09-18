@@ -1356,25 +1356,28 @@
                         </div>
                     </swipe-item>
                 </swipe>
+                <nav class="swipe-bullets">
+                    <a v-for="(key, index) in setlist.songs" :class="index == position ? 'is-active' : ''" @click="slide(index, 300)"></a>
+                </nav>
                 <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
                 <footer>
                     <div class="button-group float-right">
-                        <button class="hollow hidden button" @click='prev()'>
+                        <a class="hollow hidden button" @click="prev()">
                             <i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i>
-                        </button>
-                        <button class="hollow hidden button" @click='next()'>
+                        </a>
+                        <a class="hollow hidden button" @click="next()">
                             <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i>
-                        </button>
-                        <button class="secondary hollow hidden button" @click="showClock = !showClock">
+                        </a>
+                        <a class="secondary hollow hidden button" @click="showClock = !showClock">
                             <i class="fa fa-clock-o" aria-hidden="true"></i>
                             <clock v-if="showClock"></clock>
-                        </button>
-                        <button v-if="!textOnly" class="hollow hidden button" @click="toggleChords(1)" title="Show text only">
+                        </a>
+                        <a v-if="!textOnly" class="hollow hidden button" @click="toggleChords(1)" title="Show text only">
                             <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
-                        </button>
-                        <button v-else class="hollow hidden button" @click="toggleChords(0)" title="Show text and chords">
+                        </a>
+                        <a v-else class="hollow hidden button" @click="toggleChords(0)" title="Show text and chords">
                             <i class="fa fa-music fa-fw" aria-hidden="true"></i>
-                        </button>
+                        </a>
                         <button class="secondary hollow hidden button" @click="router.go(-1)">
                             <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         </button>
