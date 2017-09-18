@@ -255,13 +255,6 @@ foreach@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/foreach/-/foreach-2.0.5.tgz#0bee005018aeb260d0a3af3ae658dd0136ec1b99"
 
-foundation-sites@^6.4.3:
-  version "6.4.3"
-  resolved "https://registry.yarnpkg.com/foundation-sites/-/foundation-sites-6.4.3.tgz#ea89eb599badf6f03dd526c51f00bdb942a844f6"
-  dependencies:
-    jquery ">=3.0.0"
-    what-input "^4.1.3"
-
 function-bind@^1.0.2:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
@@ -304,10 +297,6 @@ joi@^6.10.1:
     isemail "1.x.x"
     moment "2.x.x"
     topo "1.x.x"
-
-jquery@>=2.2.0, jquery@>=3.0.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
 
 jsonwebtoken@^7.3.0:
   version "7.4.3"
@@ -363,12 +352,6 @@ minimist@^1.1.3:
 moment@2.x.x, moment@~2.18.0:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
-
-motion-ui@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/motion-ui/-/motion-ui-1.2.3.tgz#9f7e17f0d66a15e9ee549023e6f3de1139a2e166"
-  dependencies:
-    jquery ">=2.2.0"
 
 ms@^2.0.0:
   version "2.0.0"
@@ -610,6 +593,10 @@ util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
 
+v-hotkey@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/v-hotkey/-/v-hotkey-0.2.0.tgz#26cd4a3d7459cba7c47337ee3f637246e32276c1"
+
 vswipe@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/vswipe/-/vswipe-1.0.1.tgz#9157ae8d7afac265f44625910934738b62485712"
@@ -651,10 +638,6 @@ websocket-driver@>=0.5.1:
 websocket-extensions@>=0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.1.tgz#76899499c184b6ef754377c2dbb0cd6cb55d29e7"
-
-what-input@^4.1.3:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/what-input/-/what-input-4.3.1.tgz#b8ea7554ba1d9171887c4c6addf28185fec3d31d"
 
 xmlhttprequest@^1.8.0:
   version "1.8.0"

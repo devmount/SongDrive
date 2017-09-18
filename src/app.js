@@ -70,6 +70,9 @@ Vue.component('tippy', VueTippy);
 // external compontent: vswipe
 Vue.component('vswipe', VSwipe);
 
+// external compontent: vue-shortkey
+Vue.use(VueHotkey)
+
 // global component: app header
 Vue.component('app-header', {
     template: '#app-header'
@@ -1064,6 +1067,15 @@ var PresentSetlist = Vue.extend({
             else {
                 // get original setlist song content
                 this.$bindAsArray('songs', songsRef);
+            }
+        }
+    },
+    computed: {
+        // add hotkeys for presentation navigation
+        keymap: function() {
+            return {
+                left: this.prev,
+                right: this.next,
             }
         }
     }

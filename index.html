@@ -31,6 +31,8 @@
     <script type="text/javascript" src="./node_modules/notyf/dist/notyf.min.js"></script>
     <!-- Vue Component: VSwipe -->
     <script type="text/javascript" src="./node_modules/vswipe/dist/vswipe.js"></script>
+    <!-- Vue Component: Vue Hotkey -->
+    <script type="text/javascript" src="./node_modules/v-hotkey/build/index.js"></script>
     <!-- Flatpickr (calendar date picker) -->
     <link type="text/css" rel="stylesheet" href="./node_modules/flatpickr/dist/flatpickr.min.css">
     <script type="text/javascript" src="./node_modules/flatpickr/dist/flatpickr.min.js"></script>
@@ -1308,7 +1310,7 @@
 <template id="present-setlist">
     <div class="scrollbar" v-bar>
         <div class="container">
-            <section class="presentation">
+            <section class="presentation" v-hotkey="keymap">
                 <swipe ref="presentationSwipe" :options="swipeOptions">
                     <swipe-item v-for="songkey in setlist.songs" :key="songkey">
                         <div v-for="song in songs" v-if="song['.key'] == songkey">
