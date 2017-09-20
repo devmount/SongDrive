@@ -1068,14 +1068,22 @@ var PresentSetlist = Vue.extend({
                 // get original setlist song content
                 this.$bindAsArray('songs', songsRef);
             }
+        },
+        toggleClock: function() {
+            this.showClock = !this.showClock;
         }
     },
     computed: {
         // add hotkeys for presentation navigation
         keymap: function() {
             return {
-                left: this.prev,
+                // navigation
                 right: this.next,
+                down: this.next,
+                left: this.prev,
+                up: this.prev,
+                // clock
+                c: this.toggleClock,
             }
         }
     }
