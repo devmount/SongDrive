@@ -1,1355 +1,1355 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SongDrive</title>
-    <link rel="shortcut icon" href="./favicon.ico">
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=.8">
-    <link rel="manifest" href="./manifest.json">
-    <!-- Foundation basic styles -->
-    <link type="text/css" rel="stylesheet" href="./src/foundation.min.css">
-    <!-- Vue -->
-    <script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
-    <script type="text/javascript" src="./node_modules/vue-router/dist/vue-router.min.js"></script>
-    <!-- Vue Compontent: Vue MultiSelect -->
-    <script type="text/javascript" src="./node_modules/vue-multiselect/dist/vue-multiselect.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="./node_modules/vue-multiselect/dist/vue-multiselect.min.css"></link>
-    <!-- Vue Compontent: Vue Scrollbar -->
-    <script type="text/javascript" src="./node_modules/vuebar/vuebar.js"></script>
-    <!-- Vue Compontent: Vue Tippy Tooltips -->
-    <script type="text/javascript" src="./node_modules/vue-tippy/dist/vue-tippy.min.js"></script>
-    <!-- VueFire, Firebase -->
-    <script type="text/javascript" src="./node_modules/firebase/firebase.js"></script>
-    <script type="text/javascript" src="./node_modules/vuefire/dist/vuefire.min.js"></script>
-    <!-- pdfmake -->
-    <script type="text/javascript" src="./node_modules/pdfmake/build/pdfmake.min.js"></script>
-    <script type="text/javascript" src="./src/font/vfs_fonts.js"></script>
-    <!-- SortableJS -->
-    <script type="text/javascript" src="./node_modules/sortablejs/Sortable.min.js"></script>
-    <!-- Notyf (notifications) -->
-    <link type="text/css" rel="stylesheet" href="./node_modules/notyf/dist/notyf.min.css" />
-    <script type="text/javascript" src="./node_modules/notyf/dist/notyf.min.js"></script>
-    <!-- Vue Component: VSwipe -->
-    <script type="text/javascript" src="./node_modules/vswipe/dist/vswipe.js"></script>
-    <!-- Vue Component: Vue Hotkey -->
-    <script type="text/javascript" src="./node_modules/v-hotkey/build/index.js"></script>
-    <!-- Flatpickr (calendar date picker) -->
-    <link type="text/css" rel="stylesheet" href="./node_modules/flatpickr/dist/flatpickr.min.css">
-    <script type="text/javascript" src="./node_modules/flatpickr/dist/flatpickr.min.js"></script>
-    <!-- ChartJS -->
-    <script type="text/javascript" src="./node_modules/chart.js/dist/Chart.min.js"></script>
-    <!-- Fontawesome 4.7.0 -->
-    <link type="text/css" rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css">
-    <!-- App Styles -->
-    <link type="text/css" rel="stylesheet" href="./src/app.css">
+  <title>SongDrive</title>
+  <link rel="shortcut icon" href="./favicon.ico">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=.8">
+  <link rel="manifest" href="./manifest.json">
+  <!-- Foundation basic styles -->
+  <link type="text/css" rel="stylesheet" href="./src/foundation.min.css">
+  <!-- Vue -->
+  <script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
+  <script type="text/javascript" src="./node_modules/vue-router/dist/vue-router.min.js"></script>
+  <!-- Vue Compontent: Vue MultiSelect -->
+  <script type="text/javascript" src="./node_modules/vue-multiselect/dist/vue-multiselect.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="./node_modules/vue-multiselect/dist/vue-multiselect.min.css"></link>
+  <!-- Vue Compontent: Vue Scrollbar -->
+  <script type="text/javascript" src="./node_modules/vuebar/vuebar.js"></script>
+  <!-- Vue Compontent: Vue Tippy Tooltips -->
+  <script type="text/javascript" src="./node_modules/vue-tippy/dist/vue-tippy.min.js"></script>
+  <!-- VueFire, Firebase -->
+  <script type="text/javascript" src="./node_modules/firebase/firebase.js"></script>
+  <script type="text/javascript" src="./node_modules/vuefire/dist/vuefire.min.js"></script>
+  <!-- pdfmake -->
+  <script type="text/javascript" src="./node_modules/pdfmake/build/pdfmake.min.js"></script>
+  <script type="text/javascript" src="./src/font/vfs_fonts.js"></script>
+  <!-- SortableJS -->
+  <script type="text/javascript" src="./node_modules/sortablejs/Sortable.min.js"></script>
+  <!-- Notyf (notifications) -->
+  <link type="text/css" rel="stylesheet" href="./node_modules/notyf/dist/notyf.min.css" />
+  <script type="text/javascript" src="./node_modules/notyf/dist/notyf.min.js"></script>
+  <!-- Vue Component: VSwipe -->
+  <script type="text/javascript" src="./node_modules/vswipe/dist/vswipe.js"></script>
+  <!-- Vue Component: Vue Hotkey -->
+  <script type="text/javascript" src="./node_modules/v-hotkey/build/index.js"></script>
+  <!-- Flatpickr (calendar date picker) -->
+  <link type="text/css" rel="stylesheet" href="./node_modules/flatpickr/dist/flatpickr.min.css">
+  <script type="text/javascript" src="./node_modules/flatpickr/dist/flatpickr.min.js"></script>
+  <!-- ChartJS -->
+  <script type="text/javascript" src="./node_modules/chart.js/dist/Chart.min.js"></script>
+  <!-- Fontawesome 4.7.0 -->
+  <link type="text/css" rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css">
+  <!-- App Styles -->
+  <link type="text/css" rel="stylesheet" href="./src/app.css">
 </head>
 <body>
 
 <!-- container -->
 <main id="app">
-    <!-- app content -->
-    <router-view :key="$route.path"></router-view>
+  <!-- app content -->
+  <router-view :key="$route.path"></router-view>
 </main>
 
 <!-- global partial: app header -->
 <template id="app-header">
-    <header>
-        <div class="title-bar">
-            <div class="title-bar-left">
-                <router-link :to="{name: 'home'}">
-                    <img src="./src/img/songdrive_logo.svg" alt="SongDrive Logo" width="32px" />
-                    <span class="show-for-medium">SongDrive</span>
-                </router-link>
-            </div>
-            <div class="title-bar-right">
-                <router-link :to="{name: 'songs'}">Songs</router-link>
-                <router-link :to="{name: 'setlists'}">Setlists</router-link>
-            </div>
-        </div>
-    </header>
+  <header>
+    <div class="title-bar">
+      <div class="title-bar-left">
+        <router-link :to="{name: 'home'}">
+          <img src="./src/img/songdrive_logo.svg" alt="SongDrive Logo" width="32px" />
+          <span class="show-for-medium">SongDrive</span>
+        </router-link>
+      </div>
+      <div class="title-bar-right">
+        <router-link :to="{name: 'songs'}">Songs</router-link>
+        <router-link :to="{name: 'setlists'}">Setlists</router-link>
+      </div>
+    </div>
+  </header>
 </template>
 
 <!-- global partial: app footer -->
 <template id="app-footer">
-    <footer>
-        <p>
-            &copy; 2016 – {{ new Date().getFullYear() }}
-            <a class="devmount show-for-medium" href="http://devmount.de" target="_blank">
-                with <i class="fa fa-heart-o" aria-hidden="true"></i> by
-                <span>devmount</span>
-                <svg viewBox="0 0 270 270">
-                    <path d="M27.9 158.6l80.2-100.4 78.2 77.6"/>
-                    <path d="M61.4 211.8l62.1-77.8 35.9 35.4 48.8-60.6 39.8 39.5"/>
-                </svg>
-            </a>
-        </p>
-    </footer>
+  <footer>
+    <p>
+      &copy; 2016 – {{ new Date().getFullYear() }}
+      <a class="devmount show-for-medium" href="http://devmount.de" target="_blank">
+        with <i class="fa fa-heart-o" aria-hidden="true"></i> by
+        <span>devmount</span>
+        <svg viewBox="0 0 270 270">
+          <path d="M27.9 158.6l80.2-100.4 78.2 77.6"/>
+          <path d="M61.4 211.8l62.1-77.8 35.9 35.4 48.8-60.6 39.8 39.5"/>
+        </svg>
+      </a>
+    </p>
+  </footer>
 </template>
 
 <!-- partial: song form fields -->
 <template id="song-form-fields">
-    <div class="container">
-        <div class="row align-stretch">
-            <div class="small-12 medium-6 columns song-form-fields">
-                <label>Title
-                    <input type="text" v-model="song.title" placeholder="title" required>
-                </label>
-                <div class="row">
-                    <div class="medium-9 columns">
-                        <label>Subtitle
-                            <input type="text" v-model="song.subtitle" placeholder="subtitle">
-                        </label>
-                    </div>
-                    <div class="medium-3 columns">
-                        <label>Language</label>
-                        <multiselect
-                            label="label"
-                            v-model="song.language"
-                            :options="languages"
-                            :searchable="true"
-                            :allow-empty="true"
-                            :show-labels="false"
-                            placeholder=""
-                        >
-                        </multiselect>
-                    </div>
-                </div>
-                <label>Authors
-                    <input type="text" v-model="song.authors" placeholder="authors">
-                </label>
-                <div class="row">
-                    <div class="medium-4 columns">
-                        <label>Year
-                            <input type="number" v-model="song.year" placeholder="year">
-                        </label>
-                    </div>
-                    <div class="medium-5 columns">
-                        <label>CCLI
-                            <input type="number" v-model="song.ccli" placeholder="CCLI song number">
-                        </label>
-                    </div>
-                    <div class="medium-3 columns">
-                        <label>Tuning
-                            <input type="text" v-model="song.tuning" placeholder="tuning">
-                        </label>
-                    </div>
-                </div>
-                <label>Publisher
-                    <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
-                </label>
-                <label>Note
-                    <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
-                </label>
-                <label>Tags
-                    <multiselect
-                        class="song-tags"
-                        v-model="song.tags"
-                        placeholder="Add tag"
-                        :options="tags"
-                        :searchable="true"
-                        :allow-empty="true"
-                        :hide-selected="true"
-                        :close-on-select="false"
-                        :clear-on-select="true"
-                        :multiple="true"
-                        :taggable="false"
-                        :show-labels="false"
-                        @tag="addTag"
-                    >
-                    </multiselect>
-                </label>
-            </div>
-            <div class="small-12 medium-6 columns content-column">
-                <label>Content
-                    <textarea
-                        v-model="song.content"
-                        placeholder="A song with chords"
-                        rows="33"
-                        data-html="#song-content-tooltip"
-                        v-tippy="{
-                            position: 'left',
-                            arrow: true,
-                            hideOnClick: false,
-                            animation: 'perspective',
-                            interactive: true,
-                            theme: 'flat dark',
-                            popperOptions: {
-                                modifiers: {
-                                    flip: {
-                                        behavior: ['left', 'top']
-                                    }
-                                }
-                            }
-                        }"
-                        required
-                    ></textarea>
-                    <div id="song-content-tooltip" style="display: none;">
-                        <div>
-                            <h4>Marker</h4>
-                            <p>You can use marker to tag different song parts, such as verses and chorus.</p>
-                            <p>
-                                <code>--v</code> verse<br />
-                                <code>--c</code> chorus<br />
-                                <code>--p</code> pre-chorus<br />
-                                <code>--b</code> bridge<br />
-                            </p>
-                            <p>To enumerate a part, just add a number, i.e. for verses one and two, use <code>--v1</code> and <code>--v2</code></p>
-                        </div>
-                    </div>
-                </label>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row align-stretch">
+      <div class="small-12 medium-6 columns song-form-fields">
+        <label>Title
+          <input type="text" v-model="song.title" placeholder="title" required>
+        </label>
         <div class="row">
-            <div class="small-12 medium-6 columns">
-                <label>Existing Translations</label>
-                <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
-                <div class="checklist" v-bar>
-                    <div>
-                        <label v-for="fsong in filteredSongs" :key="fsong['.key']" >
-                            <input type="checkbox" :value="fsong['.key']" v-model="song.translations">
-                            {{ fsong.title }} <span v-if="fsong.subtitle" class="less-important">({{ fsong.subtitle }})</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="small-12 medium-6 columns">
-                <label>Selected Songs</label>
-                <table class="hover">
-                    <thead></thead>
-                    <tbody>
-                        <tr v-for="songkey in song.translations">
-                            <template v-for="song in songs">
-                                <template v-if="song['.key'] == songkey">
-                                    <td>
-                                        {{ song.title }} <span class="less-important">({{ song.subtitle }})</span>
-                                    </td>
-                                </template>
-                            </template>
-                        </tr>
-                    </tbody>
-                </table>
-                <div v-if="song.translations && song.translations.length == 0" class="secondary callout">
-                    <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> No songs selected.</p>
-                </div>
-            </div>
+          <div class="medium-9 columns">
+            <label>Subtitle
+              <input type="text" v-model="song.subtitle" placeholder="subtitle">
+            </label>
+          </div>
+          <div class="medium-3 columns">
+            <label>Language</label>
+            <multiselect
+              label="label"
+              v-model="song.language"
+              :options="languages"
+              :searchable="true"
+              :allow-empty="true"
+              :show-labels="false"
+              placeholder=""
+            >
+            </multiselect>
+          </div>
         </div>
+        <label>Authors
+          <input type="text" v-model="song.authors" placeholder="authors">
+        </label>
+        <div class="row">
+          <div class="medium-4 columns">
+            <label>Year
+              <input type="number" v-model="song.year" placeholder="year">
+            </label>
+          </div>
+          <div class="medium-5 columns">
+            <label>CCLI
+              <input type="number" v-model="song.ccli" placeholder="CCLI song number">
+            </label>
+          </div>
+          <div class="medium-3 columns">
+            <label>Tuning
+              <input type="text" v-model="song.tuning" placeholder="tuning">
+            </label>
+          </div>
+        </div>
+        <label>Publisher
+          <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
+        </label>
+        <label>Note
+          <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
+        </label>
+        <label>Tags
+          <multiselect
+            class="song-tags"
+            v-model="song.tags"
+            placeholder="Add tag"
+            :options="tags"
+            :searchable="true"
+            :allow-empty="true"
+            :hide-selected="true"
+            :close-on-select="false"
+            :clear-on-select="true"
+            :multiple="true"
+            :taggable="false"
+            :show-labels="false"
+            @tag="addTag"
+          >
+          </multiselect>
+        </label>
+      </div>
+      <div class="small-12 medium-6 columns content-column">
+        <label>Content
+          <textarea
+            v-model="song.content"
+            placeholder="A song with chords"
+            rows="33"
+            data-html="#song-content-tooltip"
+            v-tippy="{
+              position: 'left',
+              arrow: true,
+              hideOnClick: false,
+              animation: 'perspective',
+              interactive: true,
+              theme: 'flat dark',
+              popperOptions: {
+                modifiers: {
+                  flip: {
+                    behavior: ['left', 'top']
+                  }
+                }
+              }
+            }"
+            required
+          ></textarea>
+          <div id="song-content-tooltip" style="display: none;">
+            <div>
+              <h4>Marker</h4>
+              <p>You can use marker to tag different song parts, such as verses and chorus.</p>
+              <p>
+                <code>--v</code> verse<br />
+                <code>--c</code> chorus<br />
+                <code>--p</code> pre-chorus<br />
+                <code>--b</code> bridge<br />
+              </p>
+              <p>To enumerate a part, just add a number, i.e. for verses one and two, use <code>--v1</code> and <code>--v2</code></p>
+            </div>
+          </div>
+        </label>
+      </div>
     </div>
+    <div class="row">
+      <div class="small-12 medium-6 columns">
+        <label>Existing Translations</label>
+        <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
+        <div class="checklist" v-bar>
+          <div>
+            <label v-for="fsong in filteredSongs" :key="fsong['.key']" >
+              <input type="checkbox" :value="fsong['.key']" v-model="song.translations">
+              {{ fsong.title }} <span v-if="fsong.subtitle" class="less-important">({{ fsong.subtitle }})</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="small-12 medium-6 columns">
+        <label>Selected Songs</label>
+        <table class="hover">
+          <thead></thead>
+          <tbody>
+            <tr v-for="songkey in song.translations">
+              <template v-for="song in songs">
+                <template v-if="song['.key'] == songkey">
+                  <td>
+                    {{ song.title }} <span class="less-important">({{ song.subtitle }})</span>
+                  </td>
+                </template>
+              </template>
+            </tr>
+          </tbody>
+        </table>
+        <div v-if="song.translations && song.translations.length == 0" class="secondary callout">
+          <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> No songs selected.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <!-- partial: setlist form fields -->
 <template id="setlist-form-fields">
-    <div class="container">
-        <div class="row small-up-1 medium-up-2 large-up-2">
-            <div class="columns">
-                <label>Title
-                    <input type="text" v-model="setlist.title" placeholder="title" required>
-                </label>
+  <div class="container">
+    <div class="row small-up-1 medium-up-2 large-up-2">
+      <div class="columns">
+        <label>Title
+          <input type="text" v-model="setlist.title" placeholder="title" required>
+        </label>
+      </div>
+      <div class="columns">
+        <label class="flatpickr">Date
+          <div class="input-group">
+            <input type="text" class="input-group-field" v-model="setlist.date" placeholder="JJJJ-MM-DD" data-input>
+            <div class="input-group-button">
+              <a class="secondary button" data-toggle><i class="fa fa-calendar-o" aria-hidden="true"></i></a>
             </div>
-            <div class="columns">
-                <label class="flatpickr">Date
-                    <div class="input-group">
-                        <input type="text" class="input-group-field" v-model="setlist.date" placeholder="JJJJ-MM-DD" data-input>
-                        <div class="input-group-button">
-                            <a class="secondary button" data-toggle><i class="fa fa-calendar-o" aria-hidden="true"></i></a>
-                        </div>
-                        <div class="input-group-button">
-                            <a class="secondary button" data-clear><i class="fa fa-times" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-                </label>
+            <div class="input-group-button">
+              <a class="secondary button" data-clear><i class="fa fa-times" aria-hidden="true"></i></a>
             </div>
-        </div>
-        <div class="row">
-            <div class="small-12 medium-6 columns">
-                <label>All Songs</label>
-                <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
-                <div class="checklist" v-bar>
-                    <div>
-                        <label v-for="song in filteredSongs" :key="song['.key']" >
-                            <input type="checkbox" :value="song['.key']" v-model="setlist.songs">
-                            {{ song.title }}
-                            <span v-if="song.subtitle" class="less-important">&nbsp;{{ song.subtitle }}</span>
-                            <span v-if="song.tuning" class="less-important">&nbsp;[{{ song.tuning }}]</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="small-12 medium-6 columns">
-                <label>Selected Songs ({{ setlist.songs.length }})</label>
-                <table class="hover">
-                    <thead></thead>
-                    <tbody id="change-setlist-sort">
-                        <tr v-for="songkey in setlist.songs" :key="songkey">
-                            <template v-for="song in songs">
-                                <template v-if="song['.key'] == songkey">
-                                    <td class="list-item">
-                                        {{ song.title }}
-                                        <span class="less-important">&nbsp;{{ song.subtitle }}</span>
-                                        <span class="less-important list-item-tuning">{{ song.tuning }}</span>
-                                        <span class="list-item-remove" @click="removeSong(songkey)">
-                                            <i class="fa fa-close fa-fw" aria-hidden="true"></i>
-                                        </span>
-                                    </td>
-                                </template>
-                            </template>
-                        </tr>
-                    </tbody>
-                </table>
-                <div v-if="setlist.songs && setlist.songs.length == 0" class="secondary callout">
-                    <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> No songs selected.</p>
-                </div>
-            </div>
-        </div>
+          </div>
+        </label>
+      </div>
     </div>
+    <div class="row">
+      <div class="small-12 medium-6 columns">
+        <label>All Songs</label>
+        <input type="search" v-model="searchKey" placeholder="search for song titles" requred />
+        <div class="checklist" v-bar>
+          <div>
+            <label v-for="song in filteredSongs" :key="song['.key']" >
+              <input type="checkbox" :value="song['.key']" v-model="setlist.songs">
+              {{ song.title }}
+              <span v-if="song.subtitle" class="less-important">&nbsp;{{ song.subtitle }}</span>
+              <span v-if="song.tuning" class="less-important">&nbsp;[{{ song.tuning }}]</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="small-12 medium-6 columns">
+        <label>Selected Songs ({{ setlist.songs.length }})</label>
+        <table class="hover">
+          <thead></thead>
+          <tbody id="change-setlist-sort">
+            <tr v-for="songkey in setlist.songs" :key="songkey">
+              <template v-for="song in songs">
+                <template v-if="song['.key'] == songkey">
+                  <td class="list-item">
+                    {{ song.title }}
+                    <span class="less-important">&nbsp;{{ song.subtitle }}</span>
+                    <span class="less-important list-item-tuning">{{ song.tuning }}</span>
+                    <span class="list-item-remove" @click="removeSong(songkey)">
+                      <i class="fa fa-close fa-fw" aria-hidden="true"></i>
+                    </span>
+                  </td>
+                </template>
+              </template>
+            </tr>
+          </tbody>
+        </table>
+        <div v-if="setlist.songs && setlist.songs.length == 0" class="secondary callout">
+          <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> No songs selected.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 
 <!-- dashboard -->
 <template id="dashboard">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                    <h1>Dashboard</h1>
-                </header>
-                <div class="row">
-                    <div class="small-12 medium-6 columns">
-                        <h2>Songs</h2>
-                        <p>Total: {{ songs.length }} Songs</p>
-                        <div class="row">
-                            <div class="small-6 columns">
-                                <div class="callout small">
-                                    <div v-if="songs.length == 0" class="columns loading">
-                                        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                                        <span class="sr-only">Loading...</span>
-                                    </div>
-                                    <canvas id="languages" class="doughnut">
-                                        Chart for displaying a doughnut chart for song languages
-                                    </canvas>
-                                </div>
-                            </div>
-                            <div class="small-6 columns">
-                                <h4>Random</h4>
-                                <table class="hover" v-if="songs.length > 6 && shuffle">
-                                    <tr v-for="song in getRandomProperty(songs, 6)">
-                                        <td class="link-cell">
-                                            <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                                {{ song.title.substr(0, 30) }} <span v-if="song.title.length > 30">...</span>
-                                            </router-link>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div v-else class="secondary callout" title="Have at least 7 songs to shuffle random songs.">
-                                    <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs.</p>
-                                </div>
-                                <button class="large button" @click="shuffleSongs" v-if="songs.length > 6">
-                                    <i class="fa fa-random" aria-hidden="true"></i><span class="show-for-large"> Shuffle</span>
-                                </button>
-                                <router-link class="large button" :to="{name: 'songs'}">
-                                    <i class="fa fa-list-ul" aria-hidden="true"></i><span class="show-for-large"> Songs</span>
-                                </router-link>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="small-12 columns">
-                                <h4 title="On how many different setlists does a song occur">Popular Songs</h4>
-                                <table class="hover" v-if="songs.length >= 10 && setlists.length > 1">
-                                    <tr v-for="song in getPopularSongs(setlists, 10)">
-                                        <td class="link-cell list-item">
-                                            <template v-for="tsong in songs">
-                                                <template v-if="tsong['.key'] == song[0]">
-                                                    <router-link :to="{name: 'show-song', params: {song_id: tsong['.key']}}">
-                                                        <span class="list-popular list-item-popular">{{ song[1] }}</span><span class="less-important">x</span>
-                                                        {{ tsong.title.substr(0, 30) }} <span v-if="tsong.title.length > 30">...</span>
-                                                        <span class="less-important">&nbsp;{{ tsong.subtitle }}</span>
-                                                    </router-link>
-                                                </template>
-                                            </template>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div v-else class="secondary callout" title="Have at least 10 songs and 2 setlists to display popular songs.">
-                                    <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs or setlists.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="small-12 medium-6 columns">
-                        <h2>Setlists</h2>
-                        <p>Total: {{ setlists.length }} Setlists</p>
-                        <div class="row">
-                            <div class="small-6 columns">
-                                <div class="callout small">
-                                    <div v-if="setlists.length == 0" class="columns loading">
-                                        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                                        <span class="sr-only">Loading...</span>
-                                    </div>
-                                    <canvas id="setlists-per-year" class="bar">
-                                        Chart for displaying a bar chart for number of setlists per year
-                                    </canvas>
-                                </div>
-                                <div class="callout small">
-                                    <div v-if="setlists.length == 0" class="columns loading">
-                                        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                                        <span class="sr-only">Loading...</span>
-                                    </div>
-                                    <canvas id="songs-per-year" class="bar">
-                                        Chart for displaying a bar chart for number of songs used in setlists per year
-                                    </canvas>
-                                </div>
-                            </div>
-                            <div class="small-6 columns">
-                                <h4>Latest</h4>
-                                <table class="hover" v-if="setlists.length > 0 && setlists.length < 6">
-                                    <tr v-for="setlist in setlists">
-                                        <td class="link-cell">
-                                            <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
-                                                {{ setlist.title.substr(0, 30) }} <span v-if="setlist.title.length > 30">...</span>
-                                            </router-link>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <table v-else-if="setlists.length >= 6">
-                                    <tr v-for="setlist in setlists.slice(setlists.length-6, setlists.length).reverse()">
-                                        <td class="link-cell">
-                                            <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
-                                                {{ setlist.title.substr(0, 30) }} <span v-if="setlist.title.length > 30">...</span>
-                                            </router-link>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <router-link class="large button" :to="{name: 'setlists'}">
-                                    <i class="fa fa-list-ul" aria-hidden="true"></i><span class="show-for-large"> Setlists</span>
-                                </router-link>
-                            </div>
-                        </div>
-                        <h2>Tags</h2>
-                        <p>Total: {{ tags.length }} Tags</p>
-                        <div class="row">
-                            <div class="small-6 columns">
-                                <div class="callout small">
-                                    <div v-if="songs.length == 0" class="columns loading">
-                                        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                                        <span class="sr-only">Loading...</span>
-                                    </div>
-                                    <canvas id="tags" class="doughnut">
-                                        Chart for displaying a doughnut chart for song tags
-                                    </canvas>
-                                </div>
-                            </div>
-                            <div class="small-6 columns">
-                                <h4>Top Tags</h4>
-                                <table class="hover" v-if="songs.length > 0">
-                                    <tr v-for="tag in getTopTags(songs, 8)">
-                                        <td class="link-cell">
-                                            <router-link :to="{name: 'tagged-songs', params: {tag: tag.label}}">
-                                                {{ tag.label }} ({{ tag.count }})
-                                            </router-link>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1>Dashboard</h1>
+        </header>
+        <div class="row">
+          <div class="small-12 medium-6 columns">
+            <h2>Songs</h2>
+            <p>Total: {{ songs.length }} Songs</p>
+            <div class="row">
+              <div class="small-6 columns">
+                <div class="callout small">
+                  <div v-if="songs.length == 0" class="columns loading">
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <canvas id="languages" class="doughnut">
+                    Chart for displaying a doughnut chart for song languages
+                  </canvas>
                 </div>
-                <div class="row">
-                    <div class="small-12 columns">
-                        SongDrive <span class="pre">v{{ VERSION }}</span>
-                    </div>
+              </div>
+              <div class="small-6 columns">
+                <h4>Random</h4>
+                <table class="hover" v-if="songs.length > 6 && shuffle">
+                  <tr v-for="song in getRandomProperty(songs, 6)">
+                    <td class="link-cell">
+                      <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                        {{ song.title.substr(0, 30) }} <span v-if="song.title.length > 30">...</span>
+                      </router-link>
+                    </td>
+                  </tr>
+                </table>
+                <div v-else class="secondary callout" title="Have at least 7 songs to shuffle random songs.">
+                  <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs.</p>
                 </div>
-                <footer>
-                    <div v-if="ADMIN" class="button-group float-right">
-                        <router-link class="button" :to="{name: 'add-song'}" title="New Song">
-                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Add </span> Song
-                        </router-link>
-                        <router-link class="button" :to="{name: 'add-setlist'}" title="New Setlist">
-                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Add </span> Setlist
-                        </router-link>
-                    </div>
-                </footer>
-            </section>
-            <app-footer></app-footer>
+                <button class="large button" @click="shuffleSongs" v-if="songs.length > 6">
+                  <i class="fa fa-random" aria-hidden="true"></i><span class="show-for-large"> Shuffle</span>
+                </button>
+                <router-link class="large button" :to="{name: 'songs'}">
+                  <i class="fa fa-list-ul" aria-hidden="true"></i><span class="show-for-large"> Songs</span>
+                </router-link>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-12 columns">
+                <h4 title="On how many different setlists does a song occur">Popular Songs</h4>
+                <table class="hover" v-if="songs.length >= 10 && setlists.length > 1">
+                  <tr v-for="song in getPopularSongs(setlists, 10)">
+                    <td class="link-cell list-item">
+                      <template v-for="tsong in songs">
+                        <template v-if="tsong['.key'] == song[0]">
+                          <router-link :to="{name: 'show-song', params: {song_id: tsong['.key']}}">
+                            <span class="list-popular list-item-popular">{{ song[1] }}</span><span class="less-important">x</span>
+                            {{ tsong.title.substr(0, 30) }} <span v-if="tsong.title.length > 30">...</span>
+                            <span class="less-important">&nbsp;{{ tsong.subtitle }}</span>
+                          </router-link>
+                        </template>
+                      </template>
+                    </td>
+                  </tr>
+                </table>
+                <div v-else class="secondary callout" title="Have at least 10 songs and 2 setlists to display popular songs.">
+                  <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs or setlists.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="small-12 medium-6 columns">
+            <h2>Setlists</h2>
+            <p>Total: {{ setlists.length }} Setlists</p>
+            <div class="row">
+              <div class="small-6 columns">
+                <div class="callout small">
+                  <div v-if="setlists.length == 0" class="columns loading">
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <canvas id="setlists-per-year" class="bar">
+                    Chart for displaying a bar chart for number of setlists per year
+                  </canvas>
+                </div>
+                <div class="callout small">
+                  <div v-if="setlists.length == 0" class="columns loading">
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <canvas id="songs-per-year" class="bar">
+                    Chart for displaying a bar chart for number of songs used in setlists per year
+                  </canvas>
+                </div>
+              </div>
+              <div class="small-6 columns">
+                <h4>Latest</h4>
+                <table class="hover" v-if="setlists.length > 0 && setlists.length < 6">
+                  <tr v-for="setlist in setlists">
+                    <td class="link-cell">
+                      <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                        {{ setlist.title.substr(0, 30) }} <span v-if="setlist.title.length > 30">...</span>
+                      </router-link>
+                    </td>
+                  </tr>
+                </table>
+                <table v-else-if="setlists.length >= 6">
+                  <tr v-for="setlist in setlists.slice(setlists.length-6, setlists.length).reverse()">
+                    <td class="link-cell">
+                      <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                        {{ setlist.title.substr(0, 30) }} <span v-if="setlist.title.length > 30">...</span>
+                      </router-link>
+                    </td>
+                  </tr>
+                </table>
+                <router-link class="large button" :to="{name: 'setlists'}">
+                  <i class="fa fa-list-ul" aria-hidden="true"></i><span class="show-for-large"> Setlists</span>
+                </router-link>
+              </div>
+            </div>
+            <h2>Tags</h2>
+            <p>Total: {{ tags.length }} Tags</p>
+            <div class="row">
+              <div class="small-6 columns">
+                <div class="callout small">
+                  <div v-if="songs.length == 0" class="columns loading">
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <canvas id="tags" class="doughnut">
+                    Chart for displaying a doughnut chart for song tags
+                  </canvas>
+                </div>
+              </div>
+              <div class="small-6 columns">
+                <h4>Top Tags</h4>
+                <table class="hover" v-if="songs.length > 0">
+                  <tr v-for="tag in getTopTags(songs, 8)">
+                    <td class="link-cell">
+                      <router-link :to="{name: 'tagged-songs', params: {tag: tag.label}}">
+                        {{ tag.label }} ({{ tag.count }})
+                      </router-link>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="row">
+          <div class="small-12 columns">
+            SongDrive <span class="pre">v{{ VERSION }}</span>
+          </div>
+        </div>
+        <footer>
+          <div v-if="ADMIN" class="button-group float-right">
+            <router-link class="button" :to="{name: 'add-song'}" title="New Song">
+              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Add </span> Song
+            </router-link>
+            <router-link class="button" :to="{name: 'add-setlist'}" title="New Setlist">
+              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Add </span> Setlist
+            </router-link>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- song list -->
 <template id="song-list">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                    <h1 v-if="songs.length > 0 || songs.length == 0 && tag">{{ filteredSongs.length }} Songs {{ tag ? '[' + tag + ']' : '' }}</h1>
-                    <h1 v-else>Loading Songs ...</h1>
-                </header>
-                <div class="row medium-collapse small-collapse search tags">
-                    <div class="small-12 columns">
-                        <input id="search" class="search-input" type="search" v-model="searchKey" placeholder="search for song titles" required autofocus />
-                        <multiselect
-                            v-model="tag"
-                            class="search-tag"
-                            placeholder="search for tag"
-                            :options="tags"
-                            :searchable="true"
-                            :allow-empty="false"
-                            :show-labels="false"
-                            @input="loadTag"
-                        >
-                        </multiselect>
-                    </div>
-                </div>
-                <div v-if="songs.length == 0 && !tag" class="row">
-                    <div class="small-12 columns loading">
-                        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
-                <div v-if="songs.length == 0 && tag" class="row">
-                    <div class="small-12 columns loading">
-                        Sorry, there is no song tagged <i>{{ tag }}</i>.
-                    </div>
-                </div>
-                <div v-else class="row">
-                    <table class="hover">
-                        <thead>
-                            <tr>
-                                <th width="200">Title</th>
-                                <th>Subtitle</th>
-                                <th class="show-for-large">Authors</th>
-                                <th class="show-for-medium text-center">Year</th>
-                                <th class="show-for-medium text-center">Tuning</th>
-                                <th width="130"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="song in filteredSongs" :key="song['.key']">
-                                <td class="link-cell">
-                                    <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                        {{ song.title }}
-                                    </router-link>
-                                </td>
-                                <td class="link-cell">
-                                    <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                        {{ song.subtitle.substr(0, 40) }} <span v-if="song.subtitle.length > 40">...</span>
-                                    </router-link>
-                                </td>
-                                <td class="show-for-large link-cell">
-                                    <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                        {{ song.authors.substr(0, 30) }} <span v-if="song.authors.length > 30">...</span>
-                                    </router-link>
-                                    <!-- <template v-if="song.tags">
-                                        <span v-for="tag in song.tags" class="tag-link">
-                                            <span class="label info"><i class="fa fa-tag" aria-hidden="true"></i> {{ tag }}</span>
-                                        </span>
-                                    </template> -->
-                                </td>
-                                <td class="show-for-medium text-center link-cell">
-                                    <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                        {{ song.year }}
-                                    </router-link>
-                                </td>
-                                <td class="show-for-medium text-center link-cell">
-                                    <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                        {{ song.tuning }}
-                                    </router-link>
-                                </td>
-                                <td class="button-cell">
-                                    <div class="button-group float-right drop-left">
-                                        <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                            <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
-                                        </router-link>
-                                        <div v-if="ADMIN" class="dropdown button arrow-only" tabindex="0">
-                                            <span class="show-for-sr">Show menu</span>
-                                            <div v-if="ADMIN" class="dropdown-pane">
-                                                <div class="button-group float-right">
-                                                    <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}" v-if="songs.length > 1">
-                                                        <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                                                    </router-link>
-                                                    <router-link class="button" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
-                                                        <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
-                                                    </router-link>
-                                                    <router-link class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
-                                                        <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                                                    </router-link>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <footer>
-                    <div v-if="ADMIN" class="button-group float-right">
-                        <router-link class="button" :to="{name: 'add-song'}" title="New Song">
-                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Add </span> Song
-                        </router-link>
-                        <router-link class="button" :to="{name: 'add-setlist'}" title="New Setlist">
-                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Add </span> Setlist
-                        </router-link>
-                    </div>
-                </footer>
-            </section>
-            <app-footer></app-footer>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1 v-if="songs.length > 0 || songs.length == 0 && tag">{{ filteredSongs.length }} Songs {{ tag ? '[' + tag + ']' : '' }}</h1>
+          <h1 v-else>Loading Songs ...</h1>
+        </header>
+        <div class="row medium-collapse small-collapse search tags">
+          <div class="small-12 columns">
+            <input id="search" class="search-input" type="search" v-model="searchKey" placeholder="search for song titles" required autofocus />
+            <multiselect
+              v-model="tag"
+              class="search-tag"
+              placeholder="search for tag"
+              :options="tags"
+              :searchable="true"
+              :allow-empty="false"
+              :show-labels="false"
+              @input="loadTag"
+            >
+            </multiselect>
+          </div>
         </div>
+        <div v-if="songs.length == 0 && !tag" class="row">
+          <div class="small-12 columns loading">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div v-if="songs.length == 0 && tag" class="row">
+          <div class="small-12 columns loading">
+            Sorry, there is no song tagged <i>{{ tag }}</i>.
+          </div>
+        </div>
+        <div v-else class="row">
+          <table class="hover">
+            <thead>
+              <tr>
+                <th width="200">Title</th>
+                <th>Subtitle</th>
+                <th class="show-for-large">Authors</th>
+                <th class="show-for-medium text-center">Year</th>
+                <th class="show-for-medium text-center">Tuning</th>
+                <th width="130"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="song in filteredSongs" :key="song['.key']">
+                <td class="link-cell">
+                  <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                    {{ song.title }}
+                  </router-link>
+                </td>
+                <td class="link-cell">
+                  <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                    {{ song.subtitle.substr(0, 40) }} <span v-if="song.subtitle.length > 40">...</span>
+                  </router-link>
+                </td>
+                <td class="show-for-large link-cell">
+                  <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                    {{ song.authors.substr(0, 30) }} <span v-if="song.authors.length > 30">...</span>
+                  </router-link>
+                  <!-- <template v-if="song.tags">
+                    <span v-for="tag in song.tags" class="tag-link">
+                      <span class="label info"><i class="fa fa-tag" aria-hidden="true"></i> {{ tag }}</span>
+                    </span>
+                  </template> -->
+                </td>
+                <td class="show-for-medium text-center link-cell">
+                  <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                    {{ song.year }}
+                  </router-link>
+                </td>
+                <td class="show-for-medium text-center link-cell">
+                  <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                    {{ song.tuning }}
+                  </router-link>
+                </td>
+                <td class="button-cell">
+                  <div class="button-group float-right drop-left">
+                    <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                      <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                    </router-link>
+                    <div v-if="ADMIN" class="dropdown button arrow-only" tabindex="0">
+                      <span class="show-for-sr">Show menu</span>
+                      <div v-if="ADMIN" class="dropdown-pane">
+                        <div class="button-group float-right">
+                          <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}" v-if="songs.length > 1">
+                            <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                          </router-link>
+                          <router-link class="button" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
+                            <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+                          </router-link>
+                          <router-link class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
+                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                          </router-link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <footer>
+          <div v-if="ADMIN" class="button-group float-right">
+            <router-link class="button" :to="{name: 'add-song'}" title="New Song">
+              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Add </span> Song
+            </router-link>
+            <router-link class="button" :to="{name: 'add-setlist'}" title="New Setlist">
+              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Add </span> Setlist
+            </router-link>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- show song -->
 <template id="show-song">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                    <h1>{{ song.title }}</h1>
-                    <p>{{ song.subtitle }}</p>
-                </header>
-                <div class="row">
-                    <div class="columns content-column">
-                        <template v-if="song['.key']" >
-                            <pre v-for="part in parseSongContent(song.content)" :class="part.class">{{ part.content }}</pre>
-                        </template>
-                        <div class="toolbar">
-                            <template v-if="song.translations" >
-                                <template v-for="key in song.translations">
-                                    <template v-for="tsong in songs">
-                                        <template v-if="tsong['.key'] == key">
-                                            <router-link class="secondary small button" :to="{name: 'show-song', params: {song_id: key}}" :title="tsong.title">
-                                                {{ tsong.language }}
-                                            </router-link>
-                                        </template>
-                                    </template>
-                                </template>
-                                <hr />
-                            </template>
-                            <a class="secondary small button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
-                                <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
-                            </a>
-                            <template v-if="!textOnly">
-                                <hr />
-                                <button class="secondary small button" @click="transposeChords(1)" title="Transpose chords up">
-                                    <i class="fa fa-arrow-up fa-fw" aria-hidden="true"></i>
-                                </button>
-                                <button class="secondary small button" @click="transposeChords(0)" title="Reset transposed chords">
-                                    <i class="fa fa-circle-o fa-fw" aria-hidden="true"></i>
-                                </button>
-                                <button class="secondary small button" @click="transposeChords(-1)" title="Transpose chords up">
-                                    <i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>
-                                </button>
-                                <span class="secondary badge tm">{{ tuning }}</span>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="columns footer">
-                        <p v-if="song.authors">{{ song.authors }}</p>
-                        <p v-if="song.tags">
-                            <router-link v-for="tag in song.tags" class="tag-link" :to="{name: 'tagged-songs', params: {tag: tag}}">
-                                <span class="label info"><i class="fa fa-tag" aria-hidden="true"></i> {{ tag }}</span>
-                            </router-link>
-                        </p>
-                        <p>
-                            <span v-if="song.ccli">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a><br /></span>
-                            &copy; {{ song.year }} <span v-if="song.publisher" class="show-linebreaks">{{ song.publisher }}</span>
-                        </p>
-                    </div>
-                </div>
-                <footer>
-                    <div class="button-group float-right drop-up">
-                        <div class="dropdown button" tabindex="0">
-                            <i class="fa fa-upload fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Export</span>
-                            <div class="dropdown-pane">
-                                <button class="button expanded" @click="exportPdf" target="_blank">
-                                    <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-small">PDF</span>
-                                </button>
-                                <button class="button expanded" @click="exportSng" target="_blank">
-                                    <i class="fa fa-file-video-o fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-small">SNG</span>
-                                </button>
-                                <router-link v-if="song['.key']" class="button expanded" :to="{name: 'txt-song', params: {song_id: song['.key']}}">
-                                    <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-small">TXT</span>
-                                </router-link>
-                            </div>
-                        </div>
-                        <router-link v-if="song['.key']" class="button" :to="{name: 'present-song', params: {song_id: song['.key'], tuning: tuning, textOnly: textOnly }}">
-                            <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Fullscreen</span>
-                        </router-link>
-                        <router-link v-if="ADMIN && song['.key']" class="button" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
-                            <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Clone</span>
-                        </router-link>
-                        <router-link v-if="ADMIN && song['.key']" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
-                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Edit</span>
-                        </router-link>
-                        <button class="hidden button" @click="router.go(-1)">
-                            <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Back</span>
-                        </button>
-                    </div>
-                </footer>
-            </section>
-            <app-footer></app-footer>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1>{{ song.title }}</h1>
+          <p>{{ song.subtitle }}</p>
+        </header>
+        <div class="row">
+          <div class="columns content-column">
+            <template v-if="song['.key']" >
+              <pre v-for="part in parseSongContent(song.content)" :class="part.class">{{ part.content }}</pre>
+            </template>
+            <div class="toolbar">
+              <template v-if="song.translations" >
+                <template v-for="key in song.translations">
+                  <template v-for="tsong in songs">
+                    <template v-if="tsong['.key'] == key">
+                      <router-link class="secondary small button" :to="{name: 'show-song', params: {song_id: key}}" :title="tsong.title">
+                        {{ tsong.language }}
+                      </router-link>
+                    </template>
+                  </template>
+                </template>
+                <hr />
+              </template>
+              <a class="secondary small button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
+                <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
+              </a>
+              <template v-if="!textOnly">
+                <hr />
+                <button class="secondary small button" @click="transposeChords(1)" title="Transpose chords up">
+                  <i class="fa fa-arrow-up fa-fw" aria-hidden="true"></i>
+                </button>
+                <button class="secondary small button" @click="transposeChords(0)" title="Reset transposed chords">
+                  <i class="fa fa-circle-o fa-fw" aria-hidden="true"></i>
+                </button>
+                <button class="secondary small button" @click="transposeChords(-1)" title="Transpose chords up">
+                  <i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>
+                </button>
+                <span class="secondary badge tm">{{ tuning }}</span>
+              </template>
+            </div>
+          </div>
         </div>
+        <div class="row">
+          <div class="columns footer">
+            <p v-if="song.authors">{{ song.authors }}</p>
+            <p v-if="song.tags">
+              <router-link v-for="tag in song.tags" class="tag-link" :to="{name: 'tagged-songs', params: {tag: tag}}">
+                <span class="label info"><i class="fa fa-tag" aria-hidden="true"></i> {{ tag }}</span>
+              </router-link>
+            </p>
+            <p>
+              <span v-if="song.ccli">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a><br /></span>
+              &copy; {{ song.year }} <span v-if="song.publisher" class="show-linebreaks">{{ song.publisher }}</span>
+            </p>
+          </div>
+        </div>
+        <footer>
+          <div class="button-group float-right drop-up">
+            <div class="dropdown button" tabindex="0">
+              <i class="fa fa-upload fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Export</span>
+              <div class="dropdown-pane">
+                <button class="button expanded" @click="exportPdf" target="_blank">
+                  <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                  <span class="show-for-small">PDF</span>
+                </button>
+                <button class="button expanded" @click="exportSng" target="_blank">
+                  <i class="fa fa-file-video-o fa-fw" aria-hidden="true"></i>
+                  <span class="show-for-small">SNG</span>
+                </button>
+                <router-link v-if="song['.key']" class="button expanded" :to="{name: 'txt-song', params: {song_id: song['.key']}}">
+                  <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                  <span class="show-for-small">TXT</span>
+                </router-link>
+              </div>
+            </div>
+            <router-link v-if="song['.key']" class="button" :to="{name: 'present-song', params: {song_id: song['.key'], tuning: tuning, textOnly: textOnly }}">
+              <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Fullscreen</span>
+            </router-link>
+            <router-link v-if="ADMIN && song['.key']" class="button" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
+              <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Clone</span>
+            </router-link>
+            <router-link v-if="ADMIN && song['.key']" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
+              <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Edit</span>
+            </router-link>
+            <button class="hidden button" @click="router.go(-1)">
+              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Back</span>
+            </button>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- export song as txt -->
 <template id="txt-song">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                </header>
-                <div class="row">
-                    <div class="columns content-column">
-                        <pre v-if="song['.key']">{{ song.title }}<br /><br />{{ parseTxtSongContent(song.content) }}</pre>
-                        <div class="toolbar">
-                            <template v-if="song.translations" >
-                                <template v-for="key in song.translations">
-                                    <template v-for="tsong in songs">
-                                        <template v-if="tsong['.key'] == key">
-                                            <router-link class="secondary small button" :to="{name: 'txt-song', params: {song_id: key}}" :title="tsong.title">
-                                                {{ tsong.language }}
-                                            </router-link>
-                                        </template>
-                                    </template>
-                                </template>
-                                <hr />
-                            </template>
-                            <a class="secondary small button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
-                                <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
-                            </a>
-                            <template v-if="!textOnly">
-                                <hr />
-                                <button class="secondary small button" @click="transposeChords(1)" title="Transpose chords up">
-                                    <i class="fa fa-arrow-up fa-fw" aria-hidden="true"></i>
-                                </button>
-                                <button class="secondary small button" @click="transposeChords(0)" title="Reset transposed chords">
-                                    <i class="fa fa-circle-o fa-fw" aria-hidden="true"></i>
-                                </button>
-                                <button class="secondary small button" @click="transposeChords(-1)" title="Transpose chords up">
-                                    <i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>
-                                </button>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="columns footer">
-                        <p v-if="song.authors">{{ song.authors }}</p>
-                        <p>
-                            <span v-if="song.ccli">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a><br /></span>
-                            &copy; {{ song.year }} <span v-if="song.publisher" class="show-linebreaks">{{ song.publisher }}</span>
-                        </p>
-                    </div>
-                </div>
-                <footer>
-                    <div class="button-group float-right">
-                        <button class="hidden button" @click="router.go(-1)">
-                            <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Back</span>
-                        </button>
-                    </div>
-                </footer>
-            </section>
-            <app-footer></app-footer>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+        </header>
+        <div class="row">
+          <div class="columns content-column">
+            <pre v-if="song['.key']">{{ song.title }}<br /><br />{{ parseTxtSongContent(song.content) }}</pre>
+            <div class="toolbar">
+              <template v-if="song.translations" >
+                <template v-for="key in song.translations">
+                  <template v-for="tsong in songs">
+                    <template v-if="tsong['.key'] == key">
+                      <router-link class="secondary small button" :to="{name: 'txt-song', params: {song_id: key}}" :title="tsong.title">
+                        {{ tsong.language }}
+                      </router-link>
+                    </template>
+                  </template>
+                </template>
+                <hr />
+              </template>
+              <a class="secondary small button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
+                <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
+              </a>
+              <template v-if="!textOnly">
+                <hr />
+                <button class="secondary small button" @click="transposeChords(1)" title="Transpose chords up">
+                  <i class="fa fa-arrow-up fa-fw" aria-hidden="true"></i>
+                </button>
+                <button class="secondary small button" @click="transposeChords(0)" title="Reset transposed chords">
+                  <i class="fa fa-circle-o fa-fw" aria-hidden="true"></i>
+                </button>
+                <button class="secondary small button" @click="transposeChords(-1)" title="Transpose chords up">
+                  <i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>
+                </button>
+              </template>
+            </div>
+          </div>
         </div>
+        <div class="row">
+          <div class="columns footer">
+            <p v-if="song.authors">{{ song.authors }}</p>
+            <p>
+              <span v-if="song.ccli">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a><br /></span>
+              &copy; {{ song.year }} <span v-if="song.publisher" class="show-linebreaks">{{ song.publisher }}</span>
+            </p>
+          </div>
+        </div>
+        <footer>
+          <div class="button-group float-right">
+            <button class="hidden button" @click="router.go(-1)">
+              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Back</span>
+            </button>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- show a song in fullscreen -->
 <template id="present-song">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <section class="fullscreen">
-                <header>
-                    <h1>{{ song.title }}</h1>
-                    <p>{{ song.subtitle }}</p>
-                </header>
-                <div v-if="song.content" class="row expanded small-up-1 medium-up-1 large-up-2">
-                    <div class="columns" v-for="column in getTwoColumns(song.content)">
-                        <pre v-for="part in parseSongContent(column)" :class="part.class + (textOnly ? ' textonly' : '')">{{ part.content }}</pre>
-                    </div>
-                </div>
-                <div class="row expanded">
-                    <div class="columns footer">
-                        <p v-if="song.authors">{{ song.authors }}</p>
-                        <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
-                        <p>&copy; {{ song.year }} {{ song.publisher }}</p>
-                    </div>
-                </div>
-                <footer>
-                    <div class="button-group float-right">
-                        <a class="hollow hidden button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
-                            <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
-                        </a>
-                        <button class="secondary hollow hidden button" @click="router.go(-1)">
-                            <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </footer>
-            </section>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <section class="fullscreen">
+        <header>
+          <h1>{{ song.title }}</h1>
+          <p>{{ song.subtitle }}</p>
+        </header>
+        <div v-if="song.content" class="row expanded small-up-1 medium-up-1 large-up-2">
+          <div class="columns" v-for="column in getTwoColumns(song.content)">
+            <pre v-for="part in parseSongContent(column)" :class="part.class + (textOnly ? ' textonly' : '')">{{ part.content }}</pre>
+          </div>
         </div>
+        <div class="row expanded">
+          <div class="columns footer">
+            <p v-if="song.authors">{{ song.authors }}</p>
+            <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
+            <p>&copy; {{ song.year }} {{ song.publisher }}</p>
+          </div>
+        </div>
+        <footer>
+          <div class="button-group float-right">
+            <a class="hollow hidden button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
+              <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
+            </a>
+            <button class="secondary hollow hidden button" @click="router.go(-1)">
+              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+            </button>
+          </div>
+        </footer>
+      </section>
     </div>
+  </div>
 </template>
 
 <!-- add song -->
 <template id="add-song">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                    <h1 v-if="isCloned">New Song (cloned)</h1>
-                    <h1 v-else>New Song</h1>
-                </header>
-                <form id="form" v-on:submit.prevent="createSong">
-                    <song-form-fields
-                        :song="song"
-                        :songs="songs"
-                        :search-key="searchKey"
-                    ></song-form-fields>
-                    <footer>
-                        <div class="button-group float-right">
-                            <router-link class="alert button" :to="{name: 'songs'}">
-                                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                                Cancel
-                            </router-link>
-                            <button type="submit" class="button">
-                                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                                Create
-                            </button>
-                        </div>
-                    </footer>
-                </form>
-            </section>
-            <app-footer></app-footer>
-        </div>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1 v-if="isCloned">New Song (cloned)</h1>
+          <h1 v-else>New Song</h1>
+        </header>
+        <form id="form" v-on:submit.prevent="createSong">
+          <song-form-fields
+            :song="song"
+            :songs="songs"
+            :search-key="searchKey"
+          ></song-form-fields>
+          <footer>
+            <div class="button-group float-right">
+              <router-link class="alert button" :to="{name: 'songs'}">
+                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                Cancel
+              </router-link>
+              <button type="submit" class="button">
+                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                Create
+              </button>
+            </div>
+          </footer>
+        </form>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- edit song -->
 <template id="edit-song">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                    <h1>Edit &raquo;{{ song.title }}&laquo;</h1>
-                </header>
-                <form id="form" v-on:submit.prevent="updateSong">
-                    <song-form-fields
-                        :song="song"
-                        :songs="songs"
-                        :search-key="searchKey"
-                    ></song-form-fields>
-                    <footer>
-                        <div class="button-group float-right">
-                            <button class="alert button" @click.prevent="router.go(-1)">
-                                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                                Cancel
-                            </button>
-                            <button type="submit" class="button">
-                                <i class="fa fa-check fa-fw" aria-hidden="true"></i>
-                                Update
-                            </button>
-                        </div>
-                    </footer>
-                </form>
-            </section>
-            <app-footer></app-footer>
-        </div>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1>Edit &raquo;{{ song.title }}&laquo;</h1>
+        </header>
+        <form id="form" v-on:submit.prevent="updateSong">
+          <song-form-fields
+            :song="song"
+            :songs="songs"
+            :search-key="searchKey"
+          ></song-form-fields>
+          <footer>
+            <div class="button-group float-right">
+              <button class="alert button" @click.prevent="router.go(-1)">
+                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                Cancel
+              </button>
+              <button type="submit" class="button">
+                <i class="fa fa-check fa-fw" aria-hidden="true"></i>
+                Update
+              </button>
+            </div>
+          </footer>
+        </form>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- delete song -->
 <template id="delete-song">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                    <h1>Delete &raquo;{{ song.title }}&laquo;</h1>
-                </header>
-                <div class="row">
-                    <div class="columns">
-                        <p>Are you sure you want to delete &raquo;{{ song.title }}&laquo;?</p>
-                        <div class="alert callout">
-                            <p><i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i> This action cannot be undone!</p>
-                        </div>
-                    </div>
-                </div>
-                <footer>
-                    <div class="button-group float-right">
-                        <router-link class="hidden button" :to="{name: 'songs'}">
-                            <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                            Cancel
-                        </router-link>
-                        <button class="alert button" @click="removeSong">
-                            <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                            Remove
-                        </button>
-                    </div>
-                </footer>
-            </section>
-            <app-footer></app-footer>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1>Delete &raquo;{{ song.title }}&laquo;</h1>
+        </header>
+        <div class="row">
+          <div class="columns">
+            <p>Are you sure you want to delete &raquo;{{ song.title }}&laquo;?</p>
+            <div class="alert callout">
+              <p><i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i> This action cannot be undone!</p>
+            </div>
+          </div>
         </div>
+        <footer>
+          <div class="button-group float-right">
+            <router-link class="hidden button" :to="{name: 'songs'}">
+              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              Cancel
+            </router-link>
+            <button class="alert button" @click="removeSong">
+              <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+              Remove
+            </button>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- setlist list -->
 <template id="setlist-list">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                    <h1 v-if="setlists.length > 0">{{ filteredSetlists.length }} Setlists</h1>
-                    <h1 v-else>Loading Setlists ...</h1>
-                </header>
-                <div class="row medium-collapse small-collapse search">
-                    <div class="small-12 columns">
-                        <input id="search" type="search" v-model="searchKey" placeholder="search for setlists" required autofocus />
-                    </div>
-                </div> 
-                <div v-if="setlists.length == 0" class="row">
-                    <div class="small-12 columns loading">
-                        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
-                <div v-else class="row">
-                    <table class="hover">
-                        <thead>
-                            <tr>
-                                <th width="140">Date</th>
-                                <th>Title</th>
-                                <th class="show-for-medium"># Songs</th>
-                                <th width="130"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="setlist in filteredSetlists.reverse()" :key="setlist['.key']">
-                                <td class="link-cell">
-                                    <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
-                                        {{ setlist.date }}
-                                    </router-link>
-                                </td>
-                                <td class="link-cell">
-                                    <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
-                                        {{ setlist.title }}
-                                    </router-link>
-                                </td>
-                                <td class="show-for-medium link-cell">
-                                    <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
-                                        {{ setlist.songs ? setlist.songs.length : '0' }}
-                                    </router-link>
-                                </td>
-                                <td class="button-cell">
-                                    <div class="button-group float-right drop-left">
-                                        <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
-                                            <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
-                                        </router-link>
-                                        <div v-if="ADMIN" class="dropdown button arrow-only" tabindex="0">
-                                            <span class="show-for-sr">Show menu</span>
-                                            <div v-if="ADMIN" class="dropdown-pane">
-                                                <div class="button-group float-right">
-                                                    <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}" v-if="setlists.length > 1">
-                                                        <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                                                    </router-link>
-                                                    <router-link class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
-                                                        <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
-                                                    </router-link>
-                                                    <router-link class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
-                                                        <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                                                    </router-link>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <footer>
-                    <div v-if="ADMIN" class="button-group float-right">
-                        <router-link class="button" :to="{name: 'add-song'}" title="New Song">
-                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Add </span> Song
-                        </router-link>
-                        <router-link class="button" :to="{name: 'add-setlist'}" title="New Setlist">
-                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Add </span> Setlist
-                        </router-link>
-                    </div>
-                </footer>
-            </section>
-            <app-footer></app-footer>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1 v-if="setlists.length > 0">{{ filteredSetlists.length }} Setlists</h1>
+          <h1 v-else>Loading Setlists ...</h1>
+        </header>
+        <div class="row medium-collapse small-collapse search">
+          <div class="small-12 columns">
+            <input id="search" type="search" v-model="searchKey" placeholder="search for setlists" required autofocus />
+          </div>
         </div>
+        <div v-if="setlists.length == 0" class="row">
+          <div class="small-12 columns loading">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div v-else class="row">
+          <table class="hover">
+            <thead>
+              <tr>
+                <th width="140">Date</th>
+                <th>Title</th>
+                <th class="show-for-medium"># Songs</th>
+                <th width="130"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="setlist in filteredSetlists.reverse()" :key="setlist['.key']">
+                <td class="link-cell">
+                  <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                    {{ setlist.date }}
+                  </router-link>
+                </td>
+                <td class="link-cell">
+                  <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                    {{ setlist.title }}
+                  </router-link>
+                </td>
+                <td class="show-for-medium link-cell">
+                  <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                    {{ setlist.songs ? setlist.songs.length : '0' }}
+                  </router-link>
+                </td>
+                <td class="button-cell">
+                  <div class="button-group float-right drop-left">
+                    <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
+                      <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                    </router-link>
+                    <div v-if="ADMIN" class="dropdown button arrow-only" tabindex="0">
+                      <span class="show-for-sr">Show menu</span>
+                      <div v-if="ADMIN" class="dropdown-pane">
+                        <div class="button-group float-right">
+                          <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}" v-if="setlists.length > 1">
+                            <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                          </router-link>
+                          <router-link class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
+                            <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+                          </router-link>
+                          <router-link class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
+                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                          </router-link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <footer>
+          <div v-if="ADMIN" class="button-group float-right">
+            <router-link class="button" :to="{name: 'add-song'}" title="New Song">
+              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Add </span> Song
+            </router-link>
+            <router-link class="button" :to="{name: 'add-setlist'}" title="New Setlist">
+              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Add </span> Setlist
+            </router-link>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- show setlist -->
 <template id="show-setlist">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                    <h1>{{ setlist.title }}</h1>
-                    <p>{{ setlist.date }} | {{ setlist.songs.length }} Songs</p>
-                </header>
-                <div class="row">
-                    <div class="columns">
-                        <table class="hover">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th class="text-center">Language</th>
-                                    <th class="text-center">Tuning</th>
-                                    <th class="text-center">CCLI#</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="show-setlist-sort">
-                                <tr v-for="songkey in setlist.songs" :key="songkey">
-                                    <template v-for="song in songs">
-                                        <template v-if="song['.key'] == songkey">
-                                            <td>
-                                                {{ song.title }} <span class="less-important">({{ song.subtitle }})</span>
-                                            </td>
-                                            <td class="text-center">
-                                                {{ song.language }}
-                                            </td>
-                                            <td class="text-center">
-                                                {{ song.tuning }}
-                                            </td>
-                                            <td class="text-center">
-                                                <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a>
-                                            </td>
-                                            <td class="button-cell">
-                                                <div class="button-group float-right">
-                                                    <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                                                        <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
-                                                        <span class="show-for-large">Show</span>
-                                                    </router-link>
-                                                </div>
-                                            </td>
-                                        </template>
-                                    </template>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div v-if="setlist.songs.length == 0">No songs selected.</div>
-                    </div>
-                </div>
-                <div class="row tm" v-if="setlist.songs.length > 0">
-                    <div class="small-12 medium-6 large-3 columns">
-                        <div class="callout small">
-                            <canvas id="setlist-languages" class="doughnut">
-                                Chart for displaying a doughnut chart for song languages in setlist
-                            </canvas>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1>{{ setlist.title }}</h1>
+          <p>{{ setlist.date }} | {{ setlist.songs.length }} Songs</p>
+        </header>
+        <div class="row">
+          <div class="columns">
+            <table class="hover">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th class="text-center">Language</th>
+                  <th class="text-center">Tuning</th>
+                  <th class="text-center">CCLI#</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="show-setlist-sort">
+                <tr v-for="songkey in setlist.songs" :key="songkey">
+                  <template v-for="song in songs">
+                    <template v-if="song['.key'] == songkey">
+                      <td>
+                        {{ song.title }} <span class="less-important">({{ song.subtitle }})</span>
+                      </td>
+                      <td class="text-center">
+                        {{ song.language }}
+                      </td>
+                      <td class="text-center">
+                        {{ song.tuning }}
+                      </td>
+                      <td class="text-center">
+                        <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a>
+                      </td>
+                      <td class="button-cell">
+                        <div class="button-group float-right">
+                          <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
+                            <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                            <span class="show-for-large">Show</span>
+                          </router-link>
                         </div>
-                    </div>
-                </div>
-                <footer>
-                    <div class="button-group float-right drop-up">
-                        <div class="dropdown button" tabindex="0">
-                            <i class="fa fa-upload fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Export</span>
-                            <div class="dropdown-pane">
-                                <button class="button expanded" @click="exportSongsheets" target="_blank">
-                                    <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-small">PDF Sheets</span>
-                                </button>
-                                <button class="button expanded" @click="exportSetlist" target="_blank">
-                                    <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-small">PDF List</span>
-                                </button>
-                                <router-link v-if="setlist['.key']" class="button expanded" :to="{name: 'txt-sheets', params: {setlist_id: setlist['.key']}}">
-                                    <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-small">TXT Sheets</span>
-                                </router-link>
-                                <router-link v-if="setlist['.key']" class="button expanded" :to="{name: 'txt-list', params: {setlist_id: setlist['.key']}}">
-                                    <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                                    <span class="show-for-small">TXT List</span>
-                                </router-link>
-                            </div>
-                        </div>
-                        <router-link v-if="setlist['.key']" class="button" :to="{name: 'present-setlist', params: {setlist_id: setlist['.key']}}">
-                            <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Present</span>
-                        </router-link>
-                        <router-link v-if="ADMIN && setlist['.key']" class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
-                            <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Clone</span>
-                        </router-link>
-                        <router-link v-if="ADMIN && setlist['.key']" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
-                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Edit</span>
-                        </router-link>
-                        <button class="hidden button" @click="router.go(-1)">
-                            <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Back</span>
-                        </button>
-                    </div>
-                </footer>
-            </section>
-            <app-footer></app-footer>
+                      </td>
+                    </template>
+                  </template>
+                </tr>
+              </tbody>
+            </table>
+            <div v-if="setlist.songs.length == 0">No songs selected.</div>
+          </div>
         </div>
+        <div class="row tm" v-if="setlist.songs.length > 0">
+          <div class="small-12 medium-6 large-3 columns">
+            <div class="callout small">
+              <canvas id="setlist-languages" class="doughnut">
+                Chart for displaying a doughnut chart for song languages in setlist
+              </canvas>
+            </div>
+          </div>
+        </div>
+        <footer>
+          <div class="button-group float-right drop-up">
+            <div class="dropdown button" tabindex="0">
+              <i class="fa fa-upload fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Export</span>
+              <div class="dropdown-pane">
+                <button class="button expanded" @click="exportSongsheets" target="_blank">
+                  <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                  <span class="show-for-small">PDF Sheets</span>
+                </button>
+                <button class="button expanded" @click="exportSetlist" target="_blank">
+                  <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                  <span class="show-for-small">PDF List</span>
+                </button>
+                <router-link v-if="setlist['.key']" class="button expanded" :to="{name: 'txt-sheets', params: {setlist_id: setlist['.key']}}">
+                  <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                  <span class="show-for-small">TXT Sheets</span>
+                </router-link>
+                <router-link v-if="setlist['.key']" class="button expanded" :to="{name: 'txt-list', params: {setlist_id: setlist['.key']}}">
+                  <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                  <span class="show-for-small">TXT List</span>
+                </router-link>
+              </div>
+            </div>
+            <router-link v-if="setlist['.key']" class="button" :to="{name: 'present-setlist', params: {setlist_id: setlist['.key']}}">
+              <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Present</span>
+            </router-link>
+            <router-link v-if="ADMIN && setlist['.key']" class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
+              <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Clone</span>
+            </router-link>
+            <router-link v-if="ADMIN && setlist['.key']" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
+              <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Edit</span>
+            </router-link>
+            <button class="hidden button" @click="router.go(-1)">
+              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Back</span>
+            </button>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- add setlist -->
 <template id="add-setlist">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                    <h1 v-if="isCloned">New Setlist (cloned)</h1>
-                    <h1 v-else>New Setlist</h1>
-                </header>
-                <form id="form" v-on:submit.prevent="createSetlist">
-                    <setlist-form-fields
-                        :setlist="setlist"
-                        :songs="songs"
-                        :search-key="searchKey"
-                    ></setlist-form-fields>
-                    <footer>
-                        <div class="button-group float-right">
-                            <router-link class="alert button" :to="{name: 'setlists'}">
-                                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                                Cancel
-                            </router-link>
-                            <button type="submit" class="button">
-                                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                                Create
-                            </button>
-                        </div>
-                    </footer>
-                </form>
-            </section>
-            <app-footer></app-footer>
-        </div>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1 v-if="isCloned">New Setlist (cloned)</h1>
+          <h1 v-else>New Setlist</h1>
+        </header>
+        <form id="form" v-on:submit.prevent="createSetlist">
+          <setlist-form-fields
+            :setlist="setlist"
+            :songs="songs"
+            :search-key="searchKey"
+          ></setlist-form-fields>
+          <footer>
+            <div class="button-group float-right">
+              <router-link class="alert button" :to="{name: 'setlists'}">
+                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                Cancel
+              </router-link>
+              <button type="submit" class="button">
+                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                Create
+              </button>
+            </div>
+          </footer>
+        </form>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- edit setlist -->
 <template id="edit-setlist">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                    <h1>Edit &raquo;{{ setlist.title }}&laquo;</h1>
-                </header>
-                <form id="form" v-on:submit.prevent="updateSetlist">
-                    <setlist-form-fields
-                        :setlist="setlist"
-                        :songs="songs"
-                        :search-key="searchKey"
-                    ></setlist-form-fields>
-                    <footer>
-                        <div class="button-group float-right">
-                            <button class="alert button" @click.prevent="router.go(-1)">
-                                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                                Cancel
-                            </button>
-                            <button type="submit" class="button">
-                                <i class="fa fa-check fa-fw" aria-hidden="true"></i>
-                                Update
-                            </button>
-                        </div>
-                    </footer>
-                </form>
-            </section>
-            <app-footer></app-footer>
-        </div>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1>Edit &raquo;{{ setlist.title }}&laquo;</h1>
+        </header>
+        <form id="form" v-on:submit.prevent="updateSetlist">
+          <setlist-form-fields
+            :setlist="setlist"
+            :songs="songs"
+            :search-key="searchKey"
+          ></setlist-form-fields>
+          <footer>
+            <div class="button-group float-right">
+              <button class="alert button" @click.prevent="router.go(-1)">
+                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                Cancel
+              </button>
+              <button type="submit" class="button">
+                <i class="fa fa-check fa-fw" aria-hidden="true"></i>
+                Update
+              </button>
+            </div>
+          </footer>
+        </form>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- delete setlist -->
 <template id="delete-setlist">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                    <h1>Delete &raquo;{{ setlist.title }}&laquo;</h1>
-                </header>
-                <div class="row">
-                    <div class="columns">
-                        <p>Are you sure you want to delete &raquo;{{ setlist.title }}&laquo;?</p>
-                        <div class="alert callout">
-                            <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This action cannot be undone!</p>
-                        </div>
-                    </div>
-                </div>
-                <footer>
-                    <div class="button-group float-right">
-                        <router-link class="hidden button" :to="{name: 'setlists'}">
-                            <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                            Cancel
-                        </router-link>
-                        <button class="alert button" @click="removeSetlist">
-                            <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                            Remove
-                        </button>
-                    </div>
-                </footer>
-            </section>
-            <app-footer></app-footer>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1>Delete &raquo;{{ setlist.title }}&laquo;</h1>
+        </header>
+        <div class="row">
+          <div class="columns">
+            <p>Are you sure you want to delete &raquo;{{ setlist.title }}&laquo;?</p>
+            <div class="alert callout">
+              <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This action cannot be undone!</p>
+            </div>
+          </div>
         </div>
+        <footer>
+          <div class="button-group float-right">
+            <router-link class="hidden button" :to="{name: 'setlists'}">
+              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              Cancel
+            </router-link>
+            <button class="alert button" @click="removeSetlist">
+              <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+              Remove
+            </button>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- export setlist songsheets as txt -->
 <template id="txt-sheets">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                </header>
-                <div v-for="key, i in setlist.songs" class="row">
-                    <template v-for="song in songs">
-                        <template v-if="song['.key'] == key">
-                            <div class="columns content-column">
-                                <template v-if="song['.key']">{{ toggleChords(song) }}</template>
-                                <pre v-if="song['.key']">{{ song.title }}<br /><br />{{ parseTxtSongContent(song.content) }}</pre>
-                            </div>
-                        </template>
-                    </template>
-                </div>
-                <footer>
-                    <div class="button-group float-right">
-                        <button class="hidden button" @click="router.go(-1)">
-                            <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Back</span>
-                        </button>
-                    </div>
-                </footer>
-            </section>
-            <app-footer></app-footer>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+        </header>
+        <div v-for="key, i in setlist.songs" class="row">
+          <template v-for="song in songs">
+            <template v-if="song['.key'] == key">
+              <div class="columns content-column">
+                <template v-if="song['.key']">{{ toggleChords(song) }}</template>
+                <pre v-if="song['.key']">{{ song.title }}<br /><br />{{ parseTxtSongContent(song.content) }}</pre>
+              </div>
+            </template>
+          </template>
         </div>
+        <footer>
+          <div class="button-group float-right">
+            <button class="hidden button" @click="router.go(-1)">
+              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Back</span>
+            </button>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- export setlist as txt list -->
 <template id="txt-list">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <app-header></app-header>
-            <section>
-                <header>
-                </header>
-                <div class="row">
-                    <div class="small-12 medium-6 columns">
-                        <h2>Normal Text</h2>
-                        <div v-for="key, i in setlist.songs">
-                            <template v-for="song in songs">
-                                <template v-if="song['.key'] == key">
-                                    {{ i+1 }}. <b>{{ song.title }}</b> ({{ song.subtitle }}) [{{ song.tuning }}]
-                                </template>
-                            </template>
-                        </div>
-                    </div>
-                    <div class="small-12 medium-6 columns">
-                        <h2><i class="fa fa-slack" aria-hidden="true"></i> Slack formatted</h2>
-                        <div v-for="key, i in setlist.songs">
-                            <template v-for="song in songs">
-                                <template v-if="song['.key'] == key">
-                                    {{ i+1 }}. *{{ song.title }}*&nbsp;&nbsp;– _{{ song.subtitle }}_ *` {{ song.tuning }} `*
-                                </template>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-                <footer>
-                    <div class="button-group float-right">
-                        <button class="hidden button" @click="router.go(-1)">
-                            <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                            <span class="show-for-large">Back</span>
-                        </button>
-                    </div>
-                </footer>
-            </section>
-            <app-footer></app-footer>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+        </header>
+        <div class="row">
+          <div class="small-12 medium-6 columns">
+            <h2>Normal Text</h2>
+            <div v-for="key, i in setlist.songs">
+              <template v-for="song in songs">
+                <template v-if="song['.key'] == key">
+                  {{ i+1 }}. <b>{{ song.title }}</b> ({{ song.subtitle }}) [{{ song.tuning }}]
+                </template>
+              </template>
+            </div>
+          </div>
+          <div class="small-12 medium-6 columns">
+            <h2><i class="fa fa-slack" aria-hidden="true"></i> Slack formatted</h2>
+            <div v-for="key, i in setlist.songs">
+              <template v-for="song in songs">
+                <template v-if="song['.key'] == key">
+                  {{ i+1 }}. *{{ song.title }}*&nbsp;&nbsp;– _{{ song.subtitle }}_ *` {{ song.tuning }} `*
+                </template>
+              </template>
+            </div>
+          </div>
         </div>
+        <footer>
+          <div class="button-group float-right">
+            <button class="hidden button" @click="router.go(-1)">
+              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Back</span>
+            </button>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
     </div>
+  </div>
 </template>
 
 <!-- present setlist -->
 <template id="present-setlist">
-    <div class="scrollbar" v-bar>
-        <div class="container">
-            <section class="presentation" v-hotkey="keymap">
-                <swipe ref="presentationSwipe" :options="swipeOptions">
-                    <swipe-item v-for="songkey in setlist.songs" :key="songkey">
-                        <div v-for="song in songs" v-if="song['.key'] == songkey">
-                            <h1>{{ song.title }}</h1>
-                            <div class="expanded row collapse small-up-1 medium-up-1 large-up-2">
-                                <div class="columns" v-for="column in getTwoColumns(song.content)">
-                                    <pre v-for="part in parseSongContent(column)" :class="part.class + (textOnly ? ' textonly' : '')">{{ part.content }}</pre>
-                                </div>
-                            </div>
-                            <footer>
-                                <p v-if="song.authors">{{ song.authors }}</p>
-                                <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
-                                <p>&copy; {{ song.year }} {{ song.publisher }}</p>
-                            </footer>
-                        </div>
-                    </swipe-item>
-                </swipe>
-                <nav class="swipe-bullets">
-                    <a v-for="(key, index) in setlist.songs" :class="index == position ? 'is-active' : ''" @click="slide(index, 300)"></a>
-                </nav>
-                <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
-                <footer>
-                    <div class="button-group float-right">
-                        <a class="hollow hidden button" @click="prev()">
-                            <i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a class="hollow hidden button" @click="next()">
-                            <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a class="secondary hollow hidden button" @click="showClock = !showClock">
-                            <i class="fa fa-clock-o" aria-hidden="true"></i>
-                            <clock v-if="showClock"></clock>
-                        </a>
-                        <a class="hollow hidden button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
-                            <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
-                        </a>
-                        <button class="secondary hollow hidden button" @click="router.go(-1)">
-                            <i class="fa fa-times fa-fw" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </footer>
-            </section>
-        </div>
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <section class="presentation" v-hotkey="keymap">
+        <swipe ref="presentationSwipe" :options="swipeOptions">
+          <swipe-item v-for="songkey in setlist.songs" :key="songkey">
+            <div v-for="song in songs" v-if="song['.key'] == songkey">
+              <h1>{{ song.title }}</h1>
+              <div class="expanded row collapse small-up-1 medium-up-1 large-up-2">
+                <div class="columns" v-for="column in getTwoColumns(song.content)">
+                  <pre v-for="part in parseSongContent(column)" :class="part.class + (textOnly ? ' textonly' : '')">{{ part.content }}</pre>
+                </div>
+              </div>
+              <footer>
+                <p v-if="song.authors">{{ song.authors }}</p>
+                <p v-if="song.ccli">CCLI Song number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
+                <p>&copy; {{ song.year }} {{ song.publisher }}</p>
+              </footer>
+            </div>
+          </swipe-item>
+        </swipe>
+        <nav class="swipe-bullets">
+          <a v-for="(key, index) in setlist.songs" :class="index == position ? 'is-active' : ''" @click="slide(index, 300)"></a>
+        </nav>
+        <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
+        <footer>
+          <div class="button-group float-right">
+            <a class="hollow hidden button" @click="prev()">
+              <i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i>
+            </a>
+            <a class="hollow hidden button" @click="next()">
+              <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i>
+            </a>
+            <a class="secondary hollow hidden button" @click="showClock = !showClock">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              <clock v-if="showClock"></clock>
+            </a>
+            <a class="hollow hidden button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
+              <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
+            </a>
+            <button class="secondary hollow hidden button" @click="router.go(-1)">
+              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+            </button>
+          </div>
+        </footer>
+      </section>
     </div>
+  </div>
 </template>
 
 <!-- live clock -->
 <template id="clock">
-    <span class="clock">{{ hours }}:{{ minutes }}</span>
+  <span class="clock">{{ hours }}:{{ minutes }}</span>
 </template>
 
 <script type="text/javascript" src="./src/config.js"></script>
