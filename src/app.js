@@ -697,11 +697,11 @@ var ShowSong = Vue.extend({
             download(content, this.song.title + '.sng');
             notify('success', 'SNG export', 'Song was successfully exported as SNG.');
         },
-        toggleChords: function(textOnly) {
-            // update toggle button
-            this.textOnly = textOnly;
+        toggleChords: function() {
+            // toggle textOnly
+            this.textOnly = !this.textOnly;
             // show text without chord lines
-            if (textOnly) {
+            if (this.textOnly) {
                 // set song content to content without chords
                 this.song.content = removeChords(this.song.content);
             }
@@ -738,15 +738,15 @@ var TxtSong = Vue.extend({
         return {
             song: this.song,
             songs: this.songs,
-            textOnly: true
+            textOnly: false
         };
     },
     methods: {
-        toggleChords: function(textOnly) {
+        toggleChords: function() {
             // update toggle button
-            this.textOnly = textOnly;
+            this.textOnly = !this.textOnly;
             // show text without chord lines
-            if (textOnly) {
+            if (this.textOnly) {
                 // set song content to content without chords
                 this.song.content = removeChords(this.song.content);
             }
@@ -787,14 +787,9 @@ var PresentSong = Vue.extend({
                 this.song.content = transposeChords(-1, this.song.content);
             }
         }
-        // check if textOnly mode is set and toggle chords accordingly
-        var textOnly = this.$route.params.textOnly;
-        if (textOnly) {
-            this.toggleChords(textOnly);
-        }
         return {
             song: this.song,
-            textOnly: textOnly
+            textOnly: false
         };
     },
     methods: {
@@ -808,11 +803,11 @@ var PresentSong = Vue.extend({
                 parts.join('\n\n'),
             ];
         },
-        toggleChords: function(textOnly) {
+        toggleChords: function() {
             // update toggle button
-            this.textOnly = textOnly;
+            this.textOnly = !this.textOnly;
             // show text only
-            if (textOnly) {
+            if (this.textOnly) {
                 // set song content to content without chords
                 this.song.content = removeChords(this.song.content);
             }
@@ -927,7 +922,7 @@ var ShowSetlist = Vue.extend({
     }
 });
 
-// component: export song as copyable text
+// component: export song sheets as copyable text
 var TxtSheets = Vue.extend({
     template: '#txt-sheets',
     firebase: {
@@ -939,18 +934,12 @@ var TxtSheets = Vue.extend({
         this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id));
         return {
             setlist: this.setlist,
-            textOnly: true
         };
     },
     methods: {
-        toggleChords: function(song, textOnly) {
-            // update toggle button
-            this.textOnly = textOnly;
-            // show text without chord lines
-            if (textOnly) {
-                // set song content to content without chords
-                song.content = removeChords(song.content);
-            }
+        toggleChords: function(song) {
+            // set song content to content without chords
+            song.content = removeChords(song.content);
         }
     }
 });
@@ -1052,7 +1041,7 @@ var PresentSetlist = Vue.extend({
             ];
         },
         toggleChords: function() {
-            // update toggle button
+            // toggle textOnly
             this.textOnly = !this.textOnly;
             // show text only
             if (this.textOnly) {

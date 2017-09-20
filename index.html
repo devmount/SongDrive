@@ -630,12 +630,9 @@
                                 </template>
                                 <hr />
                             </template>
-                            <button v-if="!textOnly" class="secondary small button" @click="toggleChords(1)" title="Show text only">
-                                <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
-                            </button>
-                            <button v-else class="secondary small button" @click="toggleChords(0)" title="Show text and chords">
-                                <i class="fa fa-music fa-fw" aria-hidden="true"></i>
-                            </button>
+                            <a class="secondary small button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
+                                <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
+                            </a>
                             <template v-if="!textOnly">
                                 <hr />
                                 <button class="secondary small button" @click="transposeChords(1)" title="Transpose chords up">
@@ -720,7 +717,6 @@
                 </header>
                 <div class="row">
                     <div class="columns content-column">
-                        <template v-if="song['.key'] && textOnly">{{ toggleChords(1) }}</template>
                         <pre v-if="song['.key']">{{ song.title }}<br /><br />{{ parseTxtSongContent(song.content) }}</pre>
                         <div class="toolbar">
                             <template v-if="song.translations" >
@@ -735,12 +731,9 @@
                                 </template>
                                 <hr />
                             </template>
-                            <button v-if="!textOnly" class="secondary small button" @click="toggleChords(1)" title="Show text only">
-                                <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
-                            </button>
-                            <button v-else class="secondary small button" @click="toggleChords(0)" title="Show text and chords">
-                                <i class="fa fa-music fa-fw" aria-hidden="true"></i>
-                            </button>
+                            <a class="secondary small button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
+                                <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
+                            </a>
                             <template v-if="!textOnly">
                                 <hr />
                                 <button class="secondary small button" @click="transposeChords(1)" title="Transpose chords up">
@@ -802,12 +795,9 @@
                 </div>
                 <footer>
                     <div class="button-group float-right">
-                        <button v-if="!textOnly" class="hollow hidden button" @click="toggleChords(1)" title="Show text only">
-                            <i class="fa fa-align-left fa-fw" aria-hidden="true"></i>
-                        </button>
-                        <button v-else class="hollow hidden button" @click="toggleChords(0)" title="Show text and chords">
-                            <i class="fa fa-music fa-fw" aria-hidden="true"></i>
-                        </button>
+                        <a class="hollow hidden button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
+                            <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
+                        </a>
                         <button class="secondary hollow hidden button" @click="router.go(-1)">
                             <i class="fa fa-times fa-fw" aria-hidden="true"></i>
                         </button>
@@ -1242,7 +1232,7 @@
                     <template v-for="song in songs">
                         <template v-if="song['.key'] == key">
                             <div class="columns content-column">
-                                <template v-if="song['.key']">{{ toggleChords(song, 1) }}</template>
+                                <template v-if="song['.key']">{{ toggleChords(song) }}</template>
                                 <pre v-if="song['.key']">{{ song.title }}<br /><br />{{ parseTxtSongContent(song.content) }}</pre>
                             </div>
                         </template>
