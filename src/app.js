@@ -1051,11 +1051,11 @@ var PresentSetlist = Vue.extend({
                 parts.join('\n\n'),
             ];
         },
-        toggleChords: function(textOnly) {
+        toggleChords: function() {
             // update toggle button
-            this.textOnly = textOnly;
+            this.textOnly = !this.textOnly;
             // show text only
-            if (textOnly) {
+            if (this.textOnly) {
                 // for each song in setlist song list set song content to content without chords
                 this.songs.forEach(function(song) {
                     if (this.setlist.songs.indexOf(song['.key']) >= 0) {
