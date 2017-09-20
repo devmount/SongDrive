@@ -7,14 +7,16 @@ A song management web application to store, synchronize and present songs and se
 
 ## Features
 - Create, edit and delete songs
-- Normal and viewport optimized fullscreen view for a song
+- Normal and viewport optimized fullscreen view for a single song
 - Switch song languages
-- Filter songs and setlists on typing
+- Filter songs and setlists on typing and by tags
 - Transpose song tuning
 - Create, edit and delete setlists
 - Rearrange songs in setlists with simple drag and drop
 - Presentation view for setlists
 - PDF export for songs, setlists and songsheets
+- Plain text export for songs, setlists and songsheets
+- Hotkey support
 
 ## Installation
 
