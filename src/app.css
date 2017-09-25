@@ -331,7 +331,7 @@ section .footer {
 @media screen and (max-width: 63.9375em) {
   .container > .fullscreen .row:nth-child(2) .columns:first-child,
   .container > .presentation .row:nth-child(2) .columns:first-child {
-    margin-bottom: 1.8em;
+    margin-bottom: 0;
   }
 }
 @media screen and (max-width: 45em) {
