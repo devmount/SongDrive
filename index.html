@@ -279,10 +279,11 @@
         <label>Selected Songs ({{ setlist.songs.length }})</label>
         <table class="hover">
           <thead></thead>
-          <tbody id="change-setlist-sort">
+          <tbody v-sortable="{ handle: '.handle', onUpdate: updateOrder }">
             <tr v-for="songkey in setlist.songs" :key="songkey">
               <template v-for="song in songs">
                 <template v-if="song['.key'] == songkey">
+                  <td class="handle"><i class="fa fa-reorder fa-fw" aria-hidden="true"></i></td>
                   <td class="list-item">
                     {{ song.title }}
                     <span class="less-important">&nbsp;{{ song.subtitle }}</span>

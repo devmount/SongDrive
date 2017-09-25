@@ -131,6 +131,12 @@ Vue.component('setlist-form-fields', {
           this.setlist.songs.splice(this.setlist.songs.indexOf(song), 1)
         }
       }
+    },
+    updateOrder: function(e) {
+      var clonedItems = this.setlist.songs.filter(function(item){ return item })
+      clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0])
+      // update setlist objects's songs with new order
+      this.setlist.songs = clonedItems
     }
   },
   computed: {
@@ -458,25 +464,6 @@ var AddSetlist = Vue.extend({
       notify('success', 'Setlist added', 'Data was successfully saved.')
       router.push('/setlists')
     }
-  },
-  mounted: function() {
-    var self = this
-    self.$nextTick(function() {
-      // make song table rows sortable (drag and drop)
-      var sortable = Sortable.create(document.getElementById('change-setlist-sort'), {
-        // on drop: clone items, set new order and update setlist with new ordered items
-        onEnd: function(e) {
-          var clonedItems = self.setlist.songs.filter(function(item){
-            return item
-          })
-          clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0])
-          self.$nextTick(function(){
-            // update setlist objects's songs with new order
-            self.setlist.songs = clonedItems
-          })
-        }
-      })
-    })
   }
 })
 
@@ -552,25 +539,6 @@ var EditSetlist = Vue.extend({
       notify('success', 'Setlist updated', 'Data was successfully saved.')
       router.push('/setlist/' + this.$route.params.setlist_id)
     }
-  },
-  mounted: function() {
-    var self = this
-    self.$nextTick(function() {
-      // make song table rows sortable (drag and drop)
-      var sortable = Sortable.create(document.getElementById('change-setlist-sort'), {
-        // on drop: clone items, set new order and update setlist with new ordered items
-        onEnd: function(e) {
-          var clonedItems = self.setlist.songs.filter(function(item){
-            return item
-          })
-          clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0])
-          self.$nextTick(function(){
-            // update setlist objects's songs with new order
-            self.setlist.songs = clonedItems
-          })
-        }
-      })
-    })
   }
 })
 
@@ -841,8 +809,7 @@ var ShowSetlist = Vue.extend({
       notify('success', 'PDF export', 'Songsheets were successfully exported as PDF.')
     },
     updateOrder: function(e) {
-      var self = this
-      var clonedItems = self.setlist.songs.filter(function(item){
+      var clonedItems = this.setlist.songs.filter(function(item){
         return item
       })
       clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0])
