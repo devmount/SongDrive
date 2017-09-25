@@ -24,8 +24,9 @@
   <!-- pdfmake -->
   <script type="text/javascript" src="./node_modules/pdfmake/build/pdfmake.min.js"></script>
   <script type="text/javascript" src="./src/font/vfs_fonts.js"></script>
-  <!-- SortableJS -->
+  <!-- Vue Sortable -->
   <script type="text/javascript" src="./node_modules/sortablejs/Sortable.min.js"></script>
+  <script type="text/javascript" src="./node_modules/vue-sortable/vue-sortable.js"></script>
   <!-- Notyf (notifications) -->
   <link type="text/css" rel="stylesheet" href="./node_modules/notyf/dist/notyf.min.css" />
   <script type="text/javascript" src="./node_modules/notyf/dist/notyf.min.js"></script>
@@ -1020,6 +1021,7 @@
             <table class="hover">
               <thead>
                 <tr>
+                  <th></th>
                   <th>Title</th>
                   <th class="text-center">Language</th>
                   <th class="text-center">Tuning</th>
@@ -1027,10 +1029,11 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody id="show-setlist-sort">
+              <tbody v-sortable="{ handle: '.handle', onUpdate: updateOrder }">
                 <tr v-for="songkey in setlist.songs" :key="songkey">
                   <template v-for="song in songs">
                     <template v-if="song['.key'] == songkey">
+                      <td class="handle"><i class="fa fa-reorder fa-fw" aria-hidden="true"></i></td>
                       <td>
                         {{ song.title }} <span class="less-important">({{ song.subtitle }})</span>
                       </td>

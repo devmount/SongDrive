@@ -839,6 +839,16 @@ var ShowSetlist = Vue.extend({
       var doc = getPdfSongsObject(this.songs, this.setlist)
       pdfMake.createPdf(doc).open()
       notify('success', 'PDF export', 'Songsheets were successfully exported as PDF.')
+    },
+    updateOrder: function(e) {
+      var self = this
+      var clonedItems = self.setlist.songs.filter(function(item){
+        return item
+      })
+      clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0])
+      // update setlist's songs with new order
+      setlistsRef.child(this.$route.params.setlist_id).update({songs: clonedItems})
+      notify('success', 'Setlist saved', 'Sorting was successfully saved.')
     }
   },
   mounted: function() {
@@ -890,28 +900,6 @@ var ShowSetlist = Vue.extend({
         }
       })
     })
-
-    // make setlist sortable
-    if (ADMIN) {
-      var self = this
-      self.$nextTick(function(){
-        // make song table rows sortable (drag and drop)
-        var sortable = Sortable.create(document.getElementById('show-setlist-sort'), {
-          // on drop: clone items, set new order and update setlist with new ordered items
-          onEnd: function(e) {
-            var clonedItems = self.setlist.songs.filter(function(item){
-              return item
-            })
-            clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0])
-            self.$nextTick(function(){
-              // update setlist's songs with new order
-              setlistsRef.child(this.$route.params.setlist_id).update({songs: clonedItems})
-            })
-            notify('success', 'Setlist saved', 'Sorting was successfully saved.')
-          }
-        })
-      })
-    }
   }
 })
 

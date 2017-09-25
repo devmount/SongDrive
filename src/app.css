@@ -713,9 +713,9 @@ section .footer {
   backface-visibility: hidden;
   transform: rotate3d(0,0,0,0);
   transition:
-    background-color 100ms ease-out,
-    margin 100ms ease-out,
-    height 100ms ease-out;
+  background-color 100ms ease-out,
+  margin 100ms ease-out,
+  height 100ms ease-out;
   background-color: rgba(0, 0, 0,.1);
   margin: 5px 5px 5px 0;
   border-radius: 0;
@@ -737,4 +737,11 @@ section .footer {
 }
 .vb.vb-dragging-phantom > .vb-dragger > .vb-dragger-styler {
   background-color: rgba(0, 0, 0,.5);
+}
+
+/* Vue Sortable */
+.handle {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
 }
