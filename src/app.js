@@ -54,8 +54,8 @@ pdfMake.fonts = {
 }
 
 // snippet to add fields
-// songsRef.on('child_added', function(snapshot) {
-//     snapshot.ref.update({ tags: '' })
+// setlistsRef.on('child_added', function(snapshot) {
+//     snapshot.ref.update({ active: '0' })
 // })
 
 // external compontent: vue-multiselect
