@@ -196,7 +196,7 @@ var Dashboard = Vue.extend({
         // add data to arrays
         data.push(n)
         labels.push(languages[l].label)
-        colors.push('hsl(84, ' + (65 - 6*l) + '%, ' + (70 - 12*l) + '%)')
+        colors.push('hsl(84, ' + (65 - 6*parseInt(l)) + '%, ' + (70 - 12*parseInt(l)) + '%)')
       }
       // create doughnut chart with data arrays
       new Chart('languages', {
@@ -216,12 +216,12 @@ var Dashboard = Vue.extend({
         }
       })
       // a doughnut chart for song tags
-      var data = getTopTags(songs, 10)
+      data = getTopTags(songs, 10)
       var labels = [], counts = [], colors = []
-      for (i in data) {
+      for (var i in data) {
         labels.push(data[i].label)
         counts.push(data[i].count)
-        colors.push('hsl(84, ' + (65 - 3*i) + '%, ' + (80 - 6*i) + '%)')
+        colors.push('hsl(84, ' + (65 - 3*parseInt(i)) + '%, ' + (80 - 6*parseInt(i)) + '%)')
       }
       // create doughnut chart with data arrays
       new Chart('tags', {
@@ -447,6 +447,7 @@ var AddSetlist = Vue.extend({
       // get existing setlist content
       this.$bindAsObject('clone', setlistsRef.child(this.$route.params.setlist_id))
       setlist = getSetlistObject(this.clone, !this.clone.hasOwnProperty('songs'))
+      setlist.date = getCurrentDate()
       isCloned = true
     } else {
       // get empty setlist object
@@ -557,31 +558,6 @@ var DeleteSong = Vue.extend({
       songsRef.child(this.$route.params.song_id).remove()
       notify('success', 'Song deleted', 'Data was successfully deleted.')
       router.push('/songs')
-    }
-  }
-})
-
-// component: clone setlist
-var CloneSetlist = Vue.extend({
-  template: '#clone-setlist',
-  data: function() {
-    // get setlist from firebase and bind it to this.setlist
-    this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id))
-    return {
-      setlist: this.setlist
-    }
-  },
-  methods: {
-    cloneSetlist: function() {
-      // create new setlist with given setlist
-      clonedSetlist = getSetlistObject(this.setlist, false)
-      // updated title to indicate cloned item
-      clonedSetlist.title = this.setlist.title + ' cloned'
-      // set date to today's date
-      clonedSetlist.date = getCurrentDate()
-      setlistsRef.push(clonedSetlist)
-      notify('success', 'Setlist cloned', 'Setlist was successfully cloned.')
-      router.push('/setlists')
     }
   }
 })
@@ -841,7 +817,7 @@ var ShowSetlist = Vue.extend({
             if (n > 0) {
               data.push(n)
               labels.push(languages[l].label)
-              colors.push('hsl(84, ' + (65 - 6*l) + '%, ' + (70 - 12*l) + '%)')
+              colors.push('hsl(84, ' + (65 - 6*parseInt(l)) + '%, ' + (70 - 12*parseInt(l)) + '%)')
             }
           }
           // create doughnut chart with data arrays
@@ -1210,7 +1186,7 @@ function getPdfSetlistObject(setlist, songs) {
 // http://stackoverflow.com/questions/13405129/javascript-create-and-save-file
 function download(data, filename) {
   var a = document.createElement('a'),
-    file = new Blob([data], {encoding:'UTF-8', type:'text/plain;charset=UTF-8'})
+    file = new Blob([data], { type:'text/plain;charset=UTF-8' })
   if (window.navigator.msSaveOrOpenBlob) // IE10+
     window.navigator.msSaveOrOpenBlob(file, filename)
   else { // Others
@@ -1568,6 +1544,8 @@ function parseSongContent(content) {
   // if no parts (no markers set): take whole content as one unclassified part
   else {
     newContent.push({
+      type: '',
+      number: 0,
       class: '',
       content: content
     })
@@ -1591,7 +1569,7 @@ function getRandomProperty(obj, n) {
 
 // get <n> different ids of popular songs from given <setlists> objects
 function getPopularSongs(setlists, n) {
-  ids = {}
+  var ids = {}
   setlists.forEach(function(setlist, i) {
     setlist.songs.forEach(function(id) {
       if (!ids.hasOwnProperty(id)) {
@@ -1638,20 +1616,20 @@ function getTopTags(songs, n) {
 }
 
 // get current date in yyyy-mm-dd format
-// http://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
+// @see http://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
 function getCurrentDate() {
   // get current date object
   var today = new Date()
-  var dd = today.getDate()
-  var mm = today.getMonth() + 1 //January is 0!
+  var dd = today.getDate().toString()
+  var mm = (today.getMonth() + 1).toString() //January is 0!
   var yyyy = today.getFullYear()
   // add preceding zeros
-  if (dd < 10) {
+  if (parseInt(dd) < 10) {
     dd = '0' + dd
   }
-  if (mm < 10) {
+  if (parseInt(mm) < 10) {
     mm = '0' + mm
   }
   // return formatted date
-  return yyyy + '-' + mm + '-' + dd
+  return (yyyy + '-' + mm + '-' + dd)
 };
