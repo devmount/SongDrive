@@ -1071,6 +1071,16 @@
               </canvas>
             </div>
           </div>
+          <div class="small-12 medium-6 large-3 columns">
+            <h2 v-if="activated">Active</h2>
+            <h2 v-else>Inactive</h2>
+            <div class="switch">
+              <input class="switch-input" id="activatePresentation" type="checkbox" v-model="activated">
+              <label class="switch-paddle" for="activatePresentation">
+                <span class="show-for-sr">Activate Setlist</span>
+              </label>
+            </div>
+          </div>
         </div>
         <footer>
           <div class="button-group float-right drop-up">

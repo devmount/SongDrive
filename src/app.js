@@ -770,7 +770,8 @@ var ShowSetlist = Vue.extend({
       this.setlist.songs = []
     }
     return {
-      setlist: this.setlist
+      setlist: this.setlist,
+      activated: this.setlist.active
     }
   },
   methods: {
@@ -792,6 +793,17 @@ var ShowSetlist = Vue.extend({
       // update setlist's songs with new order
       setlistsRef.child(this.$route.params.setlist_id).update({songs: clonedItems})
       notify('success', 'Setlist saved', 'Sorting was successfully saved.')
+    },
+  },
+  watch: {
+    activated: function() {
+      // update setlist's active flag
+      setlistsRef.child(this.$route.params.setlist_id).update({active: this.activated})
+      if (this.activated) {
+        notify('success', 'Setlist saved', 'Setlist was successfully activated.')
+      } else {
+        notify('success', 'Setlist saved', 'Setlist was successfully deactivated.')
+      }
     }
   },
   mounted: function() {
@@ -1229,7 +1241,8 @@ function getSetlistObject(setlist, noSongs) {
   return {
     date:  setlist ? setlist.date : '',
     title: setlist ? setlist.title : '',
-    songs: setlist ? (noSongs ? [] : setlist.songs) : []
+    songs: setlist ? (noSongs ? [] : setlist.songs) : [],
+    active: setlist ? setlist.active : 0,
   }
 }
 
