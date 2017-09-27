@@ -939,6 +939,7 @@
           <table class="hover">
             <thead>
               <tr>
+                <th width="21"></th>
                 <th width="140">Date</th>
                 <th>Title</th>
                 <th class="show-for-medium"># Songs</th>
@@ -947,6 +948,14 @@
             </thead>
             <tbody>
               <tr v-for="setlist in filteredSetlists.reverse()" :key="setlist['.key']">
+                <td v-if="setlist.active" class="active">
+                  <i class="fa fa-circle fa-fw" aria-hidden="true"></i>
+                  <span class="sr-only">Setlist is active</span>
+                </td>
+                <td v-else>
+                  <i class="fa fa-circle-thin fa-fw" aria-hidden="true"></i>
+                  <span class="sr-only">Setlist is inactive</span>
+                </td>
                 <td class="link-cell">
                   <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
                     {{ setlist.date }}

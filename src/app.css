@@ -94,6 +94,9 @@ footer > .button-group > .button {
 .tag-link .label {
   cursor: pointer;
 }
+.active {
+  color: #88b544;
+}
 
 /* app content container */
 .scrollbar {
