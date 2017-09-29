@@ -55,7 +55,7 @@ pdfMake.fonts = {
 
 // snippet to add fields
 // setlistsRef.on('child_added', function(snapshot) {
-//     snapshot.ref.update({ active: false })
+//     snapshot.ref.update({ position: 0 })
 // })
 
 // external compontent: vue-multiselect
@@ -937,6 +937,7 @@ var PresentSetlist = Vue.extend({
       setlist: this.setlist,
       textOnly: false,
       showClock: true,
+      joined: false,
       position: 0,
       swipeOptions: {
         startSlide: 0,
@@ -962,6 +963,10 @@ var PresentSetlist = Vue.extend({
     },
     updatePosition: function() {
       this.position = this.$refs.presentationSwipe.getPos()
+      // update synced position if active, TODO: role ADMIN?
+      if (this.setlist.active && ADMIN) {
+        setlistsRef.child(this.$route.params.setlist_id).update({ position: this.position })
+      }
     },
     // split song.content into two parts of most equal length without splitting song parts
     getTwoColumns: function(content) {
@@ -1006,6 +1011,18 @@ var PresentSetlist = Vue.extend({
         up: this.prev,
         // clock
         c: this.toggleClock,
+      }
+    }
+  },
+  watch: {
+    'setlist.position': function() {
+      if (this.joined) {
+        this.slide(this.setlist.position, 300)
+      }
+    },
+    joined: function() {
+      if (this.joined) {
+        this.slide(this.setlist.position, 300)
       }
     }
   }

@@ -369,6 +369,15 @@ section .footer {
 .container > .presentation > footer {
   background: rgba(0, 0, 0,.5);
 }
+.container > .presentation .switch {
+  margin: .875em 1em 0 0;
+}
+.container > .presentation .switch .switch-paddle {
+  background: #444;
+}
+.container > .presentation .switch input:checked~.switch-paddle {
+  background: #88b544;
+}
 
 /* search */
 .search {

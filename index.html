@@ -1074,6 +1074,7 @@
         </div>
         <div class="row tm" v-if="setlist.songs.length > 0">
           <div class="small-12 medium-6 large-3 columns">
+            <h2>Stats</h2>
             <div class="callout small">
               <canvas id="setlist-languages" class="doughnut">
                 Chart for displaying a doughnut chart for song languages in setlist
@@ -1081,12 +1082,13 @@
             </div>
           </div>
           <div class="small-12 medium-6 large-3 columns">
-            <h2 v-if="setlist.active">Active</h2>
-            <h2 v-else>Inactive</h2>
+            <h2>Sync</h2>
+            <h4>Host</h4>
+            <p>Here you can host this setlists presentation.</p>
             <div class="switch">
-              <input class="switch-input" id="activatePresentation" type="checkbox" v-model="setlist.active">
-              <label class="switch-paddle" for="activatePresentation" @click.prevent="activation(!setlist.active)">
-                <span class="show-for-sr">Activate Setlist</span>
+              <input class="switch-input" id="hostPresentation" type="checkbox" v-model="setlist.active">
+              <label class="switch-paddle" for="hostPresentation" @click.prevent="activation(!setlist.active)">
+                <span class="show-for-sr">Host Setlist</span>
               </label>
             </div>
           </div>
@@ -1342,11 +1344,17 @@
           </swipe-item>
         </swipe>
         <nav class="swipe-bullets">
-          <a v-for="(key, index) in setlist.songs" :class="index == position ? 'is-active' : ''" @click="slide(index, 300)"></a>
+          <a v-for="(key, index) in setlist.songs" :class="index == ( joined ? setlist.position : position ) ? 'is-active' : ''" @click="slide(index, 300)"></a>
         </nav>
         <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
         <footer>
           <div class="button-group float-right">
+            <div class="switch">
+              <input class="switch-input" id="joinPresentation" type="checkbox" v-model="joined">
+              <label class="switch-paddle" for="joinPresentation">
+                <span class="show-for-sr">Join Setlist</span>
+              </label>
+            </div>
             <a class="hollow hidden button" @click="prev()">
               <i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i>
             </a>
