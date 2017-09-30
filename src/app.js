@@ -105,7 +105,7 @@ Vue.component('song-form-fields', {
     }
   },
   methods: {
-    addTag (newTag) {
+    addTag: function(newTag) {
       this.tags.push(newTag)
       this.song.tags.push(newTag)
     }
