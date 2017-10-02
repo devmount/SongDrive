@@ -283,7 +283,7 @@
             <tr v-for="songkey in setlist.songs" :key="songkey">
               <template v-for="song in songs">
                 <template v-if="song['.key'] == songkey">
-                  <td class="handle"><i class="fa fa-reorder fa-fw" aria-hidden="true"></i></td>
+                  <td class="handle" v-show="ADMIN"><i class="fa fa-reorder fa-fw" aria-hidden="true"></i></td>
                   <td class="list-item">
                     {{ song.title }}
                     <span class="less-important">&nbsp;{{ song.subtitle }}</span>
@@ -1031,7 +1031,7 @@
             <table class="hover">
               <thead>
                 <tr>
-                  <th></th>
+                  <th v-show="ADMIN"></th>
                   <th>Title</th>
                   <th class="text-center">Language</th>
                   <th class="text-center">Tuning</th>
@@ -1043,7 +1043,7 @@
                 <tr v-for="songkey in setlist.songs" :key="songkey">
                   <template v-for="song in songs">
                     <template v-if="song['.key'] == songkey">
-                      <td class="handle"><i class="fa fa-reorder fa-fw" aria-hidden="true"></i></td>
+                      <td class="handle" v-show="ADMIN"><i class="fa fa-reorder fa-fw" aria-hidden="true"></i></td>
                       <td>
                         {{ song.title }} <span class="less-important">({{ song.subtitle }})</span>
                       </td>
@@ -1081,7 +1081,7 @@
               </canvas>
             </div>
           </div>
-          <div class="small-12 medium-6 large-3 columns">
+          <div class="small-12 medium-6 large-3 columns" v-show="ADMIN">
             <h2>Sync</h2>
             <h4>Host</h4>
             <p>Here you can host this setlists presentation.</p>
