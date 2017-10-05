@@ -1287,7 +1287,7 @@
         </header>
         <div class="row">
           <div class="small-12 medium-6 columns">
-            <h2>Normal Text</h2>
+            <h2><i class="fa fa-align-left" aria-hidden="true"></i> Normal</h2>
             <div v-for="key, i in setlist.songs">
               <template v-for="song in songs">
                 <template v-if="song['.key'] == key">
@@ -1297,11 +1297,23 @@
             </div>
           </div>
           <div class="small-12 medium-6 columns">
-            <h2><i class="fa fa-slack" aria-hidden="true"></i> Slack formatted</h2>
+            <h2><i class="fa fa-slack" aria-hidden="true"></i> Slack</h2>
             <div v-for="key, i in setlist.songs">
               <template v-for="song in songs">
                 <template v-if="song['.key'] == key">
                   {{ i+1 }}. *{{ song.title }}*&nbsp;&nbsp;– _{{ song.subtitle }}_ *` {{ song.tuning }} `*
+                </template>
+              </template>
+            </div>
+          </div>
+        </div>
+        <div class="row tm">
+          <div class="small-12 medium-6 columns">
+            <h2><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i> Markdown</h2>
+            <div v-for="key, i in setlist.songs">
+              <template v-for="song in songs">
+                <template v-if="song['.key'] == key">
+                  {{ i+1 }}. **{{ song.title }}**&nbsp;&nbsp;– _{{ song.subtitle }}_ [**` {{ song.tuning }} `**]
                 </template>
               </template>
             </div>
