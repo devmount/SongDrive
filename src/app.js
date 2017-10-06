@@ -434,7 +434,7 @@ var AddSong = Vue.extend({
         }, this)
       }
       notify('success', 'Song added', 'Data was successfully saved.')
-      router.push('/songs')
+      router.push({ name: 'songs' })
     }
   }
 })
@@ -468,7 +468,8 @@ var AddSetlist = Vue.extend({
     createSetlist: function() {
       setlistsRef.push(this.setlist)
       notify('success', 'Setlist added', 'Data was successfully saved.')
-      router.push('/setlists')
+      router.push({ name: 'setlists' })
+      router.push({ name: 'tagged-songs', params: { tag: this.tag }})
     }
   }
 })
@@ -517,7 +518,7 @@ var EditSong = Vue.extend({
         }, this)
       }
       notify('success', 'Song updated', 'Data was successfully saved.')
-      router.push('/song/' + this.$route.params.song_id)
+      router.push({ name: 'show-song', params: { song_id: this.$route.params.song_id }})
     }
   }
 })
@@ -543,7 +544,7 @@ var EditSetlist = Vue.extend({
     updateSetlist: function() {
       setlistsRef.child(this.$route.params.setlist_id).update(getSetlistObject(this.setlist, false))
       notify('success', 'Setlist updated', 'Data was successfully saved.')
-      router.push('/setlist/' + this.$route.params.setlist_id)
+      router.push({ name: 'show-setlist', params: { setlist_id: this.$route.params.setlist_id }})
     }
   }
 })
@@ -562,7 +563,7 @@ var DeleteSong = Vue.extend({
     removeSong: function() {
       songsRef.child(this.$route.params.song_id).remove()
       notify('success', 'Song deleted', 'Data was successfully deleted.')
-      router.push('/songs')
+      router.push({ name: 'songs' })
     }
   }
 })
@@ -581,7 +582,7 @@ var DeleteSetlist = Vue.extend({
     removeSetlist: function() {
       setlistsRef.child(this.$route.params.setlist_id).remove()
       notify('success', 'Setlist deleted', 'Data was successfully deleted.')
-      router.push('/setlists')
+      router.push({ name: 'setlists' })
     }
   }
 })
