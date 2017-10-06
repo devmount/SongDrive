@@ -445,7 +445,7 @@
                 <table class="hover" v-if="songs.length > 0">
                   <tr v-for="tag in getTopTags(songs, 8)">
                     <td class="link-cell">
-                      <router-link :to="{name: 'tagged-songs', params: {tag: tag.label}}">
+                      <router-link :to="{name: 'songs-by-tag', params: {tag: tag.label}}">
                         {{ tag.label }} ({{ tag.count }})
                       </router-link>
                     </td>
@@ -485,7 +485,11 @@
       <app-header></app-header>
       <section>
         <header>
-          <h1 v-if="songs.length > 0 || songs.length == 0 && tag">{{ filteredSongs.length }} Songs {{ tag ? '[' + tag + ']' : '' }}</h1>
+          <h1 v-if="songs.length > 0">
+            {{ filteredSongs.length }} Songs 
+            {{ tag ? '[' + tag + ']' : '' }}
+            {{ tuning ? '[' + tuning + ']' : '' }}
+          </h1>
           <h1 v-else>Loading Songs ...</h1>
         </header>
         <div class="row medium-collapse small-collapse search tags">
@@ -504,15 +508,20 @@
             </multiselect>
           </div>
         </div>
-        <div v-if="songs.length == 0 && !tag" class="row">
+        <div v-if="songs.length == 0 && !tag && !tuning" class="row">
           <div class="small-12 columns loading">
             <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
             <span class="sr-only">Loading...</span>
           </div>
         </div>
-        <div v-if="songs.length == 0 && tag" class="row">
+        <div v-else-if="songs.length == 0 && tag" class="row">
           <div class="small-12 columns loading">
             Sorry, there is no song tagged <i>{{ tag }}</i>.
+          </div>
+        </div>
+        <div v-else-if="songs.length == 0 && tuning" class="row">
+          <div class="small-12 columns loading">
+            Sorry, there is no song tuned in <i>{{ tuning.toUpperCase() }}</i>.
           </div>
         </div>
         <div v-else class="row">
@@ -655,7 +664,7 @@
           <div class="columns footer">
             <p v-if="song.authors">{{ song.authors }}</p>
             <p v-if="song.tags">
-              <router-link v-for="tag in song.tags" class="tag-link" :to="{name: 'tagged-songs', params: {tag: tag}}">
+              <router-link v-for="tag in song.tags" class="tag-link" :to="{name: 'songs-by-tag', params: {tag: tag}}">
                 <span class="label info"><i class="fa fa-tag" aria-hidden="true"></i> {{ tag }}</span>
               </router-link>
             </p>

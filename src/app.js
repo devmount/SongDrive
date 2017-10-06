@@ -330,7 +330,8 @@ var ListSongs = Vue.extend({
     return {
       searchKey: '',
       tags: tags,
-      tag: this.$route.params.tag
+      tag: this.$route.params.tag,
+      tuning: this.$route.params.tuning,
     }
   },
   methods: {
@@ -338,7 +339,7 @@ var ListSongs = Vue.extend({
       if (this.tag == 'All') {
         router.push({ name: 'songs' })
       } else {
-        router.push({ name: 'tagged-songs', params: { tag: this.tag }})
+        router.push({ name: 'songs-by-tag', params: { tag: this.tag }})
       }
     }
   },
@@ -354,7 +355,11 @@ var ListSongs = Vue.extend({
     document.getElementById('search').focus()
     // load initial tag filter if set
     if (this.$route.params.tag) {
-      this.songs = taggedSongs(this.songs, this.$route.params.tag)
+      this.songs = songsByTag(this.songs, this.$route.params.tag)
+    }
+    // load initial tuning filter if set
+    if (this.$route.params.tuning) {
+      this.songs = songsByTuning(this.songs, this.$route.params.tuning)
     }
   }
 })
@@ -469,7 +474,7 @@ var AddSetlist = Vue.extend({
       setlistsRef.push(this.setlist)
       notify('success', 'Setlist added', 'Data was successfully saved.')
       router.push({ name: 'setlists' })
-      router.push({ name: 'tagged-songs', params: { tag: this.tag }})
+      router.push({ name: 'songs-by-tag', params: { tag: this.tag }})
     }
   }
 })
@@ -1041,7 +1046,8 @@ var router = new VueRouter({
     {name: 'home',            component: Dashboard,      path: '/'},
     // songs
     {name: 'songs',           component: ListSongs,      path: '/songs'},
-    {name: 'tagged-songs',    component: ListSongs,      path: '/songs/tag/:tag'},
+    {name: 'songs-by-tag',    component: ListSongs,      path: '/songs/tag/:tag'},
+    {name: 'songs-by-tuning', component: ListSongs,      path: '/songs/tuning/:tuning'},
     {name: 'add-song',        component: AddSong,        path: '/song/add'},
     {name: 'show-song',       component: ShowSong,       path: '/song/:song_id'},
     {name: 'present-song',    component: PresentSong,    path: '/song/:song_id/fullscreen'},
@@ -1365,7 +1371,7 @@ function filterSongs(songs, searchKey) {
 }
 
 // filter <songs> list by <tag>
-function taggedSongs(songs, tag) {
+function songsByTag(songs, tag) {
   return songs.filter(function(song) {
     // filter field: tags
     var tags = []
@@ -1373,6 +1379,14 @@ function taggedSongs(songs, tag) {
       tags.push(song.tags[i].toLowerCase())
     }
     return tags.indexOf(tag.toLowerCase()) !== -1
+  })
+}
+
+// filter <songs> list by <tuning>
+function songsByTuning(songs, tuning) {
+  return songs.filter(function(song) {
+    // filter field: tuning
+    return song.tuning.toLowerCase() == tuning.toLowerCase()
   })
 }
 
