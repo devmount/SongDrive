@@ -335,7 +335,11 @@ var ListSongs = Vue.extend({
   },
   methods: {
     loadTag: function() {
-      router.push('/songs/' + this.tag)
+      if (this.tag == 'All') {
+        router.push({ name: 'songs' })
+      } else {
+        router.push({ name: 'tagged-songs', params: { tag: this.tag }})
+      }
     }
   },
   computed: {
@@ -348,7 +352,8 @@ var ListSongs = Vue.extend({
   mounted: function() {
     // set initial focus to search input
     document.getElementById('search').focus()
-    if(this.$route.params.tag) {
+    // load initial tag filter if set
+    if (this.$route.params.tag) {
       this.songs = taggedSongs(this.songs, this.$route.params.tag)
     }
   }
@@ -1034,8 +1039,8 @@ var router = new VueRouter({
     // dashboard
     {name: 'home',            component: Dashboard,      path: '/'},
     // songs
-    {name: 'songs',           component: ListSongs,      path: '/songs/(all)?'},
-    {name: 'tagged-songs',    component: ListSongs,      path: '/songs/:tag'},
+    {name: 'songs',           component: ListSongs,      path: '/songs'},
+    {name: 'tagged-songs',    component: ListSongs,      path: '/songs/tag/:tag'},
     {name: 'add-song',        component: AddSong,        path: '/song/add'},
     {name: 'show-song',       component: ShowSong,       path: '/song/:song_id'},
     {name: 'present-song',    component: PresentSong,    path: '/song/:song_id/fullscreen'},
