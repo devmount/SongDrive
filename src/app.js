@@ -260,57 +260,61 @@ var Dashboard = Vue.extend({
         }
       }
       // create bar chart with setlist number arrays
-      new Chart('setlists-per-year', {
-        type: 'bar',
-        data: {
-          labels: Object.keys(setlistNumber),
-          datasets: [{
-            data: Object.keys(setlistNumber).map(function(key) { return setlistNumber[key] }),
-            backgroundColor: '#88b544',
-            borderColor: '#fff',
-            borderWidth: 2,
-          }]
-        },
-        options: {
-          legend: false,
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
+      if (document.getElementById('setlists-per-year')) {
+        new Chart('setlists-per-year', {
+          type: 'bar',
+          data: {
+            labels: Object.keys(setlistNumber),
+            datasets: [{
+              data: Object.keys(setlistNumber).map(function(key) { return setlistNumber[key] }),
+              backgroundColor: '#88b544',
+              borderColor: '#fff',
+              borderWidth: 2,
             }]
           },
-          title: {
-            text: 'SETLISTS PER YEAR'
+          options: {
+            legend: false,
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            },
+            title: {
+              text: 'SETLISTS PER YEAR'
+            }
           }
-        }
-      })
+        })
+      }
       // create bar chart with song number arrays
-      new Chart('songs-per-year', {
-        type: 'bar',
-        data: {
-          labels: Object.keys(songNumber),
-          datasets: [{
-            data: Object.keys(songNumber).map(function(key ) { return songNumber[key] }),
-            backgroundColor: '#88b544',
-            borderColor: '#fff',
-            borderWidth: 2,
-          }]
-        },
-        options: {
-          legend: false,
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
+      if (document.getElementById('songs-per-year')) {
+        new Chart('songs-per-year', {
+          type: 'bar',
+          data: {
+            labels: Object.keys(songNumber),
+            datasets: [{
+              data: Object.keys(songNumber).map(function(key ) { return songNumber[key] }),
+              backgroundColor: '#88b544',
+              borderColor: '#fff',
+              borderWidth: 2,
             }]
           },
-          title: {
-            text: 'SONGS PER YEAR'
+          options: {
+            legend: false,
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            },
+            title: {
+              text: 'SONGS PER YEAR'
+            }
           }
-        }
-      })
+        })
+      }
     })
   }
 })
@@ -815,54 +819,56 @@ var ShowSetlist = Vue.extend({
     }
   },
   mounted: function() {
-    setlistsRef.child(this.$route.params.setlist_id).on('value', function(setlistSnap) {
-      songsRef.on('value', function(songSnap) {
-        // a doughnut chart for setlist languages
-        var setlist = setlistSnap.val()
-        var songs = songSnap.val()
-        var data = [], labels = [], colors = []
-        var languages = getLanguages()
-        if (setlist.songs) {
-          // for each existing languages count number of setlist songs in that language
-          for (var l in languages) {
-            var n = 0
-            for (var i in setlist.songs) {
-              for (var j in songs) {
-                if (j == setlist.songs[i] && songs[j].language == languages[l].key) {
-                  n++
+    if (document.getElementById('setlist-languages')) {
+      setlistsRef.child(this.$route.params.setlist_id).on('value', function(setlistSnap) {
+        songsRef.on('value', function(songSnap) {
+          // a doughnut chart for setlist languages
+          var setlist = setlistSnap.val()
+          var songs = songSnap.val()
+          var data = [], labels = [], colors = []
+          var languages = getLanguages()
+          if (setlist.songs) {
+            // for each existing languages count number of setlist songs in that language
+            for (var l in languages) {
+              var n = 0
+              for (var i in setlist.songs) {
+                for (var j in songs) {
+                  if (j == setlist.songs[i] && songs[j].language == languages[l].key) {
+                    n++
+                  }
                 }
               }
-            }
-            // add data to arrays
-            if (n > 0) {
-              data.push(n)
-              labels.push(languages[l].label)
-              colors.push('hsl(84, ' + (65 - 6*parseInt(l)) + '%, ' + (70 - 12*parseInt(l)) + '%)')
-            }
-          }
-          // create doughnut chart with data arrays
-          new Chart('setlist-languages', {
-            type: 'doughnut',
-            data: {
-              labels: labels,
-              datasets: [{
-                data: data,
-                backgroundColor: colors,
-                hoverBackgroundColor: colors
-              }]
-            },
-            options: {
-              animation:{
-                animateRotate: false
-              },
-              title: {
-                text: 'LANGUAGES'
+              // add data to arrays
+              if (n > 0) {
+                data.push(n)
+                labels.push(languages[l].label)
+                colors.push('hsl(84, ' + (65 - 6*parseInt(l)) + '%, ' + (70 - 12*parseInt(l)) + '%)')
               }
             }
-          })
-        }
+            // create doughnut chart with data arrays
+            new Chart('setlist-languages', {
+              type: 'doughnut',
+              data: {
+                labels: labels,
+                datasets: [{
+                  data: data,
+                  backgroundColor: colors,
+                  hoverBackgroundColor: colors
+                }]
+              },
+              options: {
+                animation:{
+                  animateRotate: false
+                },
+                title: {
+                  text: 'LANGUAGES'
+                }
+              }
+            })
+          }
+        })
       })
-    })
+    }
   }
 })
 

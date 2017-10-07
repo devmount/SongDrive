@@ -1,6 +1,6 @@
 {
   "name": "songdrive",
-  "version": "0.2.0",
+  "version": "0.2.5",
   "description": "A song management tool to store, synchronize and present songs and setlists, based on Vue.js and Firebase",
   "main": "index.html",
   "repository": "https://github.com/devmount/SongDrive",

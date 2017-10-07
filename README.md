@@ -51,7 +51,7 @@ A song management web application to store, synchronize and present songs and se
     }
     ```
 
-7. To create the necessary database structure, go to *Database* in the left menu, click on the three dot menu on the upper right corner of the database field and choos *Import JSON*. In the following file selection dialog, browse for the file `database.json` and import it.
+7. To create the necessary database structure, go to *Database* in the left menu, click on the three dot menu on the upper right corner of the database field and choos *Import JSON*. In the following file selection dialog, browse for the file `database.json` of this repository and import it.
 8. Now you can open and use SongDrive in your browser by calling the url of the location where you downloaded the project files to, i.e. `example.com/songdrive/` or `file:///your-path/SongDrive/index.html`. You should see two example songs and one example setlist.
 
 ## Licence
