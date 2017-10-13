@@ -2,6 +2,53 @@
 # yarn lockfile v1
 
 
+"@firebase/app@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/app/-/app-0.1.0.tgz#b18e6dbb218f65dd97f042b3c958d6484aacc449"
+  dependencies:
+    "@firebase/util" "^0.1.0"
+
+"@firebase/auth@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.1.0.tgz#f264502cbf48f89e517b6dba8ab24e6c2c1c5c52"
+
+"@firebase/database@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/database/-/database-0.1.0.tgz#77cedb607585b138bcd7db80ac01a6d9ac0a6002"
+  dependencies:
+    "@firebase/util" "^0.1.0"
+    faye-websocket "0.9.3"
+
+"@firebase/firestore@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-0.1.0.tgz#6e42655708b8a528f89461d56154c2a124bc06b6"
+  dependencies:
+    "@firebase/webchannel-wrapper" "^0.2.2"
+
+"@firebase/messaging@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/messaging/-/messaging-0.1.0.tgz#d43acaf1ff8588d25fa8afab13204951f88a3b48"
+  dependencies:
+    "@firebase/util" "^0.1.0"
+
+"@firebase/polyfill@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/polyfill/-/polyfill-0.1.0.tgz#1c38e809f64eb7e73d1d2c26441da3260f31171f"
+  dependencies:
+    promise-polyfill "^6.0.2"
+
+"@firebase/storage@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/storage/-/storage-0.1.0.tgz#257750c984aad433531f4e65744227407fed960e"
+
+"@firebase/util@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase/util/-/util-0.1.0.tgz#c67d92f7d1b3365bfd31e0795dbbffdaf6457dc3"
+
+"@firebase/webchannel-wrapper@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.2.2.tgz#5fb89db77b63ef59378599913d38e28cc4291290"
+
 acorn@^5.0.0:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.1.2.tgz#911cb53e036807cf0fa778dc5d370fbd864246d7"
@@ -37,10 +84,6 @@ base64-js@^1.1.2:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.2.1.tgz#a91947da1f4a516ea38e5b4ec0ec3773675e0886"
 
-base64url@2.0.0, base64url@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/base64url/-/base64url-2.0.0.tgz#eac16e03ea1438eff9423d69baa36262ed1f70bb"
-
 brfs@^1.3.0, brfs@^1.4.0:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/brfs/-/brfs-1.4.3.tgz#db675d6f5e923e6df087fca5859c9090aaed3216"
@@ -70,15 +113,11 @@ browserify-optional@^1.0.0:
     ast-types "^0.7.0"
     browser-resolve "^1.8.1"
 
-buffer-equal-constant-time@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/buffer-equal-constant-time/-/buffer-equal-constant-time-1.0.1.tgz#f8e71132f7ffe6e01a5c9697a4c6f3e48d5cc819"
-
 buffer-equal@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/buffer-equal/-/buffer-equal-0.0.1.tgz#91bc74b11ea405bc916bc6aa908faafa5b4aac4b"
 
-chart.js@2.7.0:
+chart.js@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.0.tgz#330dbbee0c66199eb715f60fbf8ca4029609a529"
   dependencies:
@@ -146,13 +185,6 @@ duplexer2@~0.0.2:
   dependencies:
     readable-stream "~1.1.9"
 
-ecdsa-sig-formatter@1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/ecdsa-sig-formatter/-/ecdsa-sig-formatter-1.0.9.tgz#4bc926274ec3b5abb5016e7e1d60921ac262b2a1"
-  dependencies:
-    base64url "^2.0.0"
-    safe-buffer "^5.0.1"
-
 escodegen@~0.0.24:
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/escodegen/-/escodegen-0.0.28.tgz#0e4ff1715f328775d6cab51ac44a406cd7abffd3"
@@ -217,19 +249,23 @@ faye-websocket@0.9.3:
   dependencies:
     websocket-driver ">=0.5.1"
 
-firebase@4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-4.3.1.tgz#0e6132ee22af323b350d03b6eb1680bb1a6f9ee6"
+firebase@^4.5.1:
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-4.5.1.tgz#882365d350c9bbbe3fe0731343776963cedefd9d"
   dependencies:
+    "@firebase/app" "0.1.0"
+    "@firebase/auth" "0.1.0"
+    "@firebase/database" "0.1.0"
+    "@firebase/firestore" "0.1.0"
+    "@firebase/messaging" "0.1.0"
+    "@firebase/polyfill" "0.1.0"
+    "@firebase/storage" "0.1.0"
     dom-storage "^2.0.2"
-    faye-websocket "0.9.3"
-    jsonwebtoken "^7.3.0"
-    promise-polyfill "^6.0.2"
     xmlhttprequest "^1.8.0"
 
-flatpickr@^3.0.7:
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-3.0.7.tgz#2aa980c0bd83884c0299ee9fba3b7809bea16a29"
+flatpickr@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.0.3.tgz#5877f2ffbfc41480a5d6c19f331188eb9fc3bcea"
 
 font-awesome@^4.7.0:
   version "4.7.0"
@@ -265,13 +301,9 @@ has@^1.0.0:
   dependencies:
     function-bind "^1.0.2"
 
-hoek@2.x.x:
-  version "2.16.3"
-  resolved "https://registry.yarnpkg.com/hoek/-/hoek-2.16.3.tgz#20bb7403d3cea398e91dc4710a8ff1b8274a25ed"
-
 http-parser-js@>=0.4.0:
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.4.8.tgz#763f75c4b771a0bb44653b07070bff6ca7bc5561"
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.4.9.tgz#ea1a04fb64adff0242e9974f297dd4c3cad271e1"
 
 iconv-lite@^0.4.19:
   version "0.4.19"
@@ -289,46 +321,6 @@ isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
 
-isemail@1.x.x:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/isemail/-/isemail-1.2.0.tgz#be03df8cc3e29de4d2c5df6501263f1fa4595e9a"
-
-joi@^6.10.1:
-  version "6.10.1"
-  resolved "https://registry.yarnpkg.com/joi/-/joi-6.10.1.tgz#4d50c318079122000fe5f16af1ff8e1917b77e06"
-  dependencies:
-    hoek "2.x.x"
-    isemail "1.x.x"
-    moment "2.x.x"
-    topo "1.x.x"
-
-jsonwebtoken@^7.3.0:
-  version "7.4.3"
-  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-7.4.3.tgz#77f5021de058b605a1783fa1283e99812e645638"
-  dependencies:
-    joi "^6.10.1"
-    jws "^3.1.4"
-    lodash.once "^4.0.0"
-    ms "^2.0.0"
-    xtend "^4.0.1"
-
-jwa@^1.1.4:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/jwa/-/jwa-1.1.5.tgz#a0552ce0220742cd52e153774a32905c30e756e5"
-  dependencies:
-    base64url "2.0.0"
-    buffer-equal-constant-time "1.0.1"
-    ecdsa-sig-formatter "1.0.9"
-    safe-buffer "^5.0.1"
-
-jws@^3.1.4:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/jws/-/jws-3.1.4.tgz#f9e8b9338e8a847277d6444b1464f61880e050a2"
-  dependencies:
-    base64url "^2.0.0"
-    jwa "^1.1.4"
-    safe-buffer "^5.0.1"
-
 linebreak@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/linebreak/-/linebreak-0.3.0.tgz#0526480a62c05bd679f3e9d99830e09c6a7d0ed6"
@@ -336,10 +328,6 @@ linebreak@^0.3.0:
     base64-js "0.0.8"
     brfs "^1.3.0"
     unicode-trie "^0.3.0"
-
-lodash.once@^4.0.0:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
 
 lodash@^4.17.4:
   version "4.17.4"
@@ -353,13 +341,9 @@ minimist@^1.1.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
-moment@2.x.x, moment@~2.18.0:
+moment@~2.18.0:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
-
-ms@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
 notyf@^2.0.1:
   version "2.0.1"
@@ -393,7 +377,7 @@ pdfkit@^0.8.3:
     linebreak "^0.3.0"
     png-js ">=0.1.0"
 
-pdfmake@^0.1.32:
+pdfmake@^0.1.33:
   version "0.1.33"
   resolved "https://registry.yarnpkg.com/pdfmake/-/pdfmake-0.1.33.tgz#4a5d5fb3520bb95b50e1f9458f08b165db1b5870"
   dependencies:
@@ -483,7 +467,7 @@ restructure@^0.5.3:
   dependencies:
     browserify-optional "^1.0.0"
 
-safe-buffer@^5.0.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
+safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
 
@@ -496,8 +480,8 @@ sortablejs@^1.4.2:
   resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.6.1.tgz#d120d103fbb9f60c7db27814a1384072e6c6e083"
 
 "source-map@>= 0.1.2":
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
 source-map@~0.1.30, source-map@~0.1.33:
   version "0.1.43"
@@ -563,17 +547,11 @@ tiny-inflate@^1.0.0, tiny-inflate@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/tiny-inflate/-/tiny-inflate-1.0.2.tgz#93d9decffc8805bd57eae4310f0b745e9b6fb3a7"
 
-tippy.js@^1.1.3:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-1.2.1.tgz#82bf8594219ef5e786aff045a90ff6943aaacee5"
+tippy.js@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-1.3.0.tgz#9bc8f6a6aa0512ca491504b3b74e5286d4000096"
   dependencies:
     popper.js "^1.12.4"
-
-topo@1.x.x:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/topo/-/topo-1.1.0.tgz#e9d751615d1bb87dc865db182fa1ca0a5ef536d5"
-  dependencies:
-    hoek "2.x.x"
 
 typedarray@^0.0.6:
   version "0.0.6"
@@ -607,13 +585,13 @@ vswipe@^1.0.1:
   dependencies:
     swipe-js-iso "^2.0.3"
 
-vue-multiselect@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.0.2.tgz#9e5a05ace3ccca62fefa2c3b3dd1c484a8a20238"
+vue-multiselect@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.0.3.tgz#bec58f84586022f82c2a3169be1b869f6d9715fc"
 
-vue-router@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-2.7.0.tgz#16d424493aa51c3c8cce8b7c7210ea4c3a89aff1"
+vue-router@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
 
 "vue-sortable@git://github.com/MunGell/vue-sortable#77c26994":
   version "0.1.3"
@@ -621,23 +599,23 @@ vue-router@^2.7.0:
   dependencies:
     sortablejs "^1.4.2"
 
-vue-tippy@^0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/vue-tippy/-/vue-tippy-0.2.8.tgz#4672dd670efc12e8a986bd37d806e4279fcc10a0"
+vue-tippy@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/vue-tippy/-/vue-tippy-0.3.0.tgz#aaed8854c1d5872a9b8b9493d51aade3c2f27460"
   dependencies:
-    tippy.js "^1.1.3"
+    tippy.js "^1.3.0"
 
-vue@2.4.4:
-  version "2.4.4"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.4.4.tgz#ea9550b96a71465fd2b8b17b61673b3561861789"
+vue@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.2.tgz#fd367a87bae7535e47f9dc5c9ec3b496e5feb5a4"
 
 vuebar@^0.0.17:
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/vuebar/-/vuebar-0.0.17.tgz#62de08ffed46291d34588201013d887aa5d332fe"
 
-vuefire@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/vuefire/-/vuefire-1.4.3.tgz#6ad02e10d191efefbc1ca78da1611772289ff74c"
+vuefire@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/vuefire/-/vuefire-1.4.4.tgz#dd05f4f8ce44611e14d833db976dd7be1d1a0161"
 
 websocket-driver@>=0.5.1:
   version "0.7.0"
@@ -654,12 +632,12 @@ xmlhttprequest@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/xmlhttprequest/-/xmlhttprequest-1.8.0.tgz#67fe075c5c24fef39f9d65f5f7b7fe75171968fc"
 
-xtend@^4.0.1, xtend@~4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
-
 xtend@~2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-2.1.2.tgz#6efecc2a4dad8e6962c4901b337ce7ba87b5d28b"
   dependencies:
     object-keys "~0.4.0"
+
+xtend@~4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
