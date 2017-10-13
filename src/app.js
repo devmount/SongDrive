@@ -639,6 +639,8 @@ var ShowSong = Vue.extend({
             content += 'bridge'; break
           case 'i':
             content += 'intro'; break
+          case 'm':
+            content += 'mitro'; break
           case 'o':
             content += 'outro'; break
           default: break
@@ -1569,6 +1571,11 @@ function parseSongContent(content) {
         case 'i':
           types.push('i')
           classes.push('intro')
+          numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
+        case 'M':
+        case 'm':
+          types.push('m')
+          classes.push('mitro')
           numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
         case 'O':
         case 'o':
