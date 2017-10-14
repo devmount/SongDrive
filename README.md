@@ -1,7 +1,7 @@
 # SongDrive
 [![license](https://img.shields.io/badge/license-MIT%20License-88b544.svg?style=flat-square)](./LICENSE) [![release](https://img.shields.io/badge/release-v0.2.5%20beta-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive) [![size](https://img.shields.io/badge/size-808%20KB-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive)
 
-A song management web application to store, synchronize and present songs and setlists, based on [Vue.js 2.4](//vuejs.org/), [Firebase 4.3](//firebase.google.com/) and [Foundation 6.3](//foundation.zurb.com).
+A song management web application to store, synchronize and present songs and setlists, based on [Vue.js 2.5](//vuejs.org/), [Firebase 4.5](//firebase.google.com/) and [Foundation 6.3](//foundation.zurb.com).
 
 ![songdrive-dashboard](https://cloud.githubusercontent.com/assets/5441654/26552994/eb423310-4489-11e7-9566-b0b2c421df7c.png)
 
@@ -53,6 +53,9 @@ A song management web application to store, synchronize and present songs and se
 
 7. To create the necessary database structure, go to *Database* in the left menu, click on the three dot menu on the upper right corner of the database field and choos *Import JSON*. In the following file selection dialog, browse for the file `database.json` of this repository and import it.
 8. Now you can open and use SongDrive in your browser by calling the url of the location where you downloaded the project files to, i.e. `example.com/songdrive/` or `file:///your-path/SongDrive/index.html`. You should see two example songs and one example setlist.
+
+## Song Syntax
+The notation of the song content is simple: Just add the song lines with the corresponding chords above the exact syllable. Chord lines will automatically be recognized by the system for text only view or transposition.
 
 ## Licence
 [MIT License](./LICENSE)
