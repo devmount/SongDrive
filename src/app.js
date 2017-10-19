@@ -1277,6 +1277,7 @@ function getSetlistObject(setlist, noSongs) {
     title: setlist ? setlist.title : '',
     songs: setlist ? (noSongs ? [] : setlist.songs) : [],
     active: setlist ? setlist.active : 0,
+    position: setlist ? setlist.position : 0,
   }
 }
 
