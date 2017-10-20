@@ -764,11 +764,15 @@ var PresentSong = Vue.extend({
       if (this.textOnly) {
         // set song content to content without chords
         this.song.content = removeChords(this.song.content)
+        // show text as large as possible
+        maximizeFontsize()
       }
       // show text + chords (default)
       else {
         // get original song content
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id))
+        // get original font size
+        resetFontsize()
       }
     }
   }
@@ -1273,10 +1277,10 @@ function getSetlistObject(setlist, noSongs) {
   // if setlist is given, return setlist with existing properties
   // else return empty property
   return {
-    date:  setlist ? setlist.date : '',
-    title: setlist ? setlist.title : '',
-    songs: setlist ? (noSongs ? [] : setlist.songs) : [],
-    active: setlist ? setlist.active : 0,
+    date:     setlist ? setlist.date : '',
+    title:    setlist ? setlist.title : '',
+    songs:    setlist ? (noSongs ? [] : setlist.songs) : [],
+    active:   setlist ? setlist.active : 0,
     position: setlist ? setlist.position : 0,
   }
 }
@@ -1694,3 +1698,37 @@ function getCurrentDate() {
   // return formatted date
   return (yyyy + '-' + mm + '-' + dd)
 };
+
+// function to fit children b into their parent a by adjusting the childrens font size
+function maximizeFontsize() {
+  // all parent elements
+  for (a of document.querySelectorAll('.fullscreen .columns')) {
+    // all child elements
+    for (b of a.querySelectorAll('pre')) {
+      b.style.display = 'inline-block'
+      b.style.fontFamily = 'Fira Sans'
+      var fontSize = getComputedStyle(b)['fontSize'].match(/\d+/)[0]
+      // increase font size as long as the child is still smaller than the parent
+      while (getComputedStyle(b)['width'].match(/\d+/)[0] < getComputedStyle(a)['width'].match(/\d+/)[0]*.9) {
+        b.style.fontSize = (fontSize++) + 'px'
+      }
+      // decrease font size if the child width exceeds the parents width
+      while (getComputedStyle(b)['width'].match(/\d+/)[0] > getComputedStyle(a)['width'].match(/\d+/)[0]*.9) {
+        b.style.fontSize = (fontSize--) + 'px'
+      }
+    }
+  }  
+}
+
+// function to reset font size manipulated by maximizeFontsize()
+function resetFontsize() {
+  // all parent elements
+  for (a of document.querySelectorAll('.fullscreen .columns')) {
+    // all child elements
+    for (b of a.querySelectorAll('pre')) {
+      b.style.display = 'block'
+      b.style.fontSize = 'inherit'
+      b.style.fontFamily = 'Fira Mono'
+    }
+  }  
+}
