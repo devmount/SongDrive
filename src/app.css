@@ -326,11 +326,6 @@ section .footer {
 .container > .presentation .swipe-item pre.verse::before {
   background: #000;
 }
-/* .container > .fullscreen pre.textonly,
-.container > .presentation .swipe-item pre.textonly {
-  font-family: "Fira Sans";
-  font-size: 1.4em;
-} */
 @media screen and (max-width: 63.9375em) {
   .container > .fullscreen .row:nth-child(2) .columns:first-child,
   .container > .presentation .row:nth-child(2) .columns:first-child {
