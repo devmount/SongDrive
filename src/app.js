@@ -1718,17 +1718,21 @@ function maximizeFontsize() {
       }
     }
   }  
-  // decrease font size of all parts if it doesnt fit into viewport height
-  // TODO: decrease font size of parts with greatest font size first
-  var vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+  // decrease font size of parts with greatest font size first if it doesnt fit into viewport height
+  var vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)*1.2
   for (r of document.querySelectorAll('.fullscreen .content-row')) {
     // as long as the content row is higher than the viewport
     while (getComputedStyle(r)['height'].match(/\d+/)[0] > vh) {
-      console.log(getComputedStyle(r)['height'].match(/\d+/)[0] + ' > ' + vh)
       for (a of document.querySelectorAll('.fullscreen .columns')) {
-        // decrease font size of all parts
+        // decrease font size of parts with greatest font size
+        var parts = []
         for (b of a.querySelectorAll('pre')) {
-          b.style.fontSize = (getComputedStyle(b)['fontSize'].match(/\d+/)[0] - 1) + 'px'
+          parts.push({ part: b, size: parseInt(getComputedStyle(b)['fontSize'].match(/\d+/)[0])})
+        }
+        parts.sort(function(a, b) { return b.size - a.size; });
+        if (parts.length > 0) {
+          var c = parts[0]
+          c.part.style.fontSize = (c.size - 1) + 'px'
         }
       }
     }

@@ -794,7 +794,9 @@
         </header>
         <div v-if="song.content" class="row expanded small-up-1 medium-up-1 large-up-2 content-row">
           <div class="columns" v-for="column in getTwoColumns(song.content)">
-            <pre v-for="part in parseSongContent(column)" :class="part.class">{{ part.content }}</pre>
+            <div v-for="part in parseSongContent(column)" >
+              <pre :class="part.class">{{ part.content }}</pre>
+            </div>
           </div>
         </div>
         <div class="row expanded">
