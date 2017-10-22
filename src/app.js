@@ -1010,10 +1010,10 @@ var PresentSetlist = Vue.extend({
         this.songs.forEach(function(song) {
           if (this.setlist.songs.indexOf(song['.key']) >= 0) {
             song.content = removeChords(song.content)
+            // show text as large as possible
+            maximizeFontsize('.presentation .' + song['.key'])
           }
         }, this)
-        // show text as large as possible
-        maximizeFontsize('.presentation')
       }
       // show text + chords (default)
       else {
