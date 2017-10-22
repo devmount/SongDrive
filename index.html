@@ -1374,7 +1374,7 @@
         <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
         <footer>
           <div class="button-group float-right">
-            <div class="switch">
+            <div class="switch" v-show="setlist.active">
               <input class="switch-input" id="joinPresentation" type="checkbox" v-model="joined">
               <label class="switch-paddle" for="joinPresentation">
                 <span class="show-for-sr">Join Setlist</span>
