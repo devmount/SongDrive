@@ -765,14 +765,14 @@ var PresentSong = Vue.extend({
         // set song content to content without chords
         this.song.content = removeChords(this.song.content)
         // show text as large as possible
-        maximizeFontsize()
+        maximizeFontsize('.fullscreen')
       }
       // show text + chords (default)
       else {
         // get original song content
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id))
         // get original font size
-        resetFontsize()
+        resetFontsize('.fullscreen')
       }
     }
   }
@@ -1699,10 +1699,10 @@ function getCurrentDate() {
   return (yyyy + '-' + mm + '-' + dd)
 };
 
-// function to fit children b into their parent a by adjusting the childrens font size
-function maximizeFontsize() {
+// function to fit children b into their parent <selector> by adjusting the childrens font size
+function maximizeFontsize(selector) {
   // all parent elements
-  for (a of document.querySelectorAll('.fullscreen .columns')) {
+  for (a of document.querySelectorAll(selector + ' .columns')) {
     // all child elements
     for (b of a.querySelectorAll('pre')) {
       b.style.display = 'inline-block'
@@ -1720,10 +1720,10 @@ function maximizeFontsize() {
   }  
   // decrease font size of parts with greatest font size first if it doesnt fit into viewport height
   var vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)*1.2
-  for (r of document.querySelectorAll('.fullscreen .content-row')) {
+  for (r of document.querySelectorAll(selector + ' .content-row')) {
     // as long as the content row is higher than the viewport
     while (getComputedStyle(r)['height'].match(/\d+/)[0] > vh) {
-      for (a of document.querySelectorAll('.fullscreen .columns')) {
+      for (a of document.querySelectorAll(selector + ' .columns')) {
         // decrease font size of parts with greatest font size
         var parts = []
         for (b of a.querySelectorAll('pre')) {
@@ -1740,9 +1740,9 @@ function maximizeFontsize() {
 }
 
 // function to reset font size manipulated by maximizeFontsize()
-function resetFontsize() {
+function resetFontsize(selector) {
   // all parent elements
-  for (a of document.querySelectorAll('.fullscreen .columns')) {
+  for (a of document.querySelectorAll(selector + ' .columns')) {
     // all child elements
     for (b of a.querySelectorAll('pre')) {
       b.style.display = 'block'
