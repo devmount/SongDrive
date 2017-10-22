@@ -1353,9 +1353,11 @@
           <swipe-item v-for="songkey in setlist.songs" :key="songkey">
             <div v-for="song in songs" v-if="song['.key'] == songkey">
               <h1>{{ song.title }}</h1>
-              <div class="expanded row collapse small-up-1 medium-up-1 large-up-2">
+              <div class="expanded row collapse small-up-1 medium-up-1 large-up-2 content-row">
                 <div class="columns" v-for="column in getTwoColumns(song.content)">
-                  <pre v-for="part in parseSongContent(column)" :class="part.class + (textOnly ? ' textonly' : '')">{{ part.content }}</pre>
+                  <div v-for="part in parseSongContent(column)">
+                    <pre :class="part.class">{{ part.content }}</pre>
+                  </div>
                 </div>
               </div>
               <footer>

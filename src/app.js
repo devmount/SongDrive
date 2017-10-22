@@ -1012,11 +1012,15 @@ var PresentSetlist = Vue.extend({
             song.content = removeChords(song.content)
           }
         }, this)
+        // show text as large as possible
+        maximizeFontsize('.presentation')
       }
       // show text + chords (default)
       else {
         // get original setlist song content
         this.$bindAsArray('songs', songsRef)
+        // get original font size
+        resetFontsize('.presentation')
       }
     },
     toggleClock: function() {
