@@ -1349,7 +1349,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <section class="presentation" v-hotkey="keymap">
-        <swipe ref="presentationSwipe" :options="swipeOptions">
+        <swipe ref="presentationSwipe" :options="swipeOptions" :class="hide ? ' hide' : ''">
           <swipe-item v-for="songkey in setlist.songs" :key="songkey">
             <div v-for="song in songs" v-if="song['.key'] == songkey" :class="song['.key']">
               <h1>{{ song.title }}</h1>
@@ -1386,9 +1386,12 @@
             <a class="hollow hidden button" @click="next()">
               <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i>
             </a>
-            <a class="secondary hollow hidden button" @click="showClock = !showClock">
+            <a class="secondary hollow hidden button" @click="toggleClock">
               <i class="fa fa-clock-o" aria-hidden="true"></i>
               <clock v-if="showClock"></clock>
+            </a>
+            <a class="hollow hidden button" @click="toggleHide" :title="hide ? 'Show presentation' : 'Show black screen'">
+              <i :class="'fa fa-fw ' + (hide ? 'fa-circle-o' : 'fa-ban')" aria-hidden="true"></i>
             </a>
             <a class="hollow hidden button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
               <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>

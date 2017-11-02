@@ -104,6 +104,9 @@ footer > .button-group > .button {
 .hover-show:hover {
   opacity: 1.0;
 }
+.hide > * {
+  opacity: 0.0;
+}
 
 /* app content container */
 .scrollbar {

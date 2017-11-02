@@ -960,6 +960,7 @@ var PresentSetlist = Vue.extend({
       setlist: this.setlist,
       textOnly: false,
       showClock: true,
+      hide: false,
       joined: false,
       position: 0,
       swipeOptions: {
@@ -1025,19 +1026,24 @@ var PresentSetlist = Vue.extend({
     },
     toggleClock: function() {
       this.showClock = !this.showClock
+    },
+    toggleHide: function() {
+      this.hide = !this.hide
     }
   },
   computed: {
     // add hotkeys for presentation navigation
     keymap: function() {
       return {
-        // navigation
+        // presentation navigation
         right: this.next,
         down: this.next,
         left: this.prev,
         up: this.prev,
-        // clock
+        // toggle clock
         c: this.toggleClock,
+        // toggle entire screen fade to black
+        b: this.toggleHide,
       }
     }
   },
