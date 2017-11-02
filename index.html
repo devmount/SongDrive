@@ -1368,11 +1368,11 @@
             </div>
           </swipe-item>
         </swipe>
-        <nav class="swipe-bullets">
-          <a v-for="(key, index) in setlist.songs" :class="index == ( joined ? setlist.position : position ) ? 'is-active' : ''" @click="slide(index, 300)"></a>
-        </nav>
         <div v-if="setlist.songs.length == 0">This setlist doesn't contain any songs yet.</div>
-        <footer>
+        <footer :class="textOnly ? 'hover-show' : ''">
+          <nav class="swipe-bullets">
+            <a v-for="(key, index) in setlist.songs" :class="index == ( joined ? setlist.position : position ) ? 'is-active' : ''" @click="slide(index, 300)"></a>
+          </nav>
           <div class="button-group float-right">
             <div class="switch" v-show="setlist.active">
               <input class="switch-input" id="joinPresentation" type="checkbox" v-model="joined">
