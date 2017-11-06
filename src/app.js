@@ -53,16 +53,6 @@ pdfMake.fonts = {
   }
 }
 
-// snippet to add fields
-// setlistsRef.on('child_added', function(snapshot) {
-//     snapshot.ref.update({ position: 0 })
-// })
-
-// snippet to update all songs
-// songsRef.on('value', function(snapshot) {
-//     snapshot.ref.update({ content: newContent })
-// })
-
 // external compontent: vue-multiselect
 Vue.component('multiselect', VueMultiselect.Multiselect)
 
@@ -1379,13 +1369,12 @@ function getTags() {
   ]
 }
 
-// check if a string <line> represents most likely a chord line, based on the number of spaces
+// check if a string <line> represents a chord line, based on the convention of two spaces at line end
 function isChordLine(line) {
   if (line == '') {
     return false
   }
-  var ratio = (line.split(' ').length - 1)/line.length
-  return ratio > 0.25 || (line.length < 4 && line.charAt(0) != '-')
+  return line.slice(-2) === '  ';
 }
 
 // filter <songs> list by <searchkey>
@@ -1490,6 +1479,13 @@ function transposeChords(action, str) {
           newLine += c
         }
         i++
+      }
+      // make sure that last two characters are spaces for chord line identification
+      if (newLine.slice(-1) !== ' ') {
+        newLine = newLine + ' '
+      }
+      if (newLine.slice(-2) !== '  ') {
+        newLine = newLine + ' '
       }
     }
     // if no chord line: leave line as is
@@ -1765,3 +1761,30 @@ function resetFontsize(selector) {
     }
   }  
 }
+
+// snippet to add fields
+// setlistsRef.on('child_added', function(snapshot) {
+//     snapshot.ref.update({ position: 0 })
+// })
+
+// snippet to update all songs
+// songsRef.once('value', function(snapshot) {
+//   for (var id in snapshot.val()) {
+//     var content = snapshot.val()[id].content
+//     var lines = content.split('\n')
+//     var newLines = []
+//     lines.forEach(function(line) {
+//       // identify chord lines
+//       if (isChordLine(line)) {
+//         // only add text lines to new content
+//         newLines.push(line + '  ')
+//       } else {
+//         newLines.push(line)
+//       }
+//     }, this)
+//     var newSong = snapshot.val()[id]
+//     newSong.content = newLines.join('\n')
+//     console.log(newSong)
+//     songsRef.child(id).update(newSong)
+//   }
+// })
