@@ -58,6 +58,11 @@ pdfMake.fonts = {
 //     snapshot.ref.update({ position: 0 })
 // })
 
+// snippet to update all songs
+// songsRef.on('value', function(snapshot) {
+//     snapshot.ref.update({ content: newContent })
+// })
+
 // external compontent: vue-multiselect
 Vue.component('multiselect', VueMultiselect.Multiselect)
 
@@ -478,7 +483,6 @@ var AddSetlist = Vue.extend({
       setlistsRef.push(this.setlist)
       notify('success', 'Setlist added', 'Data was successfully saved.')
       router.push({ name: 'setlists' })
-      router.push({ name: 'songs-by-tag', params: { tag: this.tag }})
     }
   }
 })
