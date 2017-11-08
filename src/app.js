@@ -2,7 +2,7 @@
 var VERSION = '0.2.5'
 
 // Setup admin mode (if set to false, SongDrive will be in reading mode only)
-var ADMIN = true
+var ADMIN = false
 
 // Setup language
 var LANGUAGE = 'en'
@@ -163,7 +163,11 @@ var Dashboard = Vue.extend({
   data: function() {
     return {
       tags: getTags(),
-      shuffle: []
+      shuffle: [],
+      login: {
+        email: '',
+        password: ''
+      }
     }
   },
   methods: {
@@ -171,6 +175,32 @@ var Dashboard = Vue.extend({
     shuffleSongs: function() {
       // dummy variable to invoke recalculation of getRandomProperty()
       this.shuffle = []
+    },
+    // admin sign in
+    signIn: function() {
+      var self = this
+      firebase.auth().signInWithEmailAndPassword(this.login.email, this.login.password).then(function(){
+        // sign-in successful
+        ADMIN = true
+        notify('success', 'Successfully signed in', 'You\'re now browsing SongDrive as admin.')
+        self.$forceUpdate()
+      }).catch(function(error) {
+        // sign-in failed
+        notify('error', 'You\'re login attempt failed', '<b>' + error.code + '</b>: ' + error.message)
+      })
+    },
+    // admin sign out
+    signOut: function() {
+      var self = this
+      firebase.auth().signOut().then(function() {
+        // sign-out successful
+        ADMIN = false
+        notify('success', 'Successfully signed out', 'You\'re no admin anymore.')
+        self.$forceUpdate()
+      }).catch(function(error) {
+        // an error happened.
+        notify('error', 'You\'re logout attempt failed', '<b>' + error.code + '</b>: ' + error.message)
+      })
     }
   },
   mounted: function() {
@@ -1087,7 +1117,13 @@ var router = new VueRouter({
 // create Vue app
 var app = new Vue({
   el: '#app',
-  router: router
+  router: router,
+  beforeCreate: function() {
+    // check initially if authenticated user exists
+    firebase.auth().onAuthStateChanged(function(user) {
+      ADMIN = user ? true : false
+    }.bind(this))
+  }
 })
 
 

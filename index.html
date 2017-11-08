@@ -441,7 +441,7 @@
                 </div>
               </div>
               <div class="small-6 columns">
-                <h4>Top Tags</h4>
+                <h4>Top 8 Tags</h4>
                 <table class="hover" v-if="songs.length > 0">
                   <tr v-for="tag in getTopTags(songs, 8)">
                     <td class="link-cell">
@@ -456,7 +456,19 @@
           </div>
         </div>
         <div class="row">
-          <div class="small-12 columns">
+          <div class="small-6 columns" v-if="!ADMIN">
+            <h4>Sign in as admin</h4>
+            <input type="email" v-model="login.email" placeholder="Email">
+            <input type="password" v-model="login.password" placeholder="Password">
+            <button class="button" @click="signIn">Sign in</button>
+          </div>
+          <div class="small-6 columns" v-else>
+            <h4>Sign out</h4>
+            Currently signed in as administrator<br />
+            <button class="button" @click="signOut">Sign Out</button>
+          </div>
+          <div class="small-6 columns">
+            <h4>About</h4>
             SongDrive <span class="pre">v{{ VERSION }}</span>
           </div>
         </div>
