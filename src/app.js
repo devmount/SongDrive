@@ -163,7 +163,7 @@ var Dashboard = Vue.extend({
   data: function() {
     return {
       tags: getTags(),
-      shuffle: [],
+      randomSongs: null,
       login: {
         email: '',
         password: ''
@@ -173,8 +173,8 @@ var Dashboard = Vue.extend({
   methods: {
     // shuffle song list
     shuffleSongs: function() {
-      // dummy variable to invoke recalculation of getRandomProperty()
-      this.shuffle = []
+      // invoke recalculation of random songs list
+      this.randomSongs = getRandomProperty(this.songs, 6)
     },
     // admin sign in
     signIn: function() {
@@ -205,7 +205,10 @@ var Dashboard = Vue.extend({
   },
   mounted: function() {
     // get snapshot of song list
+    var self = this
     songsRef.on('value', function(snap) {
+      // initially shuffle songs
+      self.shuffleSongs()
       var songs = snap.val()
       // a doughnut chart for song languages
       var data = [], labels = [], colors = []

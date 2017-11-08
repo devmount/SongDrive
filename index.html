@@ -333,8 +333,8 @@
               </div>
               <div class="small-6 columns">
                 <h4>Random</h4>
-                <table class="hover" v-if="songs.length > 6 && shuffle">
-                  <tr v-for="song in getRandomProperty(songs, 6)">
+                <table class="hover" v-if="songs.length > 6">
+                  <tr v-for="song in randomSongs">
                     <td class="link-cell">
                       <router-link :to="{name: 'show-song', params: {song_id: song['.key']}}">
                         {{ song.title.substr(0, 30) }} <span v-if="song.title.length > 30">...</span>
