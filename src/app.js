@@ -95,8 +95,7 @@ Vue.component('song-form-fields', {
   computed: {
     // apply filter
     filteredSongs: function() {
-      var self = this
-      return filterSongs(self.songs, self.searchKey)
+      return filterSongs(this.songs, this.searchKey)
     }
   },
   methods: {
@@ -137,8 +136,7 @@ Vue.component('setlist-form-fields', {
   computed: {
     // apply filter
     filteredSongs: function() {
-      var self = this
-      return filterSongs(self.songs, self.searchKey)
+      return filterSongs(this.songs, this.searchKey)
     }
   },
   mounted: function() {
@@ -378,8 +376,7 @@ var ListSongs = Vue.extend({
   computed: {
     // apply filter
     filteredSongs: function() {
-      var self = this
-      return filterSongs(self.songs, self.searchKey)
+      return filterSongs(this.songs, this.searchKey)
     }
   },
   mounted: function() {
