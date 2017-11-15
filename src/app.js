@@ -774,12 +774,16 @@ var PresentSong = Vue.extend({
     // split song.content into two parts of most equal length without splitting song parts
     getTwoColumns: function(content) {
       var parts = content.split('\n\n')
-      var half_length = Math.floor(parts.length / 2)
-      var leftSide = parts.splice(0, half_length)
-      return [
-        leftSide.join('\n\n'),
-        parts.join('\n\n'),
-      ]
+      if (parts.length > 1) {
+        var half_length = Math.floor(parts.length / 2)
+        var leftSide = parts.splice(0, half_length)
+        return [
+          leftSide.join('\n\n'),
+          parts.join('\n\n'),
+        ]
+      } else {
+        return [content]
+      }
     },
     toggleChords: function() {
       // update toggle button
@@ -1019,12 +1023,16 @@ var PresentSetlist = Vue.extend({
     // split song.content into two parts of most equal length without splitting song parts
     getTwoColumns: function(content) {
       var parts = content.split('\n\n')
-      var half_length = Math.floor(parts.length / 2)
-      var leftSide = parts.splice(0, half_length)
-      return [
-        leftSide.join('\n\n'),
-        parts.join('\n\n'),
-      ]
+      if (parts.length > 1) {
+        var half_length = Math.floor(parts.length / 2)
+        var leftSide = parts.splice(0, half_length)
+        return [
+          leftSide.join('\n\n'),
+          parts.join('\n\n'),
+        ]
+      } else {
+        return [content]
+      }
     },
     toggleChords: function() {
       // toggle textOnly
