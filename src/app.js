@@ -450,7 +450,7 @@ var AddSong = Vue.extend({
       // only store language keys, not the whole language object
       this.song.language = this.song.language.key
       // store new song
-      var newsong = songsRef.push(this.song)
+      var newSong = songsRef.push(this.song)
       // update all songs that are a translation with back link
       if (this.song.translations && this.song.translations.length > 0) {
         this.song.translations.forEach(function(id) {
@@ -463,12 +463,12 @@ var AddSong = Vue.extend({
           // get proper song object
           this.tsong = getSongObject(this.tsong, false)
           // add this.song to translations of translated song
-          this.tsong.translations.push(newsong.key)
+          this.tsong.translations.push(newSong.key)
           songsRef.child(id).set(this.tsong)
         }, this)
       }
       notify('success', 'Song added', 'Data was successfully saved.')
-      router.push({ name: 'songs' })
+      router.push({ name: 'show-song', params: { song_id: newSong.key }})
     }
   }
 })
@@ -500,9 +500,9 @@ var AddSetlist = Vue.extend({
   },
   methods: {
     createSetlist: function() {
-      setlistsRef.push(this.setlist)
+      var newSetlist = setlistsRef.push(this.setlist)
       notify('success', 'Setlist added', 'Data was successfully saved.')
-      router.push({ name: 'setlists' })
+      router.push({ name: 'show-setlist', params: { setlist_id: newSetlist.key }})
     }
   }
 })
