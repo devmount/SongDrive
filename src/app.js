@@ -19,6 +19,9 @@ var notyf = new Notyf({
   confirmIcon: 'fa fa-check fa-2x'
 })
 
+// Setup Clipboard
+var clipboard = new Clipboard('.clipboard');
+
 // Setup ChartJS
 Chart.defaults.global.defaultFontFamily     = 'Fira Sans'
 Chart.defaults.global.title.display         = true
@@ -940,6 +943,17 @@ var TxtList = Vue.extend({
     this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id))
     return {
       setlist: this.setlist
+    }
+  },
+  methods: {
+    copy: function() {
+      clipboard.on('success', function(e) {
+        e.clearSelection()
+        notify('success', 'Copied!', 'Setlist was successfully copied to your clipboard.')
+      });
+      clipboard.on('error', function(e) {
+        notify('error', 'Not Copied!', 'Sorry, you can\'t copy something to your clipboard.')
+      });
     }
   }
 })

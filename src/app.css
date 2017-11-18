@@ -762,3 +762,10 @@ section .footer {
   cursor: -moz-grab;
   cursor: grab;
 }
+
+/* Clipboard */
+.callout .clipboard {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+}

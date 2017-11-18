@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "chart.js": "^2.7.0",
+    "clipboard": "^1.7.1",
     "firebase": "^4.5.1",
     "flatpickr": "^4.0.3",
     "font-awesome": "^4.7.0",
