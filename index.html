@@ -708,15 +708,19 @@
                 </router-link>
               </div>
             </div>
-            <div class="dropdown button" tabindex="0">
+            <div class="dropdown button" tabindex="1" v-if="ADMIN">
               <i class="ti-pencil-alt ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Manage</span>
               <div class="dropdown-pane">
-                <router-link v-if="ADMIN && song['.key']" class="button expanded" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
+                <router-link v-if="song['.key']" class="alert button expanded" :to="{name: 'delete-song', params: {song_id: song['.key']}}" v-if="songs.length > 1">
+                  <i class="ti-trash ti-fw" aria-hidden="true"></i>
+                  <span class="show-for-large">Delete</span>
+                </router-link>
+                <router-link v-if="song['.key']" class="button expanded" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
                   <i class="ti-layers ti-fw" aria-hidden="true"></i>
                   <span class="show-for-large">Clone</span>
                 </router-link>
-                <router-link v-if="ADMIN && song['.key']" class="button expanded" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
+                <router-link v-if="song['.key']" class="button expanded" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
                   <i class="ti-pencil ti-fw" aria-hidden="true"></i>
                   <span class="show-for-large">Edit</span>
                 </router-link>
@@ -1148,15 +1152,19 @@
                 </router-link>
               </div>
             </div>
-            <div class="dropdown button" tabindex="0">
+            <div class="dropdown button" tabindex="1" v-if="ADMIN">
               <i class="ti-pencil-alt ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Manage</span>
               <div class="dropdown-pane">
-                <router-link v-if="ADMIN && setlist['.key']" class="button expanded" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
+                <router-link v-if="setlist['.key']" class="alert button expanded" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}" v-if="setlists.length > 1">
+                  <i class="ti-trash ti-fw" aria-hidden="true"></i>
+                  <span class="show-for-large">Delete</span>
+                </router-link>
+                <router-link v-if="setlist['.key']" class="button expanded" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
                   <i class="ti-layers ti-fw" aria-hidden="true"></i>
                   <span class="show-for-large">Clone</span>
                 </router-link>
-                <router-link v-if="ADMIN && setlist['.key']" class="button expanded" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
+                <router-link v-if="setlist['.key']" class="button expanded" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
                   <i class="ti-pencil ti-fw" aria-hidden="true"></i>
                   <span class="show-for-large">Edit</span>
                 </router-link>
