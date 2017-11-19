@@ -381,12 +381,22 @@ var ListSongs = Vue.extend({
       } else {
         router.push({ name: 'songs-by-tag', params: { tag: this.tag }})
       }
+    },
+    resetSearch: function() {
+      this.searchKey = ''
     }
   },
   computed: {
     // apply filter
     filteredSongs: function() {
       return filterSongs(this.songs, this.searchKey)
+    },
+    // add hotkeys
+    keymap: function() {
+      return {
+        // reset search
+        esc: this.resetSearch,
+      }
     }
   },
   mounted: function() {
@@ -414,6 +424,11 @@ var ListSetlists = Vue.extend({
       searchKey: ''
     }
   },
+  methods: {
+    resetSearch: function() {
+      this.searchKey = ''
+    }
+  },
   computed: {
     // apply filter
     filteredSetlists: function() {
@@ -423,6 +438,13 @@ var ListSetlists = Vue.extend({
         var key = self.searchKey.toLowerCase()
         return setlist.date.toLowerCase().indexOf(key) !== -1 || setlist.title.toLowerCase().indexOf(key) !== -1
       })
+    },
+    // add hotkeys
+    keymap: function() {
+      return {
+        // reset search
+        esc: this.resetSearch,
+      }
     }
   },
   mounted: function() {

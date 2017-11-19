@@ -497,7 +497,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
           <h1 v-if="songs.length > 0">
             {{ filteredSongs.length }} Songs 
@@ -954,7 +954,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
           <h1 v-if="setlists.length > 0">{{ filteredSetlists.length }} Setlists</h1>
           <h1 v-else>Loading Setlists ...</h1>
