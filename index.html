@@ -326,7 +326,7 @@
                 <div class="callout small">
                   <div v-if="songs.length == 0" class="columns loading">
                     <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
-                    <span class="sr-only">Loading...</span>
+                    <span class="show-for-sr">Loading...</span>
                   </div>
                   <canvas id="languages" class="doughnut">
                     Chart for displaying a doughnut chart for song languages
@@ -387,7 +387,7 @@
                 <div class="callout small">
                   <div v-if="setlists.length == 0" class="columns loading">
                     <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
-                    <span class="sr-only">Loading...</span>
+                    <span class="show-for-sr">Loading...</span>
                   </div>
                   <canvas id="setlists-per-year" class="bar">
                     Chart for displaying a bar chart for number of setlists per year
@@ -396,7 +396,7 @@
                 <div class="callout small">
                   <div v-if="setlists.length == 0" class="columns loading">
                     <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
-                    <span class="sr-only">Loading...</span>
+                    <span class="show-for-sr">Loading...</span>
                   </div>
                   <canvas id="songs-per-year" class="bar">
                     Chart for displaying a bar chart for number of songs used in setlists per year
@@ -435,7 +435,7 @@
                 <div class="callout small">
                   <div v-if="songs.length == 0" class="columns loading">
                     <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
-                    <span class="sr-only">Loading...</span>
+                    <span class="show-for-sr">Loading...</span>
                   </div>
                   <canvas id="tags" class="doughnut">
                     Chart for displaying a doughnut chart for song tags
@@ -525,7 +525,7 @@
         <div v-if="songs.length == 0 && !tag && !tuning" class="row">
           <div class="small-12 columns loading">
             <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
-            <span class="sr-only">Loading...</span>
+            <span class="show-for-sr">Loading...</span>
           </div>
         </div>
         <div v-else-if="songs.length == 0 && tag" class="row">
@@ -967,7 +967,7 @@
         <div v-if="setlists.length == 0" class="row">
           <div class="small-12 columns loading">
             <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
-            <span class="sr-only">Loading...</span>
+            <span class="show-for-sr">Loading...</span>
           </div>
         </div>
         <div v-else class="row">
@@ -985,11 +985,11 @@
               <tr v-for="setlist in filteredSetlists.reverse()" :key="setlist['.key']">
                 <td v-if="setlist.active" class="active">
                   <i class="ti-control-record ti-fw" aria-hidden="true"></i>
-                  <span class="sr-only">Setlist is active</span>
+                  <span class="show-for-sr">Setlist is active</span>
                 </td>
                 <td v-else>
                   <i class="ti-control-record ti-fw" aria-hidden="true"></i>
-                  <span class="sr-only">Setlist is inactive</span>
+                  <span class="show-for-sr">Setlist is inactive</span>
                 </td>
                 <td class="link-cell">
                   <router-link :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
