@@ -15,8 +15,8 @@ var setlistsRef = firebase.database().ref('setlists')
 // Setup Notyf
 var notyf = new Notyf({
   delay: 4000,
-  alertIcon: 'fa fa-exclamation fa-2x',
-  confirmIcon: 'fa fa-check fa-2x'
+  alertIcon: 'ti-alert ti-2x',
+  confirmIcon: 'ti-check ti-2x'
 })
 
 // Setup Clipboard

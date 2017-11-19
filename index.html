@@ -41,8 +41,8 @@
   <script type="text/javascript" src="./node_modules/flatpickr/dist/flatpickr.min.js"></script>
   <!-- ChartJS -->
   <script type="text/javascript" src="./node_modules/chart.js/dist/Chart.min.js"></script>
-  <!-- Fontawesome 4.7.0 -->
-  <link type="text/css" rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css">
+  <!-- Themify Icons -->
+  <link type="text/css" rel="stylesheet" href="./node_modules/lt-themify-icons/themify-icons.css">
   <!-- App Styles -->
   <link type="text/css" rel="stylesheet" href="./src/app.css">
 </head>
@@ -78,7 +78,7 @@
     <p>
       &copy; {{ new Date().getFullYear() }}
       <a class="devmount show-for-medium" href="http://devmount.de" target="_blank">
-        with <i class="fa fa-heart-o" aria-hidden="true"></i> by
+        with <i class="ti-heart" aria-hidden="true"></i> by
         <span>devmount</span>
         <svg viewBox="0 0 270 270">
           <path d="M27.9 158.6l80.2-100.4 78.2 77.6"/>
@@ -232,7 +232,7 @@
           </tbody>
         </table>
         <div v-if="song.translations && song.translations.length == 0" class="secondary callout">
-          <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> No songs selected.</p>
+          <p><i class="ti-info-alt ti-fw" aria-hidden="true"></i> No songs selected.</p>
         </div>
       </div>
     </div>
@@ -253,10 +253,10 @@
           <div class="input-group">
             <input type="text" class="input-group-field" v-model="setlist.date" placeholder="JJJJ-MM-DD" data-input>
             <div class="input-group-button">
-              <a class="secondary button" data-toggle><i class="fa fa-calendar-o" aria-hidden="true"></i></a>
+              <a class="secondary button" data-toggle><i class="ti-calendar" aria-hidden="true"></i></a>
             </div>
             <div class="input-group-button">
-              <a class="secondary button" data-clear><i class="fa fa-times" aria-hidden="true"></i></a>
+              <a class="secondary button" data-clear><i class="ti-close" aria-hidden="true"></i></a>
             </div>
           </div>
         </label>
@@ -285,13 +285,13 @@
             <tr v-for="songkey in setlist.songs" :key="songkey">
               <template v-for="song in songs">
                 <template v-if="song['.key'] == songkey">
-                  <td class="handle" v-show="ADMIN"><i class="fa fa-reorder fa-fw" aria-hidden="true"></i></td>
+                  <td class="handle" v-show="ADMIN"><i class="ti-menu ti-fw" aria-hidden="true"></i></td>
                   <td class="list-item">
                     {{ song.title }}
                     <span class="less-important">&nbsp;{{ song.subtitle }}</span>
                     <span class="less-important list-item-tuning">{{ song.tuning }}</span>
                     <span class="list-item-remove" @click="removeSong(songkey)">
-                      <i class="fa fa-close fa-fw" aria-hidden="true"></i>
+                      <i class="ti-close ti-fw" aria-hidden="true"></i>
                     </span>
                   </td>
                 </template>
@@ -300,7 +300,7 @@
           </tbody>
         </table>
         <div v-if="setlist.songs && setlist.songs.length == 0" class="secondary callout">
-          <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> No songs selected.</p>
+          <p><i class="ti-info-alt ti-fw" aria-hidden="true"></i> No songs selected.</p>
         </div>
       </div>
     </div>
@@ -325,7 +325,7 @@
               <div class="small-6 columns">
                 <div class="callout small">
                   <div v-if="songs.length == 0" class="columns loading">
-                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
                     <span class="sr-only">Loading...</span>
                   </div>
                   <canvas id="languages" class="doughnut">
@@ -345,13 +345,13 @@
                   </tr>
                 </table>
                 <div v-else class="secondary callout" title="Have at least 7 songs to shuffle random songs.">
-                  <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs.</p>
+                  <p><i class="ti-info-alt ti-fw" aria-hidden="true"></i> Too few songs.</p>
                 </div>
                 <button class="large button" @click="shuffleSongs" v-if="songs.length > 6">
-                  <i class="fa fa-random" aria-hidden="true"></i><span class="show-for-large"> Shuffle</span>
+                  <i class="ti-control-shuffle ti-fw" aria-hidden="true"></i><span class="show-for-large"> Shuffle</span>
                 </button>
                 <router-link class="large button" :to="{name: 'songs'}">
-                  <i class="fa fa-list-ul" aria-hidden="true"></i><span class="show-for-large"> Songs</span>
+                  <i class="ti-list ti-fw" aria-hidden="true"></i><span class="show-for-large"> Songs</span>
                 </router-link>
               </div>
             </div>
@@ -374,7 +374,7 @@
                   </tr>
                 </table>
                 <div v-else class="secondary callout" title="Have at least 10 songs and 2 setlists to display popular songs.">
-                  <p><i class="fa fa-info fa-fw" aria-hidden="true"></i> Too few songs or setlists.</p>
+                  <p><i class="ti-info-alt ti-fw" aria-hidden="true"></i> Too few songs or setlists.</p>
                 </div>
               </div>
             </div>
@@ -386,7 +386,7 @@
               <div class="small-6 columns">
                 <div class="callout small">
                   <div v-if="setlists.length == 0" class="columns loading">
-                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
                     <span class="sr-only">Loading...</span>
                   </div>
                   <canvas id="setlists-per-year" class="bar">
@@ -395,7 +395,7 @@
                 </div>
                 <div class="callout small">
                   <div v-if="setlists.length == 0" class="columns loading">
-                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
                     <span class="sr-only">Loading...</span>
                   </div>
                   <canvas id="songs-per-year" class="bar">
@@ -424,7 +424,7 @@
                   </tr>
                 </table>
                 <router-link class="large button" :to="{name: 'setlists'}">
-                  <i class="fa fa-list-ul" aria-hidden="true"></i><span class="show-for-large"> Setlists</span>
+                  <i class="ti-list ti-fw" aria-hidden="true"></i><span class="show-for-large"> Setlists</span>
                 </router-link>
               </div>
             </div>
@@ -434,7 +434,7 @@
               <div class="small-6 columns">
                 <div class="callout small">
                   <div v-if="songs.length == 0" class="columns loading">
-                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+                    <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
                     <span class="sr-only">Loading...</span>
                   </div>
                   <canvas id="tags" class="doughnut">
@@ -477,11 +477,11 @@
         <footer>
           <div v-if="ADMIN" class="button-group float-right">
             <router-link class="button" :to="{name: 'add-song'}" title="New Song">
-              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <i class="ti-plus ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Add </span> Song
             </router-link>
             <router-link class="button" :to="{name: 'add-setlist'}" title="New Setlist">
-              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <i class="ti-plus ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Add </span> Setlist
             </router-link>
           </div>
@@ -524,7 +524,7 @@
         </div>
         <div v-if="songs.length == 0 && !tag && !tuning" class="row">
           <div class="small-12 columns loading">
-            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+            <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
             <span class="sr-only">Loading...</span>
           </div>
         </div>
@@ -568,7 +568,7 @@
                   </router-link>
                   <!-- <template v-if="song.tags">
                     <span v-for="tag in song.tags" class="tag-link">
-                      <span class="label info"><i class="fa fa-tag" aria-hidden="true"></i> {{ tag }}</span>
+                      <span class="label info"><i class="ti-tag" aria-hidden="true"></i> {{ tag }}</span>
                     </span>
                   </template> -->
                 </td>
@@ -585,20 +585,20 @@
                 <td class="button-cell">
                   <div class="button-group float-right drop-left">
                     <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                      <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                      <i class="ti-eye ti-fw" aria-hidden="true"></i>
                     </router-link>
                     <div v-if="ADMIN" class="dropdown button arrow-only" tabindex="0">
                       <span class="show-for-sr">Show menu</span>
                       <div v-if="ADMIN" class="dropdown-pane">
                         <div class="button-group float-right">
                           <router-link class="alert button" :to="{name: 'delete-song', params: {song_id: song['.key']}}" v-if="songs.length > 1">
-                            <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                            <i class="ti-trash ti-fw" aria-hidden="true"></i>
                           </router-link>
                           <router-link class="button" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
-                            <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+                            <i class="ti-layers ti-fw" aria-hidden="true"></i>
                           </router-link>
                           <router-link class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
-                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                            <i class="ti-pencil ti-fw" aria-hidden="true"></i>
                           </router-link>
                         </div>
                       </div>
@@ -612,11 +612,11 @@
         <footer>
           <div v-if="ADMIN" class="button-group float-right">
             <router-link class="button" :to="{name: 'add-song'}" title="New Song">
-              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <i class="ti-plus ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Add </span> Song
             </router-link>
             <router-link class="button" :to="{name: 'add-setlist'}" title="New Setlist">
-              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <i class="ti-plus ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Add </span> Setlist
             </router-link>
           </div>
@@ -656,18 +656,18 @@
                 <hr />
               </template>
               <a class="secondary small button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
-                <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
+                <i :class="'ti-fw ' + (!textOnly ? 'ti-align-left' : 'ti-music-alt')" aria-hidden="true"></i>
               </a>
               <template v-if="!textOnly">
                 <hr />
                 <button class="secondary small button" @click="transposeChords(1)" title="Transpose chords up">
-                  <i class="fa fa-arrow-up fa-fw" aria-hidden="true"></i>
+                  <i class="ti-angle-up ti-fw" aria-hidden="true"></i>
                 </button>
                 <button class="secondary small button" @click="transposeChords(0)" title="Reset transposed chords">
-                  <i class="fa fa-circle-o fa-fw" aria-hidden="true"></i>
+                  <i class="ti-control-record ti-fw" aria-hidden="true"></i>
                 </button>
                 <button class="secondary small button" @click="transposeChords(-1)" title="Transpose chords up">
-                  <i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>
+                  <i class="ti-angle-down ti-fw" aria-hidden="true"></i>
                 </button>
                 <span class="secondary badge tm">{{ tuning }}</span>
               </template>
@@ -679,7 +679,7 @@
             <p v-if="song.authors">{{ song.authors }}</p>
             <p v-if="song.tags">
               <router-link v-for="tag in song.tags" class="tag-link" :to="{name: 'songs-by-tag', params: {tag: tag}}">
-                <span class="label info"><i class="fa fa-tag" aria-hidden="true"></i> {{ tag }}</span>
+                <span class="label info"><i class="ti-tag" aria-hidden="true"></i> {{ tag }}</span>
               </router-link>
             </p>
             <p>
@@ -691,37 +691,37 @@
         <footer>
           <div class="button-group float-right drop-up">
             <div class="dropdown button" tabindex="0">
-              <i class="fa fa-upload fa-fw" aria-hidden="true"></i>
+              <i class="ti-export ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Export</span>
               <div class="dropdown-pane">
                 <button class="button expanded" @click="exportPdf" target="_blank">
-                  <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                  <i class="ti-file ti-fw" aria-hidden="true"></i>
                   <span class="show-for-small">PDF</span>
                 </button>
                 <button class="button expanded" @click="exportSng" target="_blank">
-                  <i class="fa fa-file-video-o fa-fw" aria-hidden="true"></i>
+                  <i class="ti-file ti-fw" aria-hidden="true"></i>
                   <span class="show-for-small">SNG</span>
                 </button>
                 <router-link v-if="song['.key']" class="button expanded" :to="{name: 'txt-song', params: {song_id: song['.key']}}">
-                  <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                  <i class="ti-file ti-fw" aria-hidden="true"></i>
                   <span class="show-for-small">TXT</span>
                 </router-link>
               </div>
             </div>
             <router-link v-if="song['.key']" class="button" :to="{name: 'present-song', params: {song_id: song['.key'], tuning: tuning, textOnly: textOnly }}">
-              <i class="fa fa-arrows-alt fa-fw" aria-hidden="true"></i>
+              <i class="ti-fullscreen ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Fullscreen</span>
             </router-link>
             <router-link v-if="ADMIN && song['.key']" class="button" :to="{name: 'clone-song', params: {song_id: song['.key']}}">
-              <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+              <i class="ti-layers ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Clone</span>
             </router-link>
             <router-link v-if="ADMIN && song['.key']" class="button" :to="{name: 'edit-song', params: {song_id: song['.key']}}">
-              <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+              <i class="ti-pencil ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Edit</span>
             </router-link>
             <button class="hidden button" @click="router.go(-1)">
-              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <i class="ti-close ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Back</span>
             </button>
           </div>
@@ -757,18 +757,18 @@
                 <hr />
               </template>
               <a class="secondary small button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
-                <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
+                <i :class="'ti-fw ' + (!textOnly ? 'ti-align-left' : 'ti-music-alt')" aria-hidden="true"></i>
               </a>
               <template v-if="!textOnly">
                 <hr />
                 <button class="secondary small button" @click="transposeChords(1)" title="Transpose chords up">
-                  <i class="fa fa-arrow-up fa-fw" aria-hidden="true"></i>
+                  <i class="ti-angle-up ti-fw" aria-hidden="true"></i>
                 </button>
                 <button class="secondary small button" @click="transposeChords(0)" title="Reset transposed chords">
-                  <i class="fa fa-circle-o fa-fw" aria-hidden="true"></i>
+                  <i class="ti-control-record ti-fw" aria-hidden="true"></i>
                 </button>
                 <button class="secondary small button" @click="transposeChords(-1)" title="Transpose chords up">
-                  <i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>
+                  <i class="ti-angle-down ti-fw" aria-hidden="true"></i>
                 </button>
               </template>
             </div>
@@ -786,7 +786,7 @@
         <footer>
           <div class="button-group float-right">
             <button class="hidden button" @click="router.go(-1)">
-              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <i class="ti-close ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Back</span>
             </button>
           </div>
@@ -823,10 +823,10 @@
         <footer>
           <div class="button-group float-right">
             <a class="hollow hidden button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
-              <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
+              <i :class="'ti-fw ' + (!textOnly ? 'ti-align-left' : 'ti-music-alt')" aria-hidden="true"></i>
             </a>
             <button class="secondary hollow hidden button" @click="router.go(-1)">
-              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <i class="ti-close ti-fw" aria-hidden="true"></i>
             </button>
           </div>
         </footer>
@@ -854,11 +854,11 @@
           <footer>
             <div class="button-group float-right">
               <router-link class="alert button" :to="{name: 'songs'}">
-                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                <i class="ti-close ti-fw" aria-hidden="true"></i>
                 Cancel
               </router-link>
               <button type="submit" class="button">
-                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                <i class="ti-plus ti-fw" aria-hidden="true"></i>
                 Create
               </button>
             </div>
@@ -888,11 +888,11 @@
           <footer>
             <div class="button-group float-right">
               <button class="alert button" @click.prevent="router.go(-1)">
-                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                <i class="ti-close ti-fw" aria-hidden="true"></i>
                 Cancel
               </button>
               <button type="submit" class="button">
-                <i class="fa fa-check fa-fw" aria-hidden="true"></i>
+                <i class="ti-check ti-fw" aria-hidden="true"></i>
                 Update
               </button>
             </div>
@@ -917,18 +917,18 @@
           <div class="columns">
             <p>Are you sure you want to delete &raquo;{{ song.title }}&laquo;?</p>
             <div class="alert callout">
-              <p><i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i> This action cannot be undone!</p>
+              <p><i class="ti-alert ti-fw" aria-hidden="true"></i> This action cannot be undone!</p>
             </div>
           </div>
         </div>
         <footer>
           <div class="button-group float-right">
             <router-link class="hidden button" :to="{name: 'songs'}">
-              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <i class="ti-close ti-fw" aria-hidden="true"></i>
               Cancel
             </router-link>
             <button class="alert button" @click="removeSong">
-              <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+              <i class="ti-trash ti-fw" aria-hidden="true"></i>
               Remove
             </button>
           </div>
@@ -956,7 +956,7 @@
         </div>
         <div v-if="setlists.length == 0" class="row">
           <div class="small-12 columns loading">
-            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+            <i class="ti-reload ti-spin ti-3x ti-fw" aria-hidden="true"></i>
             <span class="sr-only">Loading...</span>
           </div>
         </div>
@@ -974,11 +974,11 @@
             <tbody>
               <tr v-for="setlist in filteredSetlists.reverse()" :key="setlist['.key']">
                 <td v-if="setlist.active" class="active">
-                  <i class="fa fa-circle fa-fw" aria-hidden="true"></i>
+                  <i class="ti-control-record ti-fw" aria-hidden="true"></i>
                   <span class="sr-only">Setlist is active</span>
                 </td>
                 <td v-else>
-                  <i class="fa fa-circle-thin fa-fw" aria-hidden="true"></i>
+                  <i class="ti-control-record ti-fw" aria-hidden="true"></i>
                   <span class="sr-only">Setlist is inactive</span>
                 </td>
                 <td class="link-cell">
@@ -999,20 +999,20 @@
                 <td class="button-cell">
                   <div class="button-group float-right drop-left">
                     <router-link class="hollow button" :to="{name: 'show-setlist', params: {setlist_id: setlist['.key']}}">
-                      <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                      <i class="ti-eye ti-fw" aria-hidden="true"></i>
                     </router-link>
                     <div v-if="ADMIN" class="dropdown button arrow-only" tabindex="0">
                       <span class="show-for-sr">Show menu</span>
                       <div v-if="ADMIN" class="dropdown-pane">
                         <div class="button-group float-right">
                           <router-link class="alert button" :to="{name: 'delete-setlist', params: {setlist_id: setlist['.key']}}" v-if="setlists.length > 1">
-                            <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                            <i class="ti-trash ti-fw" aria-hidden="true"></i>
                           </router-link>
                           <router-link class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
-                            <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+                            <i class="ti-layers ti-fw" aria-hidden="true"></i>
                           </router-link>
                           <router-link class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
-                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                            <i class="ti-pencil ti-fw" aria-hidden="true"></i>
                           </router-link>
                         </div>
                       </div>
@@ -1026,11 +1026,11 @@
         <footer>
           <div v-if="ADMIN" class="button-group float-right">
             <router-link class="button" :to="{name: 'add-song'}" title="New Song">
-              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <i class="ti-plus ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Add </span> Song
             </router-link>
             <router-link class="button" :to="{name: 'add-setlist'}" title="New Setlist">
-              <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+              <i class="ti-plus ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Add </span> Setlist
             </router-link>
           </div>
@@ -1068,7 +1068,7 @@
                 <tr v-for="songkey in setlist.songs" :key="songkey">
                   <template v-for="song in songs">
                     <template v-if="song['.key'] == songkey">
-                      <td class="handle" v-show="ADMIN"><i class="fa fa-reorder fa-fw" aria-hidden="true"></i></td>
+                      <td class="handle" v-show="ADMIN"><i class="ti-menu ti-fw" aria-hidden="true"></i></td>
                       <td>
                         {{ song.title }} <span class="less-important">({{ song.subtitle }})</span>
                       </td>
@@ -1084,7 +1084,7 @@
                       <td class="button-cell">
                         <div class="button-group float-right">
                           <router-link class="hollow button" :to="{name: 'show-song', params: {song_id: song['.key']}}">
-                            <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                            <i class="ti-eye ti-fw" aria-hidden="true"></i>
                             <span class="show-for-large">Show</span>
                           </router-link>
                         </div>
@@ -1121,41 +1121,41 @@
         <footer>
           <div class="button-group float-right drop-up">
             <div class="dropdown button" tabindex="0">
-              <i class="fa fa-upload fa-fw" aria-hidden="true"></i>
+              <i class="ti-export ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Export</span>
               <div class="dropdown-pane">
                 <button class="button expanded" @click="exportSongsheets" target="_blank">
-                  <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                  <i class="ti-file ti-fw" aria-hidden="true"></i>
                   <span class="show-for-small">PDF Sheets</span>
                 </button>
                 <button class="button expanded" @click="exportSetlist" target="_blank">
-                  <i class="fa fa-file-pdf-o fa-fw" aria-hidden="true"></i>
+                  <i class="ti-file ti-fw" aria-hidden="true"></i>
                   <span class="show-for-small">PDF List</span>
                 </button>
                 <router-link v-if="setlist['.key']" class="button expanded" :to="{name: 'txt-sheets', params: {setlist_id: setlist['.key']}}">
-                  <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                  <i class="ti-file ti-fw" aria-hidden="true"></i>
                   <span class="show-for-small">TXT Sheets</span>
                 </router-link>
                 <router-link v-if="setlist['.key']" class="button expanded" :to="{name: 'txt-list', params: {setlist_id: setlist['.key']}}">
-                  <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                  <i class="ti-file ti-fw" aria-hidden="true"></i>
                   <span class="show-for-small">TXT List</span>
                 </router-link>
               </div>
             </div>
             <router-link v-if="setlist['.key']" class="button" :to="{name: 'present-setlist', params: {setlist_id: setlist['.key']}}">
-              <i class="fa  fa-video-camera fa-fw" aria-hidden="true"></i>
+              <i class="ti-blackboard ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Present</span>
             </router-link>
             <router-link v-if="ADMIN && setlist['.key']" class="button" :to="{name: 'clone-setlist', params: {setlist_id: setlist['.key']}}">
-              <i class="fa fa-clone fa-fw" aria-hidden="true"></i>
+              <i class="ti-layers ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Clone</span>
             </router-link>
             <router-link v-if="ADMIN && setlist['.key']" class="button" :to="{name: 'edit-setlist', params: {setlist_id: setlist['.key']}}">
-              <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+              <i class="ti-pencil ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Edit</span>
             </router-link>
             <button class="hidden button" @click="router.go(-1)">
-              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <i class="ti-close ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Back</span>
             </button>
           </div>
@@ -1185,11 +1185,11 @@
           <footer>
             <div class="button-group float-right">
               <router-link class="alert button" :to="{name: 'setlists'}">
-                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                <i class="ti-close ti-fw" aria-hidden="true"></i>
                 Cancel
               </router-link>
               <button type="submit" class="button">
-                <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                <i class="ti-plus ti-fw" aria-hidden="true"></i>
                 Create
               </button>
             </div>
@@ -1219,11 +1219,11 @@
           <footer>
             <div class="button-group float-right">
               <button class="alert button" @click.prevent="router.go(-1)">
-                <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                <i class="ti-close ti-fw" aria-hidden="true"></i>
                 Cancel
               </button>
               <button type="submit" class="button">
-                <i class="fa fa-check fa-fw" aria-hidden="true"></i>
+                <i class="ti-check ti-fw" aria-hidden="true"></i>
                 Update
               </button>
             </div>
@@ -1248,18 +1248,18 @@
           <div class="columns">
             <p>Are you sure you want to delete &raquo;{{ setlist.title }}&laquo;?</p>
             <div class="alert callout">
-              <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This action cannot be undone!</p>
+              <p><i class="ti-alert" aria-hidden="true"></i> This action cannot be undone!</p>
             </div>
           </div>
         </div>
         <footer>
           <div class="button-group float-right">
             <router-link class="hidden button" :to="{name: 'setlists'}">
-              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <i class="ti-close ti-fw" aria-hidden="true"></i>
               Cancel
             </router-link>
             <button class="alert button" @click="removeSetlist">
-              <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+              <i class="ti-trash ti-fw" aria-hidden="true"></i>
               Remove
             </button>
           </div>
@@ -1291,7 +1291,7 @@
         <footer>
           <div class="button-group float-right">
             <button class="hidden button" @click="router.go(-1)">
-              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <i class="ti-close ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Back</span>
             </button>
           </div>
@@ -1310,12 +1310,12 @@
       <section>
         <header>
         </header>
-        <div class="row">
+        <div class="row"> 
           <div class="small-12 medium-6 columns">
-            <h2><i class="fa fa-align-left" aria-hidden="true"></i> Normal</h2>
+            <h2>Normal</h2>
             <div class="callout" id="txt-normal">
               <button class="secondary clipboard button" data-clipboard-target="#txt-normal">
-                <i class="fa fa-clipboard" aria-hidden="true"></i>
+                <i class="ti-clipboard" aria-hidden="true"></i>
               </button>
               <div v-for="key, i in setlist.songs">
                 <template v-for="song in songs">
@@ -1327,10 +1327,10 @@
             </div>
           </div>
           <div class="small-12 medium-6 columns">
-            <h2><i class="fa fa-slack" aria-hidden="true"></i> Slack</h2>
+            <h2>Slack</h2>
             <div class="callout" id="txt-slack">
               <button class="secondary clipboard button" data-clipboard-target="#txt-slack">
-                <i class="fa fa-clipboard" aria-hidden="true"></i>
+                <i class="ti-clipboard" aria-hidden="true"></i>
               </button>
               <div v-for="key, i in setlist.songs">
                 <template v-for="song in songs">
@@ -1344,10 +1344,10 @@
         </div>
         <div class="row tm">
           <div class="small-12 medium-6 columns">
-            <h2><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i> Markdown</h2>
+            <h2>Markdown</h2>
             <div class="callout" id="txt-markdown">
               <button class="secondary clipboard button" data-clipboard-target="#txt-markdown">
-                <i class="fa fa-clipboard" aria-hidden="true"></i>
+                <i class="ti-clipboard" aria-hidden="true"></i>
               </button>
               <div v-for="key, i in setlist.songs">
                 <template v-for="song in songs">
@@ -1362,7 +1362,7 @@
         <footer>
           <div class="button-group float-right">
             <button class="hidden button" @click="router.go(-1)">
-              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <i class="ti-close ti-fw" aria-hidden="true"></i>
               <span class="show-for-large">Back</span>
             </button>
           </div>
@@ -1410,23 +1410,23 @@
               </label>
             </div>
             <a class="hollow hidden button" @click="prev()">
-              <i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i>
+              <i class="ti-angle-left ti-fw" aria-hidden="true"></i>
             </a>
             <a class="hollow hidden button" @click="next()">
-              <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i>
+              <i class="ti-angle-right ti-fw" aria-hidden="true"></i>
             </a>
             <a class="secondary hollow hidden button" @click="toggleClock">
-              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              <i class="ti-time" aria-hidden="true"></i>
               <clock v-if="showClock"></clock>
             </a>
             <a class="hollow hidden button" @click="toggleHide" :title="hide ? 'Show presentation' : 'Show black screen'">
-              <i :class="'fa fa-fw ' + (hide ? 'fa-circle-o' : 'fa-ban')" aria-hidden="true"></i>
+              <i :class="'ti-fw ' + (hide ? 'ti-eye' : 'ti-na')" aria-hidden="true"></i>
             </a>
             <a class="hollow hidden button" @click="toggleChords" :title="textOnly ? 'Show text only' : 'Show text and chords'">
-              <i :class="'fa fa-fw ' + (!textOnly ? 'fa-align-left' : 'fa-music')" aria-hidden="true"></i>
+              <i :class="'ti-fw ' + (!textOnly ? 'ti-align-left' : 'ti-music-alt')" aria-hidden="true"></i>
             </a>
             <button class="secondary hollow hidden button" @click="router.go(-1)">
-              <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+              <i class="ti-close ti-fw" aria-hidden="true"></i>
             </button>
           </div>
         </footer>

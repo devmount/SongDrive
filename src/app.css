@@ -107,6 +107,28 @@ footer > .button-group > .button {
 .hide > * {
   opacity: 0.0;
 }
+.ti-2x {
+  font-size: 2em;
+}
+.ti-3x {
+  font-size: 3em;
+}
+.ti-fw {
+  display: inline-block;
+  width: 1.3em;
+  text-align: center;
+}
+.ti-spin {
+  animation: ti-spin 2s infinite linear;
+}
+@keyframes ti-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-359deg);
+  }
+}
 
 /* app content container */
 .scrollbar {
@@ -398,7 +420,7 @@ section .footer {
   position: absolute;
   left: 1rem;
   top: .3rem;
-  font-family: FontAwesome;
+  font-family: themify;
   font-weight: normal;
   font-style: normal;
   font-size: 1.5em;
@@ -408,10 +430,10 @@ section .footer {
   z-index: 1;
 }
 .search::before {
-  content: "\f002";
+  content: "\e610";
 }
 .search.tags .search-tag::before {
-  content: "\f02c";
+  content: "\e608";
 }
 .search.tags .search-input {
   display: inline-block;
@@ -441,20 +463,16 @@ section .footer {
   position: absolute;
   right: 0;
   top: 0;
-  padding: 0.5em;
+  padding: .8em;
   cursor: pointer;
-  color: #777
+  color: #777;
+  font-size: .8em;
 }
 .list-item-remove:hover {
   color: #c60f13;
 }
 .checklist {
   height:50vh;
-}
-
-/* font awesome */
-.fa-rm {
-  margin-right: .5em;
 }
 
 /* Chart.js */
