@@ -453,7 +453,7 @@ var ListSetlists = Vue.extend({
   }
 })
 
-// component: add a song
+// component: add a new song
 var AddSong = Vue.extend({
   template: '#add-song',
   firebase: {
@@ -502,6 +502,17 @@ var AddSong = Vue.extend({
       notify('success', 'Song added', 'Data was successfully saved.')
       router.push({ name: 'show-song', params: { song_id: newSong.key }})
     }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // create song
+        'ctrl+enter': this.createSong,
+      }
+    }
   }
 })
 
@@ -535,6 +546,17 @@ var AddSetlist = Vue.extend({
       var newSetlist = setlistsRef.push(this.setlist)
       notify('success', 'Setlist added', 'Data was successfully saved.')
       router.push({ name: 'show-setlist', params: { setlist_id: newSetlist.key }})
+    }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // create song
+        'ctrl+enter': this.createSetlist,
+      }
     }
   }
 })
@@ -585,6 +607,17 @@ var EditSong = Vue.extend({
       notify('success', 'Song updated', 'Data was successfully saved.')
       router.push({ name: 'show-song', params: { song_id: this.$route.params.song_id }})
     }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // update song
+        'ctrl+enter': this.updateSong,
+      }
+    }
   }
 })
 
@@ -611,6 +644,17 @@ var EditSetlist = Vue.extend({
       notify('success', 'Setlist updated', 'Data was successfully saved.')
       router.push({ name: 'show-setlist', params: { setlist_id: this.$route.params.setlist_id }})
     }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // update setlist
+        'ctrl+enter': this.updateSetlist,
+      }
+    }
   }
 })
 
@@ -630,6 +674,17 @@ var DeleteSong = Vue.extend({
       notify('success', 'Song deleted', 'Data was successfully deleted.')
       router.push({ name: 'songs' })
     }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // remove song
+        'ctrl+enter': this.removeSong,
+      }
+    }
   }
 })
 
@@ -648,6 +703,17 @@ var DeleteSetlist = Vue.extend({
       setlistsRef.child(this.$route.params.setlist_id).remove()
       notify('success', 'Setlist deleted', 'Data was successfully deleted.')
       router.push({ name: 'setlists' })
+    }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // remove setlist
+        'ctrl+enter': this.removeSetlist,
+      }
     }
   }
 })
@@ -733,6 +799,17 @@ var ShowSong = Vue.extend({
         this.song.content = transposeChords(mode, this.song.content)
       }
     }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // go back
+        esc: function() { router.go(-1) },
+        // toggle chords
+        c: this.toggleChords
+      }
+    }
   }
 })
 
@@ -774,6 +851,17 @@ var TxtSong = Vue.extend({
       } else {
         // adapt tuning
         this.song.content = transposeChords(mode, this.song.content)
+      }
+    }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // go back
+        esc: function() { router.go(-1) },
+        // toggle chords
+        c: this.toggleChords,
       }
     }
   }
@@ -833,6 +921,17 @@ var PresentSong = Vue.extend({
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id))
         // get original font size
         resetFontsize('.fullscreen')
+      }
+    }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // go back
+        esc: function() { router.go(-1) },
+        // toggle chords
+        c: this.toggleChords,
       }
     }
   }
@@ -935,6 +1034,15 @@ var ShowSetlist = Vue.extend({
         })
       })
     }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // go back
+        esc: function() { router.go(-1) },
+      }
+    }
   }
 })
 
@@ -957,10 +1065,19 @@ var TxtSheets = Vue.extend({
       // set song content to content without chords
       song.content = removeChords(song.content)
     }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // go back
+        esc: function() { router.go(-1) },
+      }
+    }
   }
 })
 
-// component: export song as copyable text
+// component: export setlist as copyable list
 var TxtList = Vue.extend({
   template: '#txt-list',
   firebase: {
@@ -972,6 +1089,15 @@ var TxtList = Vue.extend({
     this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id))
     return {
       setlist: this.setlist
+    }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // go back
+        esc: function() { router.go(-1) },
+      }
     }
   }
 })
@@ -1108,6 +1234,8 @@ var PresentSetlist = Vue.extend({
         c: this.toggleClock,
         // toggle entire screen fade to black
         b: this.toggleHide,
+        // go back
+        esc: function() { router.go(-1) },
       }
     }
   },
@@ -1706,16 +1834,20 @@ function parseSongContent(content) {
 
 // get <n> different random properties from given <obj>ect
 function getRandomProperty(obj, n) {
-  // get object keys
-  var keys = Object.keys(obj), elements = []
-  for (var i = 0; i < n; i++) {
-    // add a property of random key in obj
-    var key = keys.length * Math.random() << 0
-    elements.push(obj[keys[key]])
-    // delete that key for avoiding duplicates
-    keys.splice(key, 1)
+  if (obj) {
+    // get object keys
+    var keys = Object.keys(obj), elements = []
+    for (var i = 0; i < n; i++) {
+      // add a property of random key in obj
+      var key = keys.length * Math.random() << 0
+      elements.push(obj[keys[key]])
+      // delete that key for avoiding duplicates
+      keys.splice(key, 1)
+    }
+    return elements
+  } else {
+    return obj
   }
-  return elements
 }
 
 // get <n> different ids of popular songs from given <setlists> objects

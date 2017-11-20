@@ -632,7 +632,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
           <h1>{{ song.title }}</h1>
           <p>{{ song.subtitle }}</p>
@@ -747,7 +747,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
         </header>
         <div class="row">
@@ -811,7 +811,7 @@
 <template id="present-song">
   <div class="scrollbar" v-bar>
     <div class="container">
-      <section class="fullscreen">
+      <section class="fullscreen" v-hotkey="keymap">
         <header>
           <h1>{{ song.title }}</h1>
           <p>{{ song.subtitle }}</p>
@@ -850,7 +850,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
           <h1 v-if="isCloned">New Song (cloned)</h1>
           <h1 v-else>New Song</h1>
@@ -863,10 +863,10 @@
           ></song-form-fields>
           <footer>
             <div class="button-group float-right">
-              <router-link class="alert button" :to="{name: 'songs'}">
+              <button class="alert button" @click.prevent="router.go(-1)">
                 <i class="ti-close ti-fw" aria-hidden="true"></i>
                 Cancel
-              </router-link>
+              </button>
               <button type="submit" class="button">
                 <i class="ti-plus ti-fw" aria-hidden="true"></i>
                 Create
@@ -885,7 +885,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
           <h1>Edit &raquo;{{ song.title }}&laquo;</h1>
         </header>
@@ -919,7 +919,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
           <h1>Delete &raquo;{{ song.title }}&laquo;</h1>
         </header>
@@ -1056,7 +1056,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
           <h1>{{ setlist.title }}</h1>
           <p>{{ setlist.date }} | {{ setlist.songs.length }} Songs</p>
@@ -1191,7 +1191,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
           <h1 v-if="isCloned">New Setlist (cloned)</h1>
           <h1 v-else>New Setlist</h1>
@@ -1226,7 +1226,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
           <h1>Edit &raquo;{{ setlist.title }}&laquo;</h1>
         </header>
@@ -1260,7 +1260,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
           <h1>Delete &raquo;{{ setlist.title }}&laquo;</h1>
         </header>
@@ -1295,7 +1295,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
         </header>
         <div v-for="key, i in setlist.songs" class="row">
@@ -1327,7 +1327,7 @@
   <div class="scrollbar" v-bar>
     <div class="container">
       <app-header></app-header>
-      <section>
+      <section v-hotkey="keymap">
         <header>
         </header>
         <div class="row"> 
