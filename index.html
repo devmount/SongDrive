@@ -307,8 +307,7 @@
   </div>
 </template>
 
-
-<!-- dashboard -->
+<!-- component: dashboard -->
 <template id="dashboard">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -492,7 +491,7 @@
   </div>
 </template>
 
-<!-- song list -->
+<!-- component: song list -->
 <template id="song-list">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -627,7 +626,7 @@
   </div>
 </template>
 
-<!-- show song -->
+<!-- component: show song -->
 <template id="show-song">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -742,7 +741,7 @@
   </div>
 </template>
 
-<!-- export song as txt -->
+<!-- component: export song as copyable text -->
 <template id="txt-song">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -807,7 +806,7 @@
   </div>
 </template>
 
-<!-- show a song in fullscreen -->
+<!-- component: present song in fullscreen -->
 <template id="present-song">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -845,7 +844,7 @@
   </div>
 </template>
 
-<!-- add song -->
+<!-- component: add song -->
 <template id="add-song">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -880,7 +879,7 @@
   </div>
 </template>
 
-<!-- edit song -->
+<!-- component: edit song -->
 <template id="edit-song">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -914,7 +913,7 @@
   </div>
 </template>
 
-<!-- delete song -->
+<!-- component: delete song -->
 <template id="delete-song">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -949,7 +948,7 @@
   </div>
 </template>
 
-<!-- setlist list -->
+<!-- component: setlist list -->
 <template id="setlist-list">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -1051,7 +1050,7 @@
   </div>
 </template>
 
-<!-- show setlist -->
+<!-- component: show setlist -->
 <template id="show-setlist">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -1186,111 +1185,7 @@
   </div>
 </template>
 
-<!-- add setlist -->
-<template id="add-setlist">
-  <div class="scrollbar" v-bar>
-    <div class="container">
-      <app-header></app-header>
-      <section v-hotkey="keymap">
-        <header>
-          <h1 v-if="isCloned">New Setlist (cloned)</h1>
-          <h1 v-else>New Setlist</h1>
-        </header>
-        <form id="form" v-on:submit.prevent="createSetlist">
-          <setlist-form-fields
-            :setlist="setlist"
-            :songs="songs"
-            :search-key="searchKey"
-          ></setlist-form-fields>
-          <footer>
-            <div class="button-group float-right">
-              <router-link class="alert button" :to="{name: 'setlists'}">
-                <i class="ti-close ti-fw" aria-hidden="true"></i>
-                Cancel
-              </router-link>
-              <button type="submit" class="button">
-                <i class="ti-plus ti-fw" aria-hidden="true"></i>
-                Create
-              </button>
-            </div>
-          </footer>
-        </form>
-      </section>
-      <app-footer></app-footer>
-    </div>
-  </div>
-</template>
-
-<!-- edit setlist -->
-<template id="edit-setlist">
-  <div class="scrollbar" v-bar>
-    <div class="container">
-      <app-header></app-header>
-      <section v-hotkey="keymap">
-        <header>
-          <h1>Edit &raquo;{{ setlist.title }}&laquo;</h1>
-        </header>
-        <form id="form" v-on:submit.prevent="updateSetlist">
-          <setlist-form-fields
-            :setlist="setlist"
-            :songs="songs"
-            :search-key="searchKey"
-          ></setlist-form-fields>
-          <footer>
-            <div class="button-group float-right">
-              <button class="alert button" @click.prevent="router.go(-1)">
-                <i class="ti-close ti-fw" aria-hidden="true"></i>
-                Cancel
-              </button>
-              <button type="submit" class="button">
-                <i class="ti-check ti-fw" aria-hidden="true"></i>
-                Update
-              </button>
-            </div>
-          </footer>
-        </form>
-      </section>
-      <app-footer></app-footer>
-    </div>
-  </div>
-</template>
-
-<!-- delete setlist -->
-<template id="delete-setlist">
-  <div class="scrollbar" v-bar>
-    <div class="container">
-      <app-header></app-header>
-      <section v-hotkey="keymap">
-        <header>
-          <h1>Delete &raquo;{{ setlist.title }}&laquo;</h1>
-        </header>
-        <div class="row">
-          <div class="columns">
-            <p>Are you sure you want to delete &raquo;{{ setlist.title }}&laquo;?</p>
-            <div class="alert callout">
-              <p><i class="ti-alert" aria-hidden="true"></i> This action cannot be undone!</p>
-            </div>
-          </div>
-        </div>
-        <footer>
-          <div class="button-group float-right">
-            <router-link class="hidden button" :to="{name: 'setlists'}">
-              <i class="ti-close ti-fw" aria-hidden="true"></i>
-              Cancel
-            </router-link>
-            <button class="alert button" @click="removeSetlist">
-              <i class="ti-trash ti-fw" aria-hidden="true"></i>
-              Remove
-            </button>
-          </div>
-        </footer>
-      </section>
-      <app-footer></app-footer>
-    </div>
-  </div>
-</template>
-
-<!-- export setlist songsheets as txt -->
+<!-- component: export setlist songsheets as copyable text -->
 <template id="txt-sheets">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -1322,7 +1217,7 @@
   </div>
 </template>
 
-<!-- export setlist as txt list -->
+<!-- component: export setlist as copyable list -->
 <template id="txt-list">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -1393,7 +1288,111 @@
   </div>
 </template>
 
-<!-- present setlist -->
+<!-- component: add setlist -->
+<template id="add-setlist">
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section v-hotkey="keymap">
+        <header>
+          <h1 v-if="isCloned">New Setlist (cloned)</h1>
+          <h1 v-else>New Setlist</h1>
+        </header>
+        <form id="form" v-on:submit.prevent="createSetlist">
+          <setlist-form-fields
+            :setlist="setlist"
+            :songs="songs"
+            :search-key="searchKey"
+          ></setlist-form-fields>
+          <footer>
+            <div class="button-group float-right">
+              <router-link class="alert button" :to="{name: 'setlists'}">
+                <i class="ti-close ti-fw" aria-hidden="true"></i>
+                Cancel
+              </router-link>
+              <button type="submit" class="button">
+                <i class="ti-plus ti-fw" aria-hidden="true"></i>
+                Create
+              </button>
+            </div>
+          </footer>
+        </form>
+      </section>
+      <app-footer></app-footer>
+    </div>
+  </div>
+</template>
+
+<!-- component: edit setlist -->
+<template id="edit-setlist">
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section v-hotkey="keymap">
+        <header>
+          <h1>Edit &raquo;{{ setlist.title }}&laquo;</h1>
+        </header>
+        <form id="form" v-on:submit.prevent="updateSetlist">
+          <setlist-form-fields
+            :setlist="setlist"
+            :songs="songs"
+            :search-key="searchKey"
+          ></setlist-form-fields>
+          <footer>
+            <div class="button-group float-right">
+              <button class="alert button" @click.prevent="router.go(-1)">
+                <i class="ti-close ti-fw" aria-hidden="true"></i>
+                Cancel
+              </button>
+              <button type="submit" class="button">
+                <i class="ti-check ti-fw" aria-hidden="true"></i>
+                Update
+              </button>
+            </div>
+          </footer>
+        </form>
+      </section>
+      <app-footer></app-footer>
+    </div>
+  </div>
+</template>
+
+<!-- component: delete setlist -->
+<template id="delete-setlist">
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section v-hotkey="keymap">
+        <header>
+          <h1>Delete &raquo;{{ setlist.title }}&laquo;</h1>
+        </header>
+        <div class="row">
+          <div class="columns">
+            <p>Are you sure you want to delete &raquo;{{ setlist.title }}&laquo;?</p>
+            <div class="alert callout">
+              <p><i class="ti-alert" aria-hidden="true"></i> This action cannot be undone!</p>
+            </div>
+          </div>
+        </div>
+        <footer>
+          <div class="button-group float-right">
+            <router-link class="hidden button" :to="{name: 'setlists'}">
+              <i class="ti-close ti-fw" aria-hidden="true"></i>
+              Cancel
+            </router-link>
+            <button class="alert button" @click="removeSetlist">
+              <i class="ti-trash ti-fw" aria-hidden="true"></i>
+              Remove
+            </button>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
+    </div>
+  </div>
+</template>
+
+<!-- component: present setlist -->
 <template id="present-setlist">
   <div class="scrollbar" v-bar>
     <div class="container">
@@ -1455,7 +1454,7 @@
   </div>
 </template>
 
-<!-- live clock -->
+<!-- internal component: live clock -->
 <template id="clock">
   <span class="clock">{{ hours }}:{{ minutes }}</span>
 </template>

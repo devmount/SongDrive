@@ -78,17 +78,42 @@ Vue.component('vswipe', VSwipe)
 // external compontent: vue-shortkey
 Vue.use(VueHotkey)
 
-// global component: app header
+// internal component: live clock
+var Clock = {
+  template: '#clock',
+  data: function() {
+    return {
+      hours: '',
+      minutes: '',
+    }
+  },
+  mounted: function() {
+    this.updateDateTime()
+  },
+  methods: {
+    updateDateTime: function() {
+      var now = new Date()
+      this.hours = this.getZeroPad(now.getHours())
+      this.minutes = this.getZeroPad(now.getMinutes())
+      setTimeout(this.updateDateTime, 1000)
+    },
+    getZeroPad: function(n) {
+      return (parseInt(n, 10) >= 10 ? '' : '0') + n
+    }
+  }
+}
+
+// global partial: app header
 Vue.component('app-header', {
   template: '#app-header'
 })
 
-// global component: app footer
+// global partial: app footer
 Vue.component('app-footer', {
   template: '#app-footer'
 })
 
-// partial component: song form fields
+// partial: song form fields
 Vue.component('song-form-fields', {
   template: '#song-form-fields',
   props: {
@@ -116,7 +141,7 @@ Vue.component('song-form-fields', {
   }
 })
 
-// partial component: setlist form fields
+// partial: setlist form fields
 Vue.component('setlist-form-fields', {
   template: '#setlist-form-fields',
   props: {
@@ -355,7 +380,7 @@ var Dashboard = Vue.extend({
   }
 })
 
-// component: list songs
+// component: song list
 var ListSongs = Vue.extend({
   template: '#song-list',
   firebase: {
@@ -409,311 +434,6 @@ var ListSongs = Vue.extend({
     // load initial tuning filter if set
     if (this.$route.params.tuning) {
       this.songs = songsByTuning(this.songs, this.$route.params.tuning)
-    }
-  }
-})
-
-// component: list setlists
-var ListSetlists = Vue.extend({
-  template: '#setlist-list',
-  firebase: {
-    setlists: setlistsRef.orderByChild('date')
-  },
-  data: function() {
-    return {
-      searchKey: ''
-    }
-  },
-  methods: {
-    resetSearch: function() {
-      this.searchKey = ''
-    }
-  },
-  computed: {
-    // apply filter
-    filteredSetlists: function() {
-      var self = this
-      return self.setlists.filter(function(setlist) {
-        // filter fields: date, title
-        var key = self.searchKey.toLowerCase()
-        return setlist.date.toLowerCase().indexOf(key) !== -1 || setlist.title.toLowerCase().indexOf(key) !== -1
-      })
-    },
-    // add hotkeys
-    keymap: function() {
-      return {
-        // reset search
-        esc: this.resetSearch,
-      }
-    }
-  },
-  mounted: function() {
-    // set initial focus to search input
-    document.getElementById('search').focus()
-  }
-})
-
-// component: add a new song
-var AddSong = Vue.extend({
-  template: '#add-song',
-  firebase: {
-    songs: songsRef.orderByChild('title')
-  },
-  data: function() {
-    var song = {}, isCloned = false
-    // check if an existing song should be used as template: song id exists
-    if (this.$route.params.song_id) {
-      // get existing song content
-      this.$bindAsObject('clone', songsRef.child(this.$route.params.song_id))
-      song = getSongObject(this.clone, !this.clone.hasOwnProperty('translations'))
-      isCloned = true
-    } else {
-      // get empty song object
-      song = getSongObject(null, true)
-    }
-    return {
-      song: song,
-      isCloned: isCloned,
-      searchKey: ''
-    }
-  },
-  methods: {
-    createSong: function() {
-      // only store language keys, not the whole language object
-      this.song.language = this.song.language.key
-      // store new song
-      var newSong = songsRef.push(this.song)
-      // update all songs that are a translation with back link
-      if (this.song.translations && this.song.translations.length > 0) {
-        this.song.translations.forEach(function(id) {
-          // get translated song
-          this.$bindAsObject('tsong', songsRef.child(id))
-          // set 'translations' property if not exists
-          if (!this.tsong.hasOwnProperty('translations')) {
-            this.tsong.translations = []
-          }
-          // get proper song object
-          this.tsong = getSongObject(this.tsong, false)
-          // add this.song to translations of translated song
-          this.tsong.translations.push(newSong.key)
-          songsRef.child(id).set(this.tsong)
-        }, this)
-      }
-      notify('success', 'Song added', 'Data was successfully saved.')
-      router.push({ name: 'show-song', params: { song_id: newSong.key }})
-    }
-  },
-  computed: {
-    // add hotkeys
-    keymap: function() {
-      return {
-        // cancel and go back
-        esc: function() { router.go(-1) },
-        // create song
-        'ctrl+enter': this.createSong,
-      }
-    }
-  }
-})
-
-// component: add a setlist
-var AddSetlist = Vue.extend({
-  template: '#add-setlist',
-  firebase: {
-    songs: songsRef.orderByChild('title')
-  },
-  data: function() {
-    var setlist = {}, isCloned = false
-    // check if an existing setlist should be used as template: setlist id exists
-    if (this.$route.params.setlist_id) {
-      // get existing setlist content
-      this.$bindAsObject('clone', setlistsRef.child(this.$route.params.setlist_id))
-      setlist = getSetlistObject(this.clone, !this.clone.hasOwnProperty('songs'))
-      setlist.date = getCurrentDate()
-      isCloned = true
-    } else {
-      // get empty setlist object
-      setlist = getSetlistObject(null, true)
-    }
-    return {
-      setlist: setlist,
-      isCloned: isCloned,
-      searchKey: ''
-    }
-  },
-  methods: {
-    createSetlist: function() {
-      var newSetlist = setlistsRef.push(this.setlist)
-      notify('success', 'Setlist added', 'Data was successfully saved.')
-      router.push({ name: 'show-setlist', params: { setlist_id: newSetlist.key }})
-    }
-  },
-  computed: {
-    // add hotkeys
-    keymap: function() {
-      return {
-        // cancel and go back
-        esc: function() { router.go(-1) },
-        // create song
-        'ctrl+enter': this.createSetlist,
-      }
-    }
-  }
-})
-
-// component: edit a song
-var EditSong = Vue.extend({
-  template: '#edit-song',
-  firebase: {
-    songs: songsRef.orderByChild('title')
-  },
-  data: function() {
-    // get song from firebase and bind it to this.song
-    this.$bindAsObject('song', songsRef.child(this.$route.params.song_id))
-    if (!('translations' in this.song)) {
-      this.song = getSongObject(this.song, true)
-    }
-    // get language object from key to use in multiselect element
-    this.song.language = getLanguageByKey(this.song.language)
-    return {
-      song: this.song,
-      searchKey: ''
-    }
-  },
-  methods: {
-    updateSong: function() {
-      // only store language keys, not the whole language object
-      this.song.language = this.song.language.key
-      // update song data
-      songsRef.child(this.$route.params.song_id).update(getSongObject(this.song, false))
-      // update all songs that are a translation with back link
-      if (this.song.translations && this.song.translations.length > 0) {
-        this.song.translations.forEach(function(id) {
-          // get translated song
-          this.$bindAsObject('tsong', songsRef.child(id))
-          // set 'translations' property if not exists
-          if (!this.tsong.hasOwnProperty('translations')) {
-            this.tsong.translations = []
-          }
-          // get proper song object
-          this.tsong = getSongObject(this.tsong, false)
-          // add this.song to translations of translated song, if it not already exists
-          if (this.tsong.translations.indexOf(this.song['.key']) == -1) {
-            this.tsong.translations.push(this.song['.key'])
-          }
-          songsRef.child(id).set(this.tsong)
-        }, this)
-      }
-      notify('success', 'Song updated', 'Data was successfully saved.')
-      router.push({ name: 'show-song', params: { song_id: this.$route.params.song_id }})
-    }
-  },
-  computed: {
-    // add hotkeys
-    keymap: function() {
-      return {
-        // cancel and go back
-        esc: function() { router.go(-1) },
-        // update song
-        'ctrl+enter': this.updateSong,
-      }
-    }
-  }
-})
-
-// component: edit a setlist
-var EditSetlist = Vue.extend({
-  template: '#edit-setlist',
-  firebase: {
-    songs: songsRef.orderByChild('title')
-  },
-  data: function() {
-    // get setlist from firebase and bind it to this.setlist
-    this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id))
-    if (!('songs' in this.setlist)) {
-      this.setlist = getSetlistObject(this.setlist, true)
-    }
-    return {
-      setlist: this.setlist,
-      searchKey: ''
-    }
-  },
-  methods: {
-    updateSetlist: function() {
-      setlistsRef.child(this.$route.params.setlist_id).update(getSetlistObject(this.setlist, false))
-      notify('success', 'Setlist updated', 'Data was successfully saved.')
-      router.push({ name: 'show-setlist', params: { setlist_id: this.$route.params.setlist_id }})
-    }
-  },
-  computed: {
-    // add hotkeys
-    keymap: function() {
-      return {
-        // cancel and go back
-        esc: function() { router.go(-1) },
-        // update setlist
-        'ctrl+enter': this.updateSetlist,
-      }
-    }
-  }
-})
-
-// component: delete song
-var DeleteSong = Vue.extend({
-  template: '#delete-song',
-  data: function() {
-    // get song from firebase and bind it to this.song
-    this.$bindAsObject('song', songsRef.child(this.$route.params.song_id))
-    return {
-      song: this.song
-    }
-  },
-  methods: {
-    removeSong: function() {
-      songsRef.child(this.$route.params.song_id).remove()
-      notify('success', 'Song deleted', 'Data was successfully deleted.')
-      router.push({ name: 'songs' })
-    }
-  },
-  computed: {
-    // add hotkeys
-    keymap: function() {
-      return {
-        // cancel and go back
-        esc: function() { router.go(-1) },
-        // remove song
-        'ctrl+enter': this.removeSong,
-      }
-    }
-  }
-})
-
-// component: delete setlist
-var DeleteSetlist = Vue.extend({
-  template: '#delete-setlist',
-  data: function() {
-    // get setlist from firebase and bind it to this.setlist
-    this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id))
-    return {
-      setlist: this.setlist
-    }
-  },
-  methods: {
-    removeSetlist: function() {
-      setlistsRef.child(this.$route.params.setlist_id).remove()
-      notify('success', 'Setlist deleted', 'Data was successfully deleted.')
-      router.push({ name: 'setlists' })
-    }
-  },
-  computed: {
-    // add hotkeys
-    keymap: function() {
-      return {
-        // cancel and go back
-        esc: function() { router.go(-1) },
-        // remove setlist
-        'ctrl+enter': this.removeSetlist,
-      }
     }
   }
 })
@@ -867,7 +587,7 @@ var TxtSong = Vue.extend({
   }
 })
 
-// component: show song fullscreen
+// component: present song in fullscreen
 var PresentSong = Vue.extend({
   template: '#present-song',
   data: function() {
@@ -934,6 +654,199 @@ var PresentSong = Vue.extend({
         c: this.toggleChords,
       }
     }
+  }
+})
+
+// component: add song
+var AddSong = Vue.extend({
+  template: '#add-song',
+  firebase: {
+    songs: songsRef.orderByChild('title')
+  },
+  data: function() {
+    var song = {}, isCloned = false
+    // check if an existing song should be used as template: song id exists
+    if (this.$route.params.song_id) {
+      // get existing song content
+      this.$bindAsObject('clone', songsRef.child(this.$route.params.song_id))
+      song = getSongObject(this.clone, !this.clone.hasOwnProperty('translations'))
+      isCloned = true
+    } else {
+      // get empty song object
+      song = getSongObject(null, true)
+    }
+    return {
+      song: song,
+      isCloned: isCloned,
+      searchKey: ''
+    }
+  },
+  methods: {
+    createSong: function() {
+      // only store language keys, not the whole language object
+      this.song.language = this.song.language.key
+      // store new song
+      var newSong = songsRef.push(this.song)
+      // update all songs that are a translation with back link
+      if (this.song.translations && this.song.translations.length > 0) {
+        this.song.translations.forEach(function(id) {
+          // get translated song
+          this.$bindAsObject('tsong', songsRef.child(id))
+          // set 'translations' property if not exists
+          if (!this.tsong.hasOwnProperty('translations')) {
+            this.tsong.translations = []
+          }
+          // get proper song object
+          this.tsong = getSongObject(this.tsong, false)
+          // add this.song to translations of translated song
+          this.tsong.translations.push(newSong.key)
+          songsRef.child(id).set(this.tsong)
+        }, this)
+      }
+      notify('success', 'Song added', 'Data was successfully saved.')
+      router.push({ name: 'show-song', params: { song_id: newSong.key }})
+    }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // create song
+        'ctrl+enter': this.createSong,
+      }
+    }
+  }
+})
+
+// component: edit song
+var EditSong = Vue.extend({
+  template: '#edit-song',
+  firebase: {
+    songs: songsRef.orderByChild('title')
+  },
+  data: function() {
+    // get song from firebase and bind it to this.song
+    this.$bindAsObject('song', songsRef.child(this.$route.params.song_id))
+    if (!('translations' in this.song)) {
+      this.song = getSongObject(this.song, true)
+    }
+    // get language object from key to use in multiselect element
+    this.song.language = getLanguageByKey(this.song.language)
+    return {
+      song: this.song,
+      searchKey: ''
+    }
+  },
+  methods: {
+    updateSong: function() {
+      // only store language keys, not the whole language object
+      this.song.language = this.song.language.key
+      // update song data
+      songsRef.child(this.$route.params.song_id).update(getSongObject(this.song, false))
+      // update all songs that are a translation with back link
+      if (this.song.translations && this.song.translations.length > 0) {
+        this.song.translations.forEach(function(id) {
+          // get translated song
+          this.$bindAsObject('tsong', songsRef.child(id))
+          // set 'translations' property if not exists
+          if (!this.tsong.hasOwnProperty('translations')) {
+            this.tsong.translations = []
+          }
+          // get proper song object
+          this.tsong = getSongObject(this.tsong, false)
+          // add this.song to translations of translated song, if it not already exists
+          if (this.tsong.translations.indexOf(this.song['.key']) == -1) {
+            this.tsong.translations.push(this.song['.key'])
+          }
+          songsRef.child(id).set(this.tsong)
+        }, this)
+      }
+      notify('success', 'Song updated', 'Data was successfully saved.')
+      router.push({ name: 'show-song', params: { song_id: this.$route.params.song_id }})
+    }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // update song
+        'ctrl+enter': this.updateSong,
+      }
+    }
+  }
+})
+
+// component: delete song
+var DeleteSong = Vue.extend({
+  template: '#delete-song',
+  data: function() {
+    // get song from firebase and bind it to this.song
+    this.$bindAsObject('song', songsRef.child(this.$route.params.song_id))
+    return {
+      song: this.song
+    }
+  },
+  methods: {
+    removeSong: function() {
+      songsRef.child(this.$route.params.song_id).remove()
+      notify('success', 'Song deleted', 'Data was successfully deleted.')
+      router.push({ name: 'songs' })
+    }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // remove song
+        'ctrl+enter': this.removeSong,
+      }
+    }
+  }
+})
+
+// component: setlist list
+var ListSetlists = Vue.extend({
+  template: '#setlist-list',
+  firebase: {
+    setlists: setlistsRef.orderByChild('date')
+  },
+  data: function() {
+    return {
+      searchKey: ''
+    }
+  },
+  methods: {
+    resetSearch: function() {
+      this.searchKey = ''
+    }
+  },
+  computed: {
+    // apply filter
+    filteredSetlists: function() {
+      var self = this
+      return self.setlists.filter(function(setlist) {
+        // filter fields: date, title
+        var key = self.searchKey.toLowerCase()
+        return setlist.date.toLowerCase().indexOf(key) !== -1 || setlist.title.toLowerCase().indexOf(key) !== -1
+      })
+    },
+    // add hotkeys
+    keymap: function() {
+      return {
+        // reset search
+        esc: this.resetSearch,
+      }
+    }
+  },
+  mounted: function() {
+    // set initial focus to search input
+    document.getElementById('search').focus()
   }
 })
 
@@ -1046,7 +959,7 @@ var ShowSetlist = Vue.extend({
   }
 })
 
-// component: export song sheets as copyable text
+// component: export setlist songsheets as copyable text
 var TxtSheets = Vue.extend({
   template: '#txt-sheets',
   firebase: {
@@ -1102,30 +1015,117 @@ var TxtList = Vue.extend({
   }
 })
 
-// component: live clock
-var Clock = {
-  template: '#clock',
-  data: function() {
-    return {
-      hours: '',
-      minutes: '',
-    }
+// component: add setlist
+var AddSetlist = Vue.extend({
+  template: '#add-setlist',
+  firebase: {
+    songs: songsRef.orderByChild('title')
   },
-  mounted: function() {
-    this.updateDateTime()
+  data: function() {
+    var setlist = {}, isCloned = false
+    // check if an existing setlist should be used as template: setlist id exists
+    if (this.$route.params.setlist_id) {
+      // get existing setlist content
+      this.$bindAsObject('clone', setlistsRef.child(this.$route.params.setlist_id))
+      setlist = getSetlistObject(this.clone, !this.clone.hasOwnProperty('songs'))
+      setlist.date = getCurrentDate()
+      isCloned = true
+    } else {
+      // get empty setlist object
+      setlist = getSetlistObject(null, true)
+    }
+    return {
+      setlist: setlist,
+      isCloned: isCloned,
+      searchKey: ''
+    }
   },
   methods: {
-    updateDateTime: function() {
-      var now = new Date()
-      this.hours = this.getZeroPad(now.getHours())
-      this.minutes = this.getZeroPad(now.getMinutes())
-      setTimeout(this.updateDateTime, 1000)
-    },
-    getZeroPad: function(n) {
-      return (parseInt(n, 10) >= 10 ? '' : '0') + n
+    createSetlist: function() {
+      var newSetlist = setlistsRef.push(this.setlist)
+      notify('success', 'Setlist added', 'Data was successfully saved.')
+      router.push({ name: 'show-setlist', params: { setlist_id: newSetlist.key }})
+    }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // create song
+        'ctrl+enter': this.createSetlist,
+      }
     }
   }
-}
+})
+
+// component: edit setlist
+var EditSetlist = Vue.extend({
+  template: '#edit-setlist',
+  firebase: {
+    songs: songsRef.orderByChild('title')
+  },
+  data: function() {
+    // get setlist from firebase and bind it to this.setlist
+    this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id))
+    if (!('songs' in this.setlist)) {
+      this.setlist = getSetlistObject(this.setlist, true)
+    }
+    return {
+      setlist: this.setlist,
+      searchKey: ''
+    }
+  },
+  methods: {
+    updateSetlist: function() {
+      setlistsRef.child(this.$route.params.setlist_id).update(getSetlistObject(this.setlist, false))
+      notify('success', 'Setlist updated', 'Data was successfully saved.')
+      router.push({ name: 'show-setlist', params: { setlist_id: this.$route.params.setlist_id }})
+    }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // update setlist
+        'ctrl+enter': this.updateSetlist,
+      }
+    }
+  }
+})
+
+// component: delete setlist
+var DeleteSetlist = Vue.extend({
+  template: '#delete-setlist',
+  data: function() {
+    // get setlist from firebase and bind it to this.setlist
+    this.$bindAsObject('setlist', setlistsRef.child(this.$route.params.setlist_id))
+    return {
+      setlist: this.setlist
+    }
+  },
+  methods: {
+    removeSetlist: function() {
+      setlistsRef.child(this.$route.params.setlist_id).remove()
+      notify('success', 'Setlist deleted', 'Data was successfully deleted.')
+      router.push({ name: 'setlists' })
+    }
+  },
+  computed: {
+    // add hotkeys
+    keymap: function() {
+      return {
+        // cancel and go back
+        esc: function() { router.go(-1) },
+        // remove setlist
+        'ctrl+enter': this.removeSetlist,
+      }
+    }
+  }
+})
 
 // component: present setlist
 var PresentSetlist = Vue.extend({
@@ -1262,23 +1262,23 @@ var router = new VueRouter({
     {name: 'songs',           component: ListSongs,      path: '/songs'},
     {name: 'songs-by-tag',    component: ListSongs,      path: '/songs/tag/:tag'},
     {name: 'songs-by-tuning', component: ListSongs,      path: '/songs/tuning/:tuning'},
-    {name: 'add-song',        component: AddSong,        path: '/song/add'},
     {name: 'show-song',       component: ShowSong,       path: '/song/:song_id'},
-    {name: 'present-song',    component: PresentSong,    path: '/song/:song_id/fullscreen'},
-    {name: 'edit-song',       component: EditSong,       path: '/song/:song_id/edit'},
-    {name: 'clone-song',      component: AddSong,        path: '/song/:song_id/clone'},
-    {name: 'delete-song',     component: DeleteSong,     path: '/song/:song_id/delete'},
     {name: 'txt-song',        component: TxtSong,        path: '/song/:song_id/txt'},
+    {name: 'present-song',    component: PresentSong,    path: '/song/:song_id/fullscreen'},
+    {name: 'add-song',        component: AddSong,        path: '/song/add'},
+    {name: 'clone-song',      component: AddSong,        path: '/song/:song_id/clone'},
+    {name: 'edit-song',       component: EditSong,       path: '/song/:song_id/edit'},
+    {name: 'delete-song',     component: DeleteSong,     path: '/song/:song_id/delete'},
     // setlists
     {name: 'setlists',        component: ListSetlists,   path: '/setlists'},
-    {name: 'add-setlist',     component: AddSetlist,     path: '/setlist/add'},
     {name: 'show-setlist',    component: ShowSetlist,    path: '/setlist/:setlist_id'},
-    {name: 'edit-setlist',    component: EditSetlist,    path: '/setlist/:setlist_id/edit'},
-    {name: 'clone-setlist',   component: AddSetlist,     path: '/setlist/:setlist_id/clone'},
-    {name: 'delete-setlist',  component: DeleteSetlist,  path: '/setlist/:setlist_id/delete'},
-    {name: 'present-setlist', component: PresentSetlist, path: '/setlist/:setlist_id/presentation'},
     {name: 'txt-sheets',      component: TxtSheets,      path: '/setlist/:setlist_id/txt-sheets'},
     {name: 'txt-list',        component: TxtList,        path: '/setlist/:setlist_id/txt-list'},
+    {name: 'add-setlist',     component: AddSetlist,     path: '/setlist/add'},
+    {name: 'clone-setlist',   component: AddSetlist,     path: '/setlist/:setlist_id/clone'},
+    {name: 'edit-setlist',    component: EditSetlist,    path: '/setlist/:setlist_id/edit'},
+    {name: 'delete-setlist',  component: DeleteSetlist,  path: '/setlist/:setlist_id/delete'},
+    {name: 'present-setlist', component: PresentSetlist, path: '/setlist/:setlist_id/presentation'},
   ]
 })
 
