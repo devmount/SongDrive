@@ -209,11 +209,11 @@ var Dashboard = Vue.extend({
     shuffleSongs: function() {
       if (this.randomSongs === null) {
         // first show latest songs
-        this.randomSongs = getFirstProperty(this.songs.reverse(), 6)
+        this.randomSongs = getFirstProperties(this.songs.reverse(), 6)
       } else {
         // invoke randomization of songs list
         this.isRandom = true
-        this.randomSongs = getRandomProperty(this.songs, 6)
+        this.randomSongs = getRandomProperties(this.songs, 6)
       }
     },
     // admin sign in
@@ -1840,7 +1840,7 @@ function parseSongContent(content) {
 }
 
 // get <n> different random properties from given <obj>ect
-function getRandomProperty(obj, n) {
+function getRandomProperties(obj, n) {
   if (obj) {
     // get object keys
     var keys = Object.keys(obj), elements = []
@@ -1858,7 +1858,7 @@ function getRandomProperty(obj, n) {
 }
 
 // get <n> first properties from given <obj>ect
-function getFirstProperty(obj, n) {
+function getFirstProperties(obj, n) {
   if (obj) {
     // get object keys
     var keys = Object.keys(obj), elements = []
