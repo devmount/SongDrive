@@ -333,7 +333,7 @@
                 </div>
               </div>
               <div class="small-6 columns">
-                <h4>Random</h4>
+                <h4>{{ isRandom ? 'Random' : 'Latest'}}</h4>
                 <table class="hover" v-if="songs.length > 6">
                   <tr v-for="song in randomSongs">
                     <td class="link-cell">

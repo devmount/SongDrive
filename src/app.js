@@ -190,13 +190,14 @@ Vue.component('setlist-form-fields', {
 var Dashboard = Vue.extend({
   template: '#dashboard',
   firebase: {
-    songs: songsRef.orderByChild('title'),
+    songs: songsRef,
     setlists: setlistsRef.orderByChild('date')
   },
   data: function() {
     return {
       tags: getTags(),
       randomSongs: null,
+      isRandom: false,
       login: {
         email: '',
         password: ''
@@ -206,8 +207,14 @@ var Dashboard = Vue.extend({
   methods: {
     // shuffle song list
     shuffleSongs: function() {
-      // invoke recalculation of random songs list
-      this.randomSongs = getRandomProperty(this.songs, 6)
+      if (this.randomSongs === null) {
+        // first show latest songs
+        this.randomSongs = getFirstProperty(this.songs.reverse(), 6)
+      } else {
+        // invoke randomization of songs list
+        this.isRandom = true
+        this.randomSongs = getRandomProperty(this.songs, 6)
+      }
     },
     // admin sign in
     signIn: function() {
@@ -1843,6 +1850,22 @@ function getRandomProperty(obj, n) {
       elements.push(obj[keys[key]])
       // delete that key for avoiding duplicates
       keys.splice(key, 1)
+    }
+    return elements
+  } else {
+    return obj
+  }
+}
+
+// get <n> first properties from given <obj>ect
+function getFirstProperty(obj, n) {
+  if (obj) {
+    // get object keys
+    var keys = Object.keys(obj), elements = []
+    for (var i = 0; i < n; i++) {
+      // add a property of random key in obj
+      var key = keys[i]
+      elements.push(obj[keys[key]])
     }
     return elements
   } else {
