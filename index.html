@@ -164,26 +164,26 @@
       </div>
       <div class="small-12 medium-6 columns content-column">
         <label>Content
+          <!-- data-html="#song-content-tooltip"
+          v-tippy="{
+            position: 'left',
+            arrow: true,
+            hideOnClick: false,
+            animation: 'perspective',
+            interactive: true,
+            theme: 'flat dark',
+            popperOptions: {
+              modifiers: {
+                flip: {
+                  behavior: ['left', 'top']
+                }
+              }
+            }
+          }" -->
           <textarea
             v-model="song.content"
             placeholder="A song with chords"
             rows="33"
-            data-html="#song-content-tooltip"
-            v-tippy="{
-              position: 'left',
-              arrow: true,
-              hideOnClick: false,
-              animation: 'perspective',
-              interactive: true,
-              theme: 'flat dark',
-              popperOptions: {
-                modifiers: {
-                  flip: {
-                    behavior: ['left', 'top']
-                  }
-                }
-              }
-            }"
             required
           ></textarea>
           <div id="song-content-tooltip" style="display: none;">
