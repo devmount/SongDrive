@@ -718,8 +718,6 @@ var AddSong = Vue.extend({
     // add hotkeys
     keymap: function() {
       return {
-        // cancel and go back
-        esc: function() { router.go(-1) },
         // create song
         'ctrl+enter': this.createSong,
       }
@@ -778,8 +776,6 @@ var EditSong = Vue.extend({
     // add hotkeys
     keymap: function() {
       return {
-        // cancel and go back
-        esc: function() { router.go(-1) },
         // update song
         'ctrl+enter': this.updateSong,
       }
@@ -1058,8 +1054,6 @@ var AddSetlist = Vue.extend({
     // add hotkeys
     keymap: function() {
       return {
-        // cancel and go back
-        esc: function() { router.go(-1) },
         // create song
         'ctrl+enter': this.createSetlist,
       }
@@ -1095,8 +1089,6 @@ var EditSetlist = Vue.extend({
     // add hotkeys
     keymap: function() {
       return {
-        // cancel and go back
-        esc: function() { router.go(-1) },
         // update setlist
         'ctrl+enter': this.updateSetlist,
       }
