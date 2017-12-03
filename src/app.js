@@ -973,7 +973,7 @@ var ShowSetlist = Vue.extend({
           for (i in sortedTags) {
             data.push(sortedTags[i][1])
             labels.push(sortedTags[i][0])
-            colors.push('hsl(84, ' + (65 - 6*parseInt(i)) + '%, ' + (70 - 12*parseInt(i)) + '%)')
+            colors.push('hsl(84, ' + (65 - 2*parseInt(i)) + '%, ' + (70 - 4*parseInt(i)) + '%)')
           }
           // create bar chart with data arrays
           new Chart('setlist-tags', {
