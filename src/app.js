@@ -938,7 +938,7 @@ var ShowSetlist = Vue.extend({
                 }]
               },
               options: {
-                animation:{
+                animation: {
                   animateRotate: false
                 },
                 title: {
@@ -947,6 +947,62 @@ var ShowSetlist = Vue.extend({
               }
             })
           }
+          // a bar chart for setlist tags
+          var data = [], labels = [], colors = [], tags = {}, sortedTags = []
+          if (setlist.songs) {
+            for (var i in setlist.songs) {
+              for (var j in songs) {
+                if (j == setlist.songs[i] && songs[j].tags) {
+                  // count each tag of each song of the setlist
+                  for (var k in songs[j].tags) {
+                    if (tags[songs[j].tags[k]] > 0) {
+                      tags[songs[j].tags[k]]++
+                    } else {
+                      tags[songs[j].tags[k]] = 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+          // sort tags by count
+          for (var name in tags) {
+            sortedTags.push([name, tags[name]]);
+          }
+          sortedTags.sort(function(a, b) { return b[1] - a[1]; });
+          for (i in sortedTags) {
+            data.push(sortedTags[i][1])
+            labels.push(sortedTags[i][0])
+            colors.push('hsl(84, ' + (65 - 6*parseInt(i)) + '%, ' + (70 - 12*parseInt(i)) + '%)')
+          }
+          // create bar chart with data arrays
+          new Chart('setlist-tags', {
+            type: 'horizontalBar',
+            data: {
+              labels: labels,
+              datasets: [{
+                data: data,
+                backgroundColor: colors,
+                hoverBackgroundColor: colors
+              }]
+            },
+            options: {
+              legend: {
+                display: false
+              },
+              title: {
+                text: 'TAGS'
+              },
+              scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }]
+              }
+            }
+          })
         })
       })
     }
