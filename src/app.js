@@ -970,6 +970,8 @@ var ShowSetlist = Vue.extend({
             sortedTags.push([name, tags[name]]);
           }
           sortedTags.sort(function(a, b) { return b[1] - a[1]; });
+          // get first 10 tags
+          sortedTags = sortedTags.splice(0, 10)
           for (i in sortedTags) {
             data.push(sortedTags[i][1])
             labels.push(sortedTags[i][0])
