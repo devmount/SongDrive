@@ -8,21 +8,21 @@
   "private": false,
   "license": "MIT",
   "dependencies": {
-    "chart.js": "^2.7.0",
+    "chart.js": "^2.7.1",
     "clipboard": "^1.7.1",
-    "firebase": "^4.5.1",
-    "flatpickr": "^4.0.3",
+    "firebase": "^4.8.0",
+    "flatpickr": "^4.1.4",
     "lt-themify-icons": "^1.1.0",
     "notyf": "^2.0.1",
-    "pdfmake": "^0.1.33",
+    "pdfmake": "^0.1.34",
     "v-hotkey": "^0.2.0",
     "vswipe": "^1.0.1",
-    "vue": "^2.5.2",
-    "vue-multiselect": "^2.0.3",
+    "vue": "^2.5.10",
+    "vue-multiselect": "^2.0.8",
     "vue-router": "^3.0.1",
     "vue-sortable": "git://github.com/MunGell/vue-sortable#77c26994",
-    "vue-tippy": "^0.3.0",
+    "vue-tippy": "^2.0.0",
     "vuebar": "^0.0.17",
-    "vuefire": "^1.4.4"
+    "vuefire": "^1.4.5"
   }
 }
