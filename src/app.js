@@ -1927,13 +1927,15 @@ function getFirstProperties(obj, n) {
 function getPopularSongs(setlists, n) {
   var ids = {}
   setlists.forEach(function(setlist, i) {
-    setlist.songs.forEach(function(id) {
-      if (!ids.hasOwnProperty(id)) {
-        ids[id] = 0
-      } else {
-        ids[id]++
-      }
-    })
+    if (setlist.songs) {
+      setlist.songs.forEach(function(id) {
+        if (!ids.hasOwnProperty(id)) {
+          ids[id] = 0
+        } else {
+          ids[id]++
+        }
+      })
+    }
   })
   var sorted_ids = []
   for (var id in ids) {
