@@ -472,6 +472,7 @@ var ShowSong = Vue.extend({
         '#LangCount=1' + '\n' +
         '#Title=' + this.song.title + '\n' +
         '#Author=' + this.song.authors + '\n' +
+        '#Melody=' + this.song.authors + '\n' +
         '#(c)=' + this.song.year + ' ' + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '\n' +
         '#Key=' + this.song.tuning + '\n' +
         '#CCLI=' + this.song.ccli + '\n' +
