@@ -175,6 +175,7 @@ Vue.component('setlist-form-fields', {
     }
   },
   mounted: function() {
+    // date picker
     flatpickr('.flatpickr', {
       wrap: true,
       clickOpens: true,
@@ -183,6 +184,16 @@ Vue.component('setlist-form-fields', {
         firstDayOfWeek: 1 // start week on Monday
       }
     })
+    // create charts
+    createChartSetlistLanguages(this.$route.params.setlist_id, null, 'setlist-languages', 0)
+    createChartSetlistTags(this.$route.params.setlist_id, null, 'setlist-tags', 0)
+  },
+  watch: {
+    'setlist.songs': function() {
+      // create charts
+      createChartSetlistLanguages(this.$route.params.setlist_id, this.setlist, 'setlist-languages', 0)
+      createChartSetlistTags(this.$route.params.setlist_id, this.setlist, 'setlist-tags', 0)
+    }
   }
 })
 
@@ -901,115 +912,9 @@ var ShowSetlist = Vue.extend({
     }
   },
   mounted: function() {
-    setlistsRef.child(this.$route.params.setlist_id).on('value', function(setlistSnap) {
-      songsRef.on('value', function(songSnap) {
-        // a doughnut chart for setlist languages
-        var setlist = setlistSnap.val()
-        var songs = songSnap.val()
-        var data = [], labels = [], colors = []
-        var languages = getLanguages()
-        if (setlist.songs) {
-          // for each existing languages count number of setlist songs in that language
-          for (var l in languages) {
-            var n = 0
-            for (var i in setlist.songs) {
-              for (var j in songs) {
-                if (j == setlist.songs[i] && songs[j].language == languages[l].key) {
-                  n++
-                }
-              }
-            }
-            // add data to arrays
-            if (n > 0) {
-              data.push(n)
-              labels.push(languages[l].label)
-              colors.push('hsl(84, ' + (65 - 6*parseInt(l)) + '%, ' + (70 - 12*parseInt(l)) + '%)')
-            }
-          }
-          // create doughnut chart with data arrays
-          new Chart('setlist-languages', {
-            type: 'doughnut',
-            data: {
-              labels: labels,
-              datasets: [{
-                data: data,
-                backgroundColor: colors,
-                hoverBackgroundColor: colors
-              }]
-            },
-            options: {
-              animation: {
-                duration: 0
-              },
-              title: {
-                text: 'LANGUAGES'
-              }
-            }
-          })
-        }
-        // a bar chart for setlist tags
-        var data = [], labels = [], colors = [], tags = {}, sortedTags = []
-        if (setlist.songs) {
-          for (var i in setlist.songs) {
-            for (var j in songs) {
-              if (j == setlist.songs[i] && songs[j].tags) {
-                // count each tag of each song of the setlist
-                for (var k in songs[j].tags) {
-                  if (tags[songs[j].tags[k]] > 0) {
-                    tags[songs[j].tags[k]]++
-                  } else {
-                    tags[songs[j].tags[k]] = 1
-                  }
-                }
-              }
-            }
-          }
-        }
-        // sort tags by count
-        for (var name in tags) {
-          sortedTags.push([name, tags[name]]);
-        }
-        sortedTags.sort(function(a, b) { return b[1] - a[1]; });
-        // get first 10 tags
-        sortedTags = sortedTags.splice(0, 10)
-        for (i in sortedTags) {
-          data.push(sortedTags[i][1])
-          labels.push(sortedTags[i][0])
-          colors.push('hsl(84, ' + (65 - 2*parseInt(i)) + '%, ' + (70 - 4*parseInt(i)) + '%)')
-        }
-        // create bar chart with data arrays
-        new Chart('setlist-tags', {
-          type: 'horizontalBar',
-          data: {
-            labels: labels,
-            datasets: [{
-              data: data,
-              backgroundColor: colors,
-              hoverBackgroundColor: colors
-            }]
-          },
-          options: {
-            legend: {
-              display: false
-            },
-            title: {
-              text: 'TAGS'
-            },
-            scales: {
-              xAxes: [{
-                  ticks: {
-                      beginAtZero: true,
-                      stepSize: 1
-                  }
-              }]
-            },
-            animation: {
-              duration: 0
-            }
-          }
-        })
-      })
-    })
+    // create charts
+    createChartSetlistLanguages(this.$route.params.setlist_id, null, 'setlist-languages', 0)
+    createChartSetlistTags(this.$route.params.setlist_id, null, 'setlist-tags', 0)
   },
   computed: {
     // add hotkeys
@@ -2045,6 +1950,129 @@ function resetFontsize(selector) {
       b.style.fontFamily = 'Fira Mono'
     }
   }  
+}
+
+// function to create a doughnut chart for a setlists <id> languages in an element <selector>
+function createChartSetlistLanguages(id, setlistObject, selector, animation) {
+  setlistsRef.child(id).on('value', function(setlistSnap) {
+    songsRef.on('value', function(songSnap) {
+      // a doughnut chart for setlist languages
+      var setlist = setlistObject ? setlistObject : setlistSnap.val()
+      var songs = songSnap.val()
+      var data = [], labels = [], colors = []
+      var languages = getLanguages()
+      if (setlist.songs) {
+        // for each existing languages count number of setlist songs in that language
+        for (var l in languages) {
+          var n = 0
+          for (var i in setlist.songs) {
+            for (var j in songs) {
+              if (j == setlist.songs[i] && songs[j].language == languages[l].key) {
+                n++
+              }
+            }
+          }
+          // add data to arrays
+          if (n > 0) {
+            data.push(n)
+            labels.push(languages[l].label)
+            colors.push('hsl(84, ' + (65 - 6*parseInt(l)) + '%, ' + (70 - 12*parseInt(l)) + '%)')
+          }
+        }
+        // create doughnut chart with data arrays
+        new Chart(selector, {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: data,
+              backgroundColor: colors,
+              hoverBackgroundColor: colors
+            }]
+          },
+          options: {
+            animation: {
+              duration: animation
+            },
+            title: {
+              text: 'LANGUAGES'
+            }
+          }
+        })
+      }
+    })
+  })
+}
+
+// function to create a bar chart for a setlists <id> tags in an element <selector>
+function createChartSetlistTags(id, setlistObject, selector, animation) {
+  setlistsRef.child(id).on('value', function(setlistSnap) {
+    songsRef.on('value', function(songSnap) {
+      // a bar chart for setlist tags
+      var setlist = setlistObject ? setlistObject : setlistSnap.val()
+      var songs = songSnap.val()
+      var data = [], labels = [], colors = [], tags = {}, sortedTags = []
+      if (setlist.songs) {
+        for (var i in setlist.songs) {
+          for (var j in songs) {
+            if (j == setlist.songs[i] && songs[j].tags) {
+              // count each tag of each song of the setlist
+              for (var k in songs[j].tags) {
+                if (tags[songs[j].tags[k]] > 0) {
+                  tags[songs[j].tags[k]]++
+                } else {
+                  tags[songs[j].tags[k]] = 1
+                }
+              }
+            }
+          }
+        }
+      }
+      // sort tags by count
+      for (var name in tags) {
+        sortedTags.push([name, tags[name]]);
+      }
+      sortedTags.sort(function(a, b) { return b[1] - a[1]; });
+      // get first 10 tags
+      sortedTags = sortedTags.splice(0, 10)
+      for (i in sortedTags) {
+        data.push(sortedTags[i][1])
+        labels.push(sortedTags[i][0])
+        colors.push('hsl(84, ' + (65 - 2*parseInt(i)) + '%, ' + (70 - 4*parseInt(i)) + '%)')
+      }
+      // create bar chart with data arrays
+      new Chart(selector, {
+        type: 'horizontalBar',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: colors,
+            hoverBackgroundColor: colors
+          }]
+        },
+        options: {
+          legend: {
+            display: false
+          },
+          title: {
+            text: 'TAGS'
+          },
+          scales: {
+            xAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    stepSize: 1
+                }
+            }]
+          },
+          animation: {
+            duration: animation
+          }
+        }
+      })
+    })
+  })
 }
 
 // snippet to add fields

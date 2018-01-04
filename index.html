@@ -302,6 +302,24 @@
         <div v-if="setlist.songs && setlist.songs.length == 0" class="secondary callout">
           <p><i class="ti-info-alt ti-fw" aria-hidden="true"></i> No songs selected.</p>
         </div>
+        <div class="row tm" v-if="setlist.songs.length > 0">
+          <div class="small-12 medium-6 large-6 columns">
+            <h2>Stats</h2>
+            <div class="callout small">
+              <canvas id="setlist-languages" class="doughnut">
+                Chart for displaying a doughnut chart for song languages in setlist
+              </canvas>
+            </div>
+          </div>
+          <div class="small-12 medium-6 large-6 columns">
+            <h2>&nbsp;</h2>
+            <div class="callout small">
+              <canvas id="setlist-tags" class="doughnut">
+                Chart for displaying a bar chart for song tags in setlist
+              </canvas>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
