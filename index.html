@@ -64,9 +64,15 @@
           <span class="show-for-medium">SongDrive</span>
         </router-link>
       </div>
-      <div class="title-bar-right">
+      <div class="title-bar-right drop-down">
         <router-link :to="{name: 'songs'}">Songs</router-link>
         <router-link :to="{name: 'setlists'}">Setlists</router-link>
+        <a class="dropdown" tabindex="0">
+          <i class="ti-user ti-fw" aria-hidden="true"></i>
+          <div class="dropdown-pane">
+            test
+          </div>
+        </a>
       </div>
     </div>
   </header>

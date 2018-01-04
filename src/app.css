@@ -168,8 +168,21 @@ footer > .button-group > .button {
 .title-bar .title-bar-right a:hover {
   background: #222;
 }
+.title-bar .title-bar-right a:focus {
+  background: #0a0a0a;
+}
 .title-bar .title-bar-right {
   flex: 2;
+}
+.title-bar .drop-down .dropdown:after {
+  display: none;
+}
+.title-bar .drop-down .dropdown-pane {
+  background: #0a0a0a;
+  top: 4rem;
+  left: -7em;
+  box-sizing: border-box;
+  padding: 1em;
 }
 
 /* app header*/
@@ -603,13 +616,15 @@ section .footer {
 }
 
 /* drop menus */
-.drop-left .dropdown.button,
-.drop-up .dropdown.button {
+.drop-left .dropdown,
+.drop-up .dropdown,
+.drop-down .dropdown {
   position: relative;
   cursor: pointer;
 }
 .drop-left .dropdown-pane,
-.drop-up .dropdown-pane {
+.drop-up .dropdown-pane,
+.drop-down .dropdown-pane {
   position: absolute;
   width: auto;
   min-width: 166px;
@@ -631,27 +646,34 @@ section .footer {
   bottom: 3.55em;
   left: -1px;
 }
+.drop-down .dropdown-pane {
+  background: transparent;
+  top: 3.55em;
+  left: -1px;
+}
 .drop-up .dropdown-pane a,
 .drop-up .dropdown-pane button {
   font-size: 1.25rem;
   text-align: left;
   white-space: nowrap;
 }
-.drop-left .dropdown.button:focus,
-.drop-up .dropdown.button:focus {
+.drop-left .dropdown:focus,
+.drop-up .dropdown:focus,
+.drop-down .dropdown:focus {
   pointer-events: none;
 }
-.drop-left .dropdown.button:focus .dropdown-pane,
-.drop-up .dropdown.button:focus .dropdown-pane {
+.drop-left .dropdown:focus .dropdown-pane,
+.drop-up .dropdown:focus .dropdown-pane,
+.drop-down .dropdown:focus .dropdown-pane {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
-.drop-left .dropdown.button:focus:after {
+.drop-left .dropdown:focus:after {
   transition: transform .3s;
   transform: rotate(90deg);
 }
-.drop-up .dropdown.button:focus:after {
+.drop-up .dropdown:focus:after {
   transition: transform .5s;
   transform: rotate(180deg);
 }
