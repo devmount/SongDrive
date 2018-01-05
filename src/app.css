@@ -180,11 +180,25 @@ footer > .button-group > .button {
 .title-bar .drop-down .dropdown-pane {
   background: #0a0a0a;
   top: 4rem;
-  left: -7em;
+  left: -11.7em;
   box-sizing: border-box;
-  padding: 1em;
+  padding: 0 1em 1em 1em;
+  width: 15em;
+  cursor: default;
 }
-
+.title-bar .avatar {
+  display: inline-block;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  background: #222;
+  vertical-align: middle;
+}
+.title-bar .avatar::before {
+  position: relative;
+  top: .4em;
+  left: 1px;
+}
 /* app header*/
 .container > header {
   position: fixed;
@@ -664,7 +678,10 @@ section .footer {
 }
 .drop-left .dropdown:focus .dropdown-pane,
 .drop-up .dropdown:focus .dropdown-pane,
-.drop-down .dropdown:focus .dropdown-pane {
+.drop-down .dropdown:focus .dropdown-pane,
+.drop-left .dropdown .dropdown-pane:hover,
+.drop-up .dropdown .dropdown-pane:hover,
+.drop-down .dropdown .dropdown-pane:hover {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;

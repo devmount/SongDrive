@@ -108,6 +108,7 @@ Vue.component('app-header', {
   template: '#app-header',
   data: function() {
     return {
+      user: {},
       login: {
         email: '',
         password: ''
@@ -140,12 +141,18 @@ Vue.component('app-header', {
         // an error happened.
         notify('error', 'You\'re logout attempt failed', '<b>' + error.code + '</b>: ' + error.message)
       })
+    },
+    // set user object
+    setUser: function(user) {
+      this.user = user
     }
   },
-  beforeCreate: function() {
+  mounted: function() {
     // check initially if authenticated user exists
+    var self = this
     firebase.auth().onAuthStateChanged(function(user) {
       ADMIN = user ? true : false
+      self.setUser(user)
     }.bind(this))
   }
 })
