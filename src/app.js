@@ -105,7 +105,49 @@ var Clock = {
 
 // global partial: app header
 Vue.component('app-header', {
-  template: '#app-header'
+  template: '#app-header',
+  data: function() {
+    return {
+      login: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    // admin sign in
+    signIn: function() {
+      var self = this
+      firebase.auth().signInWithEmailAndPassword(this.login.email, this.login.password).then(function(){
+        // sign-in successful
+        ADMIN = true
+        notify('success', 'Successfully signed in', 'You\'re now browsing SongDrive as admin.')
+        self.$forceUpdate()
+      }).catch(function(error) {
+        // sign-in failed
+        notify('error', 'You\'re login attempt failed', '<b>' + error.code + '</b>: ' + error.message)
+      })
+    },
+    // admin sign out
+    signOut: function() {
+      var self = this
+      firebase.auth().signOut().then(function() {
+        // sign-out successful
+        ADMIN = false
+        notify('success', 'Successfully signed out', 'You\'re no admin anymore.')
+        self.$forceUpdate()
+      }).catch(function(error) {
+        // an error happened.
+        notify('error', 'You\'re logout attempt failed', '<b>' + error.code + '</b>: ' + error.message)
+      })
+    }
+  },
+  beforeCreate: function() {
+    // check initially if authenticated user exists
+    firebase.auth().onAuthStateChanged(function(user) {
+      ADMIN = user ? true : false
+    }.bind(this))
+  }
 })
 
 // global partial: app footer
@@ -175,7 +217,6 @@ Vue.component('setlist-form-fields', {
     }
   },
   mounted: function() {
-    // date picker
     flatpickr('.flatpickr', {
       wrap: true,
       clickOpens: true,
@@ -184,16 +225,6 @@ Vue.component('setlist-form-fields', {
         firstDayOfWeek: 1 // start week on Monday
       }
     })
-    // create charts
-    createChartSetlistLanguages(this.$route.params.setlist_id, null, 'setlist-languages', 0)
-    createChartSetlistTags(this.$route.params.setlist_id, null, 'setlist-tags', 0)
-  },
-  watch: {
-    'setlist.songs': function() {
-      // create charts
-      createChartSetlistLanguages(this.$route.params.setlist_id, this.setlist, 'setlist-languages', 0)
-      createChartSetlistTags(this.$route.params.setlist_id, this.setlist, 'setlist-tags', 0)
-    }
   }
 })
 
@@ -209,10 +240,6 @@ var Dashboard = Vue.extend({
       tags: getTags(),
       randomSongs: null,
       isRandom: false,
-      login: {
-        email: '',
-        password: ''
-      }
     }
   },
   methods: {
@@ -226,32 +253,6 @@ var Dashboard = Vue.extend({
         this.isRandom = true
         this.randomSongs = getRandomProperties(this.songs, 6)
       }
-    },
-    // admin sign in
-    signIn: function() {
-      var self = this
-      firebase.auth().signInWithEmailAndPassword(this.login.email, this.login.password).then(function(){
-        // sign-in successful
-        ADMIN = true
-        notify('success', 'Successfully signed in', 'You\'re now browsing SongDrive as admin.')
-        self.$forceUpdate()
-      }).catch(function(error) {
-        // sign-in failed
-        notify('error', 'You\'re login attempt failed', '<b>' + error.code + '</b>: ' + error.message)
-      })
-    },
-    // admin sign out
-    signOut: function() {
-      var self = this
-      firebase.auth().signOut().then(function() {
-        // sign-out successful
-        ADMIN = false
-        notify('success', 'Successfully signed out', 'You\'re no admin anymore.')
-        self.$forceUpdate()
-      }).catch(function(error) {
-        // an error happened.
-        notify('error', 'You\'re logout attempt failed', '<b>' + error.code + '</b>: ' + error.message)
-      })
     }
   },
   mounted: function() {
@@ -912,9 +913,114 @@ var ShowSetlist = Vue.extend({
     }
   },
   mounted: function() {
-    // create charts
-    createChartSetlistLanguages(this.$route.params.setlist_id, null, 'setlist-languages', 0)
-    createChartSetlistTags(this.$route.params.setlist_id, null, 'setlist-tags', 0)
+    if (document.getElementById('setlist-languages')) {
+      setlistsRef.child(this.$route.params.setlist_id).on('value', function(setlistSnap) {
+        songsRef.on('value', function(songSnap) {
+          // a doughnut chart for setlist languages
+          var setlist = setlistSnap.val()
+          var songs = songSnap.val()
+          var data = [], labels = [], colors = []
+          var languages = getLanguages()
+          if (setlist.songs) {
+            // for each existing languages count number of setlist songs in that language
+            for (var l in languages) {
+              var n = 0
+              for (var i in setlist.songs) {
+                for (var j in songs) {
+                  if (j == setlist.songs[i] && songs[j].language == languages[l].key) {
+                    n++
+                  }
+                }
+              }
+              // add data to arrays
+              if (n > 0) {
+                data.push(n)
+                labels.push(languages[l].label)
+                colors.push('hsl(84, ' + (65 - 6*parseInt(l)) + '%, ' + (70 - 12*parseInt(l)) + '%)')
+              }
+            }
+            // create doughnut chart with data arrays
+            new Chart('setlist-languages', {
+              type: 'doughnut',
+              data: {
+                labels: labels,
+                datasets: [{
+                  data: data,
+                  backgroundColor: colors,
+                  hoverBackgroundColor: colors
+                }]
+              },
+              options: {
+                animation: {
+                  animateRotate: false
+                },
+                title: {
+                  text: 'LANGUAGES'
+                }
+              }
+            })
+          }
+          // a bar chart for setlist tags
+          var data = [], labels = [], colors = [], tags = {}, sortedTags = []
+          if (setlist.songs) {
+            for (var i in setlist.songs) {
+              for (var j in songs) {
+                if (j == setlist.songs[i] && songs[j].tags) {
+                  // count each tag of each song of the setlist
+                  for (var k in songs[j].tags) {
+                    if (tags[songs[j].tags[k]] > 0) {
+                      tags[songs[j].tags[k]]++
+                    } else {
+                      tags[songs[j].tags[k]] = 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+          // sort tags by count
+          for (var name in tags) {
+            sortedTags.push([name, tags[name]]);
+          }
+          sortedTags.sort(function(a, b) { return b[1] - a[1]; });
+          // get first 10 tags
+          sortedTags = sortedTags.splice(0, 10)
+          for (i in sortedTags) {
+            data.push(sortedTags[i][1])
+            labels.push(sortedTags[i][0])
+            colors.push('hsl(84, ' + (65 - 2*parseInt(i)) + '%, ' + (70 - 4*parseInt(i)) + '%)')
+          }
+          // create bar chart with data arrays
+          new Chart('setlist-tags', {
+            type: 'horizontalBar',
+            data: {
+              labels: labels,
+              datasets: [{
+                data: data,
+                backgroundColor: colors,
+                hoverBackgroundColor: colors
+              }]
+            },
+            options: {
+              legend: {
+                display: false
+              },
+              title: {
+                text: 'TAGS'
+              },
+              scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }]
+              }
+            }
+          })
+        })
+      })
+    }
   },
   computed: {
     // add hotkeys
@@ -1249,13 +1355,7 @@ var router = new VueRouter({
 // create Vue app
 var app = new Vue({
   el: '#app',
-  router: router,
-  beforeCreate: function() {
-    // check initially if authenticated user exists
-    firebase.auth().onAuthStateChanged(function(user) {
-      ADMIN = user ? true : false
-    }.bind(this))
-  }
+  router: router
 })
 
 
@@ -1950,129 +2050,6 @@ function resetFontsize(selector) {
       b.style.fontFamily = 'Fira Mono'
     }
   }  
-}
-
-// function to create a doughnut chart for a setlists <id> languages in an element <selector>
-function createChartSetlistLanguages(id, setlistObject, selector, animation) {
-  setlistsRef.child(id).on('value', function(setlistSnap) {
-    songsRef.on('value', function(songSnap) {
-      // a doughnut chart for setlist languages
-      var setlist = setlistObject ? setlistObject : setlistSnap.val()
-      var songs = songSnap.val()
-      var data = [], labels = [], colors = []
-      var languages = getLanguages()
-      if (setlist.songs) {
-        // for each existing languages count number of setlist songs in that language
-        for (var l in languages) {
-          var n = 0
-          for (var i in setlist.songs) {
-            for (var j in songs) {
-              if (j == setlist.songs[i] && songs[j].language == languages[l].key) {
-                n++
-              }
-            }
-          }
-          // add data to arrays
-          if (n > 0) {
-            data.push(n)
-            labels.push(languages[l].label)
-            colors.push('hsl(84, ' + (65 - 6*parseInt(l)) + '%, ' + (70 - 12*parseInt(l)) + '%)')
-          }
-        }
-        // create doughnut chart with data arrays
-        new Chart(selector, {
-          type: 'doughnut',
-          data: {
-            labels: labels,
-            datasets: [{
-              data: data,
-              backgroundColor: colors,
-              hoverBackgroundColor: colors
-            }]
-          },
-          options: {
-            animation: {
-              duration: animation
-            },
-            title: {
-              text: 'LANGUAGES'
-            }
-          }
-        })
-      }
-    })
-  })
-}
-
-// function to create a bar chart for a setlists <id> tags in an element <selector>
-function createChartSetlistTags(id, setlistObject, selector, animation) {
-  setlistsRef.child(id).on('value', function(setlistSnap) {
-    songsRef.on('value', function(songSnap) {
-      // a bar chart for setlist tags
-      var setlist = setlistObject ? setlistObject : setlistSnap.val()
-      var songs = songSnap.val()
-      var data = [], labels = [], colors = [], tags = {}, sortedTags = []
-      if (setlist.songs) {
-        for (var i in setlist.songs) {
-          for (var j in songs) {
-            if (j == setlist.songs[i] && songs[j].tags) {
-              // count each tag of each song of the setlist
-              for (var k in songs[j].tags) {
-                if (tags[songs[j].tags[k]] > 0) {
-                  tags[songs[j].tags[k]]++
-                } else {
-                  tags[songs[j].tags[k]] = 1
-                }
-              }
-            }
-          }
-        }
-      }
-      // sort tags by count
-      for (var name in tags) {
-        sortedTags.push([name, tags[name]]);
-      }
-      sortedTags.sort(function(a, b) { return b[1] - a[1]; });
-      // get first 10 tags
-      sortedTags = sortedTags.splice(0, 10)
-      for (i in sortedTags) {
-        data.push(sortedTags[i][1])
-        labels.push(sortedTags[i][0])
-        colors.push('hsl(84, ' + (65 - 2*parseInt(i)) + '%, ' + (70 - 4*parseInt(i)) + '%)')
-      }
-      // create bar chart with data arrays
-      new Chart(selector, {
-        type: 'horizontalBar',
-        data: {
-          labels: labels,
-          datasets: [{
-            data: data,
-            backgroundColor: colors,
-            hoverBackgroundColor: colors
-          }]
-        },
-        options: {
-          legend: {
-            display: false
-          },
-          title: {
-            text: 'TAGS'
-          },
-          scales: {
-            xAxes: [{
-                ticks: {
-                    beginAtZero: true,
-                    stepSize: 1
-                }
-            }]
-          },
-          animation: {
-            duration: animation
-          }
-        }
-      })
-    })
-  })
 }
 
 // snippet to add fields

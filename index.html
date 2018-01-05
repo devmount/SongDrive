@@ -70,7 +70,15 @@
         <a class="dropdown" tabindex="0">
           <i class="ti-user ti-fw" aria-hidden="true"></i>
           <div class="dropdown-pane">
-            test
+            <div class="small-12 columns" v-if="!ADMIN">
+              <input type="email" v-model="login.email" placeholder="Email">
+              <input type="password" v-model="login.password" placeholder="Password">
+              <button class="button" @click="signIn">Sign in</button>
+            </div>
+            <div class="small-12 columns" v-else>
+              Currently signed in<br />
+              <button class="button" @click="signOut">Sign Out</button>
+            </div>
           </div>
         </a>
       </div>
@@ -481,17 +489,6 @@
           </div>
         </div>
         <div class="row">
-          <div class="small-6 columns" v-if="!ADMIN">
-            <h4>Sign in as admin</h4>
-            <input type="email" v-model="login.email" placeholder="Email">
-            <input type="password" v-model="login.password" placeholder="Password">
-            <button class="button" @click="signIn">Sign in</button>
-          </div>
-          <div class="small-6 columns" v-else>
-            <h4>Sign out</h4>
-            Currently signed in as administrator<br />
-            <button class="button" @click="signOut">Sign Out</button>
-          </div>
           <div class="small-6 columns">
             <h4>About</h4>
             SongDrive <span class="pre">v{{ VERSION }}</span>
