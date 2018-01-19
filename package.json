@@ -10,19 +10,19 @@
   "dependencies": {
     "chart.js": "^2.7.1",
     "clipboard": "^1.7.1",
-    "firebase": "^4.8.0",
-    "flatpickr": "^4.1.4",
+    "firebase": "^4.9.0",
+    "flatpickr": "^4.2.3",
     "lt-themify-icons": "^1.1.0",
     "notyf": "^2.0.1",
-    "pdfmake": "^0.1.34",
+    "pdfmake": "^0.1.35",
     "v-hotkey": "^0.2.0",
     "vswipe": "^1.0.1",
-    "vue": "^2.5.10",
+    "vue": "^2.5.13",
     "vue-multiselect": "^2.0.8",
     "vue-router": "^3.0.1",
     "vue-sortable": "git://github.com/MunGell/vue-sortable#77c26994",
-    "vue-tippy": "^2.0.0",
-    "vuebar": "^0.0.17",
+    "vue-tippy": "^2.0.5",
+    "vuebar": "^0.0.18",
     "vuefire": "^1.4.5"
   }
 }
