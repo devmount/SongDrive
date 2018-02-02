@@ -772,7 +772,7 @@
         </header>
         <div class="row">
           <div class="columns content-column">
-            <pre v-if="song['.key']">{{ song.title }}<br /><br />{{ parseTxtSongContent(song.content) }}</pre>
+            <pre v-if="song['.key']">{{ song.title }} <span v-if="!textOnly">[{{ song.tuning }}]</span><br /><br />{{ parseTxtSongContent(song.content) }}</pre>
             <div class="toolbar">
               <template v-if="song.translations" >
                 <template v-for="key in song.translations">
@@ -800,6 +800,7 @@
                 <button class="secondary small button" @click="transposeChords(-1)" title="Transpose chords up">
                   <i class="ti-angle-down ti-fw" aria-hidden="true"></i>
                 </button>
+                <span class="secondary badge tm">{{ tuning }}</span>
               </template>
             </div>
           </div>

@@ -582,7 +582,8 @@ var TxtSong = Vue.extend({
     return {
       song: this.song,
       songs: this.songs,
-      textOnly: false
+      textOnly: false,
+      tuning: 0
     }
   },
   methods: {
@@ -604,10 +605,19 @@ var TxtSong = Vue.extend({
       // set song content to content transposed chords
       if (mode == 0) {
         // reset tuning: get original song content
+        this.tuning = 0
         this.$bindAsObject('song', songsRef.child(this.$route.params.song_id))
       } else {
-        // adapt tuning
+        // adapt tuning and update song content
+        this.tuning += mode
         this.song.content = transposeChords(mode, this.song.content)
+        // update song tuning while iterating through the TUNES array
+        var tuningIndex = TUNES.indexOf(this.song.tuning) + mode
+        // when reaching a negative index, start from the end of the array again
+        if (tuningIndex < 0) {
+          tuningIndex = TUNES.length - 2
+        }
+        this.song.tuning = TUNES[tuningIndex]
       }
     }
   },
