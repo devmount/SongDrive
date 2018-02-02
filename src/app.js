@@ -63,6 +63,9 @@ pdfMake.fonts = {
   }
 }
 
+// Setup tuning
+var TUNES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H', 'C']
+
 // external compontent: vue-multiselect
 Vue.component('multiselect', VueMultiselect.Multiselect)
 
@@ -544,6 +547,13 @@ var ShowSong = Vue.extend({
         // adapt tuning and update song content
         this.tuning += mode
         this.song.content = transposeChords(mode, this.song.content)
+        // update song tuning while iterating through the TUNES array
+        var tuningIndex = TUNES.indexOf(this.song.tuning) + mode
+        // when reaching a negative index, start from the end of the array again
+        if (tuningIndex < 0) {
+          tuningIndex = TUNES.length - 2
+        }
+        this.song.tuning = TUNES[tuningIndex]
       }
     }
   },
@@ -1698,7 +1708,6 @@ function removeChords(str) {
 // transpose chords <action> (up or down) of given multiline <str>ing
 function transposeChords(action, str) {
   var lines = str.split('\n'), newLines = []
-  var TUNES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H', 'C']
   for (var key in lines) {
     // get single line
     var line = lines[key]
