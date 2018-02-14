@@ -409,6 +409,16 @@ var Dashboard = Vue.extend({
   }
 })
 
+// component: show user profile
+var ShowProfile = Vue.extend({
+  template: '#show-profile',
+  data: function() {
+    return {
+      user: firebase.auth().currentUser
+    }
+  }
+})
+
 // component: song list
 var ListSongs = Vue.extend({
   template: '#song-list',
@@ -1355,6 +1365,8 @@ var router = new VueRouter({
   routes: [
     // dashboard
     {name: 'home',            component: Dashboard,      path: '/'},
+    // user
+    {name: 'profile',         component: ShowProfile,    path: '/profile'},
     // songs
     {name: 'songs',           component: ListSongs,      path: '/songs'},
     {name: 'songs-by-tag',    component: ListSongs,      path: '/songs/tag/:tag'},
@@ -2080,7 +2092,7 @@ function resetFontsize(selector) {
 
 // snippet to add fields
 // setlistsRef.on('child_added', function(snapshot) {
-//     snapshot.ref.update({ position: 0 })
+//     snapshot.ref.update({ creator: '8DFOOACEPCWH5GSVGMYZDXVASZV2' })
 // })
 
 // snippet to update all songs

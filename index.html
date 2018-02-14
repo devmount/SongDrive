@@ -76,7 +76,9 @@
               <button class="button" @click="signIn">Sign in</button>
             </div>
             <div class="small-12 columns" v-else>
-              {{ user.email }}<br />
+              <router-link :to="{name: 'profile'}">
+                  {{ user.email }}
+              </router-link>
               <button class="button" @click="signOut">Sign Out</button>
             </div>
           </div>
@@ -200,7 +202,7 @@
             rows="33"
             required
           ></textarea>
-          <div id="song-content-tooltip" style="display: none;">
+          <!-- <div id="song-content-tooltip" style="display: none;">
             <div>
               <h4>Marker</h4>
               <p>You can use marker to tag different song parts, such as verses and chorus.</p>
@@ -212,7 +214,7 @@
               </p>
               <p>To enumerate a part, just add a number, i.e. for verses one and two, use <code>--v1</code> and <code>--v2</code></p>
             </div>
-          </div>
+          </div> -->
         </label>
       </div>
     </div>
@@ -492,6 +494,59 @@
           <div class="small-6 columns">
             <h4>About</h4>
             SongDrive <span class="pre">v{{ VERSION }}</span>
+          </div>
+        </div>
+        <footer>
+          <div v-if="ADMIN" class="button-group float-right">
+            <router-link class="button" :to="{name: 'add-song'}" title="New Song">
+              <i class="ti-plus ti-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Add </span> Song
+            </router-link>
+            <router-link class="button" :to="{name: 'add-setlist'}" title="New Setlist">
+              <i class="ti-plus ti-fw" aria-hidden="true"></i>
+              <span class="show-for-large">Add </span> Setlist
+            </router-link>
+          </div>
+        </footer>
+      </section>
+      <app-footer></app-footer>
+    </div>
+  </div>
+</template>
+
+<!-- component: show profile -->
+<template id="show-profile">
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1>User Profile</h1>
+        </header>
+        <div class="row">
+          <div class="small-12 medium-6 columns">
+            <h2>Profile information</h2>
+            <table class="hover">
+              <thead>
+                <tr>
+                  <th colspan="2"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>UID</td>
+                  <td>{{ user.uid }}</td>
+                </tr>
+                <tr>
+                  <td>Name</td>
+                  <td>{{ user.name }}</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>{{ user.email }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <footer>
