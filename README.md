@@ -1,4 +1,5 @@
 # SongDrive
+
 [![license](https://img.shields.io/badge/license-MIT%20License-88b544.svg?style=flat-square)](./LICENSE) [![release](https://img.shields.io/badge/release-v0.2.5%20beta-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive) [![size](https://img.shields.io/badge/size-808%20KB-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive)
 
 A song management web application to store, synchronize and present songs and setlists, based on [Vue.js 2.5](//vuejs.org/), [Firebase 4.5](//firebase.google.com/) and [Foundation 6.3](//foundation.zurb.com).
@@ -6,6 +7,7 @@ A song management web application to store, synchronize and present songs and se
 ![songdrive-dashboard](https://cloud.githubusercontent.com/assets/5441654/26552994/eb423310-4489-11e7-9566-b0b2c421df7c.png)
 
 ## Features
+
 - Create, edit and delete songs
 - Normal and viewport optimized fullscreen view for a single song
 - Switch song languages
@@ -22,17 +24,17 @@ A song management web application to store, synchronize and present songs and se
 
 1. Download this repository and unzip it to the location of your choice
 
+    ```bash
+    wget https://github.com/devmount/SongDrive/archive/master.zip
+    unzip master.zip
+    mv SongDrive-master/ SongDrive/
     ```
-    $ wget https://github.com/devmount/SongDrive/archive/master.zip
-    $ unzip master.zip
-    $ mv SongDrive-master/ SongDrive/
-    ```
-    
+
 2. Install all dependencies using [Yarn](https://yarnpkg.com)
 
-    ```
-    $ cd SongDrive/
-    $ yarn
+    ```bash
+    cd SongDrive/
+    yarn
     ```
 
 3. Create an empty file called `config.js` in the `SongDrive/src` subdirectory
@@ -40,7 +42,7 @@ A song management web application to store, synchronize and present songs and se
 5. Enter your new project and click "Add Firebase to your web app"
 6. Copy the following code from the code that is shown to your just created `config.js`:
 
-    ```
+    ```javascript
     var config = {
         apiKey: "<your-api-key>",
         authDomain: "<your-auth-domain>",
@@ -55,7 +57,9 @@ A song management web application to store, synchronize and present songs and se
 8. Now you can open and use SongDrive in your browser by calling the url of the location where you downloaded the project files to, i.e. `example.com/songdrive/` or `file:///your-path/SongDrive/index.html`. You should see two example songs and one example setlist.
 
 ## Song Syntax
-The notation of the song content is simple: Just add the song lines with the corresponding chords above the exact syllable. Chord lines will automatically be recognized by the system for text only view or transposition.
+
+The notation of the song content is simple: Just add the song lines with the corresponding chords above the exact syllable. Add two whitespaces at the end of each chord line for them to be recognized by the system for text only view or transposition.
 
 ## Licence
+
 [MIT License](./LICENSE)
