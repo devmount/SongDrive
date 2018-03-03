@@ -1,5 +1,5 @@
 // SongDrive version
-var VERSION = '0.2.5'
+var VERSION = '0.2.9'
 
 // Setup admin mode (if set to false, SongDrive will be in reading mode only)
 var ADMIN = false
