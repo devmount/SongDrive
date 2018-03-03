@@ -20,7 +20,7 @@ var notyf = new Notyf({
 })
 
 // Setup Clipboard
-var clipboard = new Clipboard('.clipboard');
+var clipboard = new ClipboardJS('.clipboard');
 clipboard.on('success', function(e) {
   e.clearSelection()
   notify('success', 'Copied!', 'Setlist was successfully copied to your clipboard.')
