@@ -69,17 +69,35 @@
         <router-link :to="{name: 'setlists'}">Setlists</router-link>
         <a class="dropdown" tabindex="0">
           <i class="ti-user ti-fw avatar" aria-hidden="true"></i>
-          <div class="dropdown-pane">
+          <div class="dropdown-pane row collapse">
             <div class="small-12 columns" v-if="!user">
               <input type="email" v-model="login.email" placeholder="Email">
               <input type="password" v-model="login.password" placeholder="Password">
               <button class="button" @click="signIn">Sign in</button>
             </div>
             <div class="small-12 columns" v-else>
-              <router-link :to="{name: 'profile'}">
-                  {{ user.email }}
-              </router-link>
-              <button class="button" @click="signOut">Sign Out</button>
+              <div class="user-information">
+                User<br />
+                <span class="sub-information">{{ user.email }}</span>
+              </div>
+              <div class="stacked button-group">
+                <router-link :to="{name: 'home'}" class="button">
+                  <i class="ti-dashboard ti-fw" aria-hidden="true"></i>
+                  Dashboard
+                </router-link>
+                <router-link :to="{name: 'profile'}" class="button">
+                  <i class="ti-user ti-fw" aria-hidden="true"></i>
+                  Profile
+                </router-link>
+                <router-link :to="{name: 'settings'}" class="button">
+                  <i class="ti-settings ti-fw" aria-hidden="true"></i>
+                  Settings
+                </router-link>
+                <button class="button" @click="signOut">
+                  <i class="ti-angle-right ti-fw" aria-hidden="true"></i>
+                  Sign Out
+                </button>
+              </div>
             </div>
           </div>
         </a>

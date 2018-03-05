@@ -147,28 +147,29 @@ footer > .button-group > .button {
   height: 4rem;
   line-height: 4rem;
   font-weight: 300;
-  letter-spacing: 2px;
   transition: all .25s ease;
   padding: 0 1.5em;
 }
-.title-bar a {
+.title-bar a,
+.title-bar .button {
   color: #fff;
+  letter-spacing: 2px;
   text-transform: uppercase;
 }
-.title-bar .title-bar-left a img {
+.title-bar .title-bar-left > a img {
   margin-right: 1em;
   padding-bottom: .5em;
 }
-.title-bar .title-bar-left a,
-.title-bar .title-bar-right a {
+.title-bar .title-bar-left > a,
+.title-bar .title-bar-right > a {
   display: inline-block;
   padding: 0 1em;
   transition: all .25s ease;
 }
-.title-bar .title-bar-right a:hover {
+.title-bar .title-bar-right > a:hover {
   background: #222;
 }
-.title-bar .title-bar-right a:focus {
+.title-bar .title-bar-right > a:focus {
   background: #0a0a0a;
 }
 .title-bar .title-bar-right {
@@ -182,9 +183,24 @@ footer > .button-group > .button {
   top: 4rem;
   left: -11em;
   box-sizing: border-box;
-  padding: 0 1em 1em 1em;
+  padding: 0;
   width: 15em;
   cursor: default;
+}
+.title-bar .drop-down .dropdown-pane .user-information {
+  line-height: 1.5em;
+  text-align: left;
+  padding: 1em;
+}
+.title-bar .drop-down .dropdown-pane .user-information .sub-information {
+  color: grey;
+}
+.title-bar .drop-down .dropdown-pane .button {
+  text-align: left;
+  background-color: black;
+}
+.title-bar .drop-down .dropdown-pane .button:hover {
+  background-color: #88b544;
 }
 .title-bar .avatar {
   display: inline-block;
