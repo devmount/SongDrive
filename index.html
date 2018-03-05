@@ -73,7 +73,12 @@
             <div class="small-12 columns" v-if="!user">
               <input type="email" v-model="login.email" placeholder="Email">
               <input type="password" v-model="login.password" placeholder="Password">
-              <button class="button" @click="signIn">Sign in</button>
+              <div class="stacked button-group">
+                <button class="button" @click="signIn">
+                  Sign in
+                  <i class="ti-angle-right ti-fw" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
             <div class="small-12 columns" v-else>
               <div class="user-information">
