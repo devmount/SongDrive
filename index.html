@@ -547,7 +547,7 @@
           <h1>Your Profile</h1>
         </header>
         <div class="row" v-if="user">
-          <div class="small-12 medium-6 columns">
+          <div class="small-12 medium-6 columns user-profile">
             <h2>Profile data</h2>
             <table class="unstriped">
               <tbody>
@@ -561,7 +561,7 @@
                 </tr>
                 <tr>
                   <td>Picture</td>
-                  <td><img v-if="user.photoURL" :src="user.photoURL" /></td>
+                  <td><div v-if="user.photoURL" :style="'background-image: url(' + user.photoURL + ');'" class="user-profile-picture"></div></td>
                 </tr>
               </tbody>
             </table>
@@ -570,7 +570,7 @@
               Edit
             </router-link>
           </div>
-          <div class="small-12 medium-6 columns">
+          <div class="small-12 medium-6 columns user-statistics">
             <h2>Statistics</h2>
             <table class="unstriped">
               <tbody>

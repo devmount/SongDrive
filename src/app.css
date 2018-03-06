@@ -525,6 +525,14 @@ section .footer {
   height:50vh;
 }
 
+/* user profile */
+.user-profile .user-profile-picture {
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  background-position: center center;
+}
+
 /* Chart.js */
 .doughnut {
   min-height: 350px;
