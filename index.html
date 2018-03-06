@@ -544,29 +544,39 @@
       <app-header></app-header>
       <section>
         <header>
-          <h1>User Profile</h1>
+          <h1>Your Profile</h1>
         </header>
-        <div class="row">
+        <div class="row" v-if="user">
           <div class="small-12 medium-6 columns">
-            <h2>Profile information</h2>
-            <table class="hover">
-              <thead>
-                <tr>
-                  <th colspan="2"></th>
-                </tr>
-              </thead>
+            <h2>Profile data</h2>
+            <table class="unstriped">
               <tbody>
                 <tr>
-                  <td>UID</td>
-                  <td>{{ user.uid }}</td>
-                </tr>
-                <tr>
                   <td>Name</td>
-                  <td>{{ user.name }}</td>
+                  <td><span v-if="user.displayName">{{ user.displayName }}</span></td>
                 </tr>
                 <tr>
                   <td>Email</td>
                   <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                  <td>Picture</td>
+                  <td><img v-if="user.photoURL" :src="user.photoURL" /></td>
+                </tr>
+              </tbody>
+            </table>
+            <router-link :to="{name: 'settings'}" class="large button">
+              <i class="ti-settings ti-fw" aria-hidden="true"></i>
+              Edit
+            </router-link>
+          </div>
+          <div class="small-12 medium-6 columns">
+            <h2>Statistics</h2>
+            <table class="unstriped">
+              <tbody>
+                <tr>
+                  <td>Setlists created</td>
+                  <td><i class="less-important">Coming soon</i></td>
                 </tr>
               </tbody>
             </table>
