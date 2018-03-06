@@ -1,5 +1,5 @@
 // SongDrive version
-var VERSION = '0.2.9'
+var VERSION = '0.2.10'
 
 // Setup admin mode (if set to false, SongDrive will be in reading mode only)
 var ADMIN = false
@@ -2119,30 +2119,3 @@ function resetFontsize(selector) {
     }
   }  
 }
-
-// snippet to add fields
-// setlistsRef.on('child_added', function(snapshot) {
-//     snapshot.ref.update({ creator: '8DFOOACEPCWH5GSVGMYZDXVASZV2' })
-// })
-
-// snippet to update all songs
-// songsRef.once('value', function(snapshot) {
-//   for (var id in snapshot.val()) {
-//     var content = snapshot.val()[id].content
-//     var lines = content.split('\n')
-//     var newLines = []
-//     lines.forEach(function(line) {
-//       // identify chord lines
-//       if (isChordLine(line)) {
-//         // only add text lines to new content
-//         newLines.push(line + '  ')
-//       } else {
-//         newLines.push(line)
-//       }
-//     }, this)
-//     var newSong = snapshot.val()[id]
-//     newSong.content = newLines.join('\n')
-//     console.log(newSong)
-//     songsRef.child(id).update(newSong)
-//   }
-// })
