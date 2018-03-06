@@ -21,6 +21,7 @@ input, textarea, select {
 }
 .button {
   vertical-align: text-bottom;
+  font-weight: normal;
   margin: 0;
 }
 :focus {
