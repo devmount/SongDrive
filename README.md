@@ -1,8 +1,8 @@
 # SongDrive
 
-[![license](https://img.shields.io/badge/license-MIT%20License-88b544.svg?style=flat-square)](./LICENSE) [![release](https://img.shields.io/badge/release-v0.2.9%20beta-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive) [![size](https://img.shields.io/badge/size-808%20KB-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive)
+[![license](https://img.shields.io/badge/license-MIT%20License-88b544.svg?style=flat-square)](./LICENSE) [![release](https://img.shields.io/badge/release-v0.2.9%20beta-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive) [![size](https://img.shields.io/badge/size-1.72%20MB-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive)
 
-A song management web application to store, synchronize and present songs and setlists, based on [Vue.js 2.5](//vuejs.org/), [Firebase 4.5](//firebase.google.com/) and [Foundation 6.3](//foundation.zurb.com).
+A song management web application to store, synchronize and present songs and setlists, based on [Vue.js 2.5](//vuejs.org/), [Firebase 4.10](//firebase.google.com/) and [Foundation 6.4](//foundation.zurb.com).
 
 ![songdrive-dashboard](https://cloud.githubusercontent.com/assets/5441654/26552994/eb423310-4489-11e7-9566-b0b2c421df7c.png)
 
