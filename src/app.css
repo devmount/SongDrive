@@ -28,8 +28,8 @@ input, textarea, select {
   outline:none;
 }
 ::selection {
-background: #88b544;
-color: #fff;
+  background: #88b544;
+  color: #fff;
 }
 .show-linebreaks {
   white-space: pre-line;

@@ -600,6 +600,53 @@
   </div>
 </template>
 
+<!-- component: settings -->
+<template id="settings">
+  <div class="scrollbar" v-bar>
+    <div class="container">
+      <app-header></app-header>
+      <section>
+        <header>
+          <h1>Settings</h1>
+        </header>
+        <form id="form" v-on:submit.prevent="updateSettings">
+          <div class="row" v-if="user">
+            <div class="small-12 medium-6 columns">
+              <h2>Profile data</h2>
+              <label>Name
+                <input type="text" v-model="userData.displayName" placeholder="name">
+              </label>
+              <label>Email
+                <input type="email" v-model="user.email" placeholder="email" disabled>
+              </label>
+              <label>Picture
+                <input type="url" v-model="userData.photoURL" placeholder="Picture URL">
+              </label>
+            </div>
+            <div class="small-12 medium-6 columns">
+              <h2>SongDrive</h2>
+              <i class="less-important">Coming soon</i>
+            </div>
+          </div>
+          <footer>
+            <div class="button-group float-right">
+              <button class="alert button" @click.prevent="router.go(-1)">
+                <i class="ti-close ti-fw" aria-hidden="true"></i>
+                Cancel
+              </button>
+              <button type="submit" class="button">
+                <i class="ti-check ti-fw" aria-hidden="true"></i>
+                Update
+              </button>
+            </div>
+          </footer>
+        </form>
+      </section>
+      <app-footer></app-footer>
+    </div>
+  </div>
+</template>
+
 <!-- component: song list -->
 <template id="song-list">
   <div class="scrollbar" v-bar>

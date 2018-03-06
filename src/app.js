@@ -419,6 +419,35 @@ var ShowProfile = Vue.extend({
   }
 })
 
+// component: edit user settings
+var Settings = Vue.extend({
+  template: '#settings',
+  data: function() {
+    var user = firebase.auth().currentUser
+    return {
+      user: user,
+      userData: {
+        displayName: user ? user.displayName : '',
+        photoURL: user ? user.photoURL : ''
+      }
+    }
+  },
+  methods: {
+    updateSettings: function() {
+      // update settings data
+      this.user.updateProfile(this.userData).then(function() {
+        // user profile updated successfully
+        notify('success', 'Settings updated', 'Data was successfully saved.')
+        router.push({ name: 'profile' })
+      }, function(error) {
+        // an error happened
+        notify('error', 'Settings not updated', 'Sorry, an error occured.')
+        router.push({ name: 'settings' })
+      });
+    }
+  }
+})
+
 // component: song list
 var ListSongs = Vue.extend({
   template: '#song-list',
@@ -1367,6 +1396,7 @@ var router = new VueRouter({
     {name: 'home',            component: Dashboard,      path: '/'},
     // user
     {name: 'profile',         component: ShowProfile,    path: '/profile'},
+    {name: 'settings',        component: Settings,       path: '/settings'},
     // songs
     {name: 'songs',           component: ListSongs,      path: '/songs'},
     {name: 'songs-by-tag',    component: ListSongs,      path: '/songs/tag/:tag'},
