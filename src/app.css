@@ -24,6 +24,12 @@ input, textarea, select {
   font-weight: normal;
   margin: 0;
 }
+.button.label-right {
+  text-align: right;
+}
+.button.label-left {
+  text-align: left;
+}
 :focus {
   outline:none;
 }
@@ -203,7 +209,6 @@ footer > .button-group > .button {
   color: grey;
 }
 .title-bar .drop-down .dropdown-pane .button {
-  text-align: left;
   background-color: black;
 }
 .title-bar .drop-down .dropdown-pane .button:hover {
@@ -533,8 +538,8 @@ section .footer {
   background-position: center center;
 }
 .title-bar .user-profile-picture {
-  width: 32px;
-  height: 32px;
+  width: 2em;
+  height: 2em;
   border-radius: 50%;
   background-size: cover;
   background-position: center center;

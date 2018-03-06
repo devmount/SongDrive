@@ -75,7 +75,7 @@
               <input type="email" v-model="login.email" placeholder="Email">
               <input type="password" v-model="login.password" placeholder="Password">
               <div class="stacked button-group">
-                <button class="button" @click="signIn">
+                <button class="button label-right" @click="signIn">
                   Sign in
                   <i class="ti-angle-right ti-fw" aria-hidden="true"></i>
                 </button>
@@ -89,19 +89,19 @@
                 <span class="sub-information">{{ user.email }}</span>
               </div>
               <div class="stacked button-group">
-                <router-link :to="{name: 'home'}" class="button">
+                <router-link :to="{name: 'home'}" class="button label-left">
                   <i class="ti-dashboard ti-fw" aria-hidden="true"></i>
                   Dashboard
                 </router-link>
-                <router-link :to="{name: 'profile'}" class="button">
+                <router-link :to="{name: 'profile'}" class="button label-left">
                   <i class="ti-user ti-fw" aria-hidden="true"></i>
                   Profile
                 </router-link>
-                <router-link :to="{name: 'settings'}" class="button">
+                <router-link :to="{name: 'settings'}" class="button label-left">
                   <i class="ti-settings ti-fw" aria-hidden="true"></i>
                   Settings
                 </router-link>
-                <button class="button" @click="signOut">
+                <button class="button label-left" @click="signOut">
                   <i class="ti-angle-right ti-fw" aria-hidden="true"></i>
                   Sign Out
                 </button>
