@@ -532,6 +532,15 @@ section .footer {
   background-size: cover;
   background-position: center center;
 }
+.title-bar .user-profile-picture {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  display: inline-block;
+  vertical-align: middle;
+}
 
 /* Chart.js */
 .doughnut {

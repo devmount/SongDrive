@@ -68,7 +68,8 @@
         <router-link :to="{name: 'songs'}">Songs</router-link>
         <router-link :to="{name: 'setlists'}">Setlists</router-link>
         <a class="dropdown" tabindex="0">
-          <i class="ti-user ti-fw avatar" aria-hidden="true"></i>
+          <div v-if="user && user.photoURL" class="user-profile-picture" :style="'background-image: url(' + user.photoURL + ');'"></div>
+          <i v-else class="ti-user ti-fw avatar" aria-hidden="true"></i>
           <div class="dropdown-pane row collapse">
             <div class="small-12 columns" v-if="!user">
               <input type="email" v-model="login.email" placeholder="Email">
@@ -82,7 +83,9 @@
             </div>
             <div class="small-12 columns" v-else>
               <div class="user-information">
-                User<br />
+                <span v-if="user.displayName">{{ user.displayName }}</span>
+                <span v-else>User</span>
+                <br />
                 <span class="sub-information">{{ user.email }}</span>
               </div>
               <div class="stacked button-group">
@@ -544,7 +547,8 @@
       <app-header></app-header>
       <section>
         <header>
-          <h1>Your Profile</h1>
+          <h1 v-if="user && user.displayName">{{ user.displayName }}</h1>
+          <h1 v-else>Your Profile</h1>
         </header>
         <div class="row" v-if="user">
           <div class="small-12 medium-6 columns user-profile">
