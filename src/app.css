@@ -201,9 +201,21 @@ footer > .button-group > .button {
   color: #fff;
 }
 .title-bar .drop-down .dropdown-pane .user-information {
+  position: relative;
   line-height: 1.5em;
   text-align: left;
   padding: 1em;
+  overflow: hidden;
+}
+.title-bar .drop-down .dropdown-pane .user-information::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3em;
+  height: 5em;
+  background: linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0));
 }
 .title-bar .drop-down .dropdown-pane .user-information .sub-information {
   color: grey;

@@ -83,10 +83,9 @@
             </div>
             <div class="small-12 columns" v-else>
               <div class="user-information">
-                <span v-if="user.displayName">{{ user.displayName }}</span>
-                <span v-else>User</span>
-                <br />
-                <span class="sub-information">{{ user.email }}</span>
+                <div v-if="user.displayName">{{ user.displayName }}</div>
+                <div v-else>User</div>
+                <span class="sub-information" :title="user.email">{{ user.email }}</span>
               </div>
               <div class="stacked button-group">
                 <router-link :to="{name: 'home'}" class="button label-left">
@@ -618,13 +617,13 @@
             <div class="small-12 medium-6 columns">
               <h2>Profile data</h2>
               <label>Name
-                <input type="text" v-model="userData.displayName" placeholder="name">
+                <input type="text" v-model="userData.displayName" placeholder="name" required />
               </label>
               <label>Email
-                <input type="email" v-model="user.email" placeholder="email" disabled>
+                <input type="email" v-model="user.email" placeholder="email" disabled />
               </label>
               <label>Picture
-                <input type="url" v-model="userData.photoURL" placeholder="Picture URL">
+                <input type="url" v-model="userData.photoURL" placeholder="Picture URL" />
               </label>
             </div>
             <div class="small-12 medium-6 columns">
