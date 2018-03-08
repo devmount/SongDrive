@@ -697,6 +697,7 @@ section .footer {
 .drop-up .dropdown-pane,
 .drop-down .dropdown-pane {
   position: absolute;
+  display: block;
   width: auto;
   min-width: 166px;
   z-index: 1;
