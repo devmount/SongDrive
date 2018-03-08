@@ -1218,7 +1218,11 @@
       <section v-hotkey="keymap">
         <header>
           <h1>{{ setlist.title }}</h1>
-          <p>{{ setlist.date }} | {{ setlist.songs.length }} Songs</p>
+          <p>
+            <i class="ti-calendar" aria-hidden="true"></i> {{ setlist.date }}
+            <i class="ti-menu-alt" aria-hidden="true"></i> {{ setlist.songs.length }} Songs
+            <span v-if="users && user"><i class="ti-user" aria-hidden="true"></i> {{ user.name }}</span>
+          </p>
         </header>
         <div class="row">
           <div class="columns">

@@ -11,6 +11,7 @@ var LANGUAGE = 'en'
 firebase.initializeApp(config)
 var songsRef    = firebase.database().ref('songs')
 var setlistsRef = firebase.database().ref('setlists')
+var usersRef    = firebase.database().ref('users')
 
 // Setup Notyf
 var notyf = new Notyf({
@@ -936,7 +937,8 @@ var ListSetlists = Vue.extend({
 var ShowSetlist = Vue.extend({
   template: '#show-setlist',
   firebase: {
-    songs: songsRef
+    songs: songsRef,
+    users: usersRef
   },
   data: function() {
     // get setlist from firebase and bind it to this.setlist
@@ -945,7 +947,8 @@ var ShowSetlist = Vue.extend({
       this.setlist.songs = []
     }
     return {
-      setlist: this.setlist
+      setlist: this.setlist,
+      user: {}
     }
   },
   methods: {
@@ -976,9 +979,21 @@ var ShowSetlist = Vue.extend({
       } else {
         notify('success', 'Setlist saved', 'Setlist was successfully deactivated.')
       }
+    },
+    getAuthor: function() {
+      // update user when all necessary data is loaded
+      var self = this
+      if (this.setlist.creator) {
+        usersRef.child(this.setlist.creator).on('value', function(authorsSnap) {
+          self.user = authorsSnap.val()
+        })
+      }
     }
   },
   mounted: function() {
+    // get author
+    this.getAuthor()
+    // statistics
     if (document.getElementById('setlist-languages')) {
       setlistsRef.child(this.$route.params.setlist_id).on('value', function(setlistSnap) {
         songsRef.on('value', function(songSnap) {
