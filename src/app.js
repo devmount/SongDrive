@@ -373,7 +373,7 @@ var Dashboard = Vue.extend({
               }]
             },
             title: {
-              text: 'SETLISTS PER YEAR'
+              text: 'SETLISTS PERFORMED'
             }
           }
         })
@@ -401,7 +401,7 @@ var Dashboard = Vue.extend({
               }]
             },
             title: {
-              text: 'SONGS PER YEAR'
+              text: 'SONGS PERFORMED'
             }
           }
         })
