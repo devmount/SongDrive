@@ -1192,11 +1192,14 @@ var AddSetlist = Vue.extend({
     return {
       setlist: setlist,
       isCloned: isCloned,
-      searchKey: ''
+      searchKey: '',
+      user: firebase.auth().currentUser
     }
   },
   methods: {
     createSetlist: function() {
+      // add creator
+      this.setlist.creator = this.user.uid;
       var newSetlist = setlistsRef.push(this.setlist)
       notify('success', 'Setlist added', 'Data was successfully saved.')
       router.push({ name: 'show-setlist', params: { setlist_id: newSetlist.key }})
@@ -1638,6 +1641,7 @@ function getSetlistObject(setlist, noSongs) {
     songs:    setlist ? (noSongs ? [] : setlist.songs) : [],
     active:   setlist ? setlist.active : 0,
     position: setlist ? setlist.position : 0,
+    creator:  setlist ? setlist.creator : ''
   }
 }
 
