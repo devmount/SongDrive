@@ -11,12 +11,12 @@ var LANGUAGE = 'en'
 const messages = {
   en: {
     message: {
-      hello: 'hello world'
+      dashboard: 'Dashboard'
     }
   },
   de: {
     message: {
-      hello: 'Hallo Welt'
+      dashboard: 'Dashboard'
     }
   }
 }
