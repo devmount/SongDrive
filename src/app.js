@@ -7,6 +7,26 @@ var ADMIN = false
 // Setup language
 var LANGUAGE = 'en'
 
+// Setup translations
+const messages = {
+  en: {
+    message: {
+      hello: 'hello world'
+    }
+  },
+  de: {
+    message: {
+      hello: 'Hallo Welt'
+    }
+  }
+}
+
+// Setup VueI18n instance with options
+const I18N = new VueI18n({
+  locale: LANGUAGE, // set locale
+  messages, // set locale messages
+})
+
 // Setup Firebase
 firebase.initializeApp(config)
 var songsRef    = firebase.database().ref('songs')
@@ -1439,7 +1459,8 @@ var router = new VueRouter({
 // create Vue app
 var app = new Vue({
   el: '#app',
-  router: router
+  router: router,
+  i18n: I18N
 })
 
 

@@ -11,6 +11,8 @@
   <!-- Vue -->
   <script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
   <script type="text/javascript" src="./node_modules/vue-router/dist/vue-router.min.js"></script>
+  <!-- Vue Compontent: i18n -->
+  <script type="text/javascript" src="./node_modules/vue-i18n/dist/vue-i18n.min.js"></script>
   <!-- Vue Compontent: Vue MultiSelect -->
   <script type="text/javascript" src="./node_modules/vue-multiselect/dist/vue-multiselect.min.js"></script>
   <link type="text/css" rel="stylesheet" href="./node_modules/vue-multiselect/dist/vue-multiselect.min.css"></link>
@@ -373,7 +375,7 @@
       <app-header></app-header>
       <section>
         <header>
-          <h1>Dashboard</h1>
+          <h1>{{ $t("message.hello") }}</h1>
         </header>
         <div class="row">
           <div class="small-12 medium-6 columns">
