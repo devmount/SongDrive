@@ -62,13 +62,13 @@
     <div class="title-bar">
       <div class="title-bar-left">
         <router-link :to="{name: 'home'}">
-          <img src="./src/img/songdrive_logo.svg" alt="SongDrive Logo" width="32px" />
-          <span class="show-for-medium">SongDrive</span>
+          <img src="./src/img/songdrive_logo.svg" :alt="$t('songdrive') + ' ' + $t('logo')" width="32px" />
+          <span class="show-for-medium">{{ $t('songdrive') }}</span>
         </router-link>
       </div>
       <div class="title-bar-right drop-down">
-        <router-link :to="{name: 'songs'}">Songs</router-link>
-        <router-link :to="{name: 'setlists'}">Setlists</router-link>
+        <router-link :to="{name: 'songs'}">{{ $tc('song', 2) }}</router-link>
+        <router-link :to="{name: 'setlists'}">{{ $tc('setlist', 2) }}</router-link>
         <a class="dropdown" tabindex="0">
           <div v-if="user && user.photoURL" class="user-profile-picture" :style="'background-image: url(' + user.photoURL + ');'"></div>
           <i v-else class="ti-user ti-fw avatar" aria-hidden="true"></i>
@@ -375,7 +375,7 @@
       <app-header></app-header>
       <section>
         <header>
-          <h1>{{ $t('dashboard')}}</h1>
+          <h1>{{ $t('dashboard') }}</h1>
         </header>
         <div class="row">
           <div class="small-12 medium-6 columns">

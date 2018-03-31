@@ -1,30 +1,34 @@
 // SongDrive version
 var VERSION = '0.2.10'
 
-// Setup admin mode (if set to false, SongDrive will be in reading mode only)
+// Default admin mode (if set to false, SongDrive will be in reading mode only)
 var ADMIN = false
 
 // Setup language
 var LANGUAGE = 'en'
 
 // Setup translations
-const messages = {
+const TRANSLATIONS = {
   en: {
-    message: {
-      dashboard: 'Dashboard'
-    }
+    logo: 'Logo',
+    songdrive: 'SongDrive',
+    dashboard: 'Dashboard',
+    song: 'Song | Songs',
+    setlist: 'Setlist | Setlists',
   },
   de: {
-    message: {
-      dashboard: 'Dashboard'
-    }
+    logo: 'Logo',
+    songdrive: 'SongDrive',
+    dashboard: 'Dashboard',
+    song: 'Lied | Lieder',
+    setlist: 'Setlist | Setlisten',
   }
 }
 
 // Setup VueI18n instance with options
 const I18N = new VueI18n({
   locale: LANGUAGE, // set locale
-  messages, // set locale messages
+  messages: TRANSLATIONS, // set locale output
 })
 
 // Setup Firebase
