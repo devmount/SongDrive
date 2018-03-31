@@ -15,6 +15,10 @@ const TRANSLATIONS = {
     dashboard: 'Dashboard',
     song: 'Song | Songs',
     setlist: 'Setlist | Setlists',
+    signin: 'Sign In',
+    signout: 'Sign Out',
+    profile: 'Profile',
+    settings: 'Settings',
   },
   de: {
     logo: 'Logo',
@@ -22,6 +26,10 @@ const TRANSLATIONS = {
     dashboard: 'Dashboard',
     song: 'Lied | Lieder',
     setlist: 'Setlist | Setlisten',
+    signin: 'Anmelden',
+    signout: 'Abmelden',
+    profile: 'Profil',
+    settings: 'Einstellungen',
   }
 }
 
