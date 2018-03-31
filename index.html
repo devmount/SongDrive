@@ -137,17 +137,17 @@
   <div class="container">
     <div class="row align-stretch">
       <div class="small-12 medium-6 columns song-form-fields">
-        <label>Title
-          <input type="text" v-model="song.title" placeholder="title" required>
+        <label>{{ $t('title') }}
+          <input type="text" v-model="song.title" :placeholder="$t('placeholder.title')" required>
         </label>
         <div class="row">
           <div class="medium-9 columns">
-            <label>Subtitle
-              <input type="text" v-model="song.subtitle" placeholder="subtitle">
+            <label>{{ $t('subtitle') }}
+              <input type="text" v-model="song.subtitle" :placeholder="$t('placeholder.subtitle')">
             </label>
           </div>
           <div class="medium-3 columns">
-            <label>Language</label>
+            <label>{{ $t('language') }}</label>
             <multiselect
               label="label"
               v-model="song.language"
@@ -155,42 +155,42 @@
               :searchable="true"
               :allow-empty="true"
               :show-labels="false"
-              placeholder=""
+              :placeholder="$t('placeholder.choose')"
             >
             </multiselect>
           </div>
         </div>
-        <label>Authors
-          <input type="text" v-model="song.authors" placeholder="authors">
+        <label>{{ $t('authors') }}
+          <input type="text" v-model="song.authors" :placeholder="$t('placeholder.authors')">
         </label>
         <div class="row">
           <div class="medium-4 columns">
-            <label>Year
-              <input type="number" v-model="song.year" placeholder="year">
+            <label>{{ $t('year') }}
+              <input type="number" v-model="song.year" :placeholder="$t('placeholder.year')">
             </label>
           </div>
           <div class="medium-5 columns">
-            <label>CCLI
-              <input type="number" v-model="song.ccli" placeholder="CCLI song number">
+            <label>{{ $t('ccli') }}
+              <input type="number" v-model="song.ccli" :placeholder="$t('placeholder.ccli')">
             </label>
           </div>
           <div class="medium-3 columns">
-            <label>Tuning
-              <input type="text" v-model="song.tuning" placeholder="tuning">
+            <label>{{ $t('tuning') }}
+              <input type="text" v-model="song.tuning" :placeholder="$t('placeholder.tuning')">
             </label>
           </div>
         </div>
-        <label>Publisher
-          <textarea v-model="song.publisher" placeholder="publisher" rows="2"></textarea>
+        <label>{{ $t('publisher') }}
+          <textarea v-model="song.publisher" rows="2" :placeholder="$t('placeholder.publisher')"></textarea>
         </label>
-        <label>Note
-          <textarea v-model="song.note" placeholder="Some notes e.g. about capo" rows="2"></textarea>
+        <label>{{ $t('note') }}
+          <textarea v-model="song.note" rows="2" :placeholder="$t('placeholder.note')"></textarea>
         </label>
-        <label>Tags
+        <label>{{ $t('tags') }}
           <multiselect
             class="song-tags"
             v-model="song.tags"
-            placeholder="Add tag"
+            :placeholder="$t('placeholder.tags')"
             :options="tags"
             :searchable="true"
             :allow-empty="true"
@@ -206,7 +206,7 @@
         </label>
       </div>
       <div class="small-12 medium-6 columns content-column">
-        <label>Content
+        <label>{{ $t('content') }}
           <!-- data-html="#song-content-tooltip"
           v-tippy="{
             position: 'left',
@@ -225,7 +225,7 @@
           }" -->
           <textarea
             v-model="song.content"
-            placeholder="A song with chords"
+            :placeholder="$t('placeholder.content')"
             rows="33"
             required
           ></textarea>
