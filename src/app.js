@@ -5,35 +5,35 @@ var VERSION = '0.2.10'
 var ADMIN = false
 
 // Setup language
-var LANGUAGE = 'de'
+var LANGUAGE = 'en'
 
 // Setup translations
 const TRANSLATIONS = {
   en: {
-    logo: 'Logo',
-    songdrive: 'SongDrive',
+    by: 'by',
     dashboard: 'Dashboard',
-    song: 'Song | Songs',
+    logo: 'Logo',
+    profile: 'Profile',
     setlist: 'Setlist | Setlists',
+    settings: 'Settings',
     signin: 'Sign In',
     signout: 'Sign Out',
-    profile: 'Profile',
-    settings: 'Settings',
+    song: 'Song | Songs',
+    songdrive: 'SongDrive',
     with: 'with',
-    by: 'by',
   },
   de: {
-    logo: 'Logo',
-    songdrive: 'SongDrive',
+    by: 'von',
     dashboard: 'Dashboard',
-    song: 'Lied | Lieder',
+    logo: 'Logo',
+    profile: 'Profil',
     setlist: 'Setlist | Setlisten',
+    settings: 'Einstellungen',
     signin: 'Anmelden',
     signout: 'Abmelden',
-    profile: 'Profil',
-    settings: 'Einstellungen',
+    song: 'Lied | Lieder',
+    songdrive: 'SongDrive',
     with: 'mit',
-    by: 'von',
   }
 }
 
@@ -82,20 +82,20 @@ Chart.defaults.global.maintainAspectRatio   = false
 // Setup PDF export
 pdfMake.fonts = {
   FiraSans: {
-    normal: 'FiraSans-Light.ttf',
-    bold: 'FiraSans-Bold.ttf',
-    italics: 'FiraSans-Regular.ttf',
+    normal:      'FiraSans-Light.ttf',
+    bold:        'FiraSans-Bold.ttf',
+    italics:     'FiraSans-Regular.ttf',
     bolditalics: 'FiraSans-Medium.ttf'
   },
   FiraMono: {
-    normal: 'FiraMono-Regular.ttf',
-    bold: 'FiraMono-Bold.ttf',
+    normal:  'FiraMono-Regular.ttf',
+    bold:    'FiraMono-Bold.ttf',
     italics: 'FiraMono-Medium.ttf'
   },
   Roboto: {
-    normal: 'Roboto-Regular.ttf',
-    bold: 'Roboto-Medium.ttf',
-    italics: 'Roboto-Italic.ttf',
+    normal:      'Roboto-Regular.ttf',
+    bold:        'Roboto-Medium.ttf',
+    italics:     'Roboto-Italic.ttf',
     bolditalics: 'Roboto-Italic.ttf'
   }
 }
