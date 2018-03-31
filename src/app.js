@@ -5,7 +5,7 @@ var VERSION = '0.2.10'
 var ADMIN = false
 
 // Setup language
-var LANGUAGE = 'en'
+var LANGUAGE = 'de'
 
 // Setup translations
 const TRANSLATIONS = {
@@ -19,6 +19,8 @@ const TRANSLATIONS = {
     signout: 'Sign Out',
     profile: 'Profile',
     settings: 'Settings',
+    with: 'with',
+    by: 'by',
   },
   de: {
     logo: 'Logo',
@@ -30,6 +32,8 @@ const TRANSLATIONS = {
     signout: 'Abmelden',
     profile: 'Profil',
     settings: 'Einstellungen',
+    with: 'mit',
+    by: 'von',
   }
 }
 
