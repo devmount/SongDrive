@@ -88,6 +88,9 @@ footer > .button-group > .button {
   text-align: center;
   color: #777;
 }
+.callout {
+  border: none;
+}
 .callout > .loading {
   position: absolute;
   top: 50%;
