@@ -1,8 +1,8 @@
 # SongDrive
 
-[![license](https://img.shields.io/badge/license-MIT%20License-88b544.svg?style=flat-square)](./LICENSE) [![release](https://img.shields.io/badge/release-v0.2.10%20beta-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive) [![size](https://img.shields.io/badge/size-1.72%20MB-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive)
+[![license](https://img.shields.io/badge/license-MIT%20License-88b544.svg?style=flat-square)](./LICENSE) [![release](https://img.shields.io/badge/release-v1.0.0%20beta-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive) [![size](https://img.shields.io/badge/size-1.72%20MB-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive)
 
-A song management web application to store, synchronize and present songs and setlists, based on [Vue.js 2.5](//vuejs.org/), [Firebase 4.10](//firebase.google.com/) and [Foundation 6.4](//foundation.zurb.com).
+A song management web application to store, synchronize and present songs and setlists, based on [Vue.js](//vuejs.org/), [Firebase](//firebase.google.com/) and [Spectre.css](//github.com/picturepan2/spectre).
 
 ![songdrive-dashboard](https://user-images.githubusercontent.com/5441654/37065594-a8ab1044-21a1-11e8-9248-04a998e26a72.gif)
 
@@ -22,28 +22,31 @@ A song management web application to store, synchronize and present songs and se
 
 ## Installation
 
-1. Download this repository and unzip it to the location of your choice
+1. Get all files
 
     ```bash
-    wget https://github.com/devmount/SongDrive/archive/master.zip
-    unzip master.zip
-    mv SongDrive-master/ SongDrive/
+    git clone https://github.com/devmount/SongDrive
     ```
 
 2. Install all dependencies using [Yarn](https://yarnpkg.com)
 
     ```bash
-    cd SongDrive/
+    cd SongDrive
     yarn
     ```
 
-3. Create an empty file called `config.js` in the `SongDrive/src` subdirectory
+3. Create an empty file called `config.js` in `SongDrive/src`
+
+    ```bash
+    touch src/config.js
+    ```
+
 4. Log in to your [Firebase account](https://console.firebase.google.com) and hit the "Create new project" button
 5. Enter your new project and click "Add Firebase to your web app"
 6. Copy the following code from the code that is shown to your just created `config.js`:
 
     ```javascript
-    var config = {
+    export const config = {
         apiKey: "<your-api-key>",
         authDomain: "<your-auth-domain>",
         databaseURL: "<your-database-url>",
@@ -53,19 +56,20 @@ A song management web application to store, synchronize and present songs and se
     }
     ```
 
-7. To create the necessary database structure, go to *Database* in the left menu, click on the three dot menu on the upper right corner of the database field and choos *Import JSON*. In the following file selection dialog, browse for the file `database.json` of this repository and import it.
-8. Now you can open and use SongDrive in your browser by calling the url of the location where you downloaded the project files to, i.e. `example.com/songdrive/` or `file:///your-path/SongDrive/index.html`. You should see two example songs and one example setlist.
+7. To create the necessary database structure, go to *Database* in the left menu of your Firebase dashboard, click on the three dot menu on the upper right corner of the database field and choose *Import JSON*. In the following file selection dialog, browse for the file `database.json` contained in this repository and import it.
 
-## Customization
+8. Either start the development server with hot reload at localhost:8080 ...
 
-SongDrive is mainly based on the default styling of the Foundation front-end framework. Those styles can be found in `src/foundation.min.css` and can be generated and customized on the [Foundation Download page](https://foundation.zurb.com/sites/download.html/).
+    ```bash
+    yarn serve
+    ```
 
-Songdrive uses the default configuration except for the following:
+9. ... or create a production build with minification
 
-- **Components > Grid**: Flex Grid
-- **Set your defaults > The Grid > Max-Width**: 75
-- **Set your defaults > Colors > Primary Color**: 88b544
-- **Set your defaults > Global Radius > Radius**: 0
+    ```bash
+    yarn build
+    ```
+---
 
 ## Usage
 
