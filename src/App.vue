@@ -9,6 +9,18 @@
 </template>
 
 <style lang="scss">
+$primary-color: #88b544;
+$error-color: #ed2f47;
+$body-font-color: #798a8e;
+$bg-color: #1b1e1f;
+$bg-color-light: #1b1e1f;
+$bg-color-dark: #2c3638;
+$border-color: #222627;
+
+@import "node_modules/spectre.css/src/spectre";
+@import "node_modules/spectre.css/src/spectre-icons";
+@import "node_modules/spectre.css/src/spectre-exp";
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
