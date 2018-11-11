@@ -6246,6 +6246,10 @@ spdy@^3.4.1:
     select-hose "^2.0.0"
     spdy-transport "^2.0.18"
 
+spectre.css@^0.5.5:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/spectre.css/-/spectre.css-0.5.5.tgz#52f8a32260c463f77802315e7338f86cb1dfd847"
+
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/split-string/-/split-string-3.1.0.tgz#7cb09dda3a86585705c64b39a6466038682e8fe2"
