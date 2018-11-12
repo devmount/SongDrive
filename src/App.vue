@@ -1,10 +1,50 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="off-canvas off-canvas-sidebar-show">
+      <!-- off-screen toggle button -->
+      <a class="off-canvas-toggle btn btn-primary btn-action" href="#sidebar-id">
+        <i class="icon icon-menu"></i>
+      </a>
+
+      <!-- off-screen sidebar -->
+      <div id="sidebar-id" class="off-canvas-sidebar">
+        <ul class="menu">
+          <li class="menu-item">
+            <div class="tile tile-centered">
+              <div class="tile-icon"><img class="avatar" src="http://media.devmount.de/profile.jpg" alt="Avatar"></div>
+              <div class="tile-content">
+                Andreas Müller
+              </div>
+            </div>
+          </li>
+          <li class="divider"></li>
+          <li class="menu-item">
+            <router-link to="/">Dashboard</router-link>
+          </li>
+          <li class="menu-item">
+            <router-link to="/">Profile</router-link>
+          </li>
+          <li class="menu-item">
+            <div class="menu-badge">
+              <label class="label label-primary">203</label>
+            </div>
+            <router-link to="/about">Songs</router-link>
+          </li>
+          <li class="menu-item">
+            <div class="menu-badge">
+              <label class="label label-primary">132</label>
+            </div>
+            <router-link to="/about">Setlists</router-link>
+          </li>
+        </ul>
+      </div>
+      <a class="off-canvas-overlay" href="#close"></a>
+
+      <!-- off-screen content -->
+      <div class="off-canvas-content">
+        <router-view/>
+      </div>
     </div>
-    <router-view/>
   </div>
 </template>
 
@@ -22,19 +62,12 @@ $border-color: #222627;
 @import "node_modules/spectre.css/src/spectre-exp";
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+
 }
-#nav {
-  padding: 30px;
+.menu {
   a {
-    font-weight: bold;
-    color: #2c3e50;
     &.router-link-exact-active {
-      color: #42b983;
+      color: $primary-color;
     }
   }
 }
