@@ -9,7 +9,7 @@
       <!-- off-screen sidebar -->
       <div id="sidebar-id" class="off-canvas-sidebar">
         <ul class="menu">
-          <li class="menu-item">
+          <li class="menu-item pt-2 pb-2">
             <div class="tile tile-centered">
               <div class="tile-icon"><img class="avatar" src="http://media.devmount.de/profile.jpg" alt="Avatar"></div>
               <div class="tile-content">
@@ -22,19 +22,26 @@
             <router-link to="/">Dashboard</router-link>
           </li>
           <li class="menu-item">
-            <router-link to="/">Profile</router-link>
-          </li>
-          <li class="menu-item">
             <div class="menu-badge">
               <label class="label label-primary">203</label>
             </div>
-            <router-link to="/about">Songs</router-link>
+            <router-link to="/songs">Songs</router-link>
           </li>
-          <li class="menu-item">
+          <li class="menu-item pb-2">
             <div class="menu-badge">
               <label class="label label-primary">132</label>
             </div>
-            <router-link to="/about">Setlists</router-link>
+            <router-link to="/setlists">Setlists</router-link>
+          </li>
+          <li class="divider" data-content="ACCOUNT">
+          <li class="menu-item pt-2">
+            <router-link to="/profile"><i class="icon icon-people mr-2"></i> Profile</router-link>
+          </li>
+          <li class="menu-item">
+            <router-link to="/settings"><i class="icon icon-edit mr-2"></i> Settings</router-link>
+          </li>
+          <li class="menu-item">
+            <a href=""><i class="icon icon-arrow-right mr-2"></i> Logout</a>
           </li>
         </ul>
       </div>
@@ -62,7 +69,7 @@ $border-color: #222627;
 @import "node_modules/spectre.css/src/spectre-exp";
 
 #app {
-
+  min-height: 90vh;
 }
 .menu {
   a {
