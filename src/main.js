@@ -3,6 +3,9 @@ import App from './App.vue'
 import router from './router'
 import './registerServiceWorker'
 
+import VueFire from 'vuefire'
+Vue.use(VueFire)
+
 Vue.config.productionTip = false
 
 new Vue({
