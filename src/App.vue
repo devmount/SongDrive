@@ -8,7 +8,7 @@
 
       <!-- off-screen sidebar -->
       <div id="sidebar-id" class="off-canvas-sidebar">
-        <div class="brand">
+        <div class="brand text-center mt-2">
           <router-link to="/" class="logo">
             <img src="./assets/logo.svg" alt="SongDrive Song Management Tool">
             <h2>SONGDRIVE</h2>
@@ -74,8 +74,15 @@ $border-color: #222627;
 @import "node_modules/spectre.css/src/spectre-icons";
 @import "node_modules/spectre.css/src/spectre-exp";
 
-.off-canvas .off-canvas-content {
+.off-canvas {
+  .off-canvas-sidebar {
+    min-width: 12rem;
+  }
+
+  .off-canvas-content {
     min-height: 100vh;
+    padding: 1rem 2rem;
+  }
 }
 
 .brand {
