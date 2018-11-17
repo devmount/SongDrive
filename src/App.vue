@@ -64,15 +64,30 @@
 <style lang="scss">
 $primary-color: #88b544;
 $error-color: #ed2f47;
-$body-font-color: #798a8e;
+$body-font-color: #a0acaf;
 $bg-color: #161819;
 $bg-color-light: #1b1e1f;
-$bg-color-dark: #2c3638;
+$bg-color-dark: #293031;
 $border-color: #222627;
 
 @import "node_modules/spectre.css/src/spectre";
 @import "node_modules/spectre.css/src/spectre-icons";
 @import "node_modules/spectre.css/src/spectre-exp";
+
+.m-3 { margin: .6rem !important; }
+.mt-3 { margin-top: .6rem !important; }
+.mr-3 { margin-right: .6rem !important; }
+.mb-3 { margin-bottom: .6rem !important; }
+.ml-3 { margin-left: .6rem !important; }
+.mx-3 { margin-right: .6rem !important; margin-left: .6rem !important; }
+.my-3 { margin-top: .6rem !important; margin-bottom: .6rem !important; }
+.p-3 { padding: .6rem !important; }
+.pt-3 { padding-top: .6rem !important; }
+.pr-3 { padding-right: .6rem !important; }
+.pb-3 { padding-bottom: .6rem !important; }
+.pl-3 { padding-left: .6rem !important; }
+.px-3 { padding-right: .6rem !important; padding-left: .6rem !important; }
+.py-3 { padding-top: .6rem !important; padding-bottom: .6rem !important; }
 
 .off-canvas {
   .off-canvas-sidebar {
@@ -98,7 +113,8 @@ $border-color: #222627;
     h2 {
       display: inline-block;
       font-size: 1.1rem;
-      font-weight: 700;
+      font-weight: 400;
+      letter-spacing: 2px;
       line-height: 1.6rem;
       margin-bottom: 0;
       margin-left: .5rem;
@@ -119,6 +135,9 @@ $border-color: #222627;
     a {
       &:hover {
         background: #202718;
+      }
+      &.text-error:hover {
+        background: #27181c;
       }
 
       &.router-link-exact-active {
