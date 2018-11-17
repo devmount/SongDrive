@@ -3,8 +3,8 @@ import App from './App.vue'
 import router from './router'
 import './registerServiceWorker'
 
-import VueFire from 'vuefire'
-Vue.use(VueFire)
+import VueFirestore from 'vue-firestore'
+Vue.use(VueFirestore)
 
 Vue.config.productionTip = false
 
