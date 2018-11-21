@@ -103,6 +103,11 @@ $border-color: #222627;
 .px-3 { padding-right: .6rem !important; padding-left: .6rem !important; }
 .py-3 { padding-top: .6rem !important; padding-bottom: .6rem !important; }
 
+h1, h2, h3, h4, h5, h6 {
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
 .off-canvas {
   .off-canvas-sidebar {
     min-width: 12rem;

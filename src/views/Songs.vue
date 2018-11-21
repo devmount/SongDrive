@@ -2,19 +2,25 @@
   <div class="songs">
     <div class="container">
       <div class="columns">
-        <div class="column col-4"><h1>{{ filteredSongs.length }} Songs</h1></div>
-        <div class="column col-6">
-          <div class="has-icon-left">
-            <input type="search" v-model="query" class="form-input input-lg" placeholder="Search" />
-            <i class="form-icon icon icon-search"></i>
+        <!-- heading -->
+        <div class="column col-4"><h2><span class="label text-bold mr-2 px-2">{{ filteredSongs.length }}</span> Songs</h2></div>
+        <!-- search title, subtitles -->
+        <div class="column col-5">
+          <div class="input-group">
+            <span class="input-group-addon addon-lg"><i class="form-icon icon icon-search"></i></span>
+            <input type="search" v-model="search" class="form-input input-lg" placeholder="Search ..." />
+            <button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><i class="form-icon icon icon-cross"></i></button>
           </div>
         </div>
-        <div class="column col-2">
-          <div class="form-group">
-            <select class="form-select select-lg">
-              <option value="">Filter</option>
+        <!-- filter tags -->
+        <div class="column col-3">
+          <div class="input-group">
+            <span class="input-group-addon addon-lg"><i class="form-icon icon icon-bookmark"></i></span>
+            <select v-model="filter" class="form-select select-lg">
+              <option value="">Filter ...</option>
               <option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
             </select>
+            <button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><i class="form-icon icon icon-cross"></i></button>
           </div>
         </div>
       </div>
@@ -74,21 +80,27 @@ export default {
   },
   data () {
     return {
-      query: ''
+      search: '',
+      filter: ''
     }
   },
   computed: {
     filteredSongs () {
-      if (this.query != '') {
-        var self = this
-        return this.songs.filter(function(song) {
+      var songs = this.songs, self = this
+      if (this.search != '') {
+        songs = songs.filter(function(song) {
           // filter fields: title, subtitle
-          var key = self.query.toLowerCase()
+          var key = self.search.toLowerCase()
           return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1
         })
-      } else {
-        return this.songs
       }
+      if (this.filter != '') {
+        songs = songs.filter(function(song) {
+          // filter field: tags
+          return song.tags.indexOf(self.filter) !== -1
+        })
+      }
+      return songs
     }
   }
 }
