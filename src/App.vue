@@ -21,13 +21,13 @@
           </li>
           <li class="menu-item">
             <div class="menu-badge">
-              <label class="label label-primary">203</label>
+              <label class="label label-primary">{{ songs.length }}</label>
             </div>
             <router-link to="/songs">Songs</router-link>
           </li>
           <li class="menu-item pb-2">
             <div class="menu-badge">
-              <label class="label label-primary">132</label>
+              <label class="label label-primary">???</label>
             </div>
             <router-link to="/setlists">Setlists</router-link>
           </li>
@@ -60,6 +60,20 @@
     </div>
   </div>
 </template>
+
+<script>
+// get database object authorized in config.js
+import { db } from './firebase'
+
+export default {
+  name: 'app',
+  firestore () {
+    return {
+      songs: db.collection('songs'),
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 $primary-color: #88b544;
