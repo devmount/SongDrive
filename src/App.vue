@@ -83,6 +83,7 @@ $bg-color: #161819;
 $bg-color-light: #1b1e1f;
 $bg-color-dark: #293031;
 $border-color: #222627;
+$gray-color: #5e6769;
 
 @import "node_modules/spectre.css/src/spectre";
 @import "node_modules/spectre.css/src/spectre-icons";

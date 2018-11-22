@@ -3,9 +3,9 @@
     <div class="container">
       <div class="columns">
         <!-- heading -->
-        <div class="column col-4"><h2><span class="label text-bold mr-2 px-2">{{ filteredSongs.length }}</span> Songs</h2></div>
+        <div class="column col-4 col-xl-12"><h2><span class="label text-bold mr-2 px-2">{{ filteredSongs.length }}</span> Songs</h2></div>
         <!-- search title, subtitles -->
-        <div class="column col-5">
+        <div class="column col-5 col-xl-6 col-sm-12">
           <div class="input-group">
             <span class="input-group-addon addon-lg"><i class="form-icon icon icon-search"></i></span>
             <input type="search" v-model="search" class="form-input input-lg" placeholder="Search ..." />
@@ -13,11 +13,11 @@
           </div>
         </div>
         <!-- filter tags -->
-        <div class="column col-3">
+        <div class="column col-3 col-xl-6 col-sm-12">
           <div class="input-group">
             <span class="input-group-addon addon-lg"><i class="form-icon icon icon-bookmark"></i></span>
-            <select v-model="filter" class="form-select select-lg">
-              <option value="">Filter ...</option>
+            <select v-model="filter" class="form-select select-lg filter">
+              <option value="" disabled selected>Filter ...</option>
               <option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
             </select>
             <button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><i class="form-icon icon icon-cross"></i></button>
@@ -30,19 +30,19 @@
       <thead>
         <tr>
           <th>Title</th>
-          <th class="hide-sm">Subtitle</th>
-          <th>Authors</th>
-          <th class="hide-sm">Year</th>
+          <th class="hide-xl">Subtitle</th>
+          <th class="hide-md">Authors</th>
+          <th class="hide-xl">Year</th>
           <th>Tuning</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(song, i) in filteredSongs" :key="i">
-          <td>{{ song.title }} <div class="show-sm text-gray">{{ song.subtitle }}</div></td>
-          <td class="hide-sm">{{ song.subtitle }}</td>
-          <td>{{ song.authors.join(' | ')}}</td>
-          <td class="hide-sm">{{ song.year }}</td>
+          <td>{{ song.title }} <div class="show-xl text-gray">{{ song.subtitle }}</div></td>
+          <td class="hide-xl">{{ song.subtitle }}</td>
+          <td class="hide-md">{{ song.authors.join(' | ')}}</td>
+          <td class="hide-xl">{{ song.year }}</td>
           <td>{{ song.tuning }}</td>
           <td>
             <div class="dropdown">
@@ -107,5 +107,10 @@ export default {
 </script>
 
 <style lang="scss">
-
+.filter:required:invalid {
+  color: #5e6769;
+}
+.filter option[value=""][disabled] {
+  display: none;
+}
 </style>
