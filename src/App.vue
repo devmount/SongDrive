@@ -76,6 +76,7 @@ export default {
 </script>
 
 <style lang="scss">
+// overwrite spectre variables
 $primary-color: #88b544;
 $error-color: #ed2f47;
 $body-font-color: #a0acaf;
@@ -85,10 +86,12 @@ $bg-color-dark: #293031;
 $border-color: #222627;
 $gray-color: #5e6769;
 
+// import spectre
 @import "node_modules/spectre.css/src/spectre";
 @import "node_modules/spectre.css/src/spectre-icons";
 @import "node_modules/spectre.css/src/spectre-exp";
 
+// positions
 .m-3 { margin: .6rem !important; }
 .mt-3 { margin-top: .6rem !important; }
 .mr-3 { margin-right: .6rem !important; }
@@ -104,6 +107,7 @@ $gray-color: #5e6769;
 .px-3 { padding-right: .6rem !important; padding-left: .6rem !important; }
 .py-3 { padding-top: .6rem !important; padding-bottom: .6rem !important; }
 
+// headings
 h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   font-weight: 300;
@@ -114,6 +118,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+// off-canvas
 .off-canvas {
   .off-canvas-sidebar {
     min-width: 12rem;
@@ -132,6 +137,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+// branding
 .brand {
   padding: 1em 1em 0 1em;
 
@@ -155,6 +161,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+// sidebar menu
 .menu {
   box-shadow: none;
   background: $bg-color;
@@ -178,5 +185,16 @@ h1, h2, h3, h4, h5, h6 {
       }
     }
   }
+}
+
+// filter select field
+.filter:required:invalid {
+  color: $gray-color;
+}
+.filter option[value=""][disabled] {
+  display: none;
+}
+.filter option {
+  color: $body-font-color;
 }
 </style>

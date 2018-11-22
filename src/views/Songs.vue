@@ -109,13 +109,5 @@ export default {
 </script>
 
 <style lang="scss">
-.filter:required:invalid {
-  color: #5e6769;
-}
-.filter option[value=""][disabled] {
-  display: none;
-}
-.filter option {
-  color: #a0acaf;
-}
+
 </style>
