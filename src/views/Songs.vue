@@ -6,7 +6,7 @@
         <div class="column col-4 col-xl-12">
           <h2 class="view-title">
             <span v-if="ready" class="label text-bold mr-2 px-2">{{ filteredSongs.length }}</span>
-            <div v-else class="loading loading-lg d-inline-block mr-2 px-2"></div>
+            <div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
             Songs
           </h2>
         </div>
@@ -32,7 +32,7 @@
       </div>
     </div>
     
-    <table class="table table-striped table-hover">
+    <table v-if="ready" class="table table-striped table-hover">
       <thead>
         <tr>
           <th>Title</th>
@@ -83,10 +83,10 @@ export default {
       songs: {
         ref: db.collection('songs'),
         // objects: false,
-        resolve: (data) => {
+        resolve: () => {
             this.ready = true
         },
-        reject: (err) => {
+        reject: () => {
             this.ready = true
         }
       },

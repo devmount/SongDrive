@@ -112,6 +112,11 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   font-weight: 300;
 }
+.view-title {
+  .loading {
+    vertical-align: text-bottom;
+  }
+}
 @media (max-width: $size-xl) {
   .view-title {
     text-align: center;
