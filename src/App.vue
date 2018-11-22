@@ -108,6 +108,11 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   font-weight: 300;
 }
+@media (max-width: $size-xl) {
+  .view-title {
+    text-align: center;
+  }
+}
 
 .off-canvas {
   .off-canvas-sidebar {
@@ -117,6 +122,13 @@ h1, h2, h3, h4, h5, h6 {
   .off-canvas-content {
     min-height: 100vh;
     padding: 1rem 2rem;
+  }
+}
+@media (max-width: $size-xl) {
+  .off-canvas {
+    .off-canvas-content {
+      padding: .5rem;
+    }
   }
 }
 

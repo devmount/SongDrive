@@ -3,7 +3,9 @@
     <div class="container">
       <div class="columns">
         <!-- heading -->
-        <div class="column col-4 col-xl-12"><h2><span class="label text-bold mr-2 px-2">{{ filteredSongs.length }}</span> Songs</h2></div>
+        <div class="column col-4 col-xl-12">
+          <h2 class="view-title"><span class="label text-bold mr-2 px-2">{{ filteredSongs.length }}</span> Songs</h2>
+        </div>
         <!-- search title, subtitles -->
         <div class="column col-5 col-xl-6 col-sm-12">
           <div class="input-group">
@@ -16,7 +18,7 @@
         <div class="column col-3 col-xl-6 col-sm-12">
           <div class="input-group">
             <span class="input-group-addon addon-lg"><i class="form-icon icon icon-bookmark"></i></span>
-            <select v-model="filter" class="form-select select-lg filter">
+            <select v-model="filter" class="form-select select-lg filter" required>
               <option value="" disabled selected>Filter ...</option>
               <option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
             </select>
@@ -112,5 +114,8 @@ export default {
 }
 .filter option[value=""][disabled] {
   display: none;
+}
+.filter option {
+  color: #a0acaf;
 }
 </style>
