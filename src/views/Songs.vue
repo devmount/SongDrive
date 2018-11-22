@@ -4,7 +4,11 @@
       <div class="columns">
         <!-- heading -->
         <div class="column col-4 col-xl-12">
-          <h2 class="view-title"><span class="label text-bold mr-2 px-2">{{ filteredSongs.length }}</span> Songs</h2>
+          <h2 class="view-title">
+            <span v-if="ready" class="label text-bold mr-2 px-2">{{ filteredSongs.length }}</span>
+            <div v-else class="loading loading-lg d-inline-block mr-2 px-2"></div>
+            Songs
+          </h2>
         </div>
         <!-- search title, subtitles -->
         <div class="column col-5 col-xl-6 col-sm-12">
@@ -76,14 +80,24 @@ export default {
   name: 'songs',
   firestore () {
     return {
-      songs: db.collection('songs'),
+      songs: {
+        ref: db.collection('songs'),
+        // objects: false,
+        resolve: (data) => {
+            this.ready = true
+        },
+        reject: (err) => {
+            this.ready = true
+        }
+      },
       tags: db.collection('tags'),
     }
   },
   data () {
     return {
       search: '',
-      filter: ''
+      filter: '',
+      ready: false
     }
   },
   computed: {
