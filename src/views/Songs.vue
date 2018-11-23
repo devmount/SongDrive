@@ -49,7 +49,7 @@
           <td class="hide-xl">{{ song.subtitle }}</td>
           <td class="hide-md">{{ song.authors.join(' | ')}}</td>
           <td class="hide-xl">{{ song.year }}</td>
-          <td>{{ song.tuning }}</td>
+          <td class="text-center">{{ song.tuning }}</td>
           <td>
             <div class="dropdown">
               <div class="btn-group">
@@ -95,7 +95,7 @@ export default {
   data () {
     return {
       search: '',
-      filter: '',
+      filter: this.$route.params.tag ? this.$route.params.tag : '',
       ready: false
     }
   },
