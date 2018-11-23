@@ -82,7 +82,6 @@ export default {
     return {
       songs: {
         ref: db.collection('songs'),
-        // objects: false,
         resolve: () => {
             this.ready = true
         },

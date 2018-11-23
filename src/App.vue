@@ -21,13 +21,14 @@
           </li>
           <li class="menu-item">
             <div class="menu-badge">
-              <label class="label label-primary">{{ songs.length }}</label>
+              <label v-if="ready" class="label label-primary pb-1">{{ songs.length }}</label>
+              <label v-else class="label label-primary pt-1"><div class="loading d-inline-block px-2"></div></label>
             </div>
             <router-link to="/songs">Songs</router-link>
           </li>
           <li class="menu-item pb-2">
             <div class="menu-badge">
-              <label class="label label-primary">???</label>
+              <label class="label label-primary pb-1">???</label>
             </div>
             <router-link to="/setlists">Setlists</router-link>
           </li>
@@ -69,7 +70,20 @@ export default {
   name: 'app',
   firestore () {
     return {
-      songs: db.collection('songs'),
+      songs: {
+        ref: db.collection('songs'),
+        resolve: () => {
+            this.ready = true
+        },
+        reject: () => {
+            this.ready = true
+        }
+      },
+    }
+  },
+  data () {
+    return {
+      ready: false
     }
   }
 }
@@ -187,6 +201,12 @@ h1, h2, h3, h4, h5, h6 {
       &.router-link-exact-active {
         background: #202718;
         color: $primary-color;
+      }
+    }
+    .loading {
+      &::after {
+        border-left-color: white;
+        border-bottom-color: white;
       }
     }
   }
