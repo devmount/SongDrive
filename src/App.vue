@@ -11,7 +11,7 @@
         <div class="brand text-center mt-2">
           <router-link to="/" class="logo">
             <img src="./assets/logo.svg" alt="SongDrive Song Management Tool">
-            <h2>SONGDRIVE</h2>
+            <h1>SONGDRIVE</h1>
           </router-link>
         </div>
         <ul class="menu text-uppercase">
@@ -93,7 +93,7 @@ export default {
 // overwrite spectre variables
 $primary-color: #88b544;
 $error-color: #ed2f47;
-$body-font-color: #a0acaf;
+$body-font-color: #c1ced1;
 $bg-color: #161819;
 $bg-color-light: #1b1e1f;
 $bg-color-dark: #293031;
@@ -126,13 +126,21 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   font-weight: 300;
 }
-.view-title {
+h2 {
+  letter-spacing: 3px;
+  margin-bottom: .2em;
+
   .loading {
     vertical-align: text-bottom;
   }
 }
+h3 {
+  font-size: 16px;
+  letter-spacing: 2px;
+  padding-bottom: 1em;
+}
 @media (max-width: $size-xl) {
-  .view-title {
+  h2, h3 {
     text-align: center;
   }
 }
@@ -170,7 +178,7 @@ pre {
       display: inline-block;
       width: 32px;
     }
-    h2 {
+    h1 {
       display: inline-block;
       font-size: 1.1rem;
       font-weight: 400;

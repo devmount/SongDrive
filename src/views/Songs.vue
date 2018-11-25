@@ -58,7 +58,11 @@
                   <i class="icon icon-caret"></i>
                 </a>
                 <ul class="menu">
-                  <li class="menu-item"><router-link :to="'/song/' + song['.key']" class="py-3 px-3"><i class="icon icon-resize-horiz mr-2"></i> Show</router-link></li>
+                  <li class="menu-item">
+                    <router-link :to="{ name: 'song-show', params: { id: song['.key'] }}" class="py-3 px-3">
+                      <i class="icon icon-resize-horiz mr-2"></i> Show
+                    </router-link>
+                  </li>
                   <li class="menu-item"><a href="#" class="py-3 px-3"><i class="icon icon-edit mr-2"></i> Edit</a></li>
                   <li class="menu-item"><a href="#" class="py-3 px-3"><i class="icon icon-plus mr-2"></i> Duplicate</a></li>
                   <li class="menu-item"><a href="#" class="py-3 px-3 text-error"><i class="icon icon-delete mr-2"></i> Delete</a></li>
