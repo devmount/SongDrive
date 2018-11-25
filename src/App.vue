@@ -121,7 +121,7 @@ $gray-color: #5e6769;
 .px-3 { padding-right: .6rem !important; padding-left: .6rem !important; }
 .py-3 { padding-top: .6rem !important; padding-bottom: .6rem !important; }
 
-// headings
+// typography
 h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   font-weight: 300;
@@ -136,6 +136,9 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
   }
 }
+pre {
+  font-family: monospace;
+} 
 
 // off-canvas
 .off-canvas {
