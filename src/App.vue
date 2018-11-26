@@ -90,6 +90,9 @@ export default {
 </script>
 
 <style lang="scss">
+// import external dependencies
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono');
+
 // overwrite spectre variables
 $primary-color: #88b544;
 $error-color: #ed2f47;
@@ -99,6 +102,7 @@ $bg-color-light: #1b1e1f;
 $bg-color-dark: #293031;
 $border-color: #222627;
 $gray-color: #5e6769;
+$mono-font-family: "Fira Mono", monospace;
 
 // import spectre
 @import "node_modules/spectre.css/src/spectre";
@@ -127,6 +131,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
 }
 h2 {
+  font-size: 2.5em;
   letter-spacing: 3px;
   margin-bottom: .2em;
 
@@ -135,7 +140,7 @@ h2 {
   }
 }
 h3 {
-  font-size: 16px;
+  font-size: 1em;
   letter-spacing: 2px;
   padding-bottom: 1em;
 }
@@ -144,9 +149,6 @@ h3 {
     text-align: center;
   }
 }
-pre {
-  font-family: monospace;
-} 
 
 // off-canvas
 .off-canvas {
