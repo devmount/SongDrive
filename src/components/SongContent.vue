@@ -8,7 +8,7 @@
 export default {
   name: 'SongContent',
   props: {
-    content: Object
+    content: String
   },
   computed: {
     // parse song <content>
