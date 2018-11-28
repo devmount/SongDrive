@@ -4,7 +4,9 @@
 
 A song management web application to store, synchronize and present songs and setlists, based on [Vue.js](//vuejs.org/), [Firebase](//firebase.google.com/) and [Spectre.css](//github.com/picturepan2/spectre).
 
-![songdrive-dashboard](https://user-images.githubusercontent.com/5441654/37065594-a8ab1044-21a1-11e8-9248-04a998e26a72.gif)
+![songdrive-dashboard](https://user-images.githubusercontent.com/5441654/49120961-188ea400-f2af-11e8-80d1-05a31fb16cd1.png)
+
+SongDrive 1.x is currently in development, if you are looking for SongDrive 0.x, you can download the latest release [here](https://github.com/devmount/SongDrive/releases).
 
 ## Features
 
@@ -71,11 +73,13 @@ A song management web application to store, synchronize and present songs and se
     ```
 ---
 
+<!--
 ## Usage
 
 ### Song Syntax
 
 The notation of the song content is simple: Just add the song lines with the corresponding chords above the exact syllable. Add two whitespaces at the end of each chord line for them to be recognized by the system for text only view or transposition.
+-->
 
 ## Licence
 
@@ -83,10 +87,5 @@ The notation of the song content is simple: Just add the song lines with the cor
 
 ---
 
-If you like SongDrive and want to give some love back, feel free to...
+SongDrive is completely free to use. If you enjoy it, please consider [donating via Paypal](https://paypal.me/devmount) for further development. :green_heart:
 
-<p align="center">
-  <a href="https://www.buymeacoffee.com/devmount" target="_blank">
-  <img alt="Buy me a coffee" src="https://user-images.githubusercontent.com/5441654/44213163-60a91100-a16d-11e8-9d5d-7d862cae7b7c.png">
-  </a>
-</p>
