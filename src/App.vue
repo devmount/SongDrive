@@ -17,20 +17,22 @@
         <ul class="menu text-uppercase">
           <li class="divider"></li>
           <li class="menu-item">
-            <router-link to="/">Dashboard</router-link>
+            <router-link to="/" class="py-2">Dashboard</router-link>
           </li>
           <li class="menu-item">
             <div class="menu-badge">
-              <label v-if="ready" class="label label-primary pb-1">{{ songs.length }}</label>
-              <label v-else class="label label-primary pt-1"><div class="loading d-inline-block px-2"></div></label>
+              <label v-if="ready" class="label py-1">{{ songs.length }}</label>
+              <label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
+              <button class="btn btn-action btn-sm ml-2"><i class="icon icon-plus"></i></button>
             </div>
-            <router-link to="/songs">Songs</router-link>
+            <router-link to="/songs" class="py-2">Songs</router-link>
           </li>
           <li class="menu-item pb-2">
             <div class="menu-badge">
-              <label class="label label-primary pb-1">???</label>
+              <label class="label pb-1">???</label>
+              <button class="btn btn-action btn-sm ml-2"><i class="icon icon-plus"></i></button>
             </div>
-            <router-link to="/setlists">Setlists</router-link>
+            <router-link to="/setlists" class="py-2">Setlists</router-link>
           </li>
           <li class="divider" data-content="ACCOUNT">
           <li class="menu-item pt-2 pb-2">
@@ -42,13 +44,13 @@
             </div>
           </li>
           <li class="menu-item pt-2">
-            <router-link to="/profile"><i class="icon icon-people mr-2"></i> Profile</router-link>
+            <router-link to="/profile" class="py-2"><i class="icon icon-people mr-2"></i> Profile</router-link>
           </li>
           <li class="menu-item">
-            <router-link to="/settings"><i class="icon icon-edit mr-2"></i> Settings</router-link>
+            <router-link to="/settings" class="py-2"><i class="icon icon-edit mr-2"></i> Settings</router-link>
           </li>
           <li class="menu-item">
-            <a href=""><i class="icon icon-arrow-right mr-2"></i> Logout</a>
+            <a href="" class="py-2"><i class="icon icon-arrow-right mr-2"></i> Logout</a>
           </li>
         </ul>
       </div>
@@ -150,6 +152,12 @@ h3 {
   }
 }
 
+// button
+.btn.btn-xl {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
 // off-canvas
 .off-canvas {
   .off-canvas-sidebar {
@@ -158,7 +166,7 @@ h3 {
 
   .off-canvas-content {
     min-height: 100vh;
-    padding: 1rem 2rem;
+    padding: 1rem 1.5rem;
   }
 }
 @media (max-width: $size-xl) {
@@ -220,6 +228,14 @@ h3 {
       &::after {
         border-left-color: white;
         border-bottom-color: white;
+      }
+    }
+    .menu-badge {
+      .label {
+        vertical-align: middle;
+      }
+      .btn {
+        margin-top: 0;
       }
     }
   }
