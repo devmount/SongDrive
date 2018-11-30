@@ -60,18 +60,17 @@ SongDrive 1.x is currently in development, if you are looking for SongDrive 0.x,
 
 7. To create the necessary database structure, go to *Database* in the left menu of your Firebase dashboard, click on the three dot menu on the upper right corner of the database field and choose *Import JSON*. In the following file selection dialog, browse for the file `database.json` contained in this repository and import it.
 
-8. Either start the development server with hot reload at localhost:8080 ...
+8. Either start the development server with hot reload at `localhost:8080` ...
 
     ```bash
     yarn serve
     ```
 
-9. ... or create a production build with minification
+9. ... or create an optimized production build with minification
 
     ```bash
     yarn build
     ```
----
 
 <!--
 ## Usage
