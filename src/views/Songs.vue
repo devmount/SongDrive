@@ -1,6 +1,6 @@
 <template>
   <div class="songs">
-    <div class="container">
+    <div class="container no-sidebar">
       <div class="columns">
         <!-- heading -->
         <div class="column col-4 col-xl-12">
@@ -30,51 +30,52 @@
           </div>
         </div>
       </div>
-    </div>
     
-    <table v-if="ready" class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th class="hide-xl">Subtitle</th>
-          <th class="hide-md">Authors</th>
-          <th class="hide-xl">Year</th>
-          <th>Tuning</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(song, i) in filteredSongs" :key="i">
-          <td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">
-            {{ song.title }} <div class="show-xl text-gray">{{ song.subtitle }}</div>
-          </td>
-          <td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.subtitle }}</td>
-          <td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.authors.join(' | ')}}</td>
-          <td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.year }}</td>
-          <td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.tuning }}</td>
-          <td>
-            <div class="dropdown dropdown-right">
-              <div class="btn-group">
-                <a class="btn btn-primary dropdown-toggle" tabindex="0">
-                  Action
-                  <i class="icon icon-caret"></i>
-                </a>
-                <ul class="menu">
-                  <li class="menu-item">
-                    <router-link :to="{ name: 'song-show', params: { id: song['.key'] }}" class="py-3 px-3">
-                      <i class="icon icon-resize-horiz mr-2"></i> Show
-                    </router-link>
-                  </li>
-                  <li class="menu-item"><a href="#" class="py-3 px-3"><i class="icon icon-edit mr-2"></i> Edit</a></li>
-                  <li class="menu-item"><a href="#" class="py-3 px-3"><i class="icon icon-copy mr-2"></i> Duplicate</a></li>
-                  <li class="menu-item"><a href="#" class="py-3 px-3 text-error"><i class="icon icon-delete mr-2"></i> Delete</a></li>
-                </ul>
+      <table v-if="ready" class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th class="hide-xl">Subtitle</th>
+            <th class="hide-md">Authors</th>
+            <th class="hide-xl">Year</th>
+            <th>Tuning</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(song, i) in filteredSongs" :key="i">
+            <td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">
+              {{ song.title }} <div class="show-xl text-gray">{{ song.subtitle }}</div>
+            </td>
+            <td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.subtitle }}</td>
+            <td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.authors.join(' | ')}}</td>
+            <td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.year }}</td>
+            <td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.tuning }}</td>
+            <td>
+              <div class="dropdown dropdown-right">
+                <div class="btn-group">
+                  <a class="btn btn-primary dropdown-toggle" tabindex="0">
+                    Action
+                    <i class="icon icon-caret"></i>
+                  </a>
+                  <ul class="menu">
+                    <li class="menu-item">
+                      <router-link :to="{ name: 'song-show', params: { id: song['.key'] }}" class="py-3 px-3">
+                        <i class="icon icon-resize-horiz mr-2"></i> Show
+                      </router-link>
+                    </li>
+                    <li class="menu-item"><a href="#" class="py-3 px-3"><i class="icon icon-edit mr-2"></i> Edit</a></li>
+                    <li class="menu-item"><a href="#" class="py-3 px-3"><i class="icon icon-copy mr-2"></i> Duplicate</a></li>
+                    <li class="menu-item"><a href="#" class="py-3 px-3 text-error"><i class="icon icon-delete mr-2"></i> Delete</a></li>
+                  </ul>
+                </div>
               </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
   </div>
 </template>
 

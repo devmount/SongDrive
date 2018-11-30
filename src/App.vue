@@ -2,12 +2,12 @@
   <div id="app">
     <div class="off-canvas off-canvas-sidebar-show">
       <!-- off-screen toggle button -->
-      <a class="off-canvas-toggle btn btn-primary btn-action" href="#sidebar-id">
+      <a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
         <i class="icon icon-menu"></i>
       </a>
 
       <!-- off-screen sidebar -->
-      <div id="sidebar-id" class="off-canvas-sidebar">
+      <div id="sidebar-id" class="off-canvas-sidebar" :class="{ active: open }">
         <div class="brand text-center mt-2">
           <router-link to="/" class="logo">
             <img src="./assets/logo.svg" alt="SongDrive Song Management Tool">
@@ -17,7 +17,7 @@
         <ul class="menu text-uppercase">
           <li class="divider"></li>
           <li class="menu-item">
-            <router-link to="/" class="py-2">Dashboard</router-link>
+            <router-link to="/" class="py-2" @click.native="open = false">Dashboard</router-link>
           </li>
           <li class="menu-item">
             <div class="menu-badge">
@@ -25,14 +25,14 @@
               <label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
               <button class="btn btn-action btn-sm ml-2"><i class="icon icon-plus"></i></button>
             </div>
-            <router-link to="/songs" class="py-2">Songs</router-link>
+            <router-link to="/songs" class="py-2" @click.native="open = false">Songs</router-link>
           </li>
           <li class="menu-item pb-2">
             <div class="menu-badge">
               <label class="label pb-1">???</label>
               <button class="btn btn-action btn-sm ml-2"><i class="icon icon-plus"></i></button>
             </div>
-            <router-link to="/setlists" class="py-2">Setlists</router-link>
+            <router-link to="/setlists" class="py-2" @click.native="open = false">Setlists</router-link>
           </li>
           <li class="divider" data-content="ACCOUNT">
           <li class="menu-item pt-2 pb-2">
@@ -44,17 +44,17 @@
             </div>
           </li>
           <li class="menu-item pt-2">
-            <router-link to="/profile" class="py-2"><i class="icon icon-people mr-2"></i> Profile</router-link>
+            <router-link to="/profile" class="py-2" @click.native="open = false"><i class="icon icon-people mr-2"></i> Profile</router-link>
           </li>
           <li class="menu-item">
-            <router-link to="/settings" class="py-2"><i class="icon icon-edit mr-2"></i> Settings</router-link>
+            <router-link to="/settings" class="py-2" @click.native="open = false"><i class="icon icon-edit mr-2"></i> Settings</router-link>
           </li>
           <li class="menu-item">
             <a href="" class="py-2"><i class="icon icon-arrow-right mr-2"></i> Logout</a>
           </li>
         </ul>
       </div>
-      <a class="off-canvas-overlay" href="#close"></a>
+      <a class="off-canvas-overlay" @click="open = false"></a>
 
       <!-- off-screen content -->
       <div class="off-canvas-content">
@@ -85,7 +85,8 @@ export default {
   },
   data () {
     return {
-      ready: false
+      ready: false,
+      open: false
     }
   }
 }
@@ -99,7 +100,8 @@ export default {
 $primary-color: #88b544;
 $error-color: #ed2f47;
 $body-font-color: #c1ced1;
-$bg-color: #161819;
+$bg-color: #131516;
+$bg-color-medium: #181a1b;
 $bg-color-light: #1b1e1f;
 $bg-color-dark: #293031;
 $border-color: #222627;
@@ -160,13 +162,17 @@ h3 {
 
 // off-canvas
 .off-canvas {
+  z-index: 0;
+  .off-canvas-toggle {
+    z-index: 10;
+  }
+
   .off-canvas-sidebar {
     min-width: 12rem;
   }
-
   .off-canvas-content {
     min-height: 100vh;
-    padding: 1rem 1.5rem;
+    padding: 0 !important;
   }
 }
 @media (max-width: $size-xl) {
@@ -175,6 +181,35 @@ h3 {
       padding: .5rem;
     }
   }
+}
+.off-canvas-secondary {
+  .off-canvas-sidebar {
+    background: $bg-color-medium;
+    padding: 1rem;
+    min-width: 8rem;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    position: relative;
+    -webkit-transform: none;
+    transform: none;
+
+    .btn {
+      width: 100%;
+    }
+  }
+}
+@media (max-width: $size-lg) {
+  .off-canvas-secondary {
+    .off-canvas-sidebar {
+      padding: 3rem .4rem .4rem .4rem;
+      min-width: 2.6rem;
+    }
+  }
+}
+.container.no-sidebar,
+.off-canvas-secondary .off-canvas-content .container {
+  padding: 1rem;
 }
 
 // branding
