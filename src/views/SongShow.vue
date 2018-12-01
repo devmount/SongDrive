@@ -3,8 +3,15 @@
     <div class="off-canvas off-canvas-secondary">
       <div class="off-canvas-sidebar active">
         <button class="btn btn-primary d-block" @click="$router.go(-1)">
-          <i class="icon icon-arrow-left"></i><span class="hide-lg"> back</span>
+          <i class="icon icon-arrow-left"></i><span class="hide-lg"> BACK</span>
         </button>
+        <div class="divider text-center" data-content="VIEW"></div>
+        <div class="form-group">
+          <label class="form-switch">
+            <input type="checkbox" v-model="chords" @click="toggleChords">
+            <i class="form-icon"></i> CHORDS
+          </label>
+        </div>
       </div>
       <div class="off-canvas-content">
         <div class="container">
@@ -12,7 +19,7 @@
             <div v-if="ready" class="column col-12">
               <h2>{{ song.title }}</h2>
               <h3>{{ song.subtitle }}</h3>
-              <SongContent :content="song.content" />
+              <SongContent :content="song.content" :chords="chords" />
               <footer>
                 <p>{{ song.authors.join(' | ')}}</p>
                 <p>
@@ -59,6 +66,11 @@ export default {
       chords: true,
       transposed: 0,
       ready: false
+    }
+  },
+  methods: {
+    toggleChords () {
+      this.chords = !this.chords
     }
   }
 }

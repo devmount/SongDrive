@@ -8,7 +8,16 @@
 export default {
   name: 'SongContent',
   props: {
-    content: String
+    content: String,
+    chords: Boolean
+  },
+  methods: {
+    isChordLine (line) {
+      if (line == '') {
+        return false
+      }
+      return line.slice(-2) === '  ';
+    }
   },
   computed: {
     // parse song <content>
@@ -19,6 +28,10 @@ export default {
       // check every content line
       for (var i = 0; i < lines.length; i++) {
         var line = lines[i]
+        // handle chord lines
+        if (this.isChordLine(line) && !this.chords) {
+          continue
+        }
         // if normal song line is found
         if (line.trim().indexOf('--') < 0) {
           // only consider line if not empty
