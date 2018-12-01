@@ -197,6 +197,10 @@ h3 {
     .btn {
       width: 100%;
     }
+
+    .divider[data-content]::after {
+      background: $bg-color-medium;
+    }
   }
 }
 @media (max-width: $size-lg) {

@@ -46,38 +46,31 @@ export default {
         // if song part is found (e.g. --V1)
         else {
           // add class to part
-          switch (line.charAt(2)) {
-            case 'V':
+          switch (line.charAt(2).toLowerCase()) {
             case 'v':
               types.push('v')
               classes.push('verse ' + ((!isNaN(parseInt(line.trim().charAt(3)))) ? 'part' + line.trim().charAt(3) : ''))
               numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
-            case 'P':
             case 'p':
               types.push('p')
               classes.push('prechorus')
               numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
-            case 'C':
             case 'c':
               types.push('c')
               classes.push('chorus')
               numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
-            case 'B':
             case 'b':
               types.push('b')
               classes.push('bridge')
               numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
-            case 'I':
             case 'i':
               types.push('i')
               classes.push('intro')
               numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
-            case 'M':
             case 'm':
               types.push('m')
               classes.push('mitro')
               numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
-            case 'O':
             case 'o':
               types.push('o')
               classes.push('outro')
