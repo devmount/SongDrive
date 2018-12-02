@@ -159,6 +159,9 @@ h3 {
   width: 2.5rem;
   height: 2.5rem;
 }
+.btn.stretch {
+  width: 100%;
+}
 
 // off-canvas
 .off-canvas {
@@ -186,7 +189,7 @@ h3 {
   .off-canvas-sidebar {
     background: $bg-color-medium;
     padding: 1rem;
-    min-width: 8rem;
+    min-width: 8.5rem;
     -webkit-box-flex: 0;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
@@ -194,10 +197,9 @@ h3 {
     -webkit-transform: none;
     transform: none;
 
-    .btn {
-      width: 100%;
+    .divider {
+      margin-top: 2em;
     }
-
     .divider[data-content]::after {
       background: $bg-color-medium;
     }

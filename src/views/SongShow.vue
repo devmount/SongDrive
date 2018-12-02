@@ -2,7 +2,7 @@
   <div class="profile">
     <div class="off-canvas off-canvas-secondary">
       <div class="off-canvas-sidebar active">
-        <button class="btn btn-primary d-block" @click="$router.go(-1)">
+        <button class="btn btn-primary d-block stretch" @click="$router.go(-1)">
           <i class="icon icon-arrow-left"></i><span class="hide-lg"> BACK</span>
         </button>
         <div class="divider text-center" data-content="VIEW"></div>
@@ -12,11 +12,16 @@
             <i class="form-icon"></i> CHORDS
           </label>
         </div>
+        <div class="divider text-center" data-content="TRANSLATION"></div>
+        <button class="btn btn-primary mr-1 text-uppercase disabled" @click="$router.go(-1)">de</button>
+        <button class="btn btn-primary mr-1 text-uppercase" @click="$router.go(-1)">en</button>
+        <button class="btn btn-primary mr-1 text-uppercase" @click="$router.go(-1)">fr</button>
+        {{ getTranslations }}
       </div>
       <div class="off-canvas-content">
         <div class="container">
           <div class="columns">
-            <div v-if="ready" class="column col-12">
+            <div v-if="ready.song" class="column col-12">
               <h2>{{ song.title }}</h2>
               <h3>{{ song.subtitle }}</h3>
               <SongContent :content="song.content" :chords="chords" />
@@ -56,8 +61,13 @@ export default {
     return {
       song: {
         ref: db.collection('songs').doc(this.$route.params.id),
-        resolve: () => { this.ready = true },
-        reject: () => { this.ready = true }
+        resolve: () => { this.ready.song = true },
+        reject: () => { this.ready.song = true }
+      },
+      songs: {
+        ref: db.collection('songs'),
+        resolve: () => { this.ready.songs = true },
+        reject: () => { this.ready.songs = true }
       },
     }
   },
@@ -65,12 +75,28 @@ export default {
     return {
       chords: true,
       transposed: 0,
-      ready: false
+      ready: {
+        song: false,
+        songs: false,
+      }
     }
   },
   methods: {
     toggleChords () {
       this.chords = !this.chords
+    }
+  },
+  computed: {
+    getTranslations () {
+      var translatedSongs = []
+      if (this.ready.songs) {
+        for (const key in this.song.translations) {
+          const translatedSong = this.song.translations[key];
+          console.log(db.collection('songs').doc(translatedSong))
+          translatedSongs.push(this.songs[translatedSong])
+        }
+      }
+      return translatedSongs
     }
   }
 }
