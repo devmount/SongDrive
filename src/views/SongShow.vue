@@ -14,9 +14,8 @@
         </div>
         <div class="divider text-center" data-content="TRANSLATION"></div>
         <button class="btn btn-primary mr-1 text-uppercase disabled" @click="$router.go(-1)">de</button>
-        <button class="btn btn-primary mr-1 text-uppercase" @click="$router.go(-1)">en</button>
-        <button class="btn btn-primary mr-1 text-uppercase" @click="$router.go(-1)">fr</button>
-        {{ getTranslations }}
+        {{translatedSongs}}
+        <button v-for="(tsong, i) in translatedSongs" :key="i" class="btn btn-primary mr-1 text-uppercase">{{ tsong.language }}</button>
       </div>
       <div class="off-canvas-content">
         <div class="container">
@@ -72,9 +71,20 @@ export default {
     }
   },
   data () {
+    var translatedSongs = []
+    for (const key in this.song.translations) {
+      const translatedSong = this.song.translations[key];
+      db.collection('songs').doc(translatedSong).get().then(function(doc) {
+        if (doc.exists) {
+          console.log(doc.data())
+          translatedSongs.push(doc.data())
+        }
+      })
+    }
     return {
       chords: true,
       transposed: 0,
+      translatedSongs: translatedSongs,
       ready: {
         song: false,
         songs: false,
@@ -84,19 +94,6 @@ export default {
   methods: {
     toggleChords () {
       this.chords = !this.chords
-    }
-  },
-  computed: {
-    getTranslations () {
-      var translatedSongs = []
-      if (this.ready.songs) {
-        for (const key in this.song.translations) {
-          const translatedSong = this.song.translations[key];
-          console.log(db.collection('songs').doc(translatedSong))
-          translatedSongs.push(this.songs[translatedSong])
-        }
-      }
-      return translatedSongs
     }
   }
 }
