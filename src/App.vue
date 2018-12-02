@@ -154,6 +154,11 @@ h3 {
   }
 }
 
+// display
+.d-flex > * {
+  flex: auto;
+}
+
 // button
 .btn.btn-xl {
   width: 2.5rem;

@@ -5,6 +5,19 @@
         <button class="btn btn-primary d-block stretch" @click="$router.go(-1)">
           <i class="icon icon-arrow-left"></i><span class="hide-lg"> BACK</span>
         </button>
+        <div class="divider text-center" data-content="TRANSLATION"></div>
+        <div class="d-flex">
+          <button class="btn btn-primary mr-1 text-uppercase disabled">{{ song.language }}</button>
+          <router-link
+            v-if="ready.songs"
+            v-for="(tsong, i) in song.translations"
+            :key="i"
+            :to="{ name: 'song-show', params: { id: tsong }}"
+            class="btn btn-primary mr-1 text-uppercase"
+          >
+            {{ songs[tsong].language }}
+          </router-link>
+        </div>
         <div class="divider text-center" data-content="VIEW"></div>
         <div class="form-group">
           <label class="form-switch">
@@ -12,17 +25,6 @@
             <i class="form-icon"></i> CHORDS
           </label>
         </div>
-        <div class="divider text-center" data-content="TRANSLATION"></div>
-        <button class="btn btn-primary mr-1 text-uppercase disabled">{{ song.language }}</button>
-        <router-link
-          v-if="ready.songs"
-          v-for="(tsong, i) in song.translations"
-          :key="i"
-          :to="{ name: 'song-show', params: { id: tsong }}"
-          class="btn btn-primary mr-1 text-uppercase"
-        >
-          {{ songs[tsong].language }}
-        </router-link>
       </div>
       <div class="off-canvas-content">
         <div class="container">
