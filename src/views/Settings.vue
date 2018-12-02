@@ -1,5 +1,14 @@
 <template>
   <div class="settings">
-    <h1>Settings</h1>
+    <div class="container no-sidebar">
+      <div class="columns">
+        <!-- heading -->
+        <div class="column col-12">
+          <h2 class="view-title">
+            Settings
+          </h2>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

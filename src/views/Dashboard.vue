@@ -1,25 +1,25 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.svg">
-    <HelloWorld msg="SONGDRIVE"/>
+  <div class="dashboard">
+    <div class="container no-sidebar">
+      <div class="columns">
+        <!-- heading -->
+        <div class="column col-12">
+          <h2 class="view-title">
+            Dashboard
+          </h2>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
-  name: 'home',
-  components: {
-    HelloWorld
-  }
+  name: 'dashboard',
 }
 </script>
 
 <style lang="scss">
-.home img {
-  width: 100px;
-}
+
 </style>
 
