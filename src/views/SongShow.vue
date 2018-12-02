@@ -5,15 +5,15 @@
         <button class="btn btn-primary d-block stretch" @click="$router.go(-1)">
           <i class="icon icon-arrow-left"></i><span class="hide-lg"> BACK</span>
         </button>
-        <div class="divider text-center" data-content="TRANSLATION"></div>
+        <div class="divider text-center" data-content="LANGUAGE"></div>
         <div class="d-flex">
-          <button class="btn btn-primary mr-1 text-uppercase disabled">{{ song.language }}</button>
+          <button class="btn btn-primary text-uppercase disabled">{{ song.language }}</button>
           <router-link
             v-if="ready.songs"
             v-for="(tsong, i) in song.translations"
             :key="i"
             :to="{ name: 'song-show', params: { id: tsong }}"
-            class="btn btn-primary mr-1 text-uppercase"
+            class="btn btn-primary ml-1 text-uppercase"
           >
             {{ songs[tsong].language }}
           </router-link>
@@ -25,12 +25,18 @@
             <i class="form-icon"></i> CHORDS
           </label>
         </div>
+        <div class="divider text-center" data-content="TUNING"></div>
+        <div class="d-flex">
+          <button class="btn btn-primary"><i class="icon icon-arrow-left"></i></button>
+          <button class="btn btn-primary ml-1"><i class="icon icon-refresh"></i></button>
+          <button class="btn btn-primary ml-1"><i class="icon icon-arrow-right"></i></button>
+        </div>
       </div>
       <div class="off-canvas-content">
         <div class="container">
           <div class="columns">
             <div v-if="ready.song" class="column col-12">
-              <h2>{{ song.title }}</h2>
+              <h2>{{ song.title }} <span class="label text-bold ml-2 px-3">{{ song.tuning }}</span></h2>
               <h3>{{ song.subtitle }}</h3>
               <SongContent :content="song.content" :chords="chords" />
               <footer>
