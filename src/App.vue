@@ -58,7 +58,7 @@
 
       <!-- off-screen content -->
       <div class="off-canvas-content">
-        <router-view/>
+        <router-view :key="$route.fullPath"></router-view>
       </div>
     </div>
   </div>
