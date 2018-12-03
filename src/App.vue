@@ -153,10 +153,14 @@ h3 {
     text-align: center;
   }
 }
+.text-pre {
+  font-family: $mono-font-family;
+}
 
 // display
 .d-flex > * {
   flex: auto;
+  flex-basis: 0;
 }
 
 // button

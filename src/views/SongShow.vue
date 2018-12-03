@@ -26,19 +26,24 @@
           </label>
         </div>
         <div class="divider text-center" data-content="TUNING"></div>
-        <div class="d-flex">
+        <div class="d-flex mb-2">
           <button class="btn btn-primary" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-left"></i></button>
           <button class="btn btn-primary ml-1" :class="{ disabled: !chords }" @click="tuning = 0"><i class="icon icon-refresh"></i></button>
           <button class="btn btn-primary ml-1" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-right"></i></button>
+        </div>
+        <div class="d-flex">
+          <span class="text-center text-pre text-gray text-large">{{ showTuning.previous }}</span>
+          <span class="label label-rounded text-center text-large text-pre ml-1 text-bold">{{ showTuning.current }}</span>
+          <span class="text-center text-pre text-gray text-large ml-1">{{ showTuning.next }}</span>
         </div>
       </div>
       <div class="off-canvas-content">
         <div class="container">
           <div class="columns">
             <div v-if="ready.song" class="column col-12">
-              <h2>{{ song.title }} <span class="label text-bold ml-2 px-3">{{ song.tuning }}</span></h2>
+              <h2>{{ song.title }} <span class="label text-pre ml-2 px-3">{{ showTuning.current }}</span></h2>
               <h3>{{ song.subtitle }}</h3>
-              <SongContent :content="song.content" :chords="chords" :tuning="tuning" />
+              <SongContent :content="song.content" :chords="chords" :tuning="tuning" :tunes="tunes" />
               <footer>
                 <p>{{ song.authors.join(' | ')}}</p>
                 <p>
@@ -93,12 +98,22 @@ export default {
       ready: {
         song: false,
         songs: false,
-      }
+      },
+      tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
     }
   },
   methods: {
     toggleChords () {
       this.chords = !this.chords
+    }
+  },
+  computed: {
+    showTuning () {
+      return {
+        previous: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning-1 % 12)) % 12],
+        current: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12],
+        next: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning+1 % 12)) % 12],
+      }
     }
   }
 }

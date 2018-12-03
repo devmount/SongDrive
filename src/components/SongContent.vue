@@ -5,14 +5,13 @@
 </template>
 
 <script>
-var TUNES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
-
 export default {
   name: 'SongContent',
   props: {
     content: String,
     chords: Boolean,
-    tuning: Number
+    tuning: Number,
+    tunes: Array
   },
   methods: {
     isChordLine (line) {
@@ -66,9 +65,9 @@ export default {
               c = c + '#'
             }
             // check if character is a transposable character
-            if (TUNES.indexOf(c) > -1) {
+            if (this.tunes.indexOf(c) > -1) {
               // replace character by next tune character
-              var nextTune = TUNES[(12 + TUNES.indexOf(c) + (this.tuning % 12)) % 12]
+              var nextTune = this.tunes[(12 + this.tunes.indexOf(c) + (this.tuning % 12)) % 12]
               newLine += nextTune
               // update over- or underflow of spaces
               spaces += c.length - nextTune.length
