@@ -5,11 +5,14 @@
 </template>
 
 <script>
+var TUNES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
+
 export default {
   name: 'SongContent',
   props: {
     content: String,
-    chords: Boolean
+    chords: Boolean,
+    tuning: Number
   },
   methods: {
     isChordLine (line) {
@@ -20,19 +23,70 @@ export default {
     }
   },
   computed: {
-    // parse song <content>
+    // parse song content
     parsedContent () {
       // initialize arrays for parsed linex, classes of parts, type abbr., numbers of type and part index
       var parsed = [], classes = [], types = [], numbers = [], part = 0
       var lines = this.content.split('\n')
-      // check every content line
+      // check every single line of song content
       for (var i = 0; i < lines.length; i++) {
         var line = lines[i]
-        // handle chord lines
+        // handle display chord lines
         if (this.isChordLine(line) && !this.chords) {
+          // skip chord line if no chords shall be displayed
           continue
         }
-        // if normal song line is found
+        // handle chord tuning
+        if (this.isChordLine(line) && this.tuning != 0) {
+          // init the new line to build and the current over- or underflow of spaces due to different chord string lenghts
+          var newLine = '', spaces = 0, j = 0
+          while (j < line.length) {
+            // get single character in line
+            var c = line[j]
+            // handle over- or underflow of spaces to keep chords on their original position
+            if (spaces > 0 && c == ' ') {
+              // to few spaces: double next existing space and decrease space count
+              c = '  '
+              spaces--
+            }
+            if (spaces < 0 && c == ' ' && line[j+1] == ' ') {
+              // to many spaces: skip one of two consecutive spaces and increase space count
+              spaces++
+              j++
+              continue
+            }
+            // on '#': skip to next character as it will be handled together with tune
+            if (c == '#') {
+              j++
+              continue
+            }
+            var isHalf = line[j+1] == '#'
+            // check if character is a tune with '#'
+            if (isHalf) {
+              c = c + '#'
+            }
+            // check if character is a transposable character
+            if (TUNES.indexOf(c) > -1) {
+              // replace character by next tune character
+              var nextTune = TUNES[(12 + TUNES.indexOf(c) + (this.tuning % 12)) % 12]
+              newLine += nextTune
+              // update over- or underflow of spaces
+              spaces += c.length - nextTune.length
+            } else {
+              newLine += c
+            }
+            j++
+          }
+          // make sure that last two characters stay spaces for chord line identification (rtrim and add 2 spaces)
+          newLine = newLine.replace(/\s+$/, '') + '  '
+          // add lines to new content
+          if (!parsed[part]) {
+            parsed[part] = []
+          }
+          parsed[part].push(newLine)
+          continue
+        }
+        // handle normal song line
         if (line.trim().indexOf('--') < 0) {
           // only consider line if not empty
           if (line.trim() != '') {
@@ -43,7 +97,7 @@ export default {
             parsed[part].push(line)
           }
         }
-        // if song part is found (e.g. --V1)
+        // handle song part marker (e.g. --V1)
         else {
           // add class to part
           switch (line.charAt(2).toLowerCase()) {
@@ -85,12 +139,12 @@ export default {
       var newContent = []
       // if multiple parts: rejoin lines of every part
       if (parsed.length > 1) {
-        for (var j = 1; j < parsed.length; j++) {
+        for (var p = 1; p < parsed.length; p++) {
           newContent.push({
-            type: types[j-1],
-            number: numbers[j-1],
-            class: classes[j-1],
-            content: parsed[j].join('\n')
+            type: types[p-1],
+            number: numbers[p-1],
+            class: classes[p-1],
+            content: parsed[p].join('\n')
           })
         }
       }

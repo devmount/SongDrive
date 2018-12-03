@@ -27,9 +27,9 @@
         </div>
         <div class="divider text-center" data-content="TUNING"></div>
         <div class="d-flex">
-          <button class="btn btn-primary"><i class="icon icon-arrow-left"></i></button>
-          <button class="btn btn-primary ml-1"><i class="icon icon-refresh"></i></button>
-          <button class="btn btn-primary ml-1"><i class="icon icon-arrow-right"></i></button>
+          <button class="btn btn-primary" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-left"></i></button>
+          <button class="btn btn-primary ml-1" :class="{ disabled: !chords }" @click="tuning = 0"><i class="icon icon-refresh"></i></button>
+          <button class="btn btn-primary ml-1" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-right"></i></button>
         </div>
       </div>
       <div class="off-canvas-content">
@@ -38,7 +38,7 @@
             <div v-if="ready.song" class="column col-12">
               <h2>{{ song.title }} <span class="label text-bold ml-2 px-3">{{ song.tuning }}</span></h2>
               <h3>{{ song.subtitle }}</h3>
-              <SongContent :content="song.content" :chords="chords" />
+              <SongContent :content="song.content" :chords="chords" :tuning="tuning" />
               <footer>
                 <p>{{ song.authors.join(' | ')}}</p>
                 <p>
@@ -89,7 +89,7 @@ export default {
   data () {
     return {
       chords: true,
-      transposed: 0,
+      tuning: 0,
       ready: {
         song: false,
         songs: false,
