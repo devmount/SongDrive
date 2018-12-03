@@ -162,6 +162,12 @@ h3 {
   flex: auto;
   flex-basis: 0;
 }
+::selection {
+  background: $primary-color;
+}
+::-moz-selection {
+  background: $primary-color;
+}
 
 // button
 .btn.btn-xl {
