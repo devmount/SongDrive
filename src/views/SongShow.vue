@@ -2,39 +2,56 @@
   <div class="profile">
     <div class="off-canvas off-canvas-secondary">
       <div class="off-canvas-sidebar active">
-        <button class="btn btn-primary d-block stretch" @click="$router.go(-1)">
+        <button class="btn btn-primary d-block stretch mb-1" @click="$router.go(-1)">
           <i class="icon icon-arrow-left"></i><span class="hide-lg"> BACK</span>
         </button>
-        <div class="divider text-center" data-content="LANGUAGE"></div>
+        <button class="btn btn-primary d-block stretch mb-1">
+          <i class="icon icon-edit"></i><span class="hide-lg"> EDIT</span>
+        </button>
+        <button class="btn btn-primary d-block stretch mb-1">
+          <i class="icon icon-copy"></i><span class="hide-lg"> CLONE</span>
+        </button>
+        <button class="btn btn-error d-block stretch">
+          <i class="icon icon-cross"></i><span class="hide-lg"> DELETE</span>
+        </button>
+        <div class="divider text-center show-lg"></div>
+        <div class="divider text-center hide-lg" data-content="LANGUAGE"></div>
         <div class="d-flex">
           <router-link
             v-if="ready.songs"
             v-for="(tsong, i) in showLanguages"
             :key="i"
             :to="{ name: 'song-show', params: { id: tsong[0] }}"
-            class="btn btn-primary text-uppercase"
+            class="btn btn-primary text-uppercase mb-1"
             :class="{ disabled: (song['.key'] == tsong[0]) }"
           >
             {{ tsong[1] }}
           </router-link>
         </div>
-        <div class="divider text-center" data-content="VIEW"></div>
+        <div class="divider text-center show-lg"></div>
+        <div class="divider text-center hide-lg" data-content="VIEW"></div>
         <div class="form-group">
           <label class="form-switch">
             <input type="checkbox" v-model="chords" @click="toggleChords">
-            <i class="form-icon"></i> CHORDS
+            <i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
           </label>
         </div>
-        <div class="divider text-center" data-content="TUNING"></div>
+        <button class="btn btn-primary d-block stretch">
+          <i class="icon icon-resize-horiz"></i><span class="hide-lg"> FULLSCREEN</span>
+        </button>
+        <div class="divider text-center show-lg"></div>
+        <div class="divider text-center hide-lg" data-content="TUNING"></div>
         <div class="d-flex mb-2">
-          <span class="text-center text-pre text-gray text-large">{{ showTuning.previous }}</span>
+          <span class="text-center text-pre text-gray text-large hide-lg">{{ showTuning.previous }}</span>
           <span class="label label-rounded text-center text-large text-pre text-bold">{{ showTuning.current }}</span>
-          <span class="text-center text-pre text-gray text-large">{{ showTuning.next }}</span>
+          <span class="text-center text-pre text-gray text-large hide-lg">{{ showTuning.next }}</span>
         </div>
         <div class="d-flex">
-          <button class="btn btn-primary" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-left"></i></button>
-          <button class="btn btn-primary" :class="{ disabled: !chords }" @click="tuning = 0"><i class="icon icon-refresh"></i></button>
-          <button class="btn btn-primary" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-right"></i></button>
+          <button class="btn btn-primary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-left"></i></button>
+          <button class="btn btn-primary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-up"></i></button>
+          <button class="btn btn-primary mb-1" :class="{ disabled: !chords }" @click="tuning = 0"><i class="icon icon-refresh"></i></button>
+          <button class="btn btn-primary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-right"></i></button>
+          <button class="btn btn-primary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-down"></i></button>
         </div>
       </div>
       <div class="off-canvas-content">

@@ -165,6 +165,17 @@ h3 {
 .d-flex > * + * {
   margin-left: .2rem;
 }
+@media (max-width: $size-lg) {
+  .d-flex {
+    flex-direction: column;
+  }
+  .d-flex > * {
+    margin-left: 0;
+    &.btn {
+      min-height: 36px;
+    }
+  }
+}
 ::selection {
   background: $primary-color;
 }
