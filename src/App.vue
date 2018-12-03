@@ -162,6 +162,9 @@ h3 {
   flex: auto;
   flex-basis: 0;
 }
+.d-flex > * + * {
+  margin-left: .2rem;
+}
 ::selection {
   background: $primary-color;
 }
