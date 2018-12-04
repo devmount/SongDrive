@@ -171,9 +171,6 @@ h3 {
   }
   .d-flex > * {
     margin-left: 0;
-    &.btn {
-      min-height: 36px;
-    }
   }
 }
 ::selection {
@@ -183,13 +180,32 @@ h3 {
   background: $primary-color;
 }
 
-// button
+// form
 .btn.btn-xl {
   width: 2.5rem;
   height: 2.5rem;
 }
 .btn.stretch {
   width: 100%;
+}
+.switch-lg {
+  padding-left: 2.4rem;
+  line-height: 1.4rem;
+
+  .form-icon {
+    border-radius: 0.55rem;
+    height: 1.1rem;
+    width: 2rem;
+
+    &::before {
+      display: block;
+      height: 1rem;
+      width: 1rem;
+    }
+  }
+  input:checked + .form-icon::before {
+    left: 18px;
+  }
 }
 
 // off-canvas
@@ -239,6 +255,13 @@ h3 {
     .off-canvas-sidebar {
       padding: 3rem .4rem .4rem .4rem;
       min-width: 2.6rem;
+    }
+    .btn, .form-switch, .label, .divider {
+      max-width: 2.2rem;
+    }
+    .btn {
+      min-height: 2rem;
+      line-height: 1.3rem;
     }
   }
 }

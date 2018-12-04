@@ -14,7 +14,7 @@
         <button class="btn btn-error d-block stretch">
           <i class="icon icon-cross"></i><span class="hide-lg"> DELETE</span>
         </button>
-        <div class="divider text-center show-lg"></div>
+        <div class="divider text-center show-lg" data-content="L"></div>
         <div class="divider text-center hide-lg" data-content="LANGUAGE"></div>
         <div class="d-flex">
           <router-link
@@ -28,10 +28,10 @@
             {{ tsong[1] }}
           </router-link>
         </div>
-        <div class="divider text-center show-lg"></div>
+        <div class="divider text-center show-lg" data-content="V"></div>
         <div class="divider text-center hide-lg" data-content="VIEW"></div>
         <div class="form-group">
-          <label class="form-switch">
+          <label class="form-switch switch-lg">
             <input type="checkbox" v-model="chords" @click="toggleChords">
             <i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
           </label>
@@ -39,7 +39,7 @@
         <button class="btn btn-primary d-block stretch">
           <i class="icon icon-resize-horiz"></i><span class="hide-lg"> FULLSCREEN</span>
         </button>
-        <div class="divider text-center show-lg"></div>
+        <div class="divider text-center show-lg" data-content="T"></div>
         <div class="divider text-center hide-lg" data-content="TUNING"></div>
         <div class="d-flex mb-2">
           <span class="text-center text-pre text-gray text-large hide-lg">{{ showTuning.previous }}</span>
@@ -48,10 +48,10 @@
         </div>
         <div class="d-flex">
           <button class="btn btn-primary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-left"></i></button>
-          <button class="btn btn-primary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-up"></i></button>
+          <button class="btn btn-primary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-up"></i></button>
           <button class="btn btn-primary mb-1" :class="{ disabled: !chords }" @click="tuning = 0"><i class="icon icon-refresh"></i></button>
           <button class="btn btn-primary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-right"></i></button>
-          <button class="btn btn-primary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-down"></i></button>
+          <button class="btn btn-primary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-down"></i></button>
         </div>
       </div>
       <div class="off-canvas-content">
