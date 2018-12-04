@@ -5,13 +5,15 @@
         <button class="btn btn-primary d-block stretch mb-1" @click="$router.go(-1)">
           <i class="icon icon-arrow-left"></i><span class="hide-lg"> BACK</span>
         </button>
-        <button class="btn btn-primary d-block stretch mb-1">
+        <div class="divider text-center show-lg" data-content="M"></div>
+        <div class="divider text-center hide-lg" data-content="MANAGE"></div>
+        <button class="btn btn-secondary d-block stretch mb-1">
           <i class="icon icon-edit"></i><span class="hide-lg"> EDIT</span>
         </button>
-        <button class="btn btn-primary d-block stretch mb-1">
+        <button class="btn btn-secondary d-block stretch mb-1">
           <i class="icon icon-copy"></i><span class="hide-lg"> CLONE</span>
         </button>
-        <button class="btn btn-error d-block stretch">
+        <button class="btn btn-secondary btn-error d-block stretch">
           <i class="icon icon-cross"></i><span class="hide-lg"> DELETE</span>
         </button>
         <div class="divider text-center show-lg" data-content="L"></div>
@@ -22,7 +24,7 @@
             v-for="(tsong, i) in showLanguages"
             :key="i"
             :to="{ name: 'song-show', params: { id: tsong[0] }}"
-            class="btn btn-primary text-uppercase mb-1"
+            class="btn btn-secondary text-uppercase mb-1"
             :class="{ disabled: (song['.key'] == tsong[0]) }"
           >
             {{ tsong[1] }}
@@ -36,7 +38,7 @@
             <i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
           </label>
         </div>
-        <button class="btn btn-primary d-block stretch">
+        <button class="btn btn-secondary d-block stretch">
           <i class="icon icon-resize-horiz"></i><span class="hide-lg"> FULLSCREEN</span>
         </button>
         <div class="divider text-center show-lg" data-content="T"></div>
@@ -47,12 +49,23 @@
           <span class="text-center text-pre text-gray text-large hide-lg">{{ showTuning.next }}</span>
         </div>
         <div class="d-flex">
-          <button class="btn btn-primary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-left"></i></button>
-          <button class="btn btn-primary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-up"></i></button>
-          <button class="btn btn-primary mb-1" :class="{ disabled: !chords }" @click="tuning = 0"><i class="icon icon-refresh"></i></button>
-          <button class="btn btn-primary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-right"></i></button>
-          <button class="btn btn-primary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-down"></i></button>
+          <button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-left"></i></button>
+          <button class="btn btn-secondary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-up"></i></button>
+          <button class="btn btn-secondary mb-1" :class="{ disabled: !chords }" @click="tuning = 0"><i class="icon icon-refresh"></i></button>
+          <button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-right"></i></button>
+          <button class="btn btn-secondary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-down"></i></button>
         </div>
+        <div class="divider text-center show-lg" data-content="E"></div>
+        <div class="divider text-center hide-lg" data-content="EXPORT"></div>
+        <button class="btn btn-secondary d-block stretch mb-1">
+          <i class="icon icon-download"></i><span class="hide-lg text-pre"> .TXT</span>
+        </button>
+        <button class="btn btn-secondary d-block stretch mb-1">
+          <i class="icon icon-download"></i><span class="hide-lg text-pre"> .SNG</span>
+        </button>
+        <button class="btn btn-secondary d-block stretch">
+          <i class="icon icon-download"></i><span class="hide-lg text-pre"> .PDF</span>
+        </button>
       </div>
       <div class="off-canvas-content">
         <div class="container">

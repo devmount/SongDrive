@@ -23,14 +23,14 @@
             <div class="menu-badge">
               <label v-if="ready" class="label py-1">{{ songs.length }}</label>
               <label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-              <button class="btn btn-action btn-sm ml-2"><i class="icon icon-plus"></i></button>
+              <button class="btn btn-secondary btn-action btn-sm ml-2"><i class="icon icon-plus"></i></button>
             </div>
             <router-link to="/songs" class="py-2" @click.native="open = false">Songs</router-link>
           </li>
           <li class="menu-item pb-2">
             <div class="menu-badge">
               <label class="label pb-1">???</label>
-              <button class="btn btn-action btn-sm ml-2"><i class="icon icon-plus"></i></button>
+              <button class="btn btn-secondary btn-action btn-sm ml-2"><i class="icon icon-plus"></i></button>
             </div>
             <router-link to="/setlists" class="py-2" @click.native="open = false">Setlists</router-link>
           </li>
@@ -181,12 +181,31 @@ h3 {
 }
 
 // form
-.btn.btn-xl {
-  width: 2.5rem;
-  height: 2.5rem;
-}
-.btn.stretch {
-  width: 100%;
+.btn {
+  &.btn-secondary {
+    background: $bg-color-dark;
+    border-color: $bg-color-medium;
+    color: $gray-color;
+    &:focus:not(.btn-error),
+    &:hover:not(.btn-error) {
+      background: darken($primary-color-dark, 2%);
+      border-color: darken($primary-color-dark, 5%);
+      color: $light-color;
+    }
+    &:active:not(.btn-error),
+    &.active:not(.btn-error) {
+      background: darken($primary-color-dark, 4%);
+      border-color: darken($primary-color-dark, 7%);
+      color: $light-color;
+    }
+  }
+  &.btn-xl {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  &.stretch {
+    width: 100%;
+  }
 }
 .switch-lg {
   padding-left: 2.4rem;
@@ -213,6 +232,7 @@ h3 {
   z-index: 0;
   .off-canvas-toggle {
     z-index: 10;
+    width: 2.2rem;
   }
 
   .off-canvas-sidebar {
@@ -254,14 +274,16 @@ h3 {
   .off-canvas-secondary {
     .off-canvas-sidebar {
       padding: 3rem .4rem .4rem .4rem;
-      min-width: 2.6rem;
-    }
-    .btn, .form-switch, .label, .divider {
-      max-width: 2.2rem;
-    }
-    .btn {
-      min-height: 2rem;
-      line-height: 1.3rem;
+      min-width: 2.2rem;
+      width: 3rem;
+
+      .btn, .form-switch, .label, .divider {
+        max-width: 2.2rem;
+      }
+      .btn {
+        min-height: 2rem;
+        line-height: 1.3rem;
+      }
     }
   }
 }
