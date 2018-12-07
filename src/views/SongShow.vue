@@ -34,7 +34,7 @@
         <div class="divider text-center hide-lg" data-content="VIEW"></div>
         <div class="form-group">
           <label class="form-switch switch-lg">
-            <input type="checkbox" v-model="chords" @click="toggleChords">
+            <input type="checkbox" v-model="chords" @click="chords = !chords">
             <i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
           </label>
         </div>
@@ -60,7 +60,7 @@
         <button class="btn btn-secondary d-block stretch mb-1">
           <i class="icon icon-download"></i><span class="hide-lg text-pre"> .TXT</span>
         </button>
-        <button class="btn btn-secondary d-block stretch mb-1">
+        <button class="btn btn-secondary d-block stretch mb-1" @click="exportSng">
           <i class="icon icon-download"></i><span class="hide-lg text-pre"> .SNG</span>
         </button>
         <button class="btn btn-secondary d-block stretch">
@@ -133,8 +133,59 @@ export default {
     }
   },
   methods: {
-    toggleChords () {
-      this.chords = !this.chords
+    isChordLine (line) {
+      if (line == '') return false
+      return line.slice(-2) === '  ';
+    },
+    exportSng: function() {
+      // add header
+      var content =
+        '#LangCount=1' + '\n' +
+        '#Title=' + this.song.title + '\n' +
+        '#Author=' + this.song.authors + '\n' +
+        '#Melody=' + this.song.authors + '\n' +
+        '#(c)=' + this.song.year + ' ' + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '\n' +
+        '#Key=' + this.song.tuning + '\n' +
+        '#CCLI=' + this.song.ccli + '\n' +
+        '---' + '\n'
+      var lines = this.song.content.split('\n')
+      // remove chord lines
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i]
+        if (this.isChordLine(line)) continue
+        else content += line + '\n'
+      }
+      // replace marker
+      content = content
+        .replace(/--v/g, "verse")
+        .replace(/--p/g, "pre-chorus")
+        .replace(/--c/g, "chorus")
+        .replace(/--b/g, "bridge")
+        .replace(/--i/g, "intro")
+        .replace(/--m/g, "mitro")
+        .replace(/--o/g, "outro")
+      // start download
+      this.download(content, this.song['.key'] + '.sng')
+    },
+    download (data, filename) {
+      var a = document.createElement('a')
+      var file = new Blob([data], { type:'text/plain;charset=UTF-8' })
+      // IE10+
+      if (window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(file, filename)
+      }
+      // other browsers
+      else {
+        var url = URL.createObjectURL(file)
+        a.href = url
+        a.download = filename
+        document.body.appendChild(a)
+        a.click()
+        setTimeout(function() {
+          document.body.removeChild(a)
+          window.URL.revokeObjectURL(url)
+        }, 0)
+      }
     }
   },
   computed: {

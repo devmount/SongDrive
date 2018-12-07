@@ -15,9 +15,7 @@ export default {
   },
   methods: {
     isChordLine (line) {
-      if (line == '') {
-        return false
-      }
+      if (line == '') return false
       return line.slice(-2) === '  ';
     }
   },
