@@ -7,13 +7,13 @@
         </button>
         <div class="divider text-center show-lg" data-content="M"></div>
         <div class="divider text-center hide-lg" data-content="MANAGE"></div>
-        <button class="btn btn-secondary d-block stretch mb-1">
+        <button class="btn btn-secondary d-block stretch mb-1 disabled">
           <i class="icon icon-edit"></i><span class="hide-lg"> EDIT</span>
         </button>
-        <button class="btn btn-secondary d-block stretch mb-1">
+        <button class="btn btn-secondary d-block stretch mb-1 disabled">
           <i class="icon icon-copy"></i><span class="hide-lg"> CLONE</span>
         </button>
-        <button class="btn btn-secondary btn-error d-block stretch">
+        <button class="btn btn-secondary btn-error d-block stretch disabled">
           <i class="icon icon-cross"></i><span class="hide-lg"> DELETE</span>
         </button>
         <div class="divider text-center show-lg" data-content="L"></div>
@@ -38,7 +38,7 @@
             <i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
           </label>
         </div>
-        <button class="btn btn-secondary d-block stretch">
+        <button class="btn btn-secondary d-block stretch disabled">
           <i class="icon icon-resize-horiz"></i><span class="hide-lg"> FULLSCREEN</span>
         </button>
         <div class="divider text-center show-lg" data-content="T"></div>
@@ -57,13 +57,13 @@
         </div>
         <div class="divider text-center show-lg" data-content="E"></div>
         <div class="divider text-center hide-lg" data-content="EXPORT"></div>
-        <button class="btn btn-secondary d-block stretch mb-1">
+        <button class="btn btn-secondary d-block stretch mb-1" @click="exportTxt">
           <i class="icon icon-download"></i><span class="hide-lg text-pre"> .TXT</span>
         </button>
         <button class="btn btn-secondary d-block stretch mb-1" @click="exportSng">
           <i class="icon icon-download"></i><span class="hide-lg text-pre"> .SNG</span>
         </button>
-        <button class="btn btn-secondary d-block stretch">
+        <button class="btn btn-secondary d-block stretch disabled">
           <i class="icon icon-download"></i><span class="hide-lg text-pre"> .PDF</span>
         </button>
       </div>
@@ -137,13 +137,43 @@ export default {
       if (line == '') return false
       return line.slice(-2) === '  ';
     },
+    exportTxt: function() {
+      // add header
+      var content = this.song.title + ' [' + this.song.tuning + ']' + '\n\n'
+      var lines = this.song.content.split('\n')
+      // process lines
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i]
+        // handle chord line
+        if (this.isChordLine(line)) continue
+        // handle verse marker
+        if (line.trim().toLowerCase().indexOf('--v') >= 0 && !isNaN(parseInt(line.trim().charAt(3)))) {
+          // if next line is chord line, prepend number to the line after
+          if (this.isChordLine(lines[i+1])) {
+            lines[i+2] = line.trim().charAt(3) + '. ' + lines[i+2]
+            // add 3 spaces to next line to sync chords with text again
+            lines[i+1] = '   ' + lines[i+1]
+          } else {
+            lines[i+1] = line.trim().charAt(3) + '. ' + lines[i+1]
+          }
+        }
+        // handle marker
+        if (line.trim().indexOf('--') >= 0) continue
+        // keep line for export
+        content += line + '\n'
+      }
+      content += '\n' + this.song.authors.join(' | ') + '\n' +
+        '© ' + this.song.year + ' ' + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ')
+      // start download
+      this.download(content, this.song['.key'] + '.txt')
+    },
     exportSng: function() {
       // add header
       var content =
         '#LangCount=1' + '\n' +
         '#Title=' + this.song.title + '\n' +
-        '#Author=' + this.song.authors + '\n' +
-        '#Melody=' + this.song.authors + '\n' +
+        '#Author=' + this.song.authors.join(' | ') + '\n' +
+        '#Melody=' + this.song.authors.join(' | ') + '\n' +
         '#(c)=' + this.song.year + ' ' + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '\n' +
         '#Key=' + this.song.tuning + '\n' +
         '#CCLI=' + this.song.ccli + '\n' +
