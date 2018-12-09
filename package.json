@@ -10,6 +10,7 @@
   "dependencies": {
     "@firebase/app": "^0.3.4",
     "@firebase/firestore": "^0.8.7",
+    "pdfmake": "^0.1.39",
     "register-service-worker": "^1.0.0",
     "spectre.css": "^0.5.7",
     "vue": "^2.5.17",
