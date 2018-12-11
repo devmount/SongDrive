@@ -106,6 +106,7 @@ $bg-color-light: #1b1e1f;
 $bg-color-dark: #293031;
 $border-color: #222627;
 $gray-color: #5e6769;
+$dark-color: #010101;
 $mono-font-family: "Fira Mono", monospace;
 
 // import spectre
@@ -130,7 +131,8 @@ $mono-font-family: "Fira Mono", monospace;
 .py-3 { padding-top: .6rem !important; padding-bottom: .6rem !important; }
 
 // typography
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6, {
   text-transform: uppercase;
   font-weight: 300;
 }
@@ -206,6 +208,11 @@ h3 {
   &.stretch {
     width: 100%;
   }
+  &.btn-link {
+    &.btn-gray {
+      color: $gray-color;
+    }
+  }
 }
 .switch-lg {
   padding-left: 2.4rem;
@@ -227,6 +234,12 @@ h3 {
   }
 }
 
+// modal
+.modal-container {
+  .modal-header {
+    color: $light-color;
+  }
+}
 // off-canvas
 .off-canvas {
   z-index: 0;
@@ -355,6 +368,8 @@ h3 {
     }
   }
 }
+
+
 
 // filter select field
 .filter:required:invalid {

@@ -1,10 +1,12 @@
 <template>
   <div class="profile">
     <div class="off-canvas off-canvas-secondary">
+      <!-- secondary sidebar -->
       <div class="off-canvas-sidebar active">
         <button class="btn btn-primary d-block stretch mb-1" @click="$router.go(-1)">
           <i class="icon icon-arrow-left"></i><span class="hide-lg"> BACK</span>
         </button>
+        <!-- sidebar: manage -->
         <div class="divider text-center show-lg" data-content="M"></div>
         <div class="divider text-center hide-lg" data-content="MANAGE"></div>
         <button class="btn btn-secondary d-block stretch mb-1 disabled">
@@ -13,9 +15,10 @@
         <button class="btn btn-secondary d-block stretch mb-1 disabled">
           <i class="icon icon-copy"></i><span class="hide-lg"> CLONE</span>
         </button>
-        <button class="btn btn-secondary btn-error d-block stretch disabled">
+        <button class="btn btn-secondary btn-error d-block stretch" @click="modal.delete = true">
           <i class="icon icon-cross"></i><span class="hide-lg"> DELETE</span>
         </button>
+        <!-- sidebar: language -->
         <div class="divider text-center show-lg" data-content="L"></div>
         <div class="divider text-center hide-lg" data-content="LANGUAGE"></div>
         <div class="d-flex">
@@ -30,6 +33,7 @@
             {{ tsong[1] }}
           </router-link>
         </div>
+        <!-- sidebar: view -->
         <div class="divider text-center show-lg" data-content="V"></div>
         <div class="divider text-center hide-lg" data-content="VIEW"></div>
         <div class="form-group">
@@ -41,6 +45,7 @@
         <button class="btn btn-secondary d-block stretch disabled">
           <i class="icon icon-resize-horiz"></i><span class="hide-lg"> FULLSCREEN</span>
         </button>
+        <!-- sidebar: tuning -->
         <div class="divider text-center show-lg" data-content="T"></div>
         <div class="divider text-center hide-lg" data-content="TUNING"></div>
         <div class="d-flex mb-2">
@@ -55,6 +60,7 @@
           <button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-right"></i></button>
           <button class="btn btn-secondary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-down"></i></button>
         </div>
+        <!-- sidebar: export -->
         <div class="divider text-center show-lg" data-content="E"></div>
         <div class="divider text-center hide-lg" data-content="EXPORT"></div>
         <button class="btn btn-secondary d-block stretch mb-1" @click="exportTxt">
@@ -67,6 +73,7 @@
           <i class="icon icon-download"></i><span class="hide-lg text-pre"> .PDF</span>
         </button>
       </div>
+      <!-- content -->
       <div class="off-canvas-content">
         <div class="container">
           <div class="columns">
@@ -91,6 +98,26 @@
           </div>
         </div>
       </div>
+      <!-- modals -->
+      <div class="modal modal-sm" :class="{ active: modal.delete }">
+        <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modal.delete = false"></a>
+        <div class="modal-container">
+          <div class="modal-header">
+            <a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="modal.delete = false"></a>
+            <div class="modal-title h5">Delete Song</div>
+          </div>
+          <div class="modal-body">
+            <div class="content">
+              <p>Do you really want to delete the Song <i>{{ song.title }}</i> ?</p>
+              <p>This cannot be undone.</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-error">Delete it!</button>
+            <a class="btn btn-link btn-gray ml-2" href="#" aria-label="Cancel" @click.prevent="modal.delete = false">Cancel</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -101,7 +128,7 @@ import SongContent from '@/components/SongContent.vue'
 // get database object authorized in config.js
 import { db } from '../firebase'
 // pdf creation
-var pdfMake = require("pdfmake/build/pdfmake.js")
+var pdfMake = require('pdfmake/build/pdfmake.js')
 var pdfFonts = require('@/assets/vfs_fonts.js')
 pdfMake.vfs = pdfFonts.pdfMake.vfs
 pdfMake.fonts = {
@@ -140,6 +167,11 @@ export default {
       ready: {
         song: false,
         songs: false,
+      },
+      modal: {
+        edit: false,
+        clone: false,
+        delete: false,
       },
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
     }
