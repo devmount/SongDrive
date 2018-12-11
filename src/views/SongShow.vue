@@ -106,10 +106,10 @@ var pdfFonts = require('@/assets/vfs_fonts.js')
 pdfMake.vfs = pdfFonts.pdfMake.vfs
 pdfMake.fonts = {
   FiraMono: {
-    normal: 'FiraMono-Regular.otf',
+    normal: 'FiraMono-Regular.ttf',
   },
-  Roboto: {
-    normal: 'Roboto-Regular.ttf',
+  FiraSans: {
+    normal: 'FiraSans-Light.ttf',
   }
 }
 
@@ -218,21 +218,21 @@ export default {
         content: content,
         styles: {
           header: {
-            font: 'Roboto',
+            font: 'FiraSans',
             fontSize: 22
           },
           partnumber: {
-            font: 'Roboto',
+            font: 'FiraSans',
             fontSize: 24,
             margin: [ 0, 17, 0, 0 ]
           },
           code: {
             font: 'FiraMono',
-            fontSize: 10.5,
+            fontSize: 11,
             margin: [ 0, 15, 0, 0 ]
           },
           copyright: {
-            font: 'Roboto',
+            font: 'FiraSans',
             fontSize: 8,
             margin: [ 0, 20, 0, 0 ]
           }
@@ -254,9 +254,9 @@ export default {
             text: part.number
           },
           {
-                style: 'code',
+            style: 'code',
             width: '*',
-                // song content with respect to leading whitespaces
+            // song content with respect to leading whitespaces
             text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B')
           }
           ]
