@@ -207,7 +207,7 @@ export default {
         content += line + '\n'
       }
       content += '\n' + this.song.authors.join(' | ') + '\n' +
-        '© ' + this.song.year + ' ' + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ')
+        '© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ')
       // start download
       this.download(content, this.song['.key'] + '.txt')
     },
@@ -218,7 +218,7 @@ export default {
         '#Title=' + this.song.title + '\n' +
         '#Author=' + this.song.authors.join(' | ') + '\n' +
         '#Melody=' + this.song.authors.join(' | ') + '\n' +
-        '#(c)=' + this.song.year + ' ' + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '\n' +
+        '#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '\n' +
         '#Key=' + this.song.tuning + '\n' +
         '#CCLI=' + this.song.ccli + '\n' +
         '---' + '\n'
@@ -278,20 +278,20 @@ export default {
       parts.forEach(function(part) {
         if (part.type == 'v' && part.number != '0') {
           content.push({
-          columnGap: 8,
-          columns: [
-          {
-            style: 'partnumber',
-            width: 'auto',
-            text: part.number
-          },
-          {
-            style: 'code',
-            width: '*',
-            // song content with respect to leading whitespaces
-            text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B')
-          }
-          ]
+            columnGap: 8,
+            columns: [
+              {
+                style: 'partnumber',
+                width: 'auto',
+                text: part.number
+              },
+              {
+                style: 'code',
+                width: '*',
+                // song content with respect to leading whitespaces
+                text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B')
+              }
+            ]
           })
         } else {
           content.push({
@@ -313,7 +313,7 @@ export default {
           text: [
             this.song.ccli ? 'CCLI Song Nr.: ' + this.song.ccli + '\n' : '',
             this.song.authors ? this.song.authors.join(', ') + '\n' : '',
-            '\u00A9 ' + this.song.year + ' ' + this.song.publisher
+            '\u00A9 ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher
           ]
         }
       ]
