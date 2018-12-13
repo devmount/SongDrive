@@ -108,12 +108,12 @@
           </div>
           <div class="modal-body">
             <div class="content">
-              <p>Do you really want to delete the Song <i>{{ song.title }}</i> ?</p>
+              <p>Do you really want to delete the Song «<span class="text-uppercase ls-1">{{ song.title }}</span>» ?</p>
               <p>This cannot be undone.</p>
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-error">Delete it!</button>
+            <button class="btn btn-error" @click="deleteSong">Delete it!</button>
             <a class="btn btn-link btn-gray ml-2" href="#" aria-label="Cancel" @click.prevent="modal.delete = false">Cancel</a>
           </div>
         </div>
@@ -177,6 +177,13 @@ export default {
     }
   },
   methods: {
+    deleteSong () {
+      db.collection('songs').doc(this.$route.params.id).delete().then(function() {
+        // TODO: toast success message
+      }).catch(function() {
+        // TODO: toast error message
+      });
+    },
     isChordLine (line) {
       if (line == '') return false
       return line.slice(-2) === '  ';

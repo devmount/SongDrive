@@ -129,6 +129,8 @@ $mono-font-family: "Fira Mono", monospace;
 .pl-3 { padding-left: .6rem !important; }
 .px-3 { padding-right: .6rem !important; padding-left: .6rem !important; }
 .py-3 { padding-top: .6rem !important; padding-bottom: .6rem !important; }
+.ls-1 { letter-spacing: 1px; }
+.ls-2 { letter-spacing: 2px; }
 
 // typography
 h1, h2, h3, h4, h5, h6,
