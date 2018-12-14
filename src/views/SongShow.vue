@@ -99,25 +99,7 @@
         </div>
       </div>
       <!-- modals -->
-      <div class="modal modal-sm" :class="{ active: modal.delete }">
-        <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modal.delete = false"></a>
-        <div class="modal-container">
-          <div class="modal-header">
-            <a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="modal.delete = false"></a>
-            <div class="modal-title h5">Delete Song</div>
-          </div>
-          <div class="modal-body">
-            <div class="content">
-              <p>Do you really want to delete the Song «<span class="text-uppercase ls-1">{{ song.title }}</span>» ?</p>
-              <p>This cannot be undone.</p>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-error" @click="deleteSong">Delete it!</button>
-            <a class="btn btn-link btn-gray ml-2" href="#" aria-label="Cancel" @click.prevent="modal.delete = false">Cancel</a>
-          </div>
-        </div>
-      </div>
+      <SongDelete :active="modal.delete" :title="song.title" :id="song['.key']" @closed="modal.delete = false" />
     </div>
   </div>
 </template>
@@ -125,6 +107,7 @@
 <script>
 // get components
 import SongContent from '@/components/SongContent.vue'
+import SongDelete from '@/components/SongDelete.vue'
 // get database object authorized in config.js
 import { db } from '../firebase'
 // pdf creation
@@ -143,7 +126,8 @@ pdfMake.fonts = {
 export default {
   name: 'song-show',
   components: {
-    SongContent
+    SongContent,
+    SongDelete
   },
   firestore () {
     return {
@@ -177,13 +161,6 @@ export default {
     }
   },
   methods: {
-    deleteSong () {
-      db.collection('songs').doc(this.$route.params.id).delete().then(function() {
-        // TODO: toast success message
-      }).catch(function() {
-        // TODO: toast error message
-      });
-    },
     isChordLine (line) {
       if (line == '') return false
       return line.slice(-2) === '  ';
