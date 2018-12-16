@@ -23,7 +23,7 @@
             <div class="menu-badge">
               <label v-if="ready" class="label py-1">{{ songs.length }}</label>
               <label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-              <button class="btn btn-secondary btn-action btn-sm ml-2"><i class="icon icon-plus"></i></button>
+              <button class="btn btn-secondary btn-action btn-sm ml-2" @click="modal.addsong = true"><i class="icon icon-plus"></i></button>
             </div>
             <router-link to="/songs" class="py-2" @click.native="open = false">Songs</router-link>
           </li>
@@ -60,33 +60,41 @@
       <div class="off-canvas-content">
         <router-view :key="$route.fullPath"></router-view>
       </div>
+
+      <!-- modals -->
+      <SongForm :active="modal.addsong" :new="true" @closed="modal.addsong = false" />
     </div>
   </div>
 </template>
 
 <script>
+// get components
+import SongForm from '@/components/SongForm.vue'
 // get database object authorized in config.js
 import { db } from './firebase'
 
 export default {
   name: 'app',
+  components: {
+    SongForm
+  },
   firestore () {
     return {
       songs: {
         ref: db.collection('songs'),
-        resolve: () => {
-            this.ready = true
-        },
-        reject: () => {
-            this.ready = true
-        }
+        resolve: () => { this.ready = true },
+        reject: () => { this.ready = true }
       },
     }
   },
   data () {
     return {
       ready: false,
-      open: false
+      open: false,
+      modal: {
+        addsong: false,
+        addsetlist: false
+      }
     }
   }
 }
