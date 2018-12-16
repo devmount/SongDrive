@@ -13,8 +13,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-error" @click="deleteSong">Delete it!</button>
-        <a class="btn btn-link btn-gray ml-2" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</a>
+        <a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</a>
+        <button class="btn btn-error ml-2" @click="deleteSong">Delete it!</button>
       </div>
     </div>
   </div>

@@ -8,53 +8,51 @@
       </div>
       <div class="modal-body">
         <div class="content">
-          <form action="#forms">
-            <fieldset disabled>
-              <div class="form-group">
-                <label class="form-label" for="input-example-19">Name</label>
-                <input class="form-input" type="text" id="input-example-19" placeholder="Name">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Gender</label>
-                <label class="form-radio">
-                  <input type="radio" name="gender" disabled>
-                  <i class="form-icon"></i> Male
-                </label>
-                <label class="form-radio">
-                  <input type="radio" name="gender" disabled>
-                  <i class="form-icon"></i> Female
-                </label>
-              </div>
-              <div class="form-group">
-                <select class="form-select" disabled>
-                  <option>Choose an option</option>
-                  <option>Slack</option>
-                  <option>Skype</option>
-                  <option>Hipchat</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-switch">
-                  <input type="checkbox" disabled>
-                  <i class="form-icon"></i> Send me emails with news and tips
-                </label>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="input-example-20">Message</label>
-                <textarea class="form-input" id="input-example-20" placeholder="Textarea" rows="3" disabled></textarea>
-              </div>
-              <div class="form-group">
-                <label class="form-checkbox">
-                  <input type="checkbox" disabled>
-                  <i class="form-icon"></i> Remember me
-                </label>
-              </div>
-            </fieldset>
-          </form>
+          <fieldset disabled>
+            <div class="form-group">
+              <label class="form-label" for="input-example-19">Name</label>
+              <input class="form-input" type="text" id="input-example-19" placeholder="Name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Gender</label>
+              <label class="form-radio">
+                <input type="radio" name="gender" disabled>
+                <i class="form-icon"></i> Male
+              </label>
+              <label class="form-radio">
+                <input type="radio" name="gender" disabled>
+                <i class="form-icon"></i> Female
+              </label>
+            </div>
+            <div class="form-group">
+              <select class="form-select" disabled>
+                <option>Choose an option</option>
+                <option>Slack</option>
+                <option>Skype</option>
+                <option>Hipchat</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-switch">
+                <input type="checkbox" disabled>
+                <i class="form-icon"></i> Send me emails with news and tips
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-example-20">Message</label>
+              <textarea class="form-input" id="input-example-20" placeholder="Textarea" rows="3" disabled></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-checkbox">
+                <input type="checkbox" disabled>
+                <i class="form-icon"></i> Remember me
+              </label>
+            </div>
+          </fieldset>
         </div>
       </div>
       <div class="modal-footer">
-        <a class="btn btn-link btn-gray ml-2" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</a>
+        <a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</a>
         <button class="btn btn-primary ml-2" @click="setSong">Add it!</button>
       </div>
     </div>
