@@ -8,45 +8,92 @@
       </div>
       <div class="modal-body">
         <div class="content">
-          <fieldset disabled>
-            <div class="form-group">
-              <label class="form-label" for="input-example-19">Name</label>
-              <input class="form-input" type="text" id="input-example-19" placeholder="Name">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Gender</label>
-              <label class="form-radio">
-                <input type="radio" name="gender" disabled>
-                <i class="form-icon"></i> Male
-              </label>
-              <label class="form-radio">
-                <input type="radio" name="gender" disabled>
-                <i class="form-icon"></i> Female
-              </label>
-            </div>
-            <div class="form-group">
-              <select class="form-select" disabled>
-                <option>Choose an option</option>
-                <option>Slack</option>
-                <option>Skype</option>
-                <option>Hipchat</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-switch">
-                <input type="checkbox" disabled>
-                <i class="form-icon"></i> Send me emails with news and tips
-              </label>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="input-example-20">Message</label>
-              <textarea class="form-input" id="input-example-20" placeholder="Textarea" rows="3" disabled></textarea>
-            </div>
-            <div class="form-group">
-              <label class="form-checkbox">
-                <input type="checkbox" disabled>
-                <i class="form-icon"></i> Remember me
-              </label>
+          <fieldset>
+            <div class="columns">
+              <div class="column col-12">
+                <div class="form-group">
+                  <label class="form-label" for="title">Title</label>
+                  <input class="form-input" type="text" id="title" placeholder="Title">
+                </div>
+              </div>
+              <div class="column col-8 col-sm-12">
+                <div class="form-group">
+                  <label class="form-label" for="subtitle">Subtitle</label>
+                  <input class="form-input" type="text" id="subtitle" placeholder="Subtitle">
+                </div>
+              </div>
+              <div class="column col-4 col-sm-12">
+                <div class="form-group">
+                  <label class="form-label" for="language">Language</label>
+                  <select class="form-select" id="language">
+                    <option>Choose...</option>
+                    <option>Slack</option>
+                    <option>Skype</option>
+                    <option>Hipchat</option>
+                  </select>
+                </div>
+              </div>
+              <div class="column col-8 col-sm-12">
+                <div class="form-group">
+                  <label class="form-label" for="authors">Authors</label>
+                  <input class="form-input" type="text" id="authors" placeholder="Authors">
+                </div>
+              </div>
+              <div class="column col-4 col-sm-12">
+                <div class="form-group">
+                  <label class="form-label" for="language">Tuning</label>
+                  <select class="form-select" id="language">
+                    <option>Choose...</option>
+                    <option>C</option>
+                    <option>C#</option>
+                    <option>D</option>
+                    <option>D#</option>
+                    <option>E</option>
+                    <option>F</option>
+                  </select>
+                </div>
+              </div>
+              <div class="column col-8 col-sm-12">
+                <div class="form-group">
+                  <label class="form-label" for="tags">Tags</label>
+                  <select class="form-select" id="tags">
+                    <option>Choose...</option>
+                    <option>love</option>
+                    <option>grace</option>
+                    <option>joy</option>
+                  </select>
+                </div>
+              </div>
+              <div class="column col-4 col-sm-12">
+                <div class="form-group">
+                  <label class="form-label" for="ccli">CCLI #</label>
+                  <input class="form-input" type="number" id="ccli" placeholder="CCLI #">
+                </div>
+              </div>
+              <div class="column col-8 col-sm-12">
+                <div class="form-group">
+                  <label class="form-label" for="publisher">Publisher</label>
+                  <textarea class="form-input" id="publisher" placeholder="Publisher" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="column col-4 col-sm-12">
+                <div class="form-group">
+                  <label class="form-label" for="year">Year</label>
+                  <input class="form-input" type="number" id="year" placeholder="Year">
+                </div>
+              </div>
+              <div class="column col-12">
+                <div class="form-group">
+                  <label class="form-label" for="note">Note</label>
+                  <input class="form-input" type="text" id="note" placeholder="Note">
+                </div>
+              </div>
+              <div class="column col-12">
+                <div class="form-group">
+                  <label class="form-label" for="content">Content</label>
+                  <textarea class="form-input" id="content" placeholder="Content" rows="10"></textarea>
+                </div>
+              </div>
             </div>
           </fieldset>
         </div>
@@ -61,7 +108,7 @@
 
 <script>
 // get database object authorized in config.js
-import { db } from '../firebase'
+// import { db } from '../firebase'
 
 export default {
   name: 'SongForm',
