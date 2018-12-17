@@ -89,12 +89,8 @@ export default {
     return {
       songs: {
         ref: db.collection('songs'),
-        resolve: () => {
-            this.ready = true
-        },
-        reject: () => {
-            this.ready = true
-        }
+        resolve: () => { this.ready = true },
+        reject: () => { this.ready = true }
       },
       tags: db.collection('tags'),
     }

@@ -245,11 +245,19 @@ h3 {
 }
 
 // modal
-.modal-container {
-  .modal-header {
-    color: $light-color;
+.modal {
+  .modal-container {
+    .modal-header {
+      color: $light-color;
+    }
+  }
+  &.modal-lg {
+    .modal-overlay {
+      background: rgba($bg-color, .75);
+    }
   }
 }
+
 // off-canvas
 .off-canvas {
   z-index: 0;
