@@ -14,37 +14,38 @@
                 <div class="column col-12">
                   <div class="form-group">
                     <label class="form-label" for="title">Title</label>
-                    <input class="form-input" type="text" id="title" placeholder="Title">
+                    <input v-model="song.title" class="form-input" id="title" type="text" placeholder="song title">
                   </div>
                 </div>
                 <div class="column col-8 col-md-12">
                   <div class="form-group">
                     <label class="form-label" for="subtitle">Subtitle</label>
-                    <input class="form-input" type="text" id="subtitle" placeholder="Subtitle">
+                    <input v-model="song.subtitle" class="form-input" id="subtitle" type="text" placeholder="song subtitle">
                   </div>
                 </div>
                 <div class="column col-4 col-md-12">
                   <div class="form-group">
                     <label class="form-label" for="language">Language</label>
-                    <select class="form-select" id="language">
-                      <option>Choose...</option>
-                      <option>Slack</option>
-                      <option>Skype</option>
-                      <option>Hipchat</option>
+                    <select v-model="song.language" class="form-select" id="language">
+                      <option value="">Choose...</option>
+                      <option value="de">Deutsch</option>
+                      <option value="en">English</option>
+                      <option value="fr">Francais</option>
+                      <option value="li">Lingala</option>
                     </select>
                   </div>
                 </div>
                 <div class="column col-8 col-md-12">
                   <div class="form-group">
                     <label class="form-label" for="authors">Authors</label>
-                    <input class="form-input" type="text" id="authors" placeholder="Authors">
+                    <input v-model="song.authors" class="form-input" id="authors" type="text" placeholder="jon doe | jane dillon">
                   </div>
                 </div>
                 <div class="column col-4 col-md-12">
                   <div class="form-group">
                     <label class="form-label" for="tuning">Tuning</label>
-                    <select class="form-select" id="tuning">
-                      <option>Choose...</option>
+                    <select v-model="song.tuning" class="form-select" id="tuning">
+                      <option value="">Choose...</option>
                       <option v-for="tune in tunes" :key="tune">{{ tune }}</option>
                     </select>
                   </div>
@@ -52,8 +53,8 @@
                 <div class="column col-8 col-md-12">
                   <div class="form-group">
                     <label class="form-label" for="tags">Tags</label>
-                    <select class="form-select" id="tags">
-                      <option>Choose...</option>
+                    <select v-model="song.tags" class="form-select" id="tags">
+                      <option value="">Choose...</option>
                       <option v-for="tag in tags" :key="tag.key">{{ tag.key }}</option>
                     </select>
                   </div>
@@ -61,25 +62,25 @@
                 <div class="column col-4 col-md-12">
                   <div class="form-group">
                     <label class="form-label" for="ccli">CCLI #</label>
-                    <input class="form-input" type="number" id="ccli" placeholder="CCLI #">
+                    <input v-model="song.ccli" class="form-input" id="ccli" type="number" placeholder="CCLI number">
                   </div>
                 </div>
                 <div class="column col-8 col-md-12">
                   <div class="form-group">
                     <label class="form-label" for="publisher">Publisher</label>
-                    <textarea class="form-input" id="publisher" placeholder="Publisher" rows="2"></textarea>
+                    <textarea v-model="song.publisher" class="form-input" id="publisher" placeholder="publisher information" rows="2"></textarea>
                   </div>
                 </div>
                 <div class="column col-4 col-md-12">
                   <div class="form-group">
                     <label class="form-label" for="year">Year</label>
-                    <input class="form-input" type="number" id="year" placeholder="Year">
+                    <input v-model="song.year" class="form-input" id="year" type="number" placeholder="year">
                   </div>
                 </div>
                 <div class="column col-12">
                   <div class="form-group">
                     <label class="form-label" for="note">Note</label>
-                    <input class="form-input" type="text" id="note" placeholder="Note">
+                    <input v-model="song.note" class="form-input" id="note" type="text" placeholder="general notes, e.g. capo 3">
                   </div>
                 </div>
               </div>
@@ -87,7 +88,7 @@
             <div class="column col-6 col-sm-12">
               <div class="form-group">
                 <label class="form-label" for="content">Content</label>
-                <textarea class="form-input" id="content" placeholder="Content" rows="17"></textarea>
+                <textarea v-model="song.content" class="form-input" id="content" placeholder="songtext with chords and markers" rows="17"></textarea>
               </div>
             </div>
           </div>
@@ -103,14 +104,13 @@
 
 <script>
 // get database object authorized in config.js
-import { db } from '../firebase'
+import { db } from '@/firebase'
 
 export default {
   name: 'SongForm',
   props: {
     active: Boolean,
     new: Boolean,
-    song: Object,
     id: String
   },
   firestore () {
@@ -125,17 +125,67 @@ export default {
   },
   data () {
     return {
-      tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
+      tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
+      song: {
+        authors: '',
+        ccli: '',
+        content: '',
+        language: '',
+        note: '',
+        publisher: '',
+        subtitle: '',
+        tags: '',
+        title: '',
+        translations: '',
+        tuning: '',
+        year: '',
+      }
     }
   },
   methods: {
     setSong () {
-      // db.collection('songs').doc(this.id).delete().then(function() {
-      //   // TODO: toast success message
-      // }).catch(function() {
-      //   // TODO: toast error message
-      // });
+      var self = this
+      var processedSong = {
+        authors: this.song.authors.split('|'),
+        ccli: parseInt(this.song.ccli),
+        content: this.song.content,
+        language: this.song.language,
+        note: this.song.note,
+        publisher: this.song.publisher,
+        subtitle: this.song.subtitle,
+        tags: this.song.tags.split(' '),
+        title: this.song.title,
+        translations: [],
+        tuning: this.song.tuning,
+        year: parseInt(this.song.year),
+      }
+      db.collection('songs').doc(this.createSlug(this.song.title)).set(processedSong)
+      .then(function() {
+        // TODO: toast success message
+        self.$emit('closed')
+        processedSong = {}
+      })
+      .catch(function() {
+        // TODO: toast error message
+        self.$emit('closed')
+      });
     },
+    createSlug (s) {
+      return s
+        .trim()
+        .toLowerCase()
+        .replace(/\s/g, '-')
+        .replace(/'/g, '')
+        .replace(/"/g, '')
+        .replace(/,/g, '')
+        .replace(/;/g, '')
+        .replace(/\./g, '')
+        .replace(/:/g, '')
+        .replace(/ä/g, 'ae')
+        .replace(/ö/g, 'oe')
+        .replace(/ü/g, 'ue')
+        .replace(/ß/g, 'ss')
+    }
   }
 }
 </script>

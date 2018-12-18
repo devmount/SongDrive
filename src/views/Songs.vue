@@ -81,7 +81,7 @@
 
 <script>
 // get database object authorized in config.js
-import { db } from '../firebase'
+import { db } from '@/firebase'
 
 export default {
   name: 'songs',

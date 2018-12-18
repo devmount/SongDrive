@@ -22,7 +22,7 @@
 
 <script>
 // get database object authorized in config.js
-import { db } from '../firebase'
+import { db } from '@/firebase'
 
 export default {
   name: 'SongContent',
@@ -33,10 +33,14 @@ export default {
   },
   methods: {
     deleteSong () {
+      var self = this
       db.collection('songs').doc(this.id).delete().then(function() {
         // TODO: toast success message
+        self.$emit('closed')
+        self.$router.push({ name: 'songs' })
       }).catch(function() {
         // TODO: toast error message
+        self.$emit('closed')
       });
     },
   }

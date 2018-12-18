@@ -109,7 +109,7 @@
 import SongContent from '@/components/SongContent.vue'
 import SongDelete from '@/components/SongDelete.vue'
 // get database object authorized in config.js
-import { db } from '../firebase'
+import { db } from '@/firebase'
 // pdf creation
 var pdfMake = require('pdfmake/build/pdfmake.js')
 var pdfFonts = require('@/assets/vfs_fonts.js')

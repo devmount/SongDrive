@@ -62,21 +62,21 @@
       </div>
 
       <!-- modals -->
-      <SongForm :active="modal.addsong" :new="true" @closed="modal.addsong = false" />
+      <SongSet :active="modal.addsong" :new="true" @closed="modal.addsong = false" />
     </div>
   </div>
 </template>
 
 <script>
 // get components
-import SongForm from '@/components/SongForm.vue'
+import SongSet from '@/components/SongSet.vue'
 // get database object authorized in config.js
-import { db } from './firebase'
+import { db } from '@/firebase'
 
 export default {
   name: 'app',
   components: {
-    SongForm
+    SongSet
   },
   firestore () {
     return {
