@@ -114,6 +114,7 @@ $bg-color-light: #1b1e1f;
 $bg-color-dark: #293031;
 $border-color: #222627;
 $gray-color: #5e6769;
+$gray-color-dark: #4a5052;
 $dark-color: #010101;
 $mono-font-family: "Fira Mono", monospace;
 
