@@ -125,7 +125,10 @@
             <div class="columns">
               <div class="column col-6">
                 <div class="form-group">
-                  <label v-for="fsong in songs" :key="fsong['.key']" class="form-checkbox">
+                  <input v-model="search" type="search" />
+                </div>
+                <div class="form-group">
+                  <label v-for="fsong in filteredSongs" :key="fsong['.key']" class="form-checkbox">
                     <input v-model="song.translations" :value="createSlug(fsong.title)" type="checkbox">
                     <i class="form-icon"></i> {{ fsong.title }}
                   </label>
@@ -179,6 +182,7 @@ export default {
   data () {
     return {
       modalTranslations: false,
+      search: '',
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
       song: {
         authors: '',
@@ -239,6 +243,19 @@ export default {
         .replace(/ö/g, 'oe')
         .replace(/ü/g, 'ue')
         .replace(/ß/g, 'ss')
+    }
+  },
+  computed: {
+    filteredSongs () {
+      var songs = this.songs, self = this
+      if (this.search != '') {
+        songs = songs.filter(function(song) {
+          // filter fields: title, subtitle
+          var key = self.search.toLowerCase()
+          return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1
+        })
+      }
+      return songs
     }
   }
 }
