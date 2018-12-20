@@ -125,7 +125,10 @@
             <div class="columns">
               <div class="column col-6">
                 <div class="form-group">
-                  <input v-model="search" type="search" />
+                  <div class="has-icon-left">
+                    <input v-model="search" type="search" class="form-input" placeholder="search" />
+                    <i class="form-icon icon icon-search"></i>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label v-for="fsong in filteredSongs" :key="fsong['.key']" class="form-checkbox">
@@ -143,6 +146,7 @@
                   <p class="empty-subtitle">Select one ore more songs that are a translation to the current song.</p>
                 </div>
                 <div v-else>
+                  <h3>Selection</h3>
                   <div v-for="tsong in song.translations" :key="tsong">{{ songs[tsong].title }}</div>
                 </div>
               </div>
@@ -246,16 +250,24 @@ export default {
     }
   },
   computed: {
+    // filter song list by search query
     filteredSongs () {
-      var songs = this.songs, self = this
+      var songs = {}, self = this
       if (this.search != '') {
-        songs = songs.filter(function(song) {
-          // filter fields: title, subtitle
-          var key = self.search.toLowerCase()
-          return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1
-        })
+        for (const key in self.songs) {
+          if (self.songs.hasOwnProperty(key)) {
+            const song = self.songs[key];
+            var search = self.search.toLowerCase()
+            // search in title and subtitle
+            if (song.title.toLowerCase().indexOf(search) !== -1 || song.subtitle.toLowerCase().indexOf(search) !== -1) {
+              songs[key] = song
+            }
+          }
+        }
+        return songs
+      } else {
+        return this.songs
       }
-      return songs
     }
   }
 }
