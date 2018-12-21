@@ -169,6 +169,10 @@ h3 {
 .text-pre {
   font-family: $mono-font-family;
 }
+.text-small {
+  font-size: .8em;
+  line-height: 1.1em;
+}
 
 // display
 .d-flex > * {
@@ -255,6 +259,12 @@ h3 {
   &.modal-lg {
     .modal-overlay {
       background: rgba($bg-color, .75);
+    }
+  }
+
+  &.modal-secondary {
+    .modal-body {
+      height: 50vh;
     }
   }
 }

@@ -113,7 +113,7 @@
       </div>
     </div>
     <!-- additional modal: add translation -->
-    <div class="modal" :class="{ active: modalTranslations }">
+    <div class="modal modal-secondary" :class="{ active: modalTranslations }">
       <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modalTranslations = false"></a>
       <div class="modal-container">
         <div class="modal-header">
@@ -134,6 +134,9 @@
                   <label v-for="fsong in filteredSongs" :key="fsong['.key']" class="form-checkbox">
                     <input v-model="song.translations" :value="createSlug(fsong.title)" type="checkbox">
                     <i class="form-icon"></i> {{ fsong.title }}
+                    <div class="text-gray text-small">
+                      {{ fsong.subtitle }}
+                    </div>
                   </label>
                 </div>
               </div>
@@ -147,7 +150,12 @@
                 </div>
                 <div v-else>
                   <h3>Selection</h3>
-                  <div v-for="tsong in song.translations" :key="tsong">{{ songs[tsong].title }}</div>
+                  <div v-for="tsong in song.translations" :key="tsong">
+                    {{ songs[tsong].title }}
+                    <div class="text-gray text-small">
+                      {{ songs[tsong].subtitle }}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
