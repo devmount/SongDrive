@@ -249,6 +249,29 @@ h3 {
   }
 }
 
+// chip
+.chip {
+  figure {
+    &::before {
+      text-transform: uppercase;
+    }
+  }
+}
+
+// tile
+.tile {
+  figure {
+    &::before {
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+  }
+  & .tile-title,
+  & .tile-subtitle {
+    line-height: .85rem;
+  }
+}
+
 // modal
 .modal {
   .modal-container {

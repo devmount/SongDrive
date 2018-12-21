@@ -91,7 +91,24 @@
                       <i class="icon icon-stop mr-1"></i> This song has no translation yet.
                     </div>
                     <div v-else>
-                      <li v-for="tsong in song.translations" :key="tsong">{{ songs[tsong].title }}</li>
+                      <!-- <div v-for="tsong in song.translations" :key="tsong" class="chip">
+                        <figure class="avatar avatar-sm" :data-initial="songs[tsong].language"></figure>
+                        {{ songs[tsong].title }}
+                      </div> -->
+                      <div v-for="tsong in song.translations" :key="tsong" class="tile tile-centered mb-1">
+                        <div class="tile-icon">
+                          <figure class="avatar s-rounded" :data-initial="songs[tsong].language"></figure>
+                        </div>
+                        <div class="tile-content">
+                          <div class="tile-title">{{ songs[tsong].title }}</div>
+                          <div class="tile-subtitle text-gray text-small">{{ songs[tsong].subtitle }}</div>
+                        </div>
+                        <div class="tile-action">
+                          <button class="btn btn-link btn-action" @click="song.translations = song.translations.filter(function(k) {return k !== tsong})">
+                            <i class="icon icon-cross"></i>
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -119,6 +136,7 @@
         <div class="modal-header">
           <a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="modalTranslations = false"></a>
           <div class="modal-title h5">Translations</div>
+          {{song.translations}}
         </div>
         <div class="modal-body">
           <div class="content">
@@ -149,11 +167,19 @@
                   <p class="empty-subtitle">Select one ore more songs that are a translation to the current song.</p>
                 </div>
                 <div v-else>
-                  <h3>Selection</h3>
-                  <div v-for="tsong in song.translations" :key="tsong">
-                    {{ songs[tsong].title }}
-                    <div class="text-gray text-small">
-                      {{ songs[tsong].subtitle }}
+                  <h3 class="text-center">Selection</h3>
+                  <div v-for="tsong in song.translations" :key="tsong" class="tile tile-centered mb-1">
+                    <div class="tile-icon">
+                      <figure class="avatar s-rounded" :data-initial="songs[tsong].language"></figure>
+                    </div>
+                    <div class="tile-content">
+                      <div class="tile-title">{{ songs[tsong].title }}</div>
+                      <div class="tile-subtitle text-gray text-small">{{ songs[tsong].subtitle }}</div>
+                    </div>
+                    <div class="tile-action">
+                      <button class="btn btn-link btn-action" @click="song.translations = song.translations.filter(function(k) {return k !== tsong})">
+                        <i class="icon icon-cross"></i>
+                      </button>
                     </div>
                   </div>
                 </div>
