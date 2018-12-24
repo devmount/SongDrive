@@ -64,10 +64,16 @@
                         <i class="icon icon-resize-horiz mr-2"></i> Show
                       </router-link>
                     </li>
-                    <li class="menu-item"><a href="#" class="py-3 px-3"><i class="icon icon-edit mr-2"></i> Edit</a></li>
+                    <li class="menu-item">
+                      <a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.key=song['.key']; active.song=song; modal.set=true">
+                        <i class="icon icon-edit mr-2"></i> Edit
+                      </a>
+                    </li>
                     <li class="menu-item"><a href="#" class="py-3 px-3"><i class="icon icon-copy mr-2"></i> Duplicate</a></li>
                     <li class="menu-item">
-                      <a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=song.title; active.key=song['.key']; modal.delete=true"><i class="icon icon-delete mr-2"></i> Delete</a>
+                      <a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=song.title; active.key=song['.key']; modal.delete=true">
+                        <i class="icon icon-delete mr-2"></i> Delete
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -77,7 +83,7 @@
         </tbody>
       </table>
       <!-- modals -->
-      <!-- <SongSet :active="modal.set" @closed="modal.set = false" /> -->
+      <!-- <SongSet :active="modal.set" :existing="true" :tsong="active.song" @closed="modal.set = false" /> -->
       <SongDelete :active="modal.delete" :title="active.title" :id="active.key" @closed="modal.delete = false" />
     </div>
   </div>
@@ -118,6 +124,7 @@ export default {
       active: {
         title: '',
         key: '',
+        song: {}
       }
     }
   },
