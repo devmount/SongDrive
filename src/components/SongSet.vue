@@ -55,10 +55,13 @@
                   <div class="column col-8 col-md-12">
                     <div class="form-group">
                       <label class="form-label" for="tags">Tags</label>
-                      <select v-model="song.tags" class="form-select" id="tags">
-                        <option value="">Choose...</option>
-                        <option v-for="tag in tags" :key="tag.key">{{ tag.key }}</option>
-                      </select>
+                      <div v-for="tag in song.tags" :key="tag" class="chip s-rounded">
+                        {{ tag }}
+                        <a href="#" class="btn btn-clear" aria-label="Close" role="button" @click="song.tags = song.tags.filter(function(k) {return k !== tag})"></a>
+                      </div>
+                      <button class="btn btn-secondary btn-sm" @click="modal.tags = true">
+                        <i class="icon icon-plus"></i>
+                      </button>
                     </div>
                   </div>
                   <div class="column col-4 col-md-12">
@@ -91,10 +94,6 @@
                       <i class="icon icon-stop mr-1"></i> This song has no translation yet.
                     </div>
                     <div v-else>
-                      <!-- <div v-for="tsong in song.translations" :key="tsong" class="chip">
-                        <figure class="avatar avatar-sm" :data-initial="songs[tsong].language"></figure>
-                        {{ songs[tsong].title }}
-                      </div> -->
                       <div v-for="tsong in song.translations" :key="tsong" class="tile tile-centered mb-1">
                         <div class="tile-icon">
                           <figure class="avatar s-rounded" :data-initial="songs[tsong].language"></figure>
@@ -123,20 +122,19 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-secondary float-left" @click="modalTranslations = true">Add Translation</button>
+          <button class="btn btn-secondary float-left" @click="modal.translations = true">Add Translation</button>
           <button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</button>
           <button class="btn btn-primary ml-2" @click="setSong">Add Song</button>
         </div>
       </div>
     </div>
-    <!-- additional modal: add translation -->
-    <div class="modal modal-secondary" :class="{ active: modalTranslations }">
-      <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modalTranslations = false"></a>
+    <!-- additional modal: add tag -->
+    <div class="modal modal-secondary" :class="{ active: modal.tags }">
+      <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modal.tags = false"></a>
       <div class="modal-container">
         <div class="modal-header">
-          <a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="modalTranslations = false"></a>
-          <div class="modal-title h5">Translations</div>
-          {{song.translations}}
+          <a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="modal.tags = false"></a>
+          <div class="modal-title h5">Tags</div>
         </div>
         <div class="modal-body">
           <div class="content">
@@ -144,7 +142,62 @@
               <div class="column col-6">
                 <div class="form-group">
                   <div class="has-icon-left">
-                    <input v-model="search" type="search" class="form-input" placeholder="search" />
+                    <input v-model="search.tags" type="search" class="form-input" placeholder="search" />
+                    <i class="form-icon icon icon-search"></i>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label v-for="tag in filteredTags" :key="tag.key" class="form-checkbox">
+                    <input v-model="song.tags" :value="tag.key" type="checkbox">
+                    <i class="form-icon"></i> {{ tag.key }}
+                  </label>
+                </div>
+              </div>
+              <div class="column col-6">
+                <div v-if="song.tags.length == 0" class="empty">
+                  <div class="empty-icon">
+                    <i class="icon icon-arrow-left icon-4x"></i>
+                  </div>
+                  <p class="empty-title h5">No Tags selected</p>
+                  <p class="empty-subtitle">Select one ore more tags for the current song.</p>
+                </div>
+                <div v-else>
+                  <h3 class="text-center">Selection</h3>
+                  <div v-for="tag in song.tags" :key="tag" class="tile tile-centered mb-1">
+                    <div class="tile-content">
+                      <div class="tile-title">{{ tag }}</div>
+                    </div>
+                    <div class="tile-action">
+                      <button class="btn btn-link btn-action" @click="song.tags = song.tags.filter(function(k) {return k !== tag})">
+                        <i class="icon icon-cross"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" aria-label="Close" @click.prevent="modal.tags = false">Close</button>
+        </div>
+      </div>
+    </div>
+    <!-- additional modal: add translation -->
+    <div class="modal modal-secondary" :class="{ active: modal.translations }">
+      <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modal.translations = false"></a>
+      <div class="modal-container">
+        <div class="modal-header">
+          <a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="modal.translations = false"></a>
+          <div class="modal-title h5">Translations</div>
+        </div>
+        <div class="modal-body">
+          <div class="content">
+            <div class="columns">
+              <div class="column col-6">
+                <div class="form-group">
+                  <div class="has-icon-left">
+                    <input v-model="search.translations" type="search" class="form-input" placeholder="search" />
                     <i class="form-icon icon icon-search"></i>
                   </div>
                 </div>
@@ -188,7 +241,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary" aria-label="Close" @click.prevent="modalTranslations = false">Close</button>
+          <button class="btn btn-primary" aria-label="Close" @click.prevent="modal.translations = false">Close</button>
         </div>
       </div>
     </div>
@@ -219,8 +272,14 @@ export default {
   },
   data () {
     return {
-      modalTranslations: false,
-      search: '',
+      modal: {
+        tags: false,
+        translations: false,
+      },
+      search: {
+        tags: '',
+        translations: '',
+      },
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
       song: {
         authors: '',
@@ -230,7 +289,7 @@ export default {
         note: '',
         publisher: '',
         subtitle: '',
-        tags: '',
+        tags: [],
         title: '',
         translations: [],
         tuning: '',
@@ -285,13 +344,32 @@ export default {
   },
   computed: {
     // filter song list by search query
+    filteredTags () {
+      var tags = {}, self = this
+      if (this.search.tags != '') {
+        for (const key in self.tags) {
+          if (self.tags.hasOwnProperty(key)) {
+            const tag = self.tags[key];
+            var search = self.search.tags.toLowerCase()
+            // search in tag keys
+            if (tag.key.toLowerCase().indexOf(search) !== -1) {
+              tags[key] = tag
+            }
+          }
+        }
+        return tags
+      } else {
+        return this.tags
+      }
+    },
+    // filter song list by search query
     filteredSongs () {
       var songs = {}, self = this
-      if (this.search != '') {
+      if (this.search.translations != '') {
         for (const key in self.songs) {
           if (self.songs.hasOwnProperty(key)) {
             const song = self.songs[key];
-            var search = self.search.toLowerCase()
+            var search = self.search.translations.toLowerCase()
             // search in title and subtitle
             if (song.title.toLowerCase().indexOf(search) !== -1 || song.subtitle.toLowerCase().indexOf(search) !== -1) {
               songs[key] = song
