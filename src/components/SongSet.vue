@@ -115,7 +115,7 @@
               <div class="column col-6 col-sm-12">
                 <div class="form-group">
                   <label class="form-label" for="content">Content</label>
-                  <textarea v-model="song.content" class="form-input" id="content" placeholder="songtext with chords and markers" rows="17"></textarea>
+                  <textarea v-model="song.content" class="form-input text-pre" id="content" placeholder="songtext with chords and markers" rows="17"></textarea>
                 </div>
               </div>
             </div>
@@ -163,7 +163,7 @@
                 </div>
                 <div v-else>
                   <h3 class="text-center">Selection</h3>
-                  <div v-for="tag in song.tags" :key="tag" class="tile tile-centered mb-1">
+                  <div v-for="tag in song.tags" :key="tag" class="tile tile-centered">
                     <div class="tile-content">
                       <div class="tile-title">{{ tag }}</div>
                     </div>
@@ -308,7 +308,7 @@ export default {
         note: this.song.note,
         publisher: this.song.publisher,
         subtitle: this.song.subtitle,
-        tags: this.song.tags.split(' '),
+        tags: this.song.tags,
         title: this.song.title,
         translations: this.song.translations,
         tuning: this.song.tuning,
@@ -323,7 +323,22 @@ export default {
       .catch(function() {
         // TODO: toast error message
         self.$emit('closed')
-      });
+      })
+      // reset form
+      this.song = {
+        authors: '',
+        ccli: '',
+        content: '',
+        language: '',
+        note: '',
+        publisher: '',
+        subtitle: '',
+        tags: [],
+        title: '',
+        translations: [],
+        tuning: '',
+        year: '',
+      }
     },
     createSlug (s) {
       return s
@@ -388,5 +403,7 @@ export default {
 <style lang="scss">
 #content {
   height: 55vh;
+  font-size: .7em;
+  line-height: 1.3em;
 }
 </style>
