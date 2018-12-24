@@ -6,7 +6,8 @@
       <div class="modal-container">
         <div class="modal-header">
           <a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
-          <div class="modal-title h5">New Song</div>
+          <div v-if="!existing" class="modal-title h5">New Song</div>
+          <div v-else class="modal-title h5">Edit Song «<span class="text-uppercase ls-1">{{ song.title }}</span>»</div>
         </div>
         <div class="modal-body">
           <div class="content">
@@ -256,8 +257,8 @@ export default {
   name: 'SongForm',
   props: {
     active: Boolean,
-    new: Boolean,
-    id: String
+    existing: Boolean,
+    tsong: Object
   },
   firestore () {
     return {
@@ -282,18 +283,18 @@ export default {
       },
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
       song: {
-        authors: '',
-        ccli: '',
-        content: '',
-        language: '',
-        note: '',
-        publisher: '',
-        subtitle: '',
-        tags: [],
-        title: '',
-        translations: [],
-        tuning: '',
-        year: '',
+        authors: this.existing ? this.tsong.authors : '',
+        ccli: this.existing ? this.tsong.ccli : '',
+        content: this.existing ? this.tsong.content : '',
+        language: this.existing ? this.tsong.language : '',
+        note: this.existing ? this.tsong.note : '',
+        publisher: this.existing ? this.tsong.publisher : '',
+        subtitle: this.existing ? this.tsong.subtitle : '',
+        tags: this.existing ? this.tsong.tags : [],
+        title: this.existing ? this.tsong.title : '',
+        translations: this.existing ? this.tsong.translations : [],
+        tuning: this.existing ? this.tsong.tuning : '',
+        year: this.existing ? this.tsong.year : '',
       }
     }
   },

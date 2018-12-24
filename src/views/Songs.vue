@@ -66,7 +66,9 @@
                     </li>
                     <li class="menu-item"><a href="#" class="py-3 px-3"><i class="icon icon-edit mr-2"></i> Edit</a></li>
                     <li class="menu-item"><a href="#" class="py-3 px-3"><i class="icon icon-copy mr-2"></i> Duplicate</a></li>
-                    <li class="menu-item"><a href="#" class="py-3 px-3 text-error"><i class="icon icon-delete mr-2"></i> Delete</a></li>
+                    <li class="menu-item">
+                      <a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=song.title; active.key=song['.key']; modal.delete=true"><i class="icon icon-delete mr-2"></i> Delete</a>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -74,17 +76,26 @@
           </tr>
         </tbody>
       </table>
-
+      <!-- modals -->
+      <!-- <SongSet :active="modal.set" @closed="modal.set = false" /> -->
+      <SongDelete :active="modal.delete" :title="active.title" :id="active.key" @closed="modal.delete = false" />
     </div>
   </div>
 </template>
 
 <script>
+// get components
+import SongSet from '@/components/SongSet.vue'
+import SongDelete from '@/components/SongDelete.vue'
 // get database object authorized in config.js
 import { db } from '@/firebase'
 
 export default {
   name: 'songs',
+  components: {
+    SongSet,
+    SongDelete,
+  },
   firestore () {
     return {
       songs: {
@@ -99,7 +110,15 @@ export default {
     return {
       search: '',
       filter: this.$route.params.tag ? this.$route.params.tag : '',
-      ready: false
+      ready: false,
+      modal: {
+        set: false,
+        delete: false,
+      },
+      active: {
+        title: '',
+        key: '',
+      }
     }
   },
   computed: {
