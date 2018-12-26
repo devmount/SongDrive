@@ -282,20 +282,6 @@ export default {
         translations: '',
       },
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
-      // song: {
-      //   authors: this.tsong ? this.tsong.authors : '',
-      //   ccli: this.tsong ? this.tsong.ccli : '',
-      //   content: this.tsong ? this.tsong.content : '',
-      //   language: this.tsong ? this.tsong.language : '',
-      //   note: this.tsong ? this.tsong.note : '',
-      //   publisher: this.tsong ? this.tsong.publisher : '',
-      //   subtitle: this.tsong ? this.tsong.subtitle : '',
-      //   tags: this.tsong && this.tsong.tags ? this.tsong.tags : [],
-      //   title: this.tsong ? this.tsong.title : '',
-      //   translations: this.tsong && this.tsong.translations ? this.tsong.translations : [],
-      //   tuning: this.tsong ? this.tsong.tuning : '',
-      //   year: this.tsong ? this.tsong.year : '',
-      // }
     }
   },
   methods: {

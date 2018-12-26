@@ -62,7 +62,7 @@
       </div>
 
       <!-- modals -->
-      <SongSet :active="modal.addsong" :existing="false" :id="0" @closed="modal.addsong = false" />
+      <SongSet :active="modal.addsong" :existing="false" :song="{ authors: '', ccli: '', content: '', language: '', note: '', publisher: '', subtitle: '', tags: [], title: '', translations: [], tuning: '', year: '' }" @closed="modal.addsong = false" />
     </div>
   </div>
 </template>
