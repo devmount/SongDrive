@@ -288,7 +288,7 @@ export default {
     setSong () {
       var self = this
       var processedSong = {
-        authors: this.song.authors.split('|'),
+        authors: this.song.authors, // Todo .split('|') handling
         ccli: parseInt(this.song.ccli),
         content: this.song.content,
         language: this.song.language,
@@ -305,27 +305,13 @@ export default {
       .then(function() {
         // TODO: toast success message
         self.$emit('closed')
+        self.$emit('reset')
         processedSong = {}
       })
       .catch(function() {
         // TODO: toast error message
         self.$emit('closed')
       })
-      // reset form
-      this.song = {
-        authors: '',
-        ccli: '',
-        content: '',
-        language: '',
-        note: '',
-        publisher: '',
-        subtitle: '',
-        tags: [],
-        title: '',
-        translations: [],
-        tuning: '',
-        year: '',
-      }
     },
     createSlug (s) {
       return s

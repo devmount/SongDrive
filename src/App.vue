@@ -62,7 +62,7 @@
       </div>
 
       <!-- modals -->
-      <SongSet :active="modal.addsong" :existing="false" :song="newSong" @closed="modal.addsong = false" />
+      <SongSet :active="modal.addsong" :existing="false" :song="newSong" @closed="modal.addsong = false" @reset="resetSong" />
     </div>
   </div>
 </template>
@@ -111,6 +111,24 @@ export default {
       }
     }
   },
+  methods: {
+    resetSong () {
+      this.newSong = {
+        authors: [],
+        ccli: '',
+        content: '',
+        language: '',
+        note: '',
+        publisher: '',
+        subtitle: '',
+        tags: [],
+        title: '',
+        translations: [],
+        tuning: '',
+        year: ''
+      }
+    }
+  }
 }
 </script>
 
