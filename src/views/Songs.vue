@@ -83,7 +83,7 @@
         </tbody>
       </table>
       <!-- modals -->
-      <SongSet :active="modal.set" :existing="true" :song="active.song" :id="active.key" @closed="modal.set = false" />
+      <SongSet :active="modal.set" :existing="true" :song="active.song" @closed="modal.set = false" />
       <SongDelete :active="modal.delete" :title="active.title" :id="active.key" @closed="modal.delete = false" />
     </div>
   </div>
