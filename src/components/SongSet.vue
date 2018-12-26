@@ -3,7 +3,7 @@
     <!-- main modal: set song -->
     <div class="modal modal-lg" :class="{ active: active }">
       <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
-      <div class="modal-container">
+      <div v-if="song" class="modal-container">
         <div class="modal-header">
           <a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
           <div v-if="!existing" class="modal-title h5">New Song</div>
@@ -91,7 +91,7 @@
                   </div>
                   <div class="column col-12">
                     <label class="form-label">Translations</label>
-                    <div v-if="song.translations.length == 0" class="text-gray">
+                    <div v-if="song.translations && song.translations.length == 0" class="text-gray">
                       <i class="icon icon-stop mr-1"></i> This song has no translation yet.
                     </div>
                     <div v-else>
@@ -130,7 +130,7 @@
       </div>
     </div>
     <!-- additional modal: add tag -->
-    <div class="modal modal-secondary" :class="{ active: modal.tags }">
+    <div v-if="song" class="modal modal-secondary" :class="{ active: modal.tags }">
       <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modal.tags = false"></a>
       <div class="modal-container">
         <div class="modal-header">
@@ -155,7 +155,7 @@
                 </div>
               </div>
               <div class="column col-6">
-                <div v-if="song.tags.length == 0" class="empty">
+                <div v-if="song.tags && song.tags.length == 0" class="empty">
                   <div class="empty-icon">
                     <i class="icon icon-arrow-left icon-4x"></i>
                   </div>
@@ -185,7 +185,7 @@
       </div>
     </div>
     <!-- additional modal: add translation -->
-    <div class="modal modal-secondary" :class="{ active: modal.translations }">
+    <div v-if="song" class="modal modal-secondary" :class="{ active: modal.translations }">
       <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modal.translations = false"></a>
       <div class="modal-container">
         <div class="modal-header">
@@ -213,7 +213,7 @@
                 </div>
               </div>
               <div class="column col-6">
-                <div v-if="song.translations.length == 0" class="empty">
+                <div v-if="song.translations && song.translations.length == 0" class="empty">
                   <div class="empty-icon">
                     <i class="icon icon-arrow-left icon-4x"></i>
                   </div>
@@ -254,11 +254,11 @@
 import { db } from '@/firebase'
 
 export default {
-  name: 'SongForm',
+  name: 'SongSet',
   props: {
     active: Boolean,
     existing: Boolean,
-    tsong: Object
+    song: Object
   },
   firestore () {
     return {
@@ -282,20 +282,20 @@ export default {
         translations: '',
       },
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
-      song: {
-        authors: this.existing ? this.tsong.authors : '',
-        ccli: this.existing ? this.tsong.ccli : '',
-        content: this.existing ? this.tsong.content : '',
-        language: this.existing ? this.tsong.language : '',
-        note: this.existing ? this.tsong.note : '',
-        publisher: this.existing ? this.tsong.publisher : '',
-        subtitle: this.existing ? this.tsong.subtitle : '',
-        tags: this.existing ? this.tsong.tags : [],
-        title: this.existing ? this.tsong.title : '',
-        translations: this.existing ? this.tsong.translations : [],
-        tuning: this.existing ? this.tsong.tuning : '',
-        year: this.existing ? this.tsong.year : '',
-      }
+      // song: {
+      //   authors: this.tsong ? this.tsong.authors : '',
+      //   ccli: this.tsong ? this.tsong.ccli : '',
+      //   content: this.tsong ? this.tsong.content : '',
+      //   language: this.tsong ? this.tsong.language : '',
+      //   note: this.tsong ? this.tsong.note : '',
+      //   publisher: this.tsong ? this.tsong.publisher : '',
+      //   subtitle: this.tsong ? this.tsong.subtitle : '',
+      //   tags: this.tsong && this.tsong.tags ? this.tsong.tags : [],
+      //   title: this.tsong ? this.tsong.title : '',
+      //   translations: this.tsong && this.tsong.translations ? this.tsong.translations : [],
+      //   tuning: this.tsong ? this.tsong.tuning : '',
+      //   year: this.tsong ? this.tsong.year : '',
+      // }
     }
   },
   methods: {

@@ -62,7 +62,7 @@
       </div>
 
       <!-- modals -->
-      <SongSet :active="modal.addsong" @closed="modal.addsong = false" />
+      <SongSet :active="modal.addsong" :existing="false" :id="0" @closed="modal.addsong = false" />
     </div>
   </div>
 </template>
