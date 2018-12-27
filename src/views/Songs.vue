@@ -65,7 +65,7 @@
                       </router-link>
                     </li>
                     <li class="menu-item">
-                      <a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.key=song['.key']; active.song=song; modal.set=true">
+                      <a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; modal.set=true">
                         <i class="icon icon-edit mr-2"></i> Edit
                       </a>
                     </li>

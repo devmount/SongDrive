@@ -9,7 +9,7 @@
         <!-- sidebar: manage -->
         <div class="divider text-center show-lg" data-content="M"></div>
         <div class="divider text-center hide-lg" data-content="MANAGE"></div>
-        <button class="btn btn-secondary d-block stretch mb-1 disabled">
+        <button class="btn btn-secondary d-block stretch mb-1" @click="modal.song=song; modal.set=true">
           <i class="icon icon-edit"></i><span class="hide-lg"> EDIT</span>
         </button>
         <button class="btn btn-secondary d-block stretch mb-1 disabled">
@@ -99,6 +99,7 @@
         </div>
       </div>
       <!-- modals -->
+      <SongSet :active="modal.set" :existing="true" :song="modal.song" @closed="modal.set = false" />
       <SongDelete :active="modal.delete" :title="song.title" :id="song['.key']" @closed="modal.delete = false" />
     </div>
   </div>
@@ -107,6 +108,7 @@
 <script>
 // get components
 import SongContent from '@/components/SongContent.vue'
+import SongSet from '@/components/SongSet.vue'
 import SongDelete from '@/components/SongDelete.vue'
 // get database object authorized in config.js
 import { db } from '@/firebase'
@@ -127,6 +129,7 @@ export default {
   name: 'song-show',
   components: {
     SongContent,
+    SongSet,
     SongDelete
   },
   firestore () {
@@ -153,8 +156,8 @@ export default {
         songs: false,
       },
       modal: {
-        edit: false,
-        clone: false,
+        song: {},
+        set: false,
         delete: false,
       },
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']

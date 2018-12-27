@@ -347,6 +347,13 @@ h3 {
     }
   }
 }
+@media (min-width: $size-lg) {
+  .off-canvas {
+    .off-canvas-sidebar {
+      z-index: 0;
+    }
+  }
+}
 .off-canvas-secondary {
   .off-canvas-sidebar {
     background: $bg-color-medium;
