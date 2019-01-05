@@ -125,7 +125,10 @@
         <div class="modal-footer">
           <button class="btn btn-secondary float-left" @click="modal.translations = true">Add Translation</button>
           <button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</button>
-          <button class="btn btn-primary ml-2" @click="setSong">Add Song</button>
+          <button class="btn btn-primary ml-2" @click="setSong">
+            <span v-if="!existing">Create</span>
+            <span v-else>Update</span> Song
+          </button>
         </div>
       </div>
     </div>
@@ -289,7 +292,7 @@ export default {
       var self = this
       var processedSong = {
         authors: this.song.authors,
-        ccli: parseInt(this.song.ccli),
+        ccli: this.song.ccli ? parseInt(this.song.ccli) : '',
         content: this.song.content,
         language: this.song.language,
         note: this.song.note,
@@ -299,19 +302,38 @@ export default {
         title: this.song.title,
         translations: this.song.translations,
         tuning: this.song.tuning,
-        year: parseInt(this.song.year),
+        year: this.song.year ? parseInt(this.song.year) : '',
       }
-      db.collection('songs').doc(this.createSlug(this.song.title)).set(processedSong)
-      .then(function() {
-        // TODO: toast success message
-        self.$emit('closed')
-        self.$emit('reset')
-        processedSong = {}
-      })
-      .catch(function() {
-        // TODO: toast error message
-        self.$emit('closed')
-      })
+      // new song should be created
+      if (!this.existing) {
+        db.collection('songs').doc(this.createSlug(this.song.title)).set(processedSong)
+        .then(function() {
+          // TODO: toast success creation message
+          self.$emit('closed')
+          self.$emit('reset')
+          processedSong = {}
+          self.$router.push({ name: 'song-show', params: { id: self.createSlug(self.song.title) }});
+        })
+        .catch(function() {
+          // TODO: toast error creation message
+          self.$emit('closed')
+        })
+      }
+      // existing song should be updated
+      else {
+        db.collection('songs').doc(this.song['.key']).update(processedSong)
+        .then(function() {
+          // TODO: toast success update message
+          self.$emit('closed')
+          self.$emit('reset')
+          processedSong = {}
+          self.$router.push({ name: 'song-show', params: { id: self.song['.key'] }});
+        })
+        .catch(function() {
+          // TODO: toast error update message
+          self.$emit('closed')
+        })
+      }
     },
     createSlug (s) {
       return s

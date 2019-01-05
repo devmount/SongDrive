@@ -9,10 +9,10 @@
         <!-- sidebar: manage -->
         <div class="divider text-center show-lg" data-content="M"></div>
         <div class="divider text-center hide-lg" data-content="MANAGE"></div>
-        <button class="btn btn-secondary d-block stretch mb-1" @click="modal.song=song; modal.set=true">
+        <button class="btn btn-secondary d-block stretch mb-1" @click="modal.song=song; existing=true; modal.set=true">
           <i class="icon icon-edit"></i><span class="hide-lg"> EDIT</span>
         </button>
-        <button class="btn btn-secondary d-block stretch mb-1 disabled">
+        <button class="btn btn-secondary d-block stretch mb-1" @click="modal.song=song; existing=false; modal.set=true">
           <i class="icon icon-copy"></i><span class="hide-lg"> CLONE</span>
         </button>
         <button class="btn btn-secondary btn-error d-block stretch" @click="modal.delete = true">
@@ -99,7 +99,7 @@
         </div>
       </div>
       <!-- modals -->
-      <SongSet :active="modal.set" :existing="true" :song="modal.song" @closed="modal.set = false" />
+      <SongSet :active="modal.set" :existing="existing" :song="modal.song" @closed="modal.set = false" />
       <SongDelete :active="modal.delete" :title="song.title" :id="song['.key']" @closed="modal.delete = false" />
     </div>
   </div>
@@ -160,6 +160,7 @@ export default {
         set: false,
         delete: false,
       },
+      existing: true,
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
     }
   },

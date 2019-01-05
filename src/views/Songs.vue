@@ -44,13 +44,13 @@
         </thead>
         <tbody>
           <tr v-for="(song, i) in filteredSongs" :key="i">
-            <td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">
+            <td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">
               {{ song.title }} <div class="show-xl text-gray">{{ song.subtitle }}</div>
             </td>
-            <td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.subtitle }}</td>
-            <td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.authors }}</td>
-            <td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.year }}</td>
-            <td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.tuning }}</td>
+            <td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">{{ song.subtitle }}</td>
+            <td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">{{ song.authors }}</td>
+            <td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">{{ song.year }}</td>
+            <td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">{{ song.tuning }}</td>
             <td>
               <div class="dropdown dropdown-right">
                 <div class="btn-group">
@@ -65,11 +65,15 @@
                       </router-link>
                     </li>
                     <li class="menu-item">
-                      <a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; modal.set=true">
+                      <a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.existing=true; modal.set=true">
                         <i class="icon icon-edit mr-2"></i> Edit
                       </a>
                     </li>
-                    <li class="menu-item"><a href="#" class="py-3 px-3"><i class="icon icon-copy mr-2"></i> Duplicate</a></li>
+                    <li class="menu-item">
+                      <a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.existing=false; modal.set=true">
+                        <i class="icon icon-copy mr-2"></i> Duplicate
+                      </a>
+                    </li>
                     <li class="menu-item">
                       <a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=song.title; active.key=song['.key']; modal.delete=true">
                         <i class="icon icon-delete mr-2"></i> Delete
@@ -83,7 +87,7 @@
         </tbody>
       </table>
       <!-- modals -->
-      <SongSet :active="modal.set" :existing="true" :song="active.song" @closed="modal.set = false" />
+      <SongSet :active="modal.set" :existing="active.existing" :song="active.song" @closed="modal.set = false" />
       <SongDelete :active="modal.delete" :title="active.title" :id="active.key" @closed="modal.delete = false" />
     </div>
   </div>
@@ -124,7 +128,8 @@ export default {
       active: {
         title: '',
         key: '',
-        song: {}
+        song: {},
+        existing: true
       }
     }
   },
