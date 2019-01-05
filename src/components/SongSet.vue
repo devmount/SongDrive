@@ -288,7 +288,7 @@ export default {
     setSong () {
       var self = this
       var processedSong = {
-        authors: this.song.authors, // Todo .split('|') handling
+        authors: this.song.authors,
         ccli: parseInt(this.song.ccli),
         content: this.song.content,
         language: this.song.language,

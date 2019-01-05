@@ -48,7 +48,7 @@
               {{ song.title }} <div class="show-xl text-gray">{{ song.subtitle }}</div>
             </td>
             <td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.subtitle }}</td>
-            <td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.authors.join(' | ')}}</td>
+            <td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.authors }}</td>
             <td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.year }}</td>
             <td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }});">{{ song.tuning }}</td>
             <td>

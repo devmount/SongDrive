@@ -82,7 +82,7 @@
               <h3>{{ song.subtitle }}</h3>
               <SongContent :content="song.content" :chords="chords" :tuning="tuning" :tunes="tunes" />
               <footer>
-                <p>{{ song.authors.join(' | ')}}</p>
+                <p>{{ song.authors }}</p>
                 <p>
                   <router-link v-for="tag in song.tags" :key="tag" :to="{ name: 'songs-tag', params: { tag: tag }}" class="mr-2">
                     <span class="label label-primary px-2 py-1">
@@ -193,7 +193,7 @@ export default {
         // keep line for export
         content += line + '\n'
       }
-      content += '\n' + this.song.authors.join(' | ') + '\n' +
+      content += '\n' + this.song.authors +
         '© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ')
       // start download
       this.download(content, this.song['.key'] + '.txt')
@@ -203,8 +203,8 @@ export default {
       var content =
         '#LangCount=1' + '\n' +
         '#Title=' + this.song.title + '\n' +
-        '#Author=' + this.song.authors.join(' | ') + '\n' +
-        '#Melody=' + this.song.authors.join(' | ') + '\n' +
+        '#Author=' + this.song.authors +
+        '#Melody=' + this.song.authors +
         '#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '\n' +
         '#Key=' + this.song.tuning + '\n' +
         '#CCLI=' + this.song.ccli + '\n' +
@@ -299,7 +299,7 @@ export default {
           style: 'copyright',
           text: [
             this.song.ccli ? 'CCLI Song Nr.: ' + this.song.ccli + '\n' : '',
-            this.song.authors ? this.song.authors.join(', ') + '\n' : '',
+            this.song.authors ? this.song.authors + '\n' : '',
             '\u00A9 ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher
           ]
         }

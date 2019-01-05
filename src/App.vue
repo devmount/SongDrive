@@ -96,7 +96,7 @@ export default {
         addsetlist: false
       },
       newSong: {
-        authors: [],
+        authors: '',
         ccli: '',
         content: '',
         language: '',
@@ -114,7 +114,7 @@ export default {
   methods: {
     resetSong () {
       this.newSong = {
-        authors: [],
+        authors: '',
         ccli: '',
         content: '',
         language: '',
