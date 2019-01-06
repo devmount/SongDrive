@@ -198,6 +198,12 @@ export default {
         '© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ')
       // start download
       this.download(content, this.song['.key'] + '.txt')
+      // toast success message
+      this.$notify({
+        title: '<button class="btn btn-clear float-right"></button>Success!',
+        text: 'The song was exported as text file.',
+        type: 'toast-primary'
+      });
     },
     exportSng: function() {
       // add header
@@ -228,6 +234,13 @@ export default {
         .replace(/--o/g, "outro")
       // start download
       this.download(content, this.song['.key'] + '.sng')
+      // toast success message
+      this.$notify({
+        title: '<button class="btn btn-clear float-right"></button>Success!',
+        text: 'The song was exported as SNG file.',
+        type: 'toast-primary'
+      });
+
     },
     exportPdf: function() {
       var content = this.getPdfSongContent()
@@ -259,6 +272,13 @@ export default {
         }
       }
       pdfMake.createPdf(doc).open()
+      // toast success message
+      this.$notify({
+        title: '<button class="btn btn-clear float-right"></button>Success!',
+        text: 'The song was exported as PDF file.',
+        type: 'toast-primary'
+      });
+
     },
     getPdfSongContent () {
       // handle song content parts

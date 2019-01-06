@@ -35,12 +35,22 @@ export default {
     deleteSong () {
       var self = this
       db.collection('songs').doc(this.id).delete().then(function() {
-        // TODO: toast success message
         self.$emit('closed')
         self.$router.push({ name: 'songs' })
+        // toast success message
+        self.$notify({
+          title: '<button class="btn btn-clear float-right"></button>Success!',
+          text: 'The song was removed.',
+          type: 'toast-primary'
+        });
       }).catch(function() {
-        // TODO: toast error message
         self.$emit('closed')
+        // toast error message
+        self.$notify({
+          title: '<button class="btn btn-clear float-right"></button>Error!',
+          text: 'The song could not be removed.',
+          type: 'toast-error'
+        });
       });
     },
   }

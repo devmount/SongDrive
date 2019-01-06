@@ -308,30 +308,50 @@ export default {
       if (!this.existing) {
         db.collection('songs').doc(this.createSlug(this.song.title)).set(processedSong)
         .then(function() {
-          // TODO: toast success creation message
           self.$emit('closed')
           self.$emit('reset')
           processedSong = {}
-          self.$router.push({ name: 'song-show', params: { id: self.createSlug(self.song.title) }});
+          self.$router.push({ name: 'song-show', params: { id: self.createSlug(self.song.title) }})
+          // toast success creation message
+          self.$notify({
+            title: '<button class="btn btn-clear float-right"></button>Success!',
+            text: 'The new song was added.',
+            type: 'toast-primary'
+          });
         })
         .catch(function() {
-          // TODO: toast error creation message
           self.$emit('closed')
+          // toast error creation message
+          self.$notify({
+            title: '<button class="btn btn-clear float-right"></button>Error!',
+            text: 'The new song could not be added.',
+            type: 'toast-error'
+          });
         })
       }
       // existing song should be updated
       else {
         db.collection('songs').doc(this.song['.key']).update(processedSong)
         .then(function() {
-          // TODO: toast success update message
           self.$emit('closed')
           self.$emit('reset')
           processedSong = {}
-          self.$router.push({ name: 'song-show', params: { id: self.song['.key'] }});
+          self.$router.push({ name: 'song-show', params: { id: self.song['.key'] }})
+          // toast success update message
+          self.$notify({
+            title: '<button class="btn btn-clear float-right"></button>Success!',
+            text: 'The song was updated.',
+            type: 'toast-primary'
+          });
         })
         .catch(function() {
-          // TODO: toast error update message
           self.$emit('closed')
+          // toast error update message
+          self.$notify({
+            title: '<button class="btn btn-clear float-right"></button>Error!',
+            text: 'The song could not be updated.',
+            type: 'toast-error'
+          });
         })
       }
     },

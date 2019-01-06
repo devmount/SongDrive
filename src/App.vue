@@ -64,6 +64,9 @@
       <!-- modals -->
       <SongSet :active="modal.addsong" :existing="false" :song="newSong" @closed="modal.addsong = false" @reset="resetSong" />
     </div>
+
+    <!-- notifications -->
+    <notifications position="bottom right" :duration="5000" classes="toast" />
   </div>
 </template>
 
@@ -127,7 +130,7 @@ export default {
         tuning: '',
         year: ''
       }
-    }
+    },
   }
 }
 </script>
@@ -227,6 +230,14 @@ h3 {
 }
 ::-moz-selection {
   background: $primary-color;
+}
+
+// toast
+.notifications {
+  margin-right: .8em;
+}
+.toast {
+  margin-bottom: .8em;
 }
 
 // form
