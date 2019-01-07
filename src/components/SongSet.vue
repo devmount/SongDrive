@@ -17,7 +17,8 @@
                   <div class="column col-12">
                     <div class="form-group">
                       <label class="form-label" for="title">Title</label>
-                      <input v-model="song.title" class="form-input" id="title" type="text" placeholder="song title">
+                      <input v-if="existing" v-model="song.title" class="form-input" id="title" type="text" placeholder="song title" disabled>
+                      <input v-else v-model="song.title" class="form-input" id="title" type="text" placeholder="song title">
                     </div>
                   </div>
                   <div class="column col-8 col-md-12">
