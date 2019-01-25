@@ -326,6 +326,10 @@ h3 {
     .modal-overlay {
       background: rgba($bg-color, .75);
     }
+    .modal-container {
+      max-width: 100vw;
+      max-height: 100vh;
+    }
   }
 
   &.modal-secondary {

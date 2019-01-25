@@ -42,8 +42,8 @@
             <i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
           </label>
         </div>
-        <button class="btn btn-secondary d-block stretch disabled">
-          <i class="icon icon-resize-horiz"></i><span class="hide-lg"> FULLSCREEN</span>
+        <button class="btn btn-secondary d-block stretch" @click="modal.present=true">
+          <i class="icon icon-resize-horiz"></i><span class="hide-lg"> PRESENT</span>
         </button>
         <!-- sidebar: tuning -->
         <div class="divider text-center show-lg" data-content="T"></div>
@@ -101,6 +101,7 @@
       <!-- modals -->
       <SongSet :active="modal.set" :existing="existing" :song="modal.song" @closed="modal.set = false" />
       <SongDelete :active="modal.delete" :title="song.title" :id="song['.key']" @closed="modal.delete = false" />
+      <SongPresent :active="modal.present" :song="{0: song}" :chords="chords" :tuning="tuning" :tunes="tunes"  @closed="modal.present = false" />
     </div>
   </div>
 </template>
@@ -110,6 +111,7 @@
 import SongContent from '@/components/SongContent.vue'
 import SongSet from '@/components/SongSet.vue'
 import SongDelete from '@/components/SongDelete.vue'
+import SongPresent from '@/components/SongPresent.vue'
 // get database object authorized in config.js
 import { db } from '@/firebase'
 // pdf creation
@@ -130,7 +132,8 @@ export default {
   components: {
     SongContent,
     SongSet,
-    SongDelete
+    SongDelete,
+    SongPresent,
   },
   firestore () {
     return {
@@ -159,6 +162,7 @@ export default {
         song: {},
         set: false,
         delete: false,
+        present: false,
       },
       existing: true,
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
