@@ -1,10 +1,10 @@
 <template>
-  <div class="modal modal-lg" :class="{ active: active }">
+  <div class="modal modal-lg modal-full" :class="{ active: active }">
     <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
     <div class="modal-container">
       <div class="modal-header">
         <div class="modal-title h5">{{ song[0].title }}</div>
-        <div class="h6 text-gray">{{ song[0].subtitle }}</div>
+        <div class="modal-subtitle h6 text-gray">{{ song[0].subtitle }}</div>
       </div>
       <div class="modal-body">
         <div class="content">
@@ -176,59 +176,11 @@ export default {
 </script>
 
 <style lang="scss">
-$bg-color-light: #1b1e1f;
-$bg-color-dark: #293031;
+$black-color: #000000;
 
-pre {
-  position: relative;
-  overflow: visible;
-  margin-bottom: 1.8em;
-}
-.verse {
-  border-left: 2px solid $bg-color-dark;
-  position: relative;
-  padding-left: 1em;
-  margin-left: .6em;
-}
-.verse::before {
-  display: inline-block;
-  position: absolute;
-  background: $bg-color-light;
-  left: -.45em;
-  top: .35em;
-  width: .8em;
-  line-height: 1.3em;
-  height: 1.15em;
-  text-align: center;
-  font-size: 2em;
-  font-family: "Fira Sans";
-  font-weight: 300;
-}
-.verse.part1::before {
-  content: '1';
-}
-.verse.part2::before {
-  content: '2';
-}
-.verse.part3::before {
-  content: '3';
-}
-.verse.part4::before {
-  content: '4';
-}
-.verse.part5::before {
-  content: '5';
-}
-.verse.part6::before {
-  content: '6';
-}
-.verse.part7::before {
-  content: '7';
-}
-.verse.part8::before {
-  content: '8';
-}
-.verse.part9::before {
-  content: '9';
+.modal-lg.modal-full {
+  .verse::before {
+    background: $black-color;
+  }
 }
 </style>

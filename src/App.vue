@@ -151,6 +151,7 @@ $border-color: #222627;
 $gray-color: #5e6769;
 $gray-color-dark: #4a5052;
 $dark-color: #010101;
+$black-color: #000000;
 $mono-font-family: "Fira Mono", monospace;
 
 // import spectre
@@ -320,6 +321,10 @@ h3 {
   .modal-container {
     .modal-header {
       color: $light-color;
+
+      .modal-subtitle {
+        font-weight: 400;
+      }
     }
   }
   &.modal-lg {
@@ -329,6 +334,24 @@ h3 {
     .modal-container {
       max-width: 100vw;
       max-height: 100vh;
+    }
+
+    &.modal-full {
+      padding: 0;
+
+      .modal-overlay {
+        background: $black-color;
+      }
+      .modal-container {
+        background: $black-color;
+        height: 100vh;
+
+        .modal-footer {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+      }
     }
   }
 
@@ -474,8 +497,6 @@ h3 {
     }
   }
 }
-
-
 
 // filter select field
 .filter:required:invalid {
