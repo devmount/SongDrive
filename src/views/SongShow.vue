@@ -21,9 +21,8 @@
         <!-- sidebar: language -->
         <div class="divider text-center show-lg" data-content="L"></div>
         <div class="divider text-center hide-lg" data-content="LANGUAGE"></div>
-        <div class="d-flex">
+        <div class="d-flex" v-if="ready.songs">
           <router-link
-            v-if="ready.songs"
             v-for="(tsong, i) in showLanguages"
             :key="i"
             :to="{ name: 'song-show', params: { id: tsong[0] }}"
