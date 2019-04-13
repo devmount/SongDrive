@@ -55,6 +55,9 @@
     "last 2 versions",
     "not ie <= 8"
   ],
+  "vue": {
+    "publicPath": "./"
+  },
   "babel": {
     "presets": [
       "@vue/app"
