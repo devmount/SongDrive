@@ -1,5 +1,5 @@
 <template>
-  <div class="song-content columns">
+  <div class="song-content content columns">
     <div class="column col-xl-12 col-6" v-for="(parts, i) in parsedContent" :key="i">
       <pre v-for="(part, j) in parts" :key="j" :class="part.class">{{ part.content }}</pre>
     </div>
@@ -157,7 +157,7 @@ export default {
         })
       }
       // split content into two columns and return
-      let half = Math.floor(newContent.length / 2)
+      let half = Math.ceil(newContent.length / 2)
       return [newContent.slice(0, half), newContent.slice(half, newContent.length)]
     }
   }

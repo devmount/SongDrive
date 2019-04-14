@@ -98,9 +98,28 @@
         </div>
       </div>
       <!-- modals -->
-      <SongSet :active="modal.set" :existing="existing" :song="modal.song" @closed="modal.set = false" />
-      <SongDelete :active="modal.delete" :title="song.title" :id="song['.key']" @closed="modal.delete = false" />
-      <SongPresent :active="modal.present" :song="{0: song}" :chords="chords" :tuning="tuning" :tunes="tunes"  @closed="modal.present = false" />
+      <SongSet
+        :active="modal.set"
+        :existing="existing"
+        :song="modal.song"
+        @closed="modal.set = false"
+      />
+      <SongDelete
+        :active="modal.delete"
+        :title="song.title"
+        :id="song['.key']"
+        @closed="modal.delete = false"
+      />
+      <SongPresent
+        :active="modal.present"
+        :title="song.title"
+        :subtitle="song.subtitle"
+        :content="song.content"
+        :chords="chords"
+        :tuning="tuning"
+        :tunes="tunes"
+        @closed="modal.present = false"
+      />
     </div>
   </div>
 </template>
