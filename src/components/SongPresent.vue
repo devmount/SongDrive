@@ -1,13 +1,20 @@
 <template>
-  <div class="modal modal-lg modal-full" :class="{ active: active }">
+  <div class="modal modal-lg modal-full modal-presentation" :class="{ active: active }">
     <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
     <div class="modal-container">
       <div class="modal-header">
-        <div class="modal-title h5">{{ title }}</div>
-        <div class="modal-subtitle h6 text-gray">{{ subtitle }}</div>
+        <div class="modal-title h5">
+          {{ title }}
+          <span class="modal-subtitle h6 text-gray ml-3">{{ subtitle }}</span>
+        </div>
       </div>
-      <div class="modal-body" v-if="content">
-        <SongContent :content="content" :chords="chords" :tuning="tuning" :tunes="tunes" />
+      <div v-if="content" class="modal-body">
+        <SongContent
+          :content="content"
+          :chords="chords"
+          :tuning="tuning"
+          :tunes="tunes"
+        />
       </div>
       <div class="modal-footer">
         <a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">Close</a>
@@ -40,9 +47,17 @@ export default {
 <style lang="scss">
 $black-color: #000000;
 
-.modal-lg.modal-full {
-  .verse::before {
-    background: $black-color;
+.modal-presentation {
+
+  &.modal-lg.modal-full {
+    .verse::before {
+      background: $black-color;
+    }
   }
+
+  .modal-container .modal-header {
+    padding-bottom: 0;
+  }
+  
 }
 </style>

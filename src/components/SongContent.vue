@@ -1,5 +1,5 @@
 <template>
-  <div class="song-content content columns">
+  <div class="content columns">
     <div class="column col-xl-12 col-6" v-for="(parts, i) in parsedContent" :key="i">
       <pre v-for="(part, j) in parts" :key="j" :class="part.class">{{ part.content }}</pre>
     </div>
