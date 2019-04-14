@@ -14,10 +14,17 @@
           :chords="chords"
           :tuning="tuning"
           :tunes="tunes"
+          :presentation="true"
+          ref="songcontent"
         />
       </div>
       <div class="modal-footer">
-        <a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">Close</a>
+        <a class="btn btn-link btn-gray" href="#" aria-label="maximize" @click.prevent="maximizeFontsize">
+          <i class="icon icon-refresh"></i>
+        </a>
+        <a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
+          <i class="icon icon-cross"></i>
+        </a>
       </div>
     </div>
   </div>
@@ -40,6 +47,12 @@ export default {
     chords: Boolean,
     tuning: Number,
     tunes: Array
+  },
+  methods: {
+    maximizeFontsize() {
+      var songcontent = this.$refs.songcontent
+      songcontent.maximizeFontsize()
+    }
   }
 }
 </script>

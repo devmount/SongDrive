@@ -79,7 +79,13 @@
             <div v-if="ready.song" class="column col-12">
               <h2>{{ song.title }} <span class="label text-pre ml-2 px-3">{{ showTuning.current }}</span></h2>
               <h3>{{ song.subtitle }}</h3>
-              <SongContent :content="song.content" :chords="chords" :tuning="tuning" :tunes="tunes" />
+              <SongContent
+                :content="song.content"
+                :chords="chords"
+                :tuning="tuning"
+                :tunes="tunes"
+                :presentation="false"
+              />
               <footer>
                 <p>{{ song.authors }}</p>
                 <p>

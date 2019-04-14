@@ -1,6 +1,11 @@
 <template>
   <div class="content columns">
-    <div class="column col-xl-12 col-6" v-for="(parts, i) in parsedContent" :key="i">
+    <div
+      class="column col-xl-12 col-6"
+      :class="{ present: presentation, text: !chords }"
+      v-for="(parts, i) in parsedContent"
+      :key="i"
+    >
       <pre v-for="(part, j) in parts" :key="j" :class="part.class">{{ part.content }}</pre>
     </div>
   </div>
@@ -13,12 +18,53 @@ export default {
     content: String,
     chords: Boolean,
     tuning: Number,
-    tunes: Array
+    tunes: Array,
+    presentation: Boolean
   },
   methods: {
     isChordLine (line) {
       if (line == '') return false
       return line.slice(-2) === '  ';
+    },
+    maximizeFontsize() {
+      // console.log(document.querySelectorAll('.present'))
+      if (this.presentation === true) {
+        // all parent elements
+        for (let a of document.querySelectorAll('.present')) {
+          // all child elements
+          for (let b of a.querySelectorAll('pre')) {
+            b.style.display = 'inline-block'
+            var fontSize = getComputedStyle(b)['fontSize'].match(/\d+/)[0]
+            // increase font size as long as the child is still smaller than the parent
+            while (getComputedStyle(b)['width'].match(/\d+/)[0] < getComputedStyle(a)['width'].match(/\d+/)[0]*.9) {
+              b.style.fontSize = (fontSize++) + 'px'
+            }
+            // decrease font size if the child width exceeds the parents width
+            while (getComputedStyle(b)['width'].match(/\d+/)[0] > getComputedStyle(a)['width'].match(/\d+/)[0]*.9) {
+              b.style.fontSize = (fontSize--) + 'px'
+            }
+          }
+        }  
+        // // decrease font size of parts with greatest font size first if it doesnt fit into viewport height
+        // var vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)*1.2
+        // for (let r of document.querySelectorAll('.columns')) {
+        //   // as long as the content row is higher than the viewport
+        //   while (getComputedStyle(r)['height'].match(/\d+/)[0] > vh) {
+        //     for (let c of document.querySelectorAll('.present')) {
+        //       // decrease font size of parts with greatest font size
+        //       var parts = []
+        //       for (let d of c.querySelectorAll('pre')) {
+        //         parts.push({ part: d, size: parseInt(getComputedStyle(d)['fontSize'].match(/\d+/)[0])})
+        //       }
+        //       parts.sort(function(a, b) { return b.size - a.size; });
+        //       if (parts.length > 0) {
+        //         let c = parts[0]
+        //         c.part.style.fontSize = (c.size - 1) + 'px'
+        //       }
+        //     }
+        //   }
+        // }
+      }
     }
   },
   computed: {
@@ -219,5 +265,11 @@ pre {
 }
 .verse.part9::before {
   content: '9';
+}
+
+.text > pre {
+  font-family: Fira Sans;
+  font-size: 1.5em;
+  margin-bottom: .2em;
 }
 </style>
