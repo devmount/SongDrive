@@ -1,8 +1,8 @@
 <template>
   <div class="content columns">
     <div
-      class="column col-xl-12 col-6"
-      :class="{ present: presentation, text: !chords }"
+      class="column col-6"
+      :class="{ 'present': presentation, 'text': !chords, 'col-xl-12': !presentation }"
       v-for="(parts, i) in parsedContent"
       :key="i"
     >
@@ -22,12 +22,11 @@ export default {
     presentation: Boolean
   },
   methods: {
-    isChordLine (line) {
+    isChordLine(line) {
       if (line == '') return false
-      return line.slice(-2) === '  ';
+      return line.slice(-2) === '  '
     },
     maximizeFontsize() {
-      // console.log(document.querySelectorAll('.present'))
       if (this.presentation === true) {
         // all parent elements
         for (let a of document.querySelectorAll('.present')) {
@@ -36,40 +35,46 @@ export default {
             b.style.display = 'inline-block'
             var fontSize = getComputedStyle(b)['fontSize'].match(/\d+/)[0]
             // increase font size as long as the child is still smaller than the parent
-            while (getComputedStyle(b)['width'].match(/\d+/)[0] < getComputedStyle(a)['width'].match(/\d+/)[0]*.9) {
+            while (b.offsetWidth < a.offsetWidth*.9) {
               b.style.fontSize = (fontSize++) + 'px'
             }
             // decrease font size if the child width exceeds the parents width
-            while (getComputedStyle(b)['width'].match(/\d+/)[0] > getComputedStyle(a)['width'].match(/\d+/)[0]*.9) {
+            while (b.offsetWidth > a.offsetWidth*.9) {
               b.style.fontSize = (fontSize--) + 'px'
             }
           }
         }  
-        // // decrease font size of parts with greatest font size first if it doesnt fit into viewport height
-        // var vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)*1.2
-        // for (let r of document.querySelectorAll('.columns')) {
-        //   // as long as the content row is higher than the viewport
-        //   while (getComputedStyle(r)['height'].match(/\d+/)[0] > vh) {
-        //     for (let c of document.querySelectorAll('.present')) {
-        //       // decrease font size of parts with greatest font size
-        //       var parts = []
-        //       for (let d of c.querySelectorAll('pre')) {
-        //         parts.push({ part: d, size: parseInt(getComputedStyle(d)['fontSize'].match(/\d+/)[0])})
-        //       }
-        //       parts.sort(function(a, b) { return b.size - a.size; });
-        //       if (parts.length > 0) {
-        //         let c = parts[0]
-        //         c.part.style.fontSize = (c.size - 1) + 'px'
-        //       }
-        //     }
-        //   }
-        // }
+        // decrease font size of parts with greatest font size first if it doesnt fit into viewport height
+        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)-78
+        // handle both columns
+        for (let c of document.querySelectorAll('.present')) {
+          var parts = []
+          for (let d of c.querySelectorAll('pre')) {
+            parts.push({
+              part: d,
+              size: parseInt(getComputedStyle(d)['fontSize'].match(/\d+/)[0]),
+              height: d.offsetHeight+40
+            })
+          }
+          // decrease font size of parts in columns with a greater height than viewport
+          // as long as the sum of the heights of the parts is greater than the viewport height with a max of 100 iterations
+          var n = 100
+          do {
+            parts.sort(function(a, b) { return b.size - a.size; })
+            if (parts.length > 0) {
+              parts[0].part.style.fontSize = (parts[0].size - 1) + 'px'
+              parts[0].size = parseInt(getComputedStyle(parts[0].part)['fontSize'].match(/\d+/)[0])
+              parts[0].height = parts[0].part.offsetHeight+40
+            }
+            n--
+          } while (parts.map(o=>o.height).reduce((p,c)=>p+c) > vh && n > 0)
+        }
       }
     }
   },
   computed: {
     // parse song content
-    parsedContent () {
+    parsedContent() {
       // initialize arrays for parsed linex, classes of parts, type abbr., numbers of type and part index
       var parsed = [], classes = [], types = [], numbers = [], part = 0
       var lines = this.content.split('\n')
@@ -217,7 +222,8 @@ $bg-color-dark: #293031;
 pre {
   position: relative;
   overflow: visible;
-  margin-bottom: 1.8em;
+  margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 .verse {
   border-left: 2px solid $bg-color-dark;

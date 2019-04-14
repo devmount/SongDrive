@@ -193,7 +193,7 @@ export default {
     }
   },
   methods: {
-    isChordLine (line) {
+    isChordLine(line) {
       if (line == '') return false
       return line.slice(-2) === '  ';
     },
