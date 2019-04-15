@@ -3,19 +3,19 @@
     <div class="off-canvas off-canvas-secondary">
       <!-- secondary sidebar -->
       <div class="off-canvas-sidebar active">
-        <button class="btn btn-primary d-block stretch mb-1" @click="$router.go(-1)">
+        <button class="btn btn-primary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
           <i class="icon icon-arrow-left"></i><span class="hide-lg"> BACK</span>
         </button>
         <!-- sidebar: manage -->
         <div class="divider text-center show-lg" data-content="M"></div>
         <div class="divider text-center hide-lg" data-content="MANAGE"></div>
-        <button class="btn btn-secondary d-block stretch mb-1" @click="modal.song=song; existing=true; modal.set=true">
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="modal.song=song; existing=true; modal.set=true" data-tooltip=" EDIT ">
           <i class="icon icon-edit"></i><span class="hide-lg"> EDIT</span>
         </button>
-        <button class="btn btn-secondary d-block stretch mb-1" @click="modal.song=song; existing=false; modal.set=true">
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="modal.song=song; existing=false; modal.set=true" data-tooltip=" CLONE ">
           <i class="icon icon-copy"></i><span class="hide-lg"> CLONE</span>
         </button>
-        <button class="btn btn-secondary btn-error d-block stretch" @click="modal.delete = true">
+        <button class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
           <i class="icon icon-cross"></i><span class="hide-lg"> DELETE</span>
         </button>
         <!-- sidebar: language -->
@@ -35,13 +35,13 @@
         <!-- sidebar: view -->
         <div class="divider text-center show-lg" data-content="V"></div>
         <div class="divider text-center hide-lg" data-content="VIEW"></div>
-        <div class="form-group">
+        <div class="form-group tooltip tooltip-right" data-tooltip=" CHORDS ">
           <label class="form-switch switch-lg">
             <input type="checkbox" v-model="chords" @click="chords = !chords">
             <i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
           </label>
         </div>
-        <button class="btn btn-secondary d-block stretch" @click="modal.present=true">
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="modal.present=true" data-tooltip=" PRESENT ">
           <i class="icon icon-resize-horiz"></i><span class="hide-lg"> PRESENT</span>
         </button>
         <!-- sidebar: tuning -->
@@ -54,21 +54,21 @@
         </div>
         <div class="d-flex">
           <button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-left"></i></button>
-          <button class="btn btn-secondary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-up"></i></button>
-          <button class="btn btn-secondary mb-1" :class="{ disabled: !chords }" @click="tuning = 0"><i class="icon icon-refresh"></i></button>
+          <button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++" data-tooltip=" TUNE UP "><i class="icon icon-arrow-up"></i></button>
+          <button class="btn btn-secondary tooltip tooltip-right mb-1" :class="{ disabled: !chords }" @click="tuning = 0" data-tooltip=" RESET TUNING "><i class="icon icon-refresh"></i></button>
           <button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon icon-arrow-right"></i></button>
-          <button class="btn btn-secondary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon icon-arrow-down"></i></button>
+          <button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--" data-tooltip=" TUNE DOWN "><i class="icon icon-arrow-down"></i></button>
         </div>
         <!-- sidebar: export -->
         <div class="divider text-center show-lg" data-content="E"></div>
         <div class="divider text-center hide-lg" data-content="EXPORT"></div>
-        <button class="btn btn-secondary d-block stretch mb-1" @click="exportTxt">
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportTxt" data-tooltip=" EXPORT TXT ">
           <i class="icon icon-download"></i><span class="hide-lg text-pre"> .TXT</span>
         </button>
-        <button class="btn btn-secondary d-block stretch mb-1" @click="exportSng">
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportSng" data-tooltip=" EXPORT SNG ">
           <i class="icon icon-download"></i><span class="hide-lg text-pre"> .SNG</span>
         </button>
-        <button class="btn btn-secondary d-block stretch" @click="exportPdf">
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf" data-tooltip=" EXPORT PDF ">
           <i class="icon icon-download"></i><span class="hide-lg text-pre"> .PDF</span>
         </button>
       </div>

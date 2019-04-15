@@ -450,6 +450,7 @@ h3 {
 
   .off-canvas-sidebar {
     min-width: 12rem;
+    overflow: visible;
   }
   .off-canvas-content {
     min-height: 100vh;
@@ -467,6 +468,10 @@ h3 {
   .off-canvas {
     .off-canvas-sidebar {
       z-index: 0;
+
+      .tooltip::after {
+        display: none;
+      }
     }
   }
 }
