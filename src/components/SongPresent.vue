@@ -19,7 +19,7 @@
         />
       </div>
       <div class="modal-footer">
-        <a class="btn btn-link btn-gray" href="#" aria-label="maximize" @click.prevent="maximizeFontsize">
+        <a class="btn btn-link btn-gray" href="#" aria-label="Maximize" @click.prevent="maximizeFontsize">
           <i class="icon icon-refresh"></i>
         </a>
         <a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
@@ -50,8 +50,19 @@ export default {
   },
   methods: {
     maximizeFontsize() {
-      var songcontent = this.$refs.songcontent
-      songcontent.maximizeFontsize()
+      this.$refs.songcontent.maximizeFontsize()
+    }
+  },
+  watch: {
+    active() {
+      // maximize fontsize when presentation view is opened
+      if (this.active) {
+        var self = this
+        // wait for all compontents to be mounted
+        this.$nextTick(function () {
+          self.maximizeFontsize()
+        })
+      }
     }
   }
 }

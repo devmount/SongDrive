@@ -27,47 +27,44 @@ export default {
       return line.slice(-2) === '  '
     },
     maximizeFontsize() {
-      if (this.presentation === true) {
-        // all parent elements
-        for (let a of document.querySelectorAll('.present')) {
-          // all child elements
-          for (let b of a.querySelectorAll('pre')) {
-            b.style.display = 'inline-block'
-            var fontSize = getComputedStyle(b)['fontSize'].match(/\d+/)[0]
-            // increase font size as long as the child is still smaller than the parent
-            while (b.offsetWidth < a.offsetWidth*.9) {
-              b.style.fontSize = (fontSize++) + 'px'
-            }
-            // decrease font size if the child width exceeds the parents width
-            while (b.offsetWidth > a.offsetWidth*.9) {
-              b.style.fontSize = (fontSize--) + 'px'
-            }
+      // all parent elements
+      for (let a of document.querySelectorAll('.present')) {
+        // all child elements
+        for (let b of a.querySelectorAll('pre')) {
+          var fontSize = parseInt(getComputedStyle(b).fontSize.match(/\d+/)[0])
+          // increase font size as long as the child is still smaller than the parent
+          while (b.offsetWidth < a.offsetWidth*.9) {
+            b.style.fontSize = (fontSize++) + 'px'
           }
-        }  
-        // decrease font size of parts with greatest font size first if it doesnt fit into viewport height
-        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)-78
-        // handle both columns
-        for (let c of document.querySelectorAll('.present')) {
-          var parts = []
-          for (let d of c.querySelectorAll('pre')) {
-            parts.push({
-              part: d,
-              size: parseInt(getComputedStyle(d)['fontSize'].match(/\d+/)[0]),
-              height: d.offsetHeight+20
-            })
+          // decrease font size if the child width exceeds the parents width
+          while (b.offsetWidth > a.offsetWidth*.9) {
+            b.style.fontSize = (fontSize--) + 'px'
           }
-          // decrease font size of parts in columns with a greater height than viewport
-          // as long as the sum of the heights of the parts is greater than the viewport height with a max of 100 iterations
-          var n = 100
-          while (parts.map(o=>o.height).reduce((p,c)=>p+c) > vh && n > 0) {
-            parts.sort(function(a, b) { return b.size - a.size; })
-            if (parts.length > 0) {
-              parts[0].part.style.fontSize = (parts[0].size - 5) + 'px'
-              parts[0].size = parseInt(getComputedStyle(parts[0].part)['fontSize'].match(/\d+/)[0])
-              parts[0].height = parts[0].part.offsetHeight+20
-            }
-            n--
+        }
+      }  
+      // decrease font size of parts with greatest font size first if it doesnt fit into viewport height
+      const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)-78
+      // handle both columns
+      for (let c of document.querySelectorAll('.present')) {
+        var parts = []
+        for (let d of c.querySelectorAll('pre')) {
+          parts.push({
+            part: d,
+            size: parseInt(getComputedStyle(d).fontSize.match(/\d+/)[0]),
+            height: d.offsetHeight+20
+          })
+        }
+        // decrease font size of parts in columns with a greater height than viewport
+        // as long as the sum of the heights of the parts is greater than the viewport height with a max of 100 iterations
+        var n = 100
+        while (parts.map(o=>o.height).reduce((p,c)=>p+c) > vh && n > 0) {
+          parts.sort(function(a, b) { return b.size - a.size; })
+          if (parts.length > 0) {
+            parts[0].part.style.fontSize = (parts[0].size - 5) + 'px'
+            parts[0].size = parseInt(getComputedStyle(parts[0].part).fontSize.match(/\d+/)[0])
+            parts[0].height = parts[0].part.offsetHeight+20
           }
+          n--
         }
       }
     }
@@ -220,6 +217,7 @@ $bg-color-light: #1b1e1f;
 $bg-color-dark: #293031;
 
 pre {
+  display: inline-block;
   position: relative;
   overflow: visible;
   margin-top: 20px;
