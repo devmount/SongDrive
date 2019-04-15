@@ -153,6 +153,12 @@ $gray-color-dark: #4a5052;
 $dark-color: #010101;
 $black-color: #000000;
 $mono-font-family: "Fira Mono", monospace;
+$size-2x: 1440px;
+
+$html-font-size: 20px;
+$unit-2: .4rem;
+$layout-spacing: $unit-2;
+$grid-spacing: ($layout-spacing / ($layout-spacing * 0 + 1)) * $html-font-size;
 
 // import spectre
 @import "node_modules/spectre.css/src/spectre";
@@ -176,6 +182,78 @@ $mono-font-family: "Fira Mono", monospace;
 .py-3 { padding-top: .6rem !important; padding-bottom: .6rem !important; }
 .ls-1 { letter-spacing: 1px; }
 .ls-2 { letter-spacing: 2px; }
+
+// responsive grid
+.container {
+  &.grid-2x {
+    max-width: $grid-spacing * 2 + $size-2x;
+  }
+}
+.show-2x {
+  display: none !important;
+}
+@media (max-width: $size-2x) {
+  .col-2x-12,
+  .col-2x-11,
+  .col-2x-10,
+  .col-2x-9,
+  .col-2x-8,
+  .col-2x-7,
+  .col-2x-6,
+  .col-2x-5,
+  .col-2x-4,
+  .col-2x-3,
+  .col-2x-2,
+  .col-2x-1,
+  .col-2x-auto {
+    flex: none;
+  }
+  .col-2x-12 {
+    width: 100%;
+  }
+  .col-2x-11 {
+    width: 91.66666667%;
+  }
+  .col-2x-10 {
+    width: 83.33333333%;
+  }
+  .col-2x-9 {
+    width: 75%;
+  }
+  .col-2x-8 {
+    width: 66.66666667%;
+  }
+  .col-2x-7 {
+    width: 58.33333333%;
+  }
+  .col-2x-6 {
+    width: 50%;
+  }
+  .col-2x-5 {
+    width: 41.66666667%;
+  }
+  .col-2x-4 {
+    width: 33.33333333%;
+  }
+  .col-2x-3 {
+    width: 25%;
+  }
+  .col-2x-2 {
+    width: 16.66666667%;
+  }
+  .col-2x-1 {
+    width: 8.33333333%;
+  }
+  .col-2x-auto {
+    width: auto;
+  }
+  .hide-2x {
+    display: none !important;
+  }
+  .show-2x {
+    display: block !important;
+  }
+}
 
 // typography
 h1, h2, h3, h4, h5, h6,

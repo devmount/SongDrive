@@ -2,7 +2,7 @@
   <div class="content columns">
     <div
       class="column col-6"
-      :class="{ 'present': presentation, 'text': !chords, 'col-xl-12': !presentation }"
+      :class="{ 'present': presentation, 'text': !chords, 'col-2x-12': !presentation }"
       v-for="(parts, i) in parsedContent"
       :key="i"
     >
@@ -222,8 +222,8 @@ $bg-color-dark: #293031;
 pre {
   position: relative;
   overflow: visible;
-  margin-bottom: 20px;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 0;
 }
 .verse {
   border-left: 2px solid $bg-color-dark;
