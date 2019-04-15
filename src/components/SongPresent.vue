@@ -3,7 +3,7 @@
     <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
     <div class="modal-container">
       <div class="modal-header">
-        <div class="modal-title h5">
+        <div class="modal-title h5 text-center">
           {{ title }}
           <span class="modal-subtitle h6 text-gray ml-3">{{ subtitle }}</span>
         </div>
