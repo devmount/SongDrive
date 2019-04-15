@@ -53,21 +53,21 @@ export default {
             parts.push({
               part: d,
               size: parseInt(getComputedStyle(d)['fontSize'].match(/\d+/)[0]),
-              height: d.offsetHeight+40
+              height: d.offsetHeight+20
             })
           }
           // decrease font size of parts in columns with a greater height than viewport
           // as long as the sum of the heights of the parts is greater than the viewport height with a max of 100 iterations
           var n = 100
-          do {
+          while (parts.map(o=>o.height).reduce((p,c)=>p+c) > vh && n > 0) {
             parts.sort(function(a, b) { return b.size - a.size; })
             if (parts.length > 0) {
-              parts[0].part.style.fontSize = (parts[0].size - 1) + 'px'
+              parts[0].part.style.fontSize = (parts[0].size - 5) + 'px'
               parts[0].size = parseInt(getComputedStyle(parts[0].part)['fontSize'].match(/\d+/)[0])
-              parts[0].height = parts[0].part.offsetHeight+40
+              parts[0].height = parts[0].part.offsetHeight+20
             }
             n--
-          } while (parts.map(o=>o.height).reduce((p,c)=>p+c) > vh && n > 0)
+          }
         }
       }
     }
