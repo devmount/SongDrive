@@ -605,4 +605,16 @@ h3 {
 .filter option {
   color: $body-font-color;
 }
+
+// shapes
+.s-circle {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid $gray-color;
+
+  &.active {
+    background: $primary-color;
+    border-color: $primary-color;
+  }
+}
 </style>
