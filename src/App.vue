@@ -20,19 +20,20 @@
             <router-link to="/" class="py-2" @click.native="open = false">Dashboard</router-link>
           </li>
           <li class="menu-item">
+            <router-link to="/songs" class="py-2" @click.native="open = false">Songs</router-link>
             <div class="menu-badge">
-              <label v-if="ready" class="label py-1">{{ songs.length }}</label>
+              <label v-if="ready.songs" class="label py-1">{{ songs.length }}</label>
               <label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
               <button class="btn btn-secondary btn-action btn-sm ml-2" @click="modal.addsong = true"><i class="icon icon-plus"></i></button>
             </div>
-            <router-link to="/songs" class="py-2" @click.native="open = false">Songs</router-link>
           </li>
-          <li class="menu-item pb-2">
+          <li class="menu-item">
+            <router-link to="/setlists" class="py-2" @click.native="open = false">Setlists</router-link>
             <div class="menu-badge">
-              <label class="label pb-1">???</label>
+              <label v-if="ready.setlists" class="label py-1">{{ setlists.length }}</label>
+              <label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
               <button class="btn btn-secondary btn-action btn-sm ml-2"><i class="icon icon-plus"></i></button>
             </div>
-            <router-link to="/setlists" class="py-2" @click.native="open = false">Setlists</router-link>
           </li>
           <li class="divider" data-content="ACCOUNT">
           <li class="menu-item pt-2 pb-2">
@@ -85,14 +86,22 @@ export default {
     return {
       songs: {
         ref: db.collection('songs'),
-        resolve: () => { this.ready = true },
-        reject: () => { this.ready = true }
+        resolve: () => { this.ready.songs = true },
+        reject: () => { this.ready.songs = true }
+      },
+      setlists: {
+        ref: db.collection('setlists'),
+        resolve: () => { this.ready.setlists = true },
+        reject: () => { this.ready.setlists = true }
       },
     }
   },
   data () {
     return {
-      ready: false,
+      ready: {
+        songs: false,
+        setlists: false,
+      },
       open: false,
       modal: {
         addsong: false,
@@ -546,8 +555,13 @@ h3 {
   box-shadow: none;
   background: $bg-color;
 
-  .divider[data-content]::after {
-    background: $bg-color;
+  .divider {
+    margin-top: 1.1em;
+    margin-bottom: 1.1em;
+
+    &[data-content]::after {
+      background: $bg-color;
+    }
   }
 
   .menu-item {
