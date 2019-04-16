@@ -24,7 +24,7 @@
             <span class="input-group-addon addon-lg"><i class="form-icon icon icon-time"></i></span>
             <select v-model="filter" class="form-select select-lg filter" required>
               <option value="" disabled selected>Filter for years ...</option>
-              <option v-for="year in [2019, 2018, 2017]" :key="year" :value="year">{{ year }}</option>
+              <option v-for="year in setlistYears" :key="year" :value="year">{{ year }}</option>
             </select>
             <button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><i class="form-icon icon icon-cross"></i></button>
           </div>
@@ -133,7 +133,7 @@ export default {
     }
   },
   computed: {
-    filteredSetlists () {
+    filteredSetlists() {
       var setlists = this.setlists, self = this
       if (this.search != '') {
         setlists = setlists.filter(function(setlist) {
@@ -149,6 +149,15 @@ export default {
         })
       }
       return setlists
+    },
+    setlistYears() {
+      if (this.ready) {
+        let start = parseInt(this.setlists.slice(-1)[0].date.substring(0, 4))
+        let end = parseInt((new Date()).getFullYear())
+        return Array.from(Array(end-start+1).keys(), x => x + start)
+      } else {
+        return []
+      }
     }
   }
 }
