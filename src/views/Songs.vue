@@ -51,7 +51,7 @@
             <td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">{{ song.authors }}</td>
             <td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">{{ song.year }}</td>
             <td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">{{ song.tuning }}</td>
-            <td>
+            <td class="text-right">
               <div class="dropdown dropdown-right">
                 <div class="btn-group">
                   <a class="btn btn-primary dropdown-toggle" tabindex="0">
