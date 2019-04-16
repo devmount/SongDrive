@@ -14,7 +14,7 @@
         <div class="column col-5 col-xl-6 col-sm-12">
           <div class="input-group">
             <span class="input-group-addon addon-lg"><i class="form-icon icon icon-search"></i></span>
-            <input type="search" v-model="search" class="form-input input-lg" placeholder="Search ..." />
+            <input type="search" v-model="search" class="form-input input-lg" placeholder="Search in titles ..." />
             <button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><i class="form-icon icon icon-cross"></i></button>
           </div>
         </div>
@@ -23,7 +23,7 @@
           <div class="input-group">
             <span class="input-group-addon addon-lg"><i class="form-icon icon icon-bookmark"></i></span>
             <select v-model="filter" class="form-select select-lg filter" required>
-              <option value="" disabled selected>Filter ...</option>
+              <option value="" disabled selected>Filter for tags ...</option>
               <option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
             </select>
             <button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><i class="form-icon icon icon-cross"></i></button>
