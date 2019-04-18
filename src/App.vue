@@ -270,7 +270,7 @@ h1, h2, h3, h4, h5, h6,
   text-transform: uppercase;
   font-weight: 300;
 }
-h2 {
+h2, .h2 {
   font-size: 2.5em;
   letter-spacing: 3px;
   margin-bottom: .2em;
@@ -279,13 +279,20 @@ h2 {
     vertical-align: text-bottom;
   }
 }
-h3 {
+h3, .h3 {
   font-size: 1em;
   letter-spacing: 2px;
   padding-bottom: 1em;
 }
+h5, .h5 {
+  letter-spacing: 2px;
+}
+h6, .h6 {
+  letter-spacing: 1px;
+}
 @media (max-width: $size-xl) {
-  h2, h3 {
+  h2, h3,
+  .h2, .h3 {
     text-align: center;
   }
 }
