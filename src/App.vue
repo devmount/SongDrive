@@ -292,6 +292,9 @@ h3 {
 .text-pre {
   font-family: $mono-font-family;
 }
+.text-breaks {
+  white-space: pre;
+}
 .text-small {
   font-size: .8em;
   line-height: 1.1em;

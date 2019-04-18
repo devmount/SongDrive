@@ -51,7 +51,7 @@ export default {
           parts.push({
             part: d,
             size: parseInt(getComputedStyle(d).fontSize.match(/\d+/)[0]),
-            height: d.offsetHeight+20
+            height: d.offsetHeight+40
           })
         }
         // decrease font size of parts in columns with a greater height than viewport
@@ -62,7 +62,7 @@ export default {
           if (parts.length > 0) {
             parts[0].part.style.fontSize = (parts[0].size - 5) + 'px'
             parts[0].size = parseInt(getComputedStyle(parts[0].part).fontSize.match(/\d+/)[0])
-            parts[0].height = parts[0].part.offsetHeight+20
+            parts[0].height = parts[0].part.offsetHeight+40
           }
           n--
         }
@@ -217,11 +217,17 @@ $bg-color-light: #1b1e1f;
 $bg-color-dark: #293031;
 
 pre {
-  display: inline-block;
   position: relative;
   overflow: visible;
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 0;
+}
+.present > pre {
+  display: inline-block;
+
+  &:first-child {
+    margin-top: 20px;
+  }
 }
 .verse {
   border-left: 2px solid $bg-color-dark;
