@@ -54,66 +54,72 @@
       <div class="off-canvas-content">
         <div class="container">
           <div class="columns">
-            <div v-if="ready.song" class="column col-12">
-              <h2>{{ song.title }} <span class="label text-pre ml-2 px-3">{{ showTuning.current }}</span></h2>
-              <h3>{{ song.subtitle }}</h3>
-              <SongContent
-                :content="song.content"
-                :chords="chords"
-                :tuning="tuning"
-                :tunes="tunes"
-                :presentation="false"
-              />
-              <footer>
-                <p>{{ song.authors }}</p>
-                <p>
-                  <router-link v-for="tag in song.tags" :key="tag" :to="{ name: 'songs-tag', params: { tag: tag }}" class="mr-2">
-                    <span class="label label-primary px-2 py-1">
-                      <i class="icon icon-bookmark"></i>
-                      {{ tag }}
-                    </span>
-                  </router-link>
-                </p>
-                <div>CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli">{{ song.ccli }}</a></div>
-                <div>&copy; {{song.year}} {{song.publisher}}</div>
-              </footer>
+            <div v-if="ready.setlist" class="column col-12">
+              <h2>{{ setlist.title }}</h2>
+              <h3>
+                <i class="icon icon-menu"></i> {{ setlist.songs.length }} songs
+                <i class="icon icon-time ml-3"></i> {{ setlist.date }}
+                <i class="icon icon-people ml-3"></i> {{ setlist.creator }}
+              </h3>
+            </div>
+            <div v-if="ready.songs && ready.setlist" class="column col-12">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th class="hide-xl">Language</th>
+                    <th class="hide-lg">Tuning</th>
+                    <th class="hide-xl">CCLI</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(song, i) in setlist.songs" :key="i">
+                    <td class="text-gray c-move"><i class="icon icon-menu"></i></td>
+                    <td>{{ songs[song].title }} <span class="text-gray">({{ songs[song].subtitle }})</span></td>
+                    <td class="hide-xl text-uppercase">{{ songs[song].language }}</td>
+                    <td class="hide-lg">{{ songs[song].tuning }}</td>
+                    <td class="hide-xl"><a :href="'https://songselect.ccli.com/Songs/' + songs[song].ccli" target="_blank">{{ songs[song].ccli }}</a></td>
+                    <td><button class="btn btn-primary" @click.prevent="$router.push({ name: 'song-show', params: { id: song }})">show</button></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
       <!-- modals -->
-      <SongSet
+      <!-- <SetlistSet
         :active="modal.set"
         :existing="existing"
-        :song="modal.song"
+        :setlist="modal.setlist"
         @closed="modal.set = false"
       />
-      <SongDelete
+      <SetlistDelete
         :active="modal.delete"
-        :title="song.title"
-        :id="song['.key']"
+        :title="setlist.title"
+        :id="setlist['.key']"
         @closed="modal.delete = false"
       />
-      <SongPresent
+      <SetlistPresent
         :active="modal.present"
-        :title="song.title"
-        :subtitle="song.subtitle"
-        :content="song.content"
-        :chords="chords"
-        :tuning="tuning"
+        :title="setlist.title"
+        :subtitle="setlist.subtitle"
+        :content="setlist.content"
         :tunes="tunes"
         @closed="modal.present = false"
-      />
+      /> -->
     </div>
   </div>
 </template>
 
 <script>
 // get components
-import SongContent from '@/components/SongContent.vue'
-import SongSet from '@/components/SongSet.vue'
-import SongDelete from '@/components/SongDelete.vue'
-import SongPresent from '@/components/SongPresent.vue'
+// import SongContent from '@/components/SongContent.vue'
+// import SetlistSet from '@/components/SetlistSet.vue'
+// import SetlistDelete from '@/components/SetlistDelete.vue'
+// import SetlistPresent from '@/components/SetlistPresent.vue'
 // get database object authorized in config.js
 import { db } from '@/firebase'
 // pdf creation
@@ -130,19 +136,19 @@ pdfMake.fonts = {
 }
 
 export default {
-  name: 'song-show',
+  name: 'setlist-show',
   components: {
-    SongContent,
-    SongSet,
-    SongDelete,
-    SongPresent,
+    // SongContent,
+    // SetlistSet,
+    // SetlistDelete,
+    // SetlistPresent,
   },
   firestore () {
     return {
-      song: {
-        ref: db.collection('songs').doc(this.$route.params.id),
-        resolve: () => { this.ready.song = true },
-        reject: () => { this.ready.song = true }
+      setlist: {
+        ref: db.collection('setlists').doc(this.$route.params.id),
+        resolve: () => { this.ready.setlist = true },
+        reject: () => { this.ready.setlist = true }
       },
       songs: {
         ref: db.collection('songs'),
@@ -154,102 +160,27 @@ export default {
   },
   data () {
     return {
-      chords: true,
-      tuning: 0,
       ready: {
-        song: false,
+        setlist: false,
         songs: false,
       },
       modal: {
-        song: {},
+        setlist: {},
         set: false,
         delete: false,
         present: false,
       },
       existing: true,
+      sync: false,
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
     }
   },
   methods: {
-    isChordLine(line) {
-      if (line == '') return false
-      return line.slice(-2) === '  ';
-    },
     exportTxt: function() {
-      // add header
-      var content = this.song.title + ' [' + this.song.tuning + ']' + '\n\n'
-      var lines = this.song.content.split('\n')
-      // process lines
-      for (var i = 0; i < lines.length; i++) {
-        var line = lines[i]
-        // handle chord line
-        if (this.isChordLine(line)) continue
-        // handle verse marker
-        if (line.trim().toLowerCase().indexOf('--v') >= 0 && !isNaN(parseInt(line.trim().charAt(3)))) {
-          // if next line is chord line, prepend number to the line after
-          if (this.isChordLine(lines[i+1])) {
-            lines[i+2] = line.trim().charAt(3) + '. ' + lines[i+2]
-            // add 3 spaces to next line to sync chords with text again
-            lines[i+1] = '   ' + lines[i+1]
-          } else {
-            lines[i+1] = line.trim().charAt(3) + '. ' + lines[i+1]
-          }
-        }
-        // handle marker
-        if (line.trim().indexOf('--') >= 0) continue
-        // keep line for export
-        content += line + '\n'
-      }
-      content += '\n' + this.song.authors +
-        '© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ')
-      // start download
-      this.download(content, this.song['.key'] + '.txt')
-      // toast success message
-      this.$notify({
-        title: '<button class="btn btn-clear float-right"></button>Success!',
-        text: 'The song was exported as text file.',
-        type: 'toast-primary'
-      });
-    },
-    exportSng: function() {
-      // add header
-      var content =
-        '#LangCount=1' + '\n' +
-        '#Title=' + this.song.title + '\n' +
-        '#Author=' + this.song.authors +
-        '#Melody=' + this.song.authors +
-        '#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '\n' +
-        '#Key=' + this.song.tuning + '\n' +
-        '#CCLI=' + this.song.ccli + '\n' +
-        '---' + '\n'
-      var lines = this.song.content.split('\n')
-      // remove chord lines
-      for (var i = 0; i < lines.length; i++) {
-        var line = lines[i]
-        if (this.isChordLine(line)) continue
-        else content += line + '\n'
-      }
-      // replace marker
-      content = content
-        .replace(/--v/g, "verse")
-        .replace(/--p/g, "pre-chorus")
-        .replace(/--c/g, "chorus")
-        .replace(/--b/g, "bridge")
-        .replace(/--i/g, "intro")
-        .replace(/--m/g, "mitro")
-        .replace(/--o/g, "outro")
-      // start download
-      this.download(content, this.song['.key'] + '.sng')
-      // toast success message
-      this.$notify({
-        title: '<button class="btn btn-clear float-right"></button>Success!',
-        text: 'The song was exported as SNG file.',
-        type: 'toast-primary'
-      });
-
+      // todo
     },
     exportPdf: function() {
-      var content = this.getPdfSongContent()
+      var content = this.getPdfSetlistContent()
       // return page configuration with computed content
       var doc = {
         pageSize: 'A4',
@@ -281,12 +212,12 @@ export default {
       // toast success message
       this.$notify({
         title: '<button class="btn btn-clear float-right"></button>Success!',
-        text: 'The song was exported as PDF file.',
+        text: 'The setlist was exported as PDF file.',
         type: 'toast-primary'
       });
 
     },
-    getPdfSongContent () {
+    getPdfSetlistContent () {
       // handle song content parts
       var content = [], parts = this.parsedContent(this.song.content)
       parts.forEach(function(part) {
@@ -488,38 +419,9 @@ export default {
       }
     }
   },
-  computed: {
-    showLanguages () {
-      if (this.ready.song && this.ready.songs) {
-        var languages = [[this.$route.params.id, this.song.language]]
-        for (const key in this.song.translations) {
-          if (this.song.translations.hasOwnProperty(key)) {
-            const songKey = this.song.translations[key];
-            languages.push([songKey, this.songs[songKey].language])
-          }
-        }
-        return languages.sort(function(a, b) { 
-          return a[1] > b[1] ? 1 : -1
-        })
-      } else {
-        return []
-      }
-    },
-    showTuning () {
-      return {
-        previous: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning-1 % 12)) % 12],
-        current: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12],
-        next: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning+1 % 12)) % 12],
-      }
-    }
-  }
 }
 </script>
 
 <style lang="scss">
-  footer {
-    padding-top: 2.5em;
-    padding-bottom: 2em;
-    font-size: .8em;
-  }
+
 </style>
