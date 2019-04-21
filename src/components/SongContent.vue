@@ -43,7 +43,7 @@ export default {
         }
       }  
       // decrease font size of parts with greatest font size first if it doesnt fit into viewport height
-      const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)-78
+      const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)-85
       // handle both columns
       for (let c of document.querySelectorAll('.present')) {
         var parts = []

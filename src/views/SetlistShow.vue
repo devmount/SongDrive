@@ -76,7 +76,7 @@
                 </thead>
                 <tbody>
                   <tr v-for="(song, i) in setlist.songs" :key="i">
-                    <td class="text-gray c-move"><i class="icon icon-menu"></i></td>
+                    <td class="c-move text-center text-gray"><i class="icon icon-menu"></i></td>
                     <td>{{ songs[song].title }} <span class="text-gray">({{ songs[song].subtitle }})</span></td>
                     <td class="hide-xl text-uppercase">{{ songs[song].language }}</td>
                     <td class="hide-lg">{{ songs[song].tuning }}</td>
