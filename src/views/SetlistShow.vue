@@ -23,7 +23,7 @@
         <div class="divider text-center hide-lg" data-content="VIEW"></div>
         <div class="form-group tooltip tooltip-right" data-tooltip=" SYNC ">
           <label class="form-switch switch-lg">
-            <input type="checkbox" v-model="sync" @click="sync = !sync">
+            <input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
             <i class="form-icon"></i><span class="hide-lg"> SYNC</span>
           </label>
         </div>
@@ -178,7 +178,6 @@ export default {
         present: false,
       },
       existing: true,
-      sync: false,
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
     }
   },
@@ -424,8 +423,19 @@ export default {
           window.URL.revokeObjectURL(url)
         }, 0)
       }
+    },
+    updateActive () {
+      // update setlist's active flag
+      var self = this, sync = !this.setlist.active
+      db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(function() {
+        self.$notify({
+          title: '<button class="btn btn-clear float-right"></button>Setlist saved!',
+          text: sync ? 'Setlist was successfully activated.' : 'Setlist was successfully deactivated.',
+          type: 'toast-primary'
+        })
+      })
     }
-  },
+  }
 }
 </script>
 

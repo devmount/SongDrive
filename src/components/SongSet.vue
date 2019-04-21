@@ -318,7 +318,7 @@ export default {
             title: '<button class="btn btn-clear float-right"></button>Success!',
             text: 'The new song was added.',
             type: 'toast-primary'
-          });
+          })
         })
         .catch(function() {
           self.$emit('closed')
@@ -327,7 +327,7 @@ export default {
             title: '<button class="btn btn-clear float-right"></button>Error!',
             text: 'The new song could not be added.',
             type: 'toast-error'
-          });
+          })
         })
       }
       // existing song should be updated
@@ -343,7 +343,7 @@ export default {
             title: '<button class="btn btn-clear float-right"></button>Success!',
             text: 'The song was updated.',
             type: 'toast-primary'
-          });
+          })
         })
         .catch(function() {
           self.$emit('closed')
@@ -352,7 +352,7 @@ export default {
             title: '<button class="btn btn-clear float-right"></button>Error!',
             text: 'The song could not be updated.',
             type: 'toast-error'
-          });
+          })
         })
       }
     },
