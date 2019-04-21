@@ -56,10 +56,10 @@
           <div class="columns">
             <div v-if="ready.setlist" class="column col-12">
               <h2>{{ setlist.title }}</h2>
-              <h3>
+              <h3 v-if="ready.users">
                 <i class="icon icon-menu"></i> {{ setlist.songs.length }} songs
                 <i class="icon icon-time ml-3"></i> {{ setlist.date }}
-                <i class="icon icon-people ml-3"></i> {{ setlist.creator }}
+                <i class="icon icon-people ml-3"></i> {{ users[setlist.creator].name }}
               </h3>
             </div>
             <div v-if="ready.songs && ready.setlist" class="column col-12">
@@ -81,7 +81,7 @@
                     <td class="hide-xl text-uppercase">{{ songs[song].language }}</td>
                     <td class="hide-lg">{{ songs[song].tuning }}</td>
                     <td class="hide-xl"><a :href="'https://songselect.ccli.com/Songs/' + songs[song].ccli" target="_blank">{{ songs[song].ccli }}</a></td>
-                    <td><button class="btn btn-primary" @click.prevent="$router.push({ name: 'song-show', params: { id: song }})">show</button></td>
+                    <td class="text-right"><button class="btn btn-primary" @click.prevent="$router.push({ name: 'song-show', params: { id: song }})">show</button></td>
                   </tr>
                 </tbody>
               </table>
@@ -156,6 +156,12 @@ export default {
         resolve: () => { this.ready.songs = true },
         reject: () => { this.ready.songs = true }
       },
+      users: {
+        ref: db.collection('users'),
+        objects: true,
+        resolve: () => { this.ready.users = true },
+        reject: () => { this.ready.users = true }
+      },
     }
   },
   data () {
@@ -163,6 +169,7 @@ export default {
       ready: {
         setlist: false,
         songs: false,
+        users: false,
       },
       modal: {
         setlist: {},

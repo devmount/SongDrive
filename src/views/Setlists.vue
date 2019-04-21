@@ -56,7 +56,7 @@
                     Action
                     <i class="icon icon-caret"></i>
                   </a>
-                  <ul class="menu">
+                  <ul class="menu text-left">
                     <li class="menu-item">
                       <router-link :to="{ name: 'setlist-show', params: { id: setlist['.key'] }}" class="py-3 px-3">
                         <i class="icon icon-resize-horiz mr-2"></i> Show
