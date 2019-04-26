@@ -7,13 +7,14 @@ Vue.use(Router)
 export default new Router({
   routes: [
     { path: '/',               name: 'dashboard',     component: Dashboard },
-    { path: '/songs',          name: 'songs',         component: () => import('./views/Songs.vue')       }, // lazy loaded
-    { path: '/songs/:tag',     name: 'songs-tag',     component: () => import('./views/Songs.vue')       }, // lazy loaded
-    { path: '/song/:id',       name: 'song-show',     component: () => import('./views/SongShow.vue')    }, // lazy loaded
-    { path: '/setlists',       name: 'setlists',      component: () => import('./views/Setlists.vue')    }, // lazy loaded
-    { path: '/setlists/:year', name: 'setlists-year', component: () => import('./views/Setlists.vue')    }, // lazy loaded
-    { path: '/setlist/:id',    name: 'setlist-show',  component: () => import('./views/SetlistShow.vue') }, // lazy loaded
-    { path: '/profile',        name: 'profile',       component: () => import('./views/Profile.vue')     }, // lazy loaded
-    { path: '/settings',       name: 'settings',      component: () => import('./views/Settings.vue')    }, // lazy loaded
+    // lazy load all other routes
+    { path: '/songs',          name: 'songs',         component: () => import('./views/Songs.vue')       },
+    { path: '/songs/:tag',     name: 'songs-tag',     component: () => import('./views/Songs.vue')       },
+    { path: '/song/:id',       name: 'song-show',     component: () => import('./views/SongShow.vue')    },
+    { path: '/setlists',       name: 'setlists',      component: () => import('./views/Setlists.vue')    },
+    { path: '/setlists/:year', name: 'setlists-year', component: () => import('./views/Setlists.vue')    },
+    { path: '/setlist/:id',    name: 'setlist-show',  component: () => import('./views/SetlistShow.vue') },
+    { path: '/profile',        name: 'profile',       component: () => import('./views/Profile.vue')     },
+    { path: '/settings',       name: 'settings',      component: () => import('./views/Settings.vue')    },
   ]
 })

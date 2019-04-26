@@ -254,7 +254,7 @@
 import { db } from '@/firebase'
 
 export default {
-  name: 'SongSet',
+  name: 'song-set',
   props: {
     active: Boolean,
     existing: Boolean,

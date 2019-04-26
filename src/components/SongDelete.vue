@@ -25,7 +25,7 @@
 import { db } from '@/firebase'
 
 export default {
-  name: 'SongContent',
+  name: 'song-delete',
   props: {
     active: Boolean,
     title: String,

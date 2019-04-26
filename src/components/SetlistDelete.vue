@@ -25,7 +25,7 @@
 import { db } from '@/firebase'
 
 export default {
-  name: 'SetlistDelete',
+  name: 'setlist-delete',
   props: {
     active: Boolean,
     title: String,

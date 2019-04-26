@@ -35,7 +35,7 @@
 import SongContent from '@/components/SongContent.vue'
 
 export default {
-  name: 'SongPresent',
+  name: 'song-present',
   components: {
     SongContent
   },

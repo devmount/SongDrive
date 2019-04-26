@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'SongContent',
+  name: 'song-content',
   props: {
     content: String,
     chords: Boolean,
