@@ -74,9 +74,9 @@
                     <th></th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr v-for="(song, i) in setlist.songs" :key="i">
-                    <td class="c-move text-center text-gray"><i class="icon ion-md-reorder"></i></td>
+                <tbody v-sortable="{ onEnd: reorder }">
+                  <tr v-for="song in setlist.songs" :key="song">
+                    <td class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2"></i></td>
                     <td>{{ songs[song].title }} <span class="text-gray">({{ songs[song].subtitle }})</span></td>
                     <td class="hide-xl text-uppercase">{{ songs[song].language }}</td>
                     <td class="hide-lg">{{ songs[song].tuning }}</td>
@@ -182,6 +182,29 @@ export default {
     }
   },
   methods: {
+    reorder ({oldIndex, newIndex}) {
+      const movedItem = this.setlist.songs.splice(oldIndex, 1)[0]
+      this.setlist.songs.splice(newIndex, 0, movedItem)
+      var self = this
+      db.collection('setlists').doc(this.$route.params.id).set({songs: this.setlist.songs}, { merge: true }).then(function() {
+        self.$notify({
+          title: '<button class="btn btn-clear float-right"></button>Setlist saved!',
+          text: 'Song order was successfully updated.',
+          type: 'toast-primary'
+        })
+      })
+    },
+    updateActive () {
+      // update setlist's active flag
+      var self = this, sync = !this.setlist.active
+      db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(function() {
+        self.$notify({
+          title: '<button class="btn btn-clear float-right"></button>Setlist saved!',
+          text: sync ? 'Setlist was successfully activated.' : 'Setlist was successfully deactivated.',
+          type: 'toast-primary'
+        })
+      })
+    },
     exportTxt: function() {
       // todo
     },
@@ -424,17 +447,6 @@ export default {
         }, 0)
       }
     },
-    updateActive () {
-      // update setlist's active flag
-      var self = this, sync = !this.setlist.active
-      db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(function() {
-        self.$notify({
-          title: '<button class="btn btn-clear float-right"></button>Setlist saved!',
-          text: sync ? 'Setlist was successfully activated.' : 'Setlist was successfully deactivated.',
-          type: 'toast-primary'
-        })
-      })
-    }
   }
 }
 </script>
