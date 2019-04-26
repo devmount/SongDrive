@@ -95,14 +95,14 @@
         :existing="existing"
         :setlist="modal.setlist"
         @closed="modal.set = false"
-      />
+      /> -->
       <SetlistDelete
         :active="modal.delete"
         :title="setlist.title"
         :id="setlist['.key']"
         @closed="modal.delete = false"
       />
-      <SetlistPresent
+      <!-- <SetlistPresent
         :active="modal.present"
         :title="setlist.title"
         :subtitle="setlist.subtitle"
@@ -118,7 +118,7 @@
 // get components
 // import SongContent from '@/components/SongContent.vue'
 // import SetlistSet from '@/components/SetlistSet.vue'
-// import SetlistDelete from '@/components/SetlistDelete.vue'
+import SetlistDelete from '@/components/SetlistDelete.vue'
 // import SetlistPresent from '@/components/SetlistPresent.vue'
 // get database object authorized in config.js
 import { db } from '@/firebase'
@@ -140,7 +140,7 @@ export default {
   components: {
     // SongContent,
     // SetlistSet,
-    // SetlistDelete,
+    SetlistDelete,
     // SetlistPresent,
   },
   firestore () {
