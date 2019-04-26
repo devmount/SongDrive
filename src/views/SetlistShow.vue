@@ -31,19 +31,25 @@
           <i class="icon ion-md-videocam float-left ml-1"></i><span class="hide-lg"> PRESENT</span>
         </button>
         <!-- sidebar: export -->
+        <div class="divider text-center show-lg" data-content="C"></div>
+        <div class="divider text-center hide-lg" data-content="COPY"></div>
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('plain')" data-tooltip=" COPY LIST IN PLAIN TEXT ">
+          <i class="icon ion-md-list float-left ml-1"></i><span class="hide-lg text-pre">PLAIN</span>
+        </button>
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('markdown')" data-tooltip=" COPY LIST IN MARKDOWN ">
+          <i class="icon ion-logo-markdown float-left ml-1"></i><span class="hide-lg text-pre">MARKDOWN</span>
+        </button>
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('slack')" data-tooltip=" COPY LIST FOR SLACK ">
+          <i class="icon ion-logo-slack float-left ml-1"></i><span class="hide-lg text-pre">SLACK</span>
+        </button>
+        <!-- sidebar: export -->
         <div class="divider text-center show-lg" data-content="E"></div>
         <div class="divider text-center hide-lg" data-content="EXPORT"></div>
-        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportTxt" data-tooltip=" EXPORT TXT ">
-          <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .TXT</span>
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportPdf" data-tooltip=" EXPORT LIST AS PDF ">
+          <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> LIST</span>
         </button>
-        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportPdf" data-tooltip=" EXPORT PDF ">
-          <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .PDF</span>
-        </button>
-        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportTxt" data-tooltip=" EXPORT TXT ">
-          <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .TXT</span>
-        </button>
-        <button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf" data-tooltip=" EXPORT PDF ">
-          <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .PDF</span>
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf" data-tooltip=" EXPORT SHEETS AS PDF ">
+          <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> SHEETS</span>
         </button>
         <!-- sidebar: language -->
         <div class="divider text-center show-lg" data-content="S"></div>
@@ -205,8 +211,42 @@ export default {
         })
       })
     },
-    exportTxt: function() {
-      // todo
+    copyList: function(format) {
+      // build text list
+      let list = [], label = ''
+      switch (format) {
+        case 'plain':
+          list = this.setlist.songs.map(
+            (s, i) => (i+1) + '. ' + this.songs[s].title + ' (' + this.songs[s].subtitle + ') [' + this.songs[s].tuning + ']'
+          ), label = 'plain text'
+          break
+        case 'markdown':
+          list = this.setlist.songs.map(
+            (s, i) => (i+1) + '. **' + this.songs[s].title + '** – _' + this.songs[s].subtitle + '_ [**`' + this.songs[s].tuning + '`**]'
+          ), label = 'markdown'
+          break
+        case 'slack':
+          list = this.setlist.songs.map(
+            (s, i) => (i+1) + '. *' + this.songs[s].title + '* – _' + this.songs[s].subtitle + '_ *` ' + this.songs[s].tuning + ' `*'
+          ), label = 'slack'
+          break
+        default:
+          break;
+      }
+      var self = this
+      this.$copyText(list.join('\n')).then(function () {
+        self.$notify({
+          title: '<button class="btn btn-clear float-right"></button>Copied to clipboard!',
+          text: 'Setlist was successfully copied to clipboard in ' + label + ' format.',
+          type: 'toast-primary'
+        })
+      }, function (e) {
+        self.$notify({
+          title: '<button class="btn btn-clear float-right"></button>Failed to copy!',
+          text: 'Error: ' + e,
+          type: 'toast-primary'
+        })
+      })
     },
     exportPdf: function() {
       var content = this.getPdfSetlistContent()
