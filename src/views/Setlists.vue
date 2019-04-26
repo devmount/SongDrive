@@ -13,20 +13,20 @@
         <!-- search title, subtitles -->
         <div class="column col-5 col-xl-6 col-sm-12">
           <div class="input-group">
-            <span class="input-group-addon addon-lg"><i class="form-icon icon icon-search"></i></span>
+            <span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-search"></i></span>
             <input type="search" v-model="search" class="form-input input-lg" placeholder="Search in titles ..." />
-            <button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><i class="form-icon icon icon-cross"></i></button>
+            <button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><i class="form-icon icon ion-md-close"></i></button>
           </div>
         </div>
         <!-- filter tags -->
         <div class="column col-3 col-xl-6 col-sm-12">
           <div class="input-group">
-            <span class="input-group-addon addon-lg"><i class="form-icon icon icon-time"></i></span>
+            <span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-calendar"></i></span>
             <select v-model="filter" class="form-select select-lg filter" required>
               <option value="" disabled selected>Filter for years ...</option>
               <option v-for="year in setlistYears" :key="year" :value="year">{{ year }}</option>
             </select>
-            <button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><i class="form-icon icon icon-cross"></i></button>
+            <button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><i class="form-icon icon ion-md-close"></i></button>
           </div>
         </div>
       </div>
@@ -54,27 +54,27 @@
                 <div class="btn-group">
                   <a class="btn btn-primary dropdown-toggle" tabindex="0">
                     Action
-                    <i class="icon icon-caret"></i>
+                    <i class="icon ion-md-arrow-dropdown"></i>
                   </a>
                   <ul class="menu text-left">
                     <li class="menu-item">
                       <router-link :to="{ name: 'setlist-show', params: { id: setlist['.key'] }}" class="py-3 px-3">
-                        <i class="icon icon-resize-horiz mr-2"></i> Show
+                        <i class="icon ion-md-eye mr-2"></i> Show
                       </router-link>
                     </li>
                     <li class="menu-item">
                       <a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.existing=true; modal.set=true">
-                        <i class="icon icon-edit mr-2"></i> Edit
+                        <i class="icon ion-md-create mr-2"></i> Edit
                       </a>
                     </li>
                     <li class="menu-item">
                       <a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.existing=false; modal.set=true">
-                        <i class="icon icon-copy mr-2"></i> Duplicate
+                        <i class="icon ion-md-copy mr-2"></i> Duplicate
                       </a>
                     </li>
                     <li class="menu-item">
                       <a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=setlist.title; active.key=setlist['.key']; modal.delete=true">
-                        <i class="icon icon-delete mr-2"></i> Delete
+                        <i class="icon ion-md-trash mr-2"></i> Delete
                       </a>
                     </li>
                   </ul>

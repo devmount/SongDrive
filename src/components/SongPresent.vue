@@ -20,10 +20,10 @@
       </div>
       <div class="modal-footer">
         <a class="btn btn-link btn-gray" href="#" aria-label="Maximize" @click.prevent="maximizeFontsize">
-          <i class="icon icon-refresh"></i>
+          <i class="icon ion-md-refresh"></i>
         </a>
         <a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
-          <i class="icon icon-cross"></i>
+          <i class="icon ion-md-close"></i>
         </a>
       </div>
     </div>

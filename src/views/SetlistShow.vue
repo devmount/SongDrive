@@ -4,19 +4,19 @@
       <!-- secondary sidebar -->
       <div class="off-canvas-sidebar active">
         <button class="btn btn-primary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
-          <i class="icon icon-arrow-left"></i><span class="hide-lg"> BACK</span>
+          <i class="icon ion-md-arrow-back float-left ml-1"></i><span class="hide-lg"> BACK</span>
         </button>
         <!-- sidebar: manage -->
         <div class="divider text-center show-lg" data-content="M"></div>
         <div class="divider text-center hide-lg" data-content="MANAGE"></div>
         <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="modal.setlist=setlist; existing=true; modal.set=true" data-tooltip=" EDIT ">
-          <i class="icon icon-edit"></i><span class="hide-lg"> EDIT</span>
+          <i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT</span>
         </button>
         <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="modal.setlist=setlist; existing=false; modal.set=true" data-tooltip=" CLONE ">
-          <i class="icon icon-copy"></i><span class="hide-lg"> CLONE</span>
+          <i class="icon ion-md-copy float-left ml-1"></i><span class="hide-lg"> CLONE</span>
         </button>
         <button class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
-          <i class="icon icon-cross"></i><span class="hide-lg"> DELETE</span>
+          <i class="icon ion-md-trash float-left ml-1"></i><span class="hide-lg"> DELETE</span>
         </button>
         <!-- sidebar: view -->
         <div class="divider text-center show-lg" data-content="V"></div>
@@ -28,22 +28,22 @@
           </label>
         </div>
         <button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="modal.present=true" data-tooltip=" PRESENT ">
-          <i class="icon icon-resize-horiz"></i><span class="hide-lg"> PRESENT</span>
+          <i class="icon ion-md-videocam float-left ml-1"></i><span class="hide-lg"> PRESENT</span>
         </button>
         <!-- sidebar: export -->
         <div class="divider text-center show-lg" data-content="E"></div>
         <div class="divider text-center hide-lg" data-content="EXPORT"></div>
         <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportTxt" data-tooltip=" EXPORT TXT ">
-          <i class="icon icon-download"></i><span class="hide-lg text-pre"> .TXT</span>
+          <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .TXT</span>
         </button>
         <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportPdf" data-tooltip=" EXPORT PDF ">
-          <i class="icon icon-download"></i><span class="hide-lg text-pre"> .PDF</span>
+          <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .PDF</span>
         </button>
         <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportTxt" data-tooltip=" EXPORT TXT ">
-          <i class="icon icon-download"></i><span class="hide-lg text-pre"> .TXT</span>
+          <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .TXT</span>
         </button>
         <button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf" data-tooltip=" EXPORT PDF ">
-          <i class="icon icon-download"></i><span class="hide-lg text-pre"> .PDF</span>
+          <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .PDF</span>
         </button>
         <!-- sidebar: language -->
         <div class="divider text-center show-lg" data-content="S"></div>
@@ -57,9 +57,9 @@
             <div v-if="ready.setlist" class="column col-12">
               <h2>{{ setlist.title }}</h2>
               <h3 v-if="ready.users">
-                <i class="icon icon-menu"></i> {{ setlist.songs.length }} songs
-                <i class="icon icon-time ml-3"></i> {{ setlist.date }}
-                <i class="icon icon-people ml-3"></i> {{ users[setlist.creator].name }}
+                <i class="icon ion-md-list"></i> {{ setlist.songs.length }} songs
+                <i class="icon ion-md-calendar ml-3"></i> {{ setlist.date }}
+                <i class="icon ion-md-person ml-3"></i> {{ users[setlist.creator].name }}
               </h3>
             </div>
             <div v-if="ready.songs && ready.setlist" class="column col-12">
@@ -76,7 +76,7 @@
                 </thead>
                 <tbody>
                   <tr v-for="(song, i) in setlist.songs" :key="i">
-                    <td class="c-move text-center text-gray"><i class="icon icon-menu"></i></td>
+                    <td class="c-move text-center text-gray"><i class="icon ion-md-reorder"></i></td>
                     <td>{{ songs[song].title }} <span class="text-gray">({{ songs[song].subtitle }})</span></td>
                     <td class="hide-xl text-uppercase">{{ songs[song].language }}</td>
                     <td class="hide-lg">{{ songs[song].tuning }}</td>

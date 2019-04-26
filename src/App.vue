@@ -3,7 +3,7 @@
     <div class="off-canvas off-canvas-sidebar-show">
       <!-- off-screen toggle button -->
       <a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
-        <i class="icon icon-menu"></i>
+        <i class="icon ion-md-menu"></i>
       </a>
 
       <!-- off-screen sidebar -->
@@ -17,22 +17,22 @@
         <ul class="menu text-uppercase">
           <li class="divider"></li>
           <li class="menu-item">
-            <router-link to="/" class="py-2" @click.native="open = false">Dashboard</router-link>
+            <router-link to="/" class="py-2" @click.native="open = false"><i class="icon ion-md-apps mr-2"></i> Dashboard</router-link>
           </li>
           <li class="menu-item">
-            <router-link to="/songs" class="py-2" @click.native="open = false">Songs</router-link>
+            <router-link to="/songs" class="py-2" @click.native="open = false"><i class="icon ion-md-musical-notes mr-2"></i> Songs</router-link>
             <div class="menu-badge">
               <label v-if="ready.songs" class="label py-1">{{ songs.length }}</label>
               <label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-              <button class="btn btn-secondary btn-action btn-sm ml-2" @click="modal.addsong = true"><i class="icon icon-plus"></i></button>
+              <button class="btn btn-secondary btn-action btn-sm ml-2" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
             </div>
           </li>
           <li class="menu-item">
-            <router-link to="/setlists" class="py-2" @click.native="open = false">Setlists</router-link>
+            <router-link to="/setlists" class="py-2" @click.native="open = false"><i class="icon ion-md-list mr-2"></i> Setlists</router-link>
             <div class="menu-badge">
               <label v-if="ready.setlists" class="label py-1">{{ setlists.length }}</label>
               <label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-              <button class="btn btn-secondary btn-action btn-sm ml-2"><i class="icon icon-plus"></i></button>
+              <button class="btn btn-secondary btn-action btn-sm ml-2"><i class="icon ion-md-add"></i></button>
             </div>
           </li>
           <li class="divider" data-content="ACCOUNT">
@@ -45,13 +45,13 @@
             </div>
           </li>
           <li class="menu-item pt-2">
-            <router-link to="/profile" class="py-2" @click.native="open = false"><i class="icon icon-people mr-2"></i> Profile</router-link>
+            <router-link to="/profile" class="py-2" @click.native="open = false"><i class="icon ion-md-person mr-2"></i> Profile</router-link>
           </li>
           <li class="menu-item">
-            <router-link to="/settings" class="py-2" @click.native="open = false"><i class="icon icon-edit mr-2"></i> Settings</router-link>
+            <router-link to="/settings" class="py-2" @click.native="open = false"><i class="icon ion-md-options mr-2"></i> Settings</router-link>
           </li>
           <li class="menu-item">
-            <a href="" class="py-2"><i class="icon icon-arrow-right mr-2"></i> Logout</a>
+            <a href="" class="py-2"><i class="icon ion-md-log-out mr-2"></i> Logout</a>
           </li>
         </ul>
       </div>
@@ -170,9 +170,20 @@ $layout-spacing: $unit-2;
 $grid-spacing: ($layout-spacing / ($layout-spacing * 0 + 1)) * $html-font-size;
 
 // import spectre
-@import "node_modules/spectre.css/src/spectre";
-@import "node_modules/spectre.css/src/spectre-icons";
-@import "node_modules/spectre.css/src/spectre-exp";
+@import "~spectre.css/src/spectre";
+@import "~spectre.css/src/spectre-exp";
+
+// import ionicons
+$ionicons-font-path: "~ionicons/dist/fonts";
+@import "~ionicons/dist/scss/ionicons";
+
+// icons
+.icon {
+  font-size: 1em;
+}
+.icon-4x {
+  font-size: 4em;
+}
 
 // positions
 .m-3 { margin: .6rem !important; }
@@ -392,6 +403,8 @@ h6, .h6 {
 
 // chip
 .chip {
+  height: 1.3rem;
+
   figure {
     &::before {
       text-transform: uppercase;

@@ -58,11 +58,11 @@
                     <div class="form-group">
                       <label class="form-label" for="tags">Tags</label>
                       <div v-for="tag in song.tags" :key="tag" class="chip s-rounded">
-                        {{ tag }}
+                        <i class="icon ion-md-pricetag mr-2"></i> {{ tag }}
                         <a href="#" class="btn btn-clear" aria-label="Close" role="button" @click="song.tags = song.tags.filter(function(k) {return k !== tag})"></a>
                       </div>
                       <button class="btn btn-secondary btn-sm" @click="modal.tags = true">
-                        <i class="icon icon-plus"></i>
+                        <i class="icon ion-md-add px-1"></i>
                       </button>
                     </div>
                   </div>
@@ -93,7 +93,7 @@
                   <div class="column col-12">
                     <label class="form-label">Translations</label>
                     <div v-if="song.translations && song.translations.length == 0" class="text-gray">
-                      <i class="icon icon-stop mr-1"></i> This song has no translation yet.
+                      <i class="icon ion-md-information-circle-outline mr-1"></i> This song has no translation yet.
                     </div>
                     <div v-else>
                       <div v-for="tsong in song.translations" :key="tsong" class="tile tile-centered mb-1">
@@ -106,7 +106,7 @@
                         </div>
                         <div class="tile-action">
                           <button class="btn btn-link btn-action" @click="song.translations = song.translations.filter(function(k) {return k !== tsong})">
-                            <i class="icon icon-cross"></i>
+                            <i class="icon ion-md-close"></i>
                           </button>
                         </div>
                       </div>
@@ -145,11 +145,9 @@
           <div class="content">
             <div class="columns">
               <div class="column col-6">
-                <div class="form-group">
-                  <div class="has-icon-left">
-                    <input v-model="search.tags" type="search" class="form-input" placeholder="search" />
-                    <i class="form-icon icon icon-search"></i>
-                  </div>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
+                  <input v-model="search.tags" type="search" class="form-input" placeholder="search ..." />
                 </div>
                 <div class="form-group">
                   <label v-for="tag in filteredTags" :key="tag.key" class="form-checkbox">
@@ -161,7 +159,7 @@
               <div class="column col-6">
                 <div v-if="song.tags && song.tags.length == 0" class="empty">
                   <div class="empty-icon">
-                    <i class="icon icon-arrow-left icon-4x"></i>
+                    <i class="icon ion-md-pricetags icon-4x"></i>
                   </div>
                   <p class="empty-title h5">No Tags selected</p>
                   <p class="empty-subtitle">Select one ore more tags for the current song.</p>
@@ -170,11 +168,11 @@
                   <h3 class="text-center">Selection</h3>
                   <div v-for="tag in song.tags" :key="tag" class="tile tile-centered">
                     <div class="tile-content">
-                      <div class="tile-title">{{ tag }}</div>
+                      <div class="tile-title"><i class="icon ion-md-pricetag mr-1"></i> {{ tag }}</div>
                     </div>
                     <div class="tile-action">
                       <button class="btn btn-link btn-action" @click="song.tags = song.tags.filter(function(k) {return k !== tag})">
-                        <i class="icon icon-cross"></i>
+                        <i class="icon ion-md-close"></i>
                       </button>
                     </div>
                   </div>
@@ -200,11 +198,9 @@
           <div class="content">
             <div class="columns">
               <div class="column col-6">
-                <div class="form-group">
-                  <div class="has-icon-left">
-                    <input v-model="search.translations" type="search" class="form-input" placeholder="search" />
-                    <i class="form-icon icon icon-search"></i>
-                  </div>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
+                  <input v-model="search.translations" type="search" class="form-input" placeholder="search ..." />
                 </div>
                 <div class="form-group">
                   <label v-for="fsong in filteredSongs" :key="fsong['.key']" class="form-checkbox">
@@ -219,7 +215,7 @@
               <div class="column col-6">
                 <div v-if="song.translations && song.translations.length == 0" class="empty">
                   <div class="empty-icon">
-                    <i class="icon icon-arrow-left icon-4x"></i>
+                    <i class="icon ion-md-book icon-4x"></i>
                   </div>
                   <p class="empty-title h5">No Songs selected</p>
                   <p class="empty-subtitle">Select one ore more songs that are a translation to the current song.</p>
@@ -236,7 +232,7 @@
                     </div>
                     <div class="tile-action">
                       <button class="btn btn-link btn-action" @click="song.translations = song.translations.filter(function(k) {return k !== tsong})">
-                        <i class="icon icon-cross"></i>
+                        <i class="icon ion-md-close"></i>
                       </button>
                     </div>
                   </div>
