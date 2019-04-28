@@ -32,7 +32,7 @@
             <div class="menu-badge">
               <label v-if="ready.setlists" class="label py-1">{{ setlists.length }}</label>
               <label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-              <button class="btn btn-secondary btn-action btn-sm ml-2"><i class="icon ion-md-add"></i></button>
+              <button class="btn btn-secondary btn-action btn-sm ml-2" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
             </div>
           </li>
           <li class="divider" data-content="ACCOUNT">
@@ -64,6 +64,7 @@
 
       <!-- modals -->
       <SongSet :active="modal.addsong" :existing="false" :song="newSong" @closed="modal.addsong = false" @reset="resetSong" />
+      <SetlistSet :active="modal.addsetlist" :existing="false" :setlist="newSetlist" @closed="modal.addsetlist = false" @reset="resetSetlist" />
     </div>
 
     <!-- notifications -->
@@ -74,13 +75,15 @@
 <script>
 // get components
 import SongSet from '@/components/SongSet.vue'
+import SetlistSet from '@/components/SetlistSet.vue'
 // get database object authorized in config.js
 import { db } from '@/firebase'
 
 export default {
   name: 'app',
   components: {
-    SongSet
+    SongSet,
+    SetlistSet,
   },
   firestore () {
     return {
@@ -120,6 +123,11 @@ export default {
         translations: [],
         tuning: '',
         year: ''
+      },
+      newSetlist: {
+        title: '',
+        date: '',
+        songs: [],
       }
     }
   },
@@ -138,6 +146,13 @@ export default {
         translations: [],
         tuning: '',
         year: ''
+      }
+    },
+    resetSetlist () {
+      this.newSetlist = {
+        title: '',
+        date: '',
+        songs: [],
       }
     },
   }

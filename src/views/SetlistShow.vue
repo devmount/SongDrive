@@ -96,12 +96,12 @@
         </div>
       </div>
       <!-- modals -->
-      <!-- <SetlistSet
+      <SetlistSet
         :active="modal.set"
         :existing="existing"
         :setlist="modal.setlist"
         @closed="modal.set = false"
-      /> -->
+      />
       <SetlistDelete
         :active="modal.delete"
         :title="setlist.title"
@@ -123,7 +123,7 @@
 <script>
 // get components
 // import SongContent from '@/components/SongContent.vue'
-// import SetlistSet from '@/components/SetlistSet.vue'
+import SetlistSet from '@/components/SetlistSet.vue'
 import SetlistDelete from '@/components/SetlistDelete.vue'
 // import SetlistPresent from '@/components/SetlistPresent.vue'
 // get database object authorized in config.js
@@ -145,7 +145,7 @@ export default {
   name: 'setlist-show',
   components: {
     // SongContent,
-    // SetlistSet,
+    SetlistSet,
     SetlistDelete,
     // SetlistPresent,
   },
