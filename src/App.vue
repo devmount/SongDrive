@@ -165,6 +165,7 @@ export default {
 
 // overwrite spectre variables
 $primary-color: #88b544;
+$primary-dark-color: #202718;
 $error-color: #ed2f47;
 $body-font-color: #c1ced1;
 $bg-color: #131516;
@@ -605,14 +606,14 @@ h6, .h6 {
   .menu-item {
     a {
       &:hover {
-        background: #202718;
+        background: $primary-dark-color;
       }
       &.text-error:hover {
         background: #27181c;
       }
 
       &.router-link-exact-active {
-        background: #202718;
+        background: $primary-dark-color;
         color: $primary-color;
       }
     }
@@ -654,5 +655,54 @@ h6, .h6 {
     background: $primary-color;
     border-color: $primary-color;
   }
+}
+
+// calendar
+.calendar {
+  width: 100%;
+  background: transparent;
+  border: none;
+
+  header {
+    .prev:after {
+      border-right-color: $body-font-color;
+    }
+    .next:after {
+      border-left-color: $body-font-color;
+    }
+
+    .prev:not(.disabled):hover, 
+    .next:not(.disabled):hover, 
+    .up:not(.disabled):hover {
+      background: $primary-dark-color;
+      color: $primary-color;
+    }
+
+    .prev:not(.disabled):hover:after {
+      border-right-color: $primary-color;
+    }
+    .next:not(.disabled):hover:after {
+      border-left-color: $primary-color;
+    }
+  }
+
+  .cell {
+    height: 60px;
+    line-height: 60px;
+    border-radius: 0.1rem;
+
+    &:not(.blank):not(.disabled).day:hover,
+    &:not(.blank):not(.disabled).month:hover,
+    &:not(.blank):not(.disabled).year:hover {
+      border: 1px solid $primary-color;
+    }
+
+    &.selected,
+    &.selected:hover {
+      background: $primary-color;
+      font-weight: 900;
+    }
+  }
+  
 }
 </style>

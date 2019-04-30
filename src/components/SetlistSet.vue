@@ -22,9 +22,22 @@
                 </div>
                 <!-- date -->
                 <div class="column col-12">
-                  <div class="form-group">
-                    <label class="form-label" for="date">Event Date</label>
-                    <input v-model="setlist.date" class="form-input" id="date" type="text" placeholder="event date">
+                  <div class="form-group mt-2">
+                    <label class="form-label" for="date">Event Date <span class="text-gray ml-2">{{ setlist.date }}</span></label>
+                    <datepicker
+                      :value="setlist.date ? (new Date(setlist.date)) : (new Date)"
+                      format="yyyy-MM-dd"
+                      wrapper-class="calendar-wrapper"
+                      input-class="form-input"
+                      calendar-class="calendar"
+                      :typeable="true"
+                      :inline="true"
+                      :monday-first="true"
+                      :placeholder="'event date, e.g. ' + String((new Date()).toISOString()).slice(0,10)"
+                      :open-date="setlist.date ? (new Date(setlist.date)) : (new Date)"
+                      name="setlistdate"
+                      @selected="updateDate"
+                    ></datepicker>
                   </div>
                 </div>
               </div>
@@ -37,8 +50,8 @@
                     <span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
                     <input v-model="search.songs" type="search" class="form-input" placeholder="search ..." />
                   </div>
-                  <div class="form-group">
-                    <label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox">
+                  <div class="form-group max-column mt-2">
+                    <label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
                       <input v-model="setlist.songs" :value="key" type="checkbox">
                       <i class="form-icon"></i> {{ fsong.title }} [{{ fsong.tuning }}]
                       <div class="text-gray text-small">
@@ -58,7 +71,7 @@
                   <div v-else>
                     <h3 class="text-center">Selection</h3>
                     <div v-sortable="{ onEnd: reorder }">
-                      <div v-for="key in setlist.songs" :key="key" class="tile tile-centered mb-1">
+                      <div v-for="key in setlist.songs" :key="key" class="tile tile-centered mb-2">
                         <span class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 mx-2"></i></span>
                         <div class="tile-icon">
                           <figure class="avatar s-rounded" :data-initial="songs[key].tuning"></figure>
@@ -95,9 +108,14 @@
 <script>
 // get database object authorized in config.js
 import { db } from '@/firebase'
+// init datepicker component
+import Datepicker from 'vuejs-datepicker';
 
 export default {
   name: 'setlist-set',
+  components: {
+    Datepicker
+  },
   props: {
     active: Boolean,
     existing: Boolean,
@@ -123,10 +141,16 @@ export default {
     }
   },
   methods: {
+    // update setlist date from datepicker
+    updateDate (newDate) {
+      this.setlist.date = newDate.toISOString().slice(0,10)
+    },
+    // update song order of setlist songs
     reorder ({oldIndex, newIndex}) {
       const movedItem = this.setlist.songs.splice(oldIndex, 1)[0]
       this.setlist.songs.splice(newIndex, 0, movedItem)
     },
+    // add or save edits of setlist to db 
     setSetlist () {
       var self = this
       var processedSetlist = {
@@ -186,6 +210,7 @@ export default {
         })
       }
     },
+    // create a human readable record key of format YYYYMMDD-abcd (where the last 4 characters are random)
     createSlug () {
       let r = Math.random().toString(36).substring(2, 6)
       return this.setlist.date.replace(/-/g, '') + '-' + r
@@ -216,5 +241,8 @@ export default {
 </script>
 
 <style lang="scss">
-
+.max-column {
+  height: 66vh;
+  overflow-y: scroll;
+}
 </style>
