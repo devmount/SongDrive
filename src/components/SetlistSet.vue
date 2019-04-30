@@ -241,8 +241,10 @@ export default {
 </script>
 
 <style lang="scss">
-.max-column {
-  height: 66vh;
-  overflow-y: scroll;
+.modal-lg {
+  .max-column {
+    height: 66vh;
+    overflow-y: scroll;
+  }
 }
 </style>
