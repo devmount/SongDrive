@@ -1,7 +1,7 @@
 <template>
   <div class="modal modal-lg" :class="{ active: active }">
     <a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
-    <div v-if="setlist" class="modal-container">
+    <div v-if="setlist && ready" class="modal-container">
       <div class="modal-header">
         <a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
         <div v-if="!existing" class="modal-title h5">New Setlist</div>
@@ -38,8 +38,8 @@
                     <input v-model="search.songs" type="search" class="form-input" placeholder="search ..." />
                   </div>
                   <div class="form-group">
-                    <label v-for="fsong in filteredSongs" :key="fsong['.key']" class="form-checkbox">
-                      <input v-model="setlist.songs" :value="fsong['.key']" type="checkbox">
+                    <label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox">
+                      <input v-model="setlist.songs" :value="key" type="checkbox">
                       <i class="form-icon"></i> {{ fsong.title }} [{{ fsong.tuning }}]
                       <div class="text-gray text-small">
                         {{ fsong.subtitle }}
@@ -57,16 +57,16 @@
                   </div>
                   <div v-else>
                     <h3 class="text-center">Selection</h3>
-                    <div v-for="tsong in setlist.songs" :key="tsong" class="tile tile-centered mb-1">
+                    <div v-for="key in setlist.songs" :key="key" class="tile tile-centered mb-1">
                       <div class="tile-icon">
-                        <figure class="avatar s-rounded" :data-initial="songs[tsong].language"></figure>
+                        <figure class="avatar s-rounded" :data-initial="songs[key].tuning"></figure>
                       </div>
                       <div class="tile-content">
-                        <div class="tile-title">{{ songs[tsong].title }} [{{ songs[tsong].tuning }}]</div>
-                        <div class="tile-subtitle text-gray text-small">{{ songs[tsong].subtitle }}</div>
+                        <div class="tile-title">{{ songs[key].title }}</div>
+                        <div class="tile-subtitle text-gray text-small">{{ songs[key].subtitle }}</div>
                       </div>
                       <div class="tile-action">
-                        <button class="btn btn-link btn-action" @click="setlist.songs = setlist.songs.filter(function(k) {return k !== tsong})">
+                        <button class="btn btn-link btn-action" @click="setlist.songs = setlist.songs.filter(function(k) {return k !== key})">
                           <i class="icon ion-md-close"></i>
                         </button>
                       </div>
@@ -112,6 +112,7 @@ export default {
   },
   data () {
     return {
+      ready: false,
       search: {
         songs: '',
       },
@@ -187,11 +188,11 @@ export default {
     // filter song list by search query
     filteredSongs () {
       var songs = {}, self = this
-      if (this.search.translations != '') {
+      if (this.search.songs != '') {
         for (const key in self.songs) {
           if (self.songs.hasOwnProperty(key)) {
             const song = self.songs[key];
-            var search = self.search.translations.toLowerCase()
+            var search = self.search.songs.toLowerCase()
             // search in title and subtitle
             if (song.title.toLowerCase().indexOf(search) !== -1 || song.subtitle.toLowerCase().indexOf(search) !== -1) {
               songs[key] = song
