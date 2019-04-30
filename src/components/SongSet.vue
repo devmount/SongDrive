@@ -202,9 +202,9 @@
                   <span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
                   <input v-model="search.translations" type="search" class="form-input" placeholder="search ..." />
                 </div>
-                <div class="form-group">
-                  <label v-for="fsong in filteredSongs" :key="fsong['.key']" class="form-checkbox">
-                    <input v-model="song.translations" :value="createSlug(fsong.title)" type="checkbox">
+                <div class="form-group max-column-translations mt-2">
+                  <label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
+                    <input v-model="song.translations" :value="key" type="checkbox">
                     <i class="form-icon"></i> {{ fsong.title }}
                     <div class="text-gray text-small">
                       {{ fsong.subtitle }}
@@ -222,7 +222,7 @@
                 </div>
                 <div v-else>
                   <h3 class="text-center">Selection</h3>
-                  <div v-for="tsong in song.translations" :key="tsong" class="tile tile-centered mb-1">
+                  <div v-for="tsong in song.translations" :key="tsong" class="tile tile-centered mb-2">
                     <div class="tile-icon">
                       <figure class="avatar s-rounded" :data-initial="songs[tsong].language"></figure>
                     </div>
@@ -417,5 +417,9 @@ export default {
   height: 55vh;
   font-size: .7em;
   line-height: 1.3em;
+}
+.max-column-translations {
+  height: 42vh;
+  overflow-y: scroll;
 }
 </style>
