@@ -57,18 +57,21 @@
                   </div>
                   <div v-else>
                     <h3 class="text-center">Selection</h3>
-                    <div v-for="key in setlist.songs" :key="key" class="tile tile-centered mb-1">
-                      <div class="tile-icon">
-                        <figure class="avatar s-rounded" :data-initial="songs[key].tuning"></figure>
-                      </div>
-                      <div class="tile-content">
-                        <div class="tile-title">{{ songs[key].title }}</div>
-                        <div class="tile-subtitle text-gray text-small">{{ songs[key].subtitle }}</div>
-                      </div>
-                      <div class="tile-action">
-                        <button class="btn btn-link btn-action" @click="setlist.songs = setlist.songs.filter(function(k) {return k !== key})">
-                          <i class="icon ion-md-close"></i>
-                        </button>
+                    <div v-sortable="{ onEnd: reorder }">
+                      <div v-for="key in setlist.songs" :key="key" class="tile tile-centered mb-1">
+                        <span class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 mx-2"></i></span>
+                        <div class="tile-icon">
+                          <figure class="avatar s-rounded" :data-initial="songs[key].tuning"></figure>
+                        </div>
+                        <div class="tile-content">
+                          <div class="tile-title">{{ songs[key].title }}</div>
+                          <div class="tile-subtitle text-gray text-small">{{ songs[key].subtitle }}</div>
+                        </div>
+                        <div class="tile-action">
+                          <button class="btn btn-link btn-action" @click="setlist.songs = setlist.songs.filter(function(k) {return k !== key})">
+                            <i class="icon ion-md-close"></i>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -120,6 +123,10 @@ export default {
     }
   },
   methods: {
+    reorder ({oldIndex, newIndex}) {
+      const movedItem = this.setlist.songs.splice(oldIndex, 1)[0]
+      this.setlist.songs.splice(newIndex, 0, movedItem)
+    },
     setSetlist () {
       var self = this
       var processedSetlist = {
