@@ -85,8 +85,8 @@
         </tbody>
       </table>
       <!-- modals -->
-      <!-- <SetlistSet :active="modal.set" :existing="active.existing" :setlist="active.setlist" @closed="modal.set = false" /> -->
-      <!-- <SetlistDelete :active="modal.delete" :title="active.title" :id="active.key" @closed="modal.delete = false" /> -->
+      <SetlistSet :active="modal.set" :existing="active.existing" :setlist="active.setlist" @closed="modal.set = false" />
+      <SetlistDelete :active="modal.delete" :title="active.title" :id="active.key" @closed="modal.delete = false" />
 
     </div>
   </div>
@@ -94,17 +94,17 @@
 
 <script>
 // get components
-// import SetlistSet from '@/components/SetlistSet.vue'
-// import SetlistDelete from '@/components/SetlistDelete.vue'
+import SetlistSet from '@/components/SetlistSet.vue'
+import SetlistDelete from '@/components/SetlistDelete.vue'
 // get database object authorized in config.js
 import { db } from '@/firebase'
 
 export default {
   name: 'setlists',
-  // components: {
-  //   SetlistSet,
-  //   SetlistDelete,
-  // },
+  components: {
+    SetlistSet,
+    SetlistDelete,
+  },
   firestore () {
     return {
       setlists: {
