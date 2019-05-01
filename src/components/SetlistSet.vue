@@ -4,8 +4,8 @@
     <div v-if="setlist && ready" class="modal-container">
       <div class="modal-header">
         <a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
-        <div v-if="!existing" class="modal-title h5">New Setlist</div>
-        <div v-else class="modal-title h5">Edit Setlist «<span class="text-uppercase ls-1">{{ setlist.title }}</span>»</div>
+        <div v-if="!existing" class="modal-title h5">New Setlist<span v-if="setlist.title" class="ml-2 text-gray text-uppercase ls-1"> «{{ setlist.title }}»</span></div>
+        <div v-else class="modal-title h5">Edit Setlist<span class="ml-2 text-gray text-uppercase ls-1"> «{{ setlist.title }}»</span></div>
       </div>
       <div class="modal-body">
         <div class="content">
@@ -96,7 +96,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</button>
-        <button class="btn btn-primary ml-2" @click="setSetlist">
+        <button class="btn btn-primary ml-2" @click="set">
           <span v-if="!existing">Create</span>
           <span v-else>Update</span> Setlist
         </button>
@@ -140,6 +140,9 @@ export default {
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
     }
   },
+  mounted () {
+    this.updateDate(new Date())
+  },
   methods: {
     // update setlist date from datepicker
     updateDate (newDate) {
@@ -151,9 +154,12 @@ export default {
       this.setlist.songs.splice(newIndex, 0, movedItem)
     },
     // add or save edits of setlist to db 
-    setSetlist () {
+    set () {
       var self = this
       var processedSetlist = {
+        active: false,
+        creator: '8DfoOAcEpCWh5gsVGmyzDXVAsZV2', // TODO
+        position: 0,
         title: this.setlist.title,
         date: this.setlist.date,
         songs: this.setlist.songs,
