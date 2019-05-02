@@ -45,10 +45,10 @@
         <!-- sidebar: export -->
         <div class="divider text-center show-lg" data-content="E"></div>
         <div class="divider text-center hide-lg" data-content="EXPORT"></div>
-        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportPdf" data-tooltip=" EXPORT LIST AS PDF ">
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportPdf('list')" data-tooltip=" EXPORT LIST AS PDF ">
           <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> LIST</span>
         </button>
-        <button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf" data-tooltip=" EXPORT SHEETS AS PDF ">
+        <button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf('sheets')" data-tooltip=" EXPORT SHEETS AS PDF ">
           <i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> SHEETS</span>
         </button>
         <!-- sidebar: language -->
@@ -184,6 +184,8 @@ export default {
         present: false,
       },
       existing: true,
+      chords: true, // TODO
+      tuning: 0, // TODO
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
     }
   },
@@ -248,17 +250,30 @@ export default {
         })
       })
     },
-    exportPdf: function() {
-      var content = this.getPdfSetlistContent()
+    exportPdf: function(mode) {
+      var content = mode == 'sheets' ? this.getPdfSongsheets() : this.getPdfSetlist()
       // return page configuration with computed content
       var doc = {
         pageSize: 'A4',
-        pageMargins: [ 50, 50, 40, 30 ],
+        pageMargins: [ 50, 35, 40, 20 ],
         content: content,
         styles: {
           header: {
             font: 'FiraSans',
-            fontSize: 22
+            fontSize: 22,
+            alignment: 'center',
+            margin: [ 0, 0, 0, 5 ]
+          },
+          subtitle: {
+            font: 'FiraSans',
+            fontSize: 11,
+            alignment: 'center',
+          },
+          list: {
+            font: 'FiraSans',
+            fontSize: 14,
+            lineHeight: 1.4,
+            margin: [ 0, 30, 0, 5 ]
           },
           partnumber: {
             font: 'FiraSans',
@@ -267,14 +282,14 @@ export default {
           },
           code: {
             font: 'FiraMono',
-            fontSize: 11,
+            fontSize: 12,
             margin: [ 0, 15, 0, 0 ]
           },
-          copyright: {
+          footer: {
             font: 'FiraSans',
             fontSize: 8,
-            margin: [ 0, 20, 0, 0 ]
-          }
+            margin: [ 0, 30, 0, 0 ]
+          },
         }
       }
       pdfMake.createPdf(doc).open()
@@ -286,56 +301,87 @@ export default {
       });
 
     },
-    getPdfSetlistContent () {
-      // handle song content parts
-      var content = [], parts = this.parsedContent(this.song.content)
-      parts.forEach(function(part) {
-        if (part.type == 'v' && part.number != '0') {
-          content.push({
-            columnGap: 8,
-            columns: [
-              {
-                style: 'partnumber',
-                width: 'auto',
-                text: part.number
-              },
-              {
-                style: 'code',
-                width: '*',
-                // song content with respect to leading whitespaces
-                text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B')
-              }
-            ]
-          })
-        } else {
-          content.push({
-            style: 'code',
-            // song content with respect to leading whitespaces
-            text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B')
-          })
+    getPdfSetlist () {
+      let songs = []
+      for (const key in this.setlist.songs) {
+        if (this.setlist.songs.hasOwnProperty(key)) {
+          const song = this.songs[this.setlist.songs[key]];
+          songs.push(' ‒ ' + song.title + ' [' + song.tuning + ']')
         }
-      }, this)
-      // return array with song data
+      }
       return [
-        // song title [tuning] with a line beneath
-        { text: this.song.title.toUpperCase() + (this.song.tuning ? '  [' + this.song.tuning + ']' : ''), style: 'header' },
+        { text: this.setlist.title.toUpperCase(), style: 'header' },
         { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
-        content,
-        // imprint with ccli#, author names and (c) year publisher
-        {
-          style: 'copyright',
-          text: [
-            this.song.ccli ? 'CCLI Song Nr.: ' + this.song.ccli + '\n' : '',
-            this.song.authors ? this.song.authors + '\n' : '',
-            '\u00A9 ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher
-          ]
-        }
+        { text: (new Date(this.setlist.date)).toLocaleDateString("de-DE", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }), style: 'subtitle', margin: [ 0, 6, 0, 0 ] },
+        { ol: songs, style: 'list'}
       ]
     },
-    parsedContent () {
+    getPdfSongsheets () {
+      var sheets = []
+      for (const key in this.setlist.songs) {
+        if (this.setlist.songs.hasOwnProperty(key)) {
+          const song = this.songs[this.setlist.songs[key]];
+          // handle song content parts
+          var content = [], parts = this.parsedContent(song.content)
+          parts.forEach(function(part) {
+            if (part.type == 'v' && part.number != '0') {
+              content.push({
+                columnGap: 8,
+                columns: [
+                  {
+                    width: 'auto',
+                    text: part.number,
+                    style: 'partnumber',
+                  },
+                  {
+                    width: '*',
+                    // song content with respect to leading whitespaces
+                    text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B'),
+                    style: 'code',
+                  }
+                ]
+              })
+            } else {
+              content.push({
+                // song content with respect to leading whitespaces
+                text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B'),
+                style: 'code',
+              })
+            }
+          }, this)
+          var meta = [
+            // song title [tuning] with a line beneath
+            { text: song.title.toUpperCase(), style: 'header' },
+            { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
+            { text: 'Tuning: ' + song.tuning, style: 'subtitle', alignment: 'right', margin: [ 0, 4, 0, 0 ] },
+            content,
+            // footer with ccli#, author names and (c) year publisher
+            {
+              text: [
+                song.ccli ? 'CCLI Song Nr.: ' + song.ccli + '\n' : '',
+                song.authors ? song.authors + '\n' : '',
+                '\u00A9 ' + (song.year ? song.year + ' ' : '') + song.publisher
+              ],
+              style: 'footer'
+            }
+          ]
+          // add page break after every song exept for the last
+          if (this.setlist.songs.length > 0 && key < this.setlist.songs.length-1) {
+            meta.push({ text: '', pageBreak: 'after', style: 'code' })
+          }
+          sheets = sheets.concat(meta)
+        }
+      }
+      return sheets
+    },
+    isChordLine(line) {
+      if (line == '') return false
+      return line.slice(-2) === '  '
+    },
+    parsedContent (content) {
       // initialize arrays for parsed linex, classes of parts, type abbr., numbers of type and part index
       var parsed = [], classes = [], types = [], numbers = [], part = 0
-      var lines = this.song.content.split('\n')
+      var lines = content.split('\n')
       // check every single line of song content
       for (var i = 0; i < lines.length; i++) {
         var line = lines[i]
