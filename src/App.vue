@@ -703,6 +703,24 @@ h6, .h6 {
       font-weight: 900;
     }
   }
+}
+
+// slide presentation
+.hooper.presentation {
+  width: 100%;
+  height: 98vh;
   
+  .hooper-indicator {
+    margin: 0 6px;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    padding: 0;
+    background-color: $gray-color-dark;
+
+    &.is-active {
+      background-color: $primary-color;
+    }
+  }
 }
 </style>

@@ -108,24 +108,22 @@
         :id="setlist['.key']"
         @closed="modal.delete = false"
       />
-      <!-- <SetlistPresent
+      <SetlistPresent
         :active="modal.present"
-        :title="setlist.title"
-        :subtitle="setlist.subtitle"
-        :content="setlist.content"
+        :songs="getSetlistSongs"
+        :chords="chords"
         :tunes="tunes"
         @closed="modal.present = false"
-      /> -->
+      />
     </div>
   </div>
 </template>
 
 <script>
 // get components
-// import SongContent from '@/components/SongContent.vue'
 import SetlistSet from '@/components/SetlistSet.vue'
 import SetlistDelete from '@/components/SetlistDelete.vue'
-// import SetlistPresent from '@/components/SetlistPresent.vue'
+import SetlistPresent from '@/components/SetlistPresent.vue'
 // get database object authorized in config.js
 import { db } from '@/firebase'
 // pdf creation
@@ -144,10 +142,9 @@ pdfMake.fonts = {
 export default {
   name: 'setlist-show',
   components: {
-    // SongContent,
     SetlistSet,
     SetlistDelete,
-    // SetlistPresent,
+    SetlistPresent,
   },
   firestore () {
     return {
@@ -187,6 +184,20 @@ export default {
       chords: true, // TODO
       tuning: 0, // TODO
       tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
+    }
+  },
+  computed: {
+    getSetlistSongs() {
+      if (this.ready.songs && this.ready.setlist) {
+        let songs = []
+        for (const key in this.setlist.songs) {
+          if (this.setlist.songs.hasOwnProperty(key)) {
+            songs.push(this.songs[this.setlist.songs[key]])
+          }
+        }
+        return songs
+      }
+      return []
     }
   },
   methods: {
