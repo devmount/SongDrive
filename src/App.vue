@@ -709,6 +709,16 @@ h6, .h6 {
 .hooper.presentation {
   width: 100%;
   height: 98vh;
+
+  &:focus {
+    outline: none;
+  }
+
+  .hooper-slide,
+  .hooper-slide:focus,
+  .hooper-slide:active {
+    outline: none;
+  }
   
   .hooper-indicator {
     margin: 0 6px;
@@ -720,6 +730,10 @@ h6, .h6 {
 
     &.is-active {
       background-color: $primary-color;
+    }
+    
+    &:focus {
+      outline: none;
     }
   }
 }
