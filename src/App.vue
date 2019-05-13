@@ -24,7 +24,7 @@
             <div class="menu-badge">
               <label v-if="ready.songs" class="label py-1">{{ songs.length }}</label>
               <label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-              <button class="btn btn-secondary btn-action btn-sm ml-2" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
+              <button class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
             </div>
           </li>
           <li class="menu-item">
@@ -32,7 +32,7 @@
             <div class="menu-badge">
               <label v-if="ready.setlists" class="label py-1">{{ setlists.length }}</label>
               <label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-              <button class="btn btn-secondary btn-action btn-sm ml-2" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
+              <button class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
             </div>
           </li>
           <li class="divider" data-content="ACCOUNT">
@@ -731,7 +731,7 @@ h6, .h6 {
     &.is-active {
       background-color: $primary-color;
     }
-    
+
     &:focus {
       outline: none;
     }

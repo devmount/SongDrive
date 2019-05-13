@@ -91,11 +91,13 @@ export default {
       }
     },
     position() {
+      // update local position if autoSync is on and remote position was updated
       if (this.autoSync) {
         this.$refs.presentation.slideTo(this.position)
       }
     },
     autoSync() {
+      // update local position if autoSync was turned on
       if (this.autoSync) {
         this.$refs.presentation.slideTo(this.position)
       }
