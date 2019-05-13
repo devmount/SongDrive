@@ -111,9 +111,11 @@
       <SetlistPresent
         :active="modal.present"
         :songs="getSetlistSongs"
+        :position="setlist.position"
         :chords="chords"
         :tunes="tunes"
         @closed="modal.present = false"
+        @updatePosition="updatePosition"
       />
     </div>
   </div>
@@ -214,7 +216,7 @@ export default {
       })
     },
     updateActive () {
-      // update setlist's active flag
+      // update setlist's active flag to enable sync
       var self = this, sync = !this.setlist.active
       db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(function() {
         self.$notify({
@@ -223,6 +225,12 @@ export default {
           type: 'toast-primary'
         })
       })
+    },
+    updatePosition (position) {
+      // update setlist's position if sync enabled
+      if (this.setlist.active) {
+        db.collection('setlists').doc(this.$route.params.id).set({position: position}, { merge: true })
+      }
     },
     copyList: function(format) {
       // build text list
