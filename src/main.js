@@ -14,9 +14,9 @@ Vue.use(Notifications)
 // vue-sortable
 import Sortable from 'sortablejs'
 Vue.directive('sortable', {
-  inserted: function (el, binding) {
-    new Sortable(el, binding.value || {})
-  }
+	inserted: function (el, binding) {
+		new Sortable(el, binding.value || {})
+	}
 })
 
 // vue clipboard2
@@ -26,6 +26,6 @@ Vue.use(VueClipboard)
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  render: h => h(App)
+	router,
+	render: h => h(App)
 }).$mount('#app')
