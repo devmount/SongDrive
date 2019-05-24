@@ -5,7 +5,9 @@
 	"scripts": {
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",
-		"lint": "vue-cli-service lint"
+		"lint": "vue-cli-service lint",
+		"docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
 	},
 	"dependencies": {
 		"@firebase/app": "^0.3.14",
@@ -34,7 +36,8 @@
 		"eslint-plugin-vue": "^5.2.2",
 		"node-sass": "^4.11.0",
 		"sass-loader": "^7.1.0",
-		"vue-template-compiler": "^2.6.10"
+		"vue-template-compiler": "^2.6.10",
+		"vuepress": "^0.14.11"
 	},
 	"eslintConfig": {
 		"root": true,
