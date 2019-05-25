@@ -2,69 +2,69 @@
 
 ## Einleitung
 
-SongDrive is a tool for musicians, that perform songs on a regular basis. It was created to provide a self-maintainable song database with a clean presentation of songs for different use cases, i.e.:
+SongDrive ist ein Werkzeug für Musiker, die regelmäßig Auftritte haben und wurde als persönliche Lieder-Datenbank entwickelt, um Lieder passend für verschiedene Anwendungsfälle präsentieren zu können. SongDrive kann u.a. genutzt werden, um:
 
-- quick search for a song to play spontaneously
-- transpose a song and export the song as PDF
-- create setlists with minimal effort based on song tuning and tags
-- navigate through the songs of a setlist for the artist as well as for the audience
+- ein Lied über die Suche schnell zu finden und spontan spielen zu können
+- ein Lied zu transponieren und als PDF zu exportieren
+- Setlisten mit minimalem Aufwand zu erstellen, basierend auf Tonart und Tags
+- die Lieder einer Setlist zu Präsentieren - für den Musiker wie für das Publikum
 
 ### Funktionen
 
-SongDrive ships with a lot of features supporting artists in preparation of or during a gig:
+SongDrive bringt viele Funktionen mit, die den Musiker sowohl in der Vorbereitung als auch  während der Aufführung unterstüzten:
 
-- create, edit and delete songs
-- viewport optimized fullscreen view for a single song
-- switch song languages
-- filter songs and setlists on typing and by tags
-- transpose song tuning
-- create, edit and delete setlists
-- rearrange songs in setlists with drag and drop
-- viewport optimized presentation view for setlists
-- PDF export for songs, setlists and songsheets
-- plain text export for songs, setlists and songsheets
-- setlist export in slack and markdown formatting
+- Lieder erstellen, bearbeiten und löschen
+- optimierte Vollbildansicht eines Liedes (kein Scrollen)
+- Sprache des Liedes umschalten
+- Lieder und Setlisten während der Eingabe filtern oder mithilfe von Tags
+- Tonarten transponieren
+- Setlisten erstellen, bearbeiten und löschen
+- Lieder einer Setlist per Drag and Drop neu anordnen
+- optimierte Präsentationsansicht einer Setlist
+- Lieder, Setlisten und Liedzettel als PDF exportieren
+- Text-Export für Lieder, Setlisten und Liedzettel
+- Export von Setlisten für Slack und als Markdown
 
 ### Todo
 
-SongDrive is still a work in progress. There are some things that it currently does not support but are planned:
+SondDrive ist aktuell in Entwicklung. Einige Funktionen sind noch nicht vorhanden, aber in Planung:
 
-- hotkeys, shortcuts <Badge text="todo" type="warn"/>
-- user roles <Badge text="todo" type="warn"/>
-- list enhancements (sortability, pagination, filter for tuning) <Badge text="todo" type="warn"/>
-- multi language support <Badge text="todo" type="warn"/>
-- offline version (pwa, service worker) <Badge text="todo" type="warn"/>
+- Tastenkürzel <Badge text="todo" type="warn"/>
+- Benutzerrollen <Badge text="todo" type="warn"/>
+- Verbesserung der Listenanzeige (Sortierung, Seitennavigation, Filter für Tonarten) <Badge text="todo" type="warn"/>
+- Mehrsprachigkeit der Benutzeroberfläche <Badge text="todo" type="warn"/>
+- Offline Verfügbarkeit (PWA, Service Worker) <Badge text="todo" type="warn"/>
 
 ### Mithelfen
 
-Feedback and contributions are very welcome!
+Feedback und Mitarbeit sind großartig!
 
-## Loslegen
+## Erste Schritte
 
 ### Installation
 
-1. Get all files
+1. Dateien herunterladen
 
     ```bash
     git clone https://github.com/devmount/SongDrive
     ```
 
-2. Install all dependencies using [Yarn](https://yarnpkg.com)
+2. Alle Abhängigkeiten mit [Yarn](https://yarnpkg.com) installieren
 
     ```bash
     cd SongDrive
     yarn
     ```
 
-3. Create an empty file called `config.js` in `SongDrive/src`
+3. Eine leere Datei `config.js` in `SongDrive/src` erstellen
 
     ```bash
     touch src/config.js
     ```
 
-4. Log in to your [Firebase account](https://console.firebase.google.com) and hit the "Create new project" button
-5. Enter your new project and click "Add Firebase to your web app"
-6. Copy the following code from the code that is shown to your just created `config.js`:
+4. In [Firebase](https://console.firebase.google.com) einloggen und den Button "Neues Projekt erstellen" klicken
+5. Namen eingeben und "Firebase zu deiner Web Anwendung hinzufügen"
+6. Den folgenden Code in die `config.js` kopieren und die Platzhalter mit den angezeigten Werten ersetzten:
 
     ```javascript
     export const config = {
@@ -77,15 +77,15 @@ Feedback and contributions are very welcome!
     }
     ```
 
-7. To create the necessary database structure, go to *Database* in the left menu of your Firebase dashboard, click on the three dot menu on the upper right corner of the database field and choose *Import JSON*. In the following file selection dialog, browse for the file `database.json` contained in this repository and import it.
+7. Um die notwendige Datenbankstruktur anzulegen, gehe zu *Datenbank* im linken Menü des Firebase Dashboards, klicke das 3-Punkte-Menü in der rechten oberen Ecke und wähle *JSON Importieren*. Wähle die Datei `database.json` aus, die in diesem Repository enthalten ist und importiere sie.
 
-8. Either start the development server with hot reload at `localhost:8080` ...
+8. Starte den Development-Server mit Hot-Reload unter `localhost:8080` ...
 
     ```bash
     yarn serve
     ```
 
-9. ... or create an optimized production build with minification
+9. ... oder erstelle den für die Produktion optimierten Build:
 
     ```bash
     yarn build
