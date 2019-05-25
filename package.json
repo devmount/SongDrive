@@ -6,8 +6,8 @@
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint",
-		"docs:dev": "vuepress dev docs_src",
-    "docs:build": "vuepress build docs_src"
+		"docs:dev": "vuepress dev docs/src",
+    "docs:build": "vuepress build docs/src"
 	},
 	"dependencies": {
 		"@firebase/app": "^0.3.14",
