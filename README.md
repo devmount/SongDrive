@@ -1,12 +1,12 @@
 # SongDrive
 
-[![license](https://img.shields.io/badge/license-MIT%20License-88b544.svg?style=flat-square)](./LICENSE) [![pre-release](https://img.shields.io/badge/release-v1.0.1-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive) [![size](https://img.shields.io/badge/size-600%20KB-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive)
+[![license](https://img.shields.io/badge/license-MIT-88b544.svg?style=flat-square)](./LICENSE) [![pre-release](https://img.shields.io/badge/release-v1.0.2-88b544.svg?style=flat-square)](https://github.com/devmount/SongDrive)
 
-A song management web application to store, synchronize and present songs and setlists, based on [Vue.js](//vuejs.org/), [Firebase](//firebase.google.com/) and [Spectre.css](//github.com/picturepan2/spectre).
+A song management web application to store, synchronize and present songs and setlists, based on [Vue.js](//vuejs.org/), [Firebase](//firebase.google.com/) and [Spectre.css](//github.com/picturepan2/spectre). Head over to [the docs](https://devmount.github.io/SongDrive) for more information.
+
+> SongDrive v1.x is currently in development, if you are looking for SongDrive v0.x, you can download the last release v0.2.10 [here](https://github.com/devmount/SongDrive/releases/tag/v0.2.10).
 
 ![songdrive-dashboard](https://user-images.githubusercontent.com/5441654/49120961-188ea400-f2af-11e8-80d1-05a31fb16cd1.png)
-
-SongDrive 1.x is currently in development, if you are looking for SongDrive 0.x, you can download the latest release [here](https://github.com/devmount/SongDrive/releases).
 
 ## Features
 
@@ -71,14 +71,6 @@ SongDrive 1.x is currently in development, if you are looking for SongDrive 0.x,
     ```bash
     yarn build
     ```
-
-<!--
-## Usage
-
-### Song Syntax
-
-The notation of the song content is simple: Just add the song lines with the corresponding chords above the exact syllable. Add two whitespaces at the end of each chord line for them to be recognized by the system for text only view or transposition.
--->
 
 ## Licence
 
