@@ -10,7 +10,7 @@ First off, thanks for taking the time to contribute! You are awesome! :tada::cla
   - [Pull Requests](#pull-requests)
 - [Adding Translations](#adding-translations)  
 - [Adding Achievements](#adding-achievements)
-  
+
 ## How to contribute
 
 ### Reporting Bugs

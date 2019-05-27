@@ -62,9 +62,9 @@ Feedback und Mitarbeit sind großartig!
     touch src/config.js
     ```
 
-4. In [Firebase](https://console.firebase.google.com) einloggen und den Button "Neues Projekt erstellen" klicken
-5. Namen eingeben und "Firebase zu deiner Web Anwendung hinzufügen"
-6. Den folgenden Code in die `config.js` kopieren und die Platzhalter mit den angezeigten Werten ersetzten:
+4. In [Firebase](https://console.firebase.google.com) einloggen, den Button "Add a project" klicken und einen Projektnamen sowie den Serverstandort angeben.
+5. Jetzt kann eine App hinzugefügt werden mithilfe des "Web" Buttons: Einen Namen vergeben und auf "Next" klicken
+6. Das Firebase Config-Objekt in die angelegte `config.js` wie folgt kopieren:
 
     ```javascript
     export const config = {
@@ -77,19 +77,21 @@ Feedback und Mitarbeit sind großartig!
     }
     ```
 
-7. Um die notwendige Datenbankstruktur anzulegen, gehe zu *Datenbank* im linken Menü des Firebase Dashboards, klicke das 3-Punkte-Menü in der rechten oberen Ecke und wähle *JSON Importieren*. Wähle die Datei `database.json` aus, die in diesem Repository enthalten ist und importiere sie.
-
-8. Starte den Development-Server mit Hot-Reload unter `localhost:8080` ...
+7. Jetzt kann die App gestartet werden. Entweder den Development-Server mit Hot-Reload starten unter `localhost:8080` ...
 
     ```bash
     yarn serve
     ```
 
-9. ... oder erstelle den für die Produktion optimierten Build:
+8. ... oder den für die Produktion optimierten Build erstellen:
 
     ```bash
     yarn build
     ```
+
+::: warning HINWEIS
+Der Installationsprozess ist noch in Entwicklung. Ein zusätzlicher Schritt zum Import von Testdaten ist geplant.
+:::
 
 ### Benutzung
 
