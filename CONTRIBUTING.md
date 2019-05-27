@@ -47,4 +47,3 @@ You can add a new translation or improve an existing translation as soon as Song
 ## Improving the docs
 
 You can contribute to [the docs](https://devmount.github.io/SongDrive) by simply clicking the *Edit this page* Link at the bottom of each page and create a corresponding PR.
-
