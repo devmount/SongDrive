@@ -20,7 +20,7 @@ A song management web application to store, synchronize and present songs and se
 - Presentation view for setlists
 - PDF export for songs, setlists and songsheets
 - Plain text export for songs, setlists and songsheets
-- Hotkey support
+- *Hotkey support* (planned)
 
 ## Installation
 
@@ -43,9 +43,9 @@ A song management web application to store, synchronize and present songs and se
     touch src/config.js
     ```
 
-4. Log in to your [Firebase account](https://console.firebase.google.com) and hit the "Create new project" button
-5. Enter your new project and click "Add Firebase to your web app"
-6. Copy the following code from the code that is shown to your just created `config.js`:
+4. Log in to your [Firebase account](https://console.firebase.google.com), hit the "Add a project" button and set up a project name and a server location
+5. Now you can add an app by clicking the "Web" button, choose a nickname and click "Next"
+6. Copy the firebase configuration object from the code that is shown to your just created `config.js` in the following format:
 
     ```javascript
     export const config = {
@@ -58,19 +58,21 @@ A song management web application to store, synchronize and present songs and se
     }
     ```
 
-7. To create the necessary database structure, go to *Database* in the left menu of your Firebase dashboard, click on the three dot menu on the upper right corner of the database field and choose *Import JSON*. In the following file selection dialog, browse for the file `database.json` contained in this repository and import it.
-
-8. Either start the development server with hot reload at `localhost:8080` ...
+7. Now your app is ready to be launched. Either start the development server with hot reload at `localhost:8080` ...
 
     ```bash
     yarn serve
     ```
 
-9. ... or create an optimized production build with minification
+8. ... or create an optimized production build with minification. All build files can be found in the `dist` directory.
 
     ```bash
     yarn build
     ```
+
+> **HINT**
+>
+> The setup process is still in development. An additional step with the possibility to add test data will be added soon.
 
 ## Licence
 
