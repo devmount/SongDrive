@@ -48,7 +48,14 @@
 								<div class="column col-6">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
-										<input v-model="search.songs" type="search" class="form-input" placeholder="search ..." />
+										<input v-model="search" type="search" class="form-input" placeholder="search ..." />
+									</div>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="form-icon icon ion-md-pricetag"></i></span>
+										<select v-model="filter" class="form-select" required>
+											<option value="" disabled selected>Filter for tags ...</option>
+											<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
+										</select>
 									</div>
 									<div class="form-group max-column mt-2">
 										<label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
@@ -128,15 +135,15 @@ export default {
 				objects: true,
 				resolve: () => { this.ready = true },
 				reject: () => { this.ready = true }
-			}
+			},
+			tags: db.collection('tags'),
 		}
 	},
 	data () {
 		return {
 			ready: false,
-			search: {
-				songs: '',
-			},
+			search: '',
+			filter: '',
 			tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
 		}
 	},
@@ -225,22 +232,18 @@ export default {
 	computed: {
 		// filter song list by search query
 		filteredSongs () {
-			var songs = {}, self = this
-			if (this.search.songs != '') {
-				for (const key in self.songs) {
-					if (self.songs.hasOwnProperty(key)) {
-						const song = self.songs[key];
-						var search = self.search.songs.toLowerCase()
-						// search in title and subtitle
-						if (song.title.toLowerCase().indexOf(search) !== -1 || song.subtitle.toLowerCase().indexOf(search) !== -1) {
-							songs[key] = song
-						}
-					}
-				}
-				return songs
-			} else {
-				return this.songs
+			var songs = this.songs
+			if (this.search != '') {
+				var key = this.search.toLowerCase()
+				songs = Object.filter(
+					songs,
+					s => s.title.toLowerCase().indexOf(key) !== -1 || s.subtitle.toLowerCase().indexOf(key) !== -1
+				)
 			}
+			if (this.filter != '') {
+				songs = Object.filter(songs, s => s.tags.indexOf(this.filter) !== -1)
+			}
+			return songs
 		}
 	}
 }

@@ -25,6 +25,12 @@ Vue.use(VueClipboard)
 
 Vue.config.productionTip = false
 
+// extend Object for filtering
+Object.filter = (obj, predicate) => 
+	Object.keys(obj)
+		.filter( key => predicate(obj[key]) )
+		.reduce( (res, key) => (res[key] = obj[key], res), {} );
+
 new Vue({
 	router,
 	render: h => h(App)

@@ -52,9 +52,9 @@
 					<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> SHEETS</span>
 				</button>
 				<!-- sidebar: language -->
-				<div class="divider text-center show-lg" data-content="S"></div>
+				<!-- <div class="divider text-center show-lg" data-content="S"></div>
 				<div class="divider text-center hide-lg" data-content="STATS"></div>
-				TODO
+				TODO -->
 			</div>
 			<!-- content -->
 			<div class="off-canvas-content">
