@@ -46,16 +46,24 @@
 							<!-- song selection -->
 							<div class="columns">
 								<div class="column col-6">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
-										<input v-model="search" type="search" class="form-input" placeholder="search ..." />
-									</div>
-									<div class="input-group">
-										<span class="input-group-addon"><i class="form-icon icon ion-md-pricetag"></i></span>
-										<select v-model="filter" class="form-select" required>
-											<option value="" disabled selected>Filter for tags ...</option>
-											<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
-										</select>
+									<div class="columns col-gapless">
+										<div class="column col-6">
+											<div class="input-group">
+												<span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
+												<input v-model="search" type="search" class="form-input" placeholder="search ..." />
+												<button class="btn input-group-btn btn-link" @click="search = ''"><i class="form-icon icon ion-md-close"></i></button>
+											</div>
+										</div>
+										<div class="column col-6">
+											<div class="input-group">
+												<span class="input-group-addon"><i class="form-icon icon ion-md-pricetag"></i></span>
+												<select v-model="filter" class="form-select" required>
+													<option value="" disabled selected>Filter for tags ...</option>
+													<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
+												</select>
+												<button class="btn input-group-btn btn-link" @click="filter = ''"><i class="form-icon icon ion-md-close"></i></button>
+											</div>
+										</div>
 									</div>
 									<div class="form-group max-column mt-2">
 										<label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
