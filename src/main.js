@@ -23,6 +23,9 @@ Vue.directive('sortable', {
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
 
+// vue shortkey
+Vue.use(require('vue-shortkey'))
+
 Vue.config.productionTip = false
 
 // extend Object for filtering

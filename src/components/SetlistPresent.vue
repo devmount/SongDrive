@@ -3,7 +3,16 @@
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
 		<div class="modal-container">
 			<div v-if="songs && songs.length > 0" class="modal-body">
-				<hooper :settings="settings" ref="presentation" class="presentation" id="presentation" @updated="maximizeFontsize" @slide="updatePosition">
+				<hooper
+					:settings="settings"
+					ref="presentation"
+					class="presentation"
+					id="presentation"
+					@updated="maximizeFontsize"
+					@slide="updatePosition"
+					v-shortkey="{ up: ['arrowup'], down: ['arrowdown'] }"
+					@shortkey.native="navigate"
+				>
 					<slide v-for="(song, i) in songs" :key="i" :index="i">
 						<SongContent
 							:content="song.content"
@@ -77,6 +86,16 @@ export default {
 		},
 		updatePosition(payload) {
 			this.$emit('updatePosition', payload.currentSlide)
+		},
+		navigate(event) {
+			switch (event.srcKey) {
+				case 'up':
+					this.$refs.presentation.slidePrev()
+					break
+				case 'down':
+					this.$refs.presentation.slideNext()
+					break
+			}
 		}
 	},
 	watch: {

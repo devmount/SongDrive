@@ -7,7 +7,7 @@
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint",
 		"docs:dev": "vuepress dev docs/src",
-    "docs:build": "vuepress build docs/src"
+		"docs:build": "vuepress build docs/src"
 	},
 	"dependencies": {
 		"@firebase/app": "^0.3.14",
@@ -23,6 +23,7 @@
 		"vue-firestore": "^0.3.21",
 		"vue-notification": "^1.3.16",
 		"vue-router": "^3.0.2",
+		"vue-shortkey": "^3.1.7",
 		"vuefire": "^1.4.5",
 		"vuejs-datepicker": "^1.5.4"
 	},
