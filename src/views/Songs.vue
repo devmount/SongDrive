@@ -11,7 +11,7 @@
 					</h2>
 				</div>
 				<!-- search title, subtitles -->
-				<div class="column col-5 col-xl-6 col-sm-12">
+				<div class="column col-3 col-xl-6 col-sm-12">
 					<div class="input-group">
 						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-search"></i></span>
 						<input type="search" v-model="search" class="form-input input-lg" placeholder="Search in titles ..." />
@@ -27,6 +27,17 @@
 							<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
 						</select>
 						<button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><i class="form-icon icon ion-md-close"></i></button>
+					</div>
+				</div>
+				<!-- filter tuning -->
+				<div class="column col-2 col-xl-6 col-sm-12">
+					<div class="input-group">
+						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-musical-note"></i></span>
+						<select v-model="tuning" class="form-select select-lg filter" required>
+							<option value="" disabled selected>Filter for tuning ...</option>
+							<option v-for="t in tunes" :key="t" :value="t">{{ t }}</option>
+						</select>
+						<button class="btn input-group-btn btn-lg btn-link" @click="tuning = ''"><i class="form-icon icon ion-md-close"></i></button>
 					</div>
 				</div>
 			</div>
@@ -120,6 +131,7 @@ export default {
 		return {
 			search: '',
 			filter: this.$route.params.tag ? this.$route.params.tag : '',
+			tuning: '',
 			ready: false,
 			modal: {
 				set: false,
@@ -130,7 +142,8 @@ export default {
 				key: '',
 				song: {},
 				existing: true
-			}
+      },
+      tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
 		}
 	},
 	computed: {
@@ -147,6 +160,12 @@ export default {
 				songs = songs.filter(function(song) {
 					// filter field: tags
 					return song.tags.indexOf(self.filter) !== -1
+				})
+			}
+			if (this.tuning != '') {
+				songs = songs.filter(function(song) {
+					// filter field: tuning
+					return song.tuning.indexOf(self.tuning) !== -1
 				})
 			}
 			return songs

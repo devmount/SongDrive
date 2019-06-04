@@ -57,7 +57,7 @@
 										<div class="column col-6">
 											<div class="input-group">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-pricetag"></i></span>
-												<select v-model="filter" class="form-select" required>
+												<select v-model="filter" class="form-select filter" required>
 													<option value="" disabled selected>Filter for tags ...</option>
 													<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
 												</select>
