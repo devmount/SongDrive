@@ -47,21 +47,31 @@
 							<div class="columns">
 								<div class="column col-6">
 									<div class="columns col-gapless">
-										<div class="column col-6">
+										<div class="column col-4">
 											<div class="input-group">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
 												<input v-model="search" type="search" class="form-input" placeholder="search ..." />
 												<button class="btn input-group-btn btn-link" @click="search = ''"><i class="form-icon icon ion-md-close"></i></button>
 											</div>
 										</div>
-										<div class="column col-6">
+										<div class="column col-4">
 											<div class="input-group">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-pricetag"></i></span>
 												<select v-model="filter" class="form-select filter" required>
-													<option value="" disabled selected>Filter for tags ...</option>
+													<option value="" disabled selected>tag ...</option>
 													<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
 												</select>
 												<button class="btn input-group-btn btn-link" @click="filter = ''"><i class="form-icon icon ion-md-close"></i></button>
+											</div>
+										</div>
+										<div class="column col-4">
+											<div class="input-group">
+												<span class="input-group-addon"><i class="form-icon icon ion-md-musical-note"></i></span>
+												<select v-model="tuning" class="form-select filter" required>
+													<option value="" disabled selected>tune ...</option>
+													<option v-for="t in tunes" :key="t" :value="t">{{ t }}</option>
+												</select>
+												<button class="btn input-group-btn btn-link" @click="tuning = ''"><i class="form-icon icon ion-md-close"></i></button>
 											</div>
 										</div>
 									</div>
@@ -152,6 +162,7 @@ export default {
 			ready: false,
 			search: '',
 			filter: '',
+			tuning: '',
 			tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
 		}
 	},
@@ -250,6 +261,9 @@ export default {
 			}
 			if (this.filter != '') {
 				songs = Object.filter(songs, s => s.tags.indexOf(this.filter) !== -1)
+			}
+			if (this.tuning != '') {
+				songs = Object.filter(songs, s => s.tuning.indexOf(this.tuning) !== -1)
 			}
 			return songs
 		}
