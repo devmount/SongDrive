@@ -6,7 +6,7 @@
 			v-for="(parts, i) in parsedContent"
 			:key="i"
 		>
-			<pre v-for="(part, j) in parts" :key="j" :class="part.class">{{ part.content }}</pre>
+			<pre v-for="(part, j) in parts" :key="j" :class="part.class"><span v-for="(line, l) in part.content.split('\n')" :key="l" :class="{ chords: isChordLine(line) }">{{ line }}</span></pre>
 		</div>
 	</div>
 </template>
@@ -213,6 +213,7 @@ export default {
 </script>
 
 <style lang="scss">
+$primary-color: #88b544;
 $bg-color-light: #1b1e1f;
 $bg-color-dark: #293031;
 
@@ -221,6 +222,14 @@ pre {
 	overflow: visible;
 	margin-top: 40px;
 	margin-bottom: 0;
+
+  &>span {
+    display: block;
+
+		&.chords {
+			color: $primary-color;
+		}
+  }
 }
 .present > pre {
 	display: inline-block;
