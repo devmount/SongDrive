@@ -365,7 +365,7 @@ h6, .h6 {
 	margin-bottom: .8em;
 }
 
-// form
+// form and buttons
 .btn {
 	&.btn-secondary {
 		background: $bg-color-dark;
@@ -387,7 +387,15 @@ h6, .h6 {
 	&.btn-xl {
 		width: 2.5rem;
 		height: 2.5rem;
+    line-height: 1.9rem;
+    font-size: 1.5em;
 	}
+  &.btn-toggle.btn-primary:focus {
+    background: $primary-color;
+  }
+  &.btn-toggle.btn-secondary:focus {
+    background: $bg-color-dark;
+  }
 	&.stretch {
 		width: 100%;
 	}
