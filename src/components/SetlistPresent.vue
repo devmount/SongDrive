@@ -27,14 +27,16 @@
 				</hooper>
 			</div>
 			<div class="modal-footer">
-				<label class="form-switch">
-					<input type="checkbox" v-model="autoSync">
-					<i class="form-icon"></i><span class="hide-lg"> AutoSync</span>
-				</label>
-				<a class="btn btn-link btn-gray" href="#" aria-label="Maximize" @click.prevent="maximizeFontsize">
-					<i class="icon ion-md-refresh"></i>
+				<a class="btn btn-lg btn-gray" :class="{ 'btn-secondary': !autoSync, 'btn-primary': autoSync }" href="#" aria-label="AutoSync" @click.prevent="autoSync = !autoSync">
+					<i class="icon ion-md-sync"></i>
 				</a>
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
+				<a class="btn btn-lg btn-gray" :class="{ 'btn-secondary': !chords, 'btn-primary': chords }" href="#" aria-label="Chords" @click.prevent="$emit('chords')">
+					<i class="icon ion-md-musical-notes"></i>
+				</a>
+				<a class="btn btn-secondary btn-lg btn-gray" href="#" aria-label="Maximize" @click.prevent="maximizeFontsize">
+					<i class="icon ion-md-resize"></i>
+				</a>
+				<a class="btn btn-secondary btn-lg btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
 					<i class="icon ion-md-close"></i>
 				</a>
 			</div>

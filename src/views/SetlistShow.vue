@@ -27,6 +27,12 @@
 						<i class="form-icon"></i><span class="hide-lg"> SYNC</span>
 					</label>
 				</div>
+				<div class="form-group tooltip tooltip-right" data-tooltip=" CHORDS ">
+					<label class="form-switch switch-lg">
+						<input type="checkbox" v-model="chords">
+						<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
+					</label>
+				</div>
 				<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="modal.present=true" data-tooltip=" PRESENT ">
 					<i class="icon ion-md-videocam float-left ml-1"></i><span class="hide-lg"> PRESENT</span>
 				</button>
@@ -114,6 +120,7 @@
 				:position="setlist.position"
 				:chords="chords"
 				:tunes="tunes"
+        @chords="chords = !chords"
 				@closed="modal.present = false"
 				@updatePosition="updatePosition"
 			/>
@@ -183,7 +190,7 @@ export default {
 				present: false,
 			},
 			existing: true,
-			chords: true, // TODO
+			chords: true,
 			tuning: 0, // TODO
 			tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
 		}
