@@ -27,7 +27,8 @@
 				</hooper>
 			</div>
 			<div class="modal-footer">
-				<a class="btn btn-secondary btn-xl btn-gray" href="#" aria-label="Previous Song" @click.prevent="$refs.presentation.slidePrev()">
+				{{ now | timeonly }}
+				<a class="btn btn-secondary btn-xl btn-gray ml-4" href="#" aria-label="Previous Song" @click.prevent="$refs.presentation.slidePrev()">
 					<i class="icon ion-md-arrow-round-back"></i>
 				</a>
 				<a class="btn btn-secondary btn-xl btn-gray ml-1" href="#" aria-label="Next Song" @click.prevent="$refs.presentation.slideNext()">
@@ -78,7 +79,16 @@ export default {
 				infiniteScroll: false,
 				keysControl: true,
 			},
-			autoSync: false,
+      autoSync: false,
+      now: new Date
+		}
+	},
+	created () {
+		setInterval(() => this.now = new Date, 1000 * 10)
+	},
+	filters: {
+		timeonly(datestring) {
+			return String(datestring).slice(16, 21)
 		}
 	},
 	methods: {
