@@ -216,6 +216,20 @@ $ionicons-font-path: "~ionicons/dist/fonts";
 .pl-3 { padding-left: .6rem !important; }
 .px-3 { padding-right: .6rem !important; padding-left: .6rem !important; }
 .py-3 { padding-top: .6rem !important; padding-bottom: .6rem !important; }
+.m-4 { margin: .8rem !important; }
+.mt-4 { margin-top: .8rem !important; }
+.mr-4 { margin-right: .8rem !important; }
+.mb-4 { margin-bottom: .8rem !important; }
+.ml-4 { margin-left: .8rem !important; }
+.mx-4 { margin-right: .8rem !important; margin-left: .8rem !important; }
+.my-4 { margin-top: .8rem !important; margin-bottom: .8rem !important; }
+.p-4 { padding: .8rem !important; }
+.pt-4 { padding-top: .8rem !important; }
+.pr-4 { padding-right: .8rem !important; }
+.pb-4 { padding-bottom: .8rem !important; }
+.pl-4 { padding-left: .8rem !important; }
+.px-4 { padding-right: .8rem !important; padding-left: .8rem !important; }
+.py-4 { padding-top: .8rem !important; padding-bottom: .8rem !important; }
 .ls-1 { letter-spacing: 1px; }
 .ls-2 { letter-spacing: 2px; }
 

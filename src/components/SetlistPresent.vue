@@ -27,7 +27,13 @@
 				</hooper>
 			</div>
 			<div class="modal-footer">
-				<a class="btn btn-xl btn-gray btn-toggle" :class="{ 'btn-secondary': !autoSync, 'btn-primary': autoSync }" href="#" aria-label="AutoSync" @click.prevent="autoSync = !autoSync">
+				<a class="btn btn-secondary btn-xl btn-gray" href="#" aria-label="Previous Song" @click.prevent="$refs.presentation.slidePrev()">
+					<i class="icon ion-md-arrow-round-back"></i>
+				</a>
+				<a class="btn btn-secondary btn-xl btn-gray ml-1" href="#" aria-label="Next Song" @click.prevent="$refs.presentation.slideNext()">
+					<i class="icon ion-md-arrow-round-forward"></i>
+				</a>
+				<a class="btn btn-xl btn-gray btn-toggle ml-4" :class="{ 'btn-secondary': !autoSync, 'btn-primary': autoSync }" href="#" aria-label="AutoSync" @click.prevent="autoSync = !autoSync">
 					<i class="icon ion-md-sync"></i>
 				</a>
 				<a class="btn btn-xl btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !chords, 'btn-primary': chords }" href="#" aria-label="Chords" @click.prevent="$emit('chords')">
