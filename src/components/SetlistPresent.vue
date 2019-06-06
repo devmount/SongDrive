@@ -27,7 +27,7 @@
 				</hooper>
 			</div>
 			<div class="modal-footer">
-				{{ now | timeonly }}
+				<span class="clock px-4">{{ timeonly }}</span>
 				<a class="btn btn-secondary btn-xl btn-gray ml-4" href="#" aria-label="Previous Song" @click.prevent="$refs.presentation.slidePrev()">
 					<i class="icon ion-md-arrow-round-back"></i>
 				</a>
@@ -80,15 +80,17 @@ export default {
 				keysControl: true,
 			},
       autoSync: false,
-      now: new Date
+			now: new Date,
+			blink: true,
 		}
 	},
 	created () {
-		setInterval(() => this.now = new Date, 1000 * 10)
+		setInterval(() => { this.now = new Date; this.blink = !this.blink }, 1000)
 	},
-	filters: {
-		timeonly(datestring) {
-			return String(datestring).slice(16, 21)
+	computed: {
+		timeonly() {
+			let timestring = String(this.now).slice(16, 21)
+			return this.blink ? timestring : timestring.replace(':', ' ')
 		}
 	},
 	methods: {
@@ -145,6 +147,7 @@ export default {
 
 <style lang="scss">
 $black-color: #000000;
+$mono-font-family: "Fira Code", "Fira Mono", monospace;
 
 .modal-setlist-presentation {
 
@@ -154,12 +157,19 @@ $black-color: #000000;
 		}
 	}
 
-	.modal-container .modal-header,
-	.modal-container .modal-body {
-		padding-bottom: 0;
-		padding-left: 0;
-		padding-right: 0;
+	.modal-container {
+		.modal-header,
+		.modal-body {
+			padding-bottom: 0;
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+		.modal-footer > .clock {
+			font-family: $mono-font-family;
+			font-size: 1.5em;
+			vertical-align: middle;
+		}
 	}
-	
 }
 </style>

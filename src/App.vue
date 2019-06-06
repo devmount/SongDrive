@@ -162,6 +162,7 @@ export default {
 <style lang="scss">
 // import external dependencies
 @import url('https://fonts.googleapis.com/css?family=Fira+Mono');
+@import url('https://fonts.googleapis.com/css?family=Fira+Code');
 
 // overwrite spectre variables
 $primary-color: #88b544;
