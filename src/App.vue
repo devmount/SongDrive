@@ -166,13 +166,13 @@ export default {
 
 // overwrite spectre variables
 $primary-color: #88b544;
-$primary-dark-color: #222725;
+$primary-dark-color: #222627;
 $error-color: #ed2f47;
 $body-font-color: #c1ced1;
 $bg-color: #131516;
 $bg-color-medium: #181a1b;
 $bg-color-light: #1b1e1f;
-$bg-color-dark: #222725;
+$bg-color-dark: #222627;
 $border-color: #222627;
 $gray-color: #5e6769;
 $gray-color-dark: #4a5052;
@@ -469,6 +469,9 @@ h6, .h6 {
 	& .tile-title,
 	& .tile-subtitle {
 		line-height: .85rem;
+	}
+	&.tile-hover:hover {
+		background: $bg-color-dark;
 	}
 }
 
