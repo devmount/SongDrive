@@ -44,7 +44,7 @@
 				<tbody>
 					<tr v-for="(setlist, i) in filteredSetlists" :key="i">
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
-							<div class="s-circle ml-2" :class="{ active: setlist.active }"></div>
+							<div class="s-circle ml-3" :class="{ active: setlist.active }"></div>
 						</td>
 						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">{{ setlist.date }}</td>
 						<td class="hide-md c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">{{ setlist.title }}</td>

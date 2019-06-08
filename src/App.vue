@@ -166,13 +166,13 @@ export default {
 
 // overwrite spectre variables
 $primary-color: #88b544;
-$primary-dark-color: #202718;
+$primary-dark-color: #222725;
 $error-color: #ed2f47;
 $body-font-color: #c1ced1;
 $bg-color: #131516;
 $bg-color-medium: #181a1b;
 $bg-color-light: #1b1e1f;
-$bg-color-dark: #293031;
+$bg-color-dark: #222725;
 $border-color: #222627;
 $gray-color: #5e6769;
 $gray-color-dark: #4a5052;
@@ -437,6 +437,13 @@ h6, .h6 {
 	}
 	input:checked + .form-icon::before {
 		left: 18px;
+	}
+}
+
+// table
+.table {
+	td, th {
+		border: none;
 	}
 }
 
