@@ -9,9 +9,9 @@
 					</h2>
 				</div>
 				<div class="column col-4">
-					<h3>Latest Songs</h3>
+					<h3>{{ songsProperty }} Songs</h3>
 					<div
-						v-for="(song, i) in songs.slice(0, 10)"
+						v-for="(song, i) in songlist"
 						:key="i"
 						class="tile tile-centered tile-hover c-hand p-2"
 						@click="$router.push({ name: 'song-show', params: { id: song['.key'] }})"
@@ -24,6 +24,9 @@
 							<div class="tile-subtitle text-gray text-small">{{ song.subtitle }}</div>
 						</div>
 					</div>
+					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="shuffle"><i class="form-icon icon ion-md-shuffle mr-2"></i>Shuffle</button>
+					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="newest"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
+					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="oldest"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Oldest</button>
 				</div>
 				<div class="column col-4">
 					<h3>Latest Setlists</h3>
@@ -42,7 +45,7 @@ export default {
 	firestore () {
 		return {
 			songs: {
-				ref: db.collection('songs'),
+				ref: db.collection('songs').orderBy('year', 'desc'),
 				resolve: () => { this.ready.songs = true },
 				reject: () => { this.ready.songs = true }
 			},
@@ -60,8 +63,38 @@ export default {
 				songs: false,
 				setlists: false,
 			},
+			songsProperty: 'newest',
+			reorderedSongs: []
 		}
 	},
+	methods: {
+		shuffle () {
+			let songs = this.songs
+			for (let i = songs.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[songs[i], songs[j]] = [songs[j], songs[i]]
+			}
+			this.songsProperty = 'random'
+			this.reorderedSongs = songs.slice(0, 10)
+		},
+		newest () {
+			this.songsProperty = 'newest'
+			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a,b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0)).slice(0, 10)
+		},
+		oldest () {
+			this.songsProperty = 'oldest'
+			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a,b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0)).slice(0, 10)
+		},
+	},
+	computed: {
+		songlist () {
+			if (this.reorderedSongs.length === 0) {
+				return this.songs.slice(0, 10)
+			} else {
+				return this.reorderedSongs
+			}
+		}
+	}
 }
 </script>
 

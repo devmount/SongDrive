@@ -399,6 +399,11 @@ h6, .h6 {
 			color: $light-color;
 		}
 	}
+  &.btn-sm {
+    &.btn-fw {
+      width: 1.4rem;
+    }
+  }
 	&.btn-xl {
 		width: 2.5rem;
 		height: 2.5rem;
