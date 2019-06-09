@@ -27,6 +27,7 @@
 					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="shuffleSongs"><i class="form-icon icon ion-md-shuffle mr-2"></i>Shuffle</button>
 					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="newestSongs"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
 					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="oldestSongs"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
+					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="popularSongs"><i class="form-icon icon ion-md-trending-up mr-2"></i>Popular</button>
 				</div>
 				<div class="column col-4">
 					<h3>{{ setlistsProperty }} Setlists</h3>
@@ -46,7 +47,6 @@
 					</div>
 					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="newestSetlists"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
 					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="oldestSetlists"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
-				</div>
 				</div>
 			</div>
 		</div>
@@ -104,6 +104,26 @@ export default {
 		oldestSongs () {
 			this.songsProperty = 'oldest'
 			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a,b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0)).slice(0, this.listLength)
+		},
+		popularSongs () {
+			this.songsProperty = 'popular'
+			var ids = {}
+			this.setlists.forEach(function(setlist, i) {
+				if (setlist.songs) {
+					setlist.songs.forEach(function(id) {
+						if (!ids.hasOwnProperty(id)) {
+							ids[id] = 0
+						} else {
+							ids[id]++
+						}
+					})
+				}
+			})
+			var sorted_ids = []
+			for (var id in ids) {
+				sorted_ids.push([id, ids[id]])
+			}
+			this.reorderedSongs = sorted_ids.sort((a, b) => b[1] - a[1]).splice(0, this.listLength)
 		},
 		newestSetlists () {
 			this.setlistsProperty = 'newest'
