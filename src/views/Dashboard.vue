@@ -8,6 +8,7 @@
 						Dashboard
 					</h2>
 				</div>
+				<!-- song list -->
 				<div class="column col-4">
 					<h3>{{ songsProperty }} Songs</h3>
 					<div
@@ -37,13 +38,14 @@
 						</div>
 					</div>
 					<div class="btn-group">
-						<button class="btn btn-secondary btn-sm mt-2" @click="shuffleSongs"><i class="form-icon icon ion-md-shuffle mr-2"></i>Shuffle</button>
-						<button v-if="songsProperty != 'newest'" class="btn btn-secondary btn-sm mt-2" @click="newestSongs"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
-						<button v-if="songsProperty == 'newest'" class="btn btn-secondary btn-sm mt-2" @click="oldestSongs"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
-						<button class="btn btn-secondary btn-sm mt-2" @click="popularSongs"><i class="form-icon icon ion-md-trending-up mr-2"></i>Popular</button>
-						<router-link to="/songs" class="btn btn-secondary btn-sm mt-2" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Songs</router-link>
+						<button class="btn btn-secondary" @click="shuffleSongs"><i class="form-icon icon ion-md-shuffle mr-2"></i>Shuffle</button>
+						<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
+						<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
+						<button class="btn btn-secondary" @click="popularSongs"><i class="form-icon icon ion-md-trending-up mr-2"></i>Popular</button>
+						<router-link to="/songs" class="btn btn-secondary" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Songs</router-link>
 					</div>
 				</div>
+				<!-- setlist list -->
 				<div class="column col-4">
 					<h3>{{ setlistsProperty }} Setlists</h3>
 					<div
@@ -65,10 +67,15 @@
 						</div>
 					</div>
 					<div class="btn-group">
-						<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary btn-sm mt-2" @click="newestSetlists"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
-						<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary btn-sm mt-2" @click="oldestSetlists"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
-						<router-link to="/setlists" class="btn btn-secondary btn-sm mt-2" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Setlists</router-link>
+						<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary" @click="newestSetlists"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
+						<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary" @click="oldestSetlists"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
+						<router-link to="/setlists" class="btn btn-secondary" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Setlists</router-link>
 					</div>
+				</div>
+				<!-- version info -->
+				<div class="column col-12 mt-4 pt-4">
+					<h3>About</h3>
+					<p>SongDrive <code>v1.0.2</code></p>
 				</div>
 			</div>
 		</div>

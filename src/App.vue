@@ -338,6 +338,11 @@ h6, .h6 {
 		text-align: center;
 	}
 }
+code {
+	font-family: $mono-font-family;
+	background: $bg-color-dark;
+	color: $body-font-color;
+}
 .text-pre {
 	font-family: $mono-font-family;
 }
