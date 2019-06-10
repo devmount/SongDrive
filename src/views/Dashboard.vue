@@ -24,6 +24,12 @@
 								:data-initial="song.popularity + 'x'"
 								:title="'This song occured on ' + song.popularity + ' setlists'"
 							></figure>
+							<figure
+								v-if="songsProperty == 'newest' || songsProperty == 'oldest'"
+								class="avatar avatar-secondary s-rounded float-right ml-1"
+								:data-initial="song.year"
+								:title="'This song was published in ' + song.year"
+							></figure>
 						</div>
 						<div class="tile-content">
 							<div class="tile-title">{{ song.title }}</div>
@@ -31,8 +37,8 @@
 						</div>
 					</div>
 					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="shuffleSongs"><i class="form-icon icon ion-md-shuffle mr-2"></i>Shuffle</button>
-					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="newestSongs"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
-					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="oldestSongs"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
+					<button v-if="songsProperty != 'newest'" class="btn btn-secondary btn-sm mt-2 mr-2" @click="newestSongs"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
+					<button v-if="songsProperty == 'newest'" class="btn btn-secondary btn-sm mt-2 mr-2" @click="oldestSongs"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
 					<button class="btn btn-secondary btn-sm mt-2 mr-2" @click="popularSongs"><i class="form-icon icon ion-md-trending-up mr-2"></i>Popular</button>
 				</div>
 				<div class="column col-4">
@@ -168,5 +174,10 @@ export default {
 </script>
 
 <style lang="scss">
-
+.dashboard {
+	.tile .tile-icon .avatar-secondary {
+		width: 2rem;
+		font-size: 0.7rem;
+	}
+}
 </style>
