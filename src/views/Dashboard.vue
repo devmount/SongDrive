@@ -17,7 +17,13 @@
 						@click="$router.push({ name: 'song-show', params: { id: song['.key'] }})"
 					>
 						<div class="tile-icon">
-							<figure class="avatar s-rounded" :data-initial="song.tuning"></figure>
+							<figure class="avatar s-rounded" :data-initial="song.tuning" title="Song tuning"></figure>
+							<figure
+								v-if="songsProperty == 'popular'"
+								class="avatar avatar-secondary s-rounded float-right ml-1"
+								:data-initial="song.popularity + 'x'"
+								:title="'This song occured on ' + song.popularity + ' setlists'"
+							></figure>
 						</div>
 						<div class="tile-content">
 							<div class="tile-title">{{ song.title }}</div>
@@ -38,7 +44,11 @@
 						@click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})"
 					>
 						<div class="tile-icon">
-							<figure class="avatar s-rounded" :data-initial="setlist.songs.length"></figure>
+							<figure
+								class="avatar avatar-secondary s-rounded"
+								:data-initial="setlist.songs.length"
+								:title="'This setlist contains ' + setlist.songs.length + ' songs'"
+							></figure>
 						</div>
 						<div class="tile-content">
 							<div class="tile-title">{{ setlist.title }}</div>
@@ -99,31 +109,35 @@ export default {
 		},
 		newestSongs () {
 			this.songsProperty = 'newest'
-			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a,b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0)).slice(0, this.listLength)
+			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0)).slice(0, this.listLength)
 		},
 		oldestSongs () {
 			this.songsProperty = 'oldest'
-			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a,b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0)).slice(0, this.listLength)
+			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a, b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0)).slice(0, this.listLength)
 		},
 		popularSongs () {
 			this.songsProperty = 'popular'
-			var ids = {}
-			this.setlists.forEach(function(setlist, i) {
+			let popularSongs = {}
+			this.setlists.forEach(setlist => {
 				if (setlist.songs) {
-					setlist.songs.forEach(function(id) {
-						if (!ids.hasOwnProperty(id)) {
-							ids[id] = 0
+					setlist.songs.forEach(id => {
+						if (!popularSongs.hasOwnProperty(id)) {
+							popularSongs[id] = 0
 						} else {
-							ids[id]++
+							popularSongs[id]++
 						}
 					})
 				}
 			})
-			var sorted_ids = []
-			for (var id in ids) {
-				sorted_ids.push([id, ids[id]])
+			var idList = []
+			for (var id in popularSongs) {
+				idList.push([id, popularSongs[id]])
 			}
-			this.reorderedSongs = sorted_ids.sort((a, b) => b[1] - a[1]).splice(0, this.listLength)
+			let orderedSongIds = idList.sort((a, b) => b[1] - a[1]).splice(0, this.listLength).reduce((a, c) => a.concat(c[0]), [])
+			this.reorderedSongs = this.songs
+				.filter(s => orderedSongIds.includes(s['.key']))
+				.map(s => Object.assign({popularity: popularSongs[s['.key']]}, s))
+				.sort((a, b) => (a.popularity < b.popularity) ? 1 : ((b.popularity < a.popularity) ? -1 : 0))
 		},
 		newestSetlists () {
 			this.setlistsProperty = 'newest'

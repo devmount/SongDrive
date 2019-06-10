@@ -399,23 +399,23 @@ h6, .h6 {
 			color: $light-color;
 		}
 	}
-  &.btn-sm {
-    &.btn-fw {
-      width: 1.4rem;
-    }
-  }
+	&.btn-sm {
+		&.btn-fw {
+			width: 1.4rem;
+		}
+	}
 	&.btn-xl {
 		width: 2.5rem;
 		height: 2.5rem;
-    line-height: 1.9rem;
-    font-size: 1.5em;
+		line-height: 1.9rem;
+		font-size: 1.5em;
 	}
-  &.btn-toggle.btn-primary:focus {
-    background: $primary-color;
-  }
-  &.btn-toggle.btn-secondary:focus {
-    background: $bg-color-dark;
-  }
+	&.btn-toggle.btn-primary:focus {
+		background: $primary-color;
+	}
+	&.btn-toggle.btn-secondary:focus {
+		background: $bg-color-dark;
+	}
 	&.stretch {
 		width: 100%;
 	}
@@ -477,6 +477,15 @@ h6, .h6 {
 	}
 	&.tile-hover:hover {
 		background: $bg-color-dark;
+	}
+
+	.tile-icon {
+		.avatar-secondary {
+			background: $bg-color-dark;
+			&::before {
+				text-transform: unset;
+			}
+		}
 	}
 }
 
