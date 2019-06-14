@@ -27,23 +27,45 @@
 				</hooper>
 			</div>
 			<div class="modal-footer">
+				<div class="navigation-prev">
+					<a
+						class="btn btn-secondary btn-xl btn-gray px-3"
+						:class="{ disabled: currentPosition == 0 }"
+						href="#"
+						aria-label="Previous Song"
+						@click.prevent="$refs.presentation.slidePrev()"
+					>
+						<i class="icon ion-md-arrow-round-back"></i>
+						<span v-if="currentPosition > 0" class="ml-2">
+							{{ songs[currentPosition-1].title }} <span class="chords ml-2">{{ songs[currentPosition].tuning }}</span>
+						</span>
+					</a>
+				</div>
+				<div class="navigation-next">
+					<a
+						class="btn btn-secondary btn-xl btn-gray px-3 ml-1"
+						:class="{ disabled: currentPosition == songs.length-1 }"
+						href="#"
+						aria-label="Next Song"
+						@click.prevent="$refs.presentation.slideNext()"
+					>
+						<span v-if="currentPosition < songs.length-1" class="mr-3">
+							{{ songs[currentPosition+1].title }} <span class="chords ml-2">{{ songs[currentPosition].tuning }}</span>
+						</span>
+						<i class="icon ion-md-arrow-round-forward"></i>
+					</a>
+				</div>
 				<span class="clock px-4">{{ timeonly }}</span>
-				<a class="btn btn-secondary btn-xl btn-gray ml-4" href="#" aria-label="Previous Song" @click.prevent="$refs.presentation.slidePrev()">
-					<i class="icon ion-md-arrow-round-back"></i>
-				</a>
-				<a class="btn btn-secondary btn-xl btn-gray ml-1" href="#" aria-label="Next Song" @click.prevent="$refs.presentation.slideNext()">
-					<i class="icon ion-md-arrow-round-forward"></i>
-				</a>
-				<a class="btn btn-xl btn-gray btn-toggle ml-4" :class="{ 'btn-secondary': !autoSync, 'btn-primary': autoSync }" href="#" aria-label="AutoSync" @click.prevent="autoSync = !autoSync">
+				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-4" :class="{ 'btn-secondary': !autoSync, 'btn-primary': autoSync }" href="#" aria-label="AutoSync" @click.prevent="autoSync = !autoSync">
 					<i class="icon ion-md-sync"></i>
 				</a>
-				<a class="btn btn-xl btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !chords, 'btn-primary': chords }" href="#" aria-label="Chords" @click.prevent="$emit('chords')">
+				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !chords, 'btn-primary': chords }" href="#" aria-label="Chords" @click.prevent="$emit('chords')">
 					<i class="icon ion-md-musical-notes"></i>
 				</a>
-				<a class="btn btn-secondary btn-xl btn-gray ml-1" href="#" aria-label="Maximize" @click.prevent="maximizeFontsize">
+				<a class="btn btn-secondary btn-xl btn-fw btn-gray ml-1" href="#" aria-label="Maximize" @click.prevent="maximizeFontsize">
 					<i class="icon ion-md-resize"></i>
 				</a>
-				<a class="btn btn-secondary btn-xl btn-gray ml-1" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
+				<a class="btn btn-secondary btn-xl btn-fw btn-gray ml-1" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
 					<i class="icon ion-md-close"></i>
 				</a>
 			</div>
@@ -79,6 +101,7 @@ export default {
 				infiniteScroll: false,
 				keysControl: true,
 			},
+			currentPosition: 0,
       autoSync: false,
 			now: new Date,
 			blink: true,
@@ -105,6 +128,7 @@ export default {
 			})
 		},
 		updatePosition(payload) {
+			this.currentPosition = payload.currentSlide
 			this.$emit('updatePosition', payload.currentSlide)
 		},
 		navigate(event) {
@@ -146,6 +170,7 @@ export default {
 </script>
 
 <style lang="scss">
+$primary-color: #88b544;
 $black-color: #000000;
 $mono-font-family: "Fira Code", "Fira Mono", monospace;
 
@@ -165,11 +190,31 @@ $mono-font-family: "Fira Code", "Fira Mono", monospace;
 			padding-right: 0;
 		}
 
-		.modal-footer > .clock {
-			font-family: $mono-font-family;
-			font-size: 1.5em;
-			vertical-align: middle;
+		.modal-footer {
+			width: 100%;
+
+			.navigation-prev {
+				position: absolute;
+				bottom: .8rem;
+				right: 50%;
+			}
+			.navigation-next {
+				position: absolute;
+				bottom: .8rem;
+				left: 50%;
+			}
+			.chords {
+				font-weight: bold;
+				color: $primary-color;
+			}
+
+			.clock {
+				font-family: $mono-font-family;
+				font-size: 1.5em;
+				vertical-align: middle;
+			}
 		}
 	}
 }
+
 </style>

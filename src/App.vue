@@ -410,9 +410,12 @@ code {
 		}
 	}
 	&.btn-xl {
-		width: 2.5rem;
+		&.btn-fw {
+			width: 2.5rem;
+		}
+		min-width: 2.5rem;
 		height: 2.5rem;
-		line-height: 1.9rem;
+		line-height: 1.8rem;
 		font-size: 1.5em;
 	}
 	&.btn-toggle.btn-primary:focus {
@@ -772,20 +775,28 @@ code {
 		outline: none;
 	}
 	
-	.hooper-indicator {
-		margin: 0 6px;
-		width: 1.5em;
-		height: 1.5em;
-		border-radius: 50%;
-		padding: 0;
-		background-color: $gray-color-dark;
+	.hooper-pagination {
+		padding: .8rem;
+		left: 0;
+		right: initial;
+		transform: none;
+		z-index: 20;
 
-		&.is-active {
-			background-color: $primary-color;
-		}
+		.hooper-indicator {
+			margin: 0 7px;
+			width: 1.7em;
+			height: 1.7em;
+			border-radius: 50%;
+			padding: 0;
+			background-color: $gray-color-dark;
 
-		&:focus {
-			outline: none;
+			&.is-active {
+				background-color: $primary-color;
+			}
+
+			&:focus {
+				outline: none;
+			}
 		}
 	}
 }
