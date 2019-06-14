@@ -391,7 +391,12 @@ code {
 		background: $bg-color-dark;
 		border-color: $bg-color-medium;
 		color: $gray-color;
-		&:focus:not(.btn-error),
+		
+		&:focus:not(.btn-error) {
+			background: $bg-color-dark;
+			border-color: $bg-color-medium;
+			color: $gray-color;
+		}
 		&:hover:not(.btn-error) {
 			background: darken($primary-color-dark, 2%);
 			border-color: darken($primary-color-dark, 5%);
