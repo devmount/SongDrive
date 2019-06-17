@@ -89,11 +89,26 @@
 								<tbody v-sortable="{ onEnd: reorder }">
 									<tr v-for="song in setlist.songs" :key="song">
 										<td class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2"></i></td>
-										<td>{{ songs[song].title }} <span class="text-gray">({{ songs[song].subtitle }})</span></td>
+										<td>{{ songs[song].title }} <br class="show-xl hide-sm" /><span class="text-gray hide-sm">({{ songs[song].subtitle }})</span></td>
 										<td class="hide-xl text-uppercase">{{ songs[song].language }}</td>
-										<td class="hide-lg">{{ songs[song].tuning }}</td>
-										<td class="hide-xl"><a :href="'https://songselect.ccli.com/Songs/' + songs[song].ccli" target="_blank">{{ songs[song].ccli }}</a></td>
-										<td class="text-right"><button class="btn btn-primary" @click.prevent="$router.push({ name: 'song-show', params: { id: song }})">show</button></td>
+										<td class="tuning">
+											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="songs[song].tuning = tuneDown(songs[song].tuning)">
+												<i class="icon ion-md-arrow-back"></i>
+											</button>
+											<code>{{ songs[song].tuning }}</code>
+											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="songs[song].tuning = tuneUp(songs[song].tuning)">
+												<i class="icon ion-md-arrow-forward"></i>
+											</button>
+										</td>
+										<td class="hide-xl">
+											<a :href="'https://songselect.ccli.com/Songs/' + songs[song].ccli" target="_blank">{{ songs[song].ccli }}</a>
+										</td>
+										<td class="text-right">
+											<button class="btn btn-primary" @click.prevent="$router.push({ name: 'song-show', params: { id: song }})">
+												<i class="icon ion-md-eye"></i>
+												<span class="hide-sm ml-2">Show</span>
+											</button>
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -120,7 +135,7 @@
 				:position="setlist.position"
 				:chords="chords"
 				:tunes="tunes"
-        @chords="chords = !chords"
+				@chords="chords = !chords"
 				@closed="modal.present = false"
 				@updatePosition="updatePosition"
 			/>
@@ -222,6 +237,22 @@ export default {
 				})
 			})
 		},
+		tuneUp (tone) {
+			let i = this.tunes.indexOf(tone)
+			if (i>=this.tunes.length-1) {
+				return this.tunes[0]
+			} else {
+				return this.tunes[++i]
+			}
+		},
+		tuneDown (tone) {
+			let i = this.tunes.indexOf(tone)
+			if (i<=0) {
+				return this.tunes[this.tunes.length-1]
+			} else {
+				return this.tunes[--i]
+			}
+		},
 		updateActive () {
 			// update setlist's active flag to enable sync
 			var self = this, sync = !this.setlist.active
@@ -239,7 +270,7 @@ export default {
 				db.collection('setlists').doc(this.$route.params.id).set({position: position}, { merge: true })
 			}
 		},
-		copyList: function(format) {
+		copyList (format) {
 			// build text list
 			let list = [], label = ''
 			switch (format) {
@@ -276,7 +307,7 @@ export default {
 				})
 			})
 		},
-		exportPdf: function(mode) {
+		exportPdf (mode) {
 			var content = mode == 'sheets' ? this.getPdfSongsheets() : this.getPdfSetlist()
 			// return page configuration with computed content
 			var doc = {
@@ -564,5 +595,14 @@ export default {
 </script>
 
 <style lang="scss">
+.tuning {
+	min-width: 100px;
 
+	code {
+		width: 2em;
+		display: inline-block;
+		text-align: center;
+		background: transparent;
+	}
+}
 </style>

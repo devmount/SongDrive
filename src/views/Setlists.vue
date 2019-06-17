@@ -46,9 +46,15 @@
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
 							<div class="s-circle ml-3" :class="{ active: setlist.active }"></div>
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">{{ setlist.date }}</td>
-						<td class="hide-md c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">{{ setlist.title }}</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">{{ setlist.songs.length }}</td>
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
+              {{ setlist.date }}
+            </td>
+						<td class="hide-md c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
+              {{ setlist.title }}
+            </td>
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
+              {{ setlist.songs.length }}
+            </td>
 						<td class="text-right">
 							<div class="dropdown dropdown-right">
 								<div class="btn-group">
