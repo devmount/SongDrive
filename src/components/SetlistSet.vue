@@ -95,9 +95,9 @@
 									</div>
 									<div v-else>
 										<h3 class="text-center">Selection</h3>
-										<div v-sortable="{ onEnd: reorder }">
+										<div v-sortable="{ onEnd: reorder, handle: '.handle' }">
 											<div v-for="key in setlist.songs" :key="key" class="tile tile-centered mb-2">
-												<span class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 mx-2"></i></span>
+												<span class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 mx-2 handle"></i></span>
 												<div class="tile-icon">
 													<figure class="avatar s-rounded" :data-initial="songs[key].tuning"></figure>
 												</div>

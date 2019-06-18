@@ -86,9 +86,9 @@
 										<th></th>
 									</tr>
 								</thead>
-								<tbody v-sortable="{ onEnd: reorder }">
+								<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
 									<tr v-for="song in setlist.songs" :key="song">
-										<td class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2"></i></td>
+										<td class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 handle"></i></td>
 										<td>{{ songs[song].title }} <br class="show-xl hide-sm" /><span class="text-gray hide-sm">({{ songs[song].subtitle }})</span></td>
 										<td class="hide-xl text-uppercase">{{ songs[song].language }}</td>
 										<td class="tuning">
