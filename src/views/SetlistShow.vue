@@ -87,21 +87,21 @@
 									</tr>
 								</thead>
 								<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
-									<tr v-for="song in setlist.songs" :key="song">
+									<tr v-for="song in setlist.songs" :key="song.id">
 										<td class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 handle"></i></td>
-										<td>{{ songs[song].title }} <br class="show-xl hide-sm" /><span class="text-gray hide-sm">({{ songs[song].subtitle }})</span></td>
-										<td class="hide-xl text-uppercase">{{ songs[song].language }}</td>
+										<td>{{ songs[song.id].title }} <br class="show-xl hide-sm" /><span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span></td>
+										<td class="hide-xl text-uppercase">{{ songs[song.id].language }}</td>
 										<td class="tuning">
-											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="songs[song].tuning = tuneDown(songs[song].tuning)">
+											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="songs[song.id].tuning = tuneDown(songs[song.id].tuning)">
 												<i class="icon ion-md-arrow-back"></i>
 											</button>
-											<code>{{ songs[song].tuning }}</code>
-											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="songs[song].tuning = tuneUp(songs[song].tuning)">
+											<code>{{ songs[song.id].tuning }}</code>
+											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="songs[song.id].tuning = tuneUp(songs[song.id].tuning)">
 												<i class="icon ion-md-arrow-forward"></i>
 											</button>
 										</td>
 										<td class="hide-xl">
-											<a :href="'https://songselect.ccli.com/Songs/' + songs[song].ccli" target="_blank">{{ songs[song].ccli }}</a>
+											<a :href="'https://songselect.ccli.com/Songs/' + songs[song.id].ccli" target="_blank">{{ songs[song.id].ccli }}</a>
 										</td>
 										<td class="text-right">
 											<button class="btn btn-primary" @click.prevent="$router.push({ name: 'song-show', params: { id: song }})">
@@ -216,7 +216,7 @@ export default {
 				let songs = []
 				for (const key in this.setlist.songs) {
 					if (this.setlist.songs.hasOwnProperty(key)) {
-						songs.push(this.songs[this.setlist.songs[key]])
+						songs.push(this.songs[this.setlist.songs[key].id])
 					}
 				}
 				return songs
@@ -276,17 +276,17 @@ export default {
 			switch (format) {
 				case 'plain':
 					list = this.setlist.songs.map(
-						(s, i) => (i+1) + '. ' + this.songs[s].title + ' (' + this.songs[s].subtitle + ') [' + this.songs[s].tuning + ']'
+						(s, i) => (i+1) + '. ' + this.songs[s.id].title + ' (' + this.songs[s.id].subtitle + ') [' + this.songs[s.id].tuning + ']'
 					), label = 'plain text'
 					break
 				case 'markdown':
 					list = this.setlist.songs.map(
-						(s, i) => (i+1) + '. **' + this.songs[s].title + '** – _' + this.songs[s].subtitle + '_ [**`' + this.songs[s].tuning + '`**]'
+						(s, i) => (i+1) + '. **' + this.songs[s.id].title + '** – _' + this.songs[s.id].subtitle + '_ [**`' + this.songs[s.id].tuning + '`**]'
 					), label = 'markdown'
 					break
 				case 'slack':
 					list = this.setlist.songs.map(
-						(s, i) => (i+1) + '. *' + this.songs[s].title + '* – _' + this.songs[s].subtitle + '_ *` ' + this.songs[s].tuning + ' `*'
+						(s, i) => (i+1) + '. *' + this.songs[s.id].title + '* – _' + this.songs[s.id].subtitle + '_ *` ' + this.songs[s.id].tuning + ' `*'
 					), label = 'slack'
 					break
 				default:
@@ -362,7 +362,7 @@ export default {
 			let songs = []
 			for (const key in this.setlist.songs) {
 				if (this.setlist.songs.hasOwnProperty(key)) {
-					const song = this.songs[this.setlist.songs[key]];
+					const song = this.songs[this.setlist.songs[key].id];
 					songs.push(' ‒ ' + song.title + ' [' + song.tuning + ']')
 				}
 			}
@@ -377,7 +377,7 @@ export default {
 			var sheets = []
 			for (const key in this.setlist.songs) {
 				if (this.setlist.songs.hasOwnProperty(key)) {
-					const song = this.songs[this.setlist.songs[key]];
+					const song = this.songs[this.setlist.songs[key].id];
 					// handle song content parts
 					var content = [], parts = this.parsedContent(song.content)
 					parts.forEach(function(part) {

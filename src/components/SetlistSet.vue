@@ -77,7 +77,7 @@
 									</div>
 									<div class="form-group max-column mt-2">
 										<label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
-											<input v-model="setlist.songs" :value="key" type="checkbox">
+											<input v-model="setlist.songs" :value="{id: key}" type="checkbox">
 											<i class="form-icon"></i> {{ fsong.title }} [{{ fsong.tuning }}]
 											<div class="text-gray text-small">
 												{{ fsong.subtitle }}
@@ -96,17 +96,17 @@
 									<div v-else>
 										<h3 class="text-center">Selection</h3>
 										<div v-sortable="{ onEnd: reorder, handle: '.handle' }">
-											<div v-for="key in setlist.songs" :key="key" class="tile tile-centered mb-2">
+											<div v-for="song in setlist.songs" :key="song.id" class="tile tile-centered mb-2">
 												<span class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 mx-2 handle"></i></span>
 												<div class="tile-icon">
-													<figure class="avatar s-rounded" :data-initial="songs[key].tuning"></figure>
+													<figure class="avatar s-rounded" :data-initial="songs[song.id].tuning"></figure>
 												</div>
 												<div class="tile-content">
-													<div class="tile-title">{{ songs[key].title }}</div>
-													<div class="tile-subtitle text-gray text-small">{{ songs[key].subtitle }}</div>
+													<div class="tile-title">{{ songs[song.id].title }}</div>
+													<div class="tile-subtitle text-gray text-small">{{ songs[song.id].subtitle }}</div>
 												</div>
 												<div class="tile-action">
-													<button class="btn btn-link btn-action" @click="setlist.songs = setlist.songs.filter(function(k) {return k !== key})">
+													<button class="btn btn-link btn-action" @click="setlist.songs = setlist.songs.filter(function(k) {return k.id !== song.id})">
 														<i class="icon ion-md-close"></i>
 													</button>
 												</div>

@@ -139,11 +139,11 @@ export default {
 			let popularSongs = {}
 			this.setlists.forEach(setlist => {
 				if (setlist.songs) {
-					setlist.songs.forEach(id => {
-						if (!popularSongs.hasOwnProperty(id)) {
-							popularSongs[id] = 0
+					setlist.songs.forEach(song => {
+						if (!popularSongs.hasOwnProperty(song.id)) {
+							popularSongs[song.id] = 0
 						} else {
-							popularSongs[id]++
+							popularSongs[song.id]++
 						}
 					})
 				}
