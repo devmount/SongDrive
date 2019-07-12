@@ -104,7 +104,7 @@
 											<a :href="'https://songselect.ccli.com/Songs/' + songs[song.id].ccli" target="_blank">{{ songs[song.id].ccli }}</a>
 										</td>
 										<td class="text-right">
-											<button class="btn btn-primary" @click.prevent="$router.push({ name: 'song-show', params: { id: song }})">
+											<button class="btn btn-primary" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id }})">
 												<i class="icon ion-md-eye"></i>
 												<span class="hide-sm ml-2">Show</span>
 											</button>
