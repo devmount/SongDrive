@@ -87,16 +87,16 @@
 									</tr>
 								</thead>
 								<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
-									<tr v-for="song in setlist.songs" :key="song.id">
+									<tr v-for="(song, i) in setlist.songs" :key="song.id">
 										<td class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 handle"></i></td>
 										<td>{{ songs[song.id].title }} <br class="show-xl hide-sm" /><span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span></td>
 										<td class="hide-xl text-uppercase">{{ songs[song.id].language }}</td>
 										<td class="tuning">
-											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="songs[song.id].tuning = tuneDown(songs[song.id].tuning)">
+											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(songs[song.id], i)">
 												<i class="icon ion-md-arrow-back"></i>
 											</button>
 											<code>{{ songs[song.id].tuning }}</code>
-											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="songs[song.id].tuning = tuneUp(songs[song.id].tuning)">
+											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneUp(songs[song.id], i)">
 												<i class="icon ion-md-arrow-forward"></i>
 											</button>
 										</td>
@@ -237,21 +237,33 @@ export default {
 				})
 			})
 		},
-		tuneUp (tone) {
+		tuneUp (song, songPosition) {
+      // update tuning
+      let tone = song.tuning
 			let i = this.tunes.indexOf(tone)
 			if (i>=this.tunes.length-1) {
-				return this.tunes[0]
+        song.tuning = this.tunes[0]
 			} else {
-				return this.tunes[++i]
-			}
+        song.tuning = this.tunes[++i]
+      }
+      // save tuning in setlist
+      let songs = this.setlist.songs
+      songs[songPosition].tuning = song.tuning
+      db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
 		},
-		tuneDown (tone) {
-			let i = this.tunes.indexOf(tone)
+		tuneDown (song, songPosition) {
+      // update tuning
+      let tone = song.tuning
+      let i = this.tunes.indexOf(tone)
 			if (i<=0) {
-				return this.tunes[this.tunes.length-1]
+        song.tuning = this.tunes[this.tunes.length-1]
 			} else {
-				return this.tunes[--i]
+        song.tuning = this.tunes[--i]
 			}
+      // save tuning in setlist
+      let songs = this.setlist.songs
+      songs[songPosition].tuning = song.tuning
+      db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
 		},
 		updateActive () {
 			// update setlist's active flag to enable sync

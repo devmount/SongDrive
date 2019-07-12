@@ -47,14 +47,14 @@
 							<div class="columns">
 								<div class="column col-6">
 									<div class="columns col-gapless">
-										<div class="column col-4">
+										<div class="column col-lg-12 col-4">
 											<div class="input-group">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
 												<input v-model="search" type="search" class="form-input" placeholder="search ..." />
 												<button class="btn input-group-btn btn-link" @click="search = ''"><i class="form-icon icon ion-md-close"></i></button>
 											</div>
 										</div>
-										<div class="column col-4">
+										<div class="column col-lg-12 col-4">
 											<div class="input-group">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-pricetag"></i></span>
 												<select v-model="filter" class="form-select filter" required>
@@ -64,7 +64,7 @@
 												<button class="btn input-group-btn btn-link" @click="filter = ''"><i class="form-icon icon ion-md-close"></i></button>
 											</div>
 										</div>
-										<div class="column col-4">
+										<div class="column col-lg-12 col-4">
 											<div class="input-group">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-musical-note"></i></span>
 												<select v-model="tuning" class="form-select filter" required>
