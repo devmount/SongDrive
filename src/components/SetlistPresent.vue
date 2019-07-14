@@ -17,7 +17,7 @@
 						<SongContent
 							:content="song.content"
 							:chords="chords"
-							:tuning="0"
+							:tuning="song.customTuningDelta"
 							:tunes="tunes"
 							:presentation="true"
 							:ref="'songcontent' + i"
@@ -37,7 +37,7 @@
 					>
 						<i class="icon ion-md-arrow-round-back"></i>
 						<span v-if="currentPosition > 0" class="ml-2">
-							{{ songs[currentPosition-1].title }} <span class="chords ml-2">{{ songs[currentPosition].tuning }}</span>
+							{{ songs[currentPosition-1].title }} <span class="chords ml-2">{{ songs[currentPosition-1].customTuning }}</span>
 						</span>
 					</a>
 				</div>
@@ -50,7 +50,7 @@
 						@click.prevent="$refs.presentation.slideNext()"
 					>
 						<span v-if="currentPosition < songs.length-1" class="mr-3">
-							{{ songs[currentPosition+1].title }} <span class="chords ml-2">{{ songs[currentPosition].tuning }}</span>
+							{{ songs[currentPosition+1].title }} <span class="chords ml-2">{{ songs[currentPosition+1].customTuning }}</span>
 						</span>
 						<i class="icon ion-md-arrow-round-forward"></i>
 					</a>

@@ -95,7 +95,7 @@
 											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(songs[song.id], i)">
 												<i class="icon ion-md-arrow-back"></i>
 											</button>
-											<code>{{ songs[song.id].tuning }}</code>
+											<code>{{ song.tuning ? song.tuning : songs[song.id].tuning }}</code>
 											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneUp(songs[song.id], i)">
 												<i class="icon ion-md-arrow-forward"></i>
 											</button>
@@ -206,7 +206,6 @@ export default {
 			},
 			existing: true,
 			chords: true,
-			tuning: 0, // TODO
 			tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
 		}
 	},
@@ -216,7 +215,11 @@ export default {
 				let songs = []
 				for (const key in this.setlist.songs) {
 					if (this.setlist.songs.hasOwnProperty(key)) {
-						songs.push(this.songs[this.setlist.songs[key].id])
+						let song = this.songs[this.setlist.songs[key].id], setlistTuning = this.setlist.songs[key].tuning
+						song['customTuningDelta'] = setlistTuning != '' ? this.tunes.indexOf(setlistTuning) - this.tunes.indexOf(song.tuning) : 0
+						song['customTuning'] = setlistTuning != '' ? setlistTuning : song.tuning
+						console.log(song.customTuning)
+						songs.push(song)
 					}
 				}
 				return songs
@@ -238,32 +241,32 @@ export default {
 			})
 		},
 		tuneUp (song, songPosition) {
-      // update tuning
-      let tone = song.tuning
+			// update tuning
+			let tone = song.tuning
 			let i = this.tunes.indexOf(tone)
 			if (i>=this.tunes.length-1) {
-        song.tuning = this.tunes[0]
+				song.tuning = this.tunes[0]
 			} else {
-        song.tuning = this.tunes[++i]
-      }
-      // save tuning in setlist
-      let songs = this.setlist.songs
-      songs[songPosition].tuning = song.tuning
-      db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
+				song.tuning = this.tunes[++i]
+			}
+			// save tuning in setlist
+			let songs = this.setlist.songs
+			songs[songPosition].tuning = song.tuning
+			db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
 		},
 		tuneDown (song, songPosition) {
-      // update tuning
-      let tone = song.tuning
-      let i = this.tunes.indexOf(tone)
+			// update tuning
+			let tone = song.tuning
+			let i = this.tunes.indexOf(tone)
 			if (i<=0) {
-        song.tuning = this.tunes[this.tunes.length-1]
+				song.tuning = this.tunes[this.tunes.length-1]
 			} else {
-        song.tuning = this.tunes[--i]
+				song.tuning = this.tunes[--i]
 			}
-      // save tuning in setlist
-      let songs = this.setlist.songs
-      songs[songPosition].tuning = song.tuning
-      db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
+			// save tuning in setlist
+			let songs = this.setlist.songs
+			songs[songPosition].tuning = song.tuning
+			db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
 		},
 		updateActive () {
 			// update setlist's active flag to enable sync
