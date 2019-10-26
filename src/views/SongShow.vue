@@ -124,6 +124,7 @@
 				:chords="chords"
 				:tuning="tuning"
 				:tunes="tunes"
+				@chords="chords = !chords"
 				@closed="modal.present = false"
 			/>
 		</div>

@@ -63,7 +63,7 @@
 					<i class="icon ion-md-musical-notes"></i>
 				</a>
 				<a class="btn btn-secondary btn-xl btn-fw btn-gray ml-1" href="#" aria-label="Maximize" @click.prevent="maximizeFontsize">
-					<i class="icon ion-md-resize"></i>
+					<i class="icon ion-md-expand"></i>
 				</a>
 				<a class="btn btn-secondary btn-xl btn-fw btn-gray ml-1" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
 					<i class="icon ion-md-close"></i>
