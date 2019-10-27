@@ -22,13 +22,13 @@
 				<div class="divider text-center show-lg" data-content="V"></div>
 				<div class="divider text-center hide-lg" data-content="VIEW"></div>
 				<div class="form-group tooltip tooltip-right" data-tooltip=" SYNC ">
-					<label class="form-switch switch-lg">
+					<label class="form-switch switch-lg c-hand">
 						<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
 						<i class="form-icon"></i><span class="hide-lg"> SYNC</span>
 					</label>
 				</div>
 				<div class="form-group tooltip tooltip-right" data-tooltip=" CHORDS ">
-					<label class="form-switch switch-lg">
+					<label class="form-switch switch-lg c-hand">
 						<input type="checkbox" v-model="chords">
 						<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
 					</label>
@@ -291,18 +291,21 @@ export default {
 			switch (format) {
 				case 'plain':
 					list = this.setlist.songs.map(
-						(s, i) => (i+1) + '. ' + this.songs[s.id].title + ' (' + this.songs[s.id].subtitle + ') [' + this.songs[s.id].tuning + ']'
-					), label = 'plain text'
+						(s, i) => (i+1) + '. ' + this.songs[s.id].title + ' (' + this.songs[s.id].subtitle + ') [' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + ']'
+					)
+					label = 'plain text'
 					break
 				case 'markdown':
 					list = this.setlist.songs.map(
-						(s, i) => (i+1) + '. **' + this.songs[s.id].title + '** – _' + this.songs[s.id].subtitle + '_ [**`' + this.songs[s.id].tuning + '`**]'
-					), label = 'markdown'
+						(s, i) => (i+1) + '. **' + this.songs[s.id].title + '** – _' + this.songs[s.id].subtitle + '_ [**`' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + '`**]'
+					)
+					label = 'markdown'
 					break
 				case 'slack':
 					list = this.setlist.songs.map(
-						(s, i) => (i+1) + '. *' + this.songs[s.id].title + '* – _' + this.songs[s.id].subtitle + '_ *` ' + this.songs[s.id].tuning + ' `*'
-					), label = 'slack'
+						(s, i) => (i+1) + '. *' + this.songs[s.id].title + '* – _' + this.songs[s.id].subtitle + '_ *` ' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + ' `*'
+					)
+					label = 'slack'
 					break
 				default:
 					break;
@@ -378,7 +381,7 @@ export default {
 			for (const key in this.setlist.songs) {
 				if (this.setlist.songs.hasOwnProperty(key)) {
 					const song = this.songs[this.setlist.songs[key].id];
-					songs.push(' ‒ ' + song.title + ' [' + song.tuning + ']')
+					songs.push(' ‒ ' + song.title + ' [' + (song.customTuning ? song.customTuning : song.tuning) + ']')
 				}
 			}
 			return [

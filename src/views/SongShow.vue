@@ -36,7 +36,7 @@
 				<div class="divider text-center show-lg" data-content="V"></div>
 				<div class="divider text-center hide-lg" data-content="VIEW"></div>
 				<div class="form-group tooltip tooltip-right" data-tooltip=" CHORDS ">
-					<label class="form-switch switch-lg">
+					<label class="form-switch switch-lg c-hand">
 						<input type="checkbox" v-model="chords" @click="chords = !chords">
 						<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
 					</label>
