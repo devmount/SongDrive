@@ -216,9 +216,9 @@ export default {
 				for (const key in this.setlist.songs) {
 					if (this.setlist.songs.hasOwnProperty(key)) {
 						let song = this.songs[this.setlist.songs[key].id], setlistTuning = this.setlist.songs[key].tuning
-						song['customTuningDelta'] = setlistTuning != '' ? this.tunes.indexOf(setlistTuning) - this.tunes.indexOf(song.tuning) : 0
+						song['customTuningDelta'] = setlistTuning !== '' ? this.tunes.indexOf(setlistTuning) - this.tunes.indexOf(song.tuning) : 0
 						song['customTuning'] = setlistTuning != '' ? setlistTuning : song.tuning
-						console.log(song.customTuning)
+						console.log(this.tunes.indexOf(setlistTuning), this.tunes.indexOf(song.tuning))
 						songs.push(song)
 					}
 				}
@@ -241,31 +241,31 @@ export default {
 			})
 		},
 		tuneUp (song, songPosition) {
+			let songs = this.setlist.songs
 			// update tuning
-			let tone = song.tuning
+			let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning
 			let i = this.tunes.indexOf(tone)
 			if (i>=this.tunes.length-1) {
-				song.tuning = this.tunes[0]
+				tone = this.tunes[0]
 			} else {
-				song.tuning = this.tunes[++i]
+				tone = this.tunes[++i]
 			}
 			// save tuning in setlist
-			let songs = this.setlist.songs
-			songs[songPosition].tuning = song.tuning
+			songs[songPosition].tuning = tone
 			db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
 		},
 		tuneDown (song, songPosition) {
+			let songs = this.setlist.songs
 			// update tuning
-			let tone = song.tuning
+			let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning
 			let i = this.tunes.indexOf(tone)
 			if (i<=0) {
-				song.tuning = this.tunes[this.tunes.length-1]
+				tone = this.tunes[this.tunes.length-1]
 			} else {
-				song.tuning = this.tunes[--i]
+				tone = this.tunes[--i]
 			}
 			// save tuning in setlist
-			let songs = this.setlist.songs
-			songs[songPosition].tuning = song.tuning
+			songs[songPosition].tuning = tone
 			db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
 		},
 		updateActive () {

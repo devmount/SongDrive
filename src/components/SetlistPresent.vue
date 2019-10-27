@@ -102,7 +102,7 @@ export default {
 				keysControl: true,
 			},
 			currentPosition: 0,
-      autoSync: false,
+			autoSync: false,
 			now: new Date,
 			blink: true,
 		}
