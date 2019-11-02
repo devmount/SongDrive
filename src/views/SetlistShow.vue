@@ -218,7 +218,6 @@ export default {
 						let song = this.songs[this.setlist.songs[key].id], setlistTuning = this.setlist.songs[key].tuning
 						song['customTuningDelta'] = setlistTuning !== '' ? this.tunes.indexOf(setlistTuning) - this.tunes.indexOf(song.tuning) : 0
 						song['customTuning'] = setlistTuning != '' ? setlistTuning : song.tuning
-						console.log(this.tunes.indexOf(setlistTuning), this.tunes.indexOf(song.tuning))
 						songs.push(song)
 					}
 				}
@@ -395,9 +394,9 @@ export default {
 			var sheets = []
 			for (const key in this.setlist.songs) {
 				if (this.setlist.songs.hasOwnProperty(key)) {
-					const song = this.songs[this.setlist.songs[key].id];
+					const song = this.songs[this.setlist.songs[key].id]
 					// handle song content parts
-					var content = [], parts = this.parsedContent(song.content)
+					var content = [], parts = this.parsedContent(song.content, song.customTuning ? song.customTuningDelta : 0)
 					parts.forEach(function(part) {
 						if (part.type == 'v' && part.number != '0') {
 							content.push({
@@ -428,7 +427,7 @@ export default {
 						// song title [tuning] with a line beneath
 						{ text: song.title.toUpperCase(), style: 'header' },
 						{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
-						{ text: 'Tuning: ' + song.tuning, style: 'subtitle', alignment: 'right', margin: [ 0, 4, 0, 0 ] },
+						{ text: 'Tuning: ' + (song.customTuning ? song.customTuning : song.tuning), style: 'subtitle', alignment: 'right', margin: [ 0, 4, 0, 0 ] },
 						content,
 						// footer with ccli#, author names and (c) year publisher
 						{
@@ -453,8 +452,8 @@ export default {
 			if (line == '') return false
 			return line.slice(-2) === '  '
 		},
-		parsedContent (content) {
-			// initialize arrays for parsed linex, classes of parts, type abbr., numbers of type and part index
+		parsedContent (content, tuning) {
+			// initialize arrays for parsed lines, classes of parts, type abbr., numbers of type and part index
 			var parsed = [], classes = [], types = [], numbers = [], part = 0
 			var lines = content.split('\n')
 			// check every single line of song content
@@ -466,7 +465,7 @@ export default {
 					continue
 				}
 				// handle chord tuning
-				if (this.isChordLine(line) && this.tuning != 0) {
+				if (this.isChordLine(line) && tuning != 0) {
 					// init the new line to build and the current over- or underflow of spaces due to different chord string lenghts
 					var newLine = '', spaces = 0, j = 0
 					while (j < line.length) {
@@ -497,7 +496,7 @@ export default {
 						// check if character is a transposable character
 						if (this.tunes.indexOf(c) > -1) {
 							// replace character by next tune character
-							var nextTune = this.tunes[(12 + this.tunes.indexOf(c) + (this.tuning % 12)) % 12]
+							var nextTune = this.tunes[(12 + this.tunes.indexOf(c) + (tuning % 12)) % 12]
 							newLine += nextTune
 							// update over- or underflow of spaces
 							spaces += c.length - nextTune.length
