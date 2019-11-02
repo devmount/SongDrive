@@ -47,14 +47,14 @@
 							<div class="columns">
 								<div class="column col-6">
 									<div class="columns col-gapless">
-										<div class="column col-lg-12 col-4">
+										<div class="column col-xl-12 col-4">
 											<div class="input-group">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
 												<input v-model="search" type="search" class="form-input" placeholder="search ..." />
 												<button class="btn input-group-btn btn-link" @click="search = ''"><i class="form-icon icon ion-md-close"></i></button>
 											</div>
 										</div>
-										<div class="column col-lg-12 col-4">
+										<div class="column col-xl-12 col-4">
 											<div class="input-group">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-pricetag"></i></span>
 												<select v-model="filter" class="form-select filter" required>
@@ -64,7 +64,7 @@
 												<button class="btn input-group-btn btn-link" @click="filter = ''"><i class="form-icon icon ion-md-close"></i></button>
 											</div>
 										</div>
-										<div class="column col-lg-12 col-4">
+										<div class="column col-xl-12 col-4">
 											<div class="input-group">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-musical-note"></i></span>
 												<select v-model="tuning" class="form-select filter" required>
@@ -96,11 +96,17 @@
 									<div v-else>
 										<h3 class="text-center">Selection</h3>
 										<div v-sortable="{ onEnd: reorder, handle: '.handle' }">
-											<div v-for="song in setlist.songs" :key="song.id" class="tile tile-centered mb-2">
+											<div v-for="(song, i) in setlistSongs" :key="song.id" class="tile tile-centered mb-2">
 												<span class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 mx-2 handle"></i></span>
+												<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(i)">
+													<i class="icon ion-md-arrow-back"></i>
+												</button>
 												<div class="tile-icon">
-													<figure class="avatar s-rounded" :data-initial="songs[song.id].tuning"></figure>
+													<figure class="avatar s-rounded" :data-initial="song.tuning ? song.tuning : songs[song.id].tuning"></figure>
 												</div>
+												<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneUp(i)">
+													<i class="icon ion-md-arrow-forward"></i>
+												</button>
 												<div class="tile-content">
 													<div class="tile-title">{{ songs[song.id].title }}</div>
 													<div class="tile-subtitle text-gray text-small">{{ songs[song.id].subtitle }}</div>
@@ -178,6 +184,33 @@ export default {
 		reorder ({oldIndex, newIndex}) {
 			const movedItem = this.setlist.songs.splice(oldIndex, 1)[0]
 			this.setlist.songs.splice(newIndex, 0, movedItem)
+		},
+		tuneUp (position) {
+			let songs = this.setlist.songs
+			// update tuning
+			let tone = songs[position].tuning ? songs[position].tuning : this.songs[songs[position].id].tuning
+			let i = this.tunes.indexOf(tone)
+			if (i>=this.tunes.length-1) {
+				tone = this.tunes[0]
+			} else {
+				tone = this.tunes[++i]
+			}
+			// save tuning in setlist
+			this.setlist.songs[position].tuning = tone
+			console.log(this.setlist.songs[position].tuning)
+		},
+		tuneDown (position) {
+			let songs = this.setlist.songs
+			// update tuning
+			let tone = songs[position].tuning ? songs[position].tuning : this.songs[songs[position].id].tuning
+			let i = this.tunes.indexOf(tone)
+			if (i<=0) {
+				tone = this.tunes[this.tunes.length-1]
+			} else {
+				tone = this.tunes[--i]
+			}
+			// save tuning in setlist
+			this.setlist.songs[position].tuning = tone
 		},
 		// add or save edits of setlist to db 
 		set () {
@@ -266,6 +299,9 @@ export default {
 				songs = Object.filter(songs, s => s.tuning.indexOf(this.tuning) !== -1)
 			}
 			return songs
+		},
+		setlistSongs() {
+			return this.setlist.songs
 		}
 	}
 }

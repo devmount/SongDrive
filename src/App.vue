@@ -63,8 +63,20 @@
 			</div>
 
 			<!-- modals -->
-			<SongSet :active="modal.addsong" :existing="false" :song="newSong" @closed="modal.addsong = false" @reset="resetSong" />
-			<SetlistSet :active="modal.addsetlist" :existing="false" :setlist="newSetlist" @closed="modal.addsetlist = false" @reset="resetSetlist" />
+			<SongSet
+				:active="modal.addsong"
+				:existing="false"
+				:song="newSong"
+				@closed="modal.addsong = false"
+				@reset="resetSong"
+			/>
+			<SetlistSet
+				:active="modal.addsetlist"
+				:existing="false"
+				:setlist="newSetlist"
+				@closed="modal.addsetlist = false"
+				@reset="resetSetlist"
+			/>
 		</div>
 
 		<!-- notifications -->
