@@ -64,6 +64,7 @@
 
 			<!-- modals -->
 			<SongSet
+				v-if="modal.addsong"
 				:active="modal.addsong"
 				:existing="false"
 				:song="newSong"
@@ -71,9 +72,10 @@
 				@reset="resetSong"
 			/>
 			<SetlistSet
+				v-if="modal.addsetlist"
 				:active="modal.addsetlist"
 				:existing="false"
-				:setlist="newSetlist"
+				:initialSetlist="newSetlist"
 				@closed="modal.addsetlist = false"
 				@reset="resetSetlist"
 			/>

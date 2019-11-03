@@ -118,18 +118,21 @@
 			</div>
 			<!-- modals -->
 			<SetlistSet
+				v-if="modal.set"
 				:active="modal.set"
 				:existing="existing"
-				:setlist="modal.setlist"
+				:initialSetlist="modal.setlist"
 				@closed="modal.set = false"
 			/>
 			<SetlistDelete
+				v-if="modal.delete"
 				:active="modal.delete"
 				:title="setlist.title"
 				:id="setlist['.key']"
 				@closed="modal.delete = false"
 			/>
 			<SetlistPresent
+				v-if="modal.present"
 				:active="modal.present"
 				:songs="getSetlistSongs"
 				:position="setlist.position"

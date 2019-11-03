@@ -90,9 +90,22 @@
 					</tr>
 				</tbody>
 			</table>
+
 			<!-- modals -->
-			<SetlistSet :active="modal.set" :existing="active.existing" :setlist="active.setlist" @closed="modal.set = false" />
-			<SetlistDelete :active="modal.delete" :title="active.title" :id="active.key" @closed="modal.delete = false" />
+			<SetlistSet
+				v-if="modal.set"
+				:active="modal.set"
+				:existing="active.existing"
+				:initialSetlist="active.setlist"
+				@closed="modal.set = false"
+			/>
+			<SetlistDelete
+				v-if="modal.delete"
+				:active="modal.delete"
+				:title="active.title"
+				:id="active.key"
+				@closed="modal.delete = false"
+			/>
 
 		</div>
 	</div>

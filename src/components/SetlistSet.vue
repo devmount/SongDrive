@@ -77,7 +77,7 @@
 									</div>
 									<div class="form-group max-column mt-2">
 										<label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
-											<input v-model="setlist.songs" :value="{id: key}" type="checkbox">
+											<input v-model="setlistSongs" :value="key" type="checkbox">
 											<i class="form-icon"></i> {{ fsong.title }} [{{ fsong.tuning }}]
 											<div class="text-gray text-small">
 												{{ fsong.subtitle }}
@@ -96,7 +96,7 @@
 									<div v-else>
 										<h3 class="text-center">Selection</h3>
 										<div v-sortable="{ onEnd: reorder, handle: '.handle' }">
-											<div v-for="(song, i) in setlistSongs" :key="song.id" class="tile tile-centered mb-2">
+											<div v-for="(song, i) in setlist.songs" :key="song.id" class="tile tile-centered mb-2">
 												<span class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 mx-2 handle"></i></span>
 												<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(i)">
 													<i class="icon ion-md-arrow-back"></i>
@@ -112,7 +112,7 @@
 													<div class="tile-subtitle text-gray text-small">{{ songs[song.id].subtitle }}</div>
 												</div>
 												<div class="tile-action">
-													<button class="btn btn-link btn-action" @click="setlist.songs = setlist.songs.filter(function(k) {return k.id !== song.id})">
+													<button class="btn btn-link btn-action" @click="setlistSongs = setlistSongs.filter(function(k) {return k !== song.id})">
 														<i class="icon ion-md-close"></i>
 													</button>
 												</div>
@@ -150,7 +150,7 @@ export default {
 	props: {
 		active: Boolean,
 		existing: Boolean,
-		setlist: Object
+		initialSetlist: Object
 	},
 	firestore () {
 		return {
@@ -165,6 +165,8 @@ export default {
 	},
 	data () {
 		return {
+			setlist: this.initialSetlist,
+			setlistSongs: this.initialSetlist.songs.map(s => s.id),
 			ready: false,
 			search: '',
 			filter: '',
@@ -172,8 +174,30 @@ export default {
 			tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
 		}
 	},
+	watch: {
+		setlistSongs: function (newList, oldList) {
+			if (newList.length > oldList.length) {
+				let songAdded = newList.filter(x => !oldList.includes(x))[0]
+				this.setlist.songs.push({ id: songAdded, tuning: this.songs[songAdded].tuning })
+			} else {
+				let songRemoved = oldList.filter(x => !newList.includes(x))[0], newSongs = []
+				for (var i in this.setlist.songs) {
+					if (this.setlist.songs[i].id != songRemoved) {
+						newSongs.push({ id: this.setlist.songs[i].id, tuning: this.setlist.songs[i].tuning })
+					}
+				}
+				this.setlist.songs = newSongs
+			}
+		}
+	},
 	mounted () {
+		// initial date today
 		this.updateDate(new Date())
+		// initially fill setlistSongs array
+		// for (var i in this.initialSetlist.songs) {
+		// 	this.setlistSongs.push(this.initialSetlist.songs[i].id)
+		// }
+		// console.log(this.setlistSongs)
 	},
 	methods: {
 		// update setlist date from datepicker
@@ -197,7 +221,6 @@ export default {
 			}
 			// save tuning in setlist
 			this.setlist.songs[position].tuning = tone
-			console.log(this.setlist.songs[position].tuning)
 		},
 		tuneDown (position) {
 			let songs = this.setlist.songs
@@ -300,9 +323,6 @@ export default {
 			}
 			return songs
 		},
-		setlistSongs() {
-			return this.setlist.songs
-		}
 	}
 }
 </script>
