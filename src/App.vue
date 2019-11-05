@@ -67,7 +67,7 @@
 				v-if="modal.addsong"
 				:active="modal.addsong"
 				:existing="false"
-				:song="newSong"
+				:initialSong="newSong"
 				@closed="modal.addsong = false"
 				@reset="resetSong"
 			/>

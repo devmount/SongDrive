@@ -3,7 +3,7 @@
 		<!-- main modal: set song -->
 		<div class="modal modal-lg" :class="{ active: active }">
 			<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
-			<div v-if="song" class="modal-container">
+			<div v-if="song && ready" class="modal-container">
 				<div class="modal-header">
 					<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
 					<div v-if="!existing" class="modal-title h5">New Song</div>
@@ -187,7 +187,7 @@
 			</div>
 		</div>
 		<!-- additional modal: add translation -->
-		<div v-if="song" class="modal modal-secondary" :class="{ active: modal.translations }">
+		<div v-if="song && ready" class="modal modal-secondary" :class="{ active: modal.translations }">
 			<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modal.translations = false"></a>
 			<div class="modal-container">
 				<div class="modal-header">
@@ -258,7 +258,7 @@ export default {
 	props: {
 		active: Boolean,
 		existing: Boolean,
-		song: Object
+		initialSong: Object
 	},
 	firestore () {
 		return {
@@ -273,6 +273,8 @@ export default {
 	},
 	data () {
 		return {
+			song: JSON.parse(JSON.stringify(this.initialSong)),
+			ready: false,
 			modal: {
 				tags: false,
 				translations: false,

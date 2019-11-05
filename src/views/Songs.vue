@@ -98,8 +98,20 @@
 				</tbody>
 			</table>
 			<!-- modals -->
-			<SongSet :active="modal.set" :existing="active.existing" :song="active.song" @closed="modal.set = false" />
-			<SongDelete :active="modal.delete" :title="active.title" :id="active.key" @closed="modal.delete = false" />
+			<SongSet
+				v-if="modal.set"
+				:active="modal.set"
+				:existing="active.existing"
+				:initialSong="active.song"
+				@closed="modal.set = false"
+			/>
+			<SongDelete
+				v-if="modal.delete"
+				:active="modal.delete"
+				:title="active.title"
+				:id="active.key"
+				@closed="modal.delete = false"
+			/>
 		</div>
 	</div>
 </template>
