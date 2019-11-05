@@ -1,9 +1,9 @@
 <template>
 	<div class="modal modal-lg" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
+		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="cancel"></a>
 		<div v-if="setlist && ready" class="modal-container">
 			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
+				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="cancel"></a>
 				<div v-if="!existing" class="modal-title h5">New Setlist<span v-if="setlist.title" class="ml-2 text-gray text-uppercase ls-1"> «{{ setlist.title }}»</span></div>
 				<div v-else class="modal-title h5">Edit Setlist<span class="ml-2 text-gray text-uppercase ls-1"> «{{ setlist.title }}»</span></div>
 			</div>
@@ -126,7 +126,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</button>
+				<button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="cancel">Cancel</button>
 				<button class="btn btn-primary ml-2" @click="set">
 					<span v-if="!existing">Create</span>
 					<span v-else>Update</span> Setlist
@@ -165,8 +165,8 @@ export default {
 	},
 	data () {
 		return {
-			setlist: this.initialSetlist,
-			setlistSongs: this.initialSetlist.songs.map(s => s.id),
+			setlist: JSON.parse(JSON.stringify(this.initialSetlist)),
+			setlistSongs: JSON.parse(JSON.stringify(this.initialSetlist)).songs.map(s => s.id),
 			ready: false,
 			search: '',
 			filter: '',
@@ -175,11 +175,15 @@ export default {
 		}
 	},
 	watch: {
+		// update this.setlist.songs according to selection
 		setlistSongs: function (newList, oldList) {
+			// song was added
 			if (newList.length > oldList.length) {
 				let songAdded = newList.filter(x => !oldList.includes(x))[0]
 				this.setlist.songs.push({ id: songAdded, tuning: this.songs[songAdded].tuning })
-			} else {
+			}
+			// song was removed
+			else {
 				let songRemoved = oldList.filter(x => !newList.includes(x))[0], newSongs = []
 				for (var i in this.setlist.songs) {
 					if (this.setlist.songs[i].id != songRemoved) {
@@ -193,11 +197,6 @@ export default {
 	mounted () {
 		// initial date today
 		this.updateDate(new Date())
-		// initially fill setlistSongs array
-		// for (var i in this.initialSetlist.songs) {
-		// 	this.setlistSongs.push(this.initialSetlist.songs[i].id)
-		// }
-		// console.log(this.setlistSongs)
 	},
 	methods: {
 		// update setlist date from datepicker
@@ -209,6 +208,7 @@ export default {
 			const movedItem = this.setlist.songs.splice(oldIndex, 1)[0]
 			this.setlist.songs.splice(newIndex, 0, movedItem)
 		},
+		// tune the song at given position up
 		tuneUp (position) {
 			let songs = this.setlist.songs
 			// update tuning
@@ -222,6 +222,7 @@ export default {
 			// save tuning in setlist
 			this.setlist.songs[position].tuning = tone
 		},
+		// tune the song at given position down
 		tuneDown (position) {
 			let songs = this.setlist.songs
 			// update tuning
@@ -302,6 +303,9 @@ export default {
 		createSlug () {
 			let r = Math.random().toString(36).substring(2, 6)
 			return this.setlist.date.replace(/-/g, '') + '-' + r
+		},
+		cancel () {
+			this.$emit('closed')
 		}
 	},
 	computed: {

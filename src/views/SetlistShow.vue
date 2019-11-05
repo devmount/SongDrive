@@ -9,10 +9,10 @@
 				<!-- sidebar: manage -->
 				<div class="divider text-center show-lg" data-content="M"></div>
 				<div class="divider text-center hide-lg" data-content="MANAGE"></div>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="modal.setlist=setlist; existing=true; modal.set=true" data-tooltip=" EDIT ">
+				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
 					<i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT</span>
 				</button>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="modal.setlist=setlist; existing=false; modal.set=true" data-tooltip=" CLONE ">
+				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
 					<i class="icon ion-md-copy float-left ml-1"></i><span class="hide-lg"> CLONE</span>
 				</button>
 				<button class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
@@ -121,7 +121,7 @@
 				v-if="modal.set"
 				:active="modal.set"
 				:existing="existing"
-				:initialSetlist="modal.setlist"
+				:initialSetlist="setlist"
 				@closed="modal.set = false"
 			/>
 			<SetlistDelete
@@ -202,7 +202,6 @@ export default {
 				users: false,
 			},
 			modal: {
-				setlist: {},
 				set: false,
 				delete: false,
 				present: false,
