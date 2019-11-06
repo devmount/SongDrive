@@ -75,7 +75,7 @@
 				<!-- version info -->
 				<div class="column col-12 mt-4 pt-4">
 					<h3>About</h3>
-					<p>SongDrive <code>v1.0.2</code></p>
+					<p>SongDrive <code>v1.0.3</code></p>
 				</div>
 			</div>
 		</div>
