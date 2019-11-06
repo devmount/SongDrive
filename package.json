@@ -11,6 +11,7 @@
 	},
 	"dependencies": {
 		"@firebase/app": "^0.3.17",
+		"@firebase/auth": "^0.12.3",
 		"@firebase/firestore": "^0.8.8",
 		"hooper": "^0.1.5",
 		"ionicons": "^4.6.1",

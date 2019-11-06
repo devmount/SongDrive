@@ -35,23 +35,34 @@
 							<button class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
 						</div>
 					</li>
-					<li class="divider" data-content="ACCOUNT">
-					<li class="menu-item pt-2 pb-2">
+					<li class="divider text-center" data-content="ACCOUNT"></li>
+					<li class="menu-item pb-2">
+						<div v-if="!auth.user" class="form-group">
+							<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
+							<input type="password" v-model="auth.password" class="form-input mb-1" placeholder="password" />
+							<button class="btn btn-primary tooltip tooltip-right d-block stretch" @click="signIn">
+								<i class="icon ion-md-arrow-forward float-right mr-1"></i><span class="hide-lg"> Sign In</span>
+							</button>
+						</div>
+					</li>
+					<li v-if="auth.user && ready.users" class="menu-item pt-2 pb-2">
 						<div class="tile tile-centered">
-							<div class="tile-icon"><img class="avatar" src="http://media.devmount.de/profile.jpg" alt="Avatar"></div>
+							<div class="tile-icon mr-2"><img class="avatar" src="http://media.devmount.de/profile.jpg" alt="Avatar"></div>
 							<div class="tile-content">
-								Andreas Müller
+								{{ users[auth.user].name }}
 							</div>
 						</div>
 					</li>
-					<li class="menu-item pt-2">
+					<li v-if="auth.user" class="menu-item pt-2">
 						<router-link to="/profile" class="py-2" @click.native="open = false"><i class="icon ion-md-person mr-2"></i> Profile</router-link>
 					</li>
-					<li class="menu-item">
+					<li v-if="auth.user" class="menu-item">
 						<router-link to="/settings" class="py-2" @click.native="open = false"><i class="icon ion-md-options mr-2"></i> Settings</router-link>
 					</li>
-					<li class="menu-item">
-						<a href="" class="py-2"><i class="icon ion-md-log-out mr-2"></i> Logout</a>
+					<li v-if="auth.user" class="menu-item">
+						<button class="btn btn-secondary tooltip tooltip-right d-block stretch mt-3" @click="signOut">
+							<i class="icon ion-md-log-out float-right mr-1"></i><span class="hide-lg"> Sign Out</span>
+						</button>
 					</li>
 				</ul>
 			</div>
@@ -92,6 +103,8 @@ import SongSet from '@/components/SongSet.vue'
 import SetlistSet from '@/components/SetlistSet.vue'
 // get database object authorized in config.js
 import { db } from '@/firebase'
+import { firebase } from "@firebase/app"
+import '@firebase/auth'
 
 export default {
 	name: 'app',
@@ -111,6 +124,12 @@ export default {
 				resolve: () => { this.ready.setlists = true },
 				reject: () => { this.ready.setlists = true }
 			},
+			users: {
+				ref: db.collection('users'),
+				objects: true,
+				resolve: () => { this.ready.users = true },
+				reject: () => { this.ready.users = true }
+			},
 		}
 	},
 	data () {
@@ -118,6 +137,7 @@ export default {
 			ready: {
 				songs: false,
 				setlists: false,
+				users: false,
 			},
 			open: false,
 			modal: {
@@ -142,6 +162,11 @@ export default {
 				title: '',
 				date: '',
 				songs: [],
+			},
+			auth: {
+				email: '',
+				password: '',
+				user: firebase.auth().currentUser ? firebase.auth().currentUser.uid : ''
 			}
 		}
 	},
@@ -169,7 +194,52 @@ export default {
 				songs: [],
 			}
 		},
-	}
+		signIn () {
+			var self = this
+			firebase.auth().signInWithEmailAndPassword(this.auth.email, this.auth.password).then(() => {
+				// sign-in successful
+				self.auth.user = firebase.auth().currentUser.uid
+				self.$notify({
+					title: '<button class="btn btn-clear float-right"></button>Successfully signed in!',
+					text: 'You can now edit content.',
+					type: 'toast-primary'
+				})
+			}).catch((error) => {
+				// throw error message
+				self.$notify({
+					title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
+					text: error.message,
+					type: 'toast-primary'
+				})
+			})
+		},
+		signOut () {
+      var self = this
+      firebase.auth().signOut().then(() => {
+				// sign-out successful
+				self.auth.user = ''
+				self.$notify({
+					title: '<button class="btn btn-clear float-right"></button>Successfully signed out!',
+					text: 'You are now in read-only mode.',
+					type: 'toast-primary'
+				})
+      }).catch(function(error) {
+				// throw error message
+				self.$notify({
+					title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
+					text: error.message,
+					type: 'toast-primary'
+				})
+			})
+    },
+	},
+	mounted () {
+    // check initially if authenticated user exists
+    var self = this
+    firebase.auth().onAuthStateChanged(function(user) {
+      self.auth.user = user ? user.uid : ''
+    }.bind(this))
+  }
 }
 </script>
 
