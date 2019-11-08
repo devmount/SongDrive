@@ -7,15 +7,15 @@
 					<i class="icon ion-md-arrow-back float-left ml-1"></i><span class="hide-lg"> BACK</span>
 				</button>
 				<!-- sidebar: manage -->
-				<div class="divider text-center show-lg" data-content="M"></div>
-				<div class="divider text-center hide-lg" data-content="MANAGE"></div>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
+				<div v-if="user" class="divider text-center show-lg" data-content="M"></div>
+				<div v-if="user" class="divider text-center hide-lg" data-content="MANAGE"></div>
+				<button v-if="user" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
 					<i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT</span>
 				</button>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
+				<button v-if="user" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
 					<i class="icon ion-md-copy float-left ml-1"></i><span class="hide-lg"> CLONE</span>
 				</button>
-				<button class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
+				<button v-if="user" class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
 					<i class="icon ion-md-trash float-left ml-1"></i><span class="hide-lg"> DELETE</span>
 				</button>
 				<!-- sidebar: language -->
@@ -157,6 +157,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'song-show',
+	props: ['user'],
 	components: {
 		SongContent,
 		SongSet,

@@ -24,7 +24,7 @@
 						<div class="menu-badge">
 							<label v-if="ready.songs" class="label py-1">{{ songs.length }}</label>
 							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-							<button class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
+							<button v-if="auth.user" class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
 						</div>
 					</li>
 					<li class="menu-item">
@@ -32,7 +32,7 @@
 						<div class="menu-badge">
 							<label v-if="ready.setlists" class="label py-1">{{ setlists.length }}</label>
 							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-							<button class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
+							<button v-if="auth.user" class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
 						</div>
 					</li>
 					<li class="divider text-center" data-content="ACCOUNT"></li>
@@ -49,6 +49,7 @@
 						<div class="tile tile-centered">
 							<div class="tile-icon mr-2"><img class="avatar" src="http://media.devmount.de/profile.jpg" alt="Avatar"></div>
 							<div class="tile-content">
+								<span class="text-gray text-small">logged in as</span><br />
 								{{ users[auth.user].name }}
 							</div>
 						</div>
@@ -70,7 +71,7 @@
 
 			<!-- off-screen content -->
 			<div class="off-canvas-content">
-				<router-view :key="$route.fullPath"></router-view>
+				<router-view :key="$route.fullPath" :user="auth.user"></router-view>
 			</div>
 
 			<!-- modals -->

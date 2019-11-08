@@ -7,21 +7,21 @@
 					<i class="icon ion-md-arrow-back float-left ml-1"></i><span class="hide-lg"> BACK</span>
 				</button>
 				<!-- sidebar: manage -->
-				<div class="divider text-center show-lg" data-content="M"></div>
-				<div class="divider text-center hide-lg" data-content="MANAGE"></div>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
+				<div v-if="user" class="divider text-center show-lg" data-content="M"></div>
+				<div v-if="user" class="divider text-center hide-lg" data-content="MANAGE"></div>
+				<button v-if="user" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
 					<i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT</span>
 				</button>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
+				<button v-if="user" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
 					<i class="icon ion-md-copy float-left ml-1"></i><span class="hide-lg"> CLONE</span>
 				</button>
-				<button class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
+				<button v-if="user" class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
 					<i class="icon ion-md-trash float-left ml-1"></i><span class="hide-lg"> DELETE</span>
 				</button>
 				<!-- sidebar: view -->
 				<div class="divider text-center show-lg" data-content="V"></div>
 				<div class="divider text-center hide-lg" data-content="VIEW"></div>
-				<div class="form-group tooltip tooltip-right" data-tooltip=" SYNC ">
+				<div v-if="user" class="form-group tooltip tooltip-right" data-tooltip=" SYNC ">
 					<label class="form-switch switch-lg c-hand">
 						<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
 						<i class="form-icon"></i><span class="hide-lg"> SYNC</span>
@@ -78,7 +78,7 @@
 							<table class="table table-striped table-hover">
 								<thead>
 									<tr>
-										<th></th>
+										<th v-if="user"></th>
 										<th>Title</th>
 										<th class="hide-xl">Language</th>
 										<th class="hide-lg">Tuning</th>
@@ -88,15 +88,15 @@
 								</thead>
 								<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
 									<tr v-for="(song, i) in setlist.songs" :key="song.id">
-										<td class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 handle"></i></td>
+										<td v-if="user" class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 handle"></i></td>
 										<td>{{ songs[song.id].title }} <br class="show-xl hide-sm" /><span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span></td>
 										<td class="hide-xl text-uppercase">{{ songs[song.id].language }}</td>
 										<td class="tuning">
-											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(songs[song.id], i)">
+											<button v-if="user" class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(songs[song.id], i)">
 												<i class="icon ion-md-arrow-back"></i>
 											</button>
 											<code>{{ song.tuning ? song.tuning : songs[song.id].tuning }}</code>
-											<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneUp(songs[song.id], i)">
+											<button v-if="user" class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneUp(songs[song.id], i)">
 												<i class="icon ion-md-arrow-forward"></i>
 											</button>
 										</td>
@@ -168,6 +168,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'setlist-show',
+	props: ['user'],
 	components: {
 		SetlistSet,
 		SetlistDelete,
