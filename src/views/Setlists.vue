@@ -68,17 +68,17 @@
 												<i class="icon ion-md-eye mr-2"></i> Show
 											</router-link>
 										</li>
-										<li v-if="user" class="menu-item">
+										<li v-if="user && role > 1" class="menu-item">
 											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.existing=true; modal.set=true">
 												<i class="icon ion-md-create mr-2"></i> Edit
 											</a>
 										</li>
-										<li v-if="user" class="menu-item">
+										<li v-if="user && role > 1" class="menu-item">
 											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.existing=false; modal.set=true">
 												<i class="icon ion-md-copy mr-2"></i> Duplicate
 											</a>
 										</li>
-										<li v-if="user" class="menu-item">
+										<li v-if="user && role > 2" class="menu-item">
 											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=setlist.title; active.key=setlist['.key']; modal.delete=true">
 												<i class="icon ion-md-trash mr-2"></i> Delete
 											</a>
@@ -120,7 +120,7 @@ import { db } from '@/firebase'
 
 export default {
 	name: 'setlists',
-	props: ['user'],
+	props: ['user', 'role'],
 	components: {
 		SetlistSet,
 		SetlistDelete,

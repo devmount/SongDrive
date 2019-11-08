@@ -24,7 +24,7 @@
 						<div class="menu-badge">
 							<label v-if="ready.songs" class="label py-1">{{ songs.length }}</label>
 							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-							<button v-if="auth.user" class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
+							<button v-if="auth.user && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
 						</div>
 					</li>
 					<li class="menu-item">
@@ -32,7 +32,7 @@
 						<div class="menu-badge">
 							<label v-if="ready.setlists" class="label py-1">{{ setlists.length }}</label>
 							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-							<button v-if="auth.user" class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
+							<button v-if="auth.user && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
 						</div>
 					</li>
 					<li class="divider text-center" data-content="ACCOUNT"></li>
@@ -71,7 +71,11 @@
 
 			<!-- off-screen content -->
 			<div class="off-canvas-content">
-				<router-view :key="$route.fullPath" :user="auth.user"></router-view>
+				<router-view
+					:key="$route.fullPath"
+					:user="auth.user"
+					:role="auth.user ? auth.roles[users[auth.user].role] : ''"
+				></router-view>
 			</div>
 
 			<!-- modals -->
@@ -165,9 +169,10 @@ export default {
 				songs: [],
 			},
 			auth: {
+				roles: { reader: 1, performer: 2, editor: 3, admin: 4 },
 				email: '',
 				password: '',
-				user: firebase.auth().currentUser ? firebase.auth().currentUser.uid : ''
+				user: firebase.auth().currentUser ? firebase.auth().currentUser.uid : '',
 			}
 		}
 	},
