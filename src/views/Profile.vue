@@ -31,10 +31,24 @@
 								</div>
 								<div class="tile-content">
 									<div class="tile-title text-bold">Email</div>
-									<div class="tile-subtitle">{{ userObject.email }}</div>
+									<div class="tile-subtitle text-gray">{{ userObject.email }}</div>
 								</div>
 								<div class="tile-action">
 									<button class="btn btn-link btn-action btn-lg tooltip tooltip-left" data-tooltip="Edit Email">
+										<i class="icon ion-md-create"></i>
+									</button>
+								</div>
+							</div>
+							<div v-if="userObject && userObject.photoURL" class="tile tile-centered">
+								<div class="tile-icon  mr-2">
+									<i class="icon icon-2x ion-md-camera"></i>
+								</div>
+								<div class="tile-content">
+									<div class="tile-title text-bold">Photo URL</div>
+									<div class="tile-subtitle text-gray">{{ userObject.photoURL }}</div>
+								</div>
+								<div class="tile-action">
+									<button class="btn btn-link btn-action btn-lg tooltip tooltip-left" data-tooltip="Edit Photo URL">
 										<i class="icon ion-md-create"></i>
 									</button>
 								</div>
