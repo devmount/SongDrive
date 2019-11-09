@@ -53,19 +53,21 @@ export default {
 	},
 	methods: {
 		maximizeFontsize() {
-			this.$refs.songcontent.maximizeFontsize()
+			let self = this
+			// wait for dom to be ready
+			this.$nextTick(() => {
+				// maximize content of each song/slide
+				self.$refs.songcontent.maximizeFontsize()
+			})
 		}
 	},
+	mounted () {
+		this.maximizeFontsize()
+	},
 	watch: {
-		active() {
+		chords() {
 			// maximize fontsize when presentation view is opened
-			if (this.active) {
-				var self = this
-				// wait for all compontents to be mounted
-				this.$nextTick(function () {
-					self.maximizeFontsize()
-				})
-			}
+			this.maximizeFontsize()
 		}
 	}
 }

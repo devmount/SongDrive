@@ -153,6 +153,10 @@ export default {
 				})
 			}
 		},
+		chords() {
+			// maximize fontsize again when chords are toggled
+			this.maximizeFontsize()
+		},
 		position() {
 			// update local position if autoSync is on and remote position was updated
 			if (this.autoSync) {

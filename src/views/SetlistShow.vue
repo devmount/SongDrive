@@ -219,8 +219,8 @@ export default {
 				for (const key in this.setlist.songs) {
 					if (this.setlist.songs.hasOwnProperty(key)) {
 						let song = this.songs[this.setlist.songs[key].id], setlistTuning = this.setlist.songs[key].tuning
-						song['customTuningDelta'] = setlistTuning !== '' ? this.tunes.indexOf(setlistTuning) - this.tunes.indexOf(song.tuning) : 0
-						song['customTuning'] = setlistTuning != '' ? setlistTuning : song.tuning
+						song['customTuningDelta'] = setlistTuning != 0 ? this.tunes.indexOf(setlistTuning) - this.tunes.indexOf(song.tuning) : 0
+						song['customTuning'] = setlistTuning != 0 ? setlistTuning : song.tuning
 						songs.push(song)
 					}
 				}

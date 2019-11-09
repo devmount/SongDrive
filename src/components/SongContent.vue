@@ -230,6 +230,13 @@ pre {
 			color: $primary-color;
 		}
   }
+	// prevent short song parts being displayed next to each other
+	&::after {
+		content: '';
+		height: 1px;
+		width: 40vw;
+		display: block;
+	}
 }
 .present > pre {
 	display: inline-block;
