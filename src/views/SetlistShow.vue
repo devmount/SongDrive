@@ -68,10 +68,10 @@
 					<div class="columns">
 						<div v-if="ready.setlist" class="column col-12">
 							<h2>{{ setlist.title }}</h2>
-							<h3 v-if="ready.users">
+							<h3>
 								<i class="icon ion-md-list"></i> {{ setlist.songs.length }} songs
 								<i class="icon ion-md-calendar ml-3"></i> {{ setlist.date }}
-								<i class="icon ion-md-person ml-3"></i> {{ users[setlist.creator].name }}
+								<span v-if="ready.users && users[setlist.creator]"><i class="icon ion-md-person ml-3"></i> {{ users[setlist.creator].name }}</span>
 							</h3>
 						</div>
 						<div v-if="ready.songs && ready.setlist" class="column col-12">
