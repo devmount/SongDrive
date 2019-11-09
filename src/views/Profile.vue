@@ -26,6 +26,9 @@
 						</nav> -->
 						<div class="panel-body">
 							<div v-if="userObject && userObject.email" class="tile tile-centered">
+								<div class="tile-icon  mr-2">
+									<i class="icon icon-2x ion-md-mail"></i>
+								</div>
 								<div class="tile-content">
 									<div class="tile-title text-bold">Email</div>
 									<div class="tile-subtitle">{{ userObject.email }}</div>
@@ -37,9 +40,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="panel-footer">
+						<!-- <div class="panel-footer">
 							<button class="btn btn-primary btn-block">Save</button>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>

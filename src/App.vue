@@ -293,6 +293,12 @@ $ionicons-font-path: "~ionicons/dist/fonts";
 .icon {
 	font-size: 1em;
 }
+.icon-1-5x {
+	font-size: 1.5em;
+}
+.icon-2x {
+	font-size: 2em;
+}
 .icon-4x {
 	font-size: 4em;
 }
