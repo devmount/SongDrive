@@ -24,7 +24,7 @@
 						<div class="menu-badge">
 							<label v-if="ready.songs" class="label py-1">{{ songs.length }}</label>
 							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-							<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
+							<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Song" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
 						</div>
 					</li>
 					<li class="menu-item">
@@ -32,7 +32,7 @@
 						<div class="menu-badge">
 							<label v-if="ready.setlists" class="label py-1">{{ setlists.length }}</label>
 							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-							<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
+							<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Setlist" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
 						</div>
 					</li>
 					<li class="divider text-center" data-content="ACCOUNT"></li>
@@ -40,8 +40,8 @@
 						<div v-if="!auth.user" class="form-group">
 							<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
 							<input type="password" v-model="auth.password" class="form-input mb-1" placeholder="password" />
-							<button class="btn btn-primary tooltip tooltip-right d-block stretch" @click="signIn">
-								<i class="icon ion-md-arrow-forward float-right mr-1"></i><span class="hide-lg"> Sign In</span>
+							<button class="btn btn-primary d-block stretch" @click="signIn">
+								<i class="icon ion-md-arrow-forward float-right mr-1"></i>Sign In
 							</button>
 						</div>
 					</li>
@@ -61,8 +61,8 @@
 						<router-link to="/settings" class="py-2" @click.native="open = false"><i class="icon ion-md-options mr-2"></i> Settings</router-link>
 					</li>
 					<li v-if="auth.user" class="menu-item">
-						<button class="btn btn-secondary tooltip tooltip-right d-block stretch mt-3" @click="signOut">
-							<i class="icon ion-md-log-out float-right mr-1"></i><span class="hide-lg"> Sign Out</span>
+						<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
+							<i class="icon ion-md-log-out float-right mr-1"></i>Sign Out
 						</button>
 					</li>
 				</ul>
@@ -677,10 +677,6 @@ code {
 	.off-canvas {
 		.off-canvas-sidebar {
 			z-index: 0;
-
-			.tooltip::after {
-				display: none;
-			}
 		}
 	}
 }
@@ -701,6 +697,10 @@ code {
 		}
 		.divider[data-content]::after {
 			background: $bg-color-medium;
+		}
+
+		.tooltip::after {
+			display: none;
 		}
 	}
 }
