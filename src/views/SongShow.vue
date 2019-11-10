@@ -96,7 +96,7 @@
 										</span>
 									</router-link>
 								</p>
-								<p class="text-gray">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
+								<p v-if="song.ccli" class="text-gray">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
 								<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
 							</footer>
 						</div>

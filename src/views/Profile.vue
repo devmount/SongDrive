@@ -8,10 +8,10 @@
 						Profile
 					</h2>
 				</div>
-				<div class="column col-4">
+				<div class="column col-3">
 					<div class="panel mt-3">
 						<div class="panel-header text-center">
-							<figure v-if="userObject && userObject.photoURL != ''" class="avatar avatar-lg mb-2">
+							<figure v-if="userObject && userObject.photoURL != ''" class="avatar avatar-xxl mb-2">
 								<img :src="userObject.photoURL" alt="Avatar" />
 							</figure>
 							<div v-if="userObject && userObject.displayName" class="panel-title h5 mt-10">{{ userObject.displayName }}</div>
@@ -26,37 +26,27 @@
 						</nav> -->
 						<div class="panel-body">
 							<div v-if="userObject && userObject.email" class="tile tile-centered">
-								<div class="tile-icon  mr-2">
-									<i class="icon icon-2x ion-md-mail"></i>
-								</div>
 								<div class="tile-content">
 									<div class="tile-title text-bold">Email</div>
 									<div class="tile-subtitle text-gray">{{ userObject.email }}</div>
 								</div>
-								<div class="tile-action">
-									<button class="btn btn-link btn-action btn-lg tooltip tooltip-left" data-tooltip="Edit Email">
-										<i class="icon ion-md-create"></i>
-									</button>
+								<div class="tile-icon">
+									<i class="icon icon-2x ion-md-mail"></i>
 								</div>
 							</div>
 							<div v-if="userObject && userObject.photoURL" class="tile tile-centered">
-								<div class="tile-icon  mr-2">
-									<i class="icon icon-2x ion-md-camera"></i>
-								</div>
 								<div class="tile-content">
 									<div class="tile-title text-bold">Photo URL</div>
 									<div class="tile-subtitle text-gray">{{ userObject.photoURL }}</div>
 								</div>
-								<div class="tile-action">
-									<button class="btn btn-link btn-action btn-lg tooltip tooltip-left" data-tooltip="Edit Photo URL">
-										<i class="icon ion-md-create"></i>
-									</button>
+								<div class="tile-icon">
+									<i class="icon icon-2x ion-md-camera"></i>
 								</div>
 							</div>
 						</div>
-						<!-- <div class="panel-footer">
-							<button class="btn btn-primary btn-block">Save</button>
-						</div> -->
+						<div class="panel-footer">
+							<router-link to="/settings" class="btn btn-primary float-right tooltip tooltip-left" data-tooltip="Go to settings" @click.native="open = false">Edit</router-link>
+						</div>
 					</div>
 				</div>
 			</div>

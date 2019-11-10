@@ -818,6 +818,15 @@ code {
 	}
 }
 
+// avatar
+.avatar {
+	&.avatar-xxl {
+		font-size: 2rem;
+    height: 4rem;
+    width: 4rem;
+	}
+}
+
 // calendar
 .calendar-wrapper {
   .calendar {
