@@ -459,6 +459,9 @@ code {
 	line-height: 1.5em;
 	font-weight: 300;
 }
+.text-transparent {
+	color: transparent;
+}
 
 // display
 .d-flex > * {

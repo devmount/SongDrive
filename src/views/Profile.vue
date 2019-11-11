@@ -45,7 +45,9 @@
 							</div>
 						</div>
 						<div class="panel-footer">
-							<router-link to="/settings" class="btn btn-primary float-right tooltip tooltip-left" data-tooltip="Go to settings" @click.native="open = false">Edit</router-link>
+							<router-link to="/settings" class="btn btn-secondary btn-block mb-1" @click.native="open = false">
+								<i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT SETTINGS</span>
+							</router-link>
 						</div>
 					</div>
 				</div>
@@ -53,13 +55,13 @@
 					<div v-if="userObject" class="panel mt-3">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ setlistsFromUser.length }}</div>
-							<div class="panel-title h5 mt-10"><i class="icon ion-md-list mr-2"></i> Setlists created</div>
+							<div class="panel-title h5"><i class="icon ion-md-list mr-2"></i> Setlists created</div>
 						</div>
 					</div>
 					<div v-if="userObject" class="panel mt-3">
 						<div class="panel-body text-center pb-3">
-							<div class="text-huge">{{ songsFromUser }}</div>
-							<div class="panel-title h5 mt-10"><i class="icon ion-md-musical-notes mr-2"></i> Songs performed</div>
+							<div class="text-huge"><span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span></div>
+							<div class="panel-title h5"><i class="icon ion-md-musical-notes mr-2"></i> Songs performed</div>
 						</div>
 					</div>
 				</div>
