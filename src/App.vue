@@ -454,6 +454,11 @@ code {
 	font-size: .8em;
 	line-height: 1.1em;
 }
+.text-huge {
+	font-size: 4em;
+	line-height: 1.5em;
+	font-weight: 300;
+}
 
 // display
 .d-flex > * {

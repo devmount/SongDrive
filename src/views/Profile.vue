@@ -8,13 +8,13 @@
 						Profile
 					</h2>
 				</div>
-				<div class="column col-3">
-					<div class="panel mt-3">
+				<div class="column col-4">
+					<div v-if="userObject" class="panel mt-3">
 						<div class="panel-header text-center">
-							<figure v-if="userObject && userObject.photoURL != ''" class="avatar avatar-xxl mb-2">
+							<figure v-if="userObject.photoURL" class="avatar avatar-xxl mb-2">
 								<img :src="userObject.photoURL" alt="Avatar" />
 							</figure>
-							<div v-if="userObject && userObject.displayName" class="panel-title h5 mt-10">{{ userObject.displayName }}</div>
+							<div v-if="userObject.displayName" class="panel-title h5 mt-10">{{ userObject.displayName }}</div>
 							<div v-if="roleName" class="panel-subtitle text-gray">{{ roleName }}</div>
 						</div>
 						<!-- <nav class="panel-nav">
@@ -25,7 +25,7 @@
 							</ul>
 						</nav> -->
 						<div class="panel-body">
-							<div v-if="userObject && userObject.email" class="tile tile-centered">
+							<div v-if="userObject.email" class="tile tile-centered">
 								<div class="tile-content">
 									<div class="tile-title text-bold">Email</div>
 									<div class="tile-subtitle text-gray">{{ userObject.email }}</div>
@@ -34,7 +34,7 @@
 									<i class="icon icon-2x ion-md-mail"></i>
 								</div>
 							</div>
-							<div v-if="userObject && userObject.photoURL" class="tile tile-centered">
+							<div v-if="userObject.photoURL" class="tile tile-centered">
 								<div class="tile-content">
 									<div class="tile-title text-bold">Photo URL</div>
 									<div class="tile-subtitle text-gray">{{ userObject.photoURL }}</div>
@@ -49,15 +49,57 @@
 						</div>
 					</div>
 				</div>
+				<div class="column col-4">
+					<div v-if="userObject" class="panel mt-3">
+						<div class="panel-body text-center pb-3">
+							<div class="text-huge">{{ setlistsFromUser.length }}</div>
+							<div class="panel-title h5 mt-10"><i class="icon ion-md-list mr-2"></i> Setlists created</div>
+						</div>
+					</div>
+					<div v-if="userObject" class="panel mt-3">
+						<div class="panel-body text-center pb-3">
+							<div class="text-huge">{{ songsFromUser }}</div>
+							<div class="panel-title h5 mt-10"><i class="icon ion-md-musical-notes mr-2"></i> Songs performed</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+// get database object authorized in config.js
+import { db } from '@/firebase'
+
 export default {
 	name: 'profile',
-	props: ['userObject', 'roleName']
+	props: ['userObject', 'roleName'],
+	firestore () {
+		return {
+			setlists: {
+				ref: db.collection('setlists').orderBy('date', 'desc'),
+				resolve: () => { this.ready = true },
+				reject: () => { this.ready = true }
+			},
+		}
+	},
+	data () {
+		return {
+			ready: false,
+		}
+	},
+	computed: {
+		setlistsFromUser () {
+			return this.setlists.filter(s => s.creator == this.userObject.uid)
+		},
+		songsFromUser () {
+			let list = this.setlistsFromUser
+			return Object.keys(list).reduce(function (previous, key) {
+				return previous + list[key].songs.length;
+			}, 0)
+		},
+	}
 }
 </script>
 
