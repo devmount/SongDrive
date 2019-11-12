@@ -72,11 +72,6 @@
 						<router-link to="/setlists" class="btn btn-secondary" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Setlists</router-link>
 					</div>
 				</div>
-				<!-- version info -->
-				<div class="column col-12 mt-4 pt-4">
-					<h3>About</h3>
-					<p>SongDrive <code>v1.0.3</code></p>
-				</div>
 			</div>
 		</div>
 	</div>

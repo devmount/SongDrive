@@ -10,12 +10,13 @@
 			<div id="sidebar-id" class="off-canvas-sidebar" :class="{ active: open }">
 				<div class="brand text-center mt-2">
 					<router-link to="/" class="logo">
-						<img src="./assets/logo.svg" alt="SongDrive Song Management Tool">
+						<img src="./assets/logo.svg" alt="SongDrive Song Management Tool" />
 						<h1>SONGDRIVE</h1>
+						<div class="text-gray text-small text-right mr-5 pr-1">v{{ appVersion }} BETA</div>
 					</router-link>
 				</div>
 				<ul class="menu text-uppercase">
-					<li class="divider"></li>
+					<li class="divider text-center" data-content="START"></li>
 					<li class="menu-item">
 						<router-link to="/" class="py-2" @click.native="open = false"><i class="icon ion-md-apps mr-2"></i> Dashboard</router-link>
 					</li>
@@ -36,8 +37,8 @@
 						</div>
 					</li>
 					<li class="divider text-center" data-content="ACCOUNT"></li>
-					<li class="menu-item pb-2">
-						<div v-if="!auth.user" class="form-group">
+					<li v-if="!auth.user" class="menu-item pb-2">
+						<div class="form-group">
 							<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
 							<input type="password" v-model="auth.password" class="form-input mb-1" placeholder="password" />
 							<button class="btn btn-primary d-block stretch" @click="signIn">
@@ -46,16 +47,15 @@
 						</div>
 					</li>
 					<li v-if="auth.user && ready.users" class="menu-item pt-2 pb-2">
-						<div class="tile tile-centered">
-							<div class="tile-icon mr-2"><img class="avatar" src="http://media.devmount.de/profile.jpg" alt="Avatar"></div>
-							<div class="tile-content">
-								<span class="text-gray text-small">logged in as</span><br />
-								{{ users[auth.user].name }}
+						<router-link to="/profile" class="py-2" @click.native="open = false">
+							<div class="tile tile-centered">
+								<div class="tile-icon mr-2 ml-1"><img class="avatar" src="http://media.devmount.de/profile.jpg" alt="Avatar"></div>
+								<div class="tile-content">
+									{{ users[auth.user].name }}
+									<div class="text-gray text-small"><i class="icon ion-md-person mr-1"></i> {{ users[auth.user].role }}</div>
+								</div>
 							</div>
-						</div>
-					</li>
-					<li v-if="auth.user" class="menu-item pt-2">
-						<router-link to="/profile" class="py-2" @click.native="open = false"><i class="icon ion-md-person mr-2"></i> Profile</router-link>
+						</router-link>
 					</li>
 					<li v-if="auth.user" class="menu-item">
 						<router-link to="/settings" class="py-2" @click.native="open = false"><i class="icon ion-md-options mr-2"></i> Settings</router-link>
@@ -115,6 +115,7 @@ import '@firebase/auth'
 
 export default {
 	name: 'app',
+	version: 'v1.0.3',
 	components: {
 		SongSet,
 		SetlistSet,
@@ -242,6 +243,11 @@ export default {
 				})
 			})
 		},
+	},
+	computed: {
+		appVersion() {
+			return process.env.PACKAGE_VERSION;
+		}
 	},
 	mounted () {
 		// check initially if authenticated user exists
@@ -770,6 +776,7 @@ code {
 
 	.logo {
 		padding: .3em 0;
+		text-decoration: none;
 
 		img {
 			display: inline-block;
@@ -794,8 +801,8 @@ code {
 	background: $bg-color;
 
 	.divider {
-		margin-top: 1.1em;
-		margin-bottom: 1.1em;
+		margin-top: 2em;
+		margin-bottom: 1.2em;
 
 		&[data-content]::after {
 			background: $bg-color;
