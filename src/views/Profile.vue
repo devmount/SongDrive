@@ -14,7 +14,7 @@
 							<figure v-if="userObject.photoURL" class="avatar avatar-xxl mb-2">
 								<img :src="userObject.photoURL" alt="Avatar" />
 							</figure>
-							<div v-if="userObject.displayName" class="panel-title h5 mt-10">{{ userObject.displayName }}</div>
+							<div v-if="userObject.displayName" class="panel-title h5">{{ userObject.displayName }}</div>
 							<div v-if="roleName" class="panel-subtitle text-gray">{{ roleName }}</div>
 						</div>
 						<!-- <nav class="panel-nav">

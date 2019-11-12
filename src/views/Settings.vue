@@ -10,6 +10,11 @@
 				</div>
 				<div class="column col-4">
 					<div class="panel mt-3">
+						<div class="panel-header text-center">
+							<i class="icon ion-md-person icon-2x"></i>
+							<div class="panel-title h5 mt-1">Profile</div>
+							<div class="panel-subtitle text-gray">Customize your profile data</div>
+						</div>
 						<div class="panel-body">
 							<div class="form-group">
 								<label class="form-label" for="name">Name</label>
@@ -34,8 +39,42 @@
 							<figure v-else id="preview" class="avatar avatar-xxl" :data-initial="user.displayName.substring(0,2).toUpperCase()"></figure>
 						</div>
 						<div class="panel-footer mt-5">
+							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">
+								<i class="icon ion-md-save float-left ml-1"></i> Save Profile
+							</button>
+						</div>
+					</div>
+				</div>
+				<div v-if="role > 3" class="column col-4">
+					<div class="panel mt-3">
+						<div class="panel-header text-center">
+							<i class="icon ion-md-people icon-2x"></i>
+							<div class="panel-title h5 mt-1">Users</div>
+							<div class="panel-subtitle text-gray">Manage all SongDrive users</div>
+						</div>
+						<div class="panel-body">
+							<i>TODO</i>
+						</div>
+						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateUser">
-								<i class="icon ion-md-save float-left ml-1"></i> Save
+								<i class="icon ion-md-save float-left ml-1"></i> Save Users
+							</button>
+						</div>
+					</div>
+				</div>
+				<div v-if="role > 3" class="column col-4">
+					<div class="panel mt-3">
+						<div class="panel-header text-center">
+							<i class="icon ion-md-pricetags icon-2x"></i>
+							<div class="panel-title h5 mt-1">Tags</div>
+							<div class="panel-subtitle text-gray">Manage all SongDrive tags</div>
+						</div>
+						<div class="panel-body">
+							<i>TODO</i>
+						</div>
+						<div class="panel-footer mt-5">
+							<button class="btn btn-primary btn-block text-uppercase" @click="updateTags">
+								<i class="icon ion-md-save float-left ml-1"></i> Save Tags
 							</button>
 						</div>
 					</div>
@@ -51,7 +90,7 @@ import { db } from '@/firebase'
 
 export default {
 	name: 'settings',
-	props: ['userObject', 'roleName'],
+	props: ['userObject', 'roleName', 'role'],
 	data () {
 		return {
 			user: {
@@ -63,7 +102,7 @@ export default {
 		}
 	},
 	methods: {
-		updateUser () {
+		updateProfile () {
 			let self = this
 			this.userObject.updateProfile(this.user).then(function() {
 				db.collection('users').doc(self.userObject.uid).update({
@@ -93,11 +132,21 @@ export default {
 					type: 'toast-error'
 				})
 			});
+		},
+		updateUser () {
+			
+		},
+		updateTags () {
+
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-
+.settings {
+	.panel {
+		height: 65vh;
+	}
+}
 </style>
