@@ -52,7 +52,7 @@
 								<div class="tile-icon mr-2 ml-1"><img class="avatar" src="http://media.devmount.de/profile.jpg" alt="Avatar"></div>
 								<div class="tile-content">
 									{{ users[auth.user].name }}
-									<div class="text-gray text-small"><i class="icon ion-md-person mr-1"></i> {{ users[auth.user].role }}</div>
+									<div class="text-gray text-small">{{ users[auth.user].role }}</div>
 								</div>
 							</div>
 						</router-link>
