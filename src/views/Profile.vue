@@ -54,13 +54,15 @@
 				<div class="column col-4">
 					<div v-if="userObject" class="panel mt-3">
 						<div class="panel-body text-center pb-3">
-							<div class="text-huge">{{ setlistsFromUser.length }}</div>
+							<div v-if="!ready" class="loading loading-xl d-block text-huge">&nbsp;</div>
+							<div v-else class="text-huge">{{ setlistsFromUser.length }}</div>
 							<div class="panel-title h5"><i class="icon ion-md-list mr-2"></i> Setlists created</div>
 						</div>
 					</div>
 					<div v-if="userObject" class="panel mt-3">
 						<div class="panel-body text-center pb-3">
-							<div class="text-huge"><span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span></div>
+							<div v-if="!ready" class="loading loading-xl d-block text-huge">&nbsp;</div>
+							<div v-else class="text-huge"><span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span></div>
 							<div class="panel-title h5"><i class="icon ion-md-musical-notes mr-2"></i> Songs performed</div>
 						</div>
 					</div>

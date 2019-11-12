@@ -224,8 +224,8 @@ export default {
 			})
 		},
 		signOut () {
-      var self = this
-      firebase.auth().signOut().then(() => {
+			var self = this
+			firebase.auth().signOut().then(() => {
 				// sign-out successful
 				self.auth.user = ''
 				self.$notify({
@@ -233,7 +233,7 @@ export default {
 					text: 'You are now in read-only mode.',
 					type: 'toast-primary'
 				})
-      }).catch(function(error) {
+			}).catch(function(error) {
 				// throw error message
 				self.$notify({
 					title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
@@ -241,16 +241,16 @@ export default {
 					type: 'toast-primary'
 				})
 			})
-    },
+		},
 	},
 	mounted () {
-    // check initially if authenticated user exists
-    var self = this
-    firebase.auth().onAuthStateChanged(function(user) {
-      self.auth.user = user ? user.uid : ''
-      self.auth.userObject = user ? user : ''
-    }.bind(this))
-  }
+		// check initially if authenticated user exists
+		var self = this
+		firebase.auth().onAuthStateChanged(function(user) {
+			self.auth.user = user ? user.uid : ''
+			self.auth.userObject = user ? user : ''
+		}.bind(this))
+	}
 }
 </script>
 
@@ -303,7 +303,7 @@ $ionicons-font-path: "~ionicons/dist/fonts";
 	font-size: 4em;
 }
 
-// positions
+// positions and spacing
 .m-3 { margin: .6rem !important; }
 .mt-3 { margin-top: .6rem !important; }
 .mr-3 { margin-right: .6rem !important; }
@@ -318,6 +318,7 @@ $ionicons-font-path: "~ionicons/dist/fonts";
 .pl-3 { padding-left: .6rem !important; }
 .px-3 { padding-right: .6rem !important; padding-left: .6rem !important; }
 .py-3 { padding-top: .6rem !important; padding-bottom: .6rem !important; }
+
 .m-4 { margin: .8rem !important; }
 .mt-4 { margin-top: .8rem !important; }
 .mr-4 { margin-right: .8rem !important; }
@@ -332,6 +333,22 @@ $ionicons-font-path: "~ionicons/dist/fonts";
 .pl-4 { padding-left: .8rem !important; }
 .px-4 { padding-right: .8rem !important; padding-left: .8rem !important; }
 .py-4 { padding-top: .8rem !important; padding-bottom: .8rem !important; }
+
+.m-5 { margin: 1rem !important; }
+.mt-5 { margin-top: 1rem !important; }
+.mr-5 { margin-right: 1rem !important; }
+.mb-5 { margin-bottom: 1rem !important; }
+.ml-5 { margin-left: 1rem !important; }
+.mx-5 { margin-right: 1rem !important; margin-left: 1rem !important; }
+.my-5 { margin-top: 1rem !important; margin-bottom: 1rem !important; }
+.p-5 { padding: 1rem !important; }
+.pt-5 { padding-top: 1rem !important; }
+.pr-5 { padding-right: 1rem !important; }
+.pb-5 { padding-bottom: 1rem !important; }
+.pl-5 { padding-left: 1rem !important; }
+.px-5 { padding-right: 1rem !important; padding-left: 1rem !important; }
+.py-5 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+
 .ls-1 { letter-spacing: 1px; }
 .ls-2 { letter-spacing: 2px; }
 
@@ -484,6 +501,19 @@ code {
 }
 ::-moz-selection {
 	background: $primary-color;
+}
+
+// loading
+.loading {
+	&.loading-xl {
+		min-height: $unit-12;
+		&::after {
+			height: $unit-12;
+			margin-left: -$unit-6;
+			margin-top: -$unit-6;
+			width: $unit-12;
+		}
+	}
 }
 
 // toast
@@ -830,59 +860,59 @@ code {
 .avatar {
 	&.avatar-xxl {
 		font-size: 2rem;
-    height: 4rem;
-    width: 4rem;
+		height: 4rem;
+		width: 4rem;
 	}
 }
 
 // calendar
 .calendar-wrapper {
-  .calendar {
-    width: 100%;
-    background: transparent;
-    border: none;
+	.calendar {
+		width: 100%;
+		background: transparent;
+		border: none;
 
-    header {
-      .prev:after {
-        border-right-color: $body-font-color;
-      }
-      .next:after {
-        border-left-color: $body-font-color;
-      }
+		header {
+			.prev:after {
+				border-right-color: $body-font-color;
+			}
+			.next:after {
+				border-left-color: $body-font-color;
+			}
 
-      .prev:not(.disabled):hover, 
-      .next:not(.disabled):hover, 
-      .up:not(.disabled):hover {
-        background: $primary-dark-color;
-        color: $primary-color;
-      }
+			.prev:not(.disabled):hover, 
+			.next:not(.disabled):hover, 
+			.up:not(.disabled):hover {
+				background: $primary-dark-color;
+				color: $primary-color;
+			}
 
-      .prev:not(.disabled):hover:after {
-        border-right-color: $primary-color;
-      }
-      .next:not(.disabled):hover:after {
-        border-left-color: $primary-color;
-      }
-    }
+			.prev:not(.disabled):hover:after {
+				border-right-color: $primary-color;
+			}
+			.next:not(.disabled):hover:after {
+				border-left-color: $primary-color;
+			}
+		}
 
-    .cell {
-      height: 60px;
-      line-height: 60px;
-      border-radius: 0.1rem;
+		.cell {
+			height: 60px;
+			line-height: 60px;
+			border-radius: 0.1rem;
 
-      &:not(.blank):not(.disabled).day:hover,
-      &:not(.blank):not(.disabled).month:hover,
-      &:not(.blank):not(.disabled).year:hover {
-        border: 1px solid $primary-color;
-      }
+			&:not(.blank):not(.disabled).day:hover,
+			&:not(.blank):not(.disabled).month:hover,
+			&:not(.blank):not(.disabled).year:hover {
+				border: 1px solid $primary-color;
+			}
 
-      &.selected,
-      &.selected:hover {
-        background: $primary-color;
-        font-weight: 900;
-      }
-    }
-  }
+			&.selected,
+			&.selected:hover {
+				background: $primary-color;
+				font-weight: 900;
+			}
+		}
+	}
 }
 
 // slide presentation
