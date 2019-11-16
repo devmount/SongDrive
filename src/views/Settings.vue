@@ -53,13 +53,29 @@
 							<div class="panel-subtitle text-gray">Manage all SongDrive users</div>
 						</div>
 						<div class="panel-body">
-							<i>TODO</i>
+							<div
+								v-for="user in users" :key="user['.key']"
+								class="tile tile-centered tile-hover p-2"
+							>
+								<div class="tile-icon">
+									<figure
+										class="avatar avatar-secondary s-rounded mr-2"
+										:data-initial="user.role[0].toUpperCase()"
+										:title="user.role"
+									></figure>
+								</div>
+								<div class="tile-content">
+									<div class="tile-title">{{ user.name }}</div>
+									<div class="tile-subtitle text-gray text-small">{{ user.email }}</div>
+								</div>
+							</div>
+
 						</div>
-						<div class="panel-footer mt-5">
+						<!-- <div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateUser">
 								<i class="icon ion-md-save float-left ml-1"></i> Save Users
 							</button>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div v-if="role > 3" class="column col-4">
@@ -70,13 +86,18 @@
 							<div class="panel-subtitle text-gray">Manage all SongDrive tags</div>
 						</div>
 						<div class="panel-body">
-							<i>TODO</i>
+							<router-link v-for="tag in tags" :key="tag.key" :to="{ name: 'songs-tag', params: { tag: tag.key }}" class="mr-2">
+								<span class="label px-2 py-1 my-1">
+									<i class="icon ion-md-pricetag mr-1"></i>
+									{{ tag.key }}
+								</span>
+							</router-link>
 						</div>
-						<div class="panel-footer mt-5">
+						<!-- <div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateTags">
 								<i class="icon ion-md-save float-left ml-1"></i> Save Tags
 							</button>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -90,7 +111,7 @@ import { db } from '@/firebase'
 
 export default {
 	name: 'settings',
-	props: ['userObject', 'roleName', 'role'],
+	props: ['userObject', 'roleName', 'role', 'users', 'tags'],
 	data () {
 		return {
 			user: {
@@ -146,7 +167,7 @@ export default {
 <style lang="scss">
 .settings {
 	.panel {
-		height: 65vh;
+		height: 75vh;
 	}
 }
 </style>

@@ -108,7 +108,7 @@ export default {
 			reorderedSongs: [],
 			setlistsProperty: 'newest',
 			reorderedSetlists: [],
-			listLength: 8
+			listLength: 10
 		}
 	},
 	methods: {

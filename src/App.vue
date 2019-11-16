@@ -77,6 +77,8 @@
 					:userObject="auth.userObject"
 					:role="auth.user && ready.users ? auth.roles[users[auth.user].role] : ''"
 					:roleName="auth.user && ready.users ? users[auth.user].role : ''"
+					:users="users"
+					:tags="tags"
 				></router-view>
 			</div>
 
@@ -138,6 +140,12 @@ export default {
 				resolve: () => { this.ready.users = true },
 				reject: () => { this.ready.users = true }
 			},
+			tags: {
+				ref: db.collection('tags'),
+				objects: true,
+				resolve: () => { this.ready.tags = true },
+				reject: () => { this.ready.tags = true }
+			},
 		}
 	},
 	data () {
@@ -146,6 +154,7 @@ export default {
 				songs: false,
 				setlists: false,
 				users: false,
+				tags: false,
 			},
 			open: false,
 			modal: {
