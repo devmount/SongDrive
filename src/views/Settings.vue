@@ -36,7 +36,7 @@
 							<figure v-if="user.photoURL" id="preview" class="avatar avatar-xxl mb-2">
 								<img :src="user.photoURL" alt="Avatar" />
 							</figure>
-							<figure v-else id="preview" class="avatar avatar-xxl" :data-initial="user.displayName.substring(0,2).toUpperCase()"></figure>
+							<figure v-else-if="user.displayName" id="preview" class="avatar avatar-xxl" :data-initial="user.displayName.substring(0,2).toUpperCase()"></figure>
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">
@@ -58,13 +58,15 @@
 								class="tile tile-centered tile-hover p-2"
 							>
 								<div class="tile-icon">
-									<figure
-										class="avatar avatar-secondary s-rounded mr-2"
-										:data-initial="user.role[0].toUpperCase()"
-										:title="user.role"
-									></figure>
+									<figure v-if="user.photoURL" class="avatar mr-2">
+										<img :src="user.photoURL" alt="Avatar" />
+									</figure>
+									<div v-else class="avatar text-center">
+										<i class="icon ion-md-person"></i>
+									</div>
 								</div>
 								<div class="tile-content">
+									<span class="label float-right py-1 px-2">{{ user.role }}</span>
 									<div class="tile-title">{{ user.name }}</div>
 									<div class="tile-subtitle text-gray text-small">{{ user.email }}</div>
 								</div>

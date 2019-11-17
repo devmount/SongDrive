@@ -862,13 +862,15 @@ code {
 
 // shapes
 .s-circle {
-	width: 1rem;
-	height: 1rem;
-	border: 2px solid $gray-color;
+	&.s-circle-state {
+		width: 1rem;
+		height: 1rem;
+		border: 2px solid $gray-color;
 
-	&.active {
-		background: $primary-color;
-		border-color: $primary-color;
+		&.active {
+			background: $primary-color;
+			border-color: $primary-color;
+		}
 	}
 }
 
@@ -878,6 +880,10 @@ code {
 		font-size: 2rem;
 		height: 4rem;
 		width: 4rem;
+	}
+
+	.icon {
+		line-height: 1.8;
 	}
 }
 
