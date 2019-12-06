@@ -50,7 +50,7 @@
 						<div class="panel-header text-center">
 							<i class="icon ion-md-people icon-2x"></i>
 							<div class="panel-title h5 mt-1">Users</div>
-							<div class="panel-subtitle text-gray">Manage all SongDrive users</div>
+							<div class="panel-subtitle text-gray">Manage all users</div>
 						</div>
 						<div class="panel-body">
 							<div
@@ -85,7 +85,7 @@
 						<div class="panel-header text-center">
 							<i class="icon ion-md-pricetags icon-2x"></i>
 							<div class="panel-title h5 mt-1">Tags</div>
-							<div class="panel-subtitle text-gray">Manage all SongDrive tags</div>
+							<div class="panel-subtitle text-gray">Manage all tags</div>
 						</div>
 						<div class="panel-body">
 							<router-link v-for="tag in tags" :key="tag.key" :to="{ name: 'songs-tag', params: { tag: tag.key }}" class="mr-2">
