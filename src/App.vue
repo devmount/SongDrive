@@ -319,6 +319,9 @@ $ionicons-font-path: "~ionicons/dist/fonts";
 }
 
 // positions and spacing
+.m-0 { margin: 0; }
+.p-0 { padding: 0; }
+
 .m-3 { margin: .6rem !important; }
 .mt-3 { margin-top: .6rem !important; }
 .mr-3 { margin-right: .6rem !important; }

@@ -10,15 +10,15 @@
 				</div>
 				<!-- song list -->
 				<div class="column col-4">
-					<h3>{{ songsProperty }} Songs</h3>
-					<div class="btn-group">
+					<h3 class="p-0">
+						{{ songsProperty }} Songs
 						<button class="btn btn-secondary" :class="{ disabled: isFirstSongPage }" @click="!isFirstSongPage ? songsPage-- : null">
 							<i class="form-icon icon ion-md-arrow-back"></i>
 						</button>
 						<button class="btn btn-secondary" :class="{ disabled: isLastSongPage }" @click="!isLastSongPage ? songsPage++ : null">
 							<i class="form-icon icon ion-md-arrow-forward"></i>
 						</button>
-					</div>
+					</h3>
 					<div
 						v-for="(song, i) in songlist"
 						:key="i"
@@ -45,7 +45,7 @@
 							<div class="tile-subtitle text-gray text-small">{{ song.subtitle }}</div>
 						</div>
 					</div>
-					<div class="btn-group">
+					<div class="btn-group mt-2">
 						<button class="btn btn-secondary" @click="shuffleSongs"><i class="form-icon icon ion-md-shuffle mr-2"></i>Shuffle</button>
 						<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
 						<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
@@ -55,15 +55,15 @@
 				</div>
 				<!-- setlist list -->
 				<div class="column col-4">
-					<h3>{{ setlistsProperty }} Setlists</h3>
-					<div class="btn-group">
+					<h3 class="p-0">
+						{{ setlistsProperty }} Setlists
 						<button class="btn btn-secondary" :class="{ disabled: isFirstSetlistPage }" @click="!isFirstSetlistPage ? setlistsPage-- : null">
 							<i class="form-icon icon ion-md-arrow-back"></i>
 						</button>
 						<button class="btn btn-secondary" :class="{ disabled: isLastSetlistPage }" @click="!isLastSetlistPage ? setlistsPage++ : null">
 							<i class="form-icon icon ion-md-arrow-forward"></i>
 						</button>
-					</div>
+					</h3>
 					<div
 						v-for="(setlist, i) in setlistlist"
 						:key="i"
@@ -82,7 +82,7 @@
 							<div class="tile-subtitle text-gray text-small">{{ setlist.date }}</div>
 						</div>
 					</div>
-					<div class="btn-group">
+					<div class="btn-group mt-2">
 						<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary" @click="newestSetlists"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
 						<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary" @click="oldestSetlists"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
 						<router-link to="/setlists" class="btn btn-secondary" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Setlists</router-link>
@@ -176,10 +176,12 @@ export default {
 				.sort((a, b) => (a.popularity < b.popularity) ? 1 : ((b.popularity < a.popularity) ? -1 : 0))
 		},
 		newestSetlists () {
+			this.setlistsPage = 0
 			this.setlistsProperty = 'newest'
 			this.reorderedSetlists = this.setlists.filter(s => s.date != '').sort((a,b) => (new Date(a.date) < new Date(b.date)) ? 1 : ((new Date(b.date) < new Date(a.date)) ? -1 : 0))
 		},
 		oldestSetlists () {
+			this.setlistsPage = 0
 			this.setlistsProperty = 'oldest'
 			this.reorderedSetlists = this.setlists.filter(s => s.date != '').sort((a,b) => (new Date(a.date) > new Date(b.date)) ? 1 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0))
 		},
