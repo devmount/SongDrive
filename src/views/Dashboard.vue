@@ -56,6 +56,14 @@
 				<!-- setlist list -->
 				<div class="column col-4">
 					<h3>{{ setlistsProperty }} Setlists</h3>
+					<div class="btn-group">
+						<button class="btn btn-secondary" :class="{ disabled: isFirstSetlistPage }" @click="!isFirstSetlistPage ? setlistsPage-- : null">
+							<i class="form-icon icon ion-md-arrow-back"></i>
+						</button>
+						<button class="btn btn-secondary" :class="{ disabled: isLastSetlistPage }" @click="!isLastSetlistPage ? setlistsPage++ : null">
+							<i class="form-icon icon ion-md-arrow-forward"></i>
+						</button>
+					</div>
 					<div
 						v-for="(setlist, i) in setlistlist"
 						:key="i"
@@ -117,7 +125,7 @@ export default {
 			songsPage: 0,
 			setlistsProperty: 'newest',
 			reorderedSetlists: [],
-			pageSetlists: 0,
+			setlistsPage: 0,
 			listLength: 10
 		}
 	},
@@ -169,11 +177,11 @@ export default {
 		},
 		newestSetlists () {
 			this.setlistsProperty = 'newest'
-			this.reorderedSetlists = this.setlists.filter(s => s.date != '').sort((a,b) => (new Date(a.date) < new Date(b.date)) ? 1 : ((new Date(b.date) < new Date(a.date)) ? -1 : 0)).slice(0, this.listLength)
+			this.reorderedSetlists = this.setlists.filter(s => s.date != '').sort((a,b) => (new Date(a.date) < new Date(b.date)) ? 1 : ((new Date(b.date) < new Date(a.date)) ? -1 : 0))
 		},
 		oldestSetlists () {
 			this.setlistsProperty = 'oldest'
-			this.reorderedSetlists = this.setlists.filter(s => s.date != '').sort((a,b) => (new Date(a.date) > new Date(b.date)) ? 1 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0)).slice(0, this.listLength)
+			this.reorderedSetlists = this.setlists.filter(s => s.date != '').sort((a,b) => (new Date(a.date) > new Date(b.date)) ? 1 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0))
 		},
 	},
 	computed: {
@@ -186,9 +194,9 @@ export default {
 		},
 		setlistlist () {
 			if (this.reorderedSetlists.length === 0) {
-				return this.setlists.slice(this.pageSetlists*this.listLength, this.listLength)
+				return this.setlists.slice(this.setlistsPage*this.listLength, (this.setlistsPage+1)*this.listLength)
 			} else {
-				return this.reorderedSetlists
+				return this.reorderedSetlists.slice(this.setlistsPage*this.listLength, (this.setlistsPage+1)*this.listLength)
 			}
 		},
 		isFirstSongPage () {
@@ -196,6 +204,12 @@ export default {
 		},
 		isLastSongPage () {
 			return this.songlist.length < this.listLength
+		},
+		isFirstSetlistPage () {
+			return this.setlistsPage == 0
+		},
+		isLastSetlistPage () {
+			return this.setlistlist.length < this.listLength
 		}
 	}
 }
