@@ -26,7 +26,7 @@
 					<hooper-pagination slot="hooper-addons"></hooper-pagination>
 				</hooper>
 			</div>
-			<div class="modal-footer">
+			<div class="modal-footer" :class="{ 'hidden': !chords}">
 				<div class="navigation-prev">
 					<a
 						class="btn btn-secondary btn-xl btn-gray px-3"
@@ -216,6 +216,15 @@ $mono-font-family: "Fira Code", "Fira Mono", monospace;
 				font-family: $mono-font-family;
 				font-size: 1.5em;
 				vertical-align: middle;
+			}
+
+			&.hidden {
+				opacity: 0;
+				transition: opacity .5s ease;
+
+				&:hover {
+					opacity: 1;
+				}
 			}
 		}
 	}
