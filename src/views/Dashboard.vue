@@ -11,6 +11,14 @@
 				<!-- song list -->
 				<div class="column col-4">
 					<h3>{{ songsProperty }} Songs</h3>
+					<div class="btn-group">
+						<button class="btn btn-secondary" :class="{ disabled: isFirstSongPage }" @click="!isFirstSongPage ? songsPage-- : null">
+							<i class="form-icon icon ion-md-arrow-back"></i>
+						</button>
+						<button class="btn btn-secondary" :class="{ disabled: isLastSongPage }" @click="!isLastSongPage ? songsPage++ : null">
+							<i class="form-icon icon ion-md-arrow-forward"></i>
+						</button>
+					</div>
 					<div
 						v-for="(song, i) in songlist"
 						:key="i"
@@ -28,8 +36,8 @@
 							<figure
 								v-if="songsProperty == 'newest' || songsProperty == 'oldest'"
 								class="avatar avatar-secondary s-rounded float-right ml-1"
-								:data-initial="song.year"
-								:title="'This song was published in ' + song.year"
+								:data-initial="song.year ? song.year : '—'"
+								:title="song.year ? 'This song was published in ' + song.year : 'No year available for this song'"
 							></figure>
 						</div>
 						<div class="tile-content">
@@ -106,30 +114,36 @@ export default {
 			},
 			songsProperty: 'newest',
 			reorderedSongs: [],
+			songsPage: 0,
 			setlistsProperty: 'newest',
 			reorderedSetlists: [],
+			pageSetlists: 0,
 			listLength: 10
 		}
 	},
 	methods: {
 		shuffleSongs () {
+			this.songsPage = 0
+			this.songsProperty = 'random'
 			let songs = this.songs
 			for (let i = songs.length - 1; i > 0; i--) {
 				const j = Math.floor(Math.random() * (i + 1));
 				[songs[i], songs[j]] = [songs[j], songs[i]]
 			}
-			this.songsProperty = 'random'
-			this.reorderedSongs = songs.slice(0, this.listLength)
+			this.reorderedSongs = [...songs]
 		},
 		newestSongs () {
+			this.songsPage = 0
 			this.songsProperty = 'newest'
-			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0)).slice(0, this.listLength)
+			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0))
 		},
 		oldestSongs () {
+			this.songsPage = 0
 			this.songsProperty = 'oldest'
-			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a, b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0)).slice(0, this.listLength)
+			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a, b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0))
 		},
 		popularSongs () {
+			this.songsPage = 0
 			this.songsProperty = 'popular'
 			let popularSongs = {}
 			this.setlists.forEach(setlist => {
@@ -147,7 +161,7 @@ export default {
 			for (var id in popularSongs) {
 				idList.push([id, popularSongs[id]])
 			}
-			let orderedSongIds = idList.sort((a, b) => b[1] - a[1]).splice(0, this.listLength).reduce((a, c) => a.concat(c[0]), [])
+			let orderedSongIds = idList.sort((a, b) => b[1] - a[1]).reduce((a, c) => a.concat(c[0]), [])
 			this.reorderedSongs = this.songs
 				.filter(s => orderedSongIds.includes(s['.key']))
 				.map(s => Object.assign({popularity: popularSongs[s['.key']]}, s))
@@ -165,17 +179,23 @@ export default {
 	computed: {
 		songlist () {
 			if (this.reorderedSongs.length === 0) {
-				return this.songs.slice(0, this.listLength)
+				return this.songs.slice(this.songsPage*this.listLength, (this.songsPage+1)*this.listLength)
 			} else {
-				return this.reorderedSongs
+				return this.reorderedSongs.slice(this.songsPage*this.listLength, (this.songsPage+1)*this.listLength)
 			}
 		},
 		setlistlist () {
 			if (this.reorderedSetlists.length === 0) {
-				return this.setlists.slice(0, this.listLength)
+				return this.setlists.slice(this.pageSetlists*this.listLength, this.listLength)
 			} else {
 				return this.reorderedSetlists
 			}
+		},
+		isFirstSongPage () {
+			return this.songsPage == 0
+		},
+		isLastSongPage () {
+			return this.songlist.length < this.listLength
 		}
 	}
 }
