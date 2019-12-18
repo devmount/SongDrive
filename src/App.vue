@@ -41,7 +41,7 @@
 						<div class="form-group">
 							<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
 							<input type="password" v-model="auth.password" class="form-input mb-1" placeholder="password" />
-							<button class="btn btn-primary d-block stretch" @click="signIn">
+							<button class="btn btn-primary d-block stretch" @click="signIn" v-shortkey="['enter']" @shortkey="signIn">
 								<i class="icon ion-md-arrow-forward float-right mr-1"></i>Sign In
 							</button>
 						</div>
