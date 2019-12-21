@@ -49,7 +49,7 @@
 					<div class="panel mt-3">
 						<div class="panel-header text-center">
 							<i class="icon ion-md-people icon-2x"></i>
-							<div class="panel-title h5 mt-1">Users</div>
+							<div class="panel-title h5 mt-1">{{ Object.keys(users).length }} Users</div>
 							<div class="panel-subtitle text-gray">Manage all users</div>
 						</div>
 						<div class="panel-body">
@@ -84,7 +84,7 @@
 					<div class="panel mt-3">
 						<div class="panel-header text-center">
 							<i class="icon ion-md-pricetags icon-2x"></i>
-							<div class="panel-title h5 mt-1">Tags</div>
+							<div class="panel-title h5 mt-1">{{ Object.keys(tags).length }} Tags</div>
 							<div class="panel-subtitle text-gray">Manage all tags</div>
 						</div>
 						<div class="panel-body">
