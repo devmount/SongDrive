@@ -36,7 +36,7 @@
 					<tr>
 						<th></th>
 						<th class="hide-xl">Date</th>
-						<th class="hide-md">Title</th>
+						<th class="">Title</th>
 						<th class="hide-xl"># Songs</th>
 						<th></th>
 					</tr>
@@ -49,7 +49,7 @@
 						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
               {{ setlist.date }}
             </td>
-						<td class="hide-md c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
+						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
               {{ setlist.title }}
             </td>
 						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">

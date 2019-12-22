@@ -8,7 +8,7 @@
 						Settings
 					</h2>
 				</div>
-				<div class="column col-4">
+				<div class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-3">
 						<div class="panel-header text-center">
 							<i class="icon ion-md-person icon-2x"></i>
@@ -45,7 +45,7 @@
 						</div>
 					</div>
 				</div>
-				<div v-if="role > 3" class="column col-4">
+				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-3">
 						<div class="panel-header text-center">
 							<i class="icon ion-md-people icon-2x"></i>
@@ -71,7 +71,6 @@
 									<div class="tile-subtitle text-gray text-small">{{ user.email }}</div>
 								</div>
 							</div>
-
 						</div>
 						<!-- <div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateUser">
@@ -80,7 +79,7 @@
 						</div> -->
 					</div>
 				</div>
-				<div v-if="role > 3" class="column col-4">
+				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-3">
 						<div class="panel-header text-center">
 							<i class="icon ion-md-pricetags icon-2x"></i>
@@ -167,9 +166,5 @@ export default {
 </script>
 
 <style lang="scss">
-.settings {
-	.panel {
-		height: 75vh;
-	}
-}
+
 </style>

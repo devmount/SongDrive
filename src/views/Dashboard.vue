@@ -9,15 +9,17 @@
 					</h2>
 				</div>
 				<!-- song list -->
-				<div class="column col-4">
+				<div class="column col-4 col-xl-6 col-md-12 mb-4">
 					<h3 class="p-0">
 						{{ songsProperty }} Songs
-						<button class="btn btn-secondary" :class="{ disabled: isFirstSongPage }" @click="!isFirstSongPage ? songsPage-- : null">
-							<i class="form-icon icon ion-md-arrow-back"></i>
-						</button>
-						<button class="btn btn-secondary" :class="{ disabled: isLastSongPage }" @click="!isLastSongPage ? songsPage++ : null">
-							<i class="form-icon icon ion-md-arrow-forward"></i>
-						</button>
+						<div class="mt-2">
+							<button class="btn btn-sm btn-secondary px-3" :class="{ disabled: isFirstSongPage }" @click="!isFirstSongPage ? songsPage-- : null">
+								<i class="form-icon icon ion-md-arrow-back"></i>
+							</button>
+							<button class="btn btn-sm btn-secondary px-3" :class="{ disabled: isLastSongPage }" @click="!isLastSongPage ? songsPage++ : null">
+								<i class="form-icon icon ion-md-arrow-forward"></i>
+							</button>
+						</div>
 					</h3>
 					<div
 						v-for="(song, i) in songlist"
@@ -54,15 +56,17 @@
 					</div>
 				</div>
 				<!-- setlist list -->
-				<div class="column col-4">
+				<div class="column col-4 col-xl-6 col-md-12 mb-4">
 					<h3 class="p-0">
 						{{ setlistsProperty }} Setlists
-						<button class="btn btn-secondary" :class="{ disabled: isFirstSetlistPage }" @click="!isFirstSetlistPage ? setlistsPage-- : null">
-							<i class="form-icon icon ion-md-arrow-back"></i>
-						</button>
-						<button class="btn btn-secondary" :class="{ disabled: isLastSetlistPage }" @click="!isLastSetlistPage ? setlistsPage++ : null">
-							<i class="form-icon icon ion-md-arrow-forward"></i>
-						</button>
+						<div class="mt-2">
+							<button class="btn btn-sm btn-secondary px-3" :class="{ disabled: isFirstSetlistPage }" @click="!isFirstSetlistPage ? setlistsPage-- : null">
+								<i class="form-icon icon ion-md-arrow-back"></i>
+							</button>
+							<button class="btn btn-sm btn-secondary px-3" :class="{ disabled: isLastSetlistPage }" @click="!isLastSetlistPage ? setlistsPage++ : null">
+								<i class="form-icon icon ion-md-arrow-forward"></i>
+							</button>
+						</div>
 					</h3>
 					<div
 						v-for="(setlist, i) in setlistlist"

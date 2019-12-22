@@ -8,7 +8,7 @@
 						Profile
 					</h2>
 				</div>
-				<div class="column col-4">
+				<div class="column col-4 col-xl-6 col-sm-12">
 					<div v-if="userObject" class="panel mt-3">
 						<div class="panel-header text-center">
 							<figure v-if="userObject.photoURL" class="avatar avatar-xxl mb-2">
@@ -46,12 +46,12 @@
 						</div>
 						<div class="panel-footer">
 							<router-link to="/settings" class="btn btn-secondary btn-block mb-1" @click.native="open = false">
-								<i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT SETTINGS</span>
+								<i class="icon ion-md-create float-left ml-1"></i> SETTINGS
 							</router-link>
 						</div>
 					</div>
 				</div>
-				<div class="column col-4">
+				<div class="column col-4 col-xl-6 col-sm-12">
 					<div v-if="userObject" class="panel mt-3">
 						<div class="panel-body text-center pb-3">
 							<div v-if="!ready" class="loading loading-xl d-block text-huge">&nbsp;</div>
