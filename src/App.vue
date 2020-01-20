@@ -78,6 +78,7 @@
 					:role="auth.user && ready.users ? auth.roles[users[auth.user].role] : ''"
 					:roleName="auth.user && ready.users ? users[auth.user].role : ''"
 					:songs="songs"
+					:setlists="setlists"
 					:users="users"
 					:tags="tags"
 					:ready="ready"
@@ -132,7 +133,7 @@ export default {
 				reject: () => { this.ready.songs = true }
 			},
 			setlists: {
-				ref: db.collection('setlists'),
+				ref: db.collection('setlists').orderBy('date', 'desc'),
 				resolve: () => { this.ready.setlists = true },
 				reject: () => { this.ready.setlists = true }
 			},

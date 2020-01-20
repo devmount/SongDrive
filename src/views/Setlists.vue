@@ -5,7 +5,7 @@
 				<!-- heading -->
 				<div class="column col-4 col-xl-12">
 					<h2 class="view-title">
-						<span v-if="ready" class="label text-bold mr-2 px-2">{{ filteredSetlists.length }}</span>
+						<span v-if="ready.setlists" class="label text-bold mr-2 px-2">{{ filteredSetlists.length }}</span>
 						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
 						Setlists
 					</h2>
@@ -31,7 +31,7 @@
 				</div>
 			</div>
 
-			<table v-if="ready" class="table table-striped table-hover">
+			<table v-if="ready.setlists" class="table table-striped table-hover">
 				<thead>
 					<tr>
 						<th></th>
@@ -115,31 +115,18 @@
 // get components
 import SetlistSet from '@/components/SetlistSet.vue'
 import SetlistDelete from '@/components/SetlistDelete.vue'
-// get database object authorized in config.js
-import { db } from '@/firebase'
 
 export default {
 	name: 'setlists',
-	props: ['user', 'role'],
+	props: ['setlists', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,
-	},
-	firestore () {
-		return {
-			setlists: {
-				ref: db.collection('setlists').orderBy('date', 'desc'),
-				resolve: () => { this.ready = true },
-				reject: () => { this.ready = true }
-			},
-			tags: db.collection('tags'),
-		}
 	},
 	data () {
 		return {
 			search: '',
 			filter: this.$route.params.year ? this.$route.params.year : '',
-			ready: false,
 			modal: {
 				set: false,
 				delete: false,
@@ -171,7 +158,7 @@ export default {
 			return setlists
 		},
 		setlistYears() {
-			if (this.ready) {
+			if (this.ready.setlists) {
 				let start = parseInt(this.setlists.slice(-1)[0].date.substring(0, 4))
 				let end = parseInt((new Date()).getFullYear())
 				return Array.from(Array(end-start+1).keys(), x => x + start)
