@@ -34,6 +34,7 @@ Simply fill in [the required template](PULL_REQUEST_TEMPLATE.md). Please do not 
   - :heavy_plus_sign: `:heavy_plus_sign:` when adding a file or implementing a feature
   - :hammer: `:hammer:` when fixing a bug or issue
   - :green_heart: `:green_heart:` when improving code or comments
+  - :zap: `:zap:` when improving performance
   - :scroll: `:scroll:` when updating docs or readme
   - :key: `:key:` when dealing with security
   - :repeat: `:repeat:` when updating dependencies or data
