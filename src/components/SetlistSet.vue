@@ -1,7 +1,7 @@
 <template>
 	<div class="modal modal-lg" :class="{ active: active }">
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="cancel"></a>
-		<div v-if="setlist && ready" class="modal-container">
+		<div v-if="setlist && ready.songs" class="modal-container">
 			<div class="modal-header">
 				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="cancel"></a>
 				<div v-if="!existing" class="modal-title h5">New Setlist<span v-if="setlist.title" class="ml-2 text-gray text-uppercase ls-1"> «{{ setlist.title }}»</span></div>
@@ -150,24 +150,28 @@ export default {
 	props: {
 		active: Boolean,
 		existing: Boolean,
-		initialSetlist: Object
+		initialSetlist: Object,
+		setlistKey: String,
+		songs: Object,
+		tags: Object,
+		ready: Object,
 	},
-	firestore () {
-		return {
-			songs: {
-				ref: db.collection('songs'),
-				objects: true,
-				resolve: () => { this.ready = true },
-				reject: () => { this.ready = true }
-			},
-			tags: db.collection('tags'),
-		}
-	},
+	// firestore () {
+	// 	return {
+	// 		songs: {
+	// 			ref: db.collection('songs'),
+	// 			objects: true,
+	// 			resolve: () => { this.ready = true },
+	// 			reject: () => { this.ready = true }
+	// 		},
+	// 		tags: db.collection('tags'),
+	// 	}
+	// },
 	data () {
 		return {
 			setlist: JSON.parse(JSON.stringify(this.initialSetlist)),
 			setlistSongs: JSON.parse(JSON.stringify(this.initialSetlist)).songs.map(s => s.id),
-			ready: false,
+			// ready: false,
 			search: '',
 			filter: '',
 			tuning: '',
@@ -275,12 +279,12 @@ export default {
 			}
 			// existing setlist should be updated
 			else {
-				db.collection('setlists').doc(this.setlist['.key']).update(processedSetlist)
+				db.collection('setlists').doc(this.setlistKey).update(processedSetlist)
 				.then(function() {
 					self.$emit('closed')
 					self.$emit('reset')
 					processedSetlist = {}
-					self.$router.push({ name: 'setlist-show', params: { id: self.setlist['.key'] }})
+					// self.$router.push({ name: 'setlist-show', params: { id: self.setlistKey }})
 					// toast success update message
 					self.$notify({
 						title: '<button class="btn btn-clear float-right"></button>Success!',

@@ -109,6 +109,10 @@
 				:active="modal.set"
 				:existing="existing"
 				:initialSong="song"
+				:songKey="songKey"
+				:songs="songs"
+				:tags="tags"
+				:ready="ready"
 				@closed="modal.set = false"
 			/>
 			<SongDelete
@@ -155,7 +159,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'song-show',
-	props: ['songs', 'user', 'role', 'ready'],
+	props: ['songs', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SongContent,
 		SongSet,

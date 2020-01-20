@@ -76,12 +76,12 @@
 											</router-link>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
-											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.existing=true; modal.set=true">
+											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=i; active.existing=true; modal.set=true">
 												<i class="icon ion-md-create mr-2"></i> Edit
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
-											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.existing=false; modal.set=true">
+											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=i; active.existing=false; modal.set=true">
 												<i class="icon ion-md-copy mr-2"></i> Duplicate
 											</a>
 										</li>
@@ -103,6 +103,10 @@
 				:active="modal.set"
 				:existing="active.existing"
 				:initialSong="active.song"
+				:songKey="active.key"
+				:songs="songs"
+				:tags="tags"
+				:ready="ready"
 				@closed="modal.set = false"
 			/>
 			<SongDelete

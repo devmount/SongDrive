@@ -3,7 +3,7 @@
 		<!-- main modal: set song -->
 		<div class="modal modal-lg" :class="{ active: active }">
 			<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
-			<div v-if="song && ready" class="modal-container">
+			<div v-if="song && ready.songs" class="modal-container">
 				<div class="modal-header">
 					<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
 					<div v-if="!existing" class="modal-title h5">New Song</div>
@@ -187,7 +187,7 @@
 			</div>
 		</div>
 		<!-- additional modal: add translation -->
-		<div v-if="song && ready" class="modal modal-secondary" :class="{ active: modal.translations }">
+		<div v-if="song && ready.songs" class="modal modal-secondary" :class="{ active: modal.translations }">
 			<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modal.translations = false"></a>
 			<div class="modal-container">
 				<div class="modal-header">
@@ -258,23 +258,27 @@ export default {
 	props: {
 		active: Boolean,
 		existing: Boolean,
-		initialSong: Object
+		initialSong: Object,
+		songKey: String,
+		songs: Object,
+		tags: Object,
+		ready: Object,
 	},
-	firestore () {
-		return {
-			songs: {
-				ref: db.collection('songs'),
-				objects: true,
-				resolve: () => { this.ready = true },
-				reject: () => { this.ready = true }
-			},
-			tags: db.collection('tags'),
-		}
-	},
+	// firestore () {
+	// 	return {
+	// 		songs: {
+	// 			ref: db.collection('songs'),
+	// 			objects: true,
+	// 			resolve: () => { this.ready = true },
+	// 			reject: () => { this.ready = true }
+	// 		},
+	// 		tags: db.collection('tags'),
+	// 	}
+	// },
 	data () {
 		return {
 			song: JSON.parse(JSON.stringify(this.initialSong)),
-			ready: false,
+			// ready: false,
 			modal: {
 				tags: false,
 				translations: false,
@@ -330,12 +334,11 @@ export default {
 			}
 			// existing song should be updated
 			else {
-				db.collection('songs').doc(this.song['.key']).update(processedSong)
+				db.collection('songs').doc(this.songKey).update(processedSong)
 				.then(function() {
 					self.$emit('closed')
 					self.$emit('reset')
 					processedSong = {}
-					self.$router.push({ name: 'song-show', params: { id: self.song['.key'] }})
 					// toast success update message
 					self.$notify({
 						title: '<button class="btn btn-clear float-right"></button>Success!',

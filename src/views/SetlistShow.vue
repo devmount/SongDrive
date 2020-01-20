@@ -122,6 +122,10 @@
 				:active="modal.set"
 				:existing="existing"
 				:initialSetlist="setlist"
+				:setlistKey="setlistKey"
+				:songs="songs"
+				:tags="tags"
+				:ready="ready"
 				@closed="modal.set = false"
 			/>
 			<SetlistDelete
@@ -168,7 +172,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'setlist-show',
-	props: ['songs', 'setlists', 'users', 'user', 'role', 'ready'],
+	props: ['songs', 'setlists', 'users', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,

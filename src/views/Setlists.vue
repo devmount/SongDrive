@@ -69,12 +69,12 @@
 											</router-link>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
-											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.existing=true; modal.set=true">
+											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.key=i; active.existing=true; modal.set=true">
 												<i class="icon ion-md-create mr-2"></i> Edit
 											</a>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
-											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.existing=false; modal.set=true">
+											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.key=i; active.existing=false; modal.set=true">
 												<i class="icon ion-md-copy mr-2"></i> Duplicate
 											</a>
 										</li>
@@ -97,6 +97,10 @@
 				:active="modal.set"
 				:existing="active.existing"
 				:initialSetlist="active.setlist"
+				:setlistKey="active.key"
+				:songs="songs"
+				:tags="tags"
+				:ready="ready"
 				@closed="modal.set = false"
 			/>
 			<SetlistDelete
@@ -118,7 +122,7 @@ import SetlistDelete from '@/components/SetlistDelete.vue'
 
 export default {
 	name: 'setlists',
-	props: ['setlists', 'tags', 'user', 'role', 'ready'],
+	props: ['songs', 'setlists', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,

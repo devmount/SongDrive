@@ -91,6 +91,10 @@
 				:active="modal.addsong"
 				:existing="false"
 				:initialSong="newSong"
+				songKey=""
+				:songs="songs"
+				:tags="tags"
+				:ready="ready"
 				@closed="modal.addsong = false"
 				@reset="resetSong"
 			/>
@@ -99,6 +103,10 @@
 				:active="modal.addsetlist"
 				:existing="false"
 				:initialSetlist="newSetlist"
+				setlistKey=""
+				:songs="songs"
+				:tags="tags"
+				:ready="ready"
 				@closed="modal.addsetlist = false"
 				@reset="resetSetlist"
 			/>
