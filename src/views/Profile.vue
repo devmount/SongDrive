@@ -54,14 +54,14 @@
 				<div class="column col-4 col-xl-6 col-sm-12">
 					<div v-if="userObject" class="panel mt-3">
 						<div class="panel-body text-center pb-3">
-							<div v-if="!ready" class="loading loading-xl d-block text-huge">&nbsp;</div>
+							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 							<div v-else class="text-huge">{{ setlistsFromUser.length }}</div>
 							<div class="panel-title h5"><i class="icon ion-md-list mr-2"></i> Setlists created</div>
 						</div>
 					</div>
 					<div v-if="userObject" class="panel mt-3">
 						<div class="panel-body text-center pb-3">
-							<div v-if="!ready" class="loading loading-xl d-block text-huge">&nbsp;</div>
+							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 							<div v-else class="text-huge"><span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span></div>
 							<div class="panel-title h5"><i class="icon ion-md-musical-notes mr-2"></i> Songs performed</div>
 						</div>
@@ -73,26 +73,10 @@
 </template>
 
 <script>
-// get database object authorized in config.js
-import { db } from '@/firebase'
 
 export default {
 	name: 'profile',
-	props: ['userObject', 'roleName'],
-	firestore () {
-		return {
-			setlists: {
-				ref: db.collection('setlists').orderBy('date', 'desc'),
-				resolve: () => { this.ready = true },
-				reject: () => { this.ready = true }
-			},
-		}
-	},
-	data () {
-		return {
-			ready: false,
-		}
-	},
+	props: ['setlists', 'userObject', 'roleName', 'ready'],
 	computed: {
 		setlistsFromUser () {
 			return this.setlists.filter(s => s.creator == this.userObject.uid)
