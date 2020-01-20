@@ -77,8 +77,10 @@
 					:userObject="auth.userObject"
 					:role="auth.user && ready.users ? auth.roles[users[auth.user].role] : ''"
 					:roleName="auth.user && ready.users ? users[auth.user].role : ''"
+					:songs="songs"
 					:users="users"
 					:tags="tags"
+					:ready="ready"
 				></router-view>
 			</div>
 

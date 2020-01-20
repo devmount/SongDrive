@@ -5,7 +5,7 @@
 				<!-- heading -->
 				<div class="column col-4 col-xl-12">
 					<h2 class="view-title">
-						<span v-if="ready" class="label text-bold mr-2 px-2">{{ filteredSongs.length }}</span>
+						<span v-if="ready.songs" class="label text-bold mr-2 px-2">{{ filteredSongs.length }}</span>
 						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
 						Songs
 					</h2>
@@ -42,7 +42,7 @@
 				</div>
 			</div>
 		
-			<table v-if="ready" class="table table-striped table-hover">
+			<table v-if="ready.songs" class="table table-striped table-hover">
 				<thead>
 					<tr>
 						<th>Title</th>
@@ -120,32 +120,19 @@
 // get components
 import SongSet from '@/components/SongSet.vue'
 import SongDelete from '@/components/SongDelete.vue'
-// get database object authorized in config.js
-import { db } from '@/firebase'
 
 export default {
 	name: 'songs',
-	props: ['user', 'role'],
+	props: ['songs', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SongSet,
 		SongDelete,
-	},
-	firestore () {
-		return {
-			songs: {
-				ref: db.collection('songs'),
-				resolve: () => { this.ready = true },
-				reject: () => { this.ready = true }
-			},
-			tags: db.collection('tags'),
-		}
 	},
 	data () {
 		return {
 			search: '',
 			filter: this.$route.params.tag ? this.$route.params.tag : '',
 			tuning: '',
-			ready: false,
 			modal: {
 				set: false,
 				delete: false,
