@@ -5,7 +5,7 @@
 				<!-- heading -->
 				<div class="column col-4 col-xl-12">
 					<h2 class="view-title">
-						<span v-if="ready.songs" class="label text-bold mr-2 px-2">{{ filteredSongs.length }}</span>
+						<span v-if="ready.songs" class="label text-bold mr-2 px-2">{{ Object.keys(filteredSongs).length }}</span>
 						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
 						Songs
 					</h2>
@@ -55,13 +55,13 @@
 				</thead>
 				<tbody>
 					<tr v-for="(song, i) in filteredSongs" :key="i">
-						<td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">
+						<td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: i }})">
 							{{ song.title }} <div class="show-xl text-gray">{{ song.subtitle }}</div>
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">{{ song.subtitle }}</td>
-						<td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">{{ song.authors }}</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">{{ song.year }}</td>
-						<td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song['.key'] }})">{{ song.tuning }}</td>
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: i }})">{{ song.subtitle }}</td>
+						<td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: i }})">{{ song.authors }}</td>
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: i }})">{{ song.year }}</td>
+						<td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: i }})">{{ song.tuning }}</td>
 						<td class="text-right">
 							<div class="dropdown dropdown-right">
 								<div class="btn-group">
@@ -71,7 +71,7 @@
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
-											<router-link :to="{ name: 'song-show', params: { id: song['.key'] }}" class="py-3 px-3">
+											<router-link :to="{ name: 'song-show', params: { id: i }}" class="py-3 px-3">
 												<i class="icon ion-md-eye mr-2"></i> Show
 											</router-link>
 										</li>
@@ -86,7 +86,7 @@
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
-											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=song.title; active.key=song['.key']; modal.delete=true">
+											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=song.title; active.key=i; modal.delete=true">
 												<i class="icon ion-md-trash mr-2"></i> Delete
 											</a>
 										</li>
@@ -150,20 +150,20 @@ export default {
 		filteredSongs () {
 			var songs = this.songs, self = this
 			if (this.search != '') {
-				songs = songs.filter(function(song) {
+				songs = Object.filter(songs, function(song) {
 					// filter fields: title, subtitle
 					var key = self.search.toLowerCase()
 					return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1
 				})
 			}
 			if (this.filter != '') {
-				songs = songs.filter(function(song) {
+				songs = Object.filter(songs, function(song) {
 					// filter field: tags
 					return song.tags.indexOf(self.filter) !== -1
 				})
 			}
 			if (this.tuning != '') {
-				songs = songs.filter(function(song) {
+				songs = Object.filter(songs, function(song) {
 					// filter field: tuning
 					return song.tuning.indexOf(self.tuning) !== -1
 				})

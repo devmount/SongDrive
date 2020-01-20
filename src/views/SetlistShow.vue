@@ -66,7 +66,7 @@
 			<div class="off-canvas-content">
 				<div class="container">
 					<div class="columns">
-						<div v-if="ready.setlist" class="column col-12">
+						<div v-if="ready.setlists" class="column col-12">
 							<h2>{{ setlist.title }}</h2>
 							<h3>
 								<i class="icon ion-md-list"></i> {{ setlist.songs.length }} songs
@@ -74,7 +74,7 @@
 								<span v-if="ready.users && users[setlist.creator]"><i class="icon ion-md-person ml-3"></i> {{ users[setlist.creator].name }}</span>
 							</h3>
 						</div>
-						<div v-if="ready.songs && ready.setlist" class="column col-12">
+						<div v-if="ready.songs && ready.setlists" class="column col-12">
 							<table class="table table-striped table-hover">
 								<thead>
 									<tr>
@@ -128,7 +128,7 @@
 				v-if="modal.delete"
 				:active="modal.delete"
 				:title="setlist.title"
-				:id="setlist['.key']"
+				:id="setlistKey"
 				@closed="modal.delete = false"
 			/>
 			<SetlistPresent
@@ -168,40 +168,14 @@ pdfMake.fonts = {
 
 export default {
 	name: 'setlist-show',
-	props: ['user', 'role'],
+	props: ['songs', 'setlists', 'users', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,
 		SetlistPresent,
 	},
-	firestore () {
-		return {
-			setlist: {
-				ref: db.collection('setlists').doc(this.$route.params.id),
-				resolve: () => { this.ready.setlist = true },
-				reject: () => { this.ready.setlist = true }
-			},
-			songs: {
-				ref: db.collection('songs'),
-				objects: true,
-				resolve: () => { this.ready.songs = true },
-				reject: () => { this.ready.songs = true }
-			},
-			users: {
-				ref: db.collection('users'),
-				objects: true,
-				resolve: () => { this.ready.users = true },
-				reject: () => { this.ready.users = true }
-			},
-		}
-	},
 	data () {
 		return {
-			ready: {
-				setlist: false,
-				songs: false,
-				users: false,
-			},
 			modal: {
 				set: false,
 				delete: false,
@@ -213,8 +187,17 @@ export default {
 		}
 	},
 	computed: {
-		getSetlistSongs() {
-			if (this.ready.songs && this.ready.setlist) {
+		setlistKey () {
+			return this.$route.params.id
+		},
+		setlist () {
+			if (this.ready.setlists) {
+				return this.setlists[this.setlistKey]
+			}
+			return {}
+		},
+		getSetlistSongs () {
+			if (this.ready.songs && this.ready.setlists) {
 				let songs = []
 				for (const key in this.setlist.songs) {
 					if (this.setlist.songs.hasOwnProperty(key)) {

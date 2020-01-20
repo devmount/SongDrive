@@ -5,7 +5,7 @@
 				<!-- heading -->
 				<div class="column col-4 col-xl-12">
 					<h2 class="view-title">
-						<span v-if="ready.setlists" class="label text-bold mr-2 px-2">{{ filteredSetlists.length }}</span>
+						<span v-if="ready.setlists" class="label text-bold mr-2 px-2">{{ Object.keys(filteredSetlists).length }}</span>
 						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
 						Setlists
 					</h2>
@@ -43,16 +43,16 @@
 				</thead>
 				<tbody>
 					<tr v-for="(setlist, i) in filteredSetlists" :key="i">
-						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
+						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
 							<div class="s-circle s-circle-state ml-3" :class="{ active: setlist.active }"></div>
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
               {{ setlist.date }}
             </td>
-						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
+						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
               {{ setlist.title }}
             </td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})">
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
               {{ setlist.songs.length }}
             </td>
 						<td class="text-right">
@@ -64,7 +64,7 @@
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
-											<router-link :to="{ name: 'setlist-show', params: { id: setlist['.key'] }}" class="py-3 px-3">
+											<router-link :to="{ name: 'setlist-show', params: { id: i }}" class="py-3 px-3">
 												<i class="icon ion-md-eye mr-2"></i> Show
 											</router-link>
 										</li>
@@ -79,7 +79,7 @@
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
-											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=setlist.title; active.key=setlist['.key']; modal.delete=true">
+											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=setlist.title; active.key=i; modal.delete=true">
 												<i class="icon ion-md-trash mr-2"></i> Delete
 											</a>
 										</li>
@@ -143,14 +143,14 @@ export default {
 		filteredSetlists() {
 			var setlists = this.setlists, self = this
 			if (this.search != '') {
-				setlists = setlists.filter(function(setlist) {
+				setlists = Object.filter(setlists, function(setlist) {
 					// filter fields: title, date
 					var key = self.search.toLowerCase()
 					return setlist.title.toLowerCase().indexOf(key) !== -1 || setlist.date.toLowerCase().indexOf(key) !== -1
 				})
 			}
 			if (this.filter != '') {
-				setlists = setlists.filter(function(setlist) {
+				setlists = Object.filter(setlists, function(setlist) {
 					// filter field: date(Y)
 					return setlist.date.substring(0,4).indexOf(self.filter) !== -1
 				})
@@ -159,7 +159,7 @@ export default {
 		},
 		setlistYears() {
 			if (this.ready.setlists) {
-				let start = parseInt(this.setlists.slice(-1)[0].date.substring(0, 4))
+				let start = parseInt(Object.keys(this.setlists).slice(-1)[0].substring(0, 4))
 				let end = parseInt((new Date()).getFullYear())
 				return Array.from(Array(end-start+1).keys(), x => x + start)
 			} else {

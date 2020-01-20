@@ -27,7 +27,7 @@
 						:key="i"
 						:to="{ name: 'song-show', params: { id: tsong[0] }}"
 						class="btn btn-secondary text-uppercase mb-1"
-						:class="{ disabled: (song['.key'] == tsong[0]) }"
+						:class="{ disabled: (songKey == tsong[0]) }"
 					>
 						{{ tsong[1] }}
 					</router-link>
@@ -76,7 +76,7 @@
 			<div class="off-canvas-content">
 				<div class="container">
 					<div class="columns">
-						<div v-if="ready.song" class="column col-12">
+						<div v-if="ready.songs" class="column col-12">
 							<h2>{{ song.title }} <span class="label text-pre ml-2 px-3">{{ showTuning.current }}</span></h2>
 							<h3>{{ song.subtitle }}</h3>
 							<SongContent
@@ -115,7 +115,7 @@
 				v-if="modal.delete"
 				:active="modal.delete"
 				:title="song.title"
-				:id="song['.key']"
+				:id="songKey"
 				@closed="modal.delete = false"
 			/>
 			<SongPresent
@@ -140,8 +140,6 @@ import SongContent from '@/components/SongContent.vue'
 import SongSet from '@/components/SongSet.vue'
 import SongDelete from '@/components/SongDelete.vue'
 import SongPresent from '@/components/SongPresent.vue'
-// get database object authorized in config.js
-import { db } from '@/firebase'
 // pdf creation
 var pdfMake = require('pdfmake/build/pdfmake.js')
 var pdfFonts = require('@/assets/vfs_fonts.js')
@@ -157,36 +155,17 @@ pdfMake.fonts = {
 
 export default {
 	name: 'song-show',
-	props: ['user', 'role'],
+	props: ['songs', 'user', 'role', 'ready'],
 	components: {
 		SongContent,
 		SongSet,
 		SongDelete,
 		SongPresent,
 	},
-	firestore () {
-		return {
-			song: {
-				ref: db.collection('songs').doc(this.$route.params.id),
-				resolve: () => { this.ready.song = true },
-				reject: () => { this.ready.song = true }
-			},
-			songs: {
-				ref: db.collection('songs'),
-				objects: true,
-				resolve: () => { this.ready.songs = true },
-				reject: () => { this.ready.songs = true }
-			},
-		}
-	},
 	data () {
 		return {
 			chords: true,
 			tuning: 0,
-			ready: {
-				song: false,
-				songs: false,
-			},
 			modal: {
 				song: {},
 				set: false,
@@ -230,7 +209,7 @@ export default {
 			content += '\n' + this.song.authors +
 				'© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ')
 			// start download
-			this.download(content, this.song['.key'] + '.txt')
+			this.download(content, this.songKey + '.txt')
 			// toast success message
 			this.$notify({
 				title: '<button class="btn btn-clear float-right"></button>Success!',
@@ -266,7 +245,7 @@ export default {
 				.replace(/--m/g, "mitro")
 				.replace(/--o/g, "outro")
 			// start download
-			this.download(content, this.song['.key'] + '.sng')
+			this.download(content, this.songKey + '.sng')
 			// toast success message
 			this.$notify({
 				title: '<button class="btn btn-clear float-right"></button>Success!',
@@ -516,8 +495,17 @@ export default {
 		}
 	},
 	computed: {
+		songKey () {
+			return this.$route.params.id
+		},
+		song () {
+			if (this.ready.songs) {
+				return this.songs[this.songKey]
+			}
+			return {}
+		},
 		showLanguages () {
-			if (this.ready.song && this.ready.songs) {
+			if (this.ready.songs) {
 				var languages = [[this.$route.params.id, this.song.language]]
 				for (const key in this.song.translations) {
 					if (this.song.translations.hasOwnProperty(key)) {

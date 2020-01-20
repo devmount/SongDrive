@@ -23,7 +23,7 @@
 					<li class="menu-item">
 						<router-link to="/songs" class="py-2" @click.native="open = false"><i class="icon ion-md-musical-notes mr-2"></i> Songs</router-link>
 						<div class="menu-badge">
-							<label v-if="ready.songs" class="label py-1">{{ songs.length }}</label>
+							<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 							<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Song" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
 						</div>
@@ -31,7 +31,7 @@
 					<li class="menu-item">
 						<router-link to="/setlists" class="py-2" @click.native="open = false"><i class="icon ion-md-list mr-2"></i> Setlists</router-link>
 						<div class="menu-badge">
-							<label v-if="ready.setlists" class="label py-1">{{ setlists.length }}</label>
+							<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
 							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 							<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Setlist" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
 						</div>
@@ -129,11 +129,13 @@ export default {
 		return {
 			songs: {
 				ref: db.collection('songs'),
+				objects: true,
 				resolve: () => { this.ready.songs = true },
 				reject: () => { this.ready.songs = true }
 			},
 			setlists: {
 				ref: db.collection('setlists').orderBy('date', 'desc'),
+				objects: true,
 				resolve: () => { this.ready.setlists = true },
 				reject: () => { this.ready.setlists = true }
 			},
