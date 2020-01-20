@@ -614,6 +614,10 @@ code {
 		left: 18px;
 	}
 }
+.input-group.filter > .addon-lg {
+	min-width: 40px;
+	text-align: center;
+}
 
 // table
 .table {

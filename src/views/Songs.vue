@@ -11,16 +11,16 @@
 					</h2>
 				</div>
 				<!-- search title, subtitles -->
-				<div class="column col-3 col-xl-6 col-sm-12">
-					<div class="input-group">
+				<div class="column col-3 col-xl-6 col-sm-12 mb-1">
+					<div class="input-group filter">
 						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-search"></i></span>
 						<input type="search" v-model="search" class="form-input input-lg" placeholder="search ..." />
 						<button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><i class="form-icon icon ion-md-close"></i></button>
 					</div>
 				</div>
 				<!-- filter tags -->
-				<div class="column col-3 col-xl-6 col-sm-12">
-					<div class="input-group">
+				<div class="column col-3 col-xl-6 col-sm-12 mb-1">
+					<div class="input-group filter">
 						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-pricetag"></i></span>
 						<select v-model="filter" class="form-select select-lg filter" required>
 							<option value="" disabled selected>tags ...</option>
@@ -30,8 +30,8 @@
 					</div>
 				</div>
 				<!-- filter tuning -->
-				<div class="column col-2 col-xl-6 col-sm-12">
-					<div class="input-group">
+				<div class="column col-2 col-xl-6 col-sm-12 mb-1">
+					<div class="input-group filter">
 						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-musical-note"></i></span>
 						<select v-model="tuning" class="form-select select-lg filter" required>
 							<option value="" disabled selected>tuning ...</option>
