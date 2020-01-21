@@ -55,7 +55,7 @@
 					<div v-if="userObject" class="panel mt-3">
 						<div class="panel-body text-center pb-3">
 							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
-							<div v-else class="text-huge">{{ setlistsFromUser.length }}</div>
+							<div v-else class="text-huge">{{ Object.keys(setlistsFromUser).length }}</div>
 							<div class="panel-title h5"><i class="icon ion-md-list mr-2"></i> Setlists created</div>
 						</div>
 					</div>
@@ -78,7 +78,7 @@ export default {
 	props: ['setlists', 'userObject', 'roleName', 'ready'],
 	computed: {
 		setlistsFromUser () {
-			return this.setlists.filter(s => s.creator == this.userObject.uid)
+			return Object.filter(this.setlists, s => s.creator == this.userObject.uid)
 		},
 		songsFromUser () {
 			let list = this.setlistsFromUser
