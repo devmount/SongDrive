@@ -105,6 +105,7 @@
 			/>
 			<SetlistDelete
 				v-if="modal.delete"
+				:db="db"
 				:active="modal.delete"
 				:title="active.title"
 				:id="active.key"
@@ -122,7 +123,7 @@ import SetlistDelete from '@/components/SetlistDelete.vue'
 
 export default {
 	name: 'setlists',
-	props: ['songs', 'setlists', 'tags', 'user', 'role', 'ready'],
+	props: ['db', 'songs', 'setlists', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,

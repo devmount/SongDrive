@@ -21,7 +21,7 @@
 				<!-- sidebar: view -->
 				<div class="divider text-center show-lg" data-content="V"></div>
 				<div class="divider text-center hide-lg" data-content="VIEW"></div>
-				<div v-if="user && role > 1" class="form-group tooltip tooltip-right" data-tooltip=" SYNC ">
+				<div v-if="setlist && user && role > 1" class="form-group tooltip tooltip-right" data-tooltip=" SYNC ">
 					<label class="form-switch switch-lg c-hand">
 						<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
 						<i class="form-icon"></i><span class="hide-lg"> SYNC</span>
@@ -66,7 +66,7 @@
 			<div class="off-canvas-content">
 				<div class="container">
 					<div class="columns">
-						<div v-if="ready.setlists" class="column col-12">
+						<div v-if="ready.setlists && setlist" class="column col-12">
 							<h2>{{ setlist.title }}</h2>
 							<h3>
 								<i class="icon ion-md-list"></i> {{ setlist.songs.length }} songs
@@ -74,7 +74,7 @@
 								<span v-if="ready.users && users[setlist.creator]"><i class="icon ion-md-person ml-3"></i> {{ users[setlist.creator].name }}</span>
 							</h3>
 						</div>
-						<div v-if="ready.songs && ready.setlists" class="column col-12">
+						<div v-if="ready.songs && ready.setlists && setlist" class="column col-12">
 							<table class="table table-striped table-hover">
 								<thead>
 									<tr>
@@ -130,8 +130,9 @@
 			/>
 			<SetlistDelete
 				v-if="modal.delete"
+				:db="db"
 				:active="modal.delete"
-				:title="setlist.title"
+				:title="setlist ? setlist.title : ''"
 				:id="setlistKey"
 				@closed="modal.delete = false"
 			/>
@@ -196,7 +197,7 @@ export default {
 			if (this.ready.setlists) {
 				return this.setlists[this.setlistKey]
 			}
-			return {}
+			return false
 		},
 		getSetlistSongs () {
 			if (this.ready.songs && this.ready.setlists) {
