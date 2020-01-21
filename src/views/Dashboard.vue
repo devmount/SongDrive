@@ -8,8 +8,12 @@
 						Dashboard
 					</h2>
 				</div>
+				<!-- loader -->
+				<div v-if="!ready.songs || !ready.setlists" class="column col-12 py-4 my-4">
+					<div class="loading loading-xl"></div>
+				</div>
 				<!-- song list -->
-				<div class="column col-4 col-xl-6 col-md-12 mb-4">
+				<div v-if="ready.songs" class="column col-4 col-xl-6 col-md-12 mb-4">
 					<h3 class="p-0">
 						{{ songsProperty }} Songs
 						<div class="mt-2">
@@ -56,7 +60,7 @@
 					</div>
 				</div>
 				<!-- setlist list -->
-				<div class="column col-4 col-xl-6 col-md-12 mb-4">
+				<div v-if="ready.setlists" class="column col-4 col-xl-6 col-md-12 mb-4">
 					<h3 class="p-0">
 						{{ setlistsProperty }} Setlists
 						<div class="mt-2">
@@ -98,34 +102,11 @@
 </template>
 
 <script>
-// get database object authorized in config.js
-import { db } from '@/firebase'
-
 export default {
 	name: 'dashboard',
-	firestore () {
-		return {
-			songs: {
-				ref: db.collection('songs').orderBy('year', 'desc'),
-				objects: true,
-				resolve: () => { this.ready.songs = true },
-				reject: () => { this.ready.songs = true }
-			},
-			setlists: {
-				ref: db.collection('setlists').orderBy('date', 'desc'),
-				objects: true,
-				resolve: () => { this.ready.setlists = true },
-				reject: () => { this.ready.setlists = true }
-			},
-			tags: db.collection('tags'),
-		}
-	},
+	props: ['songs', 'setlists', 'ready'],
 	data () {
 		return {
-			ready: {
-				songs: false,
-				setlists: false,
-			},
 			songsProperty: 'newest',
 			reorderedSongs: [],
 			songsPage: 0,
