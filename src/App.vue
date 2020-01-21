@@ -89,6 +89,7 @@
 			<!-- modals -->
 			<SongSet
 				v-if="modal.addsong"
+				:db="db"
 				:active="modal.addsong"
 				:existing="false"
 				:initialSong="newSong"

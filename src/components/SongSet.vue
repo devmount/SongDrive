@@ -250,12 +250,10 @@
 </template>
 
 <script>
-// get database object authorized in config.js
-import { db } from '@/firebase'
-
 export default {
 	name: 'song-set',
 	props: {
+		db: Object,
 		active: Boolean,
 		existing: Boolean,
 		initialSong: Object,
@@ -297,7 +295,7 @@ export default {
 			}
 			// new song should be created
 			if (!this.existing) {
-				db.collection('songs').doc(this.createSlug(this.song.title)).set(processedSong)
+				this.db.collection('songs').doc(this.createSlug(this.song.title)).set(processedSong)
 				.then(function() {
 					self.$emit('closed')
 					self.$emit('reset')
@@ -322,7 +320,7 @@ export default {
 			}
 			// existing song should be updated
 			else {
-				db.collection('songs').doc(this.songKey).update(processedSong)
+				this.db.collection('songs').doc(this.songKey).update(processedSong)
 				.then(function() {
 					self.$emit('closed')
 					self.$emit('reset')
