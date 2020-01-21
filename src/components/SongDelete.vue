@@ -21,12 +21,10 @@
 </template>
 
 <script>
-// get database object authorized in config.js
-import { db } from '@/firebase'
-
 export default {
 	name: 'song-delete',
 	props: {
+		db: Object,
 		active: Boolean,
 		title: String,
 		id: String
@@ -34,9 +32,11 @@ export default {
 	methods: {
 		deleteSong () {
 			var self = this
-			db.collection('songs').doc(this.id).delete().then(function() {
+			this.db.collection('songs').doc(this.id).delete().then(function() {
 				self.$emit('closed')
-				self.$router.push({ name: 'songs' })
+				if (self.$route.name != 'songs') {
+					self.$router.push({ name: 'songs' })
+				}
 				// toast success message
 				self.$notify({
 					title: '<button class="btn btn-clear float-right"></button>Success!',

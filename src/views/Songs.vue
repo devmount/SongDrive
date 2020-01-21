@@ -111,6 +111,7 @@
 			/>
 			<SongDelete
 				v-if="modal.delete"
+				:db="db"
 				:active="modal.delete"
 				:title="active.title"
 				:id="active.key"
@@ -127,7 +128,7 @@ import SongDelete from '@/components/SongDelete.vue'
 
 export default {
 	name: 'songs',
-	props: ['songs', 'tags', 'user', 'role', 'ready'],
+	props: ['db', 'songs', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SongSet,
 		SongDelete,

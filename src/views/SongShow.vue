@@ -76,7 +76,7 @@
 			<div class="off-canvas-content">
 				<div class="container">
 					<div class="columns">
-						<div v-if="ready.songs" class="column col-12">
+						<div v-if="ready.songs && song" class="column col-12">
 							<h2>{{ song.title }} <span class="label text-pre ml-2 px-3">{{ showTuning.current }}</span></h2>
 							<h3>{{ song.subtitle }}</h3>
 							<SongContent
@@ -117,8 +117,9 @@
 			/>
 			<SongDelete
 				v-if="modal.delete"
+				:db="db"
 				:active="modal.delete"
-				:title="song.title"
+				:title="song ? song.title : ''"
 				:id="songKey"
 				@closed="modal.delete = false"
 			/>
@@ -159,7 +160,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'song-show',
-	props: ['songs', 'tags', 'user', 'role', 'ready'],
+	props: ['db', 'songs', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SongContent,
 		SongSet,
@@ -506,10 +507,10 @@ export default {
 			if (this.ready.songs) {
 				return this.songs[this.songKey]
 			}
-			return {}
+			return false
 		},
 		showLanguages () {
-			if (this.ready.songs) {
+			if (this.ready.songs && this.song) {
 				var languages = [[this.$route.params.id, this.song.language]]
 				for (const key in this.song.translations) {
 					if (this.song.translations.hasOwnProperty(key)) {
@@ -525,10 +526,14 @@ export default {
 			}
 		},
 		showTuning () {
-			return {
-				previous: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning-1 % 12)) % 12],
-				current: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12],
-				next: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning+1 % 12)) % 12],
+			if (this.song) {
+				return {
+					previous: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning-1 % 12)) % 12],
+					current: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12],
+					next: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning+1 % 12)) % 12],
+				}
+			} else {
+				return '-'
 			}
 		}
 	}
