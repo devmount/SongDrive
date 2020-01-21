@@ -176,11 +176,12 @@ export default {
 	computed: {
 		songsArray () {
 			let self = this
-			return Object.keys(this.songs).map(function (key) {
+			let songs = Object.keys(this.songs).map(function (key) {
 				let song = self.songs[key]
 				song['id'] = key
 				return song
 			})
+			return songs.filter(s => s.year > 0).sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0))
 		},
 		songlist () {
 			if (this.reorderedSongs.length === 0) {
