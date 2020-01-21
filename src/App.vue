@@ -8,64 +8,66 @@
 
 			<!-- off-screen sidebar -->
 			<div id="sidebar-id" class="off-canvas-sidebar" :class="{ active: open }">
-				<div class="brand text-center mt-2">
-					<router-link to="/" class="logo">
-						<img src="./assets/logo.svg" alt="SongDrive Song Management Tool" />
-						<h1>SONGDRIVE</h1>
-						<div class="text-gray text-small text-right mr-5 pr-1">v{{ appVersion }} BETA</div>
-					</router-link>
-				</div>
-				<ul class="menu text-uppercase">
-					<li class="divider text-center" data-content="START"></li>
-					<li class="menu-item">
-						<router-link to="/" class="py-2" @click.native="open = false"><i class="icon ion-md-apps mr-2"></i> Dashboard</router-link>
-					</li>
-					<li class="menu-item">
-						<router-link to="/songs" class="py-2" @click.native="open = false"><i class="icon ion-md-musical-notes mr-2"></i> Songs</router-link>
-						<div class="menu-badge">
-							<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
-							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-							<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Song" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
-						</div>
-					</li>
-					<li class="menu-item">
-						<router-link to="/setlists" class="py-2" @click.native="open = false"><i class="icon ion-md-list mr-2"></i> Setlists</router-link>
-						<div class="menu-badge">
-							<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
-							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-							<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Setlist" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
-						</div>
-					</li>
-					<li class="divider text-center" data-content="ACCOUNT"></li>
-					<li v-if="!auth.user" class="menu-item pb-2">
-						<div class="form-group">
-							<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
-							<input type="password" v-model="auth.password" class="form-input mb-1" placeholder="password" />
-							<button class="btn btn-primary d-block stretch" @click="signIn" v-shortkey="['enter']" @shortkey="signIn">
-								<i class="icon ion-md-arrow-forward float-right mr-1"></i>Sign In
-							</button>
-						</div>
-					</li>
-					<li v-if="auth.user && ready.users" class="menu-item pt-2 pb-2">
-						<router-link to="/profile" class="py-2" @click.native="open = false">
-							<div class="tile tile-centered">
-								<div class="tile-icon mr-2 ml-1"><img class="avatar" src="http://media.devmount.de/profile.jpg" alt="Avatar"></div>
-								<div class="tile-content">
-									{{ users[auth.user].name }}
-									<div class="text-gray text-small">{{ users[auth.user].role }}</div>
-								</div>
-							</div>
+				<div class="sidebar-wrapper">
+					<div class="brand text-center mt-2">
+						<router-link to="/" class="logo">
+							<img src="./assets/logo.svg" alt="SongDrive Song Management Tool" />
+							<h1>SONGDRIVE</h1>
+							<div class="text-gray text-small text-right mr-5 pr-1">v{{ appVersion }} BETA</div>
 						</router-link>
-					</li>
-					<li v-if="auth.user" class="menu-item">
-						<router-link to="/settings" class="py-2" @click.native="open = false"><i class="icon ion-md-options mr-2"></i> Settings</router-link>
-					</li>
-					<li v-if="auth.user" class="menu-item">
-						<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
-							<i class="icon ion-md-log-out float-right mr-1"></i>Sign Out
-						</button>
-					</li>
-				</ul>
+					</div>
+					<ul class="menu text-uppercase">
+						<li class="divider text-center" data-content="START"></li>
+						<li class="menu-item">
+							<router-link to="/" class="py-2" @click.native="open = false"><i class="icon ion-md-apps mr-2"></i> Dashboard</router-link>
+						</li>
+						<li class="menu-item">
+							<router-link to="/songs" class="py-2" @click.native="open = false"><i class="icon ion-md-musical-notes mr-2"></i> Songs</router-link>
+							<div class="menu-badge">
+								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
+								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
+								<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Song" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
+							</div>
+						</li>
+						<li class="menu-item">
+							<router-link to="/setlists" class="py-2" @click.native="open = false"><i class="icon ion-md-list mr-2"></i> Setlists</router-link>
+							<div class="menu-badge">
+								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
+								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
+								<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Setlist" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
+							</div>
+						</li>
+						<li class="divider text-center" data-content="ACCOUNT"></li>
+						<li v-if="!auth.user" class="menu-item pb-2">
+							<div class="form-group">
+								<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
+								<input type="password" v-model="auth.password" class="form-input mb-1" placeholder="password" />
+								<button class="btn btn-primary d-block stretch" @click="signIn" v-shortkey="['enter']" @shortkey="signIn">
+									<i class="icon ion-md-arrow-forward float-right mr-1"></i>Sign In
+								</button>
+							</div>
+						</li>
+						<li v-if="auth.user && ready.users" class="menu-item pt-2 pb-2">
+							<router-link to="/profile" class="py-2" @click.native="open = false">
+								<div class="tile tile-centered">
+									<div class="tile-icon mr-2 ml-1"><img class="avatar" src="http://media.devmount.de/profile.jpg" alt="Avatar"></div>
+									<div class="tile-content">
+										{{ users[auth.user].name }}
+										<div class="text-gray text-small">{{ users[auth.user].role }}</div>
+									</div>
+								</div>
+							</router-link>
+						</li>
+						<li v-if="auth.user" class="menu-item">
+							<router-link to="/settings" class="py-2" @click.native="open = false"><i class="icon ion-md-options mr-2"></i> Settings</router-link>
+						</li>
+						<li v-if="auth.user" class="menu-item">
+							<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
+								<i class="icon ion-md-log-out float-right mr-1"></i>Sign Out
+							</button>
+						</li>
+					</ul>
+				</div>
 			</div>
 			<a class="off-canvas-overlay" @click="open = false"></a>
 
@@ -737,6 +739,11 @@ code {
 	.off-canvas-sidebar {
 		min-width: 12rem;
 		overflow: visible;
+
+		.sidebar-wrapper {
+			position: fixed;
+			min-width: inherit;
+		}
 	}
 	.off-canvas-content {
 		min-height: 100vh;
@@ -778,6 +785,11 @@ code {
 
 		.tooltip::after {
 			display: none;
+		}
+
+		.sidebar-wrapper {
+			position: fixed;
+			min-width: 6.5rem;
 		}
 	}
 }

@@ -3,74 +3,76 @@
 		<div class="off-canvas off-canvas-secondary">
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">
-				<button class="btn btn-primary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
-					<i class="icon ion-md-arrow-back float-left ml-1"></i><span class="hide-lg"> BACK</span>
-				</button>
-				<!-- sidebar: manage -->
-				<div v-if="user && role > 2" class="divider text-center show-lg" data-content="M"></div>
-				<div v-if="user && role > 2" class="divider text-center hide-lg" data-content="MANAGE"></div>
-				<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
-					<i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT</span>
-				</button>
-				<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
-					<i class="icon ion-md-copy float-left ml-1"></i><span class="hide-lg"> CLONE</span>
-				</button>
-				<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
-					<i class="icon ion-md-trash float-left ml-1"></i><span class="hide-lg"> DELETE</span>
-				</button>
-				<!-- sidebar: language -->
-				<div class="divider text-center show-lg" data-content="L"></div>
-				<div class="divider text-center hide-lg" data-content="LANGUAGE"></div>
-				<div class="d-flex" v-if="ready.songs">
-					<router-link
-						v-for="(tsong, i) in showLanguages"
-						:key="i"
-						:to="{ name: 'song-show', params: { id: tsong[0] }}"
-						class="btn btn-secondary text-uppercase mb-1"
-						:class="{ disabled: (songKey == tsong[0]) }"
-					>
-						{{ tsong[1] }}
-					</router-link>
+				<div class="sidebar-wrapper">
+					<button class="btn btn-primary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
+						<i class="icon ion-md-arrow-back float-left ml-1"></i><span class="hide-lg"> BACK</span>
+					</button>
+					<!-- sidebar: manage -->
+					<div v-if="user && role > 2" class="divider text-center show-lg" data-content="M"></div>
+					<div v-if="user && role > 2" class="divider text-center hide-lg" data-content="MANAGE"></div>
+					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
+						<i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT</span>
+					</button>
+					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
+						<i class="icon ion-md-copy float-left ml-1"></i><span class="hide-lg"> CLONE</span>
+					</button>
+					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
+						<i class="icon ion-md-trash float-left ml-1"></i><span class="hide-lg"> DELETE</span>
+					</button>
+					<!-- sidebar: language -->
+					<div class="divider text-center show-lg" data-content="L"></div>
+					<div class="divider text-center hide-lg" data-content="LANGUAGE"></div>
+					<div class="d-flex" v-if="ready.songs">
+						<router-link
+							v-for="(tsong, i) in showLanguages"
+							:key="i"
+							:to="{ name: 'song-show', params: { id: tsong[0] }}"
+							class="btn btn-secondary text-uppercase mb-1"
+							:class="{ disabled: (songKey == tsong[0]) }"
+						>
+							{{ tsong[1] }}
+						</router-link>
+					</div>
+					<!-- sidebar: view -->
+					<div class="divider text-center show-lg" data-content="V"></div>
+					<div class="divider text-center hide-lg" data-content="VIEW"></div>
+					<div class="form-group tooltip tooltip-right" data-tooltip=" CHORDS ">
+						<label class="form-switch switch-lg c-hand">
+							<input type="checkbox" v-model="chords" @click="chords = !chords">
+							<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
+						</label>
+					</div>
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="modal.present=true" data-tooltip=" PRESENT ">
+						<i class="icon ion-md-videocam float-left ml-1"></i><span class="hide-lg"> PRESENT</span>
+					</button>
+					<!-- sidebar: tuning -->
+					<div class="divider text-center show-lg" data-content="T"></div>
+					<div class="divider text-center hide-lg" data-content="TUNING"></div>
+					<div class="d-flex mb-2">
+						<span class="text-center text-pre text-gray text-large hide-lg">{{ showTuning.previous }}</span>
+						<span class="label label-rounded text-center text-large text-pre text-bold">{{ showTuning.current }}</span>
+						<span class="text-center text-pre text-gray text-large hide-lg">{{ showTuning.next }}</span>
+					</div>
+					<div class="d-flex">
+						<button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon ion-md-arrow-back"></i></button>
+						<button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++" data-tooltip=" TUNE UP "><i class="icon ion-md-arrow-up"></i></button>
+						<button class="btn btn-secondary tooltip tooltip-right mb-1" :class="{ disabled: !chords }" @click="tuning = 0" data-tooltip=" RESET TUNING "><i class="icon ion-md-refresh"></i></button>
+						<button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon ion-md-arrow-forward"></i></button>
+						<button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--" data-tooltip=" TUNE DOWN "><i class="icon ion-md-arrow-down"></i></button>
+					</div>
+					<!-- sidebar: export -->
+					<div class="divider text-center show-lg" data-content="E"></div>
+					<div class="divider text-center hide-lg" data-content="EXPORT"></div>
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportTxt" data-tooltip=" EXPORT TXT ">
+						<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .TXT</span>
+					</button>
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportSng" data-tooltip=" EXPORT SNG ">
+						<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .SNG</span>
+					</button>
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf" data-tooltip=" EXPORT PDF ">
+						<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .PDF</span>
+					</button>
 				</div>
-				<!-- sidebar: view -->
-				<div class="divider text-center show-lg" data-content="V"></div>
-				<div class="divider text-center hide-lg" data-content="VIEW"></div>
-				<div class="form-group tooltip tooltip-right" data-tooltip=" CHORDS ">
-					<label class="form-switch switch-lg c-hand">
-						<input type="checkbox" v-model="chords" @click="chords = !chords">
-						<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
-					</label>
-				</div>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="modal.present=true" data-tooltip=" PRESENT ">
-					<i class="icon ion-md-videocam float-left ml-1"></i><span class="hide-lg"> PRESENT</span>
-				</button>
-				<!-- sidebar: tuning -->
-				<div class="divider text-center show-lg" data-content="T"></div>
-				<div class="divider text-center hide-lg" data-content="TUNING"></div>
-				<div class="d-flex mb-2">
-					<span class="text-center text-pre text-gray text-large hide-lg">{{ showTuning.previous }}</span>
-					<span class="label label-rounded text-center text-large text-pre text-bold">{{ showTuning.current }}</span>
-					<span class="text-center text-pre text-gray text-large hide-lg">{{ showTuning.next }}</span>
-				</div>
-				<div class="d-flex">
-					<button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon ion-md-arrow-back"></i></button>
-					<button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++" data-tooltip=" TUNE UP "><i class="icon ion-md-arrow-up"></i></button>
-					<button class="btn btn-secondary tooltip tooltip-right mb-1" :class="{ disabled: !chords }" @click="tuning = 0" data-tooltip=" RESET TUNING "><i class="icon ion-md-refresh"></i></button>
-					<button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon ion-md-arrow-forward"></i></button>
-					<button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--" data-tooltip=" TUNE DOWN "><i class="icon ion-md-arrow-down"></i></button>
-				</div>
-				<!-- sidebar: export -->
-				<div class="divider text-center show-lg" data-content="E"></div>
-				<div class="divider text-center hide-lg" data-content="EXPORT"></div>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportTxt" data-tooltip=" EXPORT TXT ">
-					<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .TXT</span>
-				</button>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportSng" data-tooltip=" EXPORT SNG ">
-					<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .SNG</span>
-				</button>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf" data-tooltip=" EXPORT PDF ">
-					<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .PDF</span>
-				</button>
 			</div>
 			<!-- content -->
 			<div class="off-canvas-content">

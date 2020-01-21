@@ -3,64 +3,66 @@
 		<div class="off-canvas off-canvas-secondary">
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">
-				<button class="btn btn-primary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
-					<i class="icon ion-md-arrow-back float-left ml-1"></i><span class="hide-lg"> BACK</span>
-				</button>
-				<!-- sidebar: manage -->
-				<div v-if="user && role > 1" class="divider text-center show-lg" data-content="M"></div>
-				<div v-if="user && role > 1" class="divider text-center hide-lg" data-content="MANAGE"></div>
-				<button v-if="user && role > 1" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
-					<i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT</span>
-				</button>
-				<button v-if="user && role > 1" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
-					<i class="icon ion-md-copy float-left ml-1"></i><span class="hide-lg"> CLONE</span>
-				</button>
-				<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
-					<i class="icon ion-md-trash float-left ml-1"></i><span class="hide-lg"> DELETE</span>
-				</button>
-				<!-- sidebar: view -->
-				<div class="divider text-center show-lg" data-content="V"></div>
-				<div class="divider text-center hide-lg" data-content="VIEW"></div>
-				<div v-if="setlist && user && role > 1" class="form-group tooltip tooltip-right" data-tooltip=" SYNC ">
-					<label class="form-switch switch-lg c-hand">
-						<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
-						<i class="form-icon"></i><span class="hide-lg"> SYNC</span>
-					</label>
+				<div class="sidebar-wrapper">
+					<button class="btn btn-primary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
+						<i class="icon ion-md-arrow-back float-left ml-1"></i><span class="hide-lg"> BACK</span>
+					</button>
+					<!-- sidebar: manage -->
+					<div v-if="user && role > 1" class="divider text-center show-lg" data-content="M"></div>
+					<div v-if="user && role > 1" class="divider text-center hide-lg" data-content="MANAGE"></div>
+					<button v-if="user && role > 1" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
+						<i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT</span>
+					</button>
+					<button v-if="user && role > 1" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
+						<i class="icon ion-md-copy float-left ml-1"></i><span class="hide-lg"> CLONE</span>
+					</button>
+					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
+						<i class="icon ion-md-trash float-left ml-1"></i><span class="hide-lg"> DELETE</span>
+					</button>
+					<!-- sidebar: view -->
+					<div class="divider text-center show-lg" data-content="V"></div>
+					<div class="divider text-center hide-lg" data-content="VIEW"></div>
+					<div v-if="setlist && user && role > 1" class="form-group tooltip tooltip-right" data-tooltip=" SYNC ">
+						<label class="form-switch switch-lg c-hand">
+							<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
+							<i class="form-icon"></i><span class="hide-lg"> SYNC</span>
+						</label>
+					</div>
+					<div class="form-group tooltip tooltip-right" data-tooltip=" CHORDS ">
+						<label class="form-switch switch-lg c-hand">
+							<input type="checkbox" v-model="chords">
+							<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
+						</label>
+					</div>
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="modal.present=true" data-tooltip=" PRESENT ">
+						<i class="icon ion-md-videocam float-left ml-1"></i><span class="hide-lg"> PRESENT</span>
+					</button>
+					<!-- sidebar: export -->
+					<div class="divider text-center show-lg" data-content="C"></div>
+					<div class="divider text-center hide-lg" data-content="COPY"></div>
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('plain')" data-tooltip=" COPY LIST IN PLAIN TEXT ">
+						<i class="icon ion-md-list float-left ml-1"></i><span class="hide-lg text-pre">PLAIN</span>
+					</button>
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('markdown')" data-tooltip=" COPY LIST IN MARKDOWN ">
+						<i class="icon ion-logo-markdown float-left ml-1"></i><span class="hide-lg text-pre">MARKDOWN</span>
+					</button>
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('slack')" data-tooltip=" COPY LIST FOR SLACK ">
+						<i class="icon ion-logo-slack float-left ml-1"></i><span class="hide-lg text-pre">SLACK</span>
+					</button>
+					<!-- sidebar: export -->
+					<div class="divider text-center show-lg" data-content="E"></div>
+					<div class="divider text-center hide-lg" data-content="EXPORT"></div>
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportPdf('list')" data-tooltip=" EXPORT LIST AS PDF ">
+						<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> LIST</span>
+					</button>
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf('sheets')" data-tooltip=" EXPORT SHEETS AS PDF ">
+						<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> SHEETS</span>
+					</button>
+					<!-- sidebar: language -->
+					<!-- <div class="divider text-center show-lg" data-content="S"></div>
+					<div class="divider text-center hide-lg" data-content="STATS"></div>
+					TODO -->
 				</div>
-				<div class="form-group tooltip tooltip-right" data-tooltip=" CHORDS ">
-					<label class="form-switch switch-lg c-hand">
-						<input type="checkbox" v-model="chords">
-						<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
-					</label>
-				</div>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="modal.present=true" data-tooltip=" PRESENT ">
-					<i class="icon ion-md-videocam float-left ml-1"></i><span class="hide-lg"> PRESENT</span>
-				</button>
-				<!-- sidebar: export -->
-				<div class="divider text-center show-lg" data-content="C"></div>
-				<div class="divider text-center hide-lg" data-content="COPY"></div>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('plain')" data-tooltip=" COPY LIST IN PLAIN TEXT ">
-					<i class="icon ion-md-list float-left ml-1"></i><span class="hide-lg text-pre">PLAIN</span>
-				</button>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('markdown')" data-tooltip=" COPY LIST IN MARKDOWN ">
-					<i class="icon ion-logo-markdown float-left ml-1"></i><span class="hide-lg text-pre">MARKDOWN</span>
-				</button>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('slack')" data-tooltip=" COPY LIST FOR SLACK ">
-					<i class="icon ion-logo-slack float-left ml-1"></i><span class="hide-lg text-pre">SLACK</span>
-				</button>
-				<!-- sidebar: export -->
-				<div class="divider text-center show-lg" data-content="E"></div>
-				<div class="divider text-center hide-lg" data-content="EXPORT"></div>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportPdf('list')" data-tooltip=" EXPORT LIST AS PDF ">
-					<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> LIST</span>
-				</button>
-				<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf('sheets')" data-tooltip=" EXPORT SHEETS AS PDF ">
-					<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> SHEETS</span>
-				</button>
-				<!-- sidebar: language -->
-				<!-- <div class="divider text-center show-lg" data-content="S"></div>
-				<div class="divider text-center hide-lg" data-content="STATS"></div>
-				TODO -->
 			</div>
 			<!-- content -->
 			<div class="off-canvas-content">
