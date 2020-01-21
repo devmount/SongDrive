@@ -264,21 +264,9 @@ export default {
 		tags: Object,
 		ready: Object,
 	},
-	// firestore () {
-	// 	return {
-	// 		songs: {
-	// 			ref: db.collection('songs'),
-	// 			objects: true,
-	// 			resolve: () => { this.ready = true },
-	// 			reject: () => { this.ready = true }
-	// 		},
-	// 		tags: db.collection('tags'),
-	// 	}
-	// },
 	data () {
 		return {
 			song: JSON.parse(JSON.stringify(this.initialSong)),
-			// ready: false,
 			modal: {
 				tags: false,
 				translations: false,

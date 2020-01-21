@@ -156,22 +156,10 @@ export default {
 		tags: Object,
 		ready: Object,
 	},
-	// firestore () {
-	// 	return {
-	// 		songs: {
-	// 			ref: db.collection('songs'),
-	// 			objects: true,
-	// 			resolve: () => { this.ready = true },
-	// 			reject: () => { this.ready = true }
-	// 		},
-	// 		tags: db.collection('tags'),
-	// 	}
-	// },
 	data () {
 		return {
 			setlist: JSON.parse(JSON.stringify(this.initialSetlist)),
 			setlistSongs: JSON.parse(JSON.stringify(this.initialSetlist)).songs.map(s => s.id),
-			// ready: false,
 			search: '',
 			filter: '',
 			tuning: '',
@@ -284,7 +272,6 @@ export default {
 					self.$emit('closed')
 					self.$emit('reset')
 					processedSetlist = {}
-					// self.$router.push({ name: 'setlist-show', params: { id: self.setlistKey }})
 					// toast success update message
 					self.$notify({
 						title: '<button class="btn btn-clear float-right"></button>Success!',

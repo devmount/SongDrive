@@ -107,12 +107,9 @@
 </template>
 
 <script>
-// get database object authorized in config.js
-import { db } from '@/firebase'
-
 export default {
 	name: 'settings',
-	props: ['userObject', 'roleName', 'role', 'users', 'tags'],
+	props: ['db', 'userObject', 'roleName', 'role', 'users', 'tags'],
 	data () {
 		return {
 			user: {
@@ -127,7 +124,7 @@ export default {
 		updateProfile () {
 			let self = this
 			this.userObject.updateProfile(this.user).then(function() {
-				db.collection('users').doc(self.userObject.uid).update({
+				self.db.collection('users').doc(self.userObject.uid).update({
 					name: self.user.displayName,
 					email: self.user.email
 				}).then(function() {

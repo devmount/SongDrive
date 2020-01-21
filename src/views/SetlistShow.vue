@@ -155,8 +155,6 @@
 import SetlistSet from '@/components/SetlistSet.vue'
 import SetlistDelete from '@/components/SetlistDelete.vue'
 import SetlistPresent from '@/components/SetlistPresent.vue'
-// get database object authorized in config.js
-import { db } from '@/firebase'
 // pdf creation
 var pdfMake = require('pdfmake/build/pdfmake.js')
 var pdfFonts = require('@/assets/vfs_fonts.js')
@@ -172,7 +170,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'setlist-show',
-	props: ['songs', 'setlists', 'users', 'tags', 'user', 'role', 'ready'],
+	props: ['db', 'songs', 'setlists', 'users', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,
@@ -221,7 +219,7 @@ export default {
 			const movedItem = this.setlist.songs.splice(oldIndex, 1)[0]
 			this.setlist.songs.splice(newIndex, 0, movedItem)
 			var self = this
-			db.collection('setlists').doc(this.$route.params.id).set({songs: this.setlist.songs}, { merge: true }).then(function() {
+			this.db.collection('setlists').doc(this.$route.params.id).set({songs: this.setlist.songs}, { merge: true }).then(function() {
 				self.$notify({
 					title: '<button class="btn btn-clear float-right"></button>Setlist saved!',
 					text: 'Song order was successfully updated.',
@@ -241,7 +239,7 @@ export default {
 			}
 			// save tuning in setlist
 			songs[songPosition].tuning = tone
-			db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
+			this.db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
 		},
 		tuneDown (song, songPosition) {
 			let songs = this.setlist.songs
@@ -255,12 +253,12 @@ export default {
 			}
 			// save tuning in setlist
 			songs[songPosition].tuning = tone
-			db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
+			this.db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
 		},
 		updateActive () {
 			// update setlist's active flag to enable sync
 			var self = this, sync = !this.setlist.active
-			db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(function() {
+			this.db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(function() {
 				self.$notify({
 					title: '<button class="btn btn-clear float-right"></button>Setlist saved!',
 					text: sync ? 'Setlist was successfully activated.' : 'Setlist was successfully deactivated.',
@@ -271,7 +269,7 @@ export default {
 		updatePosition (position) {
 			// update setlist's position if sync enabled
 			if (this.setlist.active) {
-				db.collection('setlists').doc(this.$route.params.id).set({position: position}, { merge: true })
+				this.db.collection('setlists').doc(this.$route.params.id).set({position: position}, { merge: true })
 			}
 		},
 		copyList (format) {

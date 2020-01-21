@@ -73,6 +73,7 @@
 			<div class="off-canvas-content">
 				<router-view
 					:key="$route.fullPath"
+					:db="db"
 					:user="auth.user"
 					:userObject="auth.userObject"
 					:role="auth.user && ready.users ? auth.roles[users[auth.user].role] : ''"
@@ -193,6 +194,7 @@ export default {
 				date: '',
 				songs: [],
 			},
+			db: db,
 			auth: {
 				roles: { reader: 1, performer: 2, editor: 3, admin: 4 },
 				email: '',

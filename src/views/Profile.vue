@@ -73,7 +73,6 @@
 </template>
 
 <script>
-
 export default {
 	name: 'profile',
 	props: ['setlists', 'userObject', 'roleName', 'ready'],
