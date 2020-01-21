@@ -25,7 +25,7 @@
 						v-for="(song, i) in songlist"
 						:key="i"
 						class="tile tile-centered tile-hover c-hand p-2"
-						@click="$router.push({ name: 'song-show', params: { id: song['.key'] }})"
+						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
 					>
 						<div class="tile-icon">
 							<figure class="avatar s-rounded" :data-initial="song.tuning" title="Song tuning"></figure>
@@ -72,7 +72,7 @@
 						v-for="(setlist, i) in setlistlist"
 						:key="i"
 						class="tile tile-centered tile-hover c-hand p-2"
-						@click="$router.push({ name: 'setlist-show', params: { id: setlist['.key'] }})"
+						@click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})"
 					>
 						<div class="tile-icon">
 							<figure
@@ -107,11 +107,13 @@ export default {
 		return {
 			songs: {
 				ref: db.collection('songs').orderBy('year', 'desc'),
+				objects: true,
 				resolve: () => { this.ready.songs = true },
 				reject: () => { this.ready.songs = true }
 			},
 			setlists: {
 				ref: db.collection('setlists').orderBy('date', 'desc'),
+				objects: true,
 				resolve: () => { this.ready.setlists = true },
 				reject: () => { this.ready.setlists = true }
 			},
@@ -137,7 +139,7 @@ export default {
 		shuffleSongs () {
 			this.songsPage = 0
 			this.songsProperty = 'random'
-			let songs = this.songs
+			let songs = this.songsArray
 			for (let i = songs.length - 1; i > 0; i--) {
 				const j = Math.floor(Math.random() * (i + 1));
 				[songs[i], songs[j]] = [songs[j], songs[i]]
@@ -147,18 +149,18 @@ export default {
 		newestSongs () {
 			this.songsPage = 0
 			this.songsProperty = 'newest'
-			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0))
+			this.reorderedSongs = this.songsArray.filter(s => s.year > 0).sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0))
 		},
 		oldestSongs () {
 			this.songsPage = 0
 			this.songsProperty = 'oldest'
-			this.reorderedSongs = this.songs.filter(s => s.year > 0).sort((a, b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0))
+			this.reorderedSongs = this.songsArray.filter(s => s.year > 0).sort((a, b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0))
 		},
 		popularSongs () {
 			this.songsPage = 0
 			this.songsProperty = 'popular'
 			let popularSongs = {}
-			this.setlists.forEach(setlist => {
+			this.setlistsArray.forEach(setlist => {
 				if (setlist.songs) {
 					setlist.songs.forEach(song => {
 						if (!popularSongs.hasOwnProperty(song.id)) {
@@ -174,33 +176,49 @@ export default {
 				idList.push([id, popularSongs[id]])
 			}
 			let orderedSongIds = idList.sort((a, b) => b[1] - a[1]).reduce((a, c) => a.concat(c[0]), [])
-			this.reorderedSongs = this.songs
-				.filter(s => orderedSongIds.includes(s['.key']))
-				.map(s => Object.assign({popularity: popularSongs[s['.key']]}, s))
+			this.reorderedSongs = this.songsArray
+				.filter(s => orderedSongIds.includes(s.id))
+				.map(s => Object.assign({popularity: popularSongs[s.id]}, s))
 				.sort((a, b) => (a.popularity < b.popularity) ? 1 : ((b.popularity < a.popularity) ? -1 : 0))
 		},
 		newestSetlists () {
 			this.setlistsPage = 0
 			this.setlistsProperty = 'newest'
-			this.reorderedSetlists = this.setlists.filter(s => s.date != '').sort((a,b) => (new Date(a.date) < new Date(b.date)) ? 1 : ((new Date(b.date) < new Date(a.date)) ? -1 : 0))
+			this.reorderedSetlists = this.setlistsArray.filter(s => s.date != '').sort((a,b) => (new Date(a.date) < new Date(b.date)) ? 1 : ((new Date(b.date) < new Date(a.date)) ? -1 : 0))
 		},
 		oldestSetlists () {
 			this.setlistsPage = 0
 			this.setlistsProperty = 'oldest'
-			this.reorderedSetlists = this.setlists.filter(s => s.date != '').sort((a,b) => (new Date(a.date) > new Date(b.date)) ? 1 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0))
+			this.reorderedSetlists = this.setlistsArray.filter(s => s.date != '').sort((a,b) => (new Date(a.date) > new Date(b.date)) ? 1 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0))
 		},
 	},
 	computed: {
+		songsArray () {
+			let self = this
+			return Object.keys(this.songs).map(function (key) {
+				let song = self.songs[key]
+				song['id'] = key
+				return song
+			})
+		},
 		songlist () {
 			if (this.reorderedSongs.length === 0) {
-				return this.songs.slice(this.songsPage*this.listLength, (this.songsPage+1)*this.listLength)
+				return this.songsArray.slice(this.songsPage*this.listLength, (this.songsPage+1)*this.listLength)
 			} else {
 				return this.reorderedSongs.slice(this.songsPage*this.listLength, (this.songsPage+1)*this.listLength)
 			}
 		},
+		setlistsArray () {
+			let self = this
+			return Object.keys(this.setlists).map(function (key) {
+				let setlist = self.setlists[key]
+				setlist['id'] = key
+				return setlist
+			})
+		},
 		setlistlist () {
 			if (this.reorderedSetlists.length === 0) {
-				return this.setlists.slice(this.setlistsPage*this.listLength, (this.setlistsPage+1)*this.listLength)
+				return this.setlistsArray.slice(this.setlistsPage*this.listLength, (this.setlistsPage+1)*this.listLength)
 			} else {
 				return this.reorderedSetlists.slice(this.setlistsPage*this.listLength, (this.setlistsPage+1)*this.listLength)
 			}
