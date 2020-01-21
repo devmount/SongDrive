@@ -119,6 +119,7 @@
 			<!-- modals -->
 			<SetlistSet
 				v-if="modal.set"
+				:db="db"
 				:active="modal.set"
 				:existing="existing"
 				:initialSetlist="setlist"

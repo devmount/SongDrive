@@ -101,6 +101,7 @@
 			/>
 			<SetlistSet
 				v-if="modal.addsetlist"
+				:db="db"
 				:active="modal.addsetlist"
 				:existing="false"
 				:initialSetlist="newSetlist"

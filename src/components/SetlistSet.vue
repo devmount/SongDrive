@@ -137,8 +137,6 @@
 </template>
 
 <script>
-// get database object authorized in config.js
-import { db } from '@/firebase'
 // init datepicker component
 import Datepicker from 'vuejs-datepicker';
 
@@ -148,6 +146,7 @@ export default {
 		Datepicker
 	},
 	props: {
+		db: Object,
 		active: Boolean,
 		existing: Boolean,
 		initialSetlist: Object,
@@ -242,7 +241,7 @@ export default {
 			// new setlist should be created
 			if (!this.existing) {
 				let slug = this.createSlug()
-				db.collection('setlists').doc(slug).set(processedSetlist)
+				this.db.collection('setlists').doc(slug).set(processedSetlist)
 				.then(function() {
 					self.$emit('closed')
 					self.$emit('reset')
@@ -267,7 +266,7 @@ export default {
 			}
 			// existing setlist should be updated
 			else {
-				db.collection('setlists').doc(this.setlistKey).update(processedSetlist)
+				this.db.collection('setlists').doc(this.setlistKey).update(processedSetlist)
 				.then(function() {
 					self.$emit('closed')
 					self.$emit('reset')
