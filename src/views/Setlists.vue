@@ -37,6 +37,7 @@
 						<th></th>
 						<th class="hide-xl">Date</th>
 						<th class="">Title</th>
+						<th class="">Creator</th>
 						<th class="hide-xl"># Songs</th>
 						<th></th>
 					</tr>
@@ -51,6 +52,9 @@
             </td>
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
               {{ setlist.title }}
+            </td>
+						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
+              {{ users[setlist.creator].name }}
             </td>
 						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
               {{ setlist.songs.length }}
@@ -124,7 +128,7 @@ import SetlistDelete from '@/components/SetlistDelete.vue'
 
 export default {
 	name: 'setlists',
-	props: ['db', 'songs', 'setlists', 'tags', 'user', 'role', 'ready'],
+	props: ['db', 'songs', 'setlists', 'tags', 'users', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,
