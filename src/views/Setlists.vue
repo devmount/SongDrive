@@ -43,8 +43,9 @@
 							Title
 							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'title' && !order.ascending, 'ion-md-arrow-up': order.field == 'title' && order.ascending }"></i>
 						</th>
-						<th class="">
+						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'creator' }" @click="sortList('creator')">
 							Creator
+							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'creator' && !order.ascending, 'ion-md-arrow-up': order.field == 'creator' && order.ascending }"></i>
 						</th>
 						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'songs' }" @click="sortList('songs')">
 							# Songs
@@ -177,6 +178,9 @@ export default {
 				if (self.order.field == 'songs') {
 					propA = a.songs.length
 					propB = b.songs.length
+				} else if (self.order.field == 'creator') {
+					propA = self.users[a.creator] ? self.users[a.creator].name : ''
+					propB = self.users[b.creator] ? self.users[b.creator].name : ''
 				} else {
 					propA = String(a[self.order.field]).toLowerCase().trim()
 					propB = String(b[self.order.field]).toLowerCase().trim()
