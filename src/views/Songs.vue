@@ -45,23 +45,38 @@
 			<table v-if="ready.songs" class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th>Title</th>
-						<th class="hide-xl">Subtitle</th>
-						<th class="hide-md">Authors</th>
-						<th class="hide-xl">Year</th>
-						<th>Tuning</th>
+						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'title' }" @click="sortList('title')">
+							Title
+							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'title' && !order.ascending, 'ion-md-arrow-up': order.field == 'title' && order.ascending }"></i>
+						</th>
+						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'subtitle' }" @click="sortList('subtitle')">
+							Subtitle
+							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'subtitle' && !order.ascending, 'ion-md-arrow-up': order.field == 'subtitle' && order.ascending }"></i>
+						</th>
+						<th class="c-hand hide-md" :class="{ 'bg-primary-dark': order.field == 'authors' }" @click="sortList('authors')">
+							Authors
+							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'authors' && !order.ascending, 'ion-md-arrow-up': order.field == 'authors' && order.ascending }"></i>
+						</th>
+						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'year' }" @click="sortList('year')">
+							Year
+							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'year' && !order.ascending, 'ion-md-arrow-up': order.field == 'year' && order.ascending }"></i>
+						</th>
+						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'tuning' }" @click="sortList('tuning')">
+							Tuning
+							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'tuning' && !order.ascending, 'ion-md-arrow-up': order.field == 'tuning' && order.ascending }"></i>
+						</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr v-for="(song, i) in filteredSongs" :key="i">
-						<td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: i }})">
+						<td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 							{{ song.title }} <div class="show-xl text-gray">{{ song.subtitle }}</div>
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: i }})">{{ song.subtitle }}</td>
-						<td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: i }})">{{ song.authors }}</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: i }})">{{ song.year }}</td>
-						<td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: i }})">{{ song.tuning }}</td>
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">{{ song.subtitle }}</td>
+						<td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">{{ song.authors }}</td>
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">{{ song.year }}</td>
+						<td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">{{ song.tuning }}</td>
 						<td class="text-right">
 							<div class="dropdown dropdown-right">
 								<div class="btn-group">
@@ -71,7 +86,7 @@
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
-											<router-link :to="{ name: 'song-show', params: { id: i }}" class="py-3 px-3">
+											<router-link :to="{ name: 'song-show', params: { id: song.id }}" class="py-3 px-3">
 												<i class="icon ion-md-eye mr-2"></i> Show
 											</router-link>
 										</li>
@@ -139,6 +154,10 @@ export default {
 			search: '',
 			filter: this.$route.params.tag ? this.$route.params.tag : '',
 			tuning: '',
+			order: { 
+				field: 'title',
+				ascending: true
+			},
 			modal: {
 				set: false,
 				delete: false,
@@ -153,28 +172,59 @@ export default {
 		}
 	},
 	computed: {
+		songsArray () {
+			let self = this
+			let songs = Object.keys(this.songs).map(function (key) {
+				let song = self.songs[key]
+				song['id'] = key
+				return song
+			})
+			songs.sort(function(a, b) {
+				var propA = String(a[self.order.field]).toLowerCase().trim()
+				var propB = String(b[self.order.field]).toLowerCase().trim()
+				if (self.order.ascending) {
+					if (propA < propB) { return -1 }
+					if (propA > propB) { return 1 }
+				} else {
+					if (propA < propB) { return 1 }
+					if (propA > propB) { return -1 }
+				}
+				return 0
+			})
+			return songs
+		},
 		filteredSongs () {
-			var songs = this.songs, self = this
+			var songs = this.songsArray, self = this
 			if (this.search != '') {
-				songs = Object.filter(songs, function(song) {
+				songs = songs.filter(song => {
 					// filter fields: title, subtitle
 					var key = self.search.toLowerCase()
 					return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1
 				})
 			}
 			if (this.filter != '') {
-				songs = Object.filter(songs, function(song) {
+				songs = songs.filter(song => {
 					// filter field: tags
 					return song.tags.indexOf(self.filter) !== -1
 				})
 			}
 			if (this.tuning != '') {
-				songs = Object.filter(songs, function(song) {
+				songs = songs.filter(song => {
 					// filter field: tuning
 					return song.tuning.indexOf(self.tuning) !== -1
 				})
 			}
 			return songs
+		}
+	},
+	methods: {
+		sortList (field) {
+			if (this.order.field == field) {
+				this.order.ascending = !this.order.ascending
+			} else {
+				this.order.ascending = true
+			}
+			this.order.field = field
 		}
 	}
 }

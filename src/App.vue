@@ -389,6 +389,11 @@ $ionicons-font-path: "~ionicons/dist/fonts";
 .ls-1 { letter-spacing: 1px; }
 .ls-2 { letter-spacing: 2px; }
 
+// colors
+.bg-primary-dark {
+	background-color: $primary-dark-color;
+}
+
 // responsive grid
 .container {
 	&.grid-2x {
