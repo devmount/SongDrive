@@ -35,10 +35,20 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th class="hide-xl">Date</th>
-						<th class="">Title</th>
-						<th class="">Creator</th>
-						<th class="hide-xl"># Songs</th>
+						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'date' }" @click="sortList('date')">
+							Date
+							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'date' && !order.ascending, 'ion-md-arrow-up': order.field == 'date' && order.ascending }"></i>
+						</th>
+						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'title' }" @click="sortList('title')">
+							Title
+							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'title' && !order.ascending, 'ion-md-arrow-up': order.field == 'title' && order.ascending }"></i>
+						</th>
+						<th class="">
+							Creator
+						</th>
+						<th class="hide-xl"># 
+							Songs
+						</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -48,17 +58,17 @@
 							<div class="s-circle s-circle-state ml-3" :class="{ active: setlist.active }"></div>
 						</td>
 						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
-              {{ setlist.date }}
-            </td>
+							{{ setlist.date }}
+						</td>
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
-              {{ setlist.title }}
-            </td>
+							{{ setlist.title }}
+						</td>
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
-              {{ users[setlist.creator].name }}
-            </td>
+							{{ users[setlist.creator] ? users[setlist.creator].name : '' }}
+						</td>
 						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
-              {{ setlist.songs.length }}
-            </td>
+							{{ setlist.songs.length }}
+						</td>
 						<td class="text-right">
 							<div class="dropdown dropdown-right">
 								<div class="btn-group">
@@ -137,6 +147,10 @@ export default {
 		return {
 			search: '',
 			filter: this.$route.params.year ? this.$route.params.year : '',
+			order: { 
+				field: 'date',
+				ascending: false
+			},
 			modal: {
 				set: false,
 				delete: false,
@@ -150,17 +164,38 @@ export default {
 		}
 	},
 	computed: {
+		setlistsArray () {
+			let self = this
+			let setlists = Object.keys(this.setlists).map(function (key) {
+				let setlist = self.setlists[key]
+				setlist['id'] = key
+				return setlist
+			})
+			setlists.sort(function(a, b) {
+				var propA = String(a[self.order.field]).toLowerCase().trim()
+				var propB = String(b[self.order.field]).toLowerCase().trim()
+				if (self.order.ascending) {
+					if (propA < propB) { return -1 }
+					if (propA > propB) { return 1 }
+				} else {
+					if (propA < propB) { return 1 }
+					if (propA > propB) { return -1 }
+				}
+				return 0
+			})
+			return setlists
+		},
 		filteredSetlists() {
-			var setlists = this.setlists, self = this
+			var setlists = this.setlistsArray, self = this
 			if (this.search != '') {
-				setlists = Object.filter(setlists, function(setlist) {
+				setlists = setlists.filter(setlist => {
 					// filter fields: title, date
 					var key = self.search.toLowerCase()
 					return setlist.title.toLowerCase().indexOf(key) !== -1 || setlist.date.toLowerCase().indexOf(key) !== -1
 				})
 			}
 			if (this.filter != '') {
-				setlists = Object.filter(setlists, function(setlist) {
+				setlists = setlists.filter(setlist => {
 					// filter field: date(Y)
 					return setlist.date.substring(0,4).indexOf(self.filter) !== -1
 				})
@@ -175,6 +210,16 @@ export default {
 			} else {
 				return []
 			}
+		}
+	},
+	methods: {
+		sortList (field) {
+			if (this.order.field == field) {
+				this.order.ascending = !this.order.ascending
+			} else {
+				this.order.ascending = true
+			}
+			this.order.field = field
 		}
 	}
 }
