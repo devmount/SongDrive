@@ -46,8 +46,9 @@
 						<th class="">
 							Creator
 						</th>
-						<th class="hide-xl"># 
-							Songs
+						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'songs' }" @click="sortList('songs')">
+							# Songs
+							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'songs' && !order.ascending, 'ion-md-arrow-up': order.field == 'songs' && order.ascending }"></i>
 						</th>
 						<th></th>
 					</tr>
@@ -172,8 +173,14 @@ export default {
 				return setlist
 			})
 			setlists.sort(function(a, b) {
-				var propA = String(a[self.order.field]).toLowerCase().trim()
-				var propB = String(b[self.order.field]).toLowerCase().trim()
+				let propA, propB
+				if (self.order.field == 'songs') {
+					propA = a.songs.length
+					propB = b.songs.length
+				} else {
+					propA = String(a[self.order.field]).toLowerCase().trim()
+					propB = String(b[self.order.field]).toLowerCase().trim()
+				}
 				if (self.order.ascending) {
 					if (propA < propB) { return -1 }
 					if (propA > propB) { return 1 }
