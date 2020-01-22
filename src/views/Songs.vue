@@ -91,17 +91,17 @@
 											</router-link>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
-											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=i; active.existing=true; modal.set=true">
+											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=song.id; active.existing=true; modal.set=true">
 												<i class="icon ion-md-create mr-2"></i> Edit
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
-											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=i; active.existing=false; modal.set=true">
+											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=song.id; active.existing=false; modal.set=true">
 												<i class="icon ion-md-copy mr-2"></i> Duplicate
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
-											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=song.title; active.key=i; modal.delete=true">
+											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=song.title; active.key=song.id; modal.delete=true">
 												<i class="icon ion-md-trash mr-2"></i> Delete
 											</a>
 										</li>

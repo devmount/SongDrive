@@ -55,19 +55,19 @@
 				</thead>
 				<tbody>
 					<tr v-for="(setlist, i) in filteredSetlists" :key="i">
-						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
+						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							<div class="s-circle s-circle-state ml-3" :class="{ active: setlist.active }"></div>
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ setlist.date }}
 						</td>
-						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
+						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ setlist.title }}
 						</td>
-						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
+						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ users[setlist.creator] ? users[setlist.creator].name : '' }}
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: i }})">
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ setlist.songs.length }}
 						</td>
 						<td class="text-right">
@@ -79,22 +79,22 @@
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
-											<router-link :to="{ name: 'setlist-show', params: { id: i }}" class="py-3 px-3">
+											<router-link :to="{ name: 'setlist-show', params: { id: setlist.id }}" class="py-3 px-3">
 												<i class="icon ion-md-eye mr-2"></i> Show
 											</router-link>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
-											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.key=i; active.existing=true; modal.set=true">
+											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.key=setlist.id; active.existing=true; modal.set=true">
 												<i class="icon ion-md-create mr-2"></i> Edit
 											</a>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
-											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.key=i; active.existing=false; modal.set=true">
+											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.key=setlist.id; active.existing=false; modal.set=true">
 												<i class="icon ion-md-copy mr-2"></i> Duplicate
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
-											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=setlist.title; active.key=i; modal.delete=true">
+											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=setlist.title; active.key=setlist.id; modal.delete=true">
 												<i class="icon ion-md-trash mr-2"></i> Delete
 											</a>
 										</li>
