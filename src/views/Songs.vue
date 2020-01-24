@@ -3,7 +3,7 @@
 		<div class="container no-sidebar">
 			<div class="columns">
 				<!-- heading -->
-				<div class="column col-4 col-xl-12">
+				<div class="column col-6 col-xl-12">
 					<h2 class="view-title">
 						<span v-if="ready.songs" class="label text-bold mr-2 px-2">{{ Object.keys(filteredSongs).length }}</span>
 						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
@@ -11,7 +11,7 @@
 					</h2>
 				</div>
 				<!-- search title, subtitles -->
-				<div class="column col-3 col-xl-6 col-sm-12 mb-1">
+				<div class="column col-2 col-xl-12 mb-1">
 					<div class="input-group filter">
 						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-search"></i></span>
 						<input type="search" v-model="search" class="form-input input-lg" placeholder="search ..." />
@@ -19,7 +19,7 @@
 					</div>
 				</div>
 				<!-- filter tags -->
-				<div class="column col-3 col-xl-6 col-sm-12 mb-1">
+				<div class="column col-2 col-xl-6 col-sm-12 mb-1">
 					<div class="input-group filter">
 						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-pricetag"></i></span>
 						<select v-model="filter" class="form-select select-lg filter" required>
