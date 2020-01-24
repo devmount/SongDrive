@@ -4,7 +4,7 @@
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">
 				<div class="sidebar-wrapper">
-					<button class="btn btn-primary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
 						<i class="icon ion-md-arrow-back float-left ml-1"></i><span class="hide-lg"> BACK</span>
 					</button>
 					<!-- sidebar: manage -->
@@ -92,7 +92,7 @@
 								<p>{{ song.authors }}</p>
 								<p>
 									<router-link v-for="tag in song.tags" :key="tag" :to="{ name: 'songs-tag', params: { tag: tag }}" class="mr-2">
-										<span class="label label-primary px-2 py-1">
+										<span class="label px-2 py-1">
 											<i class="icon ion-md-pricetag mr-1"></i>
 											{{ tag }}
 										</span>

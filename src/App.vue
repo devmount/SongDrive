@@ -657,6 +657,13 @@ a:focus,
   box-shadow: 0 0 0 .2rem rgba($error-color, .2);
 }
 
+// label
+.label {
+	&:hover {
+		background: darken($primary-color-dark, 2%);
+	}
+}
+
 // table
 .table {
 	td, th {

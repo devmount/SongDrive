@@ -4,7 +4,7 @@
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">
 				<div class="sidebar-wrapper">
-					<button class="btn btn-primary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
 						<i class="icon ion-md-arrow-back float-left ml-1"></i><span class="hide-lg"> BACK</span>
 					</button>
 					<!-- sidebar: manage -->
