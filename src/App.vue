@@ -642,6 +642,20 @@ code {
 	min-width: 40px;
 	text-align: center;
 }
+a:focus,
+.btn:focus {
+  box-shadow: 0 0 0 .2rem rgba($primary-dark-color, .2);
+}
+.btn.btn-primary:focus,
+.slider:focus,
+.form-input:focus,
+.form-select:focus,
+.form-autocomplete .form-autocomplete-input.is-focused {
+  box-shadow: 0 0 0 .2rem rgba($primary-color, .2);
+}
+.btn.btn-error:focus {
+  box-shadow: 0 0 0 .2rem rgba($error-color, .2);
+}
 
 // table
 .table {
