@@ -1,7 +1,7 @@
 <template>
 	<div class="settings">
 		<div class="container no-sidebar">
-			<div class="columns">
+			<div v-if="user && userObject" class="columns">
 				<!-- heading -->
 				<div class="column col-12">
 					<h2 class="view-title">
@@ -18,25 +18,25 @@
 						<div class="panel-body">
 							<div class="form-group">
 								<label class="form-label" for="name">Name</label>
-								<input v-model="user.displayName" class="form-input" id="name" type="text" placeholder="john doe" />
+								<input v-model="profile.displayName" class="form-input" id="name" type="text" placeholder="john doe" />
 							</div>
 							<div class="form-group">
 								<label class="form-label" for="role">Role</label>
-								<input v-model="user.role" class="form-input" id="role" type="text" placeholder="reader" disabled />
+								<input v-model="profile.role" class="form-input" id="role" type="text" placeholder="reader" disabled />
 							</div>
 							<div class="form-group">
 								<label class="form-label" for="email">Email</label>
-								<input v-model="user.email" class="form-input" id="email" type="text" placeholder="john@doe.com" disabled />
+								<input v-model="profile.email" class="form-input" id="email" type="text" placeholder="john@doe.com" disabled />
 							</div>
 							<div class="form-group mb-3">
 								<label class="form-label" for="photo">Photo</label>
-								<input v-model="user.photoURL" class="form-input" id="photo" type="text" placeholder="https://your-photo.link/image.png" />
+								<input v-model="profile.photoURL" class="form-input" id="photo" type="text" placeholder="https://your-photo.link/image.png" />
 							</div>
 							<label for="preview" class="mr-4">Preview:</label>
-							<figure v-if="user.photoURL" id="preview" class="avatar avatar-xxl mb-2">
-								<img :src="user.photoURL" alt="Avatar" />
+							<figure v-if="profile.photoURL" id="preview" class="avatar avatar-xxl mb-2">
+								<img :src="profile.photoURL" alt="Avatar" />
 							</figure>
-							<figure v-else-if="user.displayName" id="preview" class="avatar avatar-xxl" :data-initial="user.displayName.substring(0,2).toUpperCase()"></figure>
+							<figure v-else-if="profile.displayName" id="preview" class="avatar avatar-xxl" :data-initial="profile.displayName.substring(0,2).toUpperCase()"></figure>
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">
@@ -54,21 +54,21 @@
 						</div>
 						<div class="panel-body">
 							<div
-								v-for="user in users" :key="user['.key']"
+								v-for="u in users" :key="u['.key']"
 								class="tile tile-centered tile-hover p-2"
 							>
 								<div class="tile-icon">
-									<figure v-if="user.photoURL" class="avatar mr-2">
-										<img :src="user.photoURL" alt="Avatar" />
+									<figure v-if="u.photoURL" class="avatar mr-2">
+										<img :src="u.photoURL" alt="Avatar" />
 									</figure>
 									<div v-else class="avatar text-center">
 										<i class="icon ion-md-person"></i>
 									</div>
 								</div>
 								<div class="tile-content">
-									<span class="label float-right py-1 px-2">{{ user.role }}</span>
-									<div class="tile-title">{{ user.name }}</div>
-									<div class="tile-subtitle text-gray text-small">{{ user.email }}</div>
+									<span class="label float-right py-1 px-2">{{ u.role }}</span>
+									<div class="tile-title">{{ u.name }}</div>
+									<div class="tile-subtitle text-gray text-small">{{ u.email }}</div>
 								</div>
 							</div>
 						</div>
@@ -109,10 +109,10 @@
 <script>
 export default {
 	name: 'settings',
-	props: ['db', 'userObject', 'roleName', 'role', 'users', 'tags'],
+	props: ['db', 'user', 'userObject', 'roleName', 'role', 'users', 'tags'],
 	data () {
 		return {
-			user: {
+			profile: {
 				displayName: this.userObject.displayName,
 				role: this.roleName,
 				email: this.userObject.email,
@@ -123,10 +123,10 @@ export default {
 	methods: {
 		updateProfile () {
 			let self = this
-			this.userObject.updateProfile(this.user).then(function() {
+			this.userObject.updateProfile(this.profile).then(function() {
 				self.db.collection('users').doc(self.userObject.uid).update({
-					name: self.user.displayName,
-					email: self.user.email
+					name: self.profile.displayName,
+					email: self.profile.email
 				}).then(function() {
 					// Profile updated successfully!
 					self.$notify({
