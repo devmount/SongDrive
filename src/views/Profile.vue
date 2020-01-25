@@ -14,6 +14,7 @@
 							<figure v-if="userObject.photoURL" class="avatar avatar-xxl mb-2">
 								<img :src="userObject.photoURL" alt="Avatar" />
 							</figure>
+							<figure v-else-if="userObject.displayName" class="avatar avatar-xxl mb-2" :data-initial="userObject.displayName.substring(0,2).toUpperCase()"></figure>
 							<div v-if="userObject.displayName" class="panel-title h5">{{ userObject.displayName }}</div>
 							<div v-if="roleName" class="panel-subtitle text-gray">{{ roleName }}</div>
 						</div>

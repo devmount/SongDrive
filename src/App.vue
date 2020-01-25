@@ -50,7 +50,10 @@
 						<li v-if="auth.user && ready.users" class="menu-item pt-2 pb-2">
 							<router-link to="/profile" class="py-2" @click.native="open = false">
 								<div class="tile tile-centered">
-									<div class="tile-icon mr-2 ml-1"><img class="avatar" src="http://media.devmount.de/profile.jpg" alt="Avatar"></div>
+									<div class="tile-icon mr-2 ml-1">
+										<img v-if="auth.userObject.photoURL" class="avatar" :src="auth.userObject.photoURL" alt="Avatar">
+										<figure v-else class="avatar" :data-initial="auth.userObject.displayName.substring(0,2).toUpperCase()" alt="Avatar"></figure>
+									</div>
 									<div class="tile-content">
 										{{ users[auth.user].name }}
 										<div class="text-gray text-small">{{ users[auth.user].role }}</div>
