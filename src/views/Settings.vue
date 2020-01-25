@@ -101,6 +101,28 @@
 						</div> -->
 					</div>
 				</div>
+				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
+					<div class="panel mt-3">
+						<div class="panel-header text-center">
+							<i class="icon ion-md-filing icon-2x"></i>
+							<div class="panel-title h5 mt-1">Backup</div>
+							<div class="panel-subtitle text-gray">Export and import SongDrive data</div>
+						</div>
+						<!-- <div class="panel-body">
+							<router-link v-for="tag in tags" :key="tag.key" :to="{ name: 'songs-tag', params: { tag: tag.key }}" class="mr-2">
+								<span class="label px-2 py-1 my-1">
+									<i class="icon ion-md-pricetag mr-1"></i>
+									{{ tag.key }}
+								</span>
+							</router-link>
+						</div> -->
+						<div class="panel-footer mt-5">
+							<button class="btn btn-primary btn-block text-uppercase" @click="exportDb">
+								<i class="icon ion-md-download float-left ml-1"></i> Export
+							</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -109,7 +131,7 @@
 <script>
 export default {
 	name: 'settings',
-	props: ['db', 'user', 'userObject', 'roleName', 'role', 'users', 'tags'],
+	props: ['db', 'user', 'userObject', 'roleName', 'role', 'users', 'tags', 'songs', 'setlists'],
 	data () {
 		return {
 			profile: {
@@ -157,6 +179,41 @@ export default {
 		},
 		updateTags () {
 
+		},
+		exportDb () {
+			let data = {
+				'songs': this.songs,
+				'setlists': this.setlists,
+				'users': this.users,
+				'tags': this.tags
+			}
+			this.download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json')
+			// toast success message
+			this.$notify({
+				title: '<button class="btn btn-clear float-right"></button>Success!',
+				text: 'The song was exported as text file.',
+				type: 'toast-primary'
+			})
+		},
+		download (data, filename) {
+			var a = document.createElement('a')
+			var file = new Blob([data], { type:'text/plain;charset=UTF-8' })
+			// IE10+
+			if (window.navigator.msSaveOrOpenBlob) {
+				window.navigator.msSaveOrOpenBlob(file, filename)
+			}
+			// other browsers
+			else {
+				var url = URL.createObjectURL(file)
+				a.href = url
+				a.download = filename
+				document.body.appendChild(a)
+				a.click()
+				setTimeout(function() {
+					document.body.removeChild(a)
+					window.URL.revokeObjectURL(url)
+				}, 0)
+			}
 		}
 	}
 }
