@@ -30,14 +30,17 @@ SongDrive ships with a lot of features supporting artists in preparation of or d
 SongDrive is still a work in progress. There are some things that it currently does not support but are planned:
 
 - hotkeys, shortcuts <Badge text="todo" type="warn"/>
-- user roles <Badge text="todo" type="warn"/>
-- list enhancements (sortability, pagination, filter for tuning) <Badge text="todo" type="warn"/>
+- light mode <Badge text="todo" type="warn"/>
+- list enhancements (pagination) <Badge text="todo" type="warn"/>
 - multi language support <Badge text="todo" type="warn"/>
 - offline version (pwa, service worker) <Badge text="todo" type="warn"/>
+- maintain Youtube links to listen to the songs <Badge text="todo" type="warn"/>
+- present note slides in setlist presentations <Badge text="todo" type="warn"/>
+- tag based song suggestions <Badge text="todo" type="warn"/>
 
 ### Contributions
 
-Feedback and contributions are very welcome!
+Feedback and contributions are very welcome! You can help by reporting bugs, suggesting improvements or directly contribute to the code base or the documentation. You'll find a detailed explanation in the [contribution guidelines on GitHub](https://github.com/devmount/SongDrive/blob/master/.github/CONTRIBUTING.md).
 
 ## Installation
 
@@ -90,6 +93,29 @@ Feedback and contributions are very welcome!
 ::: warning HINT
 The setup process is still in development. An additional step with the possibility to add test data will be added soon.
 :::
+
+## User roles
+
+SongDrive has a user role and rights administraion. The following roles are implemented:
+
+- **A**dministrator
+- **E**ditor
+- **P**erformer
+- **R**eader
+
+These roles have the following privileges:
+
+- **`R P E A`**
+- `X X X X` see dashboard, song list and setlist list
+- `X X X X` open single songs (present, tune, export)
+- `X X X X` open single setlists (present, copy, export)
+- `- X X X` create and edit setlists
+- `- X X X` custom tuning in setlists
+- `- X X X` sync setlists
+- `- - X X` create and edit songs
+- `- - X X` delete songs and setlists
+- `- - - X` create, edit and delete tags
+- `- - - X` create, edit and delete users
 
 ## Usage
 

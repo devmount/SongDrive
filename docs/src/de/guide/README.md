@@ -27,17 +27,20 @@ SongDrive bringt viele Funktionen mit, die den Musiker sowohl in der Vorbereitun
 
 ### Todo
 
-SondDrive ist aktuell in Entwicklung. Einige Funktionen sind noch nicht vorhanden, aber in Planung:
+SongDrive ist aktuell in Entwicklung. Einige Funktionen sind noch nicht vorhanden, aber in Planung:
 
 - Tastenkürzel <Badge text="todo" type="warn"/>
-- Benutzerrollen <Badge text="todo" type="warn"/>
-- Verbesserung der Listenanzeige (Sortierung, Seitennavigation, Filter für Tonarten) <Badge text="todo" type="warn"/>
+- Light Mode <Badge text="todo" type="warn"/>
+- Verbesserung der Listenanzeige (Seitennavigation) <Badge text="todo" type="warn"/>
 - Mehrsprachigkeit der Benutzeroberfläche <Badge text="todo" type="warn"/>
 - Offline Verfügbarkeit (PWA, Service Worker) <Badge text="todo" type="warn"/>
+- Pflege von Youtube Links zum Anhören der Lieder <Badge text="todo" type="warn"/>
+- Präsentation von Notizfolien in Setlisten <Badge text="todo" type="warn"/>
+- Tagbasierte Vorschläge ähnlicher Lieder <Badge text="todo" type="warn"/>
 
 ### Mithelfen
 
-Feedback und Mitarbeit sind großartig!
+Feedback und Mitarbeit sind großartig! Du kannst helfen indem du Fehler meldest, Verbesserungen vorschlägst oder direkt zum Quellcode oder der Dokumentation beiträgst. Genauere Anweisungen dazu findest du in den [Contribution Guidelines auf GitHub](https://github.com/devmount/SongDrive/blob/master/.github/CONTRIBUTING.md).
 
 ## Installation
 
@@ -91,11 +94,34 @@ Feedback und Mitarbeit sind großartig!
 Der Installationsprozess ist noch in Entwicklung. Ein zusätzlicher Schritt zum Import von Testdaten ist geplant.
 :::
 
+## Benutzerrollen
+
+SongDrive verfügt über ein Rollen- und Rechtesystem. Folgende Benutzerrollen sind implementiert:
+
+- **A**dministrator
+- **E**ditor
+- **P**erformer
+- **B**eobachter
+
+Folgende Rechte sind für die verschiedenen Rollen vergeben:
+
+- **`B P E A`**
+- `X X X X` Dashboard, Liederliste and Setlist-Liste einsehen
+- `X X X X` Einzelne Lieder öffnen (präsentieren, Tonart ändern, exportieren)
+- `X X X X` Einzelne Setlisten öffnen (präsentieren, Inhalte kopieren, exportieren)
+- `- X X X` Setlisten erstellen und bearbeiten
+- `- X X X` Setlist-spezifische Tonarten speichern
+- `- X X X` Setlisten synchronisieren
+- `- - X X` Lieder erstellen und bearbeiten
+- `- - X X` Lieder und Setlisten löschen
+- `- - - X` Tags erstellen, bearbeiten und löschen
+- `- - - X` Benutzer erstellen, bearbeiten und löschen
+
 ## Nutzung
 
 Die linke Seitenspalte in SongDrive enthält das Hauptmenü, welches die Navigation zu den Übersichtsseiten (Dashboard, Songübersicht, Setlistübersicht und Konto) erlaubt.
 
-### Dahsboard
+### Dashboard
 
 Das Dashboard ist der Einstiegspunkt für SongDrive, das wichtige Informationen auf den ersten Blick liefert:
 
