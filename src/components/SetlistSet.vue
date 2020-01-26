@@ -185,6 +185,12 @@ export default {
 			}
 		}
 	},
+	mounted () {
+		// initial date today for new setlists
+		if (!this.existing) {
+			this.updateDate(new Date())
+		}
+	},
 	methods: {
 		// update setlist date from datepicker
 		updateDate (newDate) {
