@@ -15,10 +15,11 @@
 							<div class="column col-6 col-sm-12">
 								<div class="columns">
 									<div class="column col-12">
-										<div class="form-group">
+										<div class="form-group" :class="{ 'has-error': error.title }">
 											<label class="form-label" for="title">Title</label>
 											<input v-if="existing" v-model="song.title" class="form-input" id="title" type="text" placeholder="song title" disabled>
 											<input v-else v-model="song.title" class="form-input" id="title" type="text" placeholder="song title">
+											<p v-if="error.title" class="form-input-hint">A title is required.</p>
 										</div>
 									</div>
 									<div class="column col-8 col-md-12">
@@ -28,7 +29,7 @@
 										</div>
 									</div>
 									<div class="column col-4 col-md-12">
-										<div class="form-group">
+										<div class="form-group" :class="{ 'has-error': error.language}">
 											<label class="form-label" for="language">Language</label>
 											<select v-model="song.language" class="form-select" id="language">
 												<option value="">Choose...</option>
@@ -37,6 +38,7 @@
 												<option value="fr">Francais</option>
 												<option value="li">Lingala</option>
 											</select>
+											<p v-if="error.language" class="form-input-hint">The language is required.</p>
 										</div>
 									</div>
 									<div class="column col-8 col-md-12">
@@ -115,9 +117,10 @@
 								</div>
 							</div>
 							<div class="column col-6 col-sm-12">
-								<div class="form-group">
+								<div class="form-group" :class="{ 'has-error': error.content }">
 									<label class="form-label" for="content">Content</label>
-									<textarea v-model="song.content" class="form-input text-pre" id="content" placeholder="songtext with chords and markers" rows="17"></textarea>
+									<textarea v-model="song.content" class="form-input text-pre" id="content" placeholder="songtext with chords and markers" rows="17" required></textarea>
+									<p v-if="error.content" class="form-input-hint">Song content is required.</p>
 								</div>
 							</div>
 						</div>
@@ -273,74 +276,86 @@ export default {
 				tags: '',
 				translations: '',
 			},
+			error: {
+				title: false,
+				language: false,
+				content: false,
+			},
 			tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
 		}
 	},
 	methods: {
 		setSong () {
-			var self = this
-			var processedSong = {
-				authors: this.song.authors,
-				ccli: this.song.ccli ? parseInt(this.song.ccli) : '',
-				content: this.song.content,
-				language: this.song.language,
-				note: this.song.note,
-				publisher: this.song.publisher,
-				subtitle: this.song.subtitle,
-				tags: this.song.tags,
-				title: this.song.title,
-				translations: this.song.translations,
-				tuning: this.song.tuning,
-				year: this.song.year ? parseInt(this.song.year) : '',
-			}
-			// new song should be created
-			if (!this.existing) {
-				this.db.collection('songs').doc(this.createSlug(this.song.title) + '-' + this.song.language).set(processedSong)
-				.then(function() {
-					self.$emit('closed')
-					self.$emit('reset')
-					processedSong = {}
-					self.$router.push({ name: 'song-show', params: { id: self.createSlug(self.song.title) + '-' + self.song.language }})
-					// toast success creation message
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Success!',
-						text: 'The new song was added.',
-						type: 'toast-primary'
+			// first check for form errors
+			this.error.title = this.song.title == ''
+			this.error.language = this.song.language == ''
+			this.error.content = this.song.content == ''
+			// no errors: start saving song data
+			if (!this.errors) {
+				var self = this
+				var processedSong = {
+					authors: this.song.authors,
+					ccli: this.song.ccli ? parseInt(this.song.ccli) : '',
+					content: this.song.content,
+					language: this.song.language,
+					note: this.song.note,
+					publisher: this.song.publisher,
+					subtitle: this.song.subtitle,
+					tags: this.song.tags,
+					title: this.song.title,
+					translations: this.song.translations,
+					tuning: this.song.tuning,
+					year: this.song.year ? parseInt(this.song.year) : '',
+				}
+				// new song should be created
+				if (!this.existing) {
+					this.db.collection('songs').doc(this.createSlug(this.song.title) + '-' + this.song.language).set(processedSong)
+					.then(function() {
+						self.$emit('closed')
+						self.$emit('reset')
+						processedSong = {}
+						self.$router.push({ name: 'song-show', params: { id: self.createSlug(self.song.title) + '-' + self.song.language }})
+						// toast success creation message
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Success!',
+							text: 'The new song was added.',
+							type: 'toast-primary'
+						})
 					})
-				})
-				.catch(function() {
-					self.$emit('closed')
-					// toast error creation message
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Error!',
-						text: 'The new song could not be added.',
-						type: 'toast-error'
+					.catch(function() {
+						self.$emit('closed')
+						// toast error creation message
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Error!',
+							text: 'The new song could not be added.',
+							type: 'toast-error'
+						})
 					})
-				})
-			}
-			// existing song should be updated
-			else {
-				this.db.collection('songs').doc(this.songKey).update(processedSong)
-				.then(function() {
-					self.$emit('closed')
-					self.$emit('reset')
-					processedSong = {}
-					// toast success update message
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Success!',
-						text: 'The song was updated.',
-						type: 'toast-primary'
+				}
+				// existing song should be updated
+				else {
+					this.db.collection('songs').doc(this.songKey).update(processedSong)
+					.then(function() {
+						self.$emit('closed')
+						self.$emit('reset')
+						processedSong = {}
+						// toast success update message
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Success!',
+							text: 'The song was updated.',
+							type: 'toast-primary'
+						})
 					})
-				})
-				.catch(function() {
-					self.$emit('closed')
-					// toast error update message
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Error!',
-						text: 'The song could not be updated.',
-						type: 'toast-error'
+					.catch(function() {
+						self.$emit('closed')
+						// toast error update message
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Error!',
+							text: 'The song could not be updated.',
+							type: 'toast-error'
+						})
 					})
-				})
+				}
 			}
 		},
 		createSlug (s) {
@@ -399,6 +414,10 @@ export default {
 			} else {
 				return this.songs
 			}
+		},
+		// calculate wether form errors occured
+		errors () {
+			return (this.error.title || this.error.language || this.error.content)
 		}
 	}
 }

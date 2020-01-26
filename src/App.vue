@@ -659,6 +659,17 @@ a:focus,
 .btn.btn-error:focus {
   box-shadow: 0 0 0 .2rem rgba($error-color, .2);
 }
+.form-input,
+.form-select {
+  .has-error &,
+  &.is-error {
+    background: darken($error-color, 40%);
+    border-color: $error-color;
+    &:focus {
+      box-shadow: 0 0 0 .2rem rgba($error-color, .2);
+    }
+  }
+}
 
 // label
 .label {
