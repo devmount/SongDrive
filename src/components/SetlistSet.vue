@@ -14,10 +14,11 @@
 							<div class="columns">
 								<!-- title -->
 								<div class="column col-12">
-									<div class="form-group">
+									<div class="form-group" :class="{ 'has-error': error.title }">
 										<label class="form-label" for="title">Title</label>
 										<input v-if="existing" v-model="setlist.title" class="form-input" id="title" type="text" placeholder="setlist title" disabled>
 										<input v-else v-model="setlist.title" class="form-input" id="title" type="text" placeholder="setlist title">
+										<p v-if="error.title" class="form-input-hint">A title is required.</p>
 									</div>
 								</div>
 								<!-- date -->
@@ -162,6 +163,9 @@ export default {
 			search: '',
 			filter: '',
 			tuning: '',
+			error: {
+				title: false,
+			},
 			tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
 		}
 	},
@@ -231,64 +235,69 @@ export default {
 		},
 		// add or save edits of setlist to db 
 		set () {
-			var self = this
-			var processedSetlist = {
-				active: false,
-				creator: '8DfoOAcEpCWh5gsVGmyzDXVAsZV2', // TODO
-				position: 0,
-				title: this.setlist.title,
-				date: this.setlist.date,
-				songs: this.setlist.songs,
-			}
-			// new setlist should be created
-			if (!this.existing) {
-				let slug = this.createSlug()
-				this.db.collection('setlists').doc(slug).set(processedSetlist)
-				.then(function() {
-					self.$emit('closed')
-					self.$emit('reset')
-					processedSetlist = {}
-					self.$router.push({ name: 'setlist-show', params: { id: slug }})
-					// toast success creation message
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Success!',
-						text: 'The new setlist was added.',
-						type: 'toast-primary'
+			// first check for form errors
+			this.error.title = this.setlist.title == ''
+			// no errors: start saving song data
+			if (!this.error.title) {
+				var self = this
+				var processedSetlist = {
+					active: false,
+					creator: '8DfoOAcEpCWh5gsVGmyzDXVAsZV2', // TODO
+					position: 0,
+					title: this.setlist.title,
+					date: this.setlist.date,
+					songs: this.setlist.songs,
+				}
+				// new setlist should be created
+				if (!this.existing) {
+					let slug = this.createSlug()
+					this.db.collection('setlists').doc(slug).set(processedSetlist)
+					.then(function() {
+						self.$emit('closed')
+						self.$emit('reset')
+						processedSetlist = {}
+						self.$router.push({ name: 'setlist-show', params: { id: slug }})
+						// toast success creation message
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Success!',
+							text: 'The new setlist was added.',
+							type: 'toast-primary'
+						})
 					})
-				})
-				.catch(function() {
-					self.$emit('closed')
-					// toast error creation message
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Error!',
-						text: 'The new setlist could not be added.',
-						type: 'toast-error'
+					.catch(function() {
+						self.$emit('closed')
+						// toast error creation message
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Error!',
+							text: 'The new setlist could not be added.',
+							type: 'toast-error'
+						})
 					})
-				})
-			}
-			// existing setlist should be updated
-			else {
-				this.db.collection('setlists').doc(this.setlistKey).update(processedSetlist)
-				.then(function() {
-					self.$emit('closed')
-					self.$emit('reset')
-					processedSetlist = {}
-					// toast success update message
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Success!',
-						text: 'The setlist was updated.',
-						type: 'toast-primary'
+				}
+				// existing setlist should be updated
+				else {
+					this.db.collection('setlists').doc(this.setlistKey).update(processedSetlist)
+					.then(function() {
+						self.$emit('closed')
+						self.$emit('reset')
+						processedSetlist = {}
+						// toast success update message
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Success!',
+							text: 'The setlist was updated.',
+							type: 'toast-primary'
+						})
 					})
-				})
-				.catch(function() {
-					self.$emit('closed')
-					// toast error update message
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Error!',
-						text: 'The setlist could not be updated.',
-						type: 'toast-error'
+					.catch(function() {
+						self.$emit('closed')
+						// toast error update message
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Error!',
+							text: 'The setlist could not be updated.',
+							type: 'toast-error'
+						})
 					})
-				})
+				}
 			}
 		},
 		// create a human readable record key of format YYYYMMDD-the-setlist-title
