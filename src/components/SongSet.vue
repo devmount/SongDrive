@@ -295,12 +295,12 @@ export default {
 			}
 			// new song should be created
 			if (!this.existing) {
-				this.db.collection('songs').doc(this.createSlug(this.song.title)).set(processedSong)
+				this.db.collection('songs').doc(this.createSlug(this.song.title) + '-' + this.song.language).set(processedSong)
 				.then(function() {
 					self.$emit('closed')
 					self.$emit('reset')
 					processedSong = {}
-					self.$router.push({ name: 'song-show', params: { id: self.createSlug(self.song.title) }})
+					self.$router.push({ name: 'song-show', params: { id: self.createSlug(self.song.title) + '-' + self.song.language }})
 					// toast success creation message
 					self.$notify({
 						title: '<button class="btn btn-clear float-right"></button>Success!',
@@ -348,6 +348,7 @@ export default {
 				.trim()
 				.toLowerCase()
 				.replace(/\s/g, '-')
+				.replace(/\//g, '-')
 				.replace(/'/g, '')
 				.replace(/"/g, '')
 				.replace(/,/g, '')
