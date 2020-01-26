@@ -25,7 +25,7 @@
 									<div class="form-group mt-2">
 										<label class="form-label" for="date">Event Date <span class="text-gray ml-2">{{ setlist.date }}</span></label>
 										<datepicker
-											:value="setlist.date ? (new Date(setlist.date)) : (new Date)"
+											:value="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 											format="yyyy-MM-dd"
 											wrapper-class="calendar-wrapper"
 											input-class="form-input"
@@ -34,7 +34,7 @@
 											:inline="true"
 											:monday-first="true"
 											:placeholder="'event date, e.g. ' + String((new Date()).toISOString()).slice(0,10)"
-											:open-date="setlist.date ? (new Date(setlist.date)) : (new Date)"
+											:open-date="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 											name="setlistdate"
 											@selected="updateDate"
 										></datepicker>
@@ -185,10 +185,6 @@ export default {
 			}
 		}
 	},
-	mounted () {
-		// initial date today
-		this.updateDate(new Date())
-	},
 	methods: {
 		// update setlist date from datepicker
 		updateDate (newDate) {
@@ -289,10 +285,26 @@ export default {
 				})
 			}
 		},
-		// create a human readable record key of format YYYYMMDD-abcd (where the last 4 characters are random)
+		// create a human readable record key of format YYYYMMDD-the-setlist-title
 		createSlug () {
-			let r = Math.random().toString(36).substring(2, 6)
-			return this.setlist.date.replace(/-/g, '') + '-' + r
+			return this.setlist.date.replace(/-/g, '') + '-' + this.slug(this.setlist.title)
+		},
+		slug (s) {
+			return s
+				.trim()
+				.toLowerCase()
+				.replace(/\s/g, '-')
+				.replace(/\//g, '-')
+				.replace(/'/g, '')
+				.replace(/"/g, '')
+				.replace(/,/g, '')
+				.replace(/;/g, '')
+				.replace(/\./g, '')
+				.replace(/:/g, '')
+				.replace(/ä/g, 'ae')
+				.replace(/ö/g, 'oe')
+				.replace(/ü/g, 'ue')
+				.replace(/ß/g, 'ss')
 		},
 		cancel () {
 			this.$emit('closed')
