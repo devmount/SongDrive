@@ -70,6 +70,39 @@
 							</button>
 						</li>
 					</ul>
+					<ul class="menu text-uppercase">
+						<li class="divider text-center" data-content="INFO"></li>
+						<li class="menu-item">
+							<a href="https://devmount.github.io/SongDrive" class="py-2" target="_blank">
+								<i class="icon ion-md-book mr-2"></i>
+								Documentation
+								<i class="icon ion-md-open float-right pr-1"></i>
+							</a>
+						</li>
+						<li class="menu-item">
+							<a href="https://github.com/devmount/SongDrive" class="py-2" target="_blank">
+								<i class="icon ion-logo-github mr-2"></i>
+								GitHub
+								<i class="icon ion-md-open float-right pr-1"></i>
+							</a>
+						</li>
+					</ul>
+					<footer>
+						<ul class="menu text-small text-gray">
+							<li class="menu-item text-center">
+								<i class="icon ion-md-code mr-1"></i> with <i class="icon ion-md-heart-empty mx-1"></i>
+								by <svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
+									<path class="st0" d="M6.9,140.6L87.1,40.2l78.2,77.6"/>
+									<path class="st0" d="M40.4,193.8l62.1-77.8l35.9,35.4l48.8-60.6l39.8,39.5"/>
+								</svg>
+							</li>
+							<li class="menu-item text-center">
+								2007–2020
+								<svg class="legal" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path></svg>
+								MIT
+							</li>
+						</ul>
+					</footer>
 				</div>
 			</div>
 			<a class="off-canvas-overlay" @click="open = false"></a>
@@ -136,7 +169,6 @@ import '@firebase/auth'
 
 export default {
 	name: 'app',
-	version: 'v1.0.3',
 	components: {
 		SongSet,
 		SetlistSet,
@@ -783,6 +815,33 @@ a:focus,
 		.sidebar-wrapper {
 			position: fixed;
 			min-width: inherit;
+			min-height: 100vh;
+			padding-bottom: 5rem;
+
+			footer {
+				position: absolute;
+				bottom: 1rem;
+				width: 100%;
+
+				.logo-devmount {
+					width: 25px;
+    			vertical-align: middle;
+					padding-bottom: 5px;
+					
+					path {
+						fill: none;
+						stroke: currentColor;
+						stroke-width: 9;
+						stroke-linecap: round;
+					}
+				}
+				.legal {
+					fill: currentColor;
+					width: 20px;
+    			vertical-align: middle;
+					padding: 0 2px 5px 2px;
+				}
+			}
 		}
 	}
 	.off-canvas-content {
