@@ -160,6 +160,7 @@
 				:db="db"
 				:active="modal.signup"
 				@closed="modal.signup = false"
+				@submitted="signUp"
 			/>
 		</div>
 
@@ -308,6 +309,24 @@ export default {
 				self.$notify({
 					title: '<button class="btn btn-clear float-right"></button>Successfully signed out!',
 					text: 'You are now in read-only mode.',
+					type: 'toast-primary'
+				})
+			}).catch(function(error) {
+				// throw error message
+				self.$notify({
+					title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
+					text: error.message,
+					type: 'toast-primary'
+				})
+			})
+		},
+		signUp (u) {
+			var self = this
+			firebase.auth().createUserWithEmailAndPassword(u.email, u.password).then(() => {
+				// sign-out successful
+				self.$notify({
+					title: '<button class="btn btn-clear float-right"></button>Successfully signed up!',
+					text: 'Please confirm your email address by clicking on the link that was send to you.',
 					type: 'toast-primary'
 				})
 			}).catch(function(error) {

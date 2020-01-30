@@ -161,7 +161,7 @@ export default {
 					// An error happened.
 					self.$notify({
 						title: '<button class="btn btn-clear float-right"></button>Error!',
-						text: 'There was an error when updateing user data.',
+						text: 'There was an error when updating user data.',
 						type: 'toast-error'
 					})
 				})
@@ -169,7 +169,7 @@ export default {
 				// An error happened.
 				self.$notify({
 					title: '<button class="btn btn-clear float-right"></button>Error!',
-					text: 'There was an error when updateing user data.',
+					text: 'There was an error when updating user data.',
 					type: 'toast-error'
 				})
 			});

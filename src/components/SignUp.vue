@@ -9,14 +9,18 @@
 			<div class="modal-body">
 				<div class="content">
 					<p>Create a new SongDrive account.</p>
-					<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
-					<input type="password" v-model="auth.password" class="form-input mb-1" placeholder="password" />
+					<label class="form-label" for="name">Name</label>
+					<input id="name" type="text" v-model="auth.name" class="form-input mb-1" placeholder="John Doe" />
+					<label class="form-label" for="email">Email</label>
+					<input id="email" type="text" v-model="auth.email" class="form-input mb-1" placeholder="john.doe@example.com" />
+					<label class="form-label" for="password">Password</label>
+					<input id="password" type="password" v-model="auth.password" class="form-input mb-1" placeholder="enter password" />
 					<input type="password" v-model="auth.repeat" class="form-input mb-1" placeholder="repeat password" />
 				</div>
 			</div>
 			<div class="modal-footer">
 				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</a>
-				<button class="btn btn-primary ml-2" @click="signUp">Send Confirmation Mail</button>
+				<button class="btn btn-primary ml-2" @click="$emit('submitted', auth);$emit('closed')">Confirm Email</button>
 			</div>
 		</div>
 	</div>
@@ -32,37 +36,13 @@ export default {
 	data () {
 		return {
 			auth: {
+				name: '',
 				email: '',
 				password: '',
 				repeat: '',
 			}
 		}
 	},
-	methods: {
-		signUp () {
-			var self = this
-			this.db.collection('songs').doc(this.id).delete().then(function() {
-				self.$emit('closed')
-				if (self.$route.name != 'songs') {
-					self.$router.push({ name: 'songs' })
-				}
-				// toast success message
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Success!',
-					text: 'The song was removed.',
-					type: 'toast-primary'
-				});
-			}).catch(function() {
-				self.$emit('closed')
-				// toast error message
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Error!',
-					text: 'The song could not be removed.',
-					type: 'toast-error'
-				});
-			});
-		},
-	}
 }
 </script>
 
