@@ -41,12 +41,13 @@
 						<li v-if="!auth.user" class="menu-item pb-2">
 							<div class="form-group">
 								<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
-								<input type="password" v-model="auth.password" class="form-input mb-1" placeholder="password" />
-								<button class="btn btn-primary d-block stretch" @click="signIn" v-shortkey="['enter']" @shortkey="signIn">
+								<input type="password" v-model="auth.password" class="form-input mb-2" placeholder="password" />
+								<button class="btn btn-primary d-block stretch mb-4" @click="signIn" v-shortkey="['enter']" @shortkey="signIn">
 									<i class="icon ion-md-log-in float-right mr-1"></i>Sign In
 								</button>
+								<div class="text-gray text-center mb-2">New here? <i class="icon ion-md-arrow-down ml-1"></i></div>
 								<button class="btn btn-secondary d-block stretch" @click="modal.signup = true">
-									Sign Up
+									<i class="icon ion-md-person-add float-right mr-1"></i>Sign Up
 								</button>
 							</div>
 						</li>
