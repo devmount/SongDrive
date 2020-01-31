@@ -441,26 +441,6 @@ export default {
 			}
 			return sheets
 		},
-		download (data, filename) {
-			var a = document.createElement('a')
-			var file = new Blob([data], { type:'text/plain;charset=UTF-8' })
-			// IE10+
-			if (window.navigator.msSaveOrOpenBlob) {
-				window.navigator.msSaveOrOpenBlob(file, filename)
-			}
-			// other browsers
-			else {
-				var url = URL.createObjectURL(file)
-				a.href = url
-				a.download = filename
-				document.body.appendChild(a)
-				a.click()
-				setTimeout(function() {
-					document.body.removeChild(a)
-					window.URL.revokeObjectURL(url)
-				}, 0)
-			}
-		},
 	}
 }
 </script>

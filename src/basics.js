@@ -1,9 +1,14 @@
 // basic program parameters
 export default {
-	// scale to use for song tuning and transponation
-	tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
-	// user roles and permissions: Reader, Performer, Editor and Administrator
+	
 	/*
+	 * scale to use for song tuning and transponation
+	 */
+	tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
+	
+	/*
+		user roles and permissions: Reader, Performer, Editor and Administrator
+
 		RPEA
 		XXXX see dashboard, song list and setlist list
 		XXXX open single songs (present, tune, export)
@@ -17,12 +22,18 @@ export default {
 		---X create, edit and delete users
 	*/
 	roles: { reader: 1, performer: 2, editor: 3, admin: 4 },
-	// identify chord lines
+
+	/*
+	 * identify chord lines
+	 */
 	isChordLine(line) {
 		if (line == '') return false
 		return line.slice(-2) === '  '
 	},
-	// parse song content syntax
+	
+	/*
+	 * parse song content syntax
+	 */
 	parsedContent (content, tuning, showChords, twoColumns) {
 		// initialize arrays for parsed lines, classes of parts, type abbr., numbers of type and part index
 		var parsed = [], classes = [], types = [], numbers = [], part = 0
@@ -164,4 +175,29 @@ export default {
 			return newContent
 		}
 	},
+
+	/*
+	 * file download
+	 */
+	download (data, filename) {
+		var a = document.createElement('a')
+		var file = new Blob([data], { type:'text/plain;charset=UTF-8' })
+		// IE10+
+		if (window.navigator.msSaveOrOpenBlob) {
+			window.navigator.msSaveOrOpenBlob(file, filename)
+		}
+		// other browsers
+		else {
+			var url = URL.createObjectURL(file)
+			a.href = url
+			a.download = filename
+			document.body.appendChild(a)
+			a.click()
+			setTimeout(function() {
+				document.body.removeChild(a)
+				window.URL.revokeObjectURL(url)
+			}, 0)
+		}
+	},
+
 }

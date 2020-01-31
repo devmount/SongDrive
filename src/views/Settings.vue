@@ -129,6 +129,9 @@
 </template>
 
 <script>
+// get basic program parameters
+import basics from '@/basics.js'
+
 export default {
 	name: 'settings',
 	props: ['db', 'user', 'userObject', 'roleName', 'role', 'users', 'tags', 'songs', 'setlists'],
@@ -187,7 +190,7 @@ export default {
 				'users': this.users,
 				'tags': this.tags
 			}
-			this.download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json')
+			basics.download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json')
 			// toast success message
 			this.$notify({
 				title: '<button class="btn btn-clear float-right"></button>Success!',
@@ -195,26 +198,6 @@ export default {
 				type: 'toast-primary'
 			})
 		},
-		download (data, filename) {
-			var a = document.createElement('a')
-			var file = new Blob([data], { type:'text/plain;charset=UTF-8' })
-			// IE10+
-			if (window.navigator.msSaveOrOpenBlob) {
-				window.navigator.msSaveOrOpenBlob(file, filename)
-			}
-			// other browsers
-			else {
-				var url = URL.createObjectURL(file)
-				a.href = url
-				a.download = filename
-				document.body.appendChild(a)
-				a.click()
-				setTimeout(function() {
-					document.body.removeChild(a)
-					window.URL.revokeObjectURL(url)
-				}, 0)
-			}
-		}
 	}
 }
 </script>

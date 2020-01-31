@@ -216,7 +216,7 @@ export default {
 			content += '\n' + this.song.authors +
 				'© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ')
 			// start download
-			this.download(content, this.songKey + '.txt')
+			basics.download(content, this.songKey + '.txt')
 			// toast success message
 			this.$notify({
 				title: '<button class="btn btn-clear float-right"></button>Success!',
@@ -252,7 +252,7 @@ export default {
 				.replace(/--m/g, "mitro")
 				.replace(/--o/g, "outro")
 			// start download
-			this.download(content, this.songKey + '.sng')
+			basics.download(content, this.songKey + '.sng')
 			// toast success message
 			this.$notify({
 				title: '<button class="btn btn-clear float-right"></button>Success!',
@@ -345,26 +345,6 @@ export default {
 				}
 			]
 		},
-		download (data, filename) {
-			var a = document.createElement('a')
-			var file = new Blob([data], { type:'text/plain;charset=UTF-8' })
-			// IE10+
-			if (window.navigator.msSaveOrOpenBlob) {
-				window.navigator.msSaveOrOpenBlob(file, filename)
-			}
-			// other browsers
-			else {
-				var url = URL.createObjectURL(file)
-				a.href = url
-				a.download = filename
-				document.body.appendChild(a)
-				a.click()
-				setTimeout(function() {
-					document.body.removeChild(a)
-					window.URL.revokeObjectURL(url)
-				}, 0)
-			}
-		}
 	},
 	computed: {
 		songKey () {
