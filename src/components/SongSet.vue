@@ -253,6 +253,9 @@
 </template>
 
 <script>
+// get basic program parameters
+import basics from '@/basics.js'
+
 export default {
 	name: 'song-set',
 	props: {
@@ -281,7 +284,7 @@ export default {
 				language: false,
 				content: false,
 			},
-			tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
+			tunes: basics.tunes
 		}
 	},
 	methods: {

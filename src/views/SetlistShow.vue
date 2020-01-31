@@ -145,7 +145,6 @@
 				:songs="getSetlistSongs"
 				:position="setlist.position"
 				:chords="chords"
-				:tunes="tunes"
 				@chords="chords = !chords"
 				@closed="modal.present = false"
 				@updatePosition="updatePosition"
@@ -155,6 +154,8 @@
 </template>
 
 <script>
+// get basic program parameters
+import basics from '@/basics.js'
 // get components
 import SetlistSet from '@/components/SetlistSet.vue'
 import SetlistDelete from '@/components/SetlistDelete.vue'
@@ -189,7 +190,7 @@ export default {
 			},
 			existing: true,
 			chords: true,
-			tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
+			tunes: basics.tunes
 		}
 	},
 	computed: {

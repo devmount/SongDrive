@@ -138,6 +138,8 @@
 </template>
 
 <script>
+// get basic program parameters
+import basics from '@/basics.js'
 // init datepicker component
 import Datepicker from 'vuejs-datepicker';
 
@@ -166,7 +168,7 @@ export default {
 			error: {
 				title: false,
 			},
-			tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
+			tunes: basics.tunes
 		}
 	},
 	watch: {

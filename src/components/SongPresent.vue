@@ -13,7 +13,6 @@
 					:content="content"
 					:chords="chords"
 					:tuning="tuning"
-					:tunes="tunes"
 					:presentation="true"
 					ref="songcontent"
 				/>
@@ -49,7 +48,6 @@ export default {
 		content: String,
 		chords: Boolean,
 		tuning: Number,
-		tunes: Array
 	},
 	methods: {
 		maximizeFontsize() {

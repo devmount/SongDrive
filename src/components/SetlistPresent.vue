@@ -18,7 +18,6 @@
 							:content="song.content"
 							:chords="chords"
 							:tuning="song.customTuningDelta"
-							:tunes="tunes"
 							:presentation="true"
 							:ref="'songcontent' + i"
 						/>
@@ -74,6 +73,8 @@
 </template>
 
 <script>
+// get basic program parameters
+import basics from '@/basics.js'
 // get slider component
 import { Hooper, Slide, Pagination as HooperPagination } from 'hooper'
 import 'hooper/dist/hooper.css'
@@ -93,7 +94,6 @@ export default {
 		songs: Array,
 		position: Number,
 		chords: Boolean,
-		tunes: Array
 	},
 	data () {
 		return {
@@ -105,6 +105,7 @@ export default {
 			autoSync: false,
 			now: new Date,
 			blink: true,
+			tunes: basics.tunes
 		}
 	},
 	created () {

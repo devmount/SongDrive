@@ -138,6 +138,8 @@
 </template>
 
 <script>
+// get basic program parameters
+import basics from '@/basics.js'
 // get components
 import SongSet from '@/components/SongSet.vue'
 import SongDelete from '@/components/SongDelete.vue'
@@ -167,8 +169,8 @@ export default {
 				key: '',
 				song: {},
 				existing: true
-      },
-      tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
+			},
+			tunes: basics.tunes
 		}
 	},
 	computed: {

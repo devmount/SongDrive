@@ -12,14 +12,21 @@
 </template>
 
 <script>
+// get basic program parameters
+import basics from '@/basics.js'
+
 export default {
 	name: 'song-content',
 	props: {
 		content: String,
 		chords: Boolean,
 		tuning: Number,
-		tunes: Array,
 		presentation: Boolean
+	},
+	data () {
+		return {
+			tunes: basics.tunes
+		}
 	},
 	methods: {
 		isChordLine(line) {
