@@ -724,10 +724,15 @@ a:focus,
   box-shadow: 0 0 0 .2rem rgba($error-color, .2);
 }
 .form-input,
-.form-select {
+.form-select,
+.form-select:not([multiple]):not([size]) {
+	background-color: $bg-color-medium;
+	border-color: $black-color;
+	width: 100%;
+
   .has-error &,
   &.is-error {
-    background: darken($error-color, 40%);
+    background-color: darken($error-color, 40%);
     border-color: $error-color;
     &:focus {
       box-shadow: 0 0 0 .2rem rgba($error-color, .2);

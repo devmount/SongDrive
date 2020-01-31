@@ -119,7 +119,7 @@
 							<div class="column col-6 col-sm-12">
 								<div class="form-group" :class="{ 'has-error': error.content }">
 									<label class="form-label" for="content">Content</label>
-									<textarea v-model="song.content" class="form-input text-pre" id="content" placeholder="songtext with chords and markers" rows="17" required></textarea>
+									<textarea v-model="song.content" class="form-input text-pre" id="content" :placeholder="'songtext with chords and markers, e.g.:\n\n--v\n  G          C  \nThis is the verse text\n D        G  \nJust an example text\n\n--c\n  D           C  \nThis is the chorus text\n D        C      G  \nJust an example text\n\n--b\n  Em  \nThis is the bridge text\n C        D  \nJust an example text'" rows="17" required></textarea>
 									<p v-if="error.content" class="form-input-hint">Song content is required.</p>
 								</div>
 							</div>
