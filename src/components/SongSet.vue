@@ -29,7 +29,7 @@
 										</div>
 									</div>
 									<div class="column col-4 col-md-12">
-										<div class="form-group" :class="{ 'has-error': error.language}">
+										<div class="form-group" :class="{ 'has-error': error.language }">
 											<label class="form-label" for="language">Language <span class="text-error">*</span></label>
 											<select v-model="song.language" class="form-select" id="language">
 												<option value="">Choose...</option>

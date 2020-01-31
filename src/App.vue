@@ -26,7 +26,7 @@
 							<div class="menu-badge">
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Song" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
+								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Song" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
 							</div>
 						</li>
 						<li class="menu-item">
@@ -34,7 +34,7 @@
 							<div class="menu-badge">
 								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button v-if="auth.user && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Setlist" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
+								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Setlist" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
 							</div>
 						</li>
 						<li class="divider text-center" data-content="ACCOUNT"></li>
@@ -51,12 +51,12 @@
 								</button>
 							</div>
 						</li>
-						<li v-if="auth.user && ready.users" class="menu-item pt-2 pb-2">
+						<li v-if="auth.user && users[auth.user] && ready.users" class="menu-item pt-2 pb-2">
 							<router-link to="/profile" class="py-2" @click.native="open = false">
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
 										<img v-if="auth.userObject.photoURL" class="avatar" :src="auth.userObject.photoURL" alt="Avatar">
-										<figure v-else class="avatar" :data-initial="auth.userObject.displayName.substring(0,2).toUpperCase()" alt="Avatar"></figure>
+										<figure v-else-if="auth.userObject.displayName" class="avatar" :data-initial="auth.userObject.displayName.substring(0,2).toUpperCase()" alt="Avatar"></figure>
 									</div>
 									<div class="tile-content">
 										{{ users[auth.user].name }}
@@ -118,8 +118,8 @@
 					:db="db"
 					:user="auth.user"
 					:userObject="auth.userObject"
-					:role="auth.user && ready.users ? auth.roles[users[auth.user].role] : ''"
-					:roleName="auth.user && ready.users ? users[auth.user].role : ''"
+					:role="auth.user && users[auth.user] && ready.users ? auth.roles[users[auth.user].role] : ''"
+					:roleName="auth.user && users[auth.user] && ready.users ? users[auth.user].role : ''"
 					:songs="songs"
 					:setlists="setlists"
 					:users="users"
@@ -325,10 +325,22 @@ export default {
 		signUp (u) {
 			var self = this
 			firebase.auth().createUserWithEmailAndPassword(u.email, u.password).then(() => {
-				// sign-out successful
+				// sign-up successful
+				self.auth.user = firebase.auth().currentUser.uid
+				// create user
+				self.db.collection('users').doc(self.auth.user).set({ email: u.email, name: u.name, role: 'reader' }).catch(function() {
+					// toast error creation message
+					self.$notify({
+						title: '<button class="btn btn-clear float-right"></button>Error!',
+						text: 'The new user could not be added.',
+						type: 'toast-error'
+					})
+				})
+				self.auth.userObject = firebase.auth().currentUser
+				self.auth.userObject.updateProfile({ displayName: u.name })
 				self.$notify({
 					title: '<button class="btn btn-clear float-right"></button>Successfully signed up!',
-					text: 'Please confirm your email address by clicking on the link that was send to you.',
+					text: 'You can now start using SongDrive.',
 					type: 'toast-primary'
 				})
 			}).catch(function(error) {
