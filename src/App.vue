@@ -739,6 +739,18 @@ a:focus,
     }
   }
 }
+// filter select field
+.filter {
+	&:required:invalid {
+		color: $gray-color;
+	}
+	option[value=""][disabled] {
+		display: none;
+	}
+	option {
+		color: $body-font-color;
+	}
+}
 
 // label
 .label {
@@ -789,6 +801,11 @@ a:focus,
 			}
 		}
 	}
+}
+
+// empty
+.empty {
+	background: none;
 }
 
 // modal
@@ -1019,17 +1036,6 @@ a:focus,
 			}
 		}
 	}
-}
-
-// filter select field
-.filter:required:invalid {
-	color: $gray-color;
-}
-.filter option[value=""][disabled] {
-	display: none;
-}
-.filter option {
-	color: $body-font-color;
 }
 
 // shapes

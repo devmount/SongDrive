@@ -92,7 +92,7 @@
 											<i class="icon ion-md-musical-notes icon-4x"></i>
 										</div>
 										<p class="empty-title h5">No Songs selected</p>
-										<p class="empty-subtitle">Select one ore more songs for this setlist.</p>
+										<p class="empty-subtitle">Select some songs for this setlist</p>
 									</div>
 									<div v-else>
 										<h3 class="text-center">Selection</h3>

@@ -165,7 +165,7 @@
 										<i class="icon ion-md-pricetags icon-4x"></i>
 									</div>
 									<p class="empty-title h5">No Tags selected</p>
-									<p class="empty-subtitle">Select one ore more tags for the current song.</p>
+									<p class="empty-subtitle">Select some tags for the current song</p>
 								</div>
 								<div v-else>
 									<h3 class="text-center">Selection</h3>
@@ -221,7 +221,7 @@
 										<i class="icon ion-md-book icon-4x"></i>
 									</div>
 									<p class="empty-title h5">No Songs selected</p>
-									<p class="empty-subtitle">Select one ore more songs that are a translation to the current song.</p>
+									<p class="empty-subtitle">Select some songs that are a translation to the current song</p>
 								</div>
 								<div v-else>
 									<h3 class="text-center">Selection</h3>
