@@ -170,6 +170,8 @@
 </template>
 
 <script>
+// get basic program parameters
+import basics from '@/basics.js'
 // get components
 import SongSet from '@/components/SongSet.vue'
 import SetlistSet from '@/components/SetlistSet.vue'
@@ -249,7 +251,7 @@ export default {
 			},
 			db: db,
 			auth: {
-				roles: { reader: 1, performer: 2, editor: 3, admin: 4 },
+				roles: basics.roles,
 				email: '',
 				password: '',
 				user: firebase.auth().currentUser ? firebase.auth().currentUser.uid : '',
