@@ -16,7 +16,7 @@
 								<div class="columns">
 									<div class="column col-12">
 										<div class="form-group" :class="{ 'has-error': error.title }">
-											<label class="form-label" for="title">Title</label>
+											<label class="form-label" for="title">Title <span class="text-error">*</span></label>
 											<input v-if="existing" v-model="song.title" class="form-input" id="title" type="text" placeholder="song title" disabled>
 											<input v-else v-model="song.title" class="form-input" id="title" type="text" placeholder="song title">
 											<p v-if="error.title" class="form-input-hint">A title is required.</p>
@@ -30,7 +30,7 @@
 									</div>
 									<div class="column col-4 col-md-12">
 										<div class="form-group" :class="{ 'has-error': error.language}">
-											<label class="form-label" for="language">Language</label>
+											<label class="form-label" for="language">Language <span class="text-error">*</span></label>
 											<select v-model="song.language" class="form-select" id="language">
 												<option value="">Choose...</option>
 												<option value="de">Deutsch</option>
@@ -118,7 +118,7 @@
 							</div>
 							<div class="column col-6 col-sm-12">
 								<div class="form-group" :class="{ 'has-error': error.content }">
-									<label class="form-label" for="content">Content</label>
+									<label class="form-label" for="content">Content <span class="text-error">*</span></label>
 									<textarea v-model="song.content" class="form-input text-pre" id="content" :placeholder="'songtext with chords and markers, e.g.:\n\n--v\n  G          C  \nThis is the verse text\n D        G  \nJust an example text\n\n--c\n  D           C  \nThis is the chorus text\n D        C      G  \nJust an example text\n\n--b\n  Em  \nThis is the bridge text\n C        D  \nJust an example text'" rows="17" required></textarea>
 									<p v-if="error.content" class="form-input-hint">Song content is required.</p>
 								</div>

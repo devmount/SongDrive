@@ -9,11 +9,11 @@
 			<div class="modal-body">
 				<div class="content">
 					<p>Create a new SongDrive account.</p>
-					<label class="form-label" for="name">Name</label>
+					<label class="form-label" for="name">Name <span class="text-error">*</span></label>
 					<input id="name" type="text" v-model="auth.name" class="form-input mb-1" placeholder="John Doe" />
-					<label class="form-label" for="email">Email</label>
+					<label class="form-label" for="email">Email <span class="text-error">*</span></label>
 					<input id="email" type="text" v-model="auth.email" class="form-input mb-1" placeholder="john.doe@example.com" />
-					<label class="form-label" for="password">Password</label>
+					<label class="form-label" for="password">Password <span class="text-error">*</span></label>
 					<input id="password" type="password" v-model="auth.password" class="form-input mb-1" placeholder="enter password" />
 					<input type="password" v-model="auth.repeat" class="form-input mb-1" placeholder="repeat password" />
 				</div>
