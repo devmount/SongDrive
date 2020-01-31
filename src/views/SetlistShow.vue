@@ -442,8 +442,7 @@ export default {
 			return sheets
 		},
 		isChordLine(line) {
-			if (line == '') return false
-			return line.slice(-2) === '  '
+			return basics.isChordLine(line)
 		},
 		parsedContent (content, tuning) {
 			// initialize arrays for parsed lines, classes of parts, type abbr., numbers of type and part index

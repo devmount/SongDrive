@@ -186,8 +186,7 @@ export default {
 	},
 	methods: {
 		isChordLine(line) {
-			if (line == '') return false
-			return line.slice(-2) === '  ';
+			return basics.isChordLine(line)
 		},
 		exportTxt: function() {
 			// add header
