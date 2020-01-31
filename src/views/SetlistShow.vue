@@ -1,5 +1,5 @@
 <template>
-	<div class="profile">
+	<div class="setlist-show">
 		<div class="off-canvas off-canvas-secondary">
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">

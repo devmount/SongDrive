@@ -1,5 +1,5 @@
 <template>
-	<div class="profile">
+	<div class="song-show">
 		<div class="off-canvas off-canvas-secondary">
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">
@@ -388,7 +388,7 @@ export default {
 </script>
 
 <style lang="scss">
-	footer {
+	.song-show footer {
 		padding-top: 2.5em;
 		padding-bottom: 2em;
 		font-size: .8em;
