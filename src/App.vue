@@ -42,10 +42,9 @@
 							<div class="form-group">
 								<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
 								<input type="password" v-model="auth.password" class="form-input mb-2" placeholder="password" />
-								<button class="btn btn-primary d-block stretch mb-4" @click="signIn" v-shortkey="['enter']" @shortkey="signIn">
+								<button class="btn btn-primary d-block stretch mb-2" @click="signIn" v-shortkey="['enter']" @shortkey="signIn">
 									<i class="icon ion-md-log-in float-right mr-1"></i>Sign In
 								</button>
-								<div class="text-gray text-center mb-2">New here? <i class="icon ion-md-arrow-down ml-1"></i></div>
 								<button class="btn btn-secondary d-block stretch" @click="modal.signup = true">
 									<i class="icon ion-md-person-add float-right mr-1"></i>Sign Up
 								</button>
@@ -92,20 +91,20 @@
 						</li>
 					</ul>
 					<footer>
-						<ul class="menu text-small text-gray">
-							<li class="menu-item text-center">
-								<i class="icon ion-md-code mr-1"></i> with <i class="icon ion-md-heart-empty mx-1"></i>
-								by <svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
+						<div class="text-center text-small text-gray">
+							created with <i class="icon ion-md-heart-empty mx-1"></i>
+							by <a href="htps://devmount.de">
+								<svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
 									<path class="st0" d="M6.9,140.6L87.1,40.2l78.2,77.6"/>
 									<path class="st0" d="M40.4,193.8l62.1-77.8l35.9,35.4l48.8-60.6l39.8,39.5"/>
 								</svg>
-							</li>
-							<li class="menu-item text-center">
-								2007–2020
-								<svg class="legal" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path></svg>
-								MIT
-							</li>
-						</ul>
+							</a>
+						</div>
+						<div class="text-center text-small text-gray">
+							2016–{{ (new Date()).getFullYear() }}
+							<svg class="legal" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path></svg>
+							<a href="https://github.com/devmount/SongDrive/blob/master/LICENSE" target="_blank"> MIT license</a>
+						</div>
 					</footer>
 				</div>
 			</div>
@@ -891,6 +890,15 @@ a:focus,
 				bottom: 1rem;
 				width: 100%;
 
+				a {
+					text-decoration: none;
+					color: inherit;
+
+					&:hover {
+						color: $primary-color;
+					}
+				}
+
 				.logo-devmount {
 					width: 25px;
 					vertical-align: middle;
@@ -905,7 +913,7 @@ a:focus,
 				}
 				.legal {
 					fill: currentColor;
-					width: 20px;
+					width: 18px;
 					vertical-align: middle;
 					padding: 0 2px 5px 2px;
 				}
