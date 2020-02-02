@@ -317,7 +317,7 @@ export default {
 				self.$notify({
 					title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
 					text: error.message,
-					type: 'toast-primary'
+					type: 'toast-error'
 				})
 			})
 		},
@@ -327,20 +327,40 @@ export default {
 				// sign-up successful
 				self.auth.user = firebase.auth().currentUser.uid
 				// create user
-				self.db.collection('users').doc(self.auth.user).set({ email: u.email, name: u.name, role: 'reader' }).catch(function() {
-					// toast error creation message
+				self.db.collection('users').doc(self.auth.user).set({ email: u.email, name: u.name, role: 'reader' })
+					.then(function() {
+						self.auth.userObject = firebase.auth().currentUser
+						self.auth.userObject.updateProfile({ displayName: u.name })
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Successfully signed up!',
+							text: 'You can now start using SongDrive.',
+							type: 'toast-primary'
+						})
+					})
+					.catch(function(error) {
+						// toast error creation message
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
+							text: error.message,
+							type: 'toast-primary'
+						})
+					})
+				// send verification email
+				firebase.auth().currentUser.sendEmailVerification().then(function() {
+					// Verification email sent
 					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Error!',
-						text: 'The new user could not be added.',
-						type: 'toast-error'
+						title: '<button class="btn btn-clear float-right"></button>Verification email sent!',
+						text: 'Please lick the link to verify your email address.',
+						type: 'toast-primary'
 					})
 				})
-				self.auth.userObject = firebase.auth().currentUser
-				self.auth.userObject.updateProfile({ displayName: u.name })
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Successfully signed up!',
-					text: 'You can now start using SongDrive.',
-					type: 'toast-primary'
+				.catch(function(error) {
+					// throw error message
+					self.$notify({
+						title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
+						text: error.message,
+						type: 'toast-primary'
+					})
 				})
 			}).catch(function(error) {
 				// throw error message
