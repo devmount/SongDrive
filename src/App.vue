@@ -314,7 +314,7 @@ export default {
 					text: 'You are now in read-only mode.',
 					type: 'toast-primary'
 				})
-			}).catch(function(error) {
+			}).catch((error) => {
 				// throw error message
 				self.$notify({
 					title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
@@ -330,7 +330,7 @@ export default {
 				self.auth.user = firebase.auth().currentUser.uid
 				// create user
 				self.db.collection('users').doc(self.auth.user).set({ email: u.email, name: u.name, role: 'reader' })
-					.then(function() {
+					.then(() => {
 						self.auth.userObject = firebase.auth().currentUser
 						self.auth.userObject.updateProfile({ displayName: u.name })
 						self.$notify({
@@ -339,7 +339,7 @@ export default {
 							type: 'toast-primary'
 						})
 					})
-					.catch(function(error) {
+					.catch((error) => {
 						// toast error creation message
 						self.$notify({
 							title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
@@ -348,23 +348,24 @@ export default {
 						})
 					})
 				// send verification email
-				firebase.auth().currentUser.sendEmailVerification().then(function() {
-					// Verification email sent
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Verification email sent!',
-						text: 'Please lick the link to verify your email address.',
-						type: 'toast-primary'
+				firebase.auth().currentUser.sendEmailVerification()
+					.then(() => {
+						// Verification email sent
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Verification email sent!',
+							text: 'Please click the link to verify your email address.',
+							type: 'toast-primary'
+						})
 					})
-				})
-				.catch(function(error) {
-					// throw error message
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
-						text: error.message,
-						type: 'toast-primary'
+					.catch((error) => {
+						// throw error message
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
+							text: error.message,
+							type: 'toast-primary'
+						})
 					})
-				})
-			}).catch(function(error) {
+			}).catch((error) => {
 				// throw error message
 				self.$notify({
 					title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
