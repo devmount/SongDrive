@@ -91,7 +91,9 @@
 								<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
 									<tr v-for="(song, i) in setlist.songs" :key="song.id">
 										<td v-if="user && role > 1" class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 handle"></i></td>
-										<td>{{ songs[song.id].title }} <br class="show-xl hide-sm" /><span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span></td>
+										<td class="c-hand" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id }})">
+											{{ songs[song.id].title }} <br class="show-xl hide-sm" /><span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span>
+										</td>
 										<td class="hide-xl text-uppercase">{{ songs[song.id].language }}</td>
 										<td class="tuning">
 											<button v-if="user && role > 1" class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(songs[song.id], i)">
