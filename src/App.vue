@@ -288,6 +288,8 @@ export default {
 				// sign-in successful
 				self.auth.user = firebase.auth().currentUser.uid
 				self.auth.userObject = firebase.auth().currentUser
+				self.auth.email = ''
+				self.auth.password = ''
 				self.$notify({
 					title: '<button class="btn btn-clear float-right"></button>Successfully signed in!',
 					text: 'You can now edit content.',
