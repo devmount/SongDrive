@@ -16,8 +16,8 @@
 								<div class="column col-12">
 									<div class="form-group" :class="{ 'has-error': error.title }">
 										<label class="form-label" for="title">Title <span class="text-error">*</span></label>
-										<input v-if="existing" v-model="setlist.title" class="form-input" id="title" type="text" placeholder="setlist title" disabled>
-										<input v-else v-model="setlist.title" class="form-input" id="title" type="text" placeholder="setlist title">
+										<input v-if="existing" v-model="setlist.title" class="form-input" id="title" type="text" placeholder="e.g. Sunday Service" disabled>
+										<input v-else v-model="setlist.title" class="form-input" id="title" type="text" placeholder="e.g. Sunday Service">
 										<p v-if="error.title" class="form-input-hint">A title is required.</p>
 									</div>
 								</div>

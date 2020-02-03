@@ -17,15 +17,15 @@
 									<div class="column col-12">
 										<div class="form-group" :class="{ 'has-error': error.title }">
 											<label class="form-label" for="title">Title <span class="text-error">*</span></label>
-											<input v-if="existing" v-model="song.title" class="form-input" id="title" type="text" placeholder="song title" disabled>
-											<input v-else v-model="song.title" class="form-input" id="title" type="text" placeholder="song title">
+											<input v-if="existing" v-model="song.title" class="form-input" id="title" type="text" placeholder="e.g. Amazing Grace" disabled>
+											<input v-else v-model="song.title" class="form-input" id="title" type="text" placeholder="e.g. Amazing Grace">
 											<p v-if="error.title" class="form-input-hint">A title is required.</p>
 										</div>
 									</div>
 									<div class="column col-8 col-md-12">
 										<div class="form-group">
 											<label class="form-label" for="subtitle">Subtitle</label>
-											<input v-model="song.subtitle" class="form-input" id="subtitle" type="text" placeholder="song subtitle">
+											<input v-model="song.subtitle" class="form-input" id="subtitle" type="text" placeholder="e.g. How sweet the sound">
 										</div>
 									</div>
 									<div class="column col-4 col-md-12">
@@ -44,7 +44,7 @@
 									<div class="column col-8 col-md-12">
 										<div class="form-group">
 											<label class="form-label" for="authors">Authors</label>
-											<input v-model="song.authors" class="form-input" id="authors" type="text" placeholder="jon doe | jane dillon">
+											<input v-model="song.authors" class="form-input" id="authors" type="text" placeholder="e.g. Jon Doe | Jane Dillon">
 										</div>
 									</div>
 									<div class="column col-4 col-md-12">
@@ -71,19 +71,19 @@
 									<div class="column col-4 col-md-12">
 										<div class="form-group">
 											<label class="form-label" for="ccli">CCLI #</label>
-											<input v-model="song.ccli" class="form-input" id="ccli" type="number" placeholder="CCLI number">
+											<input v-model="song.ccli" class="form-input" id="ccli" type="number" placeholder="e.g. 22025">
 										</div>
 									</div>
 									<div class="column col-8 col-md-12">
 										<div class="form-group">
 											<label class="form-label" for="publisher">Publisher</label>
-											<textarea v-model="song.publisher" class="form-input" id="publisher" placeholder="publisher information" rows="2"></textarea>
+											<textarea v-model="song.publisher" class="form-input" id="publisher" placeholder="e.g. Public Domain" rows="2"></textarea>
 										</div>
 									</div>
 									<div class="column col-4 col-md-12">
 										<div class="form-group">
 											<label class="form-label" for="year">Year</label>
-											<input v-model="song.year" class="form-input" id="year" type="number" placeholder="year">
+											<input v-model="song.year" class="form-input" id="year" type="number" placeholder="e.g. 2016">
 										</div>
 									</div>
 									<div class="column col-8 col-md-12">
