@@ -34,9 +34,12 @@
 							<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
 						</label>
 					</div>
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="modal.present=true" data-tooltip=" PRESENT ">
+					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="modal.present=true" data-tooltip=" PRESENT ">
 						<i class="icon ion-md-videocam float-left ml-1"></i><span class="hide-lg"> PRESENT</span>
 					</button>
+					<router-link :to="{ name: 'setlist-show', params: { id: setlistKey }}" target="_blank" class="btn btn-secondary tooltip tooltip-right d-block stretch" data-tooltip=" LAUNCH ">
+						<i class="icon ion-md-open float-left ml-1"></i><span class="hide-lg"> LAUNCH</span>
+					</router-link>
 					<!-- sidebar: export -->
 					<div class="divider text-center show-lg" data-content="C"></div>
 					<div class="divider text-center hide-lg" data-content="COPY"></div>
