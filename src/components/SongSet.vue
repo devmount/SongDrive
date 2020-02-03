@@ -86,10 +86,16 @@
 											<input v-model="song.year" class="form-input" id="year" type="number" placeholder="year">
 										</div>
 									</div>
-									<div class="column col-12">
+									<div class="column col-8 col-md-12">
 										<div class="form-group">
 											<label class="form-label" for="note">Note</label>
 											<input v-model="song.note" class="form-input" id="note" type="text" placeholder="general notes, e.g. capo 3">
+										</div>
+									</div>
+									<div class="column col-4 col-md-12">
+										<div class="form-group">
+											<label class="form-label" for="youtube">Youtube ID</label>
+											<input v-model="song.youtube" class="form-input" id="youtube" type="text" placeholder="e.g. cF0S3uKdVJA">
 										</div>
 									</div>
 									<div class="column col-12">
@@ -309,6 +315,7 @@ export default {
 					translations: this.song.translations,
 					tuning: this.song.tuning,
 					year: this.song.year ? parseInt(this.song.year) : '',
+					youtube: this.song.youtube,
 				}
 				// new song should be created
 				if (!this.existing) {
