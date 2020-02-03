@@ -800,6 +800,12 @@ a:focus,
 	td, th {
 		border: none;
 	}
+	&.table-striped tbody tr:nth-of-type(odd) {
+		background: $bg-color-medium;
+		&:hover {
+			background: $bg-color-dark;
+		}
+	}
 }
 
 // chip
