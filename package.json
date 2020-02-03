@@ -12,7 +12,9 @@
 	"dependencies": {
 		"@firebase/app": "^0.3.17",
 		"@firebase/auth": "^0.12.3",
+		"@firebase/app-types": "^0.1.0",
 		"@firebase/firestore": "^0.8.8",
+		"firebase": "^7.6.1",
 		"hooper": "^0.1.5",
 		"ionicons": "^4.6.1",
 		"pdfmake": "^0.1.57",
@@ -39,7 +41,8 @@
 		"node-sass": "^4.12.0",
 		"sass-loader": "^7.1.0",
 		"vue-template-compiler": "^2.6.10",
-		"vuepress": "^0.14.11"
+		"vuepress": "^0.14.11",
+		"webpack": "^3.0.0"
 	},
 	"eslintConfig": {
 		"root": true,
