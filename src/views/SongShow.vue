@@ -77,7 +77,7 @@
 			<!-- content -->
 			<div class="off-canvas-content">
 				<div class="container">
-					<div class="columns">
+					<div class="columns pb-4">
 						<div v-if="ready.songs && song" class="column col-12">
 							<h2>{{ song.title }} <span class="label text-pre ml-2 px-3">{{ showTuning.current }}</span></h2>
 							<h3>{{ song.subtitle }}</h3>
@@ -87,7 +87,11 @@
 								:tuning="tuning"
 								:presentation="false"
 							/>
-							<footer>
+						</div>
+					</div>
+					<div class="columns mt-4 pt-4">
+						<div class="column col-6 col-md-12">
+							<footer class="text-small">
 								<p>{{ song.authors }}</p>
 								<p>
 									<router-link v-for="tag in song.tags" :key="tag" :to="{ name: 'songs-tag', params: { tag: tag }}" class="mr-2">
@@ -100,6 +104,9 @@
 								<p v-if="song.ccli" class="text-gray">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
 								<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
 							</footer>
+						</div>
+						<div v-if="song.youtube" class="column col-6 col-md-12">
+							<iframe :src="'https://www.youtube-nocookie.com/embed/' + song.youtube" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 						</div>
 					</div>
 				</div>
@@ -388,9 +395,5 @@ export default {
 </script>
 
 <style lang="scss">
-	.song-show footer {
-		padding-top: 2.5em;
-		padding-bottom: 2em;
-		font-size: .8em;
-	}
+
 </style>
