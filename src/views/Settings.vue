@@ -54,7 +54,7 @@
 						</div>
 						<div class="panel-body">
 							<div
-								v-for="u in users" :key="u['.key']"
+								v-for="(u, k) in users" :key="k"
 								class="tile tile-centered tile-hover p-2"
 							>
 								<div class="tile-icon">
@@ -69,6 +69,11 @@
 									<span class="label float-right py-1 px-2">{{ u.role }}</span>
 									<div class="tile-title">{{ u.name }}</div>
 									<div class="tile-subtitle text-gray text-small">{{ u.email }}</div>
+								</div>
+								<div class="tile-action">
+									<button class="btn btn-link btn-action" @click.prevent="active.user=u; active.key=k; active.existing=true; modal.userset=true">
+										<i class="icon ion-md-create"></i>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -138,6 +143,16 @@
 					</div>
 				</div>
 			</div>
+
+			<UserSet
+				v-if="modal.userset"
+				:db="db"
+				:active="modal.userset"
+				:existing="active.existing"
+				:initialUser="active.user"
+				:userKey="active.key"
+				@closed="modal.userset = false"
+			/>
 		</div>
 	</div>
 </template>
@@ -145,9 +160,14 @@
 <script>
 // get basic program parameters
 import basics from '@/basics.js'
+// get components
+import UserSet from '@/components/UserSet.vue'
 
 export default {
 	name: 'settings',
+	components: {
+		UserSet,
+	},
 	props: ['db', 'user', 'userObject', 'roleName', 'role', 'users', 'registrations', 'tags', 'songs', 'setlists'],
 	data () {
 		return {
@@ -156,6 +176,14 @@ export default {
 				role: this.roleName,
 				email: this.userObject.email,
 				photoURL: this.userObject.photoURL
+			},
+			modal: {
+				userset: false,
+			},
+			active: {
+				user: {},
+				key: '',
+				existing: true,
 			}
 		}
 	},
@@ -190,9 +218,6 @@ export default {
 					type: 'toast-error'
 				})
 			});
-		},
-		updateUser () {
-			// TODO
 		},
 		updateTags () {
 			// TODO
