@@ -77,11 +77,18 @@
 								</div>
 							</div>
 						</div>
-						<div class="panel-footer mt-5">
+						<div v-if="Object.keys(registrations).length == 0" class="empty">
+							<div class="empty-icon">
+								<i class="icon ion-md-checkbox-outline icon-4x"></i>
+							</div>
+							<p class="empty-title h5">No unconfirmed users</p>
+							<p class="empty-subtitle">Good work!</p>
+						</div>
+						<div v-else class="panel-footer mt-5">
 							<div class="panel-title h5 mt-1 text-center">{{ Object.keys(registrations).length }} Registrations</div>
 							<div class="panel-subtitle mb-4 text-gray text-center">Manage all unconfirmed users</div>
 							<div
-								v-for="r in registrations" :key="r['.key']"
+								v-for="(r, k) in registrations" :key="k"
 								class="tile tile-centered tile-hover p-2"
 							>
 								<div class="tile-icon">
@@ -93,6 +100,11 @@
 									<span class="label float-right py-1 px-2">unconfirmed</span>
 									<div class="tile-title">{{ r.name }}</div>
 									<div class="tile-subtitle text-gray text-small">{{ r.email }}</div>
+								</div>
+								<div class="tile-action">
+									<button class="btn btn-link btn-action" @click.prevent="active.user=r; active.key=k; active.existing=false; modal.userset=true">
+										<i class="icon ion-md-person-add"></i>
+									</button>
 								</div>
 							</div>
 						</div>

@@ -4,7 +4,7 @@
 		<div class="modal-container">
 			<div class="modal-header">
 				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
-				<div class="modal-title h5">Edit user</div>
+				<div class="modal-title h5">{{ existing ? 'Edit' : 'Add' }} user</div>
 			</div>
 			<div class="modal-body">
 				<div class="content">
@@ -57,37 +57,66 @@ export default {
 			// first check for form errors
 			this.error.name = this.user.name == ''
 			this.error.email = this.user.email == ''
+			this.error.role = this.user.role == ''
 			// no errors: send submitted user data and close modal
 			if (!this.errors) {
 				let self = this
-				this.db.collection('users').doc(this.userKey).update({
-					name: self.user.name,
-					email: self.user.email,
-					role: self.user.role
-				}).then(function() {
-					// Profile updated successfully!
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Success!',
-						text: 'User data was updated.',
-						type: 'toast-primary'
+				if (this.existing) {
+					this.db.collection('users').doc(this.userKey).update({
+						name: self.user.name,
+						email: self.user.email,
+						role: self.user.role
+					}).then(function() {
+						// user updated successfully!
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Success!',
+							text: 'User data was updated.',
+							type: 'toast-primary'
+						})
 					})
-				})
-				.catch(function() {
-					// An error happened.
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Error!',
-						text: 'There was an error when updating user data.',
-						type: 'toast-error'
+					.catch(function() {
+						// An error happened.
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Error!',
+							text: 'There was an error when updating user data.',
+							type: 'toast-error'
+						})
 					})
-				})
-				this.$emit('closed')
+					this.$emit('closed')
+				}
+				// user is not yet confirmed
+				else {
+					this.db.collection('users').doc(this.userKey).set({
+						name: self.user.name,
+						email: self.user.email,
+						role: self.user.role
+					}).then(function() {
+						// user added successfully, now delete temporary registration
+						self.db.collection('registrations').doc(self.userKey).delete().then(function() {
+							self.$notify({
+								title: '<button class="btn btn-clear float-right"></button>Success!',
+								text: 'User was successfully added.',
+								type: 'toast-primary'
+							})
+						})
+					})
+					.catch(function() {
+						// An error happened.
+						self.$notify({
+							title: '<button class="btn btn-clear float-right"></button>Error!',
+							text: 'There was an error when adding user.',
+							type: 'toast-error'
+						})
+					})
+					this.$emit('closed')
+				}
 			}
 		}
 	},
 	computed: {
 		// calculate wether form errors occured
 		errors () {
-			return (this.error.name || this.error.email)
+			return (this.error.name || this.error.email || this.error.role)
 		}
 	}
 }
