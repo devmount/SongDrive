@@ -45,14 +45,14 @@
 								</div>
 							</div>
 						</div>
-						<div class="panel-footer">
+						<div v-if="role" class="panel-footer">
 							<router-link to="/settings" class="btn btn-secondary btn-block mb-1" @click.native="open = false">
 								<i class="icon ion-md-create float-left ml-1"></i> SETTINGS
 							</router-link>
 						</div>
 					</div>
 				</div>
-				<div class="column col-4 col-xl-6 col-sm-12">
+				<div v-if="role > 1" class="column col-4 col-xl-6 col-sm-12">
 					<div class="panel mt-3">
 						<div class="panel-body text-center pb-3">
 							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
@@ -76,7 +76,7 @@
 <script>
 export default {
 	name: 'profile',
-	props: ['setlists', 'user', 'userObject', 'roleName', 'ready'],
+	props: ['setlists', 'user', 'userObject', 'role', 'roleName', 'ready'],
 	computed: {
 		setlistsFromUser () {
 			return Object.filter(this.setlists, s => s.creator == this.userObject.uid)

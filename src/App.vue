@@ -50,7 +50,7 @@
 								</button>
 							</div>
 						</li>
-						<li v-if="auth.user && users[auth.user] && ready.users" class="menu-item pt-2 pb-2">
+						<li v-if="auth.user && ready.users" class="menu-item pt-2 pb-2">
 							<router-link to="/profile" class="py-2" @click.native="open = false">
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
@@ -58,13 +58,13 @@
 										<figure v-else-if="auth.userObject.displayName" class="avatar" :data-initial="auth.userObject.displayName.substring(0,2).toUpperCase()" alt="Avatar"></figure>
 									</div>
 									<div class="tile-content">
-										{{ users[auth.user].name }}
-										<div class="text-gray text-small">{{ users[auth.user].role }}</div>
+										{{ auth.userObject.displayName }}
+										<div class="text-gray text-small">{{ users[auth.user] ? users[auth.user].role : 'unconfirmed' }}</div>
 									</div>
 								</div>
 							</router-link>
 						</li>
-						<li v-if="auth.user" class="menu-item">
+						<li v-if="auth.user && users[auth.user]" class="menu-item">
 							<router-link to="/settings" class="py-2" @click.native="open = false"><i class="icon ion-md-options mr-2"></i> Settings</router-link>
 						</li>
 						<li v-if="auth.user" class="menu-item">
@@ -328,8 +328,8 @@ export default {
 			firebase.auth().createUserWithEmailAndPassword(u.email, u.password).then(() => {
 				// sign-up successful
 				self.auth.user = firebase.auth().currentUser.uid
-				// create user
-				self.db.collection('users').doc(self.auth.user).set({ email: u.email, name: u.name, role: 'reader' })
+				// create registration for admin approval
+				self.db.collection('registrations').doc(self.auth.user).set({ email: u.email, name: u.name })
 					.then(() => {
 						self.auth.userObject = firebase.auth().currentUser
 						self.auth.userObject.updateProfile({ displayName: u.name })
