@@ -121,8 +121,9 @@
 					:roleName="auth.user && users[auth.user] && ready.users ? users[auth.user].role : ''"
 					:songs="songs"
 					:setlists="setlists"
-					:users="users"
 					:tags="tags"
+					:users="users"
+					:registrations="registrations"
 					:ready="ready"
 				></router-view>
 			</div>
@@ -201,17 +202,23 @@ export default {
 				resolve: () => { this.ready.setlists = true },
 				reject: () => { this.ready.setlists = true }
 			},
+			tags: {
+				ref: db.collection('tags'),
+				objects: true,
+				resolve: () => { this.ready.tags = true },
+				reject: () => { this.ready.tags = true }
+			},
 			users: {
 				ref: db.collection('users'),
 				objects: true,
 				resolve: () => { this.ready.users = true },
 				reject: () => { this.ready.users = true }
 			},
-			tags: {
-				ref: db.collection('tags'),
+			registrations: {
+				ref: db.collection('registrations'),
 				objects: true,
-				resolve: () => { this.ready.tags = true },
-				reject: () => { this.ready.tags = true }
+				resolve: () => { this.ready.registrations = true },
+				reject: () => { this.ready.registrations = true }
 			},
 		}
 	},
@@ -220,8 +227,9 @@ export default {
 			ready: {
 				songs: false,
 				setlists: false,
-				users: false,
 				tags: false,
+				users: false,
+				registrations: false,
 			},
 			open: false,
 			modal: {

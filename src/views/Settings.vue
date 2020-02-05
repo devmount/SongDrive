@@ -72,11 +72,25 @@
 								</div>
 							</div>
 						</div>
-						<!-- <div class="panel-footer mt-5">
-							<button class="btn btn-primary btn-block text-uppercase" @click="updateUser">
-								<i class="icon ion-md-save float-left ml-1"></i> Save Users
-							</button>
-						</div> -->
+						<div class="panel-footer mt-5">
+							<div class="panel-title h5 mt-1 text-center">{{ Object.keys(registrations).length }} Registrations</div>
+							<div class="panel-subtitle mb-4 text-gray text-center">Manage all unconfirmed users</div>
+							<div
+								v-for="r in registrations" :key="r['.key']"
+								class="tile tile-centered tile-hover p-2"
+							>
+								<div class="tile-icon">
+									<div class="avatar bg-dark text-center">
+										<i class="icon ion-md-person"></i>
+									</div>
+								</div>
+								<div class="tile-content">
+									<span class="label float-right py-1 px-2">unconfirmed</span>
+									<div class="tile-title">{{ r.name }}</div>
+									<div class="tile-subtitle text-gray text-small">{{ r.email }}</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
@@ -134,7 +148,7 @@ import basics from '@/basics.js'
 
 export default {
 	name: 'settings',
-	props: ['db', 'user', 'userObject', 'roleName', 'role', 'users', 'tags', 'songs', 'setlists'],
+	props: ['db', 'user', 'userObject', 'roleName', 'role', 'users', 'registrations', 'tags', 'songs', 'setlists'],
 	data () {
 		return {
 			profile: {
