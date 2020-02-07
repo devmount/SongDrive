@@ -61,9 +61,6 @@
 				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !chords, 'btn-primary': chords }" href="#" aria-label="Chords" @click.prevent="$emit('chords')">
 					<i class="icon ion-md-musical-notes"></i>
 				</a>
-				<a class="btn btn-secondary btn-xl btn-fw btn-gray ml-1" href="#" aria-label="Maximize" @click.prevent="maximizeFontsize">
-					<i class="icon ion-md-expand"></i>
-				</a>
 				<a class="btn btn-secondary btn-xl btn-fw btn-gray ml-1" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
 					<i class="icon ion-md-close"></i>
 				</a>
