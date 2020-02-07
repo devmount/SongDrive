@@ -3,7 +3,7 @@
 		<div class="container no-sidebar">
 			<div class="columns">
 				<!-- heading -->
-				<div class="column col-12 mb-4">
+				<div class="column col-12">
 					<h2 class="view-title">
 						Dashboard
 					</h2>
@@ -13,87 +13,99 @@
 					<div class="loading loading-xl"></div>
 				</div>
 				<!-- song list -->
-				<div v-if="ready.songs" class="column col-4 col-xl-6 col-md-12 mb-4">
-					<h3 class="p-0">
-						{{ songsProperty }} Songs
-						<div class="mt-2">
-							<button class="btn btn-sm btn-secondary px-3" :class="{ disabled: isFirstSongPage }" @click="!isFirstSongPage ? songsPage-- : null">
-								<i class="form-icon icon ion-md-arrow-back"></i>
-							</button>
-							<button class="btn btn-sm btn-secondary px-3" :class="{ disabled: isLastSongPage }" @click="!isLastSongPage ? songsPage++ : null">
-								<i class="form-icon icon ion-md-arrow-forward"></i>
-							</button>
+				<div v-if="ready.songs" class="column col-4 col-xl-6 col-md-12">
+					<div class="panel mt-4">
+						<div class="panel-header">
+							<div class="panel-title h5">
+								{{ songsProperty }} Songs
+								<button class="btn btn-secondary float-right px-3" :class="{ disabled: isLastSongPage }" @click="!isLastSongPage ? songsPage++ : null">
+									<i class="form-icon icon ion-md-arrow-forward"></i>
+								</button>
+								<button class="btn btn-secondary float-right px-3" :class="{ disabled: isFirstSongPage }" @click="!isFirstSongPage ? songsPage-- : null">
+									<i class="form-icon icon ion-md-arrow-back"></i>
+								</button>
+							</div>
 						</div>
-					</h3>
-					<div
-						v-for="(song, i) in songlist"
-						:key="i"
-						class="tile tile-centered tile-hover c-hand p-2"
-						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
-					>
-						<div class="tile-icon">
-							<figure class="avatar s-rounded" :data-initial="song.tuning" title="Song tuning"></figure>
-							<figure
-								v-if="songsProperty == 'popular'"
-								class="avatar avatar-secondary s-rounded float-right ml-1"
-								:data-initial="song.popularity + 'x'"
-								:title="'This song occured on ' + song.popularity + ' setlists'"
-							></figure>
-							<figure
-								v-if="songsProperty == 'newest' || songsProperty == 'oldest'"
-								class="avatar avatar-secondary s-rounded float-right ml-1"
-								:data-initial="song.year ? song.year : '—'"
-								:title="song.year ? 'This song was published in ' + song.year : 'No year available for this song'"
-							></figure>
+						<div class="panel-body">
+							<div
+								v-for="(song, i) in songlist"
+								:key="i"
+								class="tile tile-centered tile-hover c-hand p-2"
+								@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+							>
+								<div class="tile-icon">
+									<figure class="avatar s-rounded" :data-initial="song.tuning" title="Song tuning"></figure>
+									<figure
+										v-if="songsProperty == 'popular'"
+										class="avatar avatar-secondary s-rounded float-right ml-1"
+										:data-initial="song.popularity + 'x'"
+										:title="'This song occured on ' + song.popularity + ' setlists'"
+									></figure>
+									<figure
+										v-if="songsProperty == 'newest' || songsProperty == 'oldest'"
+										class="avatar avatar-secondary s-rounded float-right ml-1"
+										:data-initial="song.year ? song.year : '—'"
+										:title="song.year ? 'This song was published in ' + song.year : 'No year available for this song'"
+									></figure>
+								</div>
+								<div class="tile-content">
+									<div class="tile-title">{{ song.title }}</div>
+									<div class="tile-subtitle text-gray text-small">{{ song.subtitle }}</div>
+								</div>
+							</div>
 						</div>
-						<div class="tile-content">
-							<div class="tile-title">{{ song.title }}</div>
-							<div class="tile-subtitle text-gray text-small">{{ song.subtitle }}</div>
+						<div class="panel-footer">
+							<div class="btn-group">
+								<button class="btn btn-secondary" @click="shuffleSongs"><i class="form-icon icon ion-md-shuffle mr-2"></i>Shuffle</button>
+								<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
+								<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
+								<button class="btn btn-secondary" @click="popularSongs"><i class="form-icon icon ion-md-trending-up mr-2"></i>Popular</button>
+								<router-link to="/songs" class="btn btn-secondary" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Songs</router-link>
+							</div>
 						</div>
-					</div>
-					<div class="btn-group mt-2">
-						<button class="btn btn-secondary" @click="shuffleSongs"><i class="form-icon icon ion-md-shuffle mr-2"></i>Shuffle</button>
-						<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
-						<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
-						<button class="btn btn-secondary" @click="popularSongs"><i class="form-icon icon ion-md-trending-up mr-2"></i>Popular</button>
-						<router-link to="/songs" class="btn btn-secondary" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Songs</router-link>
 					</div>
 				</div>
 				<!-- setlist list -->
-				<div v-if="ready.setlists" class="column col-4 col-xl-6 col-md-12 mb-4">
-					<h3 class="p-0">
-						{{ setlistsProperty }} Setlists
-						<div class="mt-2">
-							<button class="btn btn-sm btn-secondary px-3" :class="{ disabled: isFirstSetlistPage }" @click="!isFirstSetlistPage ? setlistsPage-- : null">
-								<i class="form-icon icon ion-md-arrow-back"></i>
-							</button>
-							<button class="btn btn-sm btn-secondary px-3" :class="{ disabled: isLastSetlistPage }" @click="!isLastSetlistPage ? setlistsPage++ : null">
-								<i class="form-icon icon ion-md-arrow-forward"></i>
-							</button>
+				<div v-if="ready.setlists" class="column col-4 col-xl-6 col-md-12">
+					<div class="panel mt-4">
+						<div class="panel-header">
+							<div class="panel-title h5">
+								{{ setlistsProperty }} Setlists
+								<button class="btn btn-secondary float-right px-3" :class="{ disabled: isLastSetlistPage }" @click="!isLastSetlistPage ? setlistsPage++ : null">
+									<i class="form-icon icon ion-md-arrow-forward"></i>
+								</button>
+								<button class="btn btn-secondary float-right px-3" :class="{ disabled: isFirstSetlistPage }" @click="!isFirstSetlistPage ? setlistsPage-- : null">
+									<i class="form-icon icon ion-md-arrow-back"></i>
+								</button>
+							</div>
 						</div>
-					</h3>
-					<div
-						v-for="(setlist, i) in setlistlist"
-						:key="i"
-						class="tile tile-centered tile-hover c-hand p-2"
-						@click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})"
-					>
-						<div class="tile-icon">
-							<figure
-								class="avatar avatar-secondary s-rounded"
-								:data-initial="setlist.songs.length"
-								:title="'This setlist contains ' + setlist.songs.length + ' songs'"
-							></figure>
+						<div class="panel-body">
+							<div
+								v-for="(setlist, i) in setlistlist"
+								:key="i"
+								class="tile tile-centered tile-hover c-hand p-2"
+								@click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})"
+							>
+								<div class="tile-icon">
+									<figure
+										class="avatar avatar-secondary s-rounded"
+										:data-initial="setlist.songs.length"
+										:title="'This setlist contains ' + setlist.songs.length + ' songs'"
+									></figure>
+								</div>
+								<div class="tile-content">
+									<div class="tile-title">{{ setlist.title }}</div>
+									<div class="tile-subtitle text-gray text-small">{{ setlist.date }}</div>
+								</div>
+							</div>
 						</div>
-						<div class="tile-content">
-							<div class="tile-title">{{ setlist.title }}</div>
-							<div class="tile-subtitle text-gray text-small">{{ setlist.date }}</div>
+						<div class="panel-footer">
+							<div class="btn-group">
+								<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary" @click="newestSetlists"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
+								<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary" @click="oldestSetlists"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
+								<router-link to="/setlists" class="btn btn-secondary" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Setlists</router-link>
+							</div>
 						</div>
-					</div>
-					<div class="btn-group mt-2">
-						<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary" @click="newestSetlists"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
-						<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary" @click="oldestSetlists"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
-						<router-link to="/setlists" class="btn btn-secondary" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Setlists</router-link>
 					</div>
 				</div>
 			</div>
