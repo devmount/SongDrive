@@ -7,6 +7,16 @@ export default {
 	tunes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'],
 	
 	/*
+	 * temporary language list - shall be managed by admins in future
+	 */
+	languages: {
+		de: 'Deutsch',
+		en: 'English',
+		fr: 'Français',
+		li: 'Lingala',
+	},
+	
+	/*
 		user roles and permissions: Reader, Performer, Editor and Administrator
 
 		RPEA

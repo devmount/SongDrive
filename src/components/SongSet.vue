@@ -33,10 +33,7 @@
 											<label class="form-label" for="language">Language <span class="text-error">*</span></label>
 											<select v-model="song.language" class="form-select" id="language">
 												<option value="">Choose...</option>
-												<option value="de">Deutsch</option>
-												<option value="en">English</option>
-												<option value="fr">Francais</option>
-												<option value="li">Lingala</option>
+												<option v-for="(label, key) in languages" :value="key" :key="key">{{ label }}</option>
 											</select>
 											<p v-if="error.language" class="form-input-hint">The language is required.</p>
 										</div>
@@ -290,7 +287,8 @@ export default {
 				language: false,
 				content: false,
 			},
-			tunes: basics.tunes
+			tunes: basics.tunes,
+			languages: basics.languages,
 		}
 	},
 	methods: {
