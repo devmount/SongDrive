@@ -853,6 +853,13 @@ a:focus,
 	}
 }
 
+// panel
+.panel {
+	border: 2px solid $border-color;
+	border-radius: 2px;
+	box-shadow: 0 5px 20px -10px $black-color;
+}
+
 // empty
 .empty {
 	background: none;
