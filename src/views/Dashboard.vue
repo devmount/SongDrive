@@ -39,6 +39,15 @@
 						</div>
 					</div>
 				</div>
+				<!-- languages count -->
+				<div class="column col-3 col-xl-4 col-md-6 col-sm-12">
+					<div class="panel mt-4">
+						<div class="panel-body text-center pb-3">
+							<div class="text-huge">{{ Object.keys(languages).length }}</div>
+							<div class="panel-title h5"><i class="icon ion-md-globe mr-2"></i> Languages</div>
+						</div>
+					</div>
+				</div>
 				<!-- song list -->
 				<div v-if="ready.songs" class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
@@ -149,6 +158,9 @@
 </template>
 
 <script>
+// get basic program parameters
+import basics from '@/basics.js'
+
 export default {
 	name: 'dashboard',
 	props: ['songs', 'setlists', 'ready'],
@@ -160,7 +172,8 @@ export default {
 			setlistsProperty: 'newest',
 			reorderedSetlists: [],
 			setlistsPage: 0,
-			listLength: 8
+			listLength: 8,
+			languages: basics.languages,
 		}
 	},
 	methods: {
