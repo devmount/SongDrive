@@ -47,16 +47,17 @@
 							<!-- song selection -->
 							<div class="columns">
 								<div class="column col-6">
+									<label class="form-label" for="search">Songs</label>
 									<div class="columns col-gapless">
-										<div class="column col-xl-12 col-4">
-											<div class="input-group">
+										<div class="column col-xl-12 col-12 mb-1">
+											<div class="input-group filter">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
-												<input v-model="search" type="search" class="form-input" placeholder="search ..." />
+												<input v-model="search" id="search" type="search" class="form-input" placeholder="search ..." />
 												<button class="btn input-group-btn btn-link" @click="search = ''"><i class="form-icon icon ion-md-close"></i></button>
 											</div>
 										</div>
-										<div class="column col-xl-12 col-4">
-											<div class="input-group">
+										<div class="column col-xl-12 col-6 mb-1">
+											<div class="input-group filter">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-pricetag"></i></span>
 												<select v-model="filter" class="form-select filter" required>
 													<option value="" disabled selected>tag ...</option>
@@ -65,8 +66,8 @@
 												<button class="btn input-group-btn btn-link" @click="filter = ''"><i class="form-icon icon ion-md-close"></i></button>
 											</div>
 										</div>
-										<div class="column col-xl-12 col-4">
-											<div class="input-group">
+										<div class="column col-xl-12 col-6 mb-1">
+											<div class="input-group filter">
 												<span class="input-group-addon"><i class="form-icon icon ion-md-musical-note"></i></span>
 												<select v-model="tuning" class="form-select filter" required>
 													<option value="" disabled selected>tune ...</option>
@@ -353,7 +354,7 @@ export default {
 <style lang="scss">
 .modal-lg {
 	.max-column {
-		height: 66vh;
+		height: 60vh;
 		overflow-y: scroll;
 	}
 }

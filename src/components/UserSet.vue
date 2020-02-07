@@ -15,7 +15,7 @@
 					<input id="email" type="email" v-model="user.email" class="form-input mb-1" :class="{ 'is-error': error.email }" placeholder="john.doe@example.com" />
 					<p v-if="error.email" class="form-input-hint">An email address is required.</p>
 					<label class="form-label" for="role">Role <span class="text-error">*</span></label>
-					<select v-model="user.role" id="role" class="form-select select-lg filter" required>
+					<select v-model="user.role" id="role" class="form-select filter" required>
 						<option value="" disabled selected>role ...</option>
 						<option v-for="(r,k) in roles" :key="k" :value="k">{{ k }}</option>
 					</select>

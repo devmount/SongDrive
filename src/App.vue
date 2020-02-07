@@ -749,29 +749,48 @@ code {
 		left: 18px;
 	}
 }
-.input-group.filter > .addon-lg {
-	min-width: 40px;
-	text-align: center;
-}
 a:focus,
 .btn:focus {
   box-shadow: 0 0 0 .2rem rgba($primary-dark-color, .2);
 }
+.form-checkbox,
+.form-radio,
+.form-switch {
+	margin: 0.2rem;
+}
 .btn.btn-primary:focus,
 .slider:focus,
 .form-input:focus,
+.form-checkbox input:focus + .form-icon,
+.form-radio input:focus + .form-icon,
+.form-switch input:focus + .form-icon,
 .form-select:focus,
+.form-select:not([multiple]):not([size]):focus,
 .form-autocomplete .form-autocomplete-input.is-focused {
+	border-color: $primary-color;
   box-shadow: 0 0 0 .2rem rgba($primary-color, .2);
 }
 .btn.btn-error:focus {
   box-shadow: 0 0 0 .2rem rgba($error-color, .2);
 }
 .form-input,
+.form-checkbox .form-icon,
+.form-radio .form-icon,
 .form-select,
 .form-select:not([multiple]):not([size]) {
 	background-color: $bg-color-medium;
 	border-color: $black-color;
+}
+.form-switch .form-icon {
+	background-color: $bg-color-dark;
+	border-color: $black-color;
+	&:before {
+		background-color: $bg-color;
+	}
+}
+.form-input,
+.form-select,
+.form-select:not([multiple]):not([size]) {
 	width: 100%;
 
   .has-error &,
@@ -793,6 +812,15 @@ a:focus,
 	}
 	option {
 		color: $body-font-color;
+	}
+
+	&>.input-group-addon {
+		text-align: center;
+		min-width: 32px;
+		
+		&.addon-lg {
+			min-width: 40px;
+		}
 	}
 }
 

@@ -154,7 +154,7 @@
 					<div class="content">
 						<div class="columns">
 							<div class="column col-6">
-								<div class="input-group">
+								<div class="input-group filter">
 									<span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
 									<input v-model="search.tags" type="search" class="form-input" placeholder="search ..." />
 								</div>
@@ -207,7 +207,7 @@
 					<div class="content">
 						<div class="columns">
 							<div class="column col-6">
-								<div class="input-group">
+								<div class="input-group filter">
 									<span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
 									<input v-model="search.translations" type="search" class="form-input" placeholder="search ..." />
 								</div>
