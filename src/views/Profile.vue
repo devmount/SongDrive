@@ -9,7 +9,7 @@
 					</h2>
 				</div>
 				<div class="column col-4 col-xl-6 col-sm-12">
-					<div class="panel mt-3">
+					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<figure v-if="userObject.photoURL" class="avatar avatar-xxl mb-2">
 								<img :src="userObject.photoURL" alt="Avatar" />
@@ -53,14 +53,14 @@
 					</div>
 				</div>
 				<div v-if="role > 1" class="column col-4 col-xl-6 col-sm-12">
-					<div class="panel mt-3">
+					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 							<div v-else class="text-huge">{{ Object.keys(setlistsFromUser).length }}</div>
 							<div class="panel-title h5"><i class="icon ion-md-list mr-2"></i> Setlists created</div>
 						</div>
 					</div>
-					<div class="panel mt-3">
+					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 							<div v-else class="text-huge"><span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span></div>

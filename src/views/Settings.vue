@@ -9,7 +9,7 @@
 					</h2>
 				</div>
 				<div class="column col-4 col-xl-6 col-md-12">
-					<div class="panel mt-3">
+					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<i class="icon ion-md-person icon-2x"></i>
 							<div class="panel-title h5 mt-1">Profile</div>
@@ -46,7 +46,7 @@
 					</div>
 				</div>
 				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
-					<div class="panel mt-3">
+					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<i class="icon ion-md-people icon-2x"></i>
 							<div class="panel-title h5 mt-1">{{ Object.keys(users).length }} Users</div>
@@ -111,7 +111,7 @@
 					</div>
 				</div>
 				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
-					<div class="panel mt-3">
+					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<i class="icon ion-md-pricetags icon-2x"></i>
 							<div class="panel-title h5 mt-1">{{ Object.keys(tags).length }} Tags</div>
@@ -133,7 +133,7 @@
 					</div>
 				</div>
 				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
-					<div class="panel mt-3">
+					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<i class="icon ion-md-filing icon-2x"></i>
 							<div class="panel-title h5 mt-1">Backup</div>
