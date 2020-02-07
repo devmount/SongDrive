@@ -858,6 +858,19 @@ a:focus,
 	border: 2px solid $border-color;
 	border-radius: 2px;
 	box-shadow: 0 5px 20px -10px $black-color;
+
+	.panel-link {
+
+		.btn {
+			text-transform: uppercase;
+			color: $gray-color;
+
+			&:hover {
+			background: $border-color;
+				color: $body-font-color;
+			}
+		}
+	}
 }
 
 // empty

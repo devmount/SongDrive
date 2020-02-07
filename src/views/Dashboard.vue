@@ -18,12 +18,14 @@
 						<div class="panel-header">
 							<div class="panel-title h5">
 								{{ songsProperty }} Songs
-								<button class="btn btn-secondary float-right px-3" :class="{ disabled: isLastSongPage }" @click="!isLastSongPage ? songsPage++ : null">
-									<i class="form-icon icon ion-md-arrow-forward"></i>
-								</button>
-								<button class="btn btn-secondary float-right px-3" :class="{ disabled: isFirstSongPage }" @click="!isFirstSongPage ? songsPage-- : null">
-									<i class="form-icon icon ion-md-arrow-back"></i>
-								</button>
+								<div class="btn-group float-right">
+									<button class="btn btn-secondary px-3" :class="{ disabled: isFirstSongPage }" @click="!isFirstSongPage ? songsPage-- : null">
+										<i class="form-icon icon ion-md-arrow-back"></i>
+									</button>
+									<button class="btn btn-secondary px-3" :class="{ disabled: isLastSongPage }" @click="!isLastSongPage ? songsPage++ : null">
+										<i class="form-icon icon ion-md-arrow-forward"></i>
+									</button>
+								</div>
 							</div>
 						</div>
 						<div class="panel-body">
@@ -60,8 +62,10 @@
 								<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
 								<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
 								<button class="btn btn-secondary" @click="popularSongs"><i class="form-icon icon ion-md-trending-up mr-2"></i>Popular</button>
-								<router-link to="/songs" class="btn btn-secondary" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Songs</router-link>
 							</div>
+						</div>
+						<div class="panel-link">
+							<router-link to="/songs" class="btn btn-link btn-block" >Go to Songs <i class="form-icon icon ion-md-arrow-forward ml-1"></i></router-link>
 						</div>
 					</div>
 				</div>
@@ -71,12 +75,14 @@
 						<div class="panel-header">
 							<div class="panel-title h5">
 								{{ setlistsProperty }} Setlists
-								<button class="btn btn-secondary float-right px-3" :class="{ disabled: isLastSetlistPage }" @click="!isLastSetlistPage ? setlistsPage++ : null">
-									<i class="form-icon icon ion-md-arrow-forward"></i>
-								</button>
-								<button class="btn btn-secondary float-right px-3" :class="{ disabled: isFirstSetlistPage }" @click="!isFirstSetlistPage ? setlistsPage-- : null">
-									<i class="form-icon icon ion-md-arrow-back"></i>
-								</button>
+								<div class="btn-group float-right">
+									<button class="btn btn-secondary float-right px-3" :class="{ disabled: isFirstSetlistPage }" @click="!isFirstSetlistPage ? setlistsPage-- : null">
+										<i class="form-icon icon ion-md-arrow-back"></i>
+									</button>
+									<button class="btn btn-secondary float-right px-3" :class="{ disabled: isLastSetlistPage }" @click="!isLastSetlistPage ? setlistsPage++ : null">
+										<i class="form-icon icon ion-md-arrow-forward"></i>
+									</button>
+								</div>
 							</div>
 						</div>
 						<div class="panel-body">
@@ -103,8 +109,10 @@
 							<div class="btn-group">
 								<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary" @click="newestSetlists"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
 								<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary" @click="oldestSetlists"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
-								<router-link to="/setlists" class="btn btn-secondary" ><i class="form-icon icon ion-md-arrow-forward mr-2"></i>All Setlists</router-link>
 							</div>
+						</div>
+						<div class="panel-link">
+							<router-link to="/setlists" class="btn btn-link btn-block" >Go to Setlists <i class="form-icon icon ion-md-arrow-forward ml-1"></i></router-link>
 						</div>
 					</div>
 				</div>
