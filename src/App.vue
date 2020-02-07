@@ -913,12 +913,12 @@ a:focus,
 	}
 
 	.off-canvas-sidebar {
-		min-width: 12rem;
+		width: 12rem;
 		overflow: visible;
 
 		.sidebar-wrapper {
 			position: fixed;
-			min-width: inherit;
+			width: inherit;
 			min-height: 100vh;
 			padding-bottom: 5rem;
 
@@ -980,12 +980,9 @@ a:focus,
 	.off-canvas-sidebar {
 		background: $bg-color-medium;
 		padding: 1rem;
-		min-width: 8.5rem;
-		-webkit-box-flex: 0;
-		-ms-flex: 0 0 auto;
+		width: 8.5rem;
 		flex: 0 0 auto;
 		position: relative;
-		-webkit-transform: none;
 		transform: none;
 
 		.divider {
@@ -1001,7 +998,7 @@ a:focus,
 
 		.sidebar-wrapper {
 			position: fixed;
-			min-width: 6.5rem;
+			width: 8rem;
 		}
 	}
 }
