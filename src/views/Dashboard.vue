@@ -12,6 +12,33 @@
 				<div v-if="!ready.songs || !ready.setlists" class="column col-12 py-4 my-4">
 					<div class="loading loading-xl"></div>
 				</div>
+				<!-- stored songs count -->
+				<div v-if="ready.songs" class="column col-3 col-xl-4 col-md-6 col-sm-12">
+					<div class="panel mt-4">
+						<div class="panel-body text-center pb-3">
+							<div class="text-huge">{{ Object.keys(songs).length }}</div>
+							<div class="panel-title h5"><i class="icon ion-md-list mr-2"></i> Songs stored</div>
+						</div>
+					</div>
+				</div>
+				<!-- stored setlists count -->
+				<div v-if="ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
+					<div class="panel mt-4">
+						<div class="panel-body text-center pb-3">
+							<div class="text-huge">{{ Object.keys(setlists).length }}</div>
+							<div class="panel-title h5"><i class="icon ion-md-list mr-2"></i> Setlists stored</div>
+						</div>
+					</div>
+				</div>
+				<!-- performed songs count -->
+				<div v-if="ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
+					<div class="panel mt-4">
+						<div class="panel-body text-center pb-3">
+							<div class="text-huge"><span class="text-gray">~</span>{{ songsPerformed }}</div>
+							<div class="panel-title h5"><i class="icon ion-md-musical-notes mr-2"></i> Songs performed</div>
+						</div>
+					</div>
+				</div>
 				<!-- song list -->
 				<div v-if="ready.songs" class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
@@ -133,7 +160,7 @@ export default {
 			setlistsProperty: 'newest',
 			reorderedSetlists: [],
 			setlistsPage: 0,
-			listLength: 10
+			listLength: 8
 		}
 	},
 	methods: {
@@ -194,6 +221,9 @@ export default {
 		},
 	},
 	computed: {
+		songsPerformed () {
+			return this.setlistsArray.reduce((a, c) => a + c.songs.length, 0)
+		},
 		songsArray () {
 			let self = this
 			let songs = Object.keys(this.songs).map(function (key) {
