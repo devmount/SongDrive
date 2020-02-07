@@ -11,6 +11,9 @@ Vue.use(VueFirestore)
 import Notifications from 'vue-notification'
 Vue.use(Notifications)
 
+// ionicons
+Vue.config.ignoredElements = [/^ion-/]
+
 // vue-sortable
 import Sortable from 'sortablejs'
 Vue.directive('sortable', {

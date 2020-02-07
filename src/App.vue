@@ -3,7 +3,7 @@
 		<div class="off-canvas off-canvas-sidebar-show">
 			<!-- off-screen toggle button -->
 			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
-				<i class="icon ion-md-menu"></i>
+				<ion-icon name="menu" size="large"></ion-icon>
 			</a>
 
 			<!-- off-screen sidebar -->
@@ -19,22 +19,22 @@
 					<ul class="menu text-uppercase">
 						<li class="divider text-center" data-content="START"></li>
 						<li class="menu-item">
-							<router-link to="/" class="py-2" @click.native="open = false"><i class="icon ion-md-apps mr-2"></i> Dashboard</router-link>
+							<router-link to="/" class="py-2" @click.native="open = false"><ion-icon name="apps-sharp" class="mr-2"></ion-icon> Dashboard</router-link>
 						</li>
 						<li class="menu-item">
-							<router-link to="/songs" class="py-2" @click.native="open = false"><i class="icon ion-md-musical-notes mr-2"></i> Songs</router-link>
+							<router-link to="/songs" class="py-2" @click.native="open = false"><ion-icon name="musical-notes-sharp" class="mr-2"></ion-icon> Songs</router-link>
 							<div class="menu-badge">
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Song" @click="modal.addsong = true"><i class="icon ion-md-add"></i></button>
+								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Song" @click="modal.addsong = true"><ion-icon name="add-sharp"></ion-icon></button>
 							</div>
 						</li>
 						<li class="menu-item">
-							<router-link to="/setlists" class="py-2" @click.native="open = false"><i class="icon ion-md-list mr-2"></i> Setlists</router-link>
+							<router-link to="/setlists" class="py-2" @click.native="open = false"><ion-icon name="list" class="mr-2"></ion-icon> Setlists</router-link>
 							<div class="menu-badge">
 								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Setlist" @click="modal.addsetlist = true"><i class="icon ion-md-add"></i></button>
+								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Setlist" @click="modal.addsetlist = true"><ion-icon name="add-sharp"></ion-icon></button>
 							</div>
 						</li>
 						<li class="divider text-center" data-content="ACCOUNT"></li>
@@ -43,10 +43,10 @@
 								<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
 								<input type="password" v-model="auth.password" class="form-input mb-2" placeholder="password" />
 								<button class="btn btn-primary d-block stretch mb-2" @click="signIn" v-shortkey="['enter']" @shortkey="signIn">
-									<i class="icon ion-md-log-in float-right mr-1"></i>Sign In
+									Sign In <ion-icon name="log-in-outline" class="icon-right mr-1"></ion-icon>
 								</button>
 								<button class="btn btn-secondary d-block stretch" @click="modal.signup = true">
-									<i class="icon ion-md-person-add float-right mr-1"></i>Sign Up
+									Sign Up <ion-icon name="person-add-outline" class="icon-right mr-1"></ion-icon>
 								</button>
 							</div>
 						</li>
@@ -65,11 +65,11 @@
 							</router-link>
 						</li>
 						<li v-if="auth.user && users[auth.user]" class="menu-item">
-							<router-link to="/settings" class="py-2" @click.native="open = false"><i class="icon ion-md-options mr-2"></i> Settings</router-link>
+							<router-link to="/settings" class="py-2" @click.native="open = false"><ion-icon name="options-outline" class="mr-2"></ion-icon> Settings</router-link>
 						</li>
 						<li v-if="auth.user" class="menu-item">
 							<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
-								<i class="icon ion-md-log-out float-right mr-1"></i>Sign Out
+								Sign Out <ion-icon name="log-out-outline" class="icon-right mr-1"></ion-icon>
 							</button>
 						</li>
 					</ul>
@@ -77,22 +77,22 @@
 						<li class="divider text-center" data-content="INFO"></li>
 						<li class="menu-item">
 							<a href="https://devmount.github.io/SongDrive" class="py-2" target="_blank">
-								<i class="icon ion-md-book mr-2"></i>
+								<ion-icon name="book-outline" class="mr-2"></ion-icon>
 								Documentation
-								<i class="icon ion-md-open float-right pr-1"></i>
+								<ion-icon name="open-outline" class="icon-right mr-1"></ion-icon>
 							</a>
 						</li>
 						<li class="menu-item">
 							<a href="https://github.com/devmount/SongDrive" class="py-2" target="_blank">
-								<i class="icon ion-logo-github mr-2"></i>
+								<ion-icon name="logo-github" class="mr-2"></ion-icon>
 								GitHub
-								<i class="icon ion-md-open float-right pr-1"></i>
+								<ion-icon name="open-outline" class="icon-right mr-1"></ion-icon>
 							</a>
 						</li>
 					</ul>
 					<footer>
 						<div class="text-center text-small text-gray">
-							created with <i class="icon ion-md-heart-empty mx-1"></i>
+							created with <ion-icon name="heart-outline"></ion-icon>
 							by <a href="htps://devmount.de">
 								<svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
 									<path class="st0" d="M6.9,140.6L87.1,40.2l78.2,77.6"/>
@@ -430,22 +430,30 @@ $grid-spacing: ($layout-spacing / ($layout-spacing * 0 + 1)) * $html-font-size;
 @import "~spectre.css/src/spectre";
 @import "~spectre.css/src/spectre-exp";
 
-// import ionicons
-$ionicons-font-path: "~ionicons/dist/fonts";
-@import "~ionicons/dist/scss/ionicons";
-
 // icons
 .icon {
 	font-size: 1em;
 }
 .icon-1-5x {
-	font-size: 1.5em;
+	font-size: 24px;
 }
 .icon-2x {
-	font-size: 2em;
+	font-size: 32px;
 }
 .icon-4x {
-	font-size: 4em;
+	font-size: 64px;
+}
+.icon-sm {
+	font-size: 16px;
+}
+.icon-right {
+	float: right;
+	margin-top: 3px;
+}
+ion-icon {
+	font-size: 19px;
+	vertical-align: middle;
+	margin-bottom: 2px;
 }
 
 // positions and spacing
@@ -958,6 +966,7 @@ a:focus,
 	.off-canvas-toggle {
 		z-index: 10;
 		width: 2.2rem;
+		padding: 1px 0;
 	}
 
 	.off-canvas-sidebar {
