@@ -26,28 +26,28 @@
 							</ul>
 						</nav> -->
 						<div class="panel-body">
-							<div v-if="userObject.email" class="tile tile-centered">
+							<div v-if="userObject.email" class="tile tile-centered mb-2">
 								<div class="tile-content">
 									<div class="tile-title text-bold">Email</div>
 									<div class="tile-subtitle text-gray">{{ userObject.email }}</div>
 								</div>
-								<div class="tile-icon">
-									<i class="icon icon-2x ion-md-mail"></i>
+								<div class="tile-icon text-gray">
+									<ion-icon name="mail-outline" class="icon-1-5x"></ion-icon>
 								</div>
 							</div>
-							<div v-if="userObject.photoURL" class="tile tile-centered">
+							<div v-if="userObject.photoURL" class="tile tile-centered mb-2">
 								<div class="tile-content">
 									<div class="tile-title text-bold">Photo URL</div>
 									<div class="tile-subtitle text-gray">{{ userObject.photoURL }}</div>
 								</div>
-								<div class="tile-icon">
-									<i class="icon icon-2x ion-md-camera"></i>
+								<div class="tile-icon text-gray">
+									<ion-icon name="camera-outline" class="icon-1-5x"></ion-icon>
 								</div>
 							</div>
 						</div>
 						<div v-if="role" class="panel-footer">
 							<router-link to="/settings" class="btn btn-secondary btn-block mb-1" @click.native="open = false">
-								<i class="icon ion-md-create float-left ml-1"></i> SETTINGS
+								<ion-icon name="options"></ion-icon> SETTINGS <ion-icon name="create-outline" class="float-right ml-2"></ion-icon>
 							</router-link>
 						</div>
 					</div>
@@ -57,14 +57,14 @@
 						<div class="panel-body text-center pb-3">
 							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 							<div v-else class="text-huge">{{ Object.keys(setlistsFromUser).length }}</div>
-							<div class="panel-title h5"><i class="icon ion-md-list mr-2"></i> Setlists created</div>
+							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> Setlists created</div>
 						</div>
 					</div>
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 							<div v-else class="text-huge"><span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span></div>
-							<div class="panel-title h5"><i class="icon ion-md-musical-notes mr-2"></i> Songs performed</div>
+							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> Songs performed</div>
 						</div>
 					</div>
 				</div>

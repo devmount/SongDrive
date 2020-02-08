@@ -11,7 +11,7 @@
 				<div class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
-							<i class="icon ion-md-person icon-2x"></i>
+							<ion-icon name="person-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">Profile</div>
 							<div class="panel-subtitle text-gray">Customize your profile data</div>
 						</div>
@@ -40,7 +40,7 @@
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">
-								<i class="icon ion-md-save float-left ml-1"></i> Save Profile
+								<ion-icon name="save-outline" class="float-left ml-1"></ion-icon> Save Profil
 							</button>
 						</div>
 					</div>
@@ -48,7 +48,7 @@
 				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
-							<i class="icon ion-md-people icon-2x"></i>
+							<ion-icon name="people-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ Object.keys(users).length }} Users</div>
 							<div class="panel-subtitle text-gray">Manage all users</div>
 						</div>
@@ -62,7 +62,7 @@
 										<img :src="u.photoURL" alt="Avatar" />
 									</figure>
 									<div v-else class="avatar text-center">
-										<i class="icon ion-md-person"></i>
+										<ion-icon name="person" class="mt-1"></ion-icon>
 									</div>
 								</div>
 								<div class="tile-content">
@@ -72,14 +72,14 @@
 								</div>
 								<div class="tile-action">
 									<button class="btn btn-link btn-action" @click.prevent="active.user=u; active.key=k; active.existing=true; modal.userset=true">
-										<i class="icon ion-md-create"></i>
+										<ion-icon name="create-outline"></ion-icon>
 									</button>
 								</div>
 							</div>
 						</div>
 						<div v-if="Object.keys(registrations).length == 0" class="empty">
 							<div class="empty-icon">
-								<i class="icon ion-md-checkbox-outline icon-4x"></i>
+								<ion-icon name="checkbox-outline" class="icon-4x"></ion-icon>
 							</div>
 							<p class="empty-title h5">No unconfirmed users</p>
 							<p class="empty-subtitle">Good work!</p>
@@ -93,7 +93,7 @@
 							>
 								<div class="tile-icon">
 									<div class="avatar bg-dark text-center">
-										<i class="icon ion-md-person"></i>
+										<ion-icon name="person-outline" class="mt-1"></ion-icon>
 									</div>
 								</div>
 								<div class="tile-content">
@@ -103,7 +103,7 @@
 								</div>
 								<div class="tile-action">
 									<button class="btn btn-link btn-action" @click.prevent="active.user=r; active.key=k; active.existing=false; modal.userset=true">
-										<i class="icon ion-md-person-add"></i>
+										<ion-icon name="person-add-outline"></ion-icon>
 									</button>
 								</div>
 							</div>
@@ -113,43 +113,30 @@
 				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
-							<i class="icon ion-md-pricetags icon-2x"></i>
+							<ion-icon name="pricetags-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ Object.keys(tags).length }} Tags</div>
 							<div class="panel-subtitle text-gray">Manage all tags</div>
 						</div>
 						<div class="panel-body">
 							<router-link v-for="tag in tags" :key="tag.key" :to="{ name: 'songs-tag', params: { tag: tag.key }}" class="mr-2">
 								<span class="label px-2 py-1 my-1">
-									<i class="icon ion-md-pricetag mr-1"></i>
+									<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
 									{{ tag.key }}
 								</span>
 							</router-link>
 						</div>
-						<!-- <div class="panel-footer mt-5">
-							<button class="btn btn-primary btn-block text-uppercase" @click="updateTags">
-								<i class="icon ion-md-save float-left ml-1"></i> Save Tags
-							</button>
-						</div> -->
 					</div>
 				</div>
 				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
-							<i class="icon ion-md-filing icon-2x"></i>
+							<ion-icon name="file-tray-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">Backup</div>
 							<div class="panel-subtitle text-gray">Export and import SongDrive data</div>
 						</div>
-						<!-- <div class="panel-body">
-							<router-link v-for="tag in tags" :key="tag.key" :to="{ name: 'songs-tag', params: { tag: tag.key }}" class="mr-2">
-								<span class="label px-2 py-1 my-1">
-									<i class="icon ion-md-pricetag mr-1"></i>
-									{{ tag.key }}
-								</span>
-							</router-link>
-						</div> -->
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="exportDb">
-								<i class="icon ion-md-download float-left ml-1"></i> Export
+								<ion-icon name="download" class="float-left ml-1"></ion-icon> Export
 							</button>
 						</div>
 					</div>

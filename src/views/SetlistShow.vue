@@ -5,19 +5,19 @@
 			<div class="off-canvas-sidebar active">
 				<div class="sidebar-wrapper">
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
-						<i class="icon ion-md-arrow-back float-left ml-1"></i><span class="hide-lg"> BACK</span>
+						<ion-icon name="arrow-back-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> BACK</span>
 					</button>
 					<!-- sidebar: manage -->
 					<div v-if="user && role > 1" class="divider text-center show-lg" data-content="M"></div>
 					<div v-if="user && role > 1" class="divider text-center hide-lg" data-content="MANAGE"></div>
 					<button v-if="user && role > 1" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
-						<i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT</span>
+						<ion-icon name="create-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> EDIT</span>
 					</button>
 					<button v-if="user && role > 1" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
-						<i class="icon ion-md-copy float-left ml-1"></i><span class="hide-lg"> CLONE</span>
+						<ion-icon name="copy-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> CLONE</span>
 					</button>
 					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
-						<i class="icon ion-md-trash float-left ml-1"></i><span class="hide-lg"> DELETE</span>
+						<ion-icon name="trash-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> DELETE</span>
 					</button>
 					<!-- sidebar: view -->
 					<div class="divider text-center show-lg" data-content="V"></div>
@@ -35,31 +35,31 @@
 						</label>
 					</div>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="modal.present=true" data-tooltip=" PRESENT ">
-						<i class="icon ion-md-videocam float-left ml-1"></i><span class="hide-lg"> PRESENT</span>
+						<ion-icon name="videocam-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> PRESENT</span>
 					</button>
 					<router-link :to="{ name: 'setlist-show', params: { id: setlistKey }}" target="_blank" class="btn btn-secondary tooltip tooltip-right d-block stretch" data-tooltip=" LAUNCH ">
-						<i class="icon ion-md-open float-left ml-1"></i><span class="hide-lg"> LAUNCH</span>
+						<ion-icon name="open-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> LAUNCH</span>
 					</router-link>
 					<!-- sidebar: export -->
 					<div class="divider text-center show-lg" data-content="C"></div>
 					<div class="divider text-center hide-lg" data-content="COPY"></div>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('plain')" data-tooltip=" COPY LIST IN PLAIN TEXT ">
-						<i class="icon ion-md-list float-left ml-1"></i><span class="hide-lg text-pre">PLAIN</span>
+						<ion-icon name="list" class="float-left ml-1"></ion-icon><span class="hide-lg text-pre">PLAIN</span>
 					</button>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('markdown')" data-tooltip=" COPY LIST IN MARKDOWN ">
-						<i class="icon ion-logo-markdown float-left ml-1"></i><span class="hide-lg text-pre">MARKDOWN</span>
+						<ion-icon name="logo-markdown" class="float-left ml-1"></ion-icon><span class="hide-lg text-pre">MARKDOWN</span>
 					</button>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('slack')" data-tooltip=" COPY LIST FOR SLACK ">
-						<i class="icon ion-logo-slack float-left ml-1"></i><span class="hide-lg text-pre">SLACK</span>
+						<ion-icon name="logo-slack" class="float-left ml-1"></ion-icon><span class="hide-lg text-pre">SLACK</span>
 					</button>
 					<!-- sidebar: export -->
 					<div class="divider text-center show-lg" data-content="E"></div>
 					<div class="divider text-center hide-lg" data-content="EXPORT"></div>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportPdf('list')" data-tooltip=" EXPORT LIST AS PDF ">
-						<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> LIST</span>
+						<ion-icon name="download-outline" class="float-left ml-1"></ion-icon><span class="hide-lg text-pre"> LIST</span>
 					</button>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf('sheets')" data-tooltip=" EXPORT SHEETS AS PDF ">
-						<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> SHEETS</span>
+						<ion-icon name="download-outline" class="float-left ml-1"></ion-icon><span class="hide-lg text-pre"> SHEETS</span>
 					</button>
 					<!-- sidebar: language -->
 					<!-- <div class="divider text-center show-lg" data-content="S"></div>
@@ -74,9 +74,9 @@
 						<div v-if="ready.setlists && setlist" class="column col-12">
 							<h2>{{ setlist.title }}</h2>
 							<h3>
-								<i class="icon ion-md-list"></i> {{ setlist.songs.length }} songs
-								<i class="icon ion-md-calendar ml-3"></i> {{ setlist.date }}
-								<span v-if="ready.users && users[setlist.creator]"><i class="icon ion-md-person ml-3"></i> {{ users[setlist.creator].name }}</span>
+								<ion-icon name="list" class="icon-sm"></ion-icon> {{ setlist.songs.length }} songs
+								<ion-icon name="calendar-outline" class="icon-sm ml-3"></ion-icon> {{ setlist.date }}
+								<span v-if="ready.users && users[setlist.creator]"><ion-icon name="person-outline" class="icon-sm ml-3"></ion-icon> {{ users[setlist.creator].name }}</span>
 							</h3>
 						</div>
 						<div v-if="ready.songs && ready.setlists && setlist" class="column col-12">
@@ -93,18 +93,18 @@
 								</thead>
 								<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
 									<tr v-for="(song, i) in setlist.songs" :key="song.id">
-										<td v-if="user && role > 1" class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 handle"></i></td>
+										<td v-if="user && role > 1" class="c-move text-center text-gray"><ion-icon name="reorder-four-outline" class="icon-1-5x pl-2 handle"></ion-icon></td>
 										<td class="c-hand" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id }})">
 											{{ songs[song.id].title }} <br class="show-xl hide-sm" /><span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span>
 										</td>
 										<td class="hide-xl text-uppercase">{{ songs[song.id].language }}</td>
 										<td class="tuning">
 											<button v-if="user && role > 1" class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(songs[song.id], i)">
-												<i class="icon ion-md-arrow-back"></i>
+												<ion-icon name="arrow-back" class="icon-sm"></ion-icon>
 											</button>
 											<code>{{ song.tuning ? song.tuning : songs[song.id].tuning }}</code>
 											<button v-if="user && role > 1" class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneUp(songs[song.id], i)">
-												<i class="icon ion-md-arrow-forward"></i>
+												<ion-icon name="arrow-forward" class="icon-sm"></ion-icon>
 											</button>
 										</td>
 										<td class="hide-xl">
@@ -112,7 +112,7 @@
 										</td>
 										<td class="text-right">
 											<button class="btn btn-primary" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id }})">
-												<i class="icon ion-md-eye"></i>
+												<ion-icon name="eye-outline"></ion-icon>
 												<span class="hide-sm ml-2">Show</span>
 											</button>
 										</td>

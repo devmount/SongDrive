@@ -13,53 +13,53 @@
 					<div class="loading loading-xl"></div>
 				</div>
 				<!-- stored songs count -->
-				<div v-if="ready.songs" class="column col-3 col-xl-4 col-md-6 col-sm-12">
+				<div v-if="ready.songs && ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(songs).length }}</div>
-							<div class="panel-title h5"><i class="icon ion-md-list mr-2"></i> Songs stored</div>
+							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> Songs stored</div>
 						</div>
 					</div>
 				</div>
 				<!-- stored setlists count -->
-				<div v-if="ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
+				<div v-if="ready.songs && ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(setlists).length }}</div>
-							<div class="panel-title h5"><i class="icon ion-md-list mr-2"></i> Setlists stored</div>
+							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> Setlists stored</div>
 						</div>
 					</div>
 				</div>
 				<!-- performed songs count -->
-				<div v-if="ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
+				<div v-if="ready.songs && ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge"><span class="text-gray">~</span>{{ songsPerformed }}</div>
-							<div class="panel-title h5"><i class="icon ion-md-musical-notes mr-2"></i> Songs performed</div>
+							<div class="panel-title h5"><ion-icon name="mic-outline" class="mr-2"></ion-icon> Songs performed</div>
 						</div>
 					</div>
 				</div>
 				<!-- languages count -->
-				<div class="column col-3 col-xl-4 col-md-6 col-sm-12">
+				<div v-if="ready.songs && ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(languages).length }}</div>
-							<div class="panel-title h5"><i class="icon ion-md-globe mr-2"></i> Languages</div>
+							<div class="panel-title h5"><ion-icon name="globe-outline"></ion-icon> Languages</div>
 						</div>
 					</div>
 				</div>
 				<!-- song list -->
-				<div v-if="ready.songs" class="column col-4 col-xl-6 col-md-12">
+				<div v-if="ready.songs && ready.setlists" class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header">
 							<div class="panel-title h5">
 								{{ songsProperty }} Songs
 								<div class="btn-group float-right">
 									<button class="btn btn-secondary px-3" :class="{ disabled: isFirstSongPage }" @click="!isFirstSongPage ? songsPage-- : null">
-										<i class="form-icon icon ion-md-arrow-back"></i>
+										<ion-icon name="arrow-back"></ion-icon>
 									</button>
 									<button class="btn btn-secondary px-3" :class="{ disabled: isLastSongPage }" @click="!isLastSongPage ? songsPage++ : null">
-										<i class="form-icon icon ion-md-arrow-forward"></i>
+										<ion-icon name="arrow-forward"></ion-icon>
 									</button>
 								</div>
 							</div>
@@ -94,29 +94,29 @@
 						</div>
 						<div class="panel-footer">
 							<div class="btn-group">
-								<button class="btn btn-secondary" @click="shuffleSongs"><i class="form-icon icon ion-md-shuffle mr-2"></i>Shuffle</button>
-								<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
-								<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
-								<button class="btn btn-secondary" @click="popularSongs"><i class="form-icon icon ion-md-trending-up mr-2"></i>Popular</button>
+								<button class="btn btn-secondary" @click="shuffleSongs"><ion-icon name="shuffle" class="mr-2"></ion-icon>Shuffle</button>
+								<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs"><ion-icon name="arrow-up" class="mr-2"></ion-icon>Newest</button>
+								<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs"><ion-icon name="arrow-down" class="mr-2"></ion-icon>Oldest</button>
+								<button class="btn btn-secondary" @click="popularSongs"><ion-icon name="trending-up" class="mr-2"></ion-icon>Popular</button>
 							</div>
 						</div>
 						<div class="panel-link">
-							<router-link to="/songs" class="btn btn-link btn-block" >Go to Songs <i class="form-icon icon ion-md-arrow-forward ml-1"></i></router-link>
+							<router-link to="/songs" class="btn btn-link btn-block" >Go to Songs <ion-icon name="arrow-forward" class="ml-1"></ion-icon></router-link>
 						</div>
 					</div>
 				</div>
 				<!-- setlist list -->
-				<div v-if="ready.setlists" class="column col-4 col-xl-6 col-md-12">
+				<div v-if="ready.songs && ready.setlists" class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header">
 							<div class="panel-title h5">
 								{{ setlistsProperty }} Setlists
 								<div class="btn-group float-right">
 									<button class="btn btn-secondary float-right px-3" :class="{ disabled: isFirstSetlistPage }" @click="!isFirstSetlistPage ? setlistsPage-- : null">
-										<i class="form-icon icon ion-md-arrow-back"></i>
+										<ion-icon name="arrow-back"></ion-icon>
 									</button>
 									<button class="btn btn-secondary float-right px-3" :class="{ disabled: isLastSetlistPage }" @click="!isLastSetlistPage ? setlistsPage++ : null">
-										<i class="form-icon icon ion-md-arrow-forward"></i>
+										<ion-icon name="arrow-forward"></ion-icon>
 									</button>
 								</div>
 							</div>
@@ -143,12 +143,12 @@
 						</div>
 						<div class="panel-footer">
 							<div class="btn-group">
-								<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary" @click="newestSetlists"><i class="form-icon icon ion-md-arrow-up mr-2"></i>Newest</button>
-								<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary" @click="oldestSetlists"><i class="form-icon icon ion-md-arrow-down mr-2"></i>Oldest</button>
+								<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary" @click="newestSetlists"><ion-icon name="arrow-up" class="mr-2"></ion-icon>Newest</button>
+								<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary" @click="oldestSetlists"><ion-icon name="arrow-down" class="mr-2"></ion-icon>Oldest</button>
 							</div>
 						</div>
 						<div class="panel-link">
-							<router-link to="/setlists" class="btn btn-link btn-block" >Go to Setlists <i class="form-icon icon ion-md-arrow-forward ml-1"></i></router-link>
+							<router-link to="/setlists" class="btn btn-link btn-block" >Go to Setlists <ion-icon name="arrow-forward" class="ml-1"></ion-icon></router-link>
 						</div>
 					</div>
 				</div>

@@ -5,19 +5,19 @@
 			<div class="off-canvas-sidebar active">
 				<div class="sidebar-wrapper">
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
-						<i class="icon ion-md-arrow-back float-left ml-1"></i><span class="hide-lg"> BACK</span>
+						<ion-icon name="arrow-back-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> BACK</span>
 					</button>
 					<!-- sidebar: manage -->
 					<div v-if="user && role > 2" class="divider text-center show-lg" data-content="M"></div>
 					<div v-if="user && role > 2" class="divider text-center hide-lg" data-content="MANAGE"></div>
 					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
-						<i class="icon ion-md-create float-left ml-1"></i><span class="hide-lg"> EDIT</span>
+						<ion-icon name="create-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> EDIT</span>
 					</button>
 					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
-						<i class="icon ion-md-copy float-left ml-1"></i><span class="hide-lg"> CLONE</span>
+						<ion-icon name="copy-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> CLONE</span>
 					</button>
 					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
-						<i class="icon ion-md-trash float-left ml-1"></i><span class="hide-lg"> DELETE</span>
+						<ion-icon name="trash-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> DELETE</span>
 					</button>
 					<!-- sidebar: language -->
 					<div class="divider text-center show-lg" data-content="L"></div>
@@ -43,7 +43,7 @@
 						</label>
 					</div>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="modal.present=true" data-tooltip=" PRESENT ">
-						<i class="icon ion-md-videocam float-left ml-1"></i><span class="hide-lg"> PRESENT</span>
+						<ion-icon name="videocam-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> PRESENT</span>
 					</button>
 					<!-- sidebar: tuning -->
 					<div class="divider text-center show-lg" data-content="T"></div>
@@ -54,23 +54,23 @@
 						<span class="text-center text-pre text-gray text-large hide-lg">{{ showTuning.next }}</span>
 					</div>
 					<div class="d-flex">
-						<button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning--"><i class="icon ion-md-arrow-back"></i></button>
-						<button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++" data-tooltip=" TUNE UP "><i class="icon ion-md-arrow-up"></i></button>
-						<button class="btn btn-secondary tooltip tooltip-right mb-1" :class="{ disabled: !chords }" @click="tuning = 0" data-tooltip=" RESET TUNING "><i class="icon ion-md-refresh"></i></button>
-						<button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning++"><i class="icon ion-md-arrow-forward"></i></button>
-						<button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--" data-tooltip=" TUNE DOWN "><i class="icon ion-md-arrow-down"></i></button>
+						<button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning--"><ion-icon name="arrow-back"></ion-icon></button>
+						<button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++" data-tooltip=" TUNE UP "><ion-icon name="arrow-up"></ion-icon></button>
+						<button class="btn btn-secondary tooltip tooltip-right mb-1" :class="{ disabled: !chords }" @click="tuning = 0" data-tooltip=" RESET TUNING "><ion-icon name="refresh"></ion-icon></button>
+						<button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning++"><ion-icon name="arrow-forward"></ion-icon></button>
+						<button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--" data-tooltip=" TUNE DOWN "><ion-icon name="arrow-down"></ion-icon></button>
 					</div>
 					<!-- sidebar: export -->
 					<div class="divider text-center show-lg" data-content="E"></div>
 					<div class="divider text-center hide-lg" data-content="EXPORT"></div>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportTxt" data-tooltip=" EXPORT TXT ">
-						<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .TXT</span>
+						<ion-icon name="download-outline" class="float-left ml-1"></ion-icon><span class="hide-lg text-pre"> .TXT</span>
 					</button>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportSng" data-tooltip=" EXPORT SNG ">
-						<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .SNG</span>
+						<ion-icon name="download-outline" class="float-left ml-1"></ion-icon><span class="hide-lg text-pre"> .SNG</span>
 					</button>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf" data-tooltip=" EXPORT PDF ">
-						<i class="icon ion-md-download float-left ml-1"></i><span class="hide-lg text-pre"> .PDF</span>
+						<ion-icon name="download-outline" class="float-left ml-1"></ion-icon><span class="hide-lg text-pre"> .PDF</span>
 					</button>
 				</div>
 			</div>
@@ -96,7 +96,7 @@
 								<p>
 									<router-link v-for="tag in song.tags" :key="tag" :to="{ name: 'songs-tag', params: { tag: tag }}" class="mr-2">
 										<span class="label px-2 py-1">
-											<i class="icon ion-md-pricetag mr-1"></i>
+											<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
 											{{ tag }}
 										</span>
 									</router-link>

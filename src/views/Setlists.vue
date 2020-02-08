@@ -13,20 +13,20 @@
 				<!-- search title, subtitles -->
 				<div class="column col-3 col-xl-6 col-sm-12 mb-1">
 					<div class="input-group filter">
-						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-search"></i></span>
+						<span class="input-group-addon addon-lg"><ion-icon name="search"></ion-icon></span>
 						<input type="search" v-model="search" class="form-input input-lg" placeholder="Search in titles ..." />
-						<button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><i class="form-icon icon ion-md-close"></i></button>
+						<button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><ion-icon name="close"></ion-icon></button>
 					</div>
 				</div>
 				<!-- filter tags -->
 				<div class="column col-3 col-xl-6 col-sm-12 mb-1">
 					<div class="input-group filter">
-						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-calendar"></i></span>
+						<span class="input-group-addon addon-lg"><ion-icon name="calendar-outline"></ion-icon></span>
 						<select v-model="filter" class="form-select select-lg filter" required>
 							<option value="" disabled selected>Filter for years ...</option>
 							<option v-for="year in setlistYears" :key="year" :value="year">{{ year }}</option>
 						</select>
-						<button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><i class="form-icon icon ion-md-close"></i></button>
+						<button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><ion-icon name="close"></ion-icon></button>
 					</div>
 				</div>
 			</div>
@@ -37,19 +37,23 @@
 						<th></th>
 						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'date' }" @click="sortList('date')">
 							Date
-							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'date' && !order.ascending, 'ion-md-arrow-up': order.field == 'date' && order.ascending }"></i>
+							<ion-icon v-if="order.field == 'date' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'date' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'title' }" @click="sortList('title')">
 							Title
-							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'title' && !order.ascending, 'ion-md-arrow-up': order.field == 'title' && order.ascending }"></i>
+							<ion-icon v-if="order.field == 'title' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'title' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'creator' }" @click="sortList('creator')">
 							Creator
-							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'creator' && !order.ascending, 'ion-md-arrow-up': order.field == 'creator' && order.ascending }"></i>
+							<ion-icon v-if="order.field == 'creator' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'creator' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'songs' }" @click="sortList('songs')">
 							# Songs
-							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'songs' && !order.ascending, 'ion-md-arrow-up': order.field == 'songs' && order.ascending }"></i>
+							<ion-icon v-if="order.field == 'songs' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'songs' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
 						</th>
 						<th></th>
 					</tr>
@@ -76,27 +80,27 @@
 								<div class="btn-group">
 									<a class="btn btn-primary dropdown-toggle" tabindex="0">
 										Action
-										<i class="icon ion-md-arrow-dropdown"></i>
+										<ion-icon name="chevron-down" class="icon-sm"></ion-icon>
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
 											<router-link :to="{ name: 'setlist-show', params: { id: setlist.id }}" class="py-3 px-3">
-												<i class="icon ion-md-eye mr-2"></i> Show
+												<ion-icon name="eye-outline" class="mr-2"></ion-icon> Show
 											</router-link>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
 											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.key=setlist.id; active.existing=true; modal.set=true">
-												<i class="icon ion-md-create mr-2"></i> Edit
+												<ion-icon name="create-outline" class="mr-2"></ion-icon> Edit
 											</a>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
 											<a href="#" class="py-3 px-3" @click.prevent="active.title=setlist.title; active.setlist=setlist; active.key=setlist.id; active.existing=false; modal.set=true">
-												<i class="icon ion-md-copy mr-2"></i> Duplicate
+												<ion-icon name="copy-outline" class="mr-2"></ion-icon> Duplicate
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
 											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=setlist.title; active.key=setlist.id; modal.delete=true">
-												<i class="icon ion-md-trash mr-2"></i> Delete
+												<ion-icon name="trash-outline" class="mr-2"></ion-icon> Delete
 											</a>
 										</li>
 									</ul>

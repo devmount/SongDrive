@@ -34,7 +34,7 @@
 						aria-label="Previous Song"
 						@click.prevent="$refs.presentation.slidePrev()"
 					>
-						<i class="icon ion-md-arrow-round-back"></i>
+						<ion-icon name="arrow-back" class="icon-1-5x"></ion-icon>
 						<span v-if="currentPosition > 0" class="ml-2">
 							{{ songs[currentPosition-1].title }} <span class="chords ml-2">{{ songs[currentPosition-1].customTuning }}</span>
 						</span>
@@ -51,18 +51,18 @@
 						<span v-if="currentPosition < songs.length-1" class="mr-3">
 							{{ songs[currentPosition+1].title }} <span class="chords ml-2">{{ songs[currentPosition+1].customTuning }}</span>
 						</span>
-						<i class="icon ion-md-arrow-round-forward"></i>
+						<ion-icon name="arrow-forward" class="icon-1-5x"></ion-icon>
 					</a>
 				</div>
 				<span class="clock px-4">{{ timeonly }}</span>
 				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-4" :class="{ 'btn-secondary': !autoSync, 'btn-primary': autoSync }" href="#" aria-label="AutoSync" @click.prevent="autoSync = !autoSync">
-					<i class="icon ion-md-sync"></i>
+					<ion-icon name="sync" class="icon-1-5x"></ion-icon>
 				</a>
 				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !chords, 'btn-primary': chords }" href="#" aria-label="Chords" @click.prevent="$emit('chords')">
-					<i class="icon ion-md-musical-notes"></i>
+					<ion-icon name="musical-notes" class="icon-1-5x"></ion-icon>
 				</a>
 				<a class="btn btn-secondary btn-xl btn-fw btn-gray ml-1" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
-					<i class="icon ion-md-close"></i>
+					<ion-icon name="close" class="icon-1-5x"></ion-icon>
 				</a>
 			</div>
 		</div>

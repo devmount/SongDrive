@@ -19,10 +19,10 @@
 			</div>
 			<div class="modal-footer">
 				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !chords, 'btn-primary': chords }" href="#" aria-label="Chords" @click.prevent="$emit('chords')">
-					<i class="icon ion-md-musical-notes"></i>
+					<ion-icon name="musical-notes" class="icon-1-5x"></ion-icon>
 				</a>
 				<a class="btn btn-secondary btn-xl btn-fw btn-gray ml-1" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
-					<i class="icon ion-md-close"></i>
+					<ion-icon name="close" class="icon-1-5x"></ion-icon>
 				</a>
 			</div>
 		</div>

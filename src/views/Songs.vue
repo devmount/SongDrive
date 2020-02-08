@@ -13,31 +13,31 @@
 				<!-- search title, subtitles -->
 				<div class="column col-2 col-xl-12 mb-1">
 					<div class="input-group filter">
-						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-search"></i></span>
+						<span class="input-group-addon addon-lg"><ion-icon name="search"></ion-icon></span>
 						<input type="search" v-model="search" class="form-input input-lg" placeholder="search ..." />
-						<button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><i class="form-icon icon ion-md-close"></i></button>
+						<button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><ion-icon name="close"></ion-icon></button>
 					</div>
 				</div>
 				<!-- filter tags -->
 				<div class="column col-2 col-xl-6 col-sm-12 mb-1">
 					<div class="input-group filter">
-						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-pricetag"></i></span>
+						<span class="input-group-addon addon-lg"><ion-icon name="pricetag-outline"></ion-icon></span>
 						<select v-model="filter" class="form-select select-lg filter" required>
 							<option value="" disabled selected>tags ...</option>
 							<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
 						</select>
-						<button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><i class="form-icon icon ion-md-close"></i></button>
+						<button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><ion-icon name="close"></ion-icon></button>
 					</div>
 				</div>
 				<!-- filter tuning -->
 				<div class="column col-2 col-xl-6 col-sm-12 mb-1">
 					<div class="input-group filter">
-						<span class="input-group-addon addon-lg"><i class="form-icon icon ion-md-musical-note"></i></span>
+						<span class="input-group-addon addon-lg"><ion-icon name="musical-note"></ion-icon></span>
 						<select v-model="tuning" class="form-select select-lg filter" required>
 							<option value="" disabled selected>tuning ...</option>
 							<option v-for="t in tunes" :key="t" :value="t">{{ t }}</option>
 						</select>
-						<button class="btn input-group-btn btn-lg btn-link" @click="tuning = ''"><i class="form-icon icon ion-md-close"></i></button>
+						<button class="btn input-group-btn btn-lg btn-link" @click="tuning = ''"><ion-icon name="close"></ion-icon></button>
 					</div>
 				</div>
 			</div>
@@ -47,23 +47,28 @@
 					<tr>
 						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'title' }" @click="sortList('title')">
 							Title
-							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'title' && !order.ascending, 'ion-md-arrow-up': order.field == 'title' && order.ascending }"></i>
+							<ion-icon v-if="order.field == 'title' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'title' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'subtitle' }" @click="sortList('subtitle')">
 							Subtitle
-							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'subtitle' && !order.ascending, 'ion-md-arrow-up': order.field == 'subtitle' && order.ascending }"></i>
+							<ion-icon v-if="order.field == 'subtitle' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'subtitle' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand hide-md" :class="{ 'bg-primary-dark': order.field == 'authors' }" @click="sortList('authors')">
 							Authors
-							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'authors' && !order.ascending, 'ion-md-arrow-up': order.field == 'authors' && order.ascending }"></i>
+							<ion-icon v-if="order.field == 'authors' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'authors' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'year' }" @click="sortList('year')">
 							Year
-							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'year' && !order.ascending, 'ion-md-arrow-up': order.field == 'year' && order.ascending }"></i>
+							<ion-icon v-if="order.field == 'year' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'year' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'tuning' }" @click="sortList('tuning')">
 							Tuning
-							<i class="icon ml-1" :class="{ 'ion-md-arrow-down': order.field == 'tuning' && !order.ascending, 'ion-md-arrow-up': order.field == 'tuning' && order.ascending }"></i>
+							<ion-icon v-if="order.field == 'tuning' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'tuning' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
 						</th>
 						<th></th>
 					</tr>
@@ -82,27 +87,27 @@
 								<div class="btn-group">
 									<a class="btn btn-primary dropdown-toggle" tabindex="0">
 										Action
-										<i class="icon ion-md-arrow-dropdown"></i>
+										<ion-icon name="chevron-down" class="icon-sm"></ion-icon>
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
 											<router-link :to="{ name: 'song-show', params: { id: song.id }}" class="py-3 px-3">
-												<i class="icon ion-md-eye mr-2"></i> Show
+												<ion-icon name="eye-outline" class="mr-2"></ion-icon> Show
 											</router-link>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
 											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=song.id; active.existing=true; modal.set=true">
-												<i class="icon ion-md-create mr-2"></i> Edit
+												<ion-icon name="create-outline" class="mr-2"></ion-icon> Edit
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
 											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=song.id; active.existing=false; modal.set=true">
-												<i class="icon ion-md-copy mr-2"></i> Duplicate
+												<ion-icon name="copy-outline" class="mr-2"></ion-icon> Duplicate
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
 											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=song.title; active.key=song.id; modal.delete=true">
-												<i class="icon ion-md-trash mr-2"></i> Delete
+												<ion-icon name="trash-outline" class="mr-2"></ion-icon> Delete
 											</a>
 										</li>
 									</ul>

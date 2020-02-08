@@ -51,36 +51,36 @@
 									<div class="columns col-gapless">
 										<div class="column col-xl-12 col-12 mb-1">
 											<div class="input-group filter">
-												<span class="input-group-addon"><i class="form-icon icon ion-md-search"></i></span>
+												<span class="input-group-addon"><ion-icon name="search-outline"></ion-icon></span>
 												<input v-model="search" id="search" type="search" class="form-input" placeholder="search ..." />
-												<button class="btn input-group-btn btn-link" @click="search = ''"><i class="form-icon icon ion-md-close"></i></button>
+												<button class="btn input-group-btn btn-link" @click="search = ''"><ion-icon name="close"></ion-icon></button>
 											</div>
 										</div>
 										<div class="column col-xl-12 col-6 mb-1">
 											<div class="input-group filter">
-												<span class="input-group-addon"><i class="form-icon icon ion-md-pricetag"></i></span>
+												<span class="input-group-addon"><ion-icon name="pricetag-outline"></ion-icon></span>
 												<select v-model="filter" class="form-select filter" required>
 													<option value="" disabled selected>tag ...</option>
 													<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
 												</select>
-												<button class="btn input-group-btn btn-link" @click="filter = ''"><i class="form-icon icon ion-md-close"></i></button>
+												<button class="btn input-group-btn btn-link" @click="filter = ''"><ion-icon name="close"></ion-icon></button>
 											</div>
 										</div>
 										<div class="column col-xl-12 col-6 mb-1">
 											<div class="input-group filter">
-												<span class="input-group-addon"><i class="form-icon icon ion-md-musical-note"></i></span>
+												<span class="input-group-addon"><ion-icon name="musical-note"></ion-icon></span>
 												<select v-model="tuning" class="form-select filter" required>
 													<option value="" disabled selected>tune ...</option>
 													<option v-for="t in tunes" :key="t" :value="t">{{ t }}</option>
 												</select>
-												<button class="btn input-group-btn btn-link" @click="tuning = ''"><i class="form-icon icon ion-md-close"></i></button>
+												<button class="btn input-group-btn btn-link" @click="tuning = ''"><ion-icon name="close"></ion-icon></button>
 											</div>
 										</div>
 									</div>
 									<div class="form-group max-column mt-2">
 										<label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
 											<input v-model="setlistSongs" :value="key" type="checkbox">
-											<i class="form-icon"></i> {{ fsong.title }} [{{ fsong.tuning }}]
+											{{ fsong.title }} [{{ fsong.tuning }}]
 											<div class="text-gray text-small">
 												{{ fsong.subtitle }}
 											</div>
@@ -90,7 +90,7 @@
 								<div class="column col-6">
 									<div v-if="setlist.songs && setlist.songs.length == 0" class="empty">
 										<div class="empty-icon">
-											<i class="icon ion-md-musical-notes icon-4x"></i>
+											<ion-icon name="musical-notes-outline" class="icon-4x"></ion-icon>
 										</div>
 										<p class="empty-title h5">No Songs selected</p>
 										<p class="empty-subtitle">Select some songs for this setlist</p>
@@ -99,15 +99,15 @@
 										<h3 class="text-center">Selection</h3>
 										<div v-sortable="{ onEnd: reorder, handle: '.handle' }">
 											<div v-for="(song, i) in setlist.songs" :key="song.id" class="tile tile-centered mb-2">
-												<span class="c-move text-center text-gray"><i class="icon ion-md-reorder px-2 mx-2 handle"></i></span>
+												<span class="c-move text-center text-gray"><ion-icon name="reorder-three" class="px-2 mx-2 handle"></ion-icon></span>
 												<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(i)">
-													<i class="icon ion-md-arrow-back"></i>
+													<ion-icon name="arrow-back" class="icon-sm"></ion-icon>
 												</button>
 												<div class="tile-icon">
 													<figure class="avatar s-rounded" :data-initial="song.tuning ? song.tuning : songs[song.id].tuning"></figure>
 												</div>
 												<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneUp(i)">
-													<i class="icon ion-md-arrow-forward"></i>
+													<ion-icon name="arrow-forward" class="icon-sm"></ion-icon>
 												</button>
 												<div class="tile-content">
 													<div class="tile-title">{{ songs[song.id].title }}</div>
@@ -115,7 +115,7 @@
 												</div>
 												<div class="tile-action">
 													<button class="btn btn-link btn-action" @click="setlistSongs = setlistSongs.filter(function(k) {return k !== song.id})">
-														<i class="icon ion-md-close"></i>
+														<ion-icon name="close"></ion-icon>
 													</button>
 												</div>
 											</div>
