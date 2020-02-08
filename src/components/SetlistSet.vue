@@ -80,7 +80,7 @@
 									<div class="form-group max-column mt-2">
 										<label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
 											<input v-model="setlistSongs" :value="key" type="checkbox">
-											{{ fsong.title }} [{{ fsong.tuning }}]
+											<i class="form-icon"></i> {{ fsong.title }} [{{ fsong.tuning }}]
 											<div class="text-gray text-small">
 												{{ fsong.subtitle }}
 											</div>
@@ -99,7 +99,7 @@
 										<h3 class="text-center">Selection</h3>
 										<div v-sortable="{ onEnd: reorder, handle: '.handle' }">
 											<div v-for="(song, i) in setlist.songs" :key="song.id" class="tile tile-centered mb-2">
-												<span class="c-move text-center text-gray"><ion-icon name="reorder-three" class="px-2 mx-2 handle"></ion-icon></span>
+												<span class="c-move text-center text-gray"><ion-icon name="reorder-four" class="px-2 mx-2 handle"></ion-icon></span>
 												<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(i)">
 													<ion-icon name="arrow-back" class="icon-sm"></ion-icon>
 												</button>
@@ -155,6 +155,7 @@ export default {
 		existing: Boolean,
 		initialSetlist: Object,
 		setlistKey: String,
+		user: String,
 		songs: Object,
 		tags: Object,
 		ready: Object,
@@ -245,7 +246,7 @@ export default {
 				var self = this
 				var processedSetlist = {
 					active: false,
-					creator: '8DfoOAcEpCWh5gsVGmyzDXVAsZV2', // TODO
+					creator: this.user,
 					position: 0,
 					title: this.setlist.title,
 					date: this.setlist.date,

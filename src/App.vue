@@ -149,6 +149,7 @@
 				:existing="false"
 				:initialSetlist="newSetlist"
 				setlistKey=""
+				:user="auth.user"
 				:songs="songs"
 				:tags="tags"
 				:ready="ready"

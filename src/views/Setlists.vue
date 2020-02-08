@@ -119,6 +119,7 @@
 				:existing="active.existing"
 				:initialSetlist="active.setlist"
 				:setlistKey="active.key"
+				:user="user"
 				:songs="songs"
 				:tags="tags"
 				:ready="ready"
