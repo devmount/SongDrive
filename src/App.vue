@@ -151,6 +151,7 @@
 				setlistKey=""
 				:user="auth.user"
 				:songs="songs"
+				:setlists="setlists"
 				:tags="tags"
 				:ready="ready"
 				@closed="modal.addsetlist = false"

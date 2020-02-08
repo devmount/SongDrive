@@ -14,11 +14,12 @@
 							<div class="columns">
 								<!-- title -->
 								<div class="column col-12">
-									<div class="form-group" :class="{ 'has-error': error.title }">
+									<div class="form-group" :class="{ 'has-error': error.title || error.slug }">
 										<label class="form-label" for="title">Title <span class="text-error">*</span></label>
 										<input v-if="existing" v-model="setlist.title" class="form-input" id="title" type="text" placeholder="e.g. Sunday Service" disabled>
 										<input v-else v-model="setlist.title" class="form-input" id="title" type="text" placeholder="e.g. Sunday Service">
 										<p v-if="error.title" class="form-input-hint">A title is required.</p>
+										<p v-if="error.slug" class="form-input-hint">A setlist with this title already exists on this day. Please change either the title or the day.</p>
 									</div>
 								</div>
 								<!-- date -->
@@ -157,6 +158,7 @@ export default {
 		setlistKey: String,
 		user: String,
 		songs: Object,
+		setlists: Object,
 		tags: Object,
 		ready: Object,
 	},
@@ -169,6 +171,7 @@ export default {
 			tuning: '',
 			error: {
 				title: false,
+				slug: false,
 			},
 			tunes: basics.tunes
 		}
@@ -241,8 +244,10 @@ export default {
 		set () {
 			// first check for form errors
 			this.error.title = this.setlist.title == ''
+			let slug = this.createSlug()
+			this.error.slug = this.setlists.hasOwnProperty(slug)
 			// no errors: start saving song data
-			if (!this.error.title) {
+			if (!this.error.title && !this.error.slug) {
 				var self = this
 				var processedSetlist = {
 					active: false,
@@ -254,7 +259,6 @@ export default {
 				}
 				// new setlist should be created
 				if (!this.existing) {
-					let slug = this.createSlug()
 					this.db.collection('setlists').doc(slug).set(processedSetlist)
 					.then(function() {
 						self.$emit('closed')

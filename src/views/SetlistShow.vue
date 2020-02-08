@@ -133,6 +133,7 @@
 				:setlistKey="setlistKey"
 				:user="user"
 				:songs="songs"
+				:setlists="setlists"
 				:tags="tags"
 				:ready="ready"
 				@closed="modal.set = false"
