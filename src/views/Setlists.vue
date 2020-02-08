@@ -37,23 +37,23 @@
 						<th></th>
 						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'date' }" @click="sortList('date')">
 							Date
-							<ion-icon v-if="order.field == 'date' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'date' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
+							<ion-icon v-if="order.field == 'date' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'date' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'title' }" @click="sortList('title')">
 							Title
-							<ion-icon v-if="order.field == 'title' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'title' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
+							<ion-icon v-if="order.field == 'title' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'title' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'creator' }" @click="sortList('creator')">
 							Creator
-							<ion-icon v-if="order.field == 'creator' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'creator' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
+							<ion-icon v-if="order.field == 'creator' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'creator' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'songs' }" @click="sortList('songs')">
 							# Songs
-							<ion-icon v-if="order.field == 'songs' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'songs' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
+							<ion-icon v-if="order.field == 'songs' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'songs' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th></th>
 					</tr>

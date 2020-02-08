@@ -5,19 +5,19 @@
 			<div class="off-canvas-sidebar active">
 				<div class="sidebar-wrapper">
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
-						<ion-icon name="arrow-back-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> BACK</span>
+						<ion-icon name="arrow-back-outline" class="icon-left"></ion-icon><span class="hide-lg"> BACK</span>
 					</button>
 					<!-- sidebar: manage -->
 					<div v-if="user && role > 2" class="divider text-center show-lg" data-content="M"></div>
 					<div v-if="user && role > 2" class="divider text-center hide-lg" data-content="MANAGE"></div>
 					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
-						<ion-icon name="create-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> EDIT</span>
+						<ion-icon name="create-outline" class="icon-left"></ion-icon><span class="hide-lg"> EDIT</span>
 					</button>
 					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
-						<ion-icon name="copy-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> CLONE</span>
+						<ion-icon name="copy-outline" class="icon-left"></ion-icon><span class="hide-lg"> CLONE</span>
 					</button>
 					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
-						<ion-icon name="trash-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> DELETE</span>
+						<ion-icon name="trash-outline" class="icon-left"></ion-icon><span class="hide-lg"> DELETE</span>
 					</button>
 					<!-- sidebar: language -->
 					<div class="divider text-center show-lg" data-content="L"></div>
@@ -43,7 +43,7 @@
 						</label>
 					</div>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="modal.present=true" data-tooltip=" PRESENT ">
-						<ion-icon name="videocam-outline" class="float-left ml-1"></ion-icon><span class="hide-lg"> PRESENT</span>
+						<ion-icon name="videocam-outline" class="icon-left"></ion-icon><span class="hide-lg"> PRESENT</span>
 					</button>
 					<!-- sidebar: tuning -->
 					<div class="divider text-center show-lg" data-content="T"></div>
@@ -64,13 +64,13 @@
 					<div class="divider text-center show-lg" data-content="E"></div>
 					<div class="divider text-center hide-lg" data-content="EXPORT"></div>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportTxt" data-tooltip=" EXPORT TXT ">
-						<ion-icon name="download-outline" class="float-left ml-1"></ion-icon><span class="hide-lg text-pre"> .TXT</span>
+						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> .TXT</span>
 					</button>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportSng" data-tooltip=" EXPORT SNG ">
-						<ion-icon name="download-outline" class="float-left ml-1"></ion-icon><span class="hide-lg text-pre"> .SNG</span>
+						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> .SNG</span>
 					</button>
 					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf" data-tooltip=" EXPORT PDF ">
-						<ion-icon name="download-outline" class="float-left ml-1"></ion-icon><span class="hide-lg text-pre"> .PDF</span>
+						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> .PDF</span>
 					</button>
 				</div>
 			</div>

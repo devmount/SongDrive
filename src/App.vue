@@ -43,10 +43,10 @@
 								<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
 								<input type="password" v-model="auth.password" class="form-input mb-2" placeholder="password" />
 								<button class="btn btn-primary d-block stretch mb-2" @click="signIn" v-shortkey="['enter']" @shortkey="signIn">
-									Sign In <ion-icon name="log-in-outline" class="icon-right mr-1"></ion-icon>
+									Sign In <ion-icon name="log-in-outline" class="icon-right"></ion-icon>
 								</button>
 								<button class="btn btn-secondary d-block stretch" @click="modal.signup = true">
-									Sign Up <ion-icon name="person-add-outline" class="icon-right mr-1"></ion-icon>
+									Sign Up <ion-icon name="person-add-outline" class="icon-right"></ion-icon>
 								</button>
 							</div>
 						</li>
@@ -69,7 +69,7 @@
 						</li>
 						<li v-if="auth.user" class="menu-item">
 							<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
-								Sign Out <ion-icon name="log-out-outline" class="icon-right mr-1"></ion-icon>
+								Sign Out <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
 							</button>
 						</li>
 					</ul>
@@ -79,14 +79,14 @@
 							<a href="https://devmount.github.io/SongDrive" class="py-2" target="_blank">
 								<ion-icon name="book-outline" class="mr-2"></ion-icon>
 								Documentation
-								<ion-icon name="open-outline" class="icon-right mr-1"></ion-icon>
+								<ion-icon name="open-outline" class="icon-right"></ion-icon>
 							</a>
 						</li>
 						<li class="menu-item">
 							<a href="https://github.com/devmount/SongDrive" class="py-2" target="_blank">
 								<ion-icon name="logo-github" class="mr-2"></ion-icon>
 								GitHub
-								<ion-icon name="open-outline" class="icon-right mr-1"></ion-icon>
+								<ion-icon name="open-outline" class="icon-right"></ion-icon>
 							</a>
 						</li>
 					</ul>
@@ -450,6 +450,12 @@ $grid-spacing: ($layout-spacing / ($layout-spacing * 0 + 1)) * $html-font-size;
 .icon-right {
 	float: right;
 	margin-top: 3px;
+	margin-right: 3px;
+}
+.icon-left {
+	float: left;
+	margin-top: 3px;
+	margin-left: 3px;
 }
 ion-icon {
 	font-size: 19px;

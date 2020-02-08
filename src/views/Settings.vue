@@ -40,7 +40,7 @@
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">
-								<ion-icon name="save-outline" class="float-left ml-1"></ion-icon> Save Profil
+								<ion-icon name="save-outline" class="icon-left"></ion-icon> Save Profile
 							</button>
 						</div>
 					</div>
@@ -136,7 +136,7 @@
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="exportDb">
-								<ion-icon name="download" class="float-left ml-1"></ion-icon> Export
+								<ion-icon name="download-outline" class="icon-left"></ion-icon> Export
 							</button>
 						</div>
 					</div>

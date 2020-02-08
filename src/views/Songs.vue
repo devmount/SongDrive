@@ -47,28 +47,28 @@
 					<tr>
 						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'title' }" @click="sortList('title')">
 							Title
-							<ion-icon v-if="order.field == 'title' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'title' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
+							<ion-icon v-if="order.field == 'title' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'title' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'subtitle' }" @click="sortList('subtitle')">
 							Subtitle
-							<ion-icon v-if="order.field == 'subtitle' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'subtitle' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
+							<ion-icon v-if="order.field == 'subtitle' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'subtitle' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand hide-md" :class="{ 'bg-primary-dark': order.field == 'authors' }" @click="sortList('authors')">
 							Authors
-							<ion-icon v-if="order.field == 'authors' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'authors' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
+							<ion-icon v-if="order.field == 'authors' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'authors' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'year' }" @click="sortList('year')">
 							Year
-							<ion-icon v-if="order.field == 'year' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'year' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
+							<ion-icon v-if="order.field == 'year' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'year' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'tuning' }" @click="sortList('tuning')">
 							Tuning
-							<ion-icon v-if="order.field == 'tuning' && !order.ascending" class="float-right mr-1 mt-1" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'tuning' && order.ascending" class="float-right mr-1 mt-1" name="caret-up"></ion-icon>
+							<ion-icon v-if="order.field == 'tuning' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == 'tuning' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th></th>
 					</tr>
