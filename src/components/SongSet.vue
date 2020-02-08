@@ -158,7 +158,7 @@
 								<div class="form-group max-column mt-2">
 									<label v-for="tag in filteredTags" :key="tag.key" class="form-checkbox">
 										<input v-model="song.tags" :value="tag.key" type="checkbox">
-										{{ tag.key }}
+										<i class="form-icon"></i> {{ tag.key }}
 									</label>
 								</div>
 							</div>
@@ -211,7 +211,7 @@
 								<div class="form-group max-column mt-2">
 									<label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
 										<input v-model="song.translations" :value="key" type="checkbox">
-										{{ fsong.title }}
+										<i class="form-icon"></i> {{ fsong.title }}
 										<div class="text-gray text-small">
 											{{ fsong.subtitle }}
 										</div>
