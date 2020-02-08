@@ -132,9 +132,11 @@ export default {
 		navigate(event) {
 			switch (event.srcKey) {
 				case 'up':
+				case 'left':
 					this.$refs.presentation.slidePrev()
 					break
 				case 'down':
+				case 'right':
 					this.$refs.presentation.slideNext()
 					break
 			}
