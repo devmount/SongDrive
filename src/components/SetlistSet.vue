@@ -10,11 +10,11 @@
 			<div class="modal-body">
 				<div class="content">
 					<div class="columns">
-						<div class="column col-4 col-sm-12">
+						<div class="column col-4 col-md-12">
 							<div class="columns">
 								<!-- title -->
-								<div class="column col-12">
-									<div class="form-group" :class="{ 'has-error': error.title || error.slug }">
+								<div class="column col-12 col-md-6">
+									<div class="form-group mb-2" :class="{ 'has-error': error.title || error.slug }">
 										<label class="form-label" for="title">Title <span class="text-error">*</span></label>
 										<input v-if="existing" v-model="setlist.title" class="form-input" id="title" type="text" placeholder="e.g. Sunday Service" disabled>
 										<input v-else v-model="setlist.title" class="form-input" id="title" type="text" placeholder="e.g. Sunday Service">
@@ -23,13 +23,13 @@
 									</div>
 								</div>
 								<!-- date -->
-								<div class="column col-12">
-									<div class="form-group mt-2">
+								<div class="column col-12 col-md-6">
+									<div class="form-group mb-2">
 										<label class="form-label" for="date">Event Date <span class="text-gray ml-2">{{ setlist.date }}</span></label>
 										<datepicker
 											:value="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 											format="yyyy-MM-dd"
-											wrapper-class="calendar-wrapper"
+											wrapper-class="calendar-wrapper hide-lg"
 											input-class="form-input"
 											calendar-class="calendar"
 											:typeable="true"
@@ -40,14 +40,20 @@
 											name="setlistdate"
 											@selected="updateDate"
 										></datepicker>
+										<input
+											class="form-input show-lg"
+											type="date"
+											v-model="setlist.date"
+											pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+										/>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="column col-8 col-sm-12">
+						<div class="column col-8 col-md-12">
 							<!-- song selection -->
 							<div class="columns">
-								<div class="column col-6">
+								<div class="column col-6 col-sm-12">
 									<label class="form-label" for="search">Songs</label>
 									<div class="columns col-gapless">
 										<div class="column col-xl-12 col-12 mb-1">
@@ -88,7 +94,7 @@
 										</label>
 									</div>
 								</div>
-								<div class="column col-6">
+								<div class="column col-6 col-sm-12">
 									<div v-if="setlist.songs && setlist.songs.length == 0" class="empty">
 										<div class="empty-icon">
 											<ion-icon name="musical-notes-outline" class="icon-4x"></ion-icon>
@@ -357,10 +363,5 @@ export default {
 </script>
 
 <style lang="scss">
-.modal-lg {
-	.max-column {
-		height: 60vh;
-		overflow-y: scroll;
-	}
-}
+
 </style>

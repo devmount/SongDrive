@@ -967,7 +967,27 @@ a:focus,
 		}
 	}
 }
-
+@media (min-width: $size-sm) {
+	.modal-lg {
+		.max-column {
+			height: 60vh;
+			overflow-y: scroll;
+		}
+	}
+}
+@media (max-width: $size-sm) {
+	.modal-lg {
+		.max-column {
+			height: 30vh;
+			overflow-y: scroll;
+		}
+	}
+}
+@media (max-width: $size-md) {
+	.modal-lg {
+		padding: 0;
+	}
+}
 // off-canvas
 .off-canvas {
 	z-index: 0;
