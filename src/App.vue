@@ -93,7 +93,7 @@
 					<footer>
 						<div class="text-center text-small text-gray">
 							created with <ion-icon name="heart-outline"></ion-icon>
-							by <a href="htps://devmount.de">
+							by <a href="https://devmount.de" target="_blank">
 								<svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
 									<path class="st0" d="M6.9,140.6L87.1,40.2l78.2,77.6"/>
 									<path class="st0" d="M40.4,193.8l62.1-77.8l35.9,35.4l48.8-60.6l39.8,39.5"/>
