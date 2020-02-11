@@ -38,7 +38,7 @@
 							<div v-if="userObject.photoURL" class="tile tile-centered mb-2">
 								<div class="tile-content">
 									<div class="tile-title text-bold">Photo URL</div>
-									<div class="tile-subtitle text-gray">{{ userObject.photoURL }}</div>
+									<div class="tile-subtitle text-gray">{{ userObject.photoURL.substr(0,50) }}...</div>
 								</div>
 								<div class="tile-icon text-gray">
 									<ion-icon name="camera-outline" class="icon-1-5x"></ion-icon>
