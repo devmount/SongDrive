@@ -87,7 +87,7 @@
 									<div class="form-group max-column mt-2">
 										<label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
 											<input v-model="setlistSongs" :value="key" type="checkbox">
-											<i class="form-icon"></i> {{ fsong.title }} [{{ fsong.tuning }}]
+											<i class="form-icon"></i> {{ fsong.title }} <label class="label px-2">{{ fsong.tuning }}</label>
 											<div class="text-gray text-small">
 												{{ fsong.subtitle }}
 											</div>
@@ -103,7 +103,7 @@
 										<p class="empty-subtitle">Select some songs for this setlist</p>
 									</div>
 									<div v-else>
-										<h3 class="text-center">Selection</h3>
+										<h3 class="text-center">{{ setlist.songs.length }} selected</h3>
 										<div v-sortable="{ onEnd: reorder, handle: '.handle' }">
 											<div v-for="(song, i) in setlist.songs" :key="song.id" class="tile tile-centered mb-2">
 												<span class="c-move text-center text-gray"><ion-icon name="reorder-four" class="px-2 mx-2 handle"></ion-icon></span>
