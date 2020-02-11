@@ -179,9 +179,13 @@ import SongSet from '@/components/SongSet.vue'
 import SetlistSet from '@/components/SetlistSet.vue'
 import SignUp from '@/components/SignUp.vue'
 // get database object authorized in config.js
-import { db } from '@/firebase'
-import { firebase } from "@firebase/app"
-import '@firebase/auth'
+var firebase = require("firebase/app")
+require("firebase/auth")
+require('firebase/firestore')
+import { config } from "./config"
+
+var firebaseApp = firebase.initializeApp(config)
+const db = firebaseApp.firestore()
 
 export default {
 	name: 'app',
