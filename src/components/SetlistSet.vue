@@ -251,7 +251,7 @@ export default {
 			// first check for form errors
 			this.error.title = this.setlist.title == ''
 			let slug = this.createSlug()
-			this.error.slug = this.setlists.hasOwnProperty(slug)
+			this.error.slug = this.existing ? false : this.setlists.hasOwnProperty(slug)
 			// no errors: start saving song data
 			if (!this.error.title && !this.error.slug) {
 				var self = this
