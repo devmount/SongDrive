@@ -9519,7 +9519,7 @@ pdfkit@>=0.8.1, pdfkit@^0.11.0:
     linebreak "^1.0.2"
     png-js "^1.0.0"
 
-pdfmake@^0.1.57:
+pdfmake@^0.1.64:
   version "0.1.64"
   resolved "https://registry.yarnpkg.com/pdfmake/-/pdfmake-0.1.64.tgz#4ccc69968404d1b36e925189a157c7176dfcff06"
   integrity sha512-mfI1+0lBRHYbi+NcB8tJaDAq33bd6NzrOmPxPregNN17M4EC5P+TEmGn3QBPLaTmKLhC+sV0WHV6sVx/KdK9GQ==
