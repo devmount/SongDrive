@@ -12619,7 +12619,7 @@ vue-eslint-parser@^5.0.0:
     esquery "^1.0.1"
     lodash "^4.17.11"
 
-vue-firestore@^0.3.22:
+vue-firestore@^0.3.30:
   version "0.3.30"
   resolved "https://registry.yarnpkg.com/vue-firestore/-/vue-firestore-0.3.30.tgz#f16116d93e3937042b8d6fdfbb4e6128a92bdcff"
   integrity sha512-O0P1PzM48+8yaWtsevg9b8ydXFH9TYMqwhSXuzONzMudTlEBcXfhIyH1iHFUyKe/U0MdIvOuuMUgkahR+b7BgA==
