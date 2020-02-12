@@ -16,8 +16,7 @@
 								<div class="column col-12 col-md-6">
 									<div class="form-group mb-2" :class="{ 'has-error': error.title || error.slug }">
 										<label class="form-label" for="title">Title <span class="text-error">*</span></label>
-										<input v-if="existing" v-model="setlist.title" class="form-input" id="title" type="text" placeholder="e.g. Sunday Service" disabled>
-										<input v-else v-model="setlist.title" class="form-input" id="title" type="text" placeholder="e.g. Sunday Service">
+										<input v-model="setlist.title" class="form-input" id="title" type="text" placeholder="e.g. Sunday Service">
 										<p v-if="error.title" class="form-input-hint">A title is required.</p>
 										<p v-if="error.slug" class="form-input-hint">A setlist with this title already exists on this day. Please change either the title or the day.</p>
 									</div>
@@ -251,7 +250,7 @@ export default {
 			// first check for form errors
 			this.error.title = this.setlist.title == ''
 			let slug = this.createSlug()
-			this.error.slug = this.existing ? false : this.setlists.hasOwnProperty(slug)
+			this.error.slug = this.existing && this.setlistKey == slug ? false : this.setlists.hasOwnProperty(slug)
 			// no errors: start saving song data
 			if (!this.error.title && !this.error.slug) {
 				var self = this
@@ -290,27 +289,56 @@ export default {
 				}
 				// existing setlist should be updated
 				else {
-					this.db.collection('setlists').doc(this.setlistKey).update(processedSetlist)
-					.then(function() {
-						self.$emit('closed')
-						self.$emit('reset')
-						processedSetlist = {}
-						// toast success update message
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>Success!',
-							text: 'The setlist was updated.',
-							type: 'toast-primary'
+					// check if key changed (title or date change)
+					if (this.setlistKey == slug) {
+						// just update the existing setlist
+						this.db.collection('setlists').doc(this.setlistKey).update(processedSetlist)
+						.then(function() {
+							self.$emit('closed')
+							self.$emit('reset')
+							processedSetlist = {}
+							// toast success update message
+							self.$notify({
+								title: '<button class="btn btn-clear float-right"></button>Success!',
+								text: 'The setlist was updated.',
+								type: 'toast-primary'
+							})
 						})
-					})
-					.catch(function() {
-						self.$emit('closed')
-						// toast error update message
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>Error!',
-							text: 'The setlist could not be updated.',
-							type: 'toast-error'
+						.catch(function() {
+							self.$emit('closed')
+							// toast error update message
+							self.$notify({
+								title: '<button class="btn btn-clear float-right"></button>Error!',
+								text: 'The setlist could not be updated.',
+								type: 'toast-error'
+							})
 						})
-					})
+					} else {
+						// update key by adding a new setlist and removing the old one
+						this.db.collection('setlists').doc(this.setlistKey).delete()
+						this.db.collection('setlists').doc(slug).set(processedSetlist)
+						.then(function() {
+							self.$emit('closed')
+							self.$emit('reset')
+							processedSetlist = {}
+							self.$router.push({ name: 'setlist-show', params: { id: slug }})
+							// toast success update message
+							self.$notify({
+								title: '<button class="btn btn-clear float-right"></button>Success!',
+								text: 'The setlist was updated.',
+								type: 'toast-primary'
+							})
+						})
+						.catch(function() {
+							self.$emit('closed')
+							// toast error update message
+							self.$notify({
+								title: '<button class="btn btn-clear float-right"></button>Error!',
+								text: 'The setlist could not be updated.',
+								type: 'toast-error'
+							})
+						})
+					}
 				}
 			}
 		},
