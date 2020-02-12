@@ -289,7 +289,7 @@ export default {
 				}
 				// existing setlist should be updated
 				else {
-					// check if key changed (title or date change)
+					// check if key remained (no title or date change)
 					if (this.setlistKey == slug) {
 						// just update the existing setlist
 						this.db.collection('setlists').doc(this.setlistKey).update(processedSetlist)

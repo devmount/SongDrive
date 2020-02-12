@@ -90,7 +90,7 @@
 						</div>
 					</div>
 					<div class="columns mt-4 pt-4">
-						<div class="column col-6 col-md-12">
+						<div v-if="ready.songs && song" class="column col-6 col-md-12">
 							<footer class="text-small">
 								<p>{{ song.authors }}</p>
 								<p>
@@ -105,7 +105,7 @@
 								<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
 							</footer>
 						</div>
-						<div v-if="song.youtube" class="column col-6 col-md-12">
+						<div v-if="ready.songs && song && song.youtube" class="column col-6 col-md-12">
 							<iframe :src="'https://www.youtube-nocookie.com/embed/' + song.youtube" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 						</div>
 					</div>

@@ -255,7 +255,8 @@ export default {
 				title: '',
 				translations: [],
 				tuning: '',
-				year: ''
+				year: '',
+				youtube: '',
 			},
 			newSetlist: {
 				title: '',
