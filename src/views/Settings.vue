@@ -74,6 +74,9 @@
 									<button class="btn btn-link btn-action" @click.prevent="active.user=u; active.key=k; active.existing=true; modal.userset=true">
 										<ion-icon name="create-outline"></ion-icon>
 									</button>
+									<button class="btn btn-link btn-action text-error" @click.prevent="active.user=u; active.key=k; modal.userdelete=true">
+										<ion-icon name="person-remove-outline"></ion-icon>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -142,7 +145,7 @@
 					</div>
 				</div>
 			</div>
-
+			<!-- modal: set user -->
 			<UserSet
 				v-if="modal.userset"
 				:db="db"
@@ -151,6 +154,15 @@
 				:initialUser="active.user"
 				:userKey="active.key"
 				@closed="modal.userset = false"
+			/>
+			<!-- modal: delete user -->
+			<UserDelete
+				v-if="modal.userdelete"
+				:db="db"
+				:active="modal.userdelete"
+				:userName="active.user.name"
+				:userKey="active.key"
+				@closed="modal.userdelete = false"
 			/>
 		</div>
 	</div>
@@ -161,11 +173,13 @@
 import basics from '@/basics.js'
 // get components
 import UserSet from '@/components/UserSet.vue'
+import UserDelete from '@/components/UserDelete.vue'
 
 export default {
 	name: 'settings',
 	components: {
 		UserSet,
+		UserDelete,
 	},
 	props: ['db', 'user', 'userObject', 'roleName', 'role', 'users', 'registrations', 'tags', 'songs', 'setlists'],
 	data () {
@@ -178,6 +192,7 @@ export default {
 			},
 			modal: {
 				userset: false,
+				userdelete: false,
 			},
 			active: {
 				user: {},
