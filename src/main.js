@@ -22,12 +22,21 @@ Vue.directive('sortable', {
 	}
 })
 
-// vue clipboard2
+// vue-clipboard2
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
 
-// vue shortkey
+// vue-shortkey
 Vue.use(require('vue-shortkey'))
+
+// vue-i18n
+import VueI18n from 'vue-i18n'
+import messages from './translations'
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+  locale: 'en', // set locale
+  messages, // set locale messages
+})
 
 Vue.config.productionTip = false
 
@@ -39,5 +48,6 @@ Object.filter = (obj, predicate) =>
 
 new Vue({
 	router,
+	i18n,
 	render: h => h(App)
 }).$mount('#app')

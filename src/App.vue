@@ -26,7 +26,7 @@
 							<div class="menu-badge">
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Song" @click="modal.addsong = true"><ion-icon name="add-sharp"></ion-icon></button>
+								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" :data-tooltip="$t('tooltip.song.add')" @click="modal.addsong = true"><ion-icon name="add-sharp"></ion-icon></button>
 							</div>
 						</li>
 						<li class="menu-item">
@@ -34,7 +34,7 @@
 							<div class="menu-badge">
 								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" data-tooltip="Add new Setlist" @click="modal.addsetlist = true"><ion-icon name="add-sharp"></ion-icon></button>
+								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" :data-tooltip="$t('tooltip.setlist.add')" @click="modal.addsetlist = true"><ion-icon name="add-sharp"></ion-icon></button>
 							</div>
 						</li>
 						<li class="divider text-center" data-content="ACCOUNT"></li>
