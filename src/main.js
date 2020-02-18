@@ -33,8 +33,9 @@ Vue.use(require('vue-shortkey'))
 import VueI18n from 'vue-i18n'
 import messages from './translations'
 Vue.use(VueI18n)
+let lang = navigator.language.slice(0, 2)
 const i18n = new VueI18n({
-  locale: 'en', // set locale
+  locale: ['en', 'de'].indexOf(lang) > -1 ? lang : 'en', // set locale
   messages, // set locale messages
 })
 
