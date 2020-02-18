@@ -17,12 +17,12 @@
 						</router-link>
 					</div>
 					<ul class="menu text-uppercase">
-						<li class="divider text-center" data-content="START"></li>
+						<li class="divider text-center" :data-content="$t('divider.start')"></li>
 						<li class="menu-item">
-							<router-link to="/" class="py-2" @click.native="open = false"><ion-icon name="apps-sharp" class="mr-2"></ion-icon> Dashboard</router-link>
+							<router-link to="/" class="py-2" @click.native="open = false"><ion-icon name="apps-sharp" class="mr-2"></ion-icon> {{ $t('page.dashboard') }}</router-link>
 						</li>
 						<li class="menu-item">
-							<router-link to="/songs" class="py-2" @click.native="open = false"><ion-icon name="musical-notes-sharp" class="mr-2"></ion-icon> Songs</router-link>
+							<router-link to="/songs" class="py-2" @click.native="open = false"><ion-icon name="musical-notes-sharp" class="mr-2"></ion-icon> {{ $t('page.songs') }}</router-link>
 							<div class="menu-badge">
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
@@ -30,23 +30,23 @@
 							</div>
 						</li>
 						<li class="menu-item">
-							<router-link to="/setlists" class="py-2" @click.native="open = false"><ion-icon name="list" class="mr-2"></ion-icon> Setlists</router-link>
+							<router-link to="/setlists" class="py-2" @click.native="open = false"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('page.setlists') }}</router-link>
 							<div class="menu-badge">
 								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" :data-tooltip="$t('tooltip.setlist.add')" @click="modal.addsetlist = true"><ion-icon name="add-sharp"></ion-icon></button>
 							</div>
 						</li>
-						<li class="divider text-center" data-content="ACCOUNT"></li>
+						<li class="divider text-center" :data-content="$t('divider.account')"></li>
 						<li v-if="!auth.user" class="menu-item pb-2">
 							<div class="form-group">
 								<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
 								<input type="password" v-model="auth.password" class="form-input mb-2" placeholder="password" />
 								<button class="btn btn-primary d-block stretch mb-2" @click="signIn" v-shortkey="['enter']" @shortkey="signIn">
-									Sign In <ion-icon name="log-in-outline" class="icon-right"></ion-icon>
+									{{ $t('button.signin') }} <ion-icon name="log-in-outline" class="icon-right"></ion-icon>
 								</button>
 								<button class="btn btn-secondary d-block stretch" @click="modal.signup = true">
-									Sign Up <ion-icon name="person-add-outline" class="icon-right"></ion-icon>
+									{{ $t('button.signup') }} <ion-icon name="person-add-outline" class="icon-right"></ion-icon>
 								</button>
 							</div>
 						</li>
@@ -65,35 +65,35 @@
 							</router-link>
 						</li>
 						<li v-if="auth.user && users[auth.user]" class="menu-item">
-							<router-link to="/settings" class="py-2" @click.native="open = false"><ion-icon name="options-outline" class="mr-2"></ion-icon> Settings</router-link>
+							<router-link to="/settings" class="py-2" @click.native="open = false"><ion-icon name="options-outline" class="mr-2"></ion-icon> {{ $t('page.settings') }}</router-link>
 						</li>
 						<li v-if="auth.user" class="menu-item">
 							<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
-								Sign Out <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
+								{{ $t('button.signout') }} <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
 							</button>
 						</li>
 					</ul>
 					<ul class="menu text-uppercase">
-						<li class="divider text-center" data-content="INFO"></li>
+						<li class="divider text-center" :data-content="$t('divider.info')"></li>
 						<li class="menu-item">
 							<a href="https://devmount.github.io/SongDrive" class="py-2" target="_blank">
 								<ion-icon name="book-outline" class="mr-2"></ion-icon>
-								Documentation
+								{{ $t('page.docu') }}
 								<ion-icon name="open-outline" class="icon-right"></ion-icon>
 							</a>
 						</li>
 						<li class="menu-item">
 							<a href="https://github.com/devmount/SongDrive" class="py-2" target="_blank">
 								<ion-icon name="logo-github" class="mr-2"></ion-icon>
-								GitHub
+								{{ $t('page.github') }}
 								<ion-icon name="open-outline" class="icon-right"></ion-icon>
 							</a>
 						</li>
 					</ul>
 					<footer>
 						<div class="text-center text-small text-gray">
-							created with <ion-icon name="heart-outline"></ion-icon>
-							by <a href="https://devmount.de" target="_blank">
+							<span v-html="$t('app.created')"></span>
+							<a href="https://devmount.de" target="_blank">
 								<svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
 									<path class="st0" d="M6.9,140.6L87.1,40.2l78.2,77.6"/>
 									<path class="st0" d="M40.4,193.8l62.1-77.8l35.9,35.4l48.8-60.6l39.8,39.5"/>
