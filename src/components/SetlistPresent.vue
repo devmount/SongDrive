@@ -1,5 +1,14 @@
 <template>
-	<div class="modal modal-lg modal-full modal-setlist-presentation" :class="{ active: active }">
+	<div
+		class="modal modal-lg modal-full modal-setlist-presentation"
+		:class="{ active: active }"
+		ref="container"
+		tabindex="0"
+		@keydown.up="$refs.presentation.slidePrev()"
+		@keydown.left="$refs.presentation.slidePrev()"
+		@keydown.down="$refs.presentation.slideNext()"
+		@keydown.right="$refs.presentation.slideNext()"
+	>
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
 		<div class="modal-container">
 			<div v-if="songs && songs.length > 0" class="modal-body">
@@ -10,8 +19,6 @@
 					id="presentation"
 					@updated="maximizeFontsize"
 					@slide="updatePosition"
-					v-shortkey="{ up: ['arrowup'], down: ['arrowdown'] }"
-					@shortkey.native="navigate"
 				>
 					<slide v-for="(song, i) in songs" :key="i" :index="i">
 						<SongContent
@@ -107,6 +114,9 @@ export default {
 	},
 	created () {
 		setInterval(() => { this.now = new Date; this.blink = !this.blink }, 1000)
+	},
+	mounted () {
+		this.$refs.container.focus()
 	},
 	computed: {
 		timeonly() {

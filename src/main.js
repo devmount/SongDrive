@@ -26,9 +26,6 @@ Vue.directive('sortable', {
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
 
-// vue-shortkey
-Vue.use(require('vue-shortkey'))
-
 // vue-i18n
 import VueI18n from 'vue-i18n'
 import messages from './translations'
