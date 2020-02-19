@@ -5,7 +5,7 @@
 				<!-- heading -->
 				<div class="column col-12">
 					<h2 class="view-title">
-						Dashboard
+						{{ $t('page.dashboard')}}
 					</h2>
 				</div>
 				<!-- loader -->
@@ -17,7 +17,7 @@
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(songs).length }}</div>
-							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> Songs stored</div>
+							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsstored') }}</div>
 						</div>
 					</div>
 				</div>
@@ -26,7 +26,7 @@
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(setlists).length }}</div>
-							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> Setlists stored</div>
+							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistsstored') }}</div>
 						</div>
 					</div>
 				</div>
@@ -35,7 +35,7 @@
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge"><span class="text-gray">~</span>{{ songsPerformed }}</div>
-							<div class="panel-title h5"><ion-icon name="mic-outline" class="mr-2"></ion-icon> Songs performed</div>
+							<div class="panel-title h5"><ion-icon name="mic-outline" class="mr-2"></ion-icon> {{ $t('widget.songsperformed') }}</div>
 						</div>
 					</div>
 				</div>
@@ -44,7 +44,7 @@
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(languages).length }}</div>
-							<div class="panel-title h5"><ion-icon name="globe-outline"></ion-icon> Languages</div>
+							<div class="panel-title h5"><ion-icon name="globe-outline"></ion-icon> {{ $t('widget.languages') }}</div>
 						</div>
 					</div>
 				</div>
@@ -53,7 +53,7 @@
 					<div class="panel mt-4">
 						<div class="panel-header">
 							<div class="panel-title h5">
-								{{ songsProperty }} Songs
+								{{ $t('widget.' + songsProperty) }} {{ $t('page.songs') }}
 								<div class="btn-group float-right">
 									<button class="btn btn-secondary px-3" :class="{ disabled: isFirstSongPage }" @click="!isFirstSongPage ? songsPage-- : null">
 										<ion-icon name="arrow-back"></ion-icon>
@@ -72,18 +72,18 @@
 								@click="$router.push({ name: 'song-show', params: { id: song.id }})"
 							>
 								<div class="tile-icon">
-									<figure class="avatar s-rounded" :data-initial="song.tuning" title="Song tuning"></figure>
+									<figure class="avatar s-rounded" :data-initial="song.tuning" :title="$t('title.songtuning')"></figure>
 									<figure
 										v-if="songsProperty == 'popular'"
 										class="avatar avatar-secondary s-rounded float-right ml-1"
 										:data-initial="song.popularity + 'x'"
-										:title="'This song occured on ' + song.popularity + ' setlists'"
+										:title="$t('title.songoccuredon', { num: song.popularity })"
 									></figure>
 									<figure
 										v-if="songsProperty == 'newest' || songsProperty == 'oldest'"
 										class="avatar avatar-secondary s-rounded float-right ml-1"
 										:data-initial="song.year ? song.year : '—'"
-										:title="song.year ? 'This song was published in ' + song.year : 'No year available for this song'"
+										:title="song.year ? $t('title.songpublishedin', { year: song.year }) : $t('title.noyear')"
 									></figure>
 								</div>
 								<div class="tile-content">
@@ -94,14 +94,14 @@
 						</div>
 						<div class="panel-footer">
 							<div class="btn-group">
-								<button class="btn btn-secondary" @click="shuffleSongs"><ion-icon name="shuffle" class="mr-2"></ion-icon>Shuffle</button>
-								<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs"><ion-icon name="arrow-up" class="mr-2"></ion-icon>Newest</button>
-								<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs"><ion-icon name="arrow-down" class="mr-2"></ion-icon>Oldest</button>
-								<button class="btn btn-secondary" @click="popularSongs"><ion-icon name="trending-up" class="mr-2"></ion-icon>Popular</button>
+								<button class="btn btn-secondary" @click="shuffleSongs"><ion-icon name="shuffle" class="mr-2"></ion-icon>{{ $t('button.shuffle') }}</button>
+								<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs"><ion-icon name="arrow-up" class="mr-2"></ion-icon>{{ $t('widget.newest') }}</button>
+								<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs"><ion-icon name="arrow-down" class="mr-2"></ion-icon>{{ $t('widget.oldest') }}</button>
+								<button class="btn btn-secondary" @click="popularSongs"><ion-icon name="trending-up" class="mr-2"></ion-icon>{{ $t('widget.popular') }}</button>
 							</div>
 						</div>
 						<div class="panel-link">
-							<router-link to="/songs" class="btn btn-link btn-block" >Go to Songs <ion-icon name="arrow-forward" class="ml-1"></ion-icon></router-link>
+							<router-link to="/songs" class="btn btn-link btn-block">{{ $t('widget.gotosongs') }} <ion-icon name="arrow-forward" class="ml-1"></ion-icon></router-link>
 						</div>
 					</div>
 				</div>
@@ -110,7 +110,7 @@
 					<div class="panel mt-4">
 						<div class="panel-header">
 							<div class="panel-title h5">
-								{{ setlistsProperty }} Setlists
+								{{ $t('widget.' + setlistsProperty) }} {{ $t('page.setlists') }}
 								<div class="btn-group float-right">
 									<button class="btn btn-secondary float-right px-3" :class="{ disabled: isFirstSetlistPage }" @click="!isFirstSetlistPage ? setlistsPage-- : null">
 										<ion-icon name="arrow-back"></ion-icon>
@@ -132,7 +132,7 @@
 									<figure
 										class="avatar avatar-secondary s-rounded"
 										:data-initial="setlist.songs.length"
-										:title="'This setlist contains ' + setlist.songs.length + ' songs'"
+										:title="$t('title.setlistcontains', { num: setlist.songs.length})"
 									></figure>
 								</div>
 								<div class="tile-content">
@@ -143,12 +143,12 @@
 						</div>
 						<div class="panel-footer">
 							<div class="btn-group">
-								<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary" @click="newestSetlists"><ion-icon name="arrow-up" class="mr-2"></ion-icon>Newest</button>
-								<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary" @click="oldestSetlists"><ion-icon name="arrow-down" class="mr-2"></ion-icon>Oldest</button>
+								<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary" @click="newestSetlists"><ion-icon name="arrow-up" class="mr-2"></ion-icon>{{ $t('widget.newest') }}</button>
+								<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary" @click="oldestSetlists"><ion-icon name="arrow-down" class="mr-2"></ion-icon>{{ $t('widget.oldest') }}</button>
 							</div>
 						</div>
 						<div class="panel-link">
-							<router-link to="/setlists" class="btn btn-link btn-block" >Go to Setlists <ion-icon name="arrow-forward" class="ml-1"></ion-icon></router-link>
+							<router-link to="/setlists" class="btn btn-link btn-block">{{ $t('widget.gotosetlists') }} <ion-icon name="arrow-forward" class="ml-1"></ion-icon></router-link>
 						</div>
 					</div>
 				</div>
