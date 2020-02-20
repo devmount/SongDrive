@@ -5,7 +5,7 @@
 				<!-- heading -->
 				<div class="column col-12">
 					<h2 class="view-title">
-						Profile
+						{{ $t('page.profile') }}
 					</h2>
 				</div>
 				<div class="column col-4 col-xl-6 col-sm-12">
@@ -18,17 +18,10 @@
 							<div v-if="userObject.displayName" class="panel-title h5">{{ userObject.displayName }}</div>
 							<div v-if="roleName" class="panel-subtitle text-gray">{{ roleName }}</div>
 						</div>
-						<!-- <nav class="panel-nav">
-							<ul class="tab tab-block">
-								<li class="tab-item active"><a href="#panels">Profile</a></li>
-								<li class="tab-item"><a href="#panels">Files</a></li>
-								<li class="tab-item"><a href="#panels">Tasks</a></li>
-							</ul>
-						</nav> -->
 						<div class="panel-body">
 							<div v-if="userObject.email" class="tile tile-centered mb-2">
 								<div class="tile-content">
-									<div class="tile-title text-bold">Email</div>
+									<div class="tile-title text-bold">{{ $t('field.email') }}</div>
 									<div class="tile-subtitle text-gray">{{ userObject.email }}</div>
 								</div>
 								<div class="tile-icon text-gray">
@@ -37,7 +30,7 @@
 							</div>
 							<div v-if="userObject.photoURL" class="tile tile-centered mb-2">
 								<div class="tile-content">
-									<div class="tile-title text-bold">Photo URL</div>
+									<div class="tile-title text-bold">{{ $t('field.photo') }}</div>
 									<div class="tile-subtitle text-gray">{{ userObject.photoURL.substr(0,50) }}...</div>
 								</div>
 								<div class="tile-icon text-gray">
@@ -46,8 +39,8 @@
 							</div>
 						</div>
 						<div v-if="role" class="panel-footer">
-							<router-link to="/settings" class="btn btn-secondary btn-block mb-1" @click.native="open = false">
-								<ion-icon name="options"></ion-icon> SETTINGS <ion-icon name="create-outline" class="float-right ml-2"></ion-icon>
+							<router-link to="/settings" class="btn btn-secondary btn-block text-uppercase mb-1" @click.native="open = false">
+								<ion-icon name="options"></ion-icon> {{ $t('page.settings')}} <ion-icon name="create-outline" class="float-right ml-2"></ion-icon>
 							</router-link>
 						</div>
 					</div>
@@ -57,14 +50,14 @@
 						<div class="panel-body text-center pb-3">
 							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 							<div v-else class="text-huge">{{ Object.keys(setlistsFromUser).length }}</div>
-							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> Setlists created</div>
+							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistscreated')}}</div>
 						</div>
 					</div>
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 							<div v-else class="text-huge"><span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span></div>
-							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> Songs performed</div>
+							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsperformed') }}</div>
 						</div>
 					</div>
 				</div>

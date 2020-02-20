@@ -6,6 +6,7 @@ export default {
 			songs: 'Songs',
 			setlists: 'Setlists',
 			settings: 'Settings',
+			profile: 'Profile',
 			docu: 'Documentation',
 			github: 'GitHub',
 		},
@@ -39,6 +40,7 @@ export default {
 		widget: {
 			songsstored: 'Songs stored',
 			setlistsstored: 'Setlists stored',
+			setlistscreated: 'Setlists created',
 			songsperformed: 'Songs performed',
 			languages: 'Languages',
 			random: 'Random',
@@ -71,6 +73,8 @@ export default {
 			date: 'Date',
 			creator: 'Creator',
 			songs: 'Songs',
+			email: 'Email',
+			photo: 'Photo URL',
 		}
 	},
 	de: {
@@ -79,6 +83,7 @@ export default {
 			songs: 'Songs',
 			setlists: 'Setlisten',
 			settings: 'Einstellungen',
+			profile: 'Profil',
 			docu: 'Dokumentation',
 			github: 'GitHub',
 		},
@@ -112,6 +117,7 @@ export default {
 		widget: {
 			songsstored: 'Songs gespeichert',
 			setlistsstored: 'Setlisten gespeichert',
+			setlistscreated: 'Setlisten created',
 			songsperformed: 'Songs aufgeführt',
 			languages: 'Sprachen',
 			random: 'Zufällige',
@@ -144,6 +150,8 @@ export default {
 			date: 'Datum',
 			creator: 'Ersteller',
 			songs: 'Songs',
+			email: 'Email',
+			photo: 'Photo URL',
 		}
 	}
 }
