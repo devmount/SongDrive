@@ -19,6 +19,10 @@ export default {
 			signup: 'Sign up',
 			signout: 'Sign out',
 			shuffle: 'Shuffle',
+			show: 'Show',
+			edit: 'Edit',
+			duplicate: 'Duplicate',
+			delete: 'Delete',
 		},
 		tooltip: {
 			setlist: {
@@ -50,6 +54,18 @@ export default {
 			songpublishedin: 'This song was published in {year}',
 			noyear: 'No year available for this song',
 			setlistcontains: 'This setlist contains {num} songs'
+		},
+		placeholder: {
+			searchsongtitle: 'Song title ...',
+			tag: 'Tag ...',
+			tuning: 'Tuning ...',
+		},
+		field: {
+			title: 'Title',
+			subtitle: 'Subtitle',
+			authors: 'Authors',
+			year: 'Year',
+			tuning: 'Tuning',
 		}
 	},
 	de: {
@@ -71,6 +87,10 @@ export default {
 			signup: 'Registrieren',
 			signout: 'Logout',
 			shuffle: 'Zufällig',
+			show: 'Anzeigen',
+			edit: 'Bearbeiten',
+			duplicate: 'Duplizieren',
+			delete: 'Löschen',
 		},
 		tooltip: {
 			setlist: {
@@ -102,6 +122,18 @@ export default {
 			songpublishedin: 'Dieser Song wurde {year} veröffentlicht',
 			noyear: 'Für diesen Song ist keine Jahresangabe verfügbar',
 			setlistcontains: 'Diese Setlist enthält {num} Songs'
+		},
+		placeholder: {
+			searchsongtitle: 'Songtitel...',
+			tag: 'Tag ...',
+			tuning: 'Tonart ...',
+		},
+		field: {
+			title: 'Titel',
+			subtitle: 'Untertitel',
+			authors: 'Autoren',
+			year: 'Jahr',
+			tuning: 'Tonart',
 		}
 	}
 }

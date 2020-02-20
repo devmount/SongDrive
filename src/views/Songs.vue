@@ -7,14 +7,14 @@
 					<h2 class="view-title">
 						<span v-if="ready.songs" class="label text-bold mr-2 px-2">{{ Object.keys(filteredSongs).length }}</span>
 						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
-						Songs
+						{{ $t('page.songs') }}
 					</h2>
 				</div>
 				<!-- search title, subtitles -->
 				<div class="column col-2 col-xl-12 mb-1">
 					<div class="input-group filter">
 						<span class="input-group-addon addon-lg"><ion-icon name="search"></ion-icon></span>
-						<input type="search" v-model="search" class="form-input input-lg" placeholder="search ..." />
+						<input type="search" v-model="search" class="form-input input-lg" :placeholder="$t('placeholder.searchsongtitle')" />
 						<button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><ion-icon name="close"></ion-icon></button>
 					</div>
 				</div>
@@ -23,7 +23,7 @@
 					<div class="input-group filter">
 						<span class="input-group-addon addon-lg"><ion-icon name="pricetag-outline"></ion-icon></span>
 						<select v-model="filter" class="form-select select-lg filter" required>
-							<option value="" disabled selected>tags ...</option>
+							<option value="" disabled selected>{{ $t('placeholder.tag') }}</option>
 							<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
 						</select>
 						<button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><ion-icon name="close"></ion-icon></button>
@@ -34,7 +34,7 @@
 					<div class="input-group filter">
 						<span class="input-group-addon addon-lg"><ion-icon name="musical-note"></ion-icon></span>
 						<select v-model="tuning" class="form-select select-lg filter" required>
-							<option value="" disabled selected>tuning ...</option>
+							<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
 							<option v-for="t in tunes" :key="t" :value="t">{{ t }}</option>
 						</select>
 						<button class="btn input-group-btn btn-lg btn-link" @click="tuning = ''"><ion-icon name="close"></ion-icon></button>
@@ -46,27 +46,27 @@
 				<thead>
 					<tr>
 						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'title' }" @click="sortList('title')">
-							Title
+							{{ $t('field.title') }}
 							<ion-icon v-if="order.field == 'title' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
 							<ion-icon v-if="order.field == 'title' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'subtitle' }" @click="sortList('subtitle')">
-							Subtitle
+							{{ $t('field.subtitle') }}
 							<ion-icon v-if="order.field == 'subtitle' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
 							<ion-icon v-if="order.field == 'subtitle' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand hide-md" :class="{ 'bg-primary-dark': order.field == 'authors' }" @click="sortList('authors')">
-							Authors
+							{{ $t('field.authors') }}
 							<ion-icon v-if="order.field == 'authors' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
 							<ion-icon v-if="order.field == 'authors' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'year' }" @click="sortList('year')">
-							Year
+							{{ $t('field.year') }}
 							<ion-icon v-if="order.field == 'year' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
 							<ion-icon v-if="order.field == 'year' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'tuning' }" @click="sortList('tuning')">
-							Tuning
+							{{ $t('field.tuning') }}
 							<ion-icon v-if="order.field == 'tuning' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
 							<ion-icon v-if="order.field == 'tuning' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
@@ -86,28 +86,27 @@
 							<div class="dropdown dropdown-right">
 								<div class="btn-group">
 									<a class="btn btn-primary dropdown-toggle" tabindex="0">
-										Action
-										<ion-icon name="chevron-down" class="icon-sm"></ion-icon>
+										<ion-icon name="ellipsis-horizontal-outline"></ion-icon>
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
 											<router-link :to="{ name: 'song-show', params: { id: song.id }}" class="py-3 px-3">
-												<ion-icon name="eye-outline" class="mr-2"></ion-icon> Show
+												<ion-icon name="eye-outline" class="mr-2"></ion-icon> {{ $t('button.show') }}
 											</router-link>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
 											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=song.id; active.existing=true; modal.set=true">
-												<ion-icon name="create-outline" class="mr-2"></ion-icon> Edit
+												<ion-icon name="create-outline" class="mr-2"></ion-icon> {{ $t('button.edit') }}
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
 											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=song.id; active.existing=false; modal.set=true">
-												<ion-icon name="copy-outline" class="mr-2"></ion-icon> Duplicate
+												<ion-icon name="copy-outline" class="mr-2"></ion-icon> {{ $t('button.duplicate') }}
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
 											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=song.title; active.key=song.id; modal.delete=true">
-												<ion-icon name="trash-outline" class="mr-2"></ion-icon> Delete
+												<ion-icon name="trash-outline" class="mr-2"></ion-icon> {{ $t('button.delete') }}
 											</a>
 										</li>
 									</ul>
