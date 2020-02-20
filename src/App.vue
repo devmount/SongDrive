@@ -846,9 +846,11 @@ a:focus,
 }
 
 // label
-.label {
-	&:hover {
-		background: darken($primary-color-dark, 2%);
+a {
+	.label {
+		&:hover {
+			background: darken($primary-color-dark, 2%);
+		}
 	}
 }
 
