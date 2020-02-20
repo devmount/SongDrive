@@ -57,8 +57,10 @@ export default {
 		},
 		placeholder: {
 			searchsongtitle: 'Song title ...',
+			searchsetlisttitle: 'Setlist title ...',
 			tag: 'Tag ...',
 			tuning: 'Tuning ...',
+			year: 'Year ...',
 		},
 		field: {
 			title: 'Title',
@@ -66,6 +68,9 @@ export default {
 			authors: 'Authors',
 			year: 'Year',
 			tuning: 'Tuning',
+			date: 'Date',
+			creator: 'Creator',
+			songs: 'Songs',
 		}
 	},
 	de: {
@@ -124,9 +129,11 @@ export default {
 			setlistcontains: 'Diese Setlist enthält {num} Songs'
 		},
 		placeholder: {
-			searchsongtitle: 'Songtitel...',
+			searchsongtitle: 'Song Titel...',
+			searchsetlisttitle: 'Setlist Titel...',
 			tag: 'Tag ...',
 			tuning: 'Tonart ...',
+			year: 'Jahr ...',
 		},
 		field: {
 			title: 'Titel',
@@ -134,6 +141,9 @@ export default {
 			authors: 'Autoren',
 			year: 'Jahr',
 			tuning: 'Tonart',
+			date: 'Datum',
+			creator: 'Ersteller',
+			songs: 'Songs',
 		}
 	}
 }
