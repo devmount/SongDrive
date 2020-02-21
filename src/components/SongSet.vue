@@ -116,6 +116,9 @@
 												</div>
 											</div>
 										</div>
+										<button class="btn btn-secondary btn-sm mt-1" @click="modal.translations = true">
+											<ion-icon name="add"></ion-icon>
+										</button>
 									</div>
 								</div>
 							</div>
@@ -130,7 +133,6 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-secondary float-left" @click="modal.translations = true">Add Translation</button>
 					<button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</button>
 					<button class="btn btn-primary ml-2" @click="set">
 						<span v-if="!existing">Create</span>
