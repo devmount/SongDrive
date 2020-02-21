@@ -16,6 +16,7 @@ export default {
 		modal: {
 			newSong: 'New Song',
 			editSong: 'Edit Song',
+			deleteSong: 'Delete Song',
 			newSetlist: 'New Setlist',
 			editSetlist: 'Edit Setlist',
 			tags: 'Tags',
@@ -172,6 +173,8 @@ export default {
 			noSongsSelected: 'No Songs selected',
 			selectSomeSongs: 'Select some songs for this setlist',
 			selectSomeTranslations: 'Select all songs that are a translation to the current song',
+			reallyDeleteSong: 'Do you really want to delete the Song «{title}» ?',
+			cannotBeUndone: 'This cannot be undone.',
 		}
 	},
 	de: {
@@ -190,6 +193,7 @@ export default {
 		modal: {
 			newSong: 'Neuer Song',
 			editSong: 'Song Bearbeiten',
+			deleteSong: 'Song Löschen',
 			newSetlist: 'Neue Setlist',
 			editSetlist: 'Setlist Bearbeiten',
 			tags: 'Tags',
@@ -346,6 +350,8 @@ export default {
 			noSongsSelected: 'Keine Songs ausgewählt',
 			selectSomeSongs: 'Wähle ein paar Lieder für diese Setlist aus',
 			selectSomeTranslations: 'Wähle alle Songs die eine Übersetzung des aktuellen Songs sind',
+			reallyDeleteSong: 'Möchtest du wirklich den Song «{title}» löschen?',
+			cannotBeUndone: 'Das kann nicht rückgängig gemacht werden.',
 		}
 	}
 }
