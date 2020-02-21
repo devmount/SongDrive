@@ -20,6 +20,7 @@ export default {
 			newSetlist: 'New Setlist',
 			editSetlist: 'Edit Setlist',
 			deleteSetlist: 'Delete Setlist',
+			deleteUser: 'Delete User',
 			tags: 'Tags',
 			translations: 'Translations',
 		},
@@ -176,6 +177,7 @@ export default {
 			selectSomeTranslations: 'Select all songs that are a translation to the current song',
 			reallyDeleteSong: 'Do you really want to delete the Song «{title}» ?',
 			reallyDeleteSetlist: 'Do you really want to delete the Setlist «{title}» ?',
+			reallyDeleteUser: 'Do you really want to delete the User «{name}» ?',
 			cannotBeUndone: 'This cannot be undone.',
 		}
 	},
@@ -199,6 +201,7 @@ export default {
 			newSetlist: 'Neue Setlist',
 			editSetlist: 'Setlist Bearbeiten',
 			deleteSetlist: 'Setlist Löschen',
+			deleteUser: 'Benutzer Löschen',
 			tags: 'Tags',
 			translations: 'Übersetzungen',
 		},
@@ -355,6 +358,7 @@ export default {
 			selectSomeTranslations: 'Wähle alle Songs die eine Übersetzung des aktuellen Songs sind',
 			reallyDeleteSong: 'Möchtest du wirklich den Song «{title}» löschen?',
 			reallyDeleteSetlist: 'Möchtest du wirklich die Setlist «{title}» löschen?',
+			reallyDeleteUser: 'Möchtest du wirklich den Benutzer «{name}» löschen?',
 			cannotBeUndone: 'Das kann nicht rückgängig gemacht werden.',
 		}
 	}
