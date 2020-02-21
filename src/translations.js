@@ -1,6 +1,9 @@
 // all i18n messages
 export default {
 	en: {
+		object: {
+			song: 'No Songs | One Song | {n} Songs',
+		},
 		page: {
 			dashboard: 'Dashboard',
 			songs: 'Songs',
@@ -27,6 +30,8 @@ export default {
 			view: 'View',
 			tuning: 'Key',
 			export: 'Export',
+			copy: 'Copy',
+			stats: 'Stats',
 		},
 		button: {
 			signIn: 'Sign in',
@@ -50,6 +55,12 @@ export default {
 			filetypeTxt: '.txt',
 			filetypeSng: '.sng',
 			filetypePdf: '.pdf',
+			launch: 'Launch',
+			formatPlain: 'Plain',
+			formatMarkdown: 'Markdown',
+			formatSlack: 'Slack',
+			exportSetlistList: 'List',
+			exportSetlistSheets: 'Sheets',
 		},
 		switch: {
 			chords: 'Chords',
@@ -164,6 +175,9 @@ export default {
 		}
 	},
 	de: {
+		object: {
+			song: 'Keine Lieder | Ein Lied | {n} Lieder',
+		},
 		page: {
 			dashboard: 'Übersicht',
 			songs: 'Songs',
@@ -190,6 +204,8 @@ export default {
 			view: 'Ansicht',
 			tuning: 'Tonart',
 			export: 'Export',
+			copy: 'Kopieren',
+			stats: 'Statistik',
 		},
 		button: {
 			signIn: 'Login',
@@ -213,6 +229,12 @@ export default {
 			filetypeTxt: '.txt',
 			filetypeSng: '.sng',
 			filetypePdf: '.pdf',
+			launch: 'Starten',
+			formatPlain: 'Text',
+			formatMarkdown: 'Markdown',
+			formatSlack: 'Slack',
+			exportSetlistList: 'Liste',
+			exportSetlistSheets: 'Liedzettel',
 		},
 		switch: {
 			chords: 'Akkorde',

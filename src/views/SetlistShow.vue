@@ -4,66 +4,66 @@
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">
 				<div class="sidebar-wrapper">
-					<button class="btn btn-secondary d-block stretch mb-1" @click="$router.go(-1)">
-						<ion-icon name="arrow-back-outline" class="icon-left"></ion-icon><span class="hide-lg"> BACK</span>
+					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="$router.go(-1)">
+						<ion-icon name="arrow-back-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.back') }}</span>
 					</button>
 					<!-- sidebar: manage -->
-					<div v-if="user && role > 1" class="divider text-center show-lg" data-content="M"></div>
-					<div v-if="user && role > 1" class="divider text-center hide-lg" data-content="MANAGE"></div>
-					<button v-if="user && role > 1" class="btn btn-secondary d-block stretch mb-1" @click="existing=true; modal.set=true">
-						<ion-icon name="create-outline" class="icon-left"></ion-icon><span class="hide-lg"> EDIT</span>
+					<div v-if="user && role > 1" class="divider text-center show-lg" :data-content="$t('divider.manage').charAt(0)"></div>
+					<div v-if="user && role > 1" class="divider text-center hide-lg" :data-content="$t('divider.manage')"></div>
+					<button v-if="user && role > 1" class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="existing=true; modal.set=true">
+						<ion-icon name="create-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.edit') }}</span>
 					</button>
-					<button v-if="user && role > 1" class="btn btn-secondary d-block stretch mb-1" @click="existing=false; modal.set=true">
-						<ion-icon name="copy-outline" class="icon-left"></ion-icon><span class="hide-lg"> CLONE</span>
+					<button v-if="user && role > 1" class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="existing=false; modal.set=true">
+						<ion-icon name="copy-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.duplicate') }}</span>
 					</button>
-					<button v-if="user && role > 2" class="btn btn-secondary btn-error d-block stretch" @click="modal.delete = true">
-						<ion-icon name="trash-outline" class="icon-left"></ion-icon><span class="hide-lg"> DELETE</span>
+					<button v-if="user && role > 2" class="btn btn-secondary btn-error d-block stretch text-uppercase" @click="modal.delete = true">
+						<ion-icon name="trash-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.delete') }}</span>
 					</button>
 					<!-- sidebar: view -->
-					<div class="divider text-center show-lg" data-content="V"></div>
-					<div class="divider text-center hide-lg" data-content="VIEW"></div>
+					<div class="divider text-center show-lg" :data-content="$t('divider.view').charAt(0)"></div>
+					<div class="divider text-center hide-lg" :data-content="$t('divider.view')"></div>
 					<div v-if="setlist && user && role > 1" class="form-group">
-						<label class="form-switch switch-lg c-hand">
+						<label class="form-switch switch-lg text-uppercase c-hand">
 							<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
-							<i class="form-icon"></i><span class="hide-lg"> SYNC</span>
+							<i class="form-icon"></i><span class="hide-lg"> {{ $t('switch.sync') }}</span>
 						</label>
 					</div>
 					<div class="form-group">
-						<label class="form-switch switch-lg c-hand">
+						<label class="form-switch switch-lg text-uppercase c-hand">
 							<input type="checkbox" v-model="chords">
-							<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
+							<i class="form-icon"></i><span class="hide-lg"> {{ $t('switch.chords') }}</span>
 						</label>
 					</div>
-					<button class="btn btn-secondary d-block stretch mb-1" @click="modal.present=true">
-						<ion-icon name="videocam-outline" class="icon-left"></ion-icon><span class="hide-lg"> PRESENT</span>
+					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="modal.present=true">
+						<ion-icon name="videocam-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.present') }}</span>
 					</button>
-					<router-link :to="{ name: 'setlist-show', params: { id: setlistKey }}" target="_blank" class="btn btn-secondary d-block stretch">
-						<ion-icon name="open-outline" class="icon-left"></ion-icon><span class="hide-lg"> LAUNCH</span>
+					<router-link :to="{ name: 'setlist-show', params: { id: setlistKey }}" target="_blank" class="btn btn-secondary d-block stretch text-uppercase">
+						<ion-icon name="open-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.launch') }}</span>
 					</router-link>
 					<!-- sidebar: export -->
-					<div class="divider text-center show-lg" data-content="C"></div>
-					<div class="divider text-center hide-lg" data-content="COPY"></div>
-					<button class="btn btn-secondary d-block stretch mb-1" @click="copyList('plain')">
-						<ion-icon name="list" class="icon-left"></ion-icon><span class="hide-lg text-pre">PLAIN</span>
+					<div class="divider text-center show-lg" :data-content="$t('divider.copy').charAt(0)"></div>
+					<div class="divider text-center hide-lg" :data-content="$t('divider.copy')"></div>
+					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="copyList('plain')">
+						<ion-icon name="list" class="icon-left"></ion-icon><span class="hide-lg text-pre">{{ $t('button.formatPlain') }}</span>
 					</button>
-					<button class="btn btn-secondary d-block stretch mb-1" @click="copyList('markdown')">
-						<ion-icon name="logo-markdown" class="icon-left"></ion-icon><span class="hide-lg text-pre">MARKDOWN</span>
+					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="copyList('markdown')">
+						<ion-icon name="logo-markdown" class="icon-left"></ion-icon><span class="hide-lg text-pre">{{ $t('button.formatMarkdown') }}</span>
 					</button>
-					<button class="btn btn-secondary d-block stretch mb-1" @click="copyList('slack')">
-						<ion-icon name="logo-slack" class="icon-left"></ion-icon><span class="hide-lg text-pre">SLACK</span>
+					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="copyList('slack')">
+						<ion-icon name="logo-slack" class="icon-left"></ion-icon><span class="hide-lg text-pre">{{ $t('button.formatSlack') }}</span>
 					</button>
 					<!-- sidebar: export -->
-					<div class="divider text-center show-lg" data-content="E"></div>
-					<div class="divider text-center hide-lg" data-content="EXPORT"></div>
-					<button class="btn btn-secondary d-block stretch mb-1" @click="exportPdf('list')">
-						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> LIST</span>
+					<div class="divider text-center show-lg" :data-content="$t('divider.export').charAt(0)"></div>
+					<div class="divider text-center hide-lg" :data-content="$t('divider.export')"></div>
+					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="exportPdf('list')">
+						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre">{{ $t('button.exportSetlistList') }}</span>
 					</button>
-					<button class="btn btn-secondary d-block stretch" @click="exportPdf('sheets')">
-						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> SHEETS</span>
+					<button class="btn btn-secondary d-block stretch text-uppercase" @click="exportPdf('sheets')">
+						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre">{{ $t('button.exportSetlistSheets') }}</span>
 					</button>
-					<!-- sidebar: language -->
-					<!-- <div class="divider text-center show-lg" data-content="S"></div>
-					<div class="divider text-center hide-lg" data-content="STATS"></div>
+					<!-- sidebar: stats -->
+					<!-- <div class="divider text-center show-lg" :data-content="$t('divider.stats').charAt(0)"></div>
+					<div class="divider text-center hide-lg" :data-content="$t('divider.stats')"></div>
 					TODO -->
 				</div>
 			</div>
@@ -74,7 +74,7 @@
 						<div v-if="ready.setlists && setlist" class="column col-12">
 							<h2>{{ setlist.title }}</h2>
 							<h3>
-								<ion-icon name="list" class="icon-sm"></ion-icon> {{ setlist.songs.length }} songs
+								<ion-icon name="list" class="icon-sm"></ion-icon> {{ $tc('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
 								<ion-icon name="calendar-outline" class="icon-sm ml-3"></ion-icon> {{ setlist.date }}
 								<span v-if="ready.users && users[setlist.creator]"><ion-icon name="person-outline" class="icon-sm ml-3"></ion-icon> {{ users[setlist.creator].name }}</span>
 							</h3>
@@ -84,10 +84,10 @@
 								<thead>
 									<tr>
 										<th v-if="user && role > 1"></th>
-										<th>Title</th>
-										<th class="hide-xl">Language</th>
-										<th class="hide-lg">Tuning</th>
-										<th class="hide-xl">CCLI</th>
+										<th>{{ $t('field.title') }}</th>
+										<th class="hide-xl">{{ $t('field.language') }}</th>
+										<th>{{ $t('field.tuning') }}</th>
+										<th class="hide-xl">{{ $t('field.ccli') }}</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -113,7 +113,7 @@
 										<td class="text-right">
 											<button class="btn btn-primary" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id }})">
 												<ion-icon name="eye-outline"></ion-icon>
-												<span class="hide-sm ml-2">Show</span>
+												<span class="hide-lg ml-2">{{ $t('button.show') }}</span>
 											</button>
 										</td>
 									</tr>
