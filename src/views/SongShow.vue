@@ -94,6 +94,12 @@
 							<footer class="text-small">
 								<p>{{ song.authors }}</p>
 								<p>
+									<a v-if="song.ccli" :href="'https://songselect.ccli.com/Songs/' + song.ccli" class="mr-2" target="_blank">
+										<span class="label px-2 py-1">
+											<ion-icon name="open-outline" class="icon-sm mr-1"></ion-icon>
+											{{ $t('field.ccli') }}
+										</span>
+									</a>
 									<router-link v-for="tag in song.tags" :key="tag" :to="{ name: 'songs-tag', params: { tag: tag }}" class="mr-2">
 										<span class="label px-2 py-1">
 											<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
