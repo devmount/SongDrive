@@ -1092,6 +1092,7 @@ a {
 		.divider[data-content]::after {
 			background: $bg-color-medium;
 			text-transform: uppercase;
+			letter-spacing: 2px;
 		}
 
 		.sidebar-wrapper {
@@ -1158,6 +1159,8 @@ a {
 
 		&[data-content]::after {
 			background: $bg-color;
+			text-transform: uppercase;
+			letter-spacing: 2px;
 		}
 	}
 
