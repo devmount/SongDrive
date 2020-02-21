@@ -427,6 +427,7 @@ $dark-color: #010101;
 $black-color: #000000;
 $mono-font-family: "Fira Mono", monospace;
 $size-2x: 1440px;
+$border-radius: 0;
 
 $html-font-size: 20px;
 $unit-2: .4rem;
@@ -771,6 +772,7 @@ code {
 	}
 }
 a:focus,
+a:active,
 .btn:focus {
   box-shadow: 0 0 0 .2rem rgba($primary-dark-color, .2);
 }
@@ -780,6 +782,7 @@ a:focus,
 	margin: 0.2rem;
 }
 .btn.btn-primary:focus,
+.btn.btn-secondary:active:focus,
 .slider:focus,
 .form-input:focus,
 .form-checkbox input:focus + .form-icon,
@@ -790,6 +793,9 @@ a:focus,
 .form-autocomplete .form-autocomplete-input.is-focused {
 	border-color: $primary-color;
   box-shadow: 0 0 0 .2rem rgba($primary-color, .2);
+}
+.btn.btn-secondary:focus {
+  box-shadow: 0 0 0 .2rem rgba($border-color, .5);
 }
 .btn.btn-error:focus {
   box-shadow: 0 0 0 .2rem rgba($error-color, .2);
