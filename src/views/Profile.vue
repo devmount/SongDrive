@@ -50,14 +50,14 @@
 						<div class="panel-body text-center pb-3">
 							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 							<div v-else class="text-huge">{{ Object.keys(setlistsFromUser).length }}</div>
-							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistscreated')}}</div>
+							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistsCreated')}}</div>
 						</div>
 					</div>
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 							<div v-else class="text-huge"><span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span></div>
-							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsperformed') }}</div>
+							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsPerformed') }}</div>
 						</div>
 					</div>
 				</div>

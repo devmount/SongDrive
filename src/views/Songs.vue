@@ -14,7 +14,7 @@
 				<div class="column col-2 col-xl-12 mb-1">
 					<div class="input-group filter">
 						<span class="input-group-addon addon-lg"><ion-icon name="search"></ion-icon></span>
-						<input type="search" v-model="search" class="form-input input-lg" :placeholder="$t('placeholder.searchsongtitle')" />
+						<input type="search" v-model="search" class="form-input input-lg" :placeholder="$t('placeholder.searchSongTitle')" />
 						<button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><ion-icon name="close"></ion-icon></button>
 					</div>
 				</div>

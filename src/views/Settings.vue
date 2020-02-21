@@ -13,7 +13,7 @@
 						<div class="panel-header text-center">
 							<ion-icon name="person-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $t('page.profile') }}</div>
-							<div class="panel-subtitle text-gray">{{ $t('text.customizeprofile') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.customizeProfile') }}</div>
 						</div>
 						<div class="panel-body">
 							<div class="form-group">
@@ -40,7 +40,7 @@
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">
-								<ion-icon name="save-outline" class="icon-left"></ion-icon> {{ $t('button.saveprofile') }}
+								<ion-icon name="save-outline" class="icon-left"></ion-icon> {{ $t('button.saveProfile') }}
 							</button>
 						</div>
 					</div>
@@ -50,7 +50,7 @@
 						<div class="panel-header text-center">
 							<ion-icon name="people-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ Object.keys(users).length }} {{ $t('widget.users') }}</div>
-							<div class="panel-subtitle text-gray">{{ $t('text.manageconfirmedusers') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.manageConfirmedUsers') }}</div>
 						</div>
 						<div class="panel-body">
 							<div
@@ -84,12 +84,12 @@
 							<div class="empty-icon">
 								<ion-icon name="checkbox-outline" class="icon-4x"></ion-icon>
 							</div>
-							<p class="empty-title h5">{{ $t('text.nounconfirmedusers') }}</p>
-							<p class="empty-subtitle">{{ $t('text.goodwork') }}</p>
+							<p class="empty-title h5">{{ $t('text.noUnconfirmedUsers') }}</p>
+							<p class="empty-subtitle">{{ $t('text.goodWork') }}</p>
 						</div>
 						<div v-else class="panel-footer mt-5">
 							<div class="panel-title h5 mt-1 text-center">{{ Object.keys(registrations).length }} {{ $t('widget.registrations') }}</div>
-							<div class="panel-subtitle mb-4 text-gray text-center">{{ $t('text.manageunconfirmedusers') }}</div>
+							<div class="panel-subtitle mb-4 text-gray text-center">{{ $t('text.manageUnconfirmedUsers') }}</div>
 							<div
 								v-for="(r, k) in registrations" :key="k"
 								class="tile tile-centered tile-hover p-2"
@@ -118,7 +118,7 @@
 						<div class="panel-header text-center">
 							<ion-icon name="pricetags-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ Object.keys(tags).length }} {{ $t('widget.tags') }}</div>
-							<div class="panel-subtitle text-gray">{{ $t('text.managetags') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.manageTags') }}</div>
 						</div>
 						<div class="panel-body">
 							<router-link v-for="tag in tags" :key="tag.key" :to="{ name: 'songs-tag', params: { tag: tag.key }}" class="mr-2">
@@ -135,7 +135,7 @@
 						<div class="panel-header text-center">
 							<ion-icon name="file-tray-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $t('widget.backup') }}</div>
-							<div class="panel-subtitle text-gray">{{ $t('text.exportimportdata') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.exportImportData') }}</div>
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="exportDb">

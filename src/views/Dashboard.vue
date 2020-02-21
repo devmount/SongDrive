@@ -17,7 +17,7 @@
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(songs).length }}</div>
-							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsstored') }}</div>
+							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsStored') }}</div>
 						</div>
 					</div>
 				</div>
@@ -26,7 +26,7 @@
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(setlists).length }}</div>
-							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistsstored') }}</div>
+							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistsStored') }}</div>
 						</div>
 					</div>
 				</div>
@@ -35,7 +35,7 @@
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge"><span class="text-gray">~</span>{{ songsPerformed }}</div>
-							<div class="panel-title h5"><ion-icon name="mic-outline" class="mr-2"></ion-icon> {{ $t('widget.songsperformed') }}</div>
+							<div class="panel-title h5"><ion-icon name="mic-outline" class="mr-2"></ion-icon> {{ $t('widget.songsPerformed') }}</div>
 						</div>
 					</div>
 				</div>
@@ -72,18 +72,18 @@
 								@click="$router.push({ name: 'song-show', params: { id: song.id }})"
 							>
 								<div class="tile-icon">
-									<figure class="avatar s-rounded" :data-initial="song.tuning" :title="$t('title.songtuning')"></figure>
+									<figure class="avatar s-rounded" :data-initial="song.tuning" :title="$t('title.songTuning')"></figure>
 									<figure
 										v-if="songsProperty == 'popular'"
 										class="avatar avatar-secondary s-rounded float-right ml-1"
 										:data-initial="song.popularity + 'x'"
-										:title="$t('title.songoccuredon', { num: song.popularity })"
+										:title="$t('title.songOccuredOn', { num: song.popularity })"
 									></figure>
 									<figure
 										v-if="songsProperty == 'newest' || songsProperty == 'oldest'"
 										class="avatar avatar-secondary s-rounded float-right ml-1"
 										:data-initial="song.year ? song.year : '—'"
-										:title="song.year ? $t('title.songpublishedin', { year: song.year }) : $t('title.noyear')"
+										:title="song.year ? $t('title.songPublishedIn', { year: song.year }) : $t('title.noYear')"
 									></figure>
 								</div>
 								<div class="tile-content">
@@ -101,7 +101,7 @@
 							</div>
 						</div>
 						<div class="panel-link">
-							<router-link to="/songs" class="btn btn-link btn-block">{{ $t('widget.gotosongs') }} <ion-icon name="arrow-forward" class="ml-1"></ion-icon></router-link>
+							<router-link to="/songs" class="btn btn-link btn-block">{{ $t('widget.goToSongs') }} <ion-icon name="arrow-forward" class="ml-1"></ion-icon></router-link>
 						</div>
 					</div>
 				</div>
@@ -132,7 +132,7 @@
 									<figure
 										class="avatar avatar-secondary s-rounded"
 										:data-initial="setlist.songs.length"
-										:title="$t('title.setlistcontains', { num: setlist.songs.length})"
+										:title="$t('title.setlistContains', { num: setlist.songs.length})"
 									></figure>
 								</div>
 								<div class="tile-content">
@@ -148,7 +148,7 @@
 							</div>
 						</div>
 						<div class="panel-link">
-							<router-link to="/setlists" class="btn btn-link btn-block">{{ $t('widget.gotosetlists') }} <ion-icon name="arrow-forward" class="ml-1"></ion-icon></router-link>
+							<router-link to="/setlists" class="btn btn-link btn-block">{{ $t('widget.goToSetlists') }} <ion-icon name="arrow-forward" class="ml-1"></ion-icon></router-link>
 						</div>
 					</div>
 				</div>
