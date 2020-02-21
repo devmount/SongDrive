@@ -75,7 +75,7 @@
 							<h2>{{ setlist.title }}</h2>
 							<h3>
 								<ion-icon name="list" class="icon-sm"></ion-icon> {{ $tc('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
-								<ion-icon name="calendar-outline" class="icon-sm ml-3"></ion-icon> {{ setlist.date }}
+								<ion-icon name="calendar-outline" class="icon-sm ml-3"></ion-icon> {{ setlist.date | humanDate }}
 								<span v-if="ready.users && users[setlist.creator]"><ion-icon name="person-outline" class="icon-sm ml-3"></ion-icon> {{ users[setlist.creator].name }}</span>
 							</h3>
 						</div>
@@ -448,6 +448,13 @@ export default {
 			}
 			return sheets
 		},
+	},
+	filters: {
+		humanDate (d) {
+			if (!d) return ''
+			let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+			return (new Date(d)).toLocaleDateString(navigator.language, options)
+		}
 	}
 }
 </script>

@@ -64,7 +64,7 @@
 							<div class="s-circle s-circle-state ml-3" :class="{ active: setlist.active }"></div>
 						</td>
 						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
-							{{ setlist.date }}
+							{{ setlist.date | humanDate }}
 						</td>
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ setlist.title }}
@@ -236,6 +236,13 @@ export default {
 				this.order.ascending = true
 			}
 			this.order.field = field
+		}
+	},
+	filters: {
+		humanDate (d) {
+			if (!d) return ''
+			let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }
+			return (new Date(d)).toLocaleDateString(navigator.language, options)
 		}
 	}
 }
