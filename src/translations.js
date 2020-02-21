@@ -13,6 +13,8 @@ export default {
 		modal: {
 			newSong: 'New Song',
 			editSong: 'Edit Song',
+			newSetlist: 'New Setlist',
+			editSetlist: 'Edit Setlist',
 			tags: 'Tags',
 			translations: 'Translations',
 		},
@@ -36,6 +38,8 @@ export default {
 			close: 'Close',
 			createSong: 'Create Song',
 			updateSong: 'Update Song',
+			createSetlist: 'Create Setlist',
+			updateSetlist: 'Update Setlist',
 		},
 		tooltip: {
 			setlistAdd: 'Add new Setlist',
@@ -63,7 +67,7 @@ export default {
 			backup: 'Backup',
 		},
 		title: {
-			songTuning: 'Song tuning',
+			songTuning: 'Song key',
 			songOccuredOn: 'This song occured on {num} setlists',
 			songPublishedIn: 'This song was published in {year}',
 			noYear: 'No year available for this song',
@@ -75,7 +79,7 @@ export default {
 			searchSetlistTitle: 'Setlist title ...',
 			searchTagName: 'Tag name ...',
 			tag: 'Tag ...',
-			tuning: 'Tuning ...',
+			tuning: 'Key ...',
 			year: 'Year ...',
 			exampleSongTitle: 'e.g. Amazing Grace',
 			exampleSongSubtitle: 'e.g. How sweet the sound',
@@ -86,6 +90,7 @@ export default {
 			exampleSongNote: 'general notes, e.g. capo 3',
 			exampleSongYoutubeId: 'e.g. cF0S3uKdVJA',
 			exampleSongContent: 'songtext with chords and markers, e.g.:\n\n--v\n  G          C  \nThis is the verse text\n D        G  \nJust an example text\n\n--c\n  D           C  \nThis is the chorus text\n D        C      G  \nJust an example text\n\n--b\n  Em  \nThis is the bridge text\n C        D  \nJust an example text',
+			exampleSetlistTitle: 'e.g. Sunday Service',
 		},
 		field: {
 			title: 'Title',
@@ -93,7 +98,7 @@ export default {
 			language: 'Language',
 			authors: 'Authors',
 			year: 'Year',
-			tuning: 'Tuning',
+			tuning: 'Key',
 			tags: 'Tags',
 			ccli: 'CCLI',
 			publisher: 'Publisher',
@@ -112,6 +117,7 @@ export default {
 		error: {
 			requiredTitle: 'A title is required.',
 			songAlreadyExists: 'A song with this title already exists in this language. Please change either the title or the language.',
+			setlistAlreadyExists: 'A setlist with this title already exists on this date. Please change either the title or the date.',
 			requiredLanguage: 'The language is required.',
 			requiredContent: 'The song content is missing.'
 		},
@@ -137,8 +143,10 @@ export default {
 			noTagsSelected: 'No Tags selected',
 			selectSomeTags: 'Select some tags for the current song',
 			selection: 'Selection',
+			selected: 'selected',
 			noSongsSelected: 'No Songs selected',
-			selectSomeSongs: 'Select all songs that are a translation to the current song',
+			selectSomeSongs: 'Select some songs for this setlist',
+			selectSomeTranslations: 'Select all songs that are a translation to the current song',
 		}
 	},
 	de: {
@@ -154,6 +162,8 @@ export default {
 		modal: {
 			newSong: 'Neuer Song',
 			editSong: 'Song Bearbeiten',
+			newSetlist: 'Neue Setlist',
+			editSetlist: 'Setlist Bearbeiten',
 			tags: 'Tags',
 			translations: 'Übersetzungen',
 		},
@@ -177,6 +187,8 @@ export default {
 			close: 'Schließen',
 			createSong: 'Song Erstellen',
 			updateSong: 'Song Aktualisieren',
+			createSetlist: 'Setlist Erstellen',
+			updateSetlist: 'Setlist Aktualisieren',
 		},
 		tooltip: {
 			setlistAdd: 'Neue Setlist hinzufügen',
@@ -227,6 +239,7 @@ export default {
 			exampleSongNote: 'Allgemeine Notizen, z.B. Capo 3',
 			exampleSongYoutubeId: 'z.B. cF0S3uKdVJA',
 			exampleSongContent: 'Songtext mit Akkorden und Markern, z.B.:\n\n--v\n G             C  \nDas ist die Strophe\nD            G  \nEinfach ein Beispieltext\n\n--c\nD            C  \nDas ist der Refrain\nD            C      G  \nEinfach ein Beisieltext\n\n--b\n Em  \nDas ist die Bridge\nC            D  \nEinfach ein Beispieltext',
+			exampleSetlistTitle: 'z.B. Gottesdienst',
 		},
 		field: {
 			title: 'Titel',
@@ -253,6 +266,7 @@ export default {
 		error: {
 			requiredTitle: 'Ein Titel muss angegeben werden.',
 			songAlreadyExists: 'Ein Song mit diesem Titel existiert bereits in dieser Sprache. Bitte entweder den Titel oder die Sprache ändern.',
+			setlistAlreadyExists: 'Eine Setlist mit diesem Titel existiert bereits an diesem Datum. Bitte entweder den Titel oder das Datum ändern.',
 			requiredLanguage: 'Die Sprache muss ausgewählt werden.',
 			requiredContent: 'Der Inhalt des Songs fehlt.'
 		},
@@ -278,8 +292,10 @@ export default {
 			noTagsSelected: 'Keine Tags ausgewählt',
 			selectSomeTags: 'Wähle ein paar Tags für den aktuellen Song aus',
 			selection: 'Auswahl',
+			selected: 'ausgewählt',
 			noSongsSelected: 'Keine Songs ausgewählt',
-			selectSomeSongs: 'Wähle alle Songs die eine Übersetzung des aktuellen Songs sind',
+			selectSomeSongs: 'Wähle ein paar Lieder für diese Setlist aus',
+			selectSomeTranslations: 'Wähle alle Songs die eine Übersetzung des aktuellen Songs sind',
 		}
 	}
 }

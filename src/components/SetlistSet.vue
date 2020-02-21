@@ -4,8 +4,8 @@
 		<div v-if="setlist && ready.songs" class="modal-container">
 			<div class="modal-header">
 				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="cancel"></a>
-				<div v-if="!existing" class="modal-title h5">New Setlist<span v-if="setlist.title" class="ml-2 text-gray text-uppercase ls-1"> «{{ setlist.title }}»</span></div>
-				<div v-else class="modal-title h5">Edit Setlist<span class="ml-2 text-gray text-uppercase ls-1"> «{{ setlist.title }}»</span></div>
+				<div v-if="!existing" class="modal-title h5">{{ $t('modal.newSetlist') }}<span v-if="setlist.title" class="ml-2 text-gray text-uppercase ls-1"> «{{ setlist.title }}»</span></div>
+				<div v-else class="modal-title h5">{{ $t('modal.editSetlist') }}<span class="ml-2 text-gray text-uppercase ls-1"> «{{ setlist.title }}»</span></div>
 			</div>
 			<div class="modal-body">
 				<div class="content">
@@ -15,16 +15,16 @@
 								<!-- title -->
 								<div class="column col-12 col-md-6">
 									<div class="form-group mb-2" :class="{ 'has-error': error.title || error.slug }">
-										<label class="form-label" for="title">Title <span class="text-error">*</span></label>
-										<input v-model="setlist.title" class="form-input" id="title" type="text" placeholder="e.g. Sunday Service">
-										<p v-if="error.title" class="form-input-hint">A title is required.</p>
-										<p v-if="error.slug" class="form-input-hint">A setlist with this title already exists on this day. Please change either the title or the day.</p>
+										<label class="form-label" for="title">{{ $t('field.title') }} <span class="text-error">*</span></label>
+										<input v-model="setlist.title" class="form-input" id="title" type="text" :placeholder="$t('placeholder.exampleSetlistTitle')">
+										<p v-if="error.title" class="form-input-hint">{{ $t('error.requiredTitle') }}</p>
+										<p v-if="error.slug" class="form-input-hint">{{ $t('error.setlistAlreadyExists') }}</p>
 									</div>
 								</div>
 								<!-- date -->
 								<div class="column col-12 col-md-6">
 									<div class="form-group mb-2">
-										<label class="form-label" for="date">Event Date <span class="text-gray ml-2">{{ setlist.date }}</span></label>
+										<label class="form-label" for="date">{{ $t('field.date') }} <span class="text-gray ml-2">{{ setlist.date }}</span></label>
 										<datepicker
 											:value="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 											format="yyyy-MM-dd"
@@ -34,7 +34,6 @@
 											:typeable="true"
 											:inline="true"
 											:monday-first="true"
-											:placeholder="'event date, e.g. ' + String((new Date()).toISOString()).slice(0,10)"
 											:open-date="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 											name="setlistdate"
 											@selected="updateDate"
@@ -58,7 +57,7 @@
 										<div class="column col-xl-12 col-12 mb-1">
 											<div class="input-group filter">
 												<span class="input-group-addon"><ion-icon name="search-outline"></ion-icon></span>
-												<input v-model="search" id="search" type="search" class="form-input" placeholder="search ..." />
+												<input v-model="search" id="search" type="search" class="form-input" :placeholder="$t('placeholder.searchSongTitle')" />
 												<button class="btn input-group-btn btn-link" @click="search = ''"><ion-icon name="close"></ion-icon></button>
 											</div>
 										</div>
@@ -66,7 +65,7 @@
 											<div class="input-group filter">
 												<span class="input-group-addon"><ion-icon name="pricetag-outline"></ion-icon></span>
 												<select v-model="filter" class="form-select filter" required>
-													<option value="" disabled selected>tag ...</option>
+													<option value="" disabled selected>{{ $t('placeholder.tag') }}</option>
 													<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
 												</select>
 												<button class="btn input-group-btn btn-link" @click="filter = ''"><ion-icon name="close"></ion-icon></button>
@@ -76,7 +75,7 @@
 											<div class="input-group filter">
 												<span class="input-group-addon"><ion-icon name="musical-note"></ion-icon></span>
 												<select v-model="tuning" class="form-select filter" required>
-													<option value="" disabled selected>tune ...</option>
+													<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
 													<option v-for="t in tunes" :key="t" :value="t">{{ t }}</option>
 												</select>
 												<button class="btn input-group-btn btn-link" @click="tuning = ''"><ion-icon name="close"></ion-icon></button>
@@ -98,11 +97,11 @@
 										<div class="empty-icon">
 											<ion-icon name="musical-notes-outline" class="icon-4x"></ion-icon>
 										</div>
-										<p class="empty-title h5">No Songs selected</p>
-										<p class="empty-subtitle">Select some songs for this setlist</p>
+										<p class="empty-title h5">{{ $t('text.noSongsSelected') }}</p>
+										<p class="empty-subtitle">{{ $t('text.selectSomeSongs') }}</p>
 									</div>
 									<div v-else>
-										<h3 class="text-center">{{ setlist.songs.length }} selected</h3>
+										<h3 class="text-center">{{ setlist.songs.length }} {{ $t('text.selected') }}</h3>
 										<div v-sortable="{ onEnd: reorder, handle: '.handle' }">
 											<div v-for="(song, i) in setlist.songs" :key="song.id" class="tile tile-centered mb-2">
 												<span class="c-move text-center text-gray"><ion-icon name="reorder-four" class="px-2 mx-2 handle"></ion-icon></span>
@@ -134,10 +133,10 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="cancel">Cancel</button>
+				<button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="cancel">{{ $t('button.cancel') }}</button>
 				<button class="btn btn-primary ml-2" @click="set">
-					<span v-if="!existing">Create</span>
-					<span v-else>Update</span> Setlist
+					<span v-if="!existing">{{ $t('button.createSetlist') }}</span>
+					<span v-else>U{{ $t('button.updateSetlist') }}</span>
 				</button>
 			</div>
 		</div>

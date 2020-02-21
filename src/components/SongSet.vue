@@ -226,7 +226,7 @@
 										<ion-icon name="book-outline" class="icon-4x"></ion-icon>
 									</div>
 									<p class="empty-title h5">{{ $t('text.noSongsSelected') }}</p>
-									<p class="empty-subtitle">{{ $t('text.selectSomeSongs') }}</p>
+									<p class="empty-subtitle">{{ $t('text.selectSomeTranslations') }}</p>
 								</div>
 								<div v-else>
 									<h3 class="text-center">{{ $t('text.selection') }}</h3>
