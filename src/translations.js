@@ -19,6 +19,7 @@ export default {
 			deleteSong: 'Delete Song',
 			newSetlist: 'New Setlist',
 			editSetlist: 'Edit Setlist',
+			deleteSetlist: 'Delete Setlist',
 			tags: 'Tags',
 			translations: 'Translations',
 		},
@@ -174,6 +175,7 @@ export default {
 			selectSomeSongs: 'Select some songs for this setlist',
 			selectSomeTranslations: 'Select all songs that are a translation to the current song',
 			reallyDeleteSong: 'Do you really want to delete the Song «{title}» ?',
+			reallyDeleteSetlist: 'Do you really want to delete the Setlist «{title}» ?',
 			cannotBeUndone: 'This cannot be undone.',
 		}
 	},
@@ -196,6 +198,7 @@ export default {
 			deleteSong: 'Song Löschen',
 			newSetlist: 'Neue Setlist',
 			editSetlist: 'Setlist Bearbeiten',
+			deleteSetlist: 'Setlist Löschen',
 			tags: 'Tags',
 			translations: 'Übersetzungen',
 		},
@@ -351,6 +354,7 @@ export default {
 			selectSomeSongs: 'Wähle ein paar Lieder für diese Setlist aus',
 			selectSomeTranslations: 'Wähle alle Songs die eine Übersetzung des aktuellen Songs sind',
 			reallyDeleteSong: 'Möchtest du wirklich den Song «{title}» löschen?',
+			reallyDeleteSetlist: 'Möchtest du wirklich die Setlist «{title}» löschen?',
 			cannotBeUndone: 'Das kann nicht rückgängig gemacht werden.',
 		}
 	}
