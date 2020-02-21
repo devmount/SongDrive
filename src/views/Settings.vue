@@ -1,38 +1,38 @@
 <template>
 	<div class="settings">
 		<div class="container no-sidebar">
-			<div v-if="user && userObject" class="columns">
+			<div v-if="ready.users && user && userObject" class="columns">
 				<!-- heading -->
 				<div class="column col-12">
 					<h2 class="view-title">
-						Settings
+						{{ $t('page.settings') }}
 					</h2>
 				</div>
 				<div class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<ion-icon name="person-outline" class="icon-2x"></ion-icon>
-							<div class="panel-title h5 mt-1">Profile</div>
-							<div class="panel-subtitle text-gray">Customize your profile data</div>
+							<div class="panel-title h5 mt-1">{{ $t('page.profile') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.customizeprofile') }}</div>
 						</div>
 						<div class="panel-body">
 							<div class="form-group">
-								<label class="form-label" for="name">Name</label>
+								<label class="form-label" for="name">{{ $t('field.name') }}</label>
 								<input v-model="profile.displayName" class="form-input" id="name" type="text" placeholder="john doe" />
 							</div>
 							<div class="form-group">
-								<label class="form-label" for="role">Role</label>
+								<label class="form-label" for="role">{{ $t('field.role') }}</label>
 								<input v-model="profile.role" class="form-input" id="role" type="text" placeholder="reader" disabled />
 							</div>
 							<div class="form-group">
-								<label class="form-label" for="email">Email</label>
+								<label class="form-label" for="email">{{ $t('field.email') }}</label>
 								<input v-model="profile.email" class="form-input" id="email" type="text" placeholder="john@doe.com" disabled />
 							</div>
 							<div class="form-group mb-3">
-								<label class="form-label" for="photo">Photo</label>
+								<label class="form-label" for="photo">{{ $t('field.photo') }}</label>
 								<input v-model="profile.photoURL" class="form-input" id="photo" type="text" placeholder="https://your-photo.link/image.png" />
 							</div>
-							<label for="preview" class="mr-4">Preview:</label>
+							<label for="preview" class="mr-4">{{ $t('label.preview') }}:</label>
 							<figure v-if="profile.photoURL" id="preview" class="avatar avatar-xxl mb-2">
 								<img :src="profile.photoURL" alt="Avatar" />
 							</figure>
@@ -40,7 +40,7 @@
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">
-								<ion-icon name="save-outline" class="icon-left"></ion-icon> Save Profile
+								<ion-icon name="save-outline" class="icon-left"></ion-icon> {{ $t('button.saveprofile') }}
 							</button>
 						</div>
 					</div>
@@ -49,8 +49,8 @@
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<ion-icon name="people-outline" class="icon-2x"></ion-icon>
-							<div class="panel-title h5 mt-1">{{ Object.keys(users).length }} Users</div>
-							<div class="panel-subtitle text-gray">Manage all users</div>
+							<div class="panel-title h5 mt-1">{{ Object.keys(users).length }} {{ $t('widget.users') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.manageconfirmedusers') }}</div>
 						</div>
 						<div class="panel-body">
 							<div
@@ -66,7 +66,7 @@
 									</div>
 								</div>
 								<div class="tile-content">
-									<span class="label float-right py-1 px-2">{{ u.role }}</span>
+									<span class="label float-right py-1 px-2">{{ $t('role.' + u.role) }}</span>
 									<div class="tile-title">{{ u.name }}</div>
 									<div class="tile-subtitle text-gray text-small">{{ u.email }}</div>
 								</div>
@@ -84,12 +84,12 @@
 							<div class="empty-icon">
 								<ion-icon name="checkbox-outline" class="icon-4x"></ion-icon>
 							</div>
-							<p class="empty-title h5">No unconfirmed users</p>
-							<p class="empty-subtitle">Good work!</p>
+							<p class="empty-title h5">{{ $t('text.nounconfirmedusers') }}</p>
+							<p class="empty-subtitle">{{ $t('text.goodwork') }}</p>
 						</div>
 						<div v-else class="panel-footer mt-5">
-							<div class="panel-title h5 mt-1 text-center">{{ Object.keys(registrations).length }} Registrations</div>
-							<div class="panel-subtitle mb-4 text-gray text-center">Manage all unconfirmed users</div>
+							<div class="panel-title h5 mt-1 text-center">{{ Object.keys(registrations).length }} {{ $t('widget.registrations') }}</div>
+							<div class="panel-subtitle mb-4 text-gray text-center">{{ $t('text.manageunconfirmedusers') }}</div>
 							<div
 								v-for="(r, k) in registrations" :key="k"
 								class="tile tile-centered tile-hover p-2"
@@ -100,7 +100,7 @@
 									</div>
 								</div>
 								<div class="tile-content">
-									<span class="label float-right py-1 px-2">unconfirmed</span>
+									<span class="label float-right py-1 px-2">{{ $t('role.unconfirmed') }}</span>
 									<div class="tile-title">{{ r.name }}</div>
 									<div class="tile-subtitle text-gray text-small">{{ r.email }}</div>
 								</div>
@@ -117,8 +117,8 @@
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<ion-icon name="pricetags-outline" class="icon-2x"></ion-icon>
-							<div class="panel-title h5 mt-1">{{ Object.keys(tags).length }} Tags</div>
-							<div class="panel-subtitle text-gray">Manage all tags</div>
+							<div class="panel-title h5 mt-1">{{ Object.keys(tags).length }} {{ $t('widget.tags') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.managetags') }}</div>
 						</div>
 						<div class="panel-body">
 							<router-link v-for="tag in tags" :key="tag.key" :to="{ name: 'songs-tag', params: { tag: tag.key }}" class="mr-2">
@@ -134,12 +134,12 @@
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<ion-icon name="file-tray-outline" class="icon-2x"></ion-icon>
-							<div class="panel-title h5 mt-1">Backup</div>
-							<div class="panel-subtitle text-gray">Export and import SongDrive data</div>
+							<div class="panel-title h5 mt-1">{{ $t('widget.backup') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.exportimportdata') }}</div>
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="exportDb">
-								<ion-icon name="download-outline" class="icon-left"></ion-icon> Export
+								<ion-icon name="download-outline" class="icon-left"></ion-icon> {{ $t('button.export') }}
 							</button>
 						</div>
 					</div>
@@ -181,7 +181,7 @@ export default {
 		UserSet,
 		UserDelete,
 	},
-	props: ['db', 'user', 'userObject', 'roleName', 'role', 'users', 'registrations', 'tags', 'songs', 'setlists'],
+	props: ['db', 'user', 'userObject', 'ready', 'roleName', 'role', 'users', 'registrations', 'tags', 'songs', 'setlists'],
 	data () {
 		return {
 			profile: {

@@ -59,7 +59,7 @@
 									</div>
 									<div class="tile-content">
 										{{ auth.userObject.displayName }}
-										<div class="text-gray text-small">{{ users[auth.user] ? users[auth.user].role : 'unconfirmed' }}</div>
+										<div class="text-gray text-small">{{ users[auth.user] ? $t('role.' + users[auth.user].role) : $t('role.unconfirmed') }}</div>
 									</div>
 								</div>
 							</router-link>

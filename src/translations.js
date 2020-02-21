@@ -24,6 +24,8 @@ export default {
 			edit: 'Edit',
 			duplicate: 'Duplicate',
 			delete: 'Delete',
+			saveprofile: 'Save Profile',
+			export: 'Export',
 		},
 		tooltip: {
 			setlist: {
@@ -49,6 +51,10 @@ export default {
 			popular: 'Popular',
 			gotosongs: 'Go to Songs',
 			gotosetlists: 'Go to Setlists',
+			users: 'Users',
+			registrations: 'Registrations',
+			tags: 'Tags',
+			backup: 'Backup',
 		},
 		title: {
 			songtuning: 'Song tuning',
@@ -74,7 +80,28 @@ export default {
 			creator: 'Creator',
 			songs: 'Songs',
 			email: 'Email',
-			photo: 'Photo URL',
+			photo: 'Photo',
+			name: 'Name',
+			role: 'Role',
+		},
+		label: {
+			preview: 'Preview',
+		},
+		role: {
+			admin: 'Admin',
+			editor: 'Editor',
+			performer: 'Performer',
+			reader: 'Reader',
+			unconfirmed: 'Unconfirmed',
+		},
+		text: {
+			customizeprofile: 'Customize your profile data',
+			manageconfirmedusers: 'Manage confirmed users',
+			manageunconfirmedusers: 'Manage unconfirmed users',
+			nounconfirmedusers: 'No unconfirmed users',
+			goodwork: 'Good work!',
+			managetags: 'Manage all tags',
+			exportimportdata: 'Export and import SongDrive data',
 		}
 	},
 	de: {
@@ -101,6 +128,8 @@ export default {
 			edit: 'Bearbeiten',
 			duplicate: 'Duplizieren',
 			delete: 'Löschen',
+			saveprofile: 'Profile speichern',
+			export: 'Export',
 		},
 		tooltip: {
 			setlist: {
@@ -126,6 +155,10 @@ export default {
 			popular: 'Beliebte',
 			gotosongs: 'Alle Songs anzeigen',
 			gotosetlists: 'Alle Setlisten anzeigen',
+			users: 'Benutzer',
+			registrations: 'Registrierungen',
+			tags: 'Tags',
+			backup: 'Backup',
 		},
 		title: {
 			songtuning: 'Tonart',
@@ -151,7 +184,28 @@ export default {
 			creator: 'Ersteller',
 			songs: 'Songs',
 			email: 'Email',
-			photo: 'Photo URL',
+			photo: 'Photo',
+			name: 'Name',
+			role: 'Rolle',
+		},
+		label: {
+			preview: 'Vorschau',
+		},
+		role: {
+			admin: 'Admin',
+			editor: 'Editor',
+			performer: 'Performer',
+			reader: 'Reader',
+			unconfirmed: 'Unbestätigt',
+		},
+		text: {
+			customizeprofile: 'Passe deine Profildaten an',
+			manageconfirmedusers: 'Bestätigte Benutzer verwalten',
+			manageunconfirmedusers: 'Unbestätigte Benutzer verwalten',
+			nounconfirmedusers: 'Keine unbestätigten Benutzer',
+			goodwork: 'Gute Arbeit!',
+			managetags: 'Alle Tags verwalten',
+			exportimportdata: 'Export und Import der SongDrive Daten',
 		}
 	}
 }
