@@ -1091,6 +1091,7 @@ a {
 		}
 		.divider[data-content]::after {
 			background: $bg-color-medium;
+			text-transform: uppercase;
 		}
 
 		.sidebar-wrapper {

@@ -4,24 +4,24 @@
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">
 				<div class="sidebar-wrapper">
-					<button class="btn btn-secondary d-block stretch mb-1" @click="$router.go(-1)">
-						<ion-icon name="arrow-back-outline" class="icon-left"></ion-icon><span class="hide-lg"> BACK</span>
+					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="$router.go(-1)">
+						<ion-icon name="arrow-back-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.back') }}</span>
 					</button>
 					<!-- sidebar: manage -->
-					<div v-if="user && role > 2" class="divider text-center show-lg" data-content="M"></div>
-					<div v-if="user && role > 2" class="divider text-center hide-lg" data-content="MANAGE"></div>
-					<button v-if="user && role > 2" class="btn btn-secondary d-block stretch mb-1" @click="existing=true; modal.set=true">
-						<ion-icon name="create-outline" class="icon-left"></ion-icon><span class="hide-lg"> EDIT</span>
+					<div v-if="user && role > 2" class="divider text-center show-lg" :data-content="$t('divider.manage').charAt(0)"></div>
+					<div v-if="user && role > 2" class="divider text-center hide-lg" :data-content="$t('divider.manage')"></div>
+					<button v-if="user && role > 2" class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="existing=true; modal.set=true">
+						<ion-icon name="create-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.edit') }}</span>
 					</button>
-					<button v-if="user && role > 2" class="btn btn-secondary d-block stretch mb-1" @click="existing=false; modal.set=true">
-						<ion-icon name="copy-outline" class="icon-left"></ion-icon><span class="hide-lg"> CLONE</span>
+					<button v-if="user && role > 2" class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="existing=false; modal.set=true">
+						<ion-icon name="copy-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.duplicate') }}</span>
 					</button>
-					<button v-if="user && role > 2" class="btn btn-secondary btn-error d-block stretch" @click="modal.delete = true">
-						<ion-icon name="trash-outline" class="icon-left"></ion-icon><span class="hide-lg"> DELETE</span>
+					<button v-if="user && role > 2" class="btn btn-secondary btn-error d-block stretch text-uppercase" @click="modal.delete = true">
+						<ion-icon name="trash-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.delete') }}</span>
 					</button>
 					<!-- sidebar: language -->
-					<div class="divider text-center show-lg" data-content="L"></div>
-					<div class="divider text-center hide-lg" data-content="LANGUAGE"></div>
+					<div class="divider text-center show-lg" :data-content="$t('divider.language').charAt(0)"></div>
+					<div class="divider text-center hide-lg" :data-content="$t('divider.language')"></div>
 					<div class="d-flex" v-if="ready.songs">
 						<router-link
 							v-for="(tsong, i) in showLanguages"
@@ -34,20 +34,20 @@
 						</router-link>
 					</div>
 					<!-- sidebar: view -->
-					<div class="divider text-center show-lg" data-content="V"></div>
-					<div class="divider text-center hide-lg" data-content="VIEW"></div>
+					<div class="divider text-center show-lg" :data-content="$t('divider.view').charAt(0)"></div>
+					<div class="divider text-center hide-lg" :data-content="$t('divider.view')"></div>
 					<div class="form-group">
-						<label class="form-switch switch-lg c-hand">
+						<label class="form-switch switch-lg c-hand text-uppercase">
 							<input type="checkbox" v-model="chords" @click="chords = !chords">
-							<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
+							<i class="form-icon"></i><span class="hide-lg"> {{ $t('switch.chords') }}</span>
 						</label>
 					</div>
-					<button class="btn btn-secondary d-block stretch" @click="modal.present=true">
-						<ion-icon name="videocam-outline" class="icon-left"></ion-icon><span class="hide-lg"> PRESENT</span>
+					<button class="btn btn-secondary d-block stretch text-uppercase" @click="modal.present=true">
+						<ion-icon name="videocam-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.present') }}</span>
 					</button>
 					<!-- sidebar: tuning -->
-					<div class="divider text-center show-lg" data-content="T"></div>
-					<div class="divider text-center hide-lg" data-content="TUNING"></div>
+					<div class="divider text-center show-lg" :data-content="$t('divider.tuning').charAt(0)"></div>
+					<div class="divider text-center hide-lg" :data-content="$t('divider.tuning')"></div>
 					<div class="d-flex mb-2">
 						<span class="text-center text-pre text-gray text-large hide-lg">{{ showTuning.previous }}</span>
 						<span class="label label-rounded text-center text-large text-pre text-bold">{{ showTuning.current }}</span>
@@ -61,16 +61,16 @@
 						<button class="btn btn-secondary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--"><ion-icon name="arrow-down"></ion-icon></button>
 					</div>
 					<!-- sidebar: export -->
-					<div class="divider text-center show-lg" data-content="E"></div>
-					<div class="divider text-center hide-lg" data-content="EXPORT"></div>
-					<button class="btn btn-secondary d-block stretch mb-1" @click="exportTxt">
-						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> .TXT</span>
+					<div class="divider text-center show-lg" :data-content="$t('divider.export').charAt(0)"></div>
+					<div class="divider text-center hide-lg" :data-content="$t('divider.export')"></div>
+					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="exportTxt">
+						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> {{ $t('button.filetypeTxt') }}</span>
 					</button>
-					<button class="btn btn-secondary d-block stretch mb-1" @click="exportSng">
-						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> .SNG</span>
+					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="exportSng">
+						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> {{ $t('button.filetypeSng') }}</span>
 					</button>
-					<button class="btn btn-secondary d-block stretch" @click="exportPdf">
-						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> .PDF</span>
+					<button class="btn btn-secondary d-block stretch text-uppercase" @click="exportPdf">
+						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> {{ $t('button.filetypePdf') }}</span>
 					</button>
 				</div>
 			</div>
@@ -107,7 +107,6 @@
 										</span>
 									</router-link>
 								</p>
-								<p v-if="song.ccli" class="text-gray">CCLI Song Number: <a :href="'https://songselect.ccli.com/Songs/' + song.ccli" target="_blank">{{ song.ccli }}</a></p>
 								<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
 							</footer>
 						</div>
