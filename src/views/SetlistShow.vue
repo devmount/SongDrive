@@ -4,61 +4,61 @@
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">
 				<div class="sidebar-wrapper">
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
+					<button class="btn btn-secondary d-block stretch mb-1" @click="$router.go(-1)">
 						<ion-icon name="arrow-back-outline" class="icon-left"></ion-icon><span class="hide-lg"> BACK</span>
 					</button>
 					<!-- sidebar: manage -->
 					<div v-if="user && role > 1" class="divider text-center show-lg" data-content="M"></div>
 					<div v-if="user && role > 1" class="divider text-center hide-lg" data-content="MANAGE"></div>
-					<button v-if="user && role > 1" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
+					<button v-if="user && role > 1" class="btn btn-secondary d-block stretch mb-1" @click="existing=true; modal.set=true">
 						<ion-icon name="create-outline" class="icon-left"></ion-icon><span class="hide-lg"> EDIT</span>
 					</button>
-					<button v-if="user && role > 1" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
+					<button v-if="user && role > 1" class="btn btn-secondary d-block stretch mb-1" @click="existing=false; modal.set=true">
 						<ion-icon name="copy-outline" class="icon-left"></ion-icon><span class="hide-lg"> CLONE</span>
 					</button>
-					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
+					<button v-if="user && role > 2" class="btn btn-secondary btn-error d-block stretch" @click="modal.delete = true">
 						<ion-icon name="trash-outline" class="icon-left"></ion-icon><span class="hide-lg"> DELETE</span>
 					</button>
 					<!-- sidebar: view -->
 					<div class="divider text-center show-lg" data-content="V"></div>
 					<div class="divider text-center hide-lg" data-content="VIEW"></div>
-					<div v-if="setlist && user && role > 1" class="form-group tooltip tooltip-right" data-tooltip=" SYNC ">
+					<div v-if="setlist && user && role > 1" class="form-group">
 						<label class="form-switch switch-lg c-hand">
 							<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
 							<i class="form-icon"></i><span class="hide-lg"> SYNC</span>
 						</label>
 					</div>
-					<div class="form-group tooltip tooltip-right" data-tooltip=" CHORDS ">
+					<div class="form-group">
 						<label class="form-switch switch-lg c-hand">
 							<input type="checkbox" v-model="chords">
 							<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
 						</label>
 					</div>
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="modal.present=true" data-tooltip=" PRESENT ">
+					<button class="btn btn-secondary d-block stretch mb-1" @click="modal.present=true">
 						<ion-icon name="videocam-outline" class="icon-left"></ion-icon><span class="hide-lg"> PRESENT</span>
 					</button>
-					<router-link :to="{ name: 'setlist-show', params: { id: setlistKey }}" target="_blank" class="btn btn-secondary tooltip tooltip-right d-block stretch" data-tooltip=" LAUNCH ">
+					<router-link :to="{ name: 'setlist-show', params: { id: setlistKey }}" target="_blank" class="btn btn-secondary d-block stretch">
 						<ion-icon name="open-outline" class="icon-left"></ion-icon><span class="hide-lg"> LAUNCH</span>
 					</router-link>
 					<!-- sidebar: export -->
 					<div class="divider text-center show-lg" data-content="C"></div>
 					<div class="divider text-center hide-lg" data-content="COPY"></div>
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('plain')" data-tooltip=" COPY LIST IN PLAIN TEXT ">
+					<button class="btn btn-secondary d-block stretch mb-1" @click="copyList('plain')">
 						<ion-icon name="list" class="icon-left"></ion-icon><span class="hide-lg text-pre">PLAIN</span>
 					</button>
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('markdown')" data-tooltip=" COPY LIST IN MARKDOWN ">
+					<button class="btn btn-secondary d-block stretch mb-1" @click="copyList('markdown')">
 						<ion-icon name="logo-markdown" class="icon-left"></ion-icon><span class="hide-lg text-pre">MARKDOWN</span>
 					</button>
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="copyList('slack')" data-tooltip=" COPY LIST FOR SLACK ">
+					<button class="btn btn-secondary d-block stretch mb-1" @click="copyList('slack')">
 						<ion-icon name="logo-slack" class="icon-left"></ion-icon><span class="hide-lg text-pre">SLACK</span>
 					</button>
 					<!-- sidebar: export -->
 					<div class="divider text-center show-lg" data-content="E"></div>
 					<div class="divider text-center hide-lg" data-content="EXPORT"></div>
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportPdf('list')" data-tooltip=" EXPORT LIST AS PDF ">
+					<button class="btn btn-secondary d-block stretch mb-1" @click="exportPdf('list')">
 						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> LIST</span>
 					</button>
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf('sheets')" data-tooltip=" EXPORT SHEETS AS PDF ">
+					<button class="btn btn-secondary d-block stretch" @click="exportPdf('sheets')">
 						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> SHEETS</span>
 					</button>
 					<!-- sidebar: language -->

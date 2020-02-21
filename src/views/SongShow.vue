@@ -4,19 +4,19 @@
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">
 				<div class="sidebar-wrapper">
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="$router.go(-1)" data-tooltip=" BACK ">
+					<button class="btn btn-secondary d-block stretch mb-1" @click="$router.go(-1)">
 						<ion-icon name="arrow-back-outline" class="icon-left"></ion-icon><span class="hide-lg"> BACK</span>
 					</button>
 					<!-- sidebar: manage -->
 					<div v-if="user && role > 2" class="divider text-center show-lg" data-content="M"></div>
 					<div v-if="user && role > 2" class="divider text-center hide-lg" data-content="MANAGE"></div>
-					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=true; modal.set=true" data-tooltip=" EDIT ">
+					<button v-if="user && role > 2" class="btn btn-secondary d-block stretch mb-1" @click="existing=true; modal.set=true">
 						<ion-icon name="create-outline" class="icon-left"></ion-icon><span class="hide-lg"> EDIT</span>
 					</button>
-					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="existing=false; modal.set=true" data-tooltip=" CLONE ">
+					<button v-if="user && role > 2" class="btn btn-secondary d-block stretch mb-1" @click="existing=false; modal.set=true">
 						<ion-icon name="copy-outline" class="icon-left"></ion-icon><span class="hide-lg"> CLONE</span>
 					</button>
-					<button v-if="user && role > 2" class="btn btn-secondary tooltip tooltip-right btn-error d-block stretch" @click="modal.delete = true" data-tooltip=" DELETE ">
+					<button v-if="user && role > 2" class="btn btn-secondary btn-error d-block stretch" @click="modal.delete = true">
 						<ion-icon name="trash-outline" class="icon-left"></ion-icon><span class="hide-lg"> DELETE</span>
 					</button>
 					<!-- sidebar: language -->
@@ -36,13 +36,13 @@
 					<!-- sidebar: view -->
 					<div class="divider text-center show-lg" data-content="V"></div>
 					<div class="divider text-center hide-lg" data-content="VIEW"></div>
-					<div class="form-group tooltip tooltip-right" data-tooltip=" CHORDS ">
+					<div class="form-group">
 						<label class="form-switch switch-lg c-hand">
 							<input type="checkbox" v-model="chords" @click="chords = !chords">
 							<i class="form-icon"></i><span class="hide-lg"> CHORDS</span>
 						</label>
 					</div>
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="modal.present=true" data-tooltip=" PRESENT ">
+					<button class="btn btn-secondary d-block stretch" @click="modal.present=true">
 						<ion-icon name="videocam-outline" class="icon-left"></ion-icon><span class="hide-lg"> PRESENT</span>
 					</button>
 					<!-- sidebar: tuning -->
@@ -55,21 +55,21 @@
 					</div>
 					<div class="d-flex">
 						<button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning--"><ion-icon name="arrow-back"></ion-icon></button>
-						<button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++" data-tooltip=" TUNE UP "><ion-icon name="arrow-up"></ion-icon></button>
-						<button class="btn btn-secondary tooltip tooltip-right mb-1" :class="{ disabled: !chords }" @click="tuning = 0" data-tooltip=" RESET TUNING "><ion-icon name="refresh"></ion-icon></button>
+						<button class="btn btn-secondary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning++"><ion-icon name="arrow-up"></ion-icon></button>
+						<button class="btn btn-secondary mb-1" :class="{ disabled: !chords }" @click="tuning = 0"><ion-icon name="refresh"></ion-icon></button>
 						<button class="btn btn-secondary mb-1 hide-lg" :class="{ disabled: !chords }" @click="tuning++"><ion-icon name="arrow-forward"></ion-icon></button>
-						<button class="btn btn-secondary tooltip tooltip-right mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--" data-tooltip=" TUNE DOWN "><ion-icon name="arrow-down"></ion-icon></button>
+						<button class="btn btn-secondary mb-1 show-lg" :class="{ disabled: !chords }" @click="tuning--"><ion-icon name="arrow-down"></ion-icon></button>
 					</div>
 					<!-- sidebar: export -->
 					<div class="divider text-center show-lg" data-content="E"></div>
 					<div class="divider text-center hide-lg" data-content="EXPORT"></div>
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportTxt" data-tooltip=" EXPORT TXT ">
+					<button class="btn btn-secondary d-block stretch mb-1" @click="exportTxt">
 						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> .TXT</span>
 					</button>
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch mb-1" @click="exportSng" data-tooltip=" EXPORT SNG ">
+					<button class="btn btn-secondary d-block stretch mb-1" @click="exportSng">
 						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> .SNG</span>
 					</button>
-					<button class="btn btn-secondary tooltip tooltip-right d-block stretch" @click="exportPdf" data-tooltip=" EXPORT PDF ">
+					<button class="btn btn-secondary d-block stretch" @click="exportPdf">
 						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre"> .PDF</span>
 					</button>
 				</div>
@@ -106,7 +106,7 @@
 							</footer>
 						</div>
 						<div v-if="ready.songs && song && song.youtube" class="column col-6 col-md-12">
-							<iframe :src="'https://www.youtube-nocookie.com/embed/' + song.youtube" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<iframe :src="'https://www.youtube-nocookie.com/embed/' + song.youtube" frameborder="0" allowfullscreen></iframe>
 						</div>
 					</div>
 				</div>

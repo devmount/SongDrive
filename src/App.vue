@@ -795,9 +795,12 @@ a:active,
   box-shadow: 0 0 0 .2rem rgba($primary-color, .2);
 }
 .btn.btn-secondary:focus {
+	border-color: $border-color;
   box-shadow: 0 0 0 .2rem rgba($border-color, .5);
 }
-.btn.btn-error:focus {
+.btn.btn-error:focus,
+.btn.btn-error.btn-secondary:active:focus {
+	border-color: $error-color;
   box-shadow: 0 0 0 .2rem rgba($error-color, .2);
 }
 .form-input,
@@ -1088,10 +1091,6 @@ a {
 		}
 		.divider[data-content]::after {
 			background: $bg-color-medium;
-		}
-
-		.tooltip::after {
-			display: none;
 		}
 
 		.sidebar-wrapper {
