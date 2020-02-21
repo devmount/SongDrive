@@ -4,26 +4,32 @@
 		<div class="modal-container">
 			<div class="modal-header">
 				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
-				<div class="modal-title h5">{{ existing ? 'Edit' : 'Add' }} user</div>
+				<div class="modal-title h5">
+					<span v-if="!existing">{{ $t('modal.addUser') }}</span>
+					<span v-else>{{ $t('modal.editUser') }}</span>
+				</div>
 			</div>
 			<div class="modal-body">
 				<div class="content">
-					<label class="form-label" for="name">Name <span class="text-error">*</span></label>
-					<input id="name" type="text" v-model="user.name" class="form-input mb-1" :class="{ 'is-error': error.name }" placeholder="John Doe" />
-					<p v-if="error.name" class="form-input-hint">A name is required.</p>
-					<label class="form-label" for="email">Email <span class="text-error">*</span></label>
-					<input id="email" type="email" v-model="user.email" class="form-input mb-1" :class="{ 'is-error': error.email }" placeholder="john.doe@example.com" />
-					<p v-if="error.email" class="form-input-hint">An email address is required.</p>
-					<label class="form-label" for="role">Role <span class="text-error">*</span></label>
+					<label class="form-label" for="name">{{ $t('field.name') }} <span class="text-error">*</span></label>
+					<input id="name" type="text" v-model="user.name" class="form-input mb-1" :class="{ 'is-error': error.name }" :placeholder="$t('placeholder.exampleUserName')" />
+					<p v-if="error.name" class="form-input-hint">{{ $t('error.requiredName') }}</p>
+					<label class="form-label" for="email">{{ $t('field.email') }} <span class="text-error">*</span></label>
+					<input id="email" type="email" v-model="user.email" class="form-input mb-1" :class="{ 'is-error': error.email }" :placeholder="$t('placeholder.exampleUserEmail')" />
+					<p v-if="error.email" class="form-input-hint">{{ $t('error.requiredEmail') }}</p>
+					<label class="form-label" for="role">{{ $t('field.role') }} <span class="text-error">*</span></label>
 					<select v-model="user.role" id="role" class="form-select filter" required>
-						<option value="" disabled selected>role ...</option>
+						<option value="" disabled selected>{{ $t('placeholder.select') }}</option>
 						<option v-for="(r,k) in roles" :key="k" :value="k">{{ k }}</option>
 					</select>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</a>
-				<button class="btn btn-primary ml-2" @click="setUser">Update user</button>
+				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">{{ $t('button.cancel') }}</a>
+				<button class="btn btn-primary ml-2" @click="setUser">
+					<span v-if="!existing">{{ $t('button.addUser') }}</span>
+					<span v-else>{{ $t('button.updateUser') }}</span>
+				</button>
 			</div>
 		</div>
 	</div>

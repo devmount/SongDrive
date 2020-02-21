@@ -20,6 +20,8 @@ export default {
 			newSetlist: 'New Setlist',
 			editSetlist: 'Edit Setlist',
 			deleteSetlist: 'Delete Setlist',
+			addUser: 'Add User',
+			editUser: 'Edit User',
 			deleteUser: 'Delete User',
 			tags: 'Tags',
 			translations: 'Translations',
@@ -64,6 +66,8 @@ export default {
 			formatSlack: 'Slack',
 			exportSetlistList: 'List',
 			exportSetlistSheets: 'Sheets',
+			addUser: 'Add User',
+			updateUser: 'Update User',
 		},
 		switch: {
 			chords: 'Chords',
@@ -119,6 +123,8 @@ export default {
 			exampleSongYoutubeId: 'e.g. cF0S3uKdVJA',
 			exampleSongContent: 'songtext with chords and markers, e.g.:\n\n--v\n  G          C  \nThis is the verse text\n D        G  \nJust an example text\n\n--c\n  D           C  \nThis is the chorus text\n D        C      G  \nJust an example text\n\n--b\n  Em  \nThis is the bridge text\n C        D  \nJust an example text',
 			exampleSetlistTitle: 'e.g. Sunday Service',
+			exampleUserName: 'e.g. John Doe',
+			exampleUserEmail: 'e.g. john@doe.com',
 		},
 		field: {
 			title: 'Title',
@@ -147,7 +153,9 @@ export default {
 			songAlreadyExists: 'A song with this title already exists in this language. Please change either the title or the language.',
 			setlistAlreadyExists: 'A setlist with this title already exists on this date. Please change either the title or the date.',
 			requiredLanguage: 'The language is required.',
-			requiredContent: 'The song content is missing.'
+			requiredContent: 'The song content is missing.',
+			requiredName: 'A name is required.',
+			requiredEmail: 'An email address is required.',
 		},
 		label: {
 			preview: 'Preview',
@@ -201,6 +209,8 @@ export default {
 			newSetlist: 'Neue Setlist',
 			editSetlist: 'Setlist Bearbeiten',
 			deleteSetlist: 'Setlist Löschen',
+			addUser: 'Benutzer hinzufügen',
+			editUser: 'Benutzer Bearbeiten',
 			deleteUser: 'Benutzer Löschen',
 			tags: 'Tags',
 			translations: 'Übersetzungen',
@@ -245,6 +255,8 @@ export default {
 			formatSlack: 'Slack',
 			exportSetlistList: 'Liste',
 			exportSetlistSheets: 'Liedzettel',
+			addUser: 'Add User',
+			updateUser: 'Update User',
 		},
 		switch: {
 			chords: 'Akkorde',
@@ -300,6 +312,8 @@ export default {
 			exampleSongYoutubeId: 'z.B. cF0S3uKdVJA',
 			exampleSongContent: 'Songtext mit Akkorden und Markern, z.B.:\n\n--v\n G             C  \nDas ist die Strophe\nD            G  \nEinfach ein Beispieltext\n\n--c\nD            C  \nDas ist der Refrain\nD            C      G  \nEinfach ein Beisieltext\n\n--b\n Em  \nDas ist die Bridge\nC            D  \nEinfach ein Beispieltext',
 			exampleSetlistTitle: 'z.B. Gottesdienst',
+			exampleUserName: 'e.g. Max Muster',
+			exampleUserEmail: 'e.g. max@muster.de',
 		},
 		field: {
 			title: 'Titel',
@@ -328,7 +342,9 @@ export default {
 			songAlreadyExists: 'Ein Song mit diesem Titel existiert bereits in dieser Sprache. Bitte entweder den Titel oder die Sprache ändern.',
 			setlistAlreadyExists: 'Eine Setlist mit diesem Titel existiert bereits an diesem Datum. Bitte entweder den Titel oder das Datum ändern.',
 			requiredLanguage: 'Die Sprache muss ausgewählt werden.',
-			requiredContent: 'Der Inhalt des Songs fehlt.'
+			requiredContent: 'Der Inhalt des Songs fehlt.',
+			requiredName: 'Ein Name muss angegeben werden.',
+			requiredEmail: 'Eine E-Mail-Adresse muss angegeben werden.',
 		},
 		label: {
 			preview: 'Vorschau',
