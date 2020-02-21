@@ -6,8 +6,8 @@
 			<div v-if="song && ready.songs" class="modal-container">
 				<div class="modal-header">
 					<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
-					<div v-if="!existing" class="modal-title h5">New Song</div>
-					<div v-else class="modal-title h5">Edit Song «<span class="text-uppercase ls-1">{{ song.title }}</span>»</div>
+					<div v-if="!existing" class="modal-title h5">{{ $t('modal.newSong') }}</div>
+					<div v-else class="modal-title h5">{{ $t('modal.editSong') }} «<span class="text-uppercase ls-1">{{ song.title }}</span>»</div>
 				</div>
 				<div class="modal-body">
 					<div class="content">
@@ -16,46 +16,46 @@
 								<div class="columns">
 									<div class="column col-12">
 										<div class="form-group" :class="{ 'has-error': error.title || error.slug }">
-											<label class="form-label" for="title">Title <span class="text-error">*</span></label>
-											<input v-model="song.title" class="form-input" id="title" type="text" placeholder="e.g. Amazing Grace">
-											<p v-if="error.title" class="form-input-hint">A title is required.</p>
-											<p v-if="error.slug" class="form-input-hint">A song with this title already exists in this language. Please change either the title or the language.</p>
+											<label class="form-label" for="title">{{ $t('field.title') }} <span class="text-error">*</span></label>
+											<input v-model="song.title" class="form-input" id="title" type="text" :placeholder="$t('placeholder.exampleSongTitle')">
+											<p v-if="error.title" class="form-input-hint">{{ $t('error.requiredTitle') }}</p>
+											<p v-if="error.slug" class="form-input-hint">{{ $t('error.songAlreadyExists') }}</p>
 										</div>
 									</div>
 									<div class="column col-8 col-md-12">
 										<div class="form-group">
-											<label class="form-label" for="subtitle">Subtitle</label>
-											<input v-model="song.subtitle" class="form-input" id="subtitle" type="text" placeholder="e.g. How sweet the sound">
+											<label class="form-label" for="subtitle">{{ $t('field.subtitle') }}</label>
+											<input v-model="song.subtitle" class="form-input" id="subtitle" type="text" :placeholder="$t('placeholder.exampleSongSubtitle')">
 										</div>
 									</div>
 									<div class="column col-4 col-md-12">
 										<div class="form-group" :class="{ 'has-error': error.language }">
-											<label class="form-label" for="language">Language <span class="text-error">*</span></label>
+											<label class="form-label" for="language">{{ $t('field.language') }} <span class="text-error">*</span></label>
 											<select v-model="song.language" class="form-select" id="language">
-												<option value="">Choose...</option>
+												<option value="">{{ $t('placeholder.select') }}</option>
 												<option v-for="(label, key) in languages" :value="key" :key="key">{{ label }}</option>
 											</select>
-											<p v-if="error.language" class="form-input-hint">The language is required.</p>
+											<p v-if="error.language" class="form-input-hint">{{ $t('error.requiredLanguage') }}</p>
 										</div>
 									</div>
 									<div class="column col-8 col-md-12">
 										<div class="form-group">
-											<label class="form-label" for="authors">Authors</label>
-											<input v-model="song.authors" class="form-input" id="authors" type="text" placeholder="e.g. Jon Doe | Jane Dillon">
+											<label class="form-label" for="authors">{{ $t('field.authors') }}</label>
+											<input v-model="song.authors" class="form-input" id="authors" type="text" :placeholder="$t('placeholder.exampleSongAuthors')">
 										</div>
 									</div>
 									<div class="column col-4 col-md-12">
 										<div class="form-group">
-											<label class="form-label" for="tuning">Tuning</label>
+											<label class="form-label" for="tuning">{{ $t('field.tuning') }}</label>
 											<select v-model="song.tuning" class="form-select" id="tuning">
-												<option value="">Choose...</option>
+												<option value="">{{ $t('placeholder.select') }}</option>
 												<option v-for="tune in tunes" :key="tune">{{ tune }}</option>
 											</select>
 										</div>
 									</div>
 									<div class="column col-8 col-md-12">
 										<div class="form-group">
-											<label class="form-label" for="tags">Tags</label>
+											<label class="form-label" for="tags">{{ $t('field.tags') }}</label>
 											<div v-for="tag in song.tags" :key="tag" class="chip s-rounded">
 												<ion-icon name="pricetag-outline" class="icon-sm mr-2"></ion-icon> {{ tag }}
 												<a href="#" class="btn btn-clear" aria-label="Close" role="button" @click="song.tags = song.tags.filter(function(k) {return k !== tag})"></a>
@@ -67,38 +67,38 @@
 									</div>
 									<div class="column col-4 col-md-12">
 										<div class="form-group">
-											<label class="form-label" for="ccli">CCLI #</label>
-											<input v-model="song.ccli" class="form-input" id="ccli" type="number" placeholder="e.g. 22025">
+											<label class="form-label" for="ccli">{{ $t('field.ccli') }} #</label>
+											<input v-model="song.ccli" class="form-input" id="ccli" type="number" :placeholder="$t('placeholder.exampleSongCcli')">
 										</div>
 									</div>
 									<div class="column col-8 col-md-12">
 										<div class="form-group">
-											<label class="form-label" for="publisher">Publisher</label>
-											<textarea v-model="song.publisher" class="form-input" id="publisher" placeholder="e.g. Public Domain" rows="2"></textarea>
+											<label class="form-label" for="publisher">{{ $t('field.publisher') }}</label>
+											<textarea v-model="song.publisher" class="form-input" id="publisher" :placeholder="$t('placeholder.exampleSongPublisher')" rows="2"></textarea>
 										</div>
 									</div>
 									<div class="column col-4 col-md-12">
 										<div class="form-group">
-											<label class="form-label" for="year">Year</label>
-											<input v-model="song.year" class="form-input" id="year" type="number" placeholder="e.g. 2016">
+											<label class="form-label" for="year">{{ $t('field.year') }}</label>
+											<input v-model="song.year" class="form-input" id="year" type="number" :placeholder="$t('placeholder.exampleSongYear')">
 										</div>
 									</div>
 									<div class="column col-8 col-md-12">
 										<div class="form-group">
-											<label class="form-label" for="note">Note</label>
-											<input v-model="song.note" class="form-input" id="note" type="text" placeholder="general notes, e.g. capo 3">
+											<label class="form-label" for="note">{{ $t('field.note') }}</label>
+											<input v-model="song.note" class="form-input" id="note" type="text" :placeholder="$t('placeholder.exampleSongNote')">
 										</div>
 									</div>
 									<div class="column col-4 col-md-12">
 										<div class="form-group">
-											<label class="form-label" for="youtube">Youtube ID</label>
-											<input v-model="song.youtube" class="form-input" id="youtube" type="text" placeholder="e.g. cF0S3uKdVJA">
+											<label class="form-label" for="youtube">{{ $t('field.youtubeId') }}</label>
+											<input v-model="song.youtube" class="form-input" id="youtube" type="text" :placeholder="$t('placeholder.exampleSongYoutubeId')">
 										</div>
 									</div>
 									<div class="column col-12">
-										<label class="form-label">Translations</label>
+										<label class="form-label">{{ $t('field.translations') }}</label>
 										<div v-if="song.translations && song.translations.length == 0" class="text-gray">
-											<ion-icon name="information-circle-outline"></ion-icon> This song has no translation yet.
+											<ion-icon name="information-circle-outline"></ion-icon> {{ $t('text.noTranslations') }}
 										</div>
 										<div v-else>
 											<div v-for="tsong in song.translations" :key="tsong" class="tile tile-centered mb-1">
@@ -124,19 +124,19 @@
 							</div>
 							<div class="column col-6 col-sm-12">
 								<div class="form-group" :class="{ 'has-error': error.content }">
-									<label class="form-label" for="content">Content <span class="text-error">*</span></label>
-									<textarea v-model="song.content" class="form-input text-pre" id="content" :placeholder="'songtext with chords and markers, e.g.:\n\n--v\n  G          C  \nThis is the verse text\n D        G  \nJust an example text\n\n--c\n  D           C  \nThis is the chorus text\n D        C      G  \nJust an example text\n\n--b\n  Em  \nThis is the bridge text\n C        D  \nJust an example text'" rows="17" required></textarea>
-									<p v-if="error.content" class="form-input-hint">Song content is required.</p>
+									<label class="form-label" for="content">{{ $t('field.content') }} <span class="text-error">*</span></label>
+									<textarea v-model="song.content" class="form-input text-pre" id="content" :placeholder="$t('placeholder.exampleSongContent')" rows="17" required></textarea>
+									<p v-if="error.content" class="form-input-hint">{{ $t('error.requiredContent') }}</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</button>
+					<button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="$emit('closed')">{{ $t('button.cancel') }}</button>
 					<button class="btn btn-primary ml-2" @click="set">
-						<span v-if="!existing">Create</span>
-						<span v-else>Update</span> Song
+						<span v-if="!existing">{{ $t('button.createSong') }}</span>
+						<span v-else>{{ $t('button.updateSong') }}</span>
 					</button>
 				</div>
 			</div>
@@ -147,7 +147,7 @@
 			<div class="modal-container">
 				<div class="modal-header">
 					<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="modal.tags = false"></a>
-					<div class="modal-title h5">Tags</div>
+					<div class="modal-title h5">{{ $t('modal.tags') }}</div>
 				</div>
 				<div class="modal-body">
 					<div class="content">
@@ -155,7 +155,7 @@
 							<div class="column col-6">
 								<div class="input-group filter">
 									<span class="input-group-addon"><ion-icon name="search-outline"></ion-icon></span>
-									<input v-model="search.tags" type="search" class="form-input" placeholder="search ..." />
+									<input v-model="search.tags" type="search" class="form-input" :placeholder="$t('placeholder.searchTagName')" />
 								</div>
 								<div class="form-group max-column mt-2">
 									<label v-for="tag in filteredTags" :key="tag.key" class="form-checkbox">
@@ -169,11 +169,11 @@
 									<div class="empty-icon">
 										<ion-icon name="pricetags-outline" class="icon-4x"></ion-icon>
 									</div>
-									<p class="empty-title h5">No Tags selected</p>
-									<p class="empty-subtitle">Select some tags for the current song</p>
+									<p class="empty-title h5">{{ $t('text.noTagsSelected') }}</p>
+									<p class="empty-subtitle">{{ $t('text.selectSomeTags') }}</p>
 								</div>
 								<div v-else>
-									<h3 class="text-center">Selection</h3>
+									<h3 class="text-center">{{ $t('text.selection') }}</h3>
 									<div v-for="tag in song.tags" :key="tag" class="tile tile-centered">
 										<div class="tile-content">
 											<div class="tile-title"><ion-icon name="pricetag-outline" class="mr-2"></ion-icon> {{ tag }}</div>
@@ -190,7 +190,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" aria-label="Close" @click.prevent="modal.tags = false">Close</button>
+					<button class="btn btn-primary" aria-label="Close" @click.prevent="modal.tags = false">{{ $t('button.close') }}</button>
 				</div>
 			</div>
 		</div>
@@ -200,7 +200,7 @@
 			<div class="modal-container">
 				<div class="modal-header">
 					<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="modal.translations = false"></a>
-					<div class="modal-title h5">Translations</div>
+					<div class="modal-title h5">{{ $t('modal.translations') }}</div>
 				</div>
 				<div class="modal-body">
 					<div class="content">
@@ -208,7 +208,7 @@
 							<div class="column col-6">
 								<div class="input-group filter">
 									<span class="input-group-addon"><ion-icon name="search-outline"></ion-icon></span>
-									<input v-model="search.translations" type="search" class="form-input" placeholder="search ..." />
+									<input v-model="search.translations" type="search" class="form-input" :placeholder="$t('placeholder.searchSongTitle')" />
 								</div>
 								<div class="form-group max-column mt-2">
 									<label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
@@ -225,11 +225,11 @@
 									<div class="empty-icon">
 										<ion-icon name="book-outline" class="icon-4x"></ion-icon>
 									</div>
-									<p class="empty-title h5">No Songs selected</p>
-									<p class="empty-subtitle">Select some songs that are a translation to the current song</p>
+									<p class="empty-title h5">{{ $t('text.noSongsSelected') }}</p>
+									<p class="empty-subtitle">{{ $t('text.selectSomeSongs') }}</p>
 								</div>
 								<div v-else>
-									<h3 class="text-center">Selection</h3>
+									<h3 class="text-center">{{ $t('text.selection') }}</h3>
 									<div v-for="tsong in song.translations" :key="tsong" class="tile tile-centered mb-2">
 										<div class="tile-icon">
 											<figure class="avatar s-rounded" :data-initial="songs[tsong].language"></figure>
@@ -250,7 +250,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" aria-label="Close" @click.prevent="modal.translations = false">Close</button>
+					<button class="btn btn-primary" aria-label="Close" @click.prevent="modal.translations = false">{{ $t('button.close') }}</button>
 				</div>
 			</div>
 		</div>
