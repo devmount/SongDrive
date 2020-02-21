@@ -4,33 +4,33 @@
 		<div class="modal-container">
 			<div class="modal-header">
 				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
-				<div class="modal-title h5">Sign up</div>
+				<div class="modal-title h5">{{ $t('modal.signUp') }}</div>
 			</div>
 			<div class="modal-body">
 				<div class="content">
-					<p>Create a new SongDrive account.</p>
-					<label class="form-label" for="name">Name <span class="text-error">*</span></label>
-					<input id="name" type="text" v-model="auth.name" class="form-input mb-1" :class="{ 'is-error': error.name }" placeholder="John Doe" />
-					<p v-if="error.name" class="form-input-hint">A name is required.</p>
-					<label class="form-label" for="email">Email <span class="text-error">*</span></label>
-					<input id="email" type="email" v-model="auth.email" class="form-input mb-1" :class="{ 'is-error': error.email }" placeholder="john.doe@example.com" />
-					<p v-if="error.email" class="form-input-hint">An email address is required.</p>
+					<p>{{ $t('text.createNewAccount') }}</p>
+					<label class="form-label" for="name">{{ $t('field.name') }} <span class="text-error">*</span></label>
+					<input id="name" type="text" v-model="auth.name" class="form-input mb-1" :class="{ 'is-error': error.name }" :placeholder="$t('placeholder.exampleUserName')" />
+					<p v-if="error.name" class="form-input-hint">{{ $t('error.requiredName') }}</p>
+					<label class="form-label" for="email">{{ $t('field.email') }} <span class="text-error">*</span></label>
+					<input id="email" type="email" v-model="auth.email" class="form-input mb-1" :class="{ 'is-error': error.email }" :placeholder="$t('placeholder.exampleUserEmail')" />
+					<p v-if="error.email" class="form-input-hint">{{ $t('error.requiredEmail') }}</p>
 					<label class="form-label" for="password">
-						Password <span class="text-error">*</span>
+						{{ $t('field.password') }} <span class="text-error">*</span>
 						<span class="float-right" :class="{ 'text-error': auth.password.length < 8 }">{{ auth.password.length }}<span v-if="auth.password.length < 8"> / 8</span></span>
 					</label>
-					<input id="password" type="password" v-model="auth.password" class="form-input mb-1" :class="{ 'is-error': error.password.missing || error.password.mismatch || error.password.tooshort }" placeholder="enter password" />
-					<input type="password" v-model="auth.repeat" class="form-input mb-1" :class="{ 'is-error': error.password.missing || error.password.mismatch || error.password.tooshort }" placeholder="repeat password" />
+					<input id="password" type="password" v-model="auth.password" class="form-input mb-1" :class="{ 'is-error': error.password.missing || error.password.mismatch || error.password.tooshort }" :placeholder="$t('placeholder.examplePassword', { p: Math.random().toString(36).substr(2, 10) })" />
+					<input type="password" v-model="auth.repeat" class="form-input mb-1" :class="{ 'is-error': error.password.missing || error.password.mismatch || error.password.tooshort }" :placeholder="$t('placeholder.repeatPassword')" />
 					<p v-if="error.password.missing || error.password.mismatch || error.password.tooshort" class="form-input-hint">
-						<span v-if="error.password.missing">A password is required.</span>
-						<span v-if="error.password.mismatch"> The passwords don't match.</span>
-						<span v-if="error.password.tooshort"> The password is too short.</span>
+						<span v-if="error.password.missing">{{ $t('error.requiredPassword') }}</span>
+						<span v-if="error.password.mismatch"> {{ $t('error.passwordsDontMatch') }}</span>
+						<span v-if="error.password.tooshort"> {{ $t('error.passwordTooShort') }}</span>
 					</p>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">Cancel</a>
-				<button class="btn btn-primary ml-2" @click="signUp">Sign up</button>
+				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">{{ $t('button.cancel') }}</a>
+				<button class="btn btn-primary ml-2" @click="signUp">{{ $t('button.signUp') }}</button>
 			</div>
 		</div>
 	</div>

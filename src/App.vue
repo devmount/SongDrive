@@ -40,8 +40,8 @@
 						<li class="divider text-center" :data-content="$t('divider.account')"></li>
 						<li v-if="!auth.user" class="menu-item pb-2">
 							<div class="form-group">
-								<input type="text" v-model="auth.email" class="form-input mb-1" placeholder="email" />
-								<input type="password" v-model="auth.password" class="form-input mb-2" placeholder="password"  @click="signIn" @keydown.enter="signIn" />
+								<input type="text" v-model="auth.email" class="form-input mb-1" :placeholder="$t('field.email')" />
+								<input type="password" v-model="auth.password" class="form-input mb-2" :placeholder="$t('field.password')"  @click="signIn" @keydown.enter="signIn" />
 								<button class="btn btn-primary d-block stretch mb-2">
 									{{ $t('button.signIn') }} <ion-icon name="log-in-outline" class="icon-right"></ion-icon>
 								</button>

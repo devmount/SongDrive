@@ -25,6 +25,7 @@ export default {
 			deleteUser: 'Delete User',
 			tags: 'Tags',
 			translations: 'Translations',
+			signUp: 'Sign Up',
 		},
 		divider: {
 			start: 'Start',
@@ -39,9 +40,9 @@ export default {
 			stats: 'Stats',
 		},
 		button: {
-			signIn: 'Sign in',
-			signUp: 'Sign up',
-			signOut: 'Sign out',
+			signIn: 'Sign In',
+			signUp: 'Sign Up',
+			signOut: 'Sign Out',
 			shuffle: 'Shuffle',
 			show: 'Show',
 			edit: 'Edit',
@@ -125,6 +126,8 @@ export default {
 			exampleSetlistTitle: 'e.g. Sunday Service',
 			exampleUserName: 'e.g. John Doe',
 			exampleUserEmail: 'e.g. john@doe.com',
+			examplePassword: 'e.g. {p}',
+			repeatPassword: 'Repeat Password',
 		},
 		field: {
 			title: 'Title',
@@ -147,6 +150,7 @@ export default {
 			photo: 'Photo',
 			name: 'Name',
 			role: 'Role',
+			password: 'Password',
 		},
 		error: {
 			requiredTitle: 'A title is required.',
@@ -156,6 +160,9 @@ export default {
 			requiredContent: 'The song content is missing.',
 			requiredName: 'A name is required.',
 			requiredEmail: 'An email address is required.',
+			requiredPassword: 'A password is required.',
+			passwordsDontMatch: 'The passwords don\'t match.',
+			passwordTooShort: 'The password is too short.',
 		},
 		label: {
 			preview: 'Preview',
@@ -187,6 +194,7 @@ export default {
 			reallyDeleteSetlist: 'Do you really want to delete the Setlist «{title}» ?',
 			reallyDeleteUser: 'Do you really want to delete the User «{name}» ?',
 			cannotBeUndone: 'This cannot be undone.',
+			createNewAccount: 'Create a new SongDrive account.',
 		}
 	},
 	de: {
@@ -214,6 +222,7 @@ export default {
 			deleteUser: 'Benutzer Löschen',
 			tags: 'Tags',
 			translations: 'Übersetzungen',
+			signUp: 'Registrieren',
 		},
 		divider: {
 			start: 'Start',
@@ -236,7 +245,7 @@ export default {
 			edit: 'Bearbeiten',
 			duplicate: 'Duplizieren',
 			delete: 'Löschen',
-			saveProfile: 'Profile speichern',
+			saveProfile: 'Profil Speichern',
 			export: 'Export',
 			cancel: 'Abbrechen',
 			close: 'Schließen',
@@ -255,8 +264,8 @@ export default {
 			formatSlack: 'Slack',
 			exportSetlistList: 'Liste',
 			exportSetlistSheets: 'Liedzettel',
-			addUser: 'Add User',
-			updateUser: 'Update User',
+			addUser: 'Benutzer Hinzufügen',
+			updateUser: 'Benutzer Aktualisieren',
 		},
 		switch: {
 			chords: 'Akkorde',
@@ -312,8 +321,10 @@ export default {
 			exampleSongYoutubeId: 'z.B. cF0S3uKdVJA',
 			exampleSongContent: 'Songtext mit Akkorden und Markern, z.B.:\n\n--v\n G             C  \nDas ist die Strophe\nD            G  \nEinfach ein Beispieltext\n\n--c\nD            C  \nDas ist der Refrain\nD            C      G  \nEinfach ein Beisieltext\n\n--b\n Em  \nDas ist die Bridge\nC            D  \nEinfach ein Beispieltext',
 			exampleSetlistTitle: 'z.B. Gottesdienst',
-			exampleUserName: 'e.g. Max Muster',
-			exampleUserEmail: 'e.g. max@muster.de',
+			exampleUserName: 'z.B. Max Muster',
+			exampleUserEmail: 'z.B. max@muster.de',
+			examplePassword: 'z.B. {p}',
+			repeatPassword: 'Password wiederholen',
 		},
 		field: {
 			title: 'Titel',
@@ -336,6 +347,7 @@ export default {
 			photo: 'Photo',
 			name: 'Name',
 			role: 'Rolle',
+			password: 'Passwort',
 		},
 		error: {
 			requiredTitle: 'Ein Titel muss angegeben werden.',
@@ -345,6 +357,9 @@ export default {
 			requiredContent: 'Der Inhalt des Songs fehlt.',
 			requiredName: 'Ein Name muss angegeben werden.',
 			requiredEmail: 'Eine E-Mail-Adresse muss angegeben werden.',
+			requiredPassword: 'Ein Passwort muss angegeben werden.',
+			passwordsDontMatch: 'Die Passwörter stimmen nicht überein.',
+			passwordTooShort: 'Das Passwort ist zu kurz.',
 		},
 		label: {
 			preview: 'Vorschau',
@@ -376,6 +391,7 @@ export default {
 			reallyDeleteSetlist: 'Möchtest du wirklich die Setlist «{title}» löschen?',
 			reallyDeleteUser: 'Möchtest du wirklich den Benutzer «{name}» löschen?',
 			cannotBeUndone: 'Das kann nicht rückgängig gemacht werden.',
+			createNewAccount: 'Erstelle ein neues SongDrive Konto.',
 		}
 	}
 }
