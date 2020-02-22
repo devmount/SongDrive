@@ -178,6 +178,7 @@ export default {
 		},
 		text: {
 			customizeProfile: 'Customize your profile data',
+			customizeUi: 'Customize the user interface',
 			manageConfirmedUsers: 'Manage confirmed users',
 			manageUnconfirmedUsers: 'Manage unconfirmed users',
 			noUnconfirmedUsers: 'No unconfirmed users',
@@ -419,6 +420,7 @@ export default {
 		},
 		text: {
 			customizeProfile: 'Passe deine Profildaten an',
+			customizeUi: 'Passe die Benutzeroberfläche an',
 			manageConfirmedUsers: 'Bestätigte Benutzer verwalten',
 			manageUnconfirmedUsers: 'Unbestätigte Benutzer verwalten',
 			noUnconfirmedUsers: 'Keine unbestätigten Benutzer',

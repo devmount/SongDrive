@@ -48,7 +48,7 @@
 						<div class="panel-header text-center">
 							<ion-icon name="cog-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $t('app.name') }}</div>
-							<div class="panel-subtitle text-gray">{{ $t('text.customizeProfile') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.customizeUi') }}</div>
 						</div>
 						<div class="panel-body">
 							<div class="form-group mb-1">
