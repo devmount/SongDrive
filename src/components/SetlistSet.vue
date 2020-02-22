@@ -136,7 +136,7 @@
 				<button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="cancel">{{ $t('button.cancel') }}</button>
 				<button class="btn btn-primary ml-2" @click="set">
 					<span v-if="!existing">{{ $t('button.createSetlist') }}</span>
-					<span v-else>U{{ $t('button.updateSetlist') }}</span>
+					<span v-else>{{ $t('button.updateSetlist') }}</span>
 				</button>
 			</div>
 		</div>
