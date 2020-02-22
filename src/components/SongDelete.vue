@@ -38,20 +38,12 @@ export default {
 					self.$router.push({ name: 'songs' })
 				}
 				// toast success message
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Success!',
-					text: 'The song was removed.',
-					type: 'toast-primary'
-				});
-			}).catch(function() {
+				self.$notify({ title: 'Song deleted', text: 'The Song was successfully removed.', type: 'primary' })
+			}).catch(function(error) {
 				self.$emit('closed')
 				// toast error message
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Error!',
-					text: 'The song could not be removed.',
-					type: 'toast-error'
-				});
-			});
+				self.$notify({ title: error.code, text: error.message, type: 'error' })
+			})
 		},
 	}
 }

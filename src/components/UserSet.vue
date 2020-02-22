@@ -74,20 +74,8 @@ export default {
 						role: self.user.role
 					}).then(function() {
 						// user updated successfully!
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>Success!',
-							text: 'User data was updated.',
-							type: 'toast-primary'
-						})
-					})
-					.catch(function() {
-						// An error happened.
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>Error!',
-							text: 'There was an error when updating user data.',
-							type: 'toast-error'
-						})
-					})
+						self.$notify({ title: 'User updated', text: 'User data was successfully saved.', type: 'primary' })
+					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 					this.$emit('closed')
 				}
 				// user is not yet confirmed
@@ -99,21 +87,9 @@ export default {
 					}).then(function() {
 						// user added successfully, now delete temporary registration
 						self.db.collection('registrations').doc(self.userKey).delete().then(function() {
-							self.$notify({
-								title: '<button class="btn btn-clear float-right"></button>Success!',
-								text: 'User was successfully added.',
-								type: 'toast-primary'
-							})
+							self.$notify({ title: 'User added', text: 'User data was successfully saved.', type: 'primary' })
 						})
-					})
-					.catch(function() {
-						// An error happened.
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>Error!',
-							text: 'There was an error when adding user.',
-							type: 'toast-error'
-						})
-					})
+					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 					this.$emit('closed')
 				}
 			}

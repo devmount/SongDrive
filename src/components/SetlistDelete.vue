@@ -38,20 +38,12 @@ export default {
 					self.$router.push({ name: 'setlists' })
 				}
 				// toast success message
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Success!',
-					text: 'The setlist was removed.',
-					type: 'toast-primary'
-				});
-			}).catch(function() {
+				self.$notify({ title: 'Setlist deleted', text: 'The setlist was successfully removed.', type: 'primary' })
+			}).catch(function(error) {
 				self.$emit('closed')
 				// toast error message
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Error!',
-					text: 'The setlist could not be removed.',
-					type: 'toast-error'
-				});
-			});
+				self.$notify({ title: error.code, text: error.message, type: 'error' })
+			})
 		},
 	}
 }

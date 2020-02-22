@@ -210,27 +210,11 @@ export default {
 					email: self.profile.email
 				}).then(function() {
 					// Profile updated successfully!
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Success!',
-						text: 'User data was updated.',
-						type: 'toast-primary'
-					})
-				})
-				.catch(function() {
-					// An error happened.
-					self.$notify({
-						title: '<button class="btn btn-clear float-right"></button>Error!',
-						text: 'There was an error when updating user data.',
-						type: 'toast-error'
-					})
-				})
-			}, function() {
+					self.$notify({ title: 'User updated', text: 'Your data was successfully saved.', type: 'primary' })
+				}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
+			}, function(error) {
 				// An error happened.
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Error!',
-					text: 'There was an error when updating user data.',
-					type: 'toast-error'
-				})
+				self.$notify({ title: error.code, text: error.message, type: 'error' })
 			});
 		},
 		updateTags () {
@@ -245,11 +229,7 @@ export default {
 			}
 			basics.download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json')
 			// toast success message
-			this.$notify({
-				title: '<button class="btn btn-clear float-right"></button>Success!',
-				text: 'The song was exported as text file.',
-				type: 'toast-primary'
-			})
+			this.$notify({ title: 'Database exported!', text: 'The whole database was successfully exported as JSON.', type: 'primary' })
 		},
 	}
 }

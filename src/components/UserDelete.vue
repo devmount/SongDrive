@@ -35,20 +35,12 @@ export default {
 			this.db.collection('users').doc(this.userKey).delete().then(function() {
 				self.$emit('closed')
 				// toast success message
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Success!',
-					text: 'The user was removed.',
-					type: 'toast-primary'
-				});
-			}).catch(function() {
+				self.$notify({ title: 'User deleted', text: 'The User was successfully removed.', type: 'primary' })
+			}).catch(function(error) {
 				self.$emit('closed')
 				// toast error message
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Error!',
-					text: 'The user could not be removed.',
-					type: 'toast-error'
-				});
-			});
+				self.$notify({ title: error.code, text: error.message, type: 'error' })
+			})
 		},
 	}
 }

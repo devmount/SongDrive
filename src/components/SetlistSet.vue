@@ -270,20 +270,12 @@ export default {
 						processedSetlist = {}
 						self.$router.push({ name: 'setlist-show', params: { id: slug }})
 						// toast success creation message
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>Success!',
-							text: 'The new setlist was added.',
-							type: 'toast-primary'
-						})
+						self.$notify({ title: 'Setlist added', text: 'The setlist was successfully saved.', type: 'primary' })
 					})
-					.catch(function() {
+					.catch(function(error) {
 						self.$emit('closed')
-						// toast error creation message
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>Error!',
-							text: 'The new setlist could not be added.',
-							type: 'toast-error'
-						})
+						// toast error on creation message
+						self.$notify({ title: error.code, text: error.message, type: 'error' })
 					})
 				}
 				// existing setlist should be updated
@@ -297,20 +289,12 @@ export default {
 							self.$emit('reset')
 							processedSetlist = {}
 							// toast success update message
-							self.$notify({
-								title: '<button class="btn btn-clear float-right"></button>Success!',
-								text: 'The setlist was updated.',
-								type: 'toast-primary'
-							})
+							self.$notify({ title: 'Setlist updated', text: 'The setlist was successfully saved.', type: 'primary' })
 						})
-						.catch(function() {
+						.catch(function(error) {
 							self.$emit('closed')
-							// toast error update message
-							self.$notify({
-								title: '<button class="btn btn-clear float-right"></button>Error!',
-								text: 'The setlist could not be updated.',
-								type: 'toast-error'
-							})
+							// toast error on update message
+							self.$notify({ title: error.code, text: error.message, type: 'error' })
 						})
 					} else {
 						// update key by adding a new setlist and removing the old one
@@ -322,20 +306,12 @@ export default {
 							processedSetlist = {}
 							self.$router.push({ name: 'setlist-show', params: { id: slug }})
 							// toast success update message
-							self.$notify({
-								title: '<button class="btn btn-clear float-right"></button>Success!',
-								text: 'The setlist was updated.',
-								type: 'toast-primary'
-							})
+							self.$notify({ title: 'Setlist updated', text: 'The setlist was successfully saved.', type: 'primary' })
 						})
-						.catch(function() {
+						.catch(function(error) {
 							self.$emit('closed')
-							// toast error update message
-							self.$notify({
-								title: '<button class="btn btn-clear float-right"></button>Error!',
-								text: 'The setlist could not be updated.',
-								type: 'toast-error'
-							})
+							// toast error on update message
+							self.$notify({ title: error.code, text: error.message, type: 'error' })
 						})
 					}
 				}

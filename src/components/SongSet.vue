@@ -329,20 +329,12 @@ export default {
 						processedSong = {}
 						self.$router.push({ name: 'song-show', params: { id: slug }})
 						// toast success creation message
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>Success!',
-							text: 'The new song was added.',
-							type: 'toast-primary'
-						})
+						self.$notify({ title: 'Song added', text: 'The song was successfully saved.', type: 'primary' })
 					})
-					.catch(function() {
+					.catch(function(error) {
 						self.$emit('closed')
-						// toast error creation message
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>Error!',
-							text: 'The new song could not be added.',
-							type: 'toast-error'
-						})
+						// toast error on creation message
+						self.$notify({ title: error.code, text: error.message, type: 'error' })
 					})
 				}
 				// existing song should be updated
@@ -356,20 +348,12 @@ export default {
 							self.$emit('reset')
 							processedSong = {}
 							// toast success update message
-							self.$notify({
-								title: '<button class="btn btn-clear float-right"></button>Success!',
-								text: 'The song was updated.',
-								type: 'toast-primary'
-							})
+							self.$notify({ title: 'Song updated', text: 'The song was successfully saved.', type: 'primary' })
 						})
-						.catch(function() {
+						.catch(function(error) {
 							self.$emit('closed')
-							// toast error update message
-							self.$notify({
-								title: '<button class="btn btn-clear float-right"></button>Error!',
-								text: 'The song could not be updated.',
-								type: 'toast-error'
-							})
+							// toast error on creation message
+							self.$notify({ title: error.code, text: error.message, type: 'error' })
 						})
 					} else {
 						// update key by adding a new song and removing the old one
@@ -381,20 +365,12 @@ export default {
 							processedSong = {}
 							self.$router.push({ name: 'song-show', params: { id: slug }})
 							// toast success update message
-							self.$notify({
-								title: '<button class="btn btn-clear float-right"></button>Success!',
-								text: 'The song was updated.',
-								type: 'toast-primary'
-							})
+							self.$notify({ title: 'Song updated', text: 'The song was successfully saved.', type: 'primary' })
 						})
-						.catch(function() {
+						.catch(function(error) {
 							self.$emit('closed')
-							// toast error update message
-							self.$notify({
-								title: '<button class="btn btn-clear float-right"></button>Error!',
-								text: 'The song could not be updated.',
-								type: 'toast-error'
-							})
+							// toast error on creation message
+							self.$notify({ title: error.code, text: error.message, type: 'error' })
 						})
 					}
 				}

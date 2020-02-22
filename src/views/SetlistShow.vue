@@ -232,11 +232,7 @@ export default {
 			this.setlist.songs.splice(newIndex, 0, movedItem)
 			var self = this
 			this.db.collection('setlists').doc(this.$route.params.id).set({songs: this.setlist.songs}, { merge: true }).then(function() {
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Setlist saved!',
-					text: 'Song order was successfully updated.',
-					type: 'toast-primary'
-				})
+				self.$notify({ title: 'Song order updated', text: 'Setlist was successfully saved.', type: 'primary'} )
 			})
 		},
 		tuneUp (song, songPosition) {
@@ -271,11 +267,7 @@ export default {
 			// update setlist's active flag to enable sync
 			var self = this, sync = !this.setlist.active
 			this.db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(function() {
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Setlist saved!',
-					text: sync ? 'Setlist was successfully activated.' : 'Setlist was successfully deactivated.',
-					type: 'toast-primary'
-				})
+				self.$notify({ title: 'Setlist ' + (sync ? 'activated' : 'deactivated'), text: 'Setlist status was successfully saved.', type: 'primary' })
 			})
 		},
 		updatePosition (position) {
@@ -311,17 +303,9 @@ export default {
 			}
 			var self = this
 			this.$copyText(list.join('\n')).then(function () {
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Copied to clipboard!',
-					text: 'Setlist was successfully copied to clipboard in ' + label + ' format.',
-					type: 'toast-primary'
-				})
-			}, function (e) {
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Failed to copy!',
-					text: 'Error: ' + e,
-					type: 'toast-primary'
-				})
+				self.$notify({ title: 'Copied to clipboard', text: 'Setlist in ' + label + ' format was successfully copied.', type: 'primary' })
+			}, function (error) {
+				self.$notify({ title: 'Failed to copy', text: error, type: 'error' })
 			})
 		},
 		exportPdf (mode) {
@@ -368,12 +352,7 @@ export default {
 			}
 			pdfMake.createPdf(doc).open()
 			// toast success message
-			this.$notify({
-				title: '<button class="btn btn-clear float-right"></button>Success!',
-				text: 'The setlist was exported as PDF file.',
-				type: 'toast-primary'
-			});
-
+			this.$notify({ title: 'Exported as PDF', text: 'The setlist was successfully exported as PDF file.', type: 'primary' })
 		},
 		getPdfSetlist () {
 			let songs = []

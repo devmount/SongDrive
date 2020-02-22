@@ -167,7 +167,15 @@
 		</div>
 
 		<!-- notifications -->
-		<notifications position="bottom right" :duration="5000" classes="toast" />
+		<notifications position="bottom right" :duration="5000" :width="400">
+			<template slot="body" slot-scope="props">
+				<div :class="'toast toast-' + props.item.type">
+					<ion-icon name="close" class="float-right c-hand icon-1-5x" @click="props.close"></ion-icon>
+					<h5>{{props.item.title}}</h5>
+					<p v-html="props.item.text"></p>
+				</div>
+			</template>
+		</notifications>
 	</div>
 </template>
 
@@ -305,38 +313,16 @@ export default {
 				self.auth.userObject = firebase.auth().currentUser
 				self.auth.email = ''
 				self.auth.password = ''
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Successfully signed in!',
-					text: 'You can now edit content.',
-					type: 'toast-primary'
-				})
-			}).catch((error) => {
-				// throw error message
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
-					text: error.message,
-					type: 'toast-primary'
-				})
-			})
+				self.$notify({ title: 'Signed in', text: 'Good to see you, ' + self.auth.userObject.displayName, type: 'primary' })
+			}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 		},
 		signOut () {
 			var self = this
 			firebase.auth().signOut().then(() => {
 				// sign-out successful
 				self.auth.user = ''
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>Successfully signed out!',
-					text: 'You are now in read-only mode.',
-					type: 'toast-primary'
-				})
-			}).catch((error) => {
-				// throw error message
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
-					text: error.message,
-					type: 'toast-error'
-				})
-			})
+				self.$notify({ title: 'Signed out', text: 'Have a nice day!', type: 'primary' })
+			}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 		},
 		signUp (u) {
 			var self = this
@@ -348,46 +334,15 @@ export default {
 					.then(() => {
 						self.auth.userObject = firebase.auth().currentUser
 						self.auth.userObject.updateProfile({ displayName: u.name })
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>Successfully signed up!',
-							text: 'You can now start using SongDrive.',
-							type: 'toast-primary'
-						})
-					})
-					.catch((error) => {
-						// toast error creation message
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
-							text: error.message,
-							type: 'toast-primary'
-						})
-					})
+						self.$notify({ title: 'Signed up', text: 'Thank you for registering,' + u.name + '! You can now start using SongDrive.', type: 'primary' })
+					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 				// send verification email
 				firebase.auth().currentUser.sendEmailVerification()
 					.then(() => {
 						// Verification email sent
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>Verification email sent!',
-							text: 'Please click the link to verify your email address.',
-							type: 'toast-primary'
-						})
-					})
-					.catch((error) => {
-						// throw error message
-						self.$notify({
-							title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
-							text: error.message,
-							type: 'toast-primary'
-						})
-					})
-			}).catch((error) => {
-				// throw error message
-				self.$notify({
-					title: '<button class="btn btn-clear float-right"></button>' + error.code + '!',
-					text: error.message,
-					type: 'toast-primary'
-				})
-			})
+						self.$notify({ title: 'Verification email sent', text: 'Please click the link that was sent to your email address to verify it.', type: 'primary' })
+					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
+			}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 		},
 	},
 	computed: {
@@ -692,11 +647,18 @@ code {
 }
 
 // toast
-.notifications {
-	margin-right: .8em;
+.vue-notification-group {
+	padding-right: .8em;
 }
 .toast {
 	margin-bottom: .8em;
+	padding: .6rem;
+
+	h5 {
+		text-transform: none;
+		letter-spacing: normal;
+		font-weight: 500;
+	}
 }
 
 // form and buttons
