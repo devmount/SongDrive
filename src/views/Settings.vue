@@ -1,13 +1,15 @@
 <template>
 	<div class="settings">
 		<div class="container no-sidebar">
-			<div v-if="ready.users && user && userObject" class="columns">
+			<div class="columns">
 				<!-- heading -->
-				<div class="column col-12">
+				<div class="column">
 					<h2 class="view-title">
 						{{ $t('page.settings') }}
 					</h2>
 				</div>
+			</div>
+			<div v-if="ready.users && user && userObject" class="columns">
 				<div class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
@@ -19,10 +21,6 @@
 							<div class="form-group">
 								<label class="form-label" for="name">{{ $t('field.name') }}</label>
 								<input v-model="profile.displayName" class="form-input" id="name" type="text" placeholder="john doe" />
-							</div>
-							<div class="form-group">
-								<label class="form-label" for="role">{{ $t('field.role') }}</label>
-								<input v-model="profile.role" class="form-input" id="role" type="text" placeholder="reader" disabled />
 							</div>
 							<div class="form-group">
 								<label class="form-label" for="email">{{ $t('field.email') }}</label>
@@ -45,7 +43,33 @@
 						</div>
 					</div>
 				</div>
-				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
+				<div class="column col-4 col-xl-6 col-md-12">
+					<div class="panel mt-4">
+						<div class="panel-header text-center">
+							<ion-icon name="cog-outline" class="icon-2x"></ion-icon>
+							<div class="panel-title h5 mt-1">{{ $t('app.name') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.customizeProfile') }}</div>
+						</div>
+						<div class="panel-body">
+							<div class="form-group mb-1">
+								<label class="form-label" for="language">{{ $t('field.language') }}</label>
+								<select v-model="$i18n.locale" class="form-select" id="language">
+									<option v-for="(lang, i) in ['en','de']" :key="i" :value="lang">{{ languages[lang] }}</option>
+								</select>
+							</div>
+						</div>
+						<div class="panel-footer mt-5">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="ready.users && user && userObject && role > 3" class="columns mt-4 pt-4">
+				<div class="column col-12">
+					<h2>
+						{{ $t('page.administration') }}
+					</h2>
+				</div>
+				<div class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<ion-icon name="people-outline" class="icon-2x"></ion-icon>
@@ -113,7 +137,7 @@
 						</div>
 					</div>
 				</div>
-				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
+				<div class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<ion-icon name="pricetags-outline" class="icon-2x"></ion-icon>
@@ -128,9 +152,11 @@
 								</span>
 							</router-link>
 						</div>
+						<div class="panel-footer mt-5">
+						</div>
 					</div>
 				</div>
-				<div v-if="role > 3" class="column col-4 col-xl-6 col-md-12">
+				<div class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header text-center">
 							<ion-icon name="file-tray-outline" class="icon-2x"></ion-icon>
@@ -198,7 +224,8 @@ export default {
 				user: {},
 				key: '',
 				existing: true,
-			}
+			},
+			languages: basics.languages,
 		}
 	},
 	methods: {

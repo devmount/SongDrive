@@ -8,6 +8,7 @@ export default {
 			dashboard: 'Dashboard',
 			songs: 'Songs',
 			setlists: 'Setlists',
+			administration: 'Administration',
 			settings: 'Settings',
 			profile: 'Profile',
 			docu: 'Documentation',
@@ -79,6 +80,7 @@ export default {
 			songAdd: 'Add new Song',
 		},
 		app: {
+			name: 'SongDrive',
 			created: 'created with <ion-icon name="heart-outline"></ion-icon> by',
 			license: 'MIT license'
 		},
@@ -247,6 +249,7 @@ export default {
 			dashboard: 'Übersicht',
 			songs: 'Songs',
 			setlists: 'Setlisten',
+			administration: 'Administration',
 			settings: 'Einstellungen',
 			profile: 'Profil',
 			docu: 'Dokumentation',
@@ -318,6 +321,7 @@ export default {
 			songAdd: 'Neuen Song hinzufügen',
 		},
 		app: {
+			name: 'SongDrive',
 			created: 'mit <ion-icon name="heart-outline"></ion-icon> erstellt von',
 			license: 'MIT Lizens'
 		},

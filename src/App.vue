@@ -12,7 +12,7 @@
 					<div class="brand text-center mt-2">
 						<router-link to="/" class="logo">
 							<img src="./assets/logo.svg" alt="SongDrive Song Management Tool" />
-							<h1>SONGDRIVE</h1>
+							<h1>{{ $t('app.name') }}</h1>
 							<div class="text-gray text-small text-right mr-5 pr-1">v{{ appVersion }} BETA</div>
 						</router-link>
 					</div>
@@ -561,9 +561,13 @@ h1, h2, h3, h4, h5, h6,
 	font-weight: 300;
 }
 h2, .h2 {
-	font-size: 2.5em;
+	font-size: 1.8em;
 	letter-spacing: 3px;
 	margin-bottom: .2em;
+
+	&.view-title {
+		font-size: 2.5em;
+	}
 
 	.loading {
 		vertical-align: text-bottom;
