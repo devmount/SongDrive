@@ -5,7 +5,7 @@
 				<!-- heading -->
 				<div class="column col-6 col-xl-12">
 					<h2 class="view-title">
-						<span v-if="ready.songs" class="label text-bold mr-2 px-2">{{ Object.keys(filteredSongs).length }}</span>
+						<span v-if="ready.songs" class="text-bold">{{ Object.keys(filteredSongs).length }}</span>
 						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
 						{{ $t('page.songs') }}
 					</h2>
