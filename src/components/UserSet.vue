@@ -37,7 +37,7 @@
 
 <script>
 // get basic program parameters
-import basics from '@/basics.js'
+import basics from '@/basics'
 
 export default {
 	name: 'user-set',
@@ -54,6 +54,7 @@ export default {
 			error: {
 				name: false,
 				email: false,
+				role: false,
 			},
 			roles: basics.roles,
 		}
@@ -74,7 +75,7 @@ export default {
 						role: self.user.role
 					}).then(function() {
 						// user updated successfully!
-						self.$notify({ title: 'User updated', text: 'User data was successfully saved.', type: 'primary' })
+						self.$notify({ title: self.$parent.$t('toast.userUpdated'), text: self.$parent.$t('toast.userSavedText'), type: 'primary' })
 					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 					this.$emit('closed')
 				}
@@ -87,7 +88,7 @@ export default {
 					}).then(function() {
 						// user added successfully, now delete temporary registration
 						self.db.collection('registrations').doc(self.userKey).delete().then(function() {
-							self.$notify({ title: 'User added', text: 'User data was successfully saved.', type: 'primary' })
+							self.$notify({ title: self.$parent.$t('toast.userAdded'), text: self.$parent.$t('toast.userSavedText'), type: 'primary' })
 						})
 					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 					this.$emit('closed')

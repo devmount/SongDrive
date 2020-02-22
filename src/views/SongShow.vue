@@ -230,7 +230,7 @@ export default {
 			// start download
 			basics.download(content, this.songKey + '.txt')
 			// toast success message
-			this.$notify({ title: 'Exported as Text', text: 'The song was successfully exported in plain text format.', type: 'primary' })
+			this.$notify({ title: this.$t('toast.exportedText'), text: this.$t('toast.exportedSongTextText'), type: 'primary' })
 		},
 		exportSng: function() {
 			// add header
@@ -262,7 +262,7 @@ export default {
 			// start download
 			basics.download(content, this.songKey + '.sng')
 			// toast success message
-			this.$notify({ title: 'Exported as SNG', text: 'The song was successfully exported in SNG format.', type: 'primary' })
+			this.$notify({ title: this.$t('toast.exportedSng'), text: this.$t('toast.exportedSongSngText'), type: 'primary' })
 		},
 		exportPdf: function() {
 			var content = this.getPdfSongContent()
@@ -295,7 +295,7 @@ export default {
 			}
 			pdfMake.createPdf(doc).open()
 			// toast success message
-			this.$notify({ title: 'Exported as PDF', text: 'The song was successfully exported in PDF format.', type: 'primary' })
+			this.$notify({ title: this.$t('toast.exportedPdf'), text: this.$t('toast.exportedSongPdfText'), type: 'primary' })
 		},
 		getPdfSongContent () {
 			// handle song content parts

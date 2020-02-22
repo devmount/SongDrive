@@ -313,7 +313,7 @@ export default {
 				self.auth.userObject = firebase.auth().currentUser
 				self.auth.email = ''
 				self.auth.password = ''
-				self.$notify({ title: 'Signed in', text: 'Good to see you, ' + self.auth.userObject.displayName, type: 'primary' })
+				self.$notify({ title: self.$t('toast.signedIn'), text: self.$t('toast.signedInText', { name: self.auth.userObject.displayName}), type: 'primary' })
 			}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 		},
 		signOut () {
@@ -321,7 +321,7 @@ export default {
 			firebase.auth().signOut().then(() => {
 				// sign-out successful
 				self.auth.user = ''
-				self.$notify({ title: 'Signed out', text: 'Have a nice day!', type: 'primary' })
+				self.$notify({ title: self.$t('toast.signedOut'), text: self.$t('toast.signedOutText'), type: 'primary' })
 			}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 		},
 		signUp (u) {
@@ -334,13 +334,13 @@ export default {
 					.then(() => {
 						self.auth.userObject = firebase.auth().currentUser
 						self.auth.userObject.updateProfile({ displayName: u.name })
-						self.$notify({ title: 'Signed up', text: 'Thank you for registering,' + u.name + '! You can now start using SongDrive.', type: 'primary' })
+						self.$notify({ title: self.$t('toast.signedUp'), text: self.$t('toast.signedUpText', { name: u.name }), type: 'primary' })
 					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 				// send verification email
 				firebase.auth().currentUser.sendEmailVerification()
 					.then(() => {
 						// Verification email sent
-						self.$notify({ title: 'Verification email sent', text: 'Please click the link that was sent to your email address to verify it.', type: 'primary' })
+						self.$notify({ title:  self.$t('toast.verficationSent'), text:  self.$t('toast.verficationSentText'), type: 'primary' })
 					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 			}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 		},

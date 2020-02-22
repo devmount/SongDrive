@@ -210,7 +210,7 @@ export default {
 					email: self.profile.email
 				}).then(function() {
 					// Profile updated successfully!
-					self.$notify({ title: 'User updated', text: 'Your data was successfully saved.', type: 'primary' })
+					self.$notify({ title: self.$t('toast.userUpdated'), text: self.$t('toast.userUpdatedText'), type: 'primary' })
 				}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
 			}, function(error) {
 				// An error happened.
@@ -229,7 +229,7 @@ export default {
 			}
 			basics.download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json')
 			// toast success message
-			this.$notify({ title: 'Database exported!', text: 'The whole database was successfully exported as JSON.', type: 'primary' })
+			this.$notify({ title: this.$t('toast.databaseExported'), text: this.$t('toast.databaseExportedText'), type: 'primary' })
 		},
 	}
 }

@@ -35,7 +35,7 @@ export default {
 			this.db.collection('users').doc(this.userKey).delete().then(function() {
 				self.$emit('closed')
 				// toast success message
-				self.$notify({ title: 'User deleted', text: 'The User was successfully removed.', type: 'primary' })
+				self.$notify({ title: self.$parent.$t('toast.userDeleted'), text: self.$parent.$t('toast.userDeletedText'), type: 'primary' })
 			}).catch(function(error) {
 				self.$emit('closed')
 				// toast error message

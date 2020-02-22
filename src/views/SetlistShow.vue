@@ -232,7 +232,7 @@ export default {
 			this.setlist.songs.splice(newIndex, 0, movedItem)
 			var self = this
 			this.db.collection('setlists').doc(this.$route.params.id).set({songs: this.setlist.songs}, { merge: true }).then(function() {
-				self.$notify({ title: 'Song order updated', text: 'Setlist was successfully saved.', type: 'primary'} )
+				self.$notify({ title: self.$t('toast.songOrderUpdated'), text: self.$t('toast.setlistSavedText'), type: 'primary'} )
 			})
 		},
 		tuneUp (song, songPosition) {
@@ -267,7 +267,7 @@ export default {
 			// update setlist's active flag to enable sync
 			var self = this, sync = !this.setlist.active
 			this.db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(function() {
-				self.$notify({ title: 'Setlist ' + (sync ? 'activated' : 'deactivated'), text: 'Setlist status was successfully saved.', type: 'primary' })
+				self.$notify({ title: self.$t('toast.sync' + (sync ? 'Activated' : 'Deactivated')), text: self.$t('toast.setlistStatusSavedText'), type: 'primary' })
 			})
 		},
 		updatePosition (position) {
@@ -303,9 +303,9 @@ export default {
 			}
 			var self = this
 			this.$copyText(list.join('\n')).then(function () {
-				self.$notify({ title: 'Copied to clipboard', text: 'Setlist in ' + label + ' format was successfully copied.', type: 'primary' })
+				self.$notify({ title: self.$t('toast.copiedToClipboard'), text: self.$t('toast.setlistFormatCopiedText', {format: label}), type: 'primary' })
 			}, function (error) {
-				self.$notify({ title: 'Failed to copy', text: error, type: 'error' })
+				self.$notify({ title: self.$t('toast.failedToCopy'), text: error, type: 'error' })
 			})
 		},
 		exportPdf (mode) {
@@ -352,7 +352,7 @@ export default {
 			}
 			pdfMake.createPdf(doc).open()
 			// toast success message
-			this.$notify({ title: 'Exported as PDF', text: 'The setlist was successfully exported as PDF file.', type: 'primary' })
+			this.$notify({ title: this.$t('toast.exportedPdf'), text: this.$t('toast.exportedSetlistPdfText'), type: 'primary' })
 		},
 		getPdfSetlist () {
 			let songs = []

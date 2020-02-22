@@ -38,7 +38,7 @@ export default {
 					self.$router.push({ name: 'setlists' })
 				}
 				// toast success message
-				self.$notify({ title: 'Setlist deleted', text: 'The setlist was successfully removed.', type: 'primary' })
+				self.$notify({ title: self.$parent.$t('toast.setlistDeleted'), text: self.$parent.$t('toast.setlistDeletedText'), type: 'primary' })
 			}).catch(function(error) {
 				self.$emit('closed')
 				// toast error message

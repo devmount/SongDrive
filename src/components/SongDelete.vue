@@ -38,7 +38,7 @@ export default {
 					self.$router.push({ name: 'songs' })
 				}
 				// toast success message
-				self.$notify({ title: 'Song deleted', text: 'The Song was successfully removed.', type: 'primary' })
+				self.$notify({ title: self.$parent.$t('toast.songDeleted'), text: self.$parent.$t('toast.songDeletedText'), type: 'primary' })
 			}).catch(function(error) {
 				self.$emit('closed')
 				// toast error message

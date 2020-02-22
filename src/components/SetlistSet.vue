@@ -270,7 +270,7 @@ export default {
 						processedSetlist = {}
 						self.$router.push({ name: 'setlist-show', params: { id: slug }})
 						// toast success creation message
-						self.$notify({ title: 'Setlist added', text: 'The setlist was successfully saved.', type: 'primary' })
+						self.$notify({ title: self.$parent.$t('toast.setlistAdded'), text: self.$parent.$t('toast.setlistSavedText'), type: 'primary' })
 					})
 					.catch(function(error) {
 						self.$emit('closed')
@@ -289,7 +289,7 @@ export default {
 							self.$emit('reset')
 							processedSetlist = {}
 							// toast success update message
-							self.$notify({ title: 'Setlist updated', text: 'The setlist was successfully saved.', type: 'primary' })
+							self.$notify({ title: self.$parent.$t('toast.setlistUpdated'), text: self.$parent.$t('toast.setlistSavedText'), type: 'primary' })
 						})
 						.catch(function(error) {
 							self.$emit('closed')
@@ -306,7 +306,7 @@ export default {
 							processedSetlist = {}
 							self.$router.push({ name: 'setlist-show', params: { id: slug }})
 							// toast success update message
-							self.$notify({ title: 'Setlist updated', text: 'The setlist was successfully saved.', type: 'primary' })
+							self.$notify({ title: self.$parent.$t('toast.setlistUpdated'), text: self.$parent.$t('toast.setlistSavedText'), type: 'primary' })
 						})
 						.catch(function(error) {
 							self.$emit('closed')

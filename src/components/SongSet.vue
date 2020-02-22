@@ -329,7 +329,7 @@ export default {
 						processedSong = {}
 						self.$router.push({ name: 'song-show', params: { id: slug }})
 						// toast success creation message
-						self.$notify({ title: 'Song added', text: 'The song was successfully saved.', type: 'primary' })
+						self.$notify({ title: self.$parent.$t('toast.songAdded'), text: self.$parent.$t('toast.songSavedText'), type: 'primary' })
 					})
 					.catch(function(error) {
 						self.$emit('closed')
@@ -348,7 +348,7 @@ export default {
 							self.$emit('reset')
 							processedSong = {}
 							// toast success update message
-							self.$notify({ title: 'Song updated', text: 'The song was successfully saved.', type: 'primary' })
+							self.$notify({ title: self.$parent.$t('toast.songUpdated'), text: self.$parent.$t('toast.songSavedText'), type: 'primary' })
 						})
 						.catch(function(error) {
 							self.$emit('closed')
@@ -365,7 +365,7 @@ export default {
 							processedSong = {}
 							self.$router.push({ name: 'song-show', params: { id: slug }})
 							// toast success update message
-							self.$notify({ title: 'Song updated', text: 'The song was successfully saved.', type: 'primary' })
+							self.$notify({ title: self.$parent.$t('toast.songUpdated'), text: self.$parent.$t('toast.songSavedText'), type: 'primary' })
 						})
 						.catch(function(error) {
 							self.$emit('closed')
