@@ -18,7 +18,7 @@
 						<button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><ion-icon name="close"></ion-icon></button>
 					</div>
 				</div>
-				<!-- filter tags -->
+				<!-- filter years -->
 				<div class="column col-3 col-xl-6 col-sm-12 mb-1">
 					<div class="input-group filter">
 						<span class="input-group-addon addon-lg"><ion-icon name="calendar-outline"></ion-icon></span>

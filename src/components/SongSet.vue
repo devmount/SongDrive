@@ -57,7 +57,7 @@
 										<div class="form-group">
 											<label class="form-label" for="tags">{{ $t('field.tags') }}</label>
 											<div v-for="tag in song.tags" :key="tag" class="chip s-rounded">
-												<ion-icon name="pricetag-outline" class="icon-sm mr-2"></ion-icon> {{ tag }}
+												<ion-icon name="pricetag-outline" class="icon-sm mr-2"></ion-icon> {{ $t('tag.' + tag) }}
 												<a href="#" class="btn btn-clear" aria-label="Close" role="button" @click="song.tags = song.tags.filter(function(k) {return k !== tag})"></a>
 											</div>
 											<button class="btn btn-secondary btn-sm" @click="modal.tags = true">
@@ -160,7 +160,7 @@
 								<div class="form-group max-column mt-2">
 									<label v-for="tag in filteredTags" :key="tag.key" class="form-checkbox">
 										<input v-model="song.tags" :value="tag.key" type="checkbox">
-										<i class="form-icon"></i> {{ tag.key }}
+										<i class="form-icon"></i> {{ $t('tag.' + tag.key) }}
 									</label>
 								</div>
 							</div>
@@ -176,7 +176,7 @@
 									<h3 class="text-center">{{ $t('text.selection') }}</h3>
 									<div v-for="tag in song.tags" :key="tag" class="tile tile-centered">
 										<div class="tile-content">
-											<div class="tile-title"><ion-icon name="pricetag-outline" class="mr-2"></ion-icon> {{ tag }}</div>
+											<div class="tile-title"><ion-icon name="pricetag-outline" class="mr-2"></ion-icon> {{ $t('tag.' + tag) }}</div>
 										</div>
 										<div class="tile-action">
 											<button class="btn btn-link btn-action" @click="song.tags = song.tags.filter(function(k) {return k !== tag})">
@@ -407,8 +407,8 @@ export default {
 					if (self.tags.hasOwnProperty(key)) {
 						const tag = self.tags[key];
 						var search = self.search.tags.toLowerCase()
-						// search in tag keys
-						if (tag.key.toLowerCase().indexOf(search) !== -1) {
+						// search in tag labels
+						if (self.$parent.$t('tag.' + tag.key).toLowerCase().indexOf(search) !== -1) {
 							tags[key] = tag
 						}
 					}

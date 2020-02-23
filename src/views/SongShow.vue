@@ -103,7 +103,7 @@
 									<router-link v-for="tag in song.tags" :key="tag" :to="{ name: 'songs-tag', params: { tag: tag }}" class="mr-2">
 										<span class="label px-2 py-1">
 											<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
-											{{ tag }}
+											{{ $t('tag.' + tag) }}
 										</span>
 									</router-link>
 								</p>

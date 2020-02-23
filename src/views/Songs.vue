@@ -24,7 +24,7 @@
 						<span class="input-group-addon addon-lg"><ion-icon name="pricetag-outline"></ion-icon></span>
 						<select v-model="filter" class="form-select select-lg filter" required>
 							<option value="" disabled selected>{{ $t('placeholder.tag') }}</option>
-							<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ tag.key }}</option>
+							<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ $t('tag.' + tag.key) }}</option>
 						</select>
 						<button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><ion-icon name="close"></ion-icon></button>
 					</div>
