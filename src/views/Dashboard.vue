@@ -1,19 +1,23 @@
 <template>
 	<div class="dashboard">
 		<div class="container no-sidebar">
+			<!-- heading -->
 			<div class="columns">
-				<!-- heading -->
-				<div class="column col-12">
+				<div class="column">
 					<h2 class="view-title">
 						{{ $t('page.dashboard')}}
 					</h2>
 				</div>
+			</div>
 				<!-- loader -->
-				<div v-if="!ready.songs || !ready.setlists" class="column col-12 py-4 my-4">
+			<div class="columns col-12 py-4 my-4" v-if="!ready.songs || !ready.setlists">
+				<div class="column">
 					<div class="loading loading-xl"></div>
 				</div>
-				<!-- stored songs count -->
-				<div v-if="ready.songs && ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
+			</div>
+			<!-- stored songs count -->
+			<div class="columns" v-if="ready.songs && ready.setlists">
+				<div class="column col-3 col-xl-6 col-sm-12">
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(songs).length }}</div>
@@ -22,7 +26,7 @@
 					</div>
 				</div>
 				<!-- stored setlists count -->
-				<div v-if="ready.songs && ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
+				<div class="column col-3 col-xl-6 col-sm-12">
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(setlists).length }}</div>
@@ -31,7 +35,7 @@
 					</div>
 				</div>
 				<!-- performed songs count -->
-				<div v-if="ready.songs && ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
+				<div class="column col-3 col-xl-6 col-sm-12">
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge"><span class="text-gray">~</span>{{ songsPerformed }}</div>
@@ -40,7 +44,7 @@
 					</div>
 				</div>
 				<!-- languages count -->
-				<div v-if="ready.songs && ready.setlists" class="column col-3 col-xl-4 col-md-6 col-sm-12">
+				<div class="column col-3 col-xl-6 col-sm-12">
 					<div class="panel mt-4">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(languages).length }}</div>
@@ -48,8 +52,10 @@
 						</div>
 					</div>
 				</div>
-				<!-- song list -->
-				<div v-if="ready.songs && ready.setlists" class="column col-4 col-xl-6 col-md-12">
+			</div>
+			<!-- song list -->
+			<div class="columns" v-if="ready.songs && ready.setlists">
+				<div class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header">
 							<div class="panel-title h5">
@@ -106,7 +112,7 @@
 					</div>
 				</div>
 				<!-- setlist list -->
-				<div v-if="ready.songs && ready.setlists" class="column col-4 col-xl-6 col-md-12">
+				<div class="column col-4 col-xl-6 col-md-12">
 					<div class="panel mt-4">
 						<div class="panel-header">
 							<div class="panel-title h5">
