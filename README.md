@@ -4,22 +4,28 @@
 
 A song management web application to store, synchronize and present songs and setlists, based on [Vue.js](//vuejs.org/), [Firebase](//firebase.google.com/) and [Spectre.css](//github.com/picturepan2/spectre). Head over to [the docs](https://devmount.github.io/SongDrive) for more information.
 
-> SongDrive v1.x is currently in development, if you are looking for SongDrive v0.x, you can download the last release v0.2.10 [here](https://github.com/devmount/SongDrive/releases/tag/v0.2.10).
+> SongDrive v1.x is currently in beta, if you are looking for SongDrive v0.x, you can download the final release v0.2.10 [here](https://github.com/devmount/SongDrive/releases/tag/v0.2.10).
 
-![songdrive-dashboard](https://user-images.githubusercontent.com/5441654/49120961-188ea400-f2af-11e8-80d1-05a31fb16cd1.png)
+## Preview
+
+This is how the SongDrive Dashboard currently looks like.
+
+![20200223_songdrive_dashboard](https://user-images.githubusercontent.com/5441654/75110387-f90b3600-562d-11ea-9dcd-9acd4fd901ff.png)
+
+*A demo page is planned.*
 
 ## Features
 
 - Create, edit and delete songs
 - Normal and viewport optimized fullscreen view for a single song
 - Switch song languages
-- Filter songs and setlists on typing and by tags
-- Transpose song tuning
+- Filter songs and setlists on typing, by tags and by key
+- Transpose song key
 - Create, edit and delete setlists
 - Rearrange songs in setlists with simple drag and drop
-- Presentation view for setlists
+- Presentation mode for setlists with device synchronization
 - PDF export for songs, setlists and songsheets
-- Plain text export for songs, setlists and songsheets
+- Plain text, SNG and Slack formatted export for songs and setlists
 - *Hotkey support* (planned)
 
 ## Installation
@@ -72,7 +78,7 @@ A song management web application to store, synchronize and present songs and se
 
 > **HINT**
 >
-> The setup process is still in development. An additional step with the possibility to add test data will be added soon.
+> The setup process is still in development. An additional step with the possibility to import test data will be added soon.
 
 ## Licence
 
@@ -80,4 +86,4 @@ A song management web application to store, synchronize and present songs and se
 
 ---
 
-SongDrive is completely free to use. If you enjoy it, please consider [donating via Paypal](https://paypal.me/devmount) for further development. :green_heart:
+SongDrive is completely free to use. If it's useful for you and you enjoy it, please consider [donating via Paypal](https://paypal.me/devmount) for further development. :green_heart:
