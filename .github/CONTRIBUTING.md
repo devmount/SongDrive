@@ -38,6 +38,7 @@ Simply fill in [the required template](PULL_REQUEST_TEMPLATE.md). Please do not 
   - :scroll: `:scroll:` when updating docs or readme
   - :key: `:key:` when dealing with security
   - :repeat: `:repeat:` when updating dependencies or data
+  - :white_check_mark: `:white_check_mark:` when a new release was built
   - :shirt: `:shirt:` when refactoring or removing linter warnings
   - :x: `:x:` when removing code or files
 
