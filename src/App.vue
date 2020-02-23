@@ -798,6 +798,19 @@ a:active,
     }
   }
 }
+.input-group {
+	.input-group-addon {
+		text-align: center;
+		min-width: 35px;
+		padding: 0.2rem 0;
+
+		&.addon-lg {
+			font-size: 0.9rem;
+			padding: 0.3rem 0;
+		}
+	}
+}
+
 // filter select field
 .filter {
 	&:required:invalid {
@@ -808,15 +821,6 @@ a:active,
 	}
 	option {
 		color: $body-font-color;
-	}
-
-	&>.input-group-addon {
-		text-align: center;
-		min-width: 32px;
-		
-		&.addon-lg {
-			min-width: 40px;
-		}
 	}
 }
 
