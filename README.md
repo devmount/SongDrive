@@ -86,4 +86,4 @@ This is how the SongDrive Dashboard currently looks like.
 
 ---
 
-SongDrive is completely free to use. If it's useful for you and you enjoy it, please consider [donating via Paypal](https://paypal.me/devmount) for further development. :green_heart:
+SongDrive is completely free to use. If it's useful for you and you enjoy it, please consider [contributing](.github/CONTRIBUTING.md) or [donating via Paypal](https://paypal.me/devmount) for further development. :green_heart:
