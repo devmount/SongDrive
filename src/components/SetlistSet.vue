@@ -145,7 +145,7 @@
 
 <script>
 // get basic program parameters
-import basics from '@/basics.js'
+import basics from '@/basics'
 // init datepicker component
 import Datepicker from 'vuejs-datepicker';
 

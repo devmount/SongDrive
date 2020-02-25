@@ -165,7 +165,7 @@
 
 <script>
 // get basic program parameters
-import basics from '@/basics.js'
+import basics from '@/basics'
 
 export default {
 	name: 'dashboard',

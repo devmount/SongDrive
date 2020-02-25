@@ -162,14 +162,14 @@
 
 <script>
 // get basic program parameters
-import basics from '@/basics.js'
+import basics from '@/basics'
 // get components
-import SetlistSet from '@/components/SetlistSet.vue'
-import SetlistDelete from '@/components/SetlistDelete.vue'
-import SetlistPresent from '@/components/SetlistPresent.vue'
+import SetlistSet from '@/components/SetlistSet'
+import SetlistDelete from '@/components/SetlistDelete'
+import SetlistPresent from '@/components/SetlistPresent'
 // pdf creation
-var pdfMake = require('pdfmake/build/pdfmake.js')
-var pdfFonts = require('@/assets/vfs_fonts.js')
+var pdfMake = require('pdfmake/build/pdfmake')
+var pdfFonts = require('@/assets/vfs_fonts')
 pdfMake.vfs = pdfFonts.pdfMake.vfs
 pdfMake.fonts = {
 	FiraMono: {

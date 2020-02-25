@@ -143,10 +143,10 @@
 
 <script>
 // get basic program parameters
-import basics from '@/basics.js'
+import basics from '@/basics'
 // get components
-import SongSet from '@/components/SongSet.vue'
-import SongDelete from '@/components/SongDelete.vue'
+import SongSet from '@/components/SongSet'
+import SongDelete from '@/components/SongDelete'
 
 export default {
 	name: 'songs',

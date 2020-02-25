@@ -140,8 +140,8 @@
 
 <script>
 // get components
-import SetlistSet from '@/components/SetlistSet.vue'
-import SetlistDelete from '@/components/SetlistDelete.vue'
+import SetlistSet from '@/components/SetlistSet'
+import SetlistDelete from '@/components/SetlistDelete'
 
 export default {
 	name: 'setlists',

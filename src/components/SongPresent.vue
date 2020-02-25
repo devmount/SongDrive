@@ -31,7 +31,7 @@
 
 <script>
 // get components
-import SongContent from '@/components/SongContent.vue'
+import SongContent from '@/components/SongContent'
 
 export default {
 	name: 'song-present',

@@ -196,10 +196,10 @@
 
 <script>
 // get basic program parameters
-import basics from '@/basics.js'
+import basics from '@/basics'
 // get components
-import UserSet from '@/components/UserSet.vue'
-import UserDelete from '@/components/UserDelete.vue'
+import UserSet from '@/components/UserSet'
+import UserDelete from '@/components/UserDelete'
 
 export default {
 	name: 'settings',

@@ -78,12 +78,12 @@
 
 <script>
 // get basic program parameters
-import basics from '@/basics.js'
+import basics from '@/basics'
 // get slider component
 import { Hooper, Slide, Pagination as HooperPagination } from 'hooper'
 import 'hooper/dist/hooper.css'
 // get internal components
-import SongContent from '@/components/SongContent.vue'
+import SongContent from '@/components/SongContent'
 
 export default {
 	name: 'setlist-present',
