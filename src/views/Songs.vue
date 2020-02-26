@@ -3,45 +3,82 @@
 		<div class="container no-sidebar">
 			<div class="columns">
 				<!-- heading -->
-				<div class="column col-6 col-xl-12">
+				<div class="column col-12">
 					<h2 class="view-title">
 						<span v-if="ready.songs" class="text-bold">{{ Object.keys(filteredSongs).length }}</span>
 						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
 						{{ $t('page.songs') }}
 					</h2>
 				</div>
-				<!-- search title, subtitles -->
-				<div class="column col-2 col-xl-12 mb-1">
+			</div>
+			<div class="columns mt-2 mb-4">
+				<div class="column col-3 col-xl-6 col-md-9 col-sm-12 col-mx-auto">
+					<ul class="pagination">
+						<li class="page-item" :class="{ disabled: isFirstPage }">
+							<a class="btn btn-secondary" @click="!isFirstPage ? page-- : null">
+								<ion-icon name="arrow-back"></ion-icon>
+							</a>
+						</li>
+						<li
+							class="page-item"
+							:class="{ active: (p-1) == page }"
+							v-for="(p, i) in pageCount"
+							:key="i"
+							v-show="pageCount < 6 || (p==1 || p==2 || (page==0 && p==3) || ((page==0||page==1) && p==4) || (p > page-1 && p < page+3) || ((page==pageCount-1||page==pageCount-2) && p==pageCount-3) || (page==pageCount-1 && p==pageCount-2) || p==pageCount-1 || p==pageCount)"
+						>
+							<span v-show="pageCount>=6 && page>2 && p==2">...</span>
+							<a class="c-hand" v-show="pageCount < 6 || (p==1 || (page==0 && p==3) || ((page==0||page==1) && p==4) || (p > page-1 && p < page+3) || ((page==pageCount-1||page==pageCount-2) && p==pageCount-3) || (page==pageCount-1 && p==pageCount-2) || p==pageCount)" @click="page = p-1">
+								{{ p }}
+							</a>
+							<span v-show="pageCount>=6 &&page<pageCount-3 && p==pageCount-1">...</span>
+						</li>
+						<li class="page-item" :class="{ disabled: isLastPage }">
+							<a class="btn btn-secondary" @click="!isLastPage ? page++ : null">
+								<ion-icon name="arrow-forward"></ion-icon>
+							</a>
+						</li>
+					</ul>
+					<div class="btn-group">
+					</div>
+				</div>
+				<div class="column col-1 hide-xl"></div>
+				<div class="column col-8 col-xl-12">
 					<div class="input-group filter">
+						<!-- search title, subtitles -->
 						<span class="input-group-addon addon-lg"><ion-icon name="search"></ion-icon></span>
 						<input type="search" v-model="search" class="form-input input-lg" :placeholder="$t('placeholder.searchSongTitle')" />
-						<button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><ion-icon name="close"></ion-icon></button>
-					</div>
-				</div>
-				<!-- filter tags -->
-				<div class="column col-2 col-xl-6 col-sm-12 mb-1">
-					<div class="input-group filter">
-						<span class="input-group-addon addon-lg"><ion-icon name="pricetag-outline"></ion-icon></span>
-						<select v-model="filter" class="form-select select-lg filter" required>
-							<option value="" disabled selected>{{ $t('placeholder.tag') }}</option>
-							<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ $t('tag.' + tag.key) }}</option>
-						</select>
-						<button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><ion-icon name="close"></ion-icon></button>
-					</div>
-				</div>
-				<!-- filter tuning -->
-				<div class="column col-2 col-xl-6 col-sm-12 mb-1">
-					<div class="input-group filter">
-						<span class="input-group-addon addon-lg"><ion-icon name="musical-note"></ion-icon></span>
-						<select v-model="tuning" class="form-select select-lg filter" required>
-							<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
-							<option v-for="t in tunes" :key="t" :value="t">{{ t }}</option>
-						</select>
-						<button class="btn input-group-btn btn-lg btn-link" @click="tuning = ''"><ion-icon name="close"></ion-icon></button>
+							<div class="dropdown dropdown-right">
+							<div class="btn-group">
+								<a class="btn input-group-btn btn-secondary btn-lg dropdown-toggle" :class="{ 'badge': filter!=''||tuning!=''}" tabindex="0">
+									<ion-icon name="filter-sharp"></ion-icon>
+								</a>
+								<ul class="menu text-left">
+									<li class="menu-item">
+										<!-- filter tag -->
+										<select v-model="filter" class="form-select select-lg filter" required>
+											<option value="" disabled selected>{{ $t('placeholder.tag') }}</option>
+											<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ $t('tag.' + tag.key) }}</option>
+										</select>
+									</li>
+									<li class="menu-item">
+										<!-- filter key -->
+										<select v-model="tuning" class="form-select select-lg filter" required>
+											<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
+											<option v-for="t in tunes" :key="t" :value="t">{{ t }}</option>
+										</select>
+									</li>
+									<li class="menu-item">
+										<!-- reset filter -->
+										<button class="btn input-group-btn btn-lg btn-secondary btn-error stretch" @click="search=''; filter=''; tuning=''"><ion-icon name="close"></ion-icon> Reset</button>
+									</li>
+								</ul>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		
+			<!-- song list -->
 			<table v-if="ready.songs" class="table table-striped table-hover">
 				<thead>
 					<tr>
@@ -74,7 +111,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(song, i) in filteredSongs" :key="i">
+					<tr v-for="(song, i) in pagedSongs" :key="i">
 						<td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 							{{ song.title }} <div class="show-xl text-gray">{{ song.subtitle }}</div>
 						</td>
@@ -160,6 +197,8 @@ export default {
 			search: '',
 			filter: this.$route.params.tag ? this.$route.params.tag : '',
 			tuning: '',
+			page: 0,
+			listLength: 11,
 			order: { 
 				field: 'title',
 				ascending: true
@@ -221,6 +260,18 @@ export default {
 				})
 			}
 			return songs
+		},
+		pagedSongs () {
+			return this.filteredSongs.slice(this.page*this.listLength, (this.page+1)*this.listLength)
+		},
+		isFirstPage () {
+			return this.page == 0
+		},
+		isLastPage () {
+			return this.pagedSongs.length < this.listLength
+		},
+		pageCount () {
+			return Math.ceil(this.filteredSongs.length/this.listLength)
 		}
 	},
 	methods: {

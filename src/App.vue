@@ -809,6 +809,11 @@ a:active,
 			padding: 0.3rem 0;
 		}
 	}
+
+	.form-input,
+	.form-select {
+		width: auto;
+	}
 }
 
 // filter select field
@@ -1163,6 +1168,13 @@ a {
 			}
 		}
 	}
+}
+
+// pagination
+.pagination {
+	margin: 0;
+	padding: 0;
+	justify-content: space-between;
 }
 
 // shapes
