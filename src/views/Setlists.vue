@@ -3,34 +3,75 @@
 		<div class="container no-sidebar">
 			<div class="columns">
 				<!-- heading -->
-				<div class="column col-6 col-xl-12">
+				<div class="column col-12">
 					<h2 class="view-title">
 						<span v-if="ready.setlists" class="text-bold">{{ Object.keys(filteredSetlists).length }}</span>
 						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
 						{{ $t('page.setlists') }}
 					</h2>
 				</div>
-				<!-- search title, subtitles -->
-				<div class="column col-3 col-xl-6 col-sm-12 mb-1">
+			</div>
+			<div class="columns mt-2 mb-3">
+				<!-- pagination -->
+				<div class="column col-3 col-xl-6 col-md-9 col-sm-12 col-mx-auto">
+					<ul class="pagination">
+						<li class="page-item" :class="{ disabled: isFirstPage }">
+							<a class="btn btn-secondary" @click="!isFirstPage ? page-- : null">
+								<ion-icon name="arrow-back"></ion-icon>
+							</a>
+						</li>
+						<li
+							class="page-item"
+							:class="{ active: (p-1) == page }"
+							v-for="(p, i) in pageCount"
+							:key="i"
+							v-show="pageCount < 6 || (p==1 || p==2 || (page==0 && p==3) || ((page==0||page==1) && p==4) || (p > page-1 && p < page+3) || ((page==pageCount-1||page==pageCount-2) && p==pageCount-3) || (page==pageCount-1 && p==pageCount-2) || p==pageCount-1 || p==pageCount)"
+						>
+							<span v-show="pageCount>=6 && page>2 && p==2">...</span>
+							<a class="c-hand" v-show="pageCount < 6 || (p==1 || (page==0 && p==3) || ((page==0||page==1) && p==4) || (p > page-1 && p < page+3) || ((page==pageCount-1||page==pageCount-2) && p==pageCount-3) || (page==pageCount-1 && p==pageCount-2) || p==pageCount)" @click="page = p-1">
+								{{ p }}
+							</a>
+							<span v-show="pageCount>=6 &&page<pageCount-3 && p==pageCount-1">...</span>
+						</li>
+						<li class="page-item" :class="{ disabled: isLastPage }">
+							<a class="btn btn-secondary" @click="!isLastPage ? page++ : null">
+								<ion-icon name="arrow-forward"></ion-icon>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="column col-1 hide-xl"></div>
+				<!-- search and filter -->
+				<div class="column col-8 col-xl-12">
 					<div class="input-group filter">
+						<!-- search title, subtitles -->
 						<span class="input-group-addon addon-lg"><ion-icon name="search"></ion-icon></span>
 						<input type="search" v-model="search" class="form-input input-lg" :placeholder="$t('placeholder.searchSetlistTitle')" />
-						<button class="btn input-group-btn btn-lg btn-link" @click="search = ''"><ion-icon name="close"></ion-icon></button>
-					</div>
-				</div>
-				<!-- filter years -->
-				<div class="column col-3 col-xl-6 col-sm-12 mb-1">
-					<div class="input-group filter">
-						<span class="input-group-addon addon-lg"><ion-icon name="calendar-outline"></ion-icon></span>
-						<select v-model="filter" class="form-select select-lg filter" required>
-							<option value="" disabled selected>{{ $t('placeholder.year') }}.</option>
-							<option v-for="year in setlistYears" :key="year" :value="year">{{ year }}</option>
-						</select>
-						<button class="btn input-group-btn btn-lg btn-link" @click="filter = ''"><ion-icon name="close"></ion-icon></button>
+						<div class="dropdown dropdown-right">
+							<div class="btn-group">
+								<a class="btn input-group-btn btn-secondary btn-lg dropdown-toggle" :class="{ 'badge': filter!='' }" tabindex="0">
+									<ion-icon name="filter-sharp"></ion-icon>
+								</a>
+								<ul class="menu text-left">
+									<li class="menu-item">
+										<!-- filter year -->
+										<select v-model="filter" class="form-select select-lg filter" required>
+											<option value="" disabled selected>{{ $t('placeholder.year') }}.</option>
+											<option v-for="year in setlistYears" :key="year" :value="year">{{ year }}</option>
+										</select>
+									</li>
+									<li class="menu-item">
+										<!-- reset filter -->
+										<button class="btn input-group-btn btn-lg btn-secondary btn-error stretch" @click="search=''; filter=''"><ion-icon name="close"></ion-icon> Reset</button>
+									</li>
+								</ul>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 
+			<!-- setlist list -->
 			<table v-if="ready.setlists" class="table table-striped table-hover">
 				<thead>
 					<tr>
@@ -59,7 +100,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(setlist, i) in filteredSetlists" :key="i">
+					<tr v-for="(setlist, i) in pagedSetlists" :key="i">
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							<div class="s-circle s-circle-state ml-3" :class="{ active: setlist.active }"></div>
 						</td>
@@ -154,6 +195,8 @@ export default {
 		return {
 			search: '',
 			filter: this.$route.params.year ? this.$route.params.year : '',
+			page: 0,
+			listLength: 12,
 			order: { 
 				field: 'date',
 				ascending: false
@@ -222,10 +265,22 @@ export default {
 			if (this.ready.setlists) {
 				let start = parseInt(Object.keys(this.setlists).slice(-1)[0].substring(0, 4))
 				let end = parseInt((new Date()).getFullYear())
-				return Array.from(Array(end-start+1).keys(), x => x + start)
+				return Array.from(Array(end-start+1).keys(), x => x + start).reverse()
 			} else {
 				return []
 			}
+		},
+		pagedSetlists () {
+			return this.filteredSetlists.slice(this.page*this.listLength, (this.page+1)*this.listLength)
+		},
+		isFirstPage () {
+			return this.page == 0
+		},
+		isLastPage () {
+			return this.pagedSetlists.length < this.listLength
+		},
+		pageCount () {
+			return Math.ceil(this.filteredSetlists.length/this.listLength)
 		}
 	},
 	methods: {
@@ -244,6 +299,14 @@ export default {
 			let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }
 			return (new Date(d)).toLocaleDateString(navigator.language, options)
 		}
+	},
+	watch: {
+		search () {
+			this.page = 0
+		},
+		filter () {
+			this.page = 0
+		},
 	}
 }
 </script>

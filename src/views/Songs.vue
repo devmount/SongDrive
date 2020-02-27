@@ -11,7 +11,7 @@
 					</h2>
 				</div>
 			</div>
-			<div class="columns mt-2">
+			<div class="columns mt-2 mb-3">
 				<!-- pagination -->
 				<div class="column col-3 col-xl-6 col-md-9 col-sm-12 col-mx-auto">
 					<ul class="pagination">
@@ -39,8 +39,6 @@
 							</a>
 						</li>
 					</ul>
-					<div class="btn-group">
-					</div>
 				</div>
 				<div class="column col-1 hide-xl"></div>
 				<!-- search and filter -->
