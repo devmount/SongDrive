@@ -69,7 +69,10 @@
 									</li>
 									<li class="menu-item">
 										<!-- reset filter -->
-										<button class="btn input-group-btn btn-lg btn-secondary btn-error stretch" @click="search=''; filter=''; tuning=''"><ion-icon name="close"></ion-icon> Reset</button>
+										<button class="btn input-group-btn btn-lg btn-secondary btn-error stretch" @click="search=''; filter=''; tuning=''">
+											<ion-icon name="close"></ion-icon>
+											{{ $t('button.reset') }}
+										</button>
 									</li>
 								</ul>
 							</div>
