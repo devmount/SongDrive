@@ -8,8 +8,8 @@
 						{{ $t('page.profile') }}
 					</h2>
 				</div>
-				<div class="column col-4 col-xl-6 col-sm-12">
-					<div class="panel mt-4">
+				<div class="column col-4 col-xl-6 col-sm-12 mt-4">
+					<div class="panel">
 						<div class="panel-header text-center">
 							<figure v-if="userObject.photoURL" class="avatar avatar-xxl mb-2">
 								<img :src="userObject.photoURL" alt="Avatar" />
@@ -45,19 +45,25 @@
 						</div>
 					</div>
 				</div>
-				<div v-if="role > 1" class="column col-4 col-xl-6 col-sm-12">
-					<div class="panel mt-4">
-						<div class="panel-body text-center pb-3">
-							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
-							<div v-else class="text-huge">{{ Object.keys(setlistsFromUser).length }}</div>
-							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistsCreated')}}</div>
+				<div v-if="role > 1" class="column col-4 col-xl-6 col-sm-12 mt-4">
+					<div class="columns">
+						<div class="column col-12">
+							<div class="panel">
+								<div class="panel-body text-center pb-3">
+									<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
+									<div v-else class="text-huge">{{ Object.keys(setlistsFromUser).length }}</div>
+									<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistsCreated')}}</div>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="panel mt-4">
-						<div class="panel-body text-center pb-3">
-							<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
-							<div v-else class="text-huge"><span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span></div>
-							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsPerformed') }}</div>
+						<div class="column col-12 mt-4">
+							<div class="panel">
+								<div class="panel-body text-center pb-3">
+									<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
+									<div v-else class="text-huge"><span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span></div>
+									<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsPerformed') }}</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

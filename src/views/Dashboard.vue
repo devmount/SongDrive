@@ -17,8 +17,8 @@
 			</div>
 			<!-- stored songs count -->
 			<div class="columns" v-if="ready.songs && ready.setlists">
-				<div class="column col-3 col-xl-6 col-sm-12">
-					<div class="panel mt-4">
+				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
+					<div class="panel">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(songs).length }}</div>
 							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsStored') }}</div>
@@ -26,8 +26,8 @@
 					</div>
 				</div>
 				<!-- stored setlists count -->
-				<div class="column col-3 col-xl-6 col-sm-12">
-					<div class="panel mt-4">
+				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
+					<div class="panel">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(setlists).length }}</div>
 							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistsStored') }}</div>
@@ -35,8 +35,8 @@
 					</div>
 				</div>
 				<!-- performed songs count -->
-				<div class="column col-3 col-xl-6 col-sm-12">
-					<div class="panel mt-4">
+				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
+					<div class="panel">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge"><span class="text-gray">~</span>{{ songsPerformed }}</div>
 							<div class="panel-title h5"><ion-icon name="mic-outline" class="mr-2"></ion-icon> {{ $t('widget.songsPerformed') }}</div>
@@ -44,8 +44,8 @@
 					</div>
 				</div>
 				<!-- languages count -->
-				<div class="column col-3 col-xl-6 col-sm-12">
-					<div class="panel mt-4">
+				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
+					<div class="panel">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(languages).length }}</div>
 							<div class="panel-title h5"><ion-icon name="globe-outline"></ion-icon> {{ $t('widget.languages') }}</div>
@@ -55,8 +55,8 @@
 			</div>
 			<!-- song list -->
 			<div class="columns" v-if="ready.songs && ready.setlists">
-				<div class="column col-4 col-xl-6 col-md-12">
-					<div class="panel mt-4">
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
 						<div class="panel-header">
 							<div class="panel-title h5">
 								{{ $t('widget.' + songsProperty) }} {{ $t('page.songs') }}
@@ -112,8 +112,8 @@
 					</div>
 				</div>
 				<!-- setlist list -->
-				<div class="column col-4 col-xl-6 col-md-12">
-					<div class="panel mt-4">
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
 						<div class="panel-header">
 							<div class="panel-title h5">
 								{{ $t('widget.' + setlistsProperty) }} {{ $t('page.setlists') }}

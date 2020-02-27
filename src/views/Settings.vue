@@ -10,8 +10,8 @@
 				</div>
 			</div>
 			<div v-if="ready.users && user && userObject" class="columns">
-				<div class="column col-4 col-xl-6 col-md-12">
-					<div class="panel mt-4">
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
 						<div class="panel-header text-center">
 							<ion-icon name="person-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $t('page.profile') }}</div>
@@ -43,8 +43,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="column col-4 col-xl-6 col-md-12">
-					<div class="panel mt-4">
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
 						<div class="panel-header text-center">
 							<ion-icon name="cog-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $t('app.name') }}</div>
@@ -69,8 +69,8 @@
 						{{ $t('page.administration') }}
 					</h2>
 				</div>
-				<div class="column col-4 col-xl-6 col-md-12">
-					<div class="panel mt-4">
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
 						<div class="panel-header text-center">
 							<ion-icon name="people-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ Object.keys(users).length }} {{ $t('widget.users') }}</div>
@@ -137,8 +137,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="column col-4 col-xl-6 col-md-12">
-					<div class="panel mt-4">
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
 						<div class="panel-header text-center">
 							<ion-icon name="pricetags-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ Object.keys(tags).length }} {{ $t('widget.tags') }}</div>
@@ -156,8 +156,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="column col-4 col-xl-6 col-md-12">
-					<div class="panel mt-4">
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
 						<div class="panel-header text-center">
 							<ion-icon name="file-tray-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $t('widget.backup') }}</div>
