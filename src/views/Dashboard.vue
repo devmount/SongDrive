@@ -158,6 +158,36 @@
 						</div>
 					</div>
 				</div>
+				<!-- song of the year -->
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
+						<div class="panel-header">
+							<div class="panel-title h5">
+								{{ $t('widget.songOfYear') }}
+							</div>
+						</div>
+						<div class="panel-body">
+							<div
+								v-for="(song, year) in songOfYear"
+								:key="year"
+								class="tile tile-centered tile-hover c-hand p-2"
+								@click="$router.push({ name: 'song-show', params: { id: song.id}})"
+							>
+								<div class="tile-icon">
+									<figure class="avatar avatar-secondary s-rounded" :data-initial="year"></figure>
+									<figure class="avatar avatar-secondary s-rounded ml-1" :data-initial="song.count + 'x'" :title="$t('title.songOccuredOn', { num: song.count })"></figure>
+								</div>
+								<div class="tile-content">
+									<div class="tile-title">{{ songs[song.id].title }}</div>
+									<div class="tile-subtitle text-gray text-small">{{ songs[song.id].subtitle }}</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel-link">
+							<router-link to="/songs" class="btn btn-link btn-block">{{ $t('widget.goToSongs') }} <ion-icon name="arrow-forward" class="ml-1"></ion-icon></router-link>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -211,7 +241,7 @@ export default {
 				if (setlist.songs) {
 					setlist.songs.forEach(song => {
 						if (!popularSongs.hasOwnProperty(song.id)) {
-							popularSongs[song.id] = 0
+							popularSongs[song.id] = 1
 						} else {
 							popularSongs[song.id]++
 						}
@@ -274,6 +304,36 @@ export default {
 				return this.reorderedSetlists.slice(this.setlistsPage*this.listLength, (this.setlistsPage+1)*this.listLength)
 			}
 		},
+		songOfYear () {
+			let popularSongs = {}
+			this.setlistsArray.forEach(setlist => {
+				let year = setlist.date.slice(0, 4)
+				if (year && setlist.songs) {
+					if (!popularSongs.hasOwnProperty(year)) {
+						popularSongs[year] = {}
+					}
+					setlist.songs.forEach(song => {
+						if (!popularSongs[year].hasOwnProperty(song.id)) {
+							popularSongs[year][song.id] = 1
+						} else {
+							popularSongs[year][song.id]++
+						}
+					})
+				}
+			})
+			let songsToYear = {}
+			for (let year in popularSongs) {
+				let maxId = '', maxCount = 0
+				for (let id in popularSongs[year]) {
+					if (popularSongs[year][id] > maxCount) {
+						maxId = id
+						maxCount = popularSongs[year][id]
+					}
+				}
+				songsToYear[year] = { id: maxId, count: maxCount }
+			}
+			return songsToYear
+		},
 		isFirstSongPage () {
 			return this.songsPage == 0
 		},
@@ -292,9 +352,13 @@ export default {
 
 <style lang="scss">
 .dashboard {
-	.tile .tile-icon .avatar-secondary {
+	.avatar-secondary {
 		width: 2rem;
 		font-size: 0.7rem;
+
+		&::before {
+			text-transform: unset;
+		}
 	}
 }
 </style>
