@@ -12,6 +12,7 @@
 				</div>
 			</div>
 			<div class="columns mt-2 mb-4">
+				<!-- pagination -->
 				<div class="column col-3 col-xl-6 col-md-9 col-sm-12 col-mx-auto">
 					<ul class="pagination">
 						<li class="page-item" :class="{ disabled: isFirstPage }">
@@ -42,12 +43,13 @@
 					</div>
 				</div>
 				<div class="column col-1 hide-xl"></div>
+				<!-- search and filter -->
 				<div class="column col-8 col-xl-12">
 					<div class="input-group filter">
 						<!-- search title, subtitles -->
 						<span class="input-group-addon addon-lg"><ion-icon name="search"></ion-icon></span>
 						<input type="search" v-model="search" class="form-input input-lg" :placeholder="$t('placeholder.searchSongTitle')" />
-							<div class="dropdown dropdown-right">
+						<div class="dropdown dropdown-right">
 							<div class="btn-group">
 								<a class="btn input-group-btn btn-secondary btn-lg dropdown-toggle" :class="{ 'badge': filter!=''||tuning!=''}" tabindex="0">
 									<ion-icon name="filter-sharp"></ion-icon>
@@ -283,6 +285,17 @@ export default {
 			}
 			this.order.field = field
 		}
+	},
+	watch: {
+		search () {
+			this.page = 0
+		},
+		filter () {
+			this.page = 0
+		},
+		tuning () {
+			this.page = 0
+		},
 	}
 }
 </script>
