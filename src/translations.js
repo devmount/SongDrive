@@ -110,7 +110,7 @@ export default {
 		},
 		placeholder: {
 			select: '',
-			searchSongTitle: 'Song title ...',
+			searchSongTitle: 'Search for Song title or subtitle ...',
 			searchSetlistTitle: 'Setlist title ...',
 			searchTagName: 'Tag name ...',
 			tag: 'Tag ...',
@@ -412,7 +412,7 @@ export default {
 		},
 		placeholder: {
 			select: '',
-			searchSongTitle: 'Song Titel...',
+			searchSongTitle: 'Suche nach Song Titel oder Untertitel...',
 			searchSetlistTitle: 'Setlist Titel...',
 			searchTagName: 'Tag Name ...',
 			tag: 'Tag ...',

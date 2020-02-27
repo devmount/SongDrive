@@ -11,7 +11,7 @@
 					</h2>
 				</div>
 			</div>
-			<div class="columns mt-2 mb-4">
+			<div class="columns mt-2">
 				<!-- pagination -->
 				<div class="column col-3 col-xl-6 col-md-9 col-sm-12 col-mx-auto">
 					<ul class="pagination">
@@ -200,7 +200,7 @@ export default {
 			filter: this.$route.params.tag ? this.$route.params.tag : '',
 			tuning: '',
 			page: 0,
-			listLength: 11,
+			listLength: 12,
 			order: { 
 				field: 'title',
 				ascending: true
