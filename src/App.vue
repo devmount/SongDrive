@@ -183,9 +183,9 @@
 // get basic program parameters
 import basics from '@/basics'
 // get components
-import SongSet from '@/components/SongSet'
-import SetlistSet from '@/components/SetlistSet'
-import SignUp from '@/components/SignUp'
+import SongSet from '@/modals/SongSet'
+import SetlistSet from '@/modals/SetlistSet'
+import SignUp from '@/modals/SignUp'
 // get database object authorized in config.js
 var firebase = require("firebase/app")
 require("firebase/auth")

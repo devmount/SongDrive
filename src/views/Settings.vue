@@ -198,8 +198,8 @@
 // get basic program parameters
 import basics from '@/basics'
 // get components
-import UserSet from '@/components/UserSet'
-import UserDelete from '@/components/UserDelete'
+import UserSet from '@/modals/UserSet'
+import UserDelete from '@/modals/UserDelete'
 
 export default {
 	name: 'settings',

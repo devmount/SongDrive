@@ -31,7 +31,7 @@
 
 <script>
 // get components
-import SongContent from '@/components/SongContent'
+import SongContent from '@/partials/SongContent'
 
 export default {
 	name: 'song-present',

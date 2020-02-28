@@ -156,10 +156,10 @@
 // get basic program parameters
 import basics from '@/basics'
 // get components
-import SongContent from '@/components/SongContent'
-import SongSet from '@/components/SongSet'
-import SongDelete from '@/components/SongDelete'
-import SongPresent from '@/components/SongPresent'
+import SongContent from '@/partials/SongContent'
+import SongSet from '@/modals/SongSet'
+import SongDelete from '@/modals/SongDelete'
+import SongPresent from '@/modals/SongPresent'
 // pdf creation
 var pdfMake = require('pdfmake/build/pdfmake')
 var pdfFonts = require('@/assets/vfs_fonts')

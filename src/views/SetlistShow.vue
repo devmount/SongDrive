@@ -164,9 +164,9 @@
 // get basic program parameters
 import basics from '@/basics'
 // get components
-import SetlistSet from '@/components/SetlistSet'
-import SetlistDelete from '@/components/SetlistDelete'
-import SetlistPresent from '@/components/SetlistPresent'
+import SetlistSet from '@/modals/SetlistSet'
+import SetlistDelete from '@/modals/SetlistDelete'
+import SetlistPresent from '@/modals/SetlistPresent'
 // pdf creation
 var pdfMake = require('pdfmake/build/pdfmake')
 var pdfFonts = require('@/assets/vfs_fonts')

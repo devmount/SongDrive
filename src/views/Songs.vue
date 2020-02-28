@@ -185,8 +185,8 @@
 // get basic program parameters
 import basics from '@/basics'
 // get components
-import SongSet from '@/components/SongSet'
-import SongDelete from '@/components/SongDelete'
+import SongSet from '@/modals/SongSet'
+import SongDelete from '@/modals/SongDelete'
 
 export default {
 	name: 'songs',

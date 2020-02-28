@@ -184,8 +184,8 @@
 
 <script>
 // get components
-import SetlistSet from '@/components/SetlistSet'
-import SetlistDelete from '@/components/SetlistDelete'
+import SetlistSet from '@/modals/SetlistSet'
+import SetlistDelete from '@/modals/SetlistDelete'
 
 export default {
 	name: 'setlists',

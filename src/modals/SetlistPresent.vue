@@ -83,7 +83,7 @@ import basics from '@/basics'
 import { Hooper, Slide, Pagination as HooperPagination } from 'hooper'
 import 'hooper/dist/hooper.css'
 // get internal components
-import SongContent from '@/components/SongContent'
+import SongContent from '@/partials/SongContent'
 
 export default {
 	name: 'setlist-present',
