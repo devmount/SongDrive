@@ -271,7 +271,7 @@ export default {
 			return this.page == 0
 		},
 		isLastPage () {
-			return this.pagedSongs.length < this.listLength
+			return this.pagedSongs.length <= this.listLength
 		},
 		pageCount () {
 			return Math.ceil(this.filteredSongs.length/this.listLength)
