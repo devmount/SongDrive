@@ -427,7 +427,7 @@ export default {
 						const song = self.songs[key];
 						var search = self.search.translations.toLowerCase()
 						// search in title and subtitle
-						if (song.title.toLowerCase().indexOf(search) !== -1 || song.subtitle.toLowerCase().indexOf(search) !== -1) {
+						if (song.title.toLowerCase().indexOf(search) !== -1 || song.subtitle.toLowerCase().indexOf(search) !== -1 || song.content.toLowerCase().indexOf(search) !== -1) {
 							songs[key] = song
 						}
 					}

@@ -350,7 +350,7 @@ export default {
 				var key = this.search.toLowerCase()
 				songs = Object.filter(
 					songs,
-					s => s.title.toLowerCase().indexOf(key) !== -1 || s.subtitle.toLowerCase().indexOf(key) !== -1
+					s => s.title.toLowerCase().indexOf(key) !== -1 || s.subtitle.toLowerCase().indexOf(key) !== -1 || s.content.toLowerCase().indexOf(key) !== -1
 				)
 			}
 			if (this.filter != '') {

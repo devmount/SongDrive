@@ -247,7 +247,7 @@ export default {
 				songs = songs.filter(song => {
 					// filter fields: title, subtitle
 					var key = self.search.toLowerCase()
-					return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1
+					return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1 || song.content.toLowerCase().indexOf(key) !== -1
 				})
 			}
 			if (this.filter != '') {
