@@ -283,7 +283,7 @@ export default {
 			return this.page == 0
 		},
 		isLastPage () {
-			return this.pagedSetlists.length <= this.listLength
+			return this.page == this.pageCount-1
 		},
 		pageCount () {
 			return Math.ceil(this.filteredSetlists.length/this.listLength)
