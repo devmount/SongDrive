@@ -189,6 +189,38 @@
 					</div>
 				</div>
 			</div>
+			<div class="columns" v-if="ready.songs && ready.setlists">
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
+						<div class="panel-header">
+							<div class="panel-title h5">
+								{{ $t('widget.setlistsCreatedPerYear') }}
+							</div>
+						</div>
+						<div class="panel-body">
+							<LineChart
+								:datasets="setlistsPerYear.datasets"
+								:labels="setlistsPerYear.labels"
+							/>
+						</div>
+					</div>
+				</div>
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
+						<div class="panel-header">
+							<div class="panel-title h5">
+								{{ $t('widget.songsPerformedPerYear') }}
+							</div>
+						</div>
+						<div class="panel-body">
+							<LineChart
+								:datasets="songsPerYear.datasets"
+								:labels="songsPerYear.labels"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -197,9 +229,15 @@
 // get basic program parameters
 import basics from '@/basics'
 
+// get components
+import LineChart from '@/charts/LineChart'
+
 export default {
 	name: 'dashboard',
 	props: ['songs', 'setlists', 'ready'],
+	components: {
+		LineChart,
+	},
 	data () {
 		return {
 			songsProperty: 'newest',
@@ -208,7 +246,7 @@ export default {
 			setlistsProperty: 'newest',
 			reorderedSetlists: [],
 			setlistsPage: 0,
-			listLength: 8,
+			listLength: 6,
 			languages: basics.languages,
 		}
 	},
@@ -333,6 +371,43 @@ export default {
 				songsToYear[year] = { id: maxId, count: maxCount }
 			}
 			return songsToYear
+		},
+		setlistsPerYear () {
+			let years = {}
+			this.setlistsArray.forEach(setlist => {
+				let year = setlist.date.slice(0, 4)
+				if (year) {
+					if (!years.hasOwnProperty(year)) {
+						years[year] = 1
+					} else {
+						years[year]++
+					}
+				}
+			})
+			return {
+				datasets: [
+					{ label: ' ' + this.$t('page.setlists'), data: Object.values(years), color: 'rgb(136, 181, 68)', bcolor: 'rgb(136, 181, 68, .1)'  },
+				],
+				labels: Object.keys(years)
+			}
+		},
+		songsPerYear () {
+			let years = {}
+			this.setlistsArray.forEach(setlist => {
+				let year = setlist.date.slice(0, 4)
+				if (year) {
+					if (!years.hasOwnProperty(year)) {
+						years[year] = 0
+					}
+					years[year] += setlist.songs.length
+				}
+			})
+			return {
+				datasets: [
+					{ label: ' ' + this.$t('page.songs'), data: Object.values(years), color: 'rgb(136, 181, 68)', bcolor: 'rgb(136, 181, 68, .1)'  },
+				],
+				labels: Object.keys(years)
+			}
 		},
 		isFirstSongPage () {
 			return this.songsPage == 0
