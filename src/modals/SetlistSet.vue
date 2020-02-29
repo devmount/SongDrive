@@ -24,7 +24,7 @@
 								<!-- date -->
 								<div class="column col-12 col-md-6">
 									<div class="form-group mb-2">
-										<label class="form-label" for="date">{{ $t('field.date') }} <span class="text-gray ml-2">{{ setlist.date | humanDate }}</span></label>
+										<label class="form-label" for="date">{{ $t('field.date') }} <span class="text-gray ml-2">{{ humanDate(setlist.date, $i18n.locale) }}</span></label>
 										<datepicker
 											:value="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 											format="yyyy-MM-dd"
@@ -340,6 +340,9 @@ export default {
 		},
 		cancel () {
 			this.$emit('closed')
+		},
+		humanDate (d, locale) {
+			return basics.humanDate(d, locale)
 		}
 	},
 	computed: {
@@ -362,13 +365,6 @@ export default {
 			return songs
 		},
 	},
-	filters: {
-		humanDate (d) {
-			if (!d) return ''
-			let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-			return (new Date(d)).toLocaleDateString(navigator.language, options)
-		}
-	}
 }
 </script>
 

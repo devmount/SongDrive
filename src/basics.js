@@ -210,4 +210,13 @@ export default {
 		}
 	},
 
+	/*
+	 * format human readable date
+	 */
+	humanDate (d, locale) {
+		if (!d) return ''
+		let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+		return (new Date(d)).toLocaleDateString(locale + '-' + locale.toUpperCase(), options)
+	}
+
 }

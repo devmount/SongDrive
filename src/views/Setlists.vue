@@ -108,7 +108,7 @@
 							<div class="s-circle s-circle-state ml-3" :class="{ active: setlist.active }"></div>
 						</td>
 						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
-							{{ setlist.date | humanDate }}
+							{{ humanDate(setlist.date, $i18n.locale) }}
 						</td>
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ setlist.title }}
@@ -183,6 +183,9 @@
 </template>
 
 <script>
+// get basic program parameters
+import basics from '@/basics'
+
 // get components
 import SetlistSet from '@/modals/SetlistSet'
 import SetlistDelete from '@/modals/SetlistDelete'
@@ -294,13 +297,16 @@ export default {
 				this.order.ascending = true
 			}
 			this.order.field = field
+		},
+		humanDate (d, locale) {
+			return basics.humanDate(d, locale)
 		}
 	},
 	filters: {
 		humanDate (d) {
 			if (!d) return ''
 			let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }
-			return (new Date(d)).toLocaleDateString(navigator.language, options)
+			return (new Date(d)).toLocaleDateString(this.$i18n.locale, options)
 		}
 	},
 	watch: {
