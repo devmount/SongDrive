@@ -220,6 +220,21 @@
 						</div>
 					</div>
 				</div>
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
+						<div class="panel-header">
+							<div class="panel-title h5">
+								{{ $t('widget.setlistsPerWeekday') }}
+							</div>
+						</div>
+						<div class="panel-body">
+							<BarChart
+								:datasets="setlistsPerWeekday.datasets"
+								:labels="setlistsPerWeekday.labels"
+							/>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -231,12 +246,14 @@ import basics from '@/basics'
 
 // get components
 import LineChart from '@/charts/LineChart'
+import BarChart from '@/charts/BarChart'
 
 export default {
 	name: 'dashboard',
 	props: ['songs', 'setlists', 'ready'],
 	components: {
 		LineChart,
+		BarChart,
 	},
 	data () {
 		return {
@@ -408,6 +425,31 @@ export default {
 				],
 				labels: Object.keys(years)
 			}
+		},
+		setlistsPerWeekday () {
+			let weekday = {}
+			for (let i = 0; i < this.getWeekDays.length; i++) {
+				weekday[this.getWeekDays[i]] = 0
+			}
+			this.setlistsArray.forEach(setlist => {
+				let w = (new Date(setlist.date)).toLocaleDateString(this.$i18n.locale, { weekday: 'long' })
+				weekday[w]++
+			})
+			return {
+				datasets: [
+					{ label: ' ' + this.$t('page.setlists'), data: Object.values(weekday), color: 'rgb(136, 181, 68)', bcolor: 'rgb(136, 181, 68, .1)'  },
+				],
+				labels: Object.keys(weekday).map(d => d.slice(0,2))
+			}
+		},
+		getWeekDays () {
+			var d = new Date(Date.UTC(2017, 0, 2)); // start with a Monday
+			var names = [];
+			for(let i = 0; i < 7; i++) {
+				names.push(d.toLocaleDateString(this.$i18n.locale, { weekday: 'long' }));
+				d.setDate(d.getDate() + 1);
+			}
+			return names;
 		},
 		isFirstSongPage () {
 			return this.songsPage == 0
