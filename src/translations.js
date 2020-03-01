@@ -38,7 +38,6 @@ export default {
 			tuning: 'Key',
 			export: 'Export',
 			copy: 'Copy',
-			stats: 'Stats',
 		},
 		button: {
 			signIn: 'Sign In',
@@ -105,6 +104,8 @@ export default {
 			registrations: 'Registrations',
 			tags: 'Tags',
 			backup: 'Backup',
+			stats: 'Stats',
+			keys: 'Keys',
 		},
 		title: {
 			songTuning: 'Song key',
@@ -345,7 +346,6 @@ export default {
 			tuning: 'Tonart',
 			export: 'Export',
 			copy: 'Kopieren',
-			stats: 'Statistik',
 		},
 		button: {
 			signIn: 'Login',
@@ -412,6 +412,8 @@ export default {
 			registrations: 'Registrierungen',
 			tags: 'Tags',
 			backup: 'Backup',
+			stats: 'Statistik',
+			keys: 'Tonarten',
 		},
 		title: {
 			songTuning: 'Tonart',

@@ -61,10 +61,6 @@
 					<button class="btn btn-secondary d-block stretch text-uppercase" @click="exportPdf('sheets')">
 						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre">{{ $t('button.exportSetlistSheets') }}</span>
 					</button>
-					<!-- sidebar: stats -->
-					<!-- <div class="divider text-center show-lg" :data-content="$t('divider.stats').charAt(0)"></div>
-					<div class="divider text-center hide-lg" :data-content="$t('divider.stats')"></div>
-					TODO -->
 				</div>
 			</div>
 			<!-- content -->
@@ -121,6 +117,41 @@
 							</table>
 						</div>
 					</div>
+					<div class="columns">
+						<div class="column col-12 mt-4">
+							<h2>{{ $t('widget.stats') }}</h2>
+						</div>
+						<div class="column col-4 col-xl-6 col-md-12 mt-4">
+							<div class="panel pb-4">
+								<div class="panel-header">
+									<div class="panel-title h5 text-center">
+										<ion-icon name="globe-outline"></ion-icon> {{ $t('widget.languages') }}
+									</div>
+								</div>
+								<div class="panel-body">
+									<DoughnutChart
+										:datasets="setlistLanguages.datasets"
+										:labels="setlistLanguages.labels"
+									/>
+								</div>
+							</div>
+						</div>
+						<div class="column col-4 col-xl-6 col-md-12 mt-4">
+							<div class="panel pb-4">
+								<div class="panel-header">
+									<div class="panel-title h5 text-center">
+										<ion-icon name="musical-note"></ion-icon> {{ $t('widget.keys') }}
+									</div>
+								</div>
+								<div class="panel-body">
+									<DoughnutChart
+										:datasets="setlistKeys.datasets"
+										:labels="setlistKeys.labels"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!-- modals -->
@@ -163,10 +194,13 @@
 <script>
 // get basic program parameters
 import basics from '@/basics'
+
 // get components
 import SetlistSet from '@/modals/SetlistSet'
 import SetlistDelete from '@/modals/SetlistDelete'
 import SetlistPresent from '@/modals/SetlistPresent'
+import DoughnutChart from '@/charts/DoughnutChart'
+
 // pdf creation
 var pdfMake = require('pdfmake/build/pdfmake')
 var pdfFonts = require('@/assets/vfs_fonts')
@@ -187,6 +221,7 @@ export default {
 		SetlistSet,
 		SetlistDelete,
 		SetlistPresent,
+		DoughnutChart,
 	},
 	data () {
 		return {
@@ -224,7 +259,39 @@ export default {
 				return songs
 			}
 			return []
-		}
+		},
+		setlistLanguages () {
+			let languages = {}
+			for (let i = 0; i < this.getSetlistSongs.length; i++) {
+				const song = this.getSetlistSongs[i]
+				if (!languages.hasOwnProperty(song.language)) {
+					languages[song.language] = 0
+				}
+				languages[song.language]++
+			}
+			return {
+				datasets: [
+					{ data: Object.values(languages), color: 'rgb(136, 181, 68)', bcolor: 'rgb(136, 181, 68, .1)'  },
+				],
+				labels: Object.keys(languages).map(e => ' ' + basics.languages[e])
+			}
+		},
+		setlistKeys () {
+			let keys = {}
+			for (let i = 0; i < this.getSetlistSongs.length; i++) {
+				const song = this.getSetlistSongs[i]
+				if (!keys.hasOwnProperty(song.customTuning)) {
+					keys[song.customTuning] = 0
+				}
+				keys[song.customTuning]++
+			}
+			return {
+				datasets: [
+					{ data: Object.values(keys), color: 'rgb(136, 181, 68)', bcolor: 'rgb(136, 181, 68, .1)'  },
+				],
+				labels: Object.keys(keys).map(e => ' ' + e)
+			}
+		},
 	},
 	methods: {
 		reorder ({oldIndex, newIndex}) {
