@@ -174,7 +174,7 @@
 								@click="$router.push({ name: 'song-show', params: { id: song.id}})"
 							>
 								<div class="tile-icon">
-									<figure class="avatar avatar-secondary s-rounded" :data-initial="year"></figure>
+									<figure class="avatar avatar-secondary bg-primary s-rounded" :data-initial="year"></figure>
 									<figure class="avatar avatar-secondary s-rounded ml-1" :data-initial="song.count + 'x'" :title="$t('title.songOccuredOn', { num: song.count })"></figure>
 								</div>
 								<div class="tile-content">

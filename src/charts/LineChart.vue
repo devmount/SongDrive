@@ -1,7 +1,5 @@
 <template>
 	<div class="chart">
-		<h3 v-if="title">{{ title }}</h3>
-		<p v-if="description" class="text-gray text-center">{{ description }}</p>
 		<canvas :id='id'></canvas>
 	</div>
 </template>
@@ -10,8 +8,6 @@
 /* eslint no-undef: 0 */
 export default {
 	props: {
-		title: String,
-		description: String,
 		labels: Array,
 		datasets: Array,
 	},
