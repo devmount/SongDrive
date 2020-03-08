@@ -202,7 +202,7 @@ export default {
 		},
 		exportTxt: function() {
 			// add header
-			var content = this.song.title + ' [' + this.song.tuning + ']' + '\n\n'
+			var content = this.song.title + ' [' + this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' + '\n\n'
 			var lines = this.song.content.split('\n')
 			// process lines
 			for (var i = 0; i < lines.length; i++) {
@@ -240,7 +240,7 @@ export default {
 				'#Author=' + this.song.authors +
 				'#Melody=' + this.song.authors +
 				'#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '\n' +
-				'#Key=' + this.song.tuning + '\n' +
+				'#Key=' + this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + '\n' +
 				'#CCLI=' + this.song.ccli + '\n' +
 				'---' + '\n'
 			var lines = this.song.content.split('\n')
@@ -329,7 +329,7 @@ export default {
 			// return array with song data
 			return [
 				// song title [tuning] with a line beneath
-				{ text: this.song.title.toUpperCase() + (this.song.tuning ? '  [' + this.song.tuning + ']' : ''), style: 'header' },
+				{ text: this.song.title.toUpperCase() + (this.tuning ? '  [' + this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' : ''), style: 'header' },
 				{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
 				content,
 				// imprint with ccli#, author names and (c) year publisher
