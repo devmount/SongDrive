@@ -417,7 +417,7 @@ export default {
 					},
 				}
 			}
-			pdfMake.createPdf(doc).open()
+			pdfMake.createPdf(doc).download()
 			// toast success message
 			this.$notify({ title: this.$t('toast.exportedPdf'), text: this.$t('toast.exportedSetlistPdfText'), type: 'primary' })
 		},

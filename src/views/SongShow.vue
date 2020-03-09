@@ -155,6 +155,7 @@
 <script>
 // get basic program parameters
 import basics from '@/basics'
+let os = require('os')
 // get components
 import SongContent from '@/partials/SongContent'
 import SongSet from '@/modals/SongSet'
@@ -203,7 +204,7 @@ export default {
 		exportTxt: function() {
 			// add header
 			var content = this.song.title + ' [' + this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' + '\n\n'
-			var lines = this.song.content.split('\n')
+			var lines = this.song.content.split(os.EOL)
 			// process lines
 			for (var i = 0; i < lines.length; i++) {
 				var line = lines[i]
@@ -223,9 +224,9 @@ export default {
 				// handle marker
 				if (line.trim().indexOf('--') >= 0) continue
 				// keep line for export
-				content += line + '\n'
+				content += line + os.EOL
 			}
-			content += '\n' + this.song.authors +
+			content += os.EOL + this.song.authors + os.EOL + os.EOL +
 				'© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ')
 			// start download
 			basics.download(content, this.songKey + '.txt')
@@ -235,20 +236,20 @@ export default {
 		exportSng: function() {
 			// add header
 			var content =
-				'#LangCount=1' + '\n' +
-				'#Title=' + this.song.title + '\n' +
+				'#LangCount=1' + os.EOL +
+				'#Title=' + this.song.title + os.EOL +
 				'#Author=' + this.song.authors +
 				'#Melody=' + this.song.authors +
-				'#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '\n' +
-				'#Key=' + this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + '\n' +
-				'#CCLI=' + this.song.ccli + '\n' +
-				'---' + '\n'
-			var lines = this.song.content.split('\n')
+				'#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + os.EOL +
+				'#Key=' + this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + os.EOL +
+				'#CCLI=' + this.song.ccli + os.EOL +
+				'---' + os.EOL
+			var lines = this.song.content.split(os.EOL)
 			// remove chord lines
 			for (var i = 0; i < lines.length; i++) {
 				var line = lines[i]
 				if (this.isChordLine(line)) continue
-				else content += line + '\n'
+				else content += line + os.EOL
 			}
 			// replace marker
 			content = content
@@ -293,7 +294,7 @@ export default {
 					}
 				}
 			}
-			pdfMake.createPdf(doc).open()
+			pdfMake.createPdf(doc).download()
 			// toast success message
 			this.$notify({ title: this.$t('toast.exportedPdf'), text: this.$t('toast.exportedSongPdfText'), type: 'primary' })
 		},
