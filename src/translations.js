@@ -78,6 +78,19 @@ export default {
 		tooltip: {
 			setlistAdd: 'Add new Setlist',
 			songAdd: 'Add new Song',
+			syncOn: 'Sync on',
+			syncOff: 'Sync off',
+			presentationShow: 'Show Presentation',
+			presentationHide: 'Hide Presentation',
+			presentationClose: 'Close Präsentation',
+			chordsShow: 'Show Chords',
+			chordsHide: 'Hide Chords',
+		},
+		shortcut: {
+			ctrlS: 'CTRL + S',
+			ctrlB: 'CTRL + B',
+			ctrlK: 'CTRL + K',
+			esc: 'ESC',
 		},
 		app: {
 			name: 'SongDrive',
@@ -386,6 +399,19 @@ export default {
 		tooltip: {
 			setlistAdd: 'Neue Setlist hinzufügen',
 			songAdd: 'Neuen Song hinzufügen',
+			syncOn: 'Synchronisierung an',
+			syncOff: 'Syncchronisierung aus',
+			presentationShow: 'Präsentation zeigen',
+			presentationHide: 'Präsentation ausblenden',
+			presenationClose: 'Präsentation beenden',
+			chordsShow: 'Akkorde zeigen',
+			chordsHide: 'Akkorde ausblenden',
+		},
+		shortcut: {
+			ctrlS: 'STRG + S',
+			ctrlB: 'STRG + B',
+			ctrlK: 'STRG + K',
+			esc: 'ESC',
 		},
 		app: {
 			name: 'SongDrive',

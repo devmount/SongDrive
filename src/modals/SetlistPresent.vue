@@ -10,6 +10,8 @@
 		@keydown.right.exact="$refs.presentation.slideNext()"
 		@keydown.ctrl.83.prevent="autoSync = !autoSync"
 		@keydown.ctrl.66.prevent="hide = !hide"
+		@keydown.ctrl.75.prevent="chords = !chords"
+		@keydown.esc.exact="$emit('closed')"
 	>
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
 		<transition name="fade">
@@ -67,16 +69,43 @@
 					</a>
 				</div>
 				<span class="clock px-4">{{ timeonly }}</span>
-				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-4" :class="{ 'btn-secondary': !autoSync, 'btn-primary': autoSync }" href="#" aria-label="AutoSync" @click.prevent="autoSync = !autoSync">
+				<a
+					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-4"
+					:class="{ 'btn-secondary': !autoSync, 'btn-primary': autoSync }"
+					href="#"
+					aria-label="AutoSync"
+					@click.prevent="autoSync = !autoSync"
+					:data-tooltip="$t('tooltip.sync' + (!autoSync ? 'On' : 'Off')) + '\n' + $t('shortcut.ctrlS')"
+				>
 					<ion-icon name="sync" class="icon-1-5x"></ion-icon>
 				</a>
-				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !hide, 'btn-primary': hide }" href="#" aria-label="Hide" @click.prevent="hide = !hide">
+				<a
+					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+					:class="{ 'btn-secondary': !hide, 'btn-primary': hide }"
+					href="#"
+					aria-label="Hide"
+					@click.prevent="hide = !hide"
+					:data-tooltip="$t('tooltip.presentation' + (hide ? 'Show' : 'Hide')) + '\n' + $t('shortcut.ctrlB')"
+				>
 					<ion-icon name="eye-off-outline" class="icon-1-5x"></ion-icon>
 				</a>
-				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !chords, 'btn-primary': chords }" href="#" aria-label="Chords" @click.prevent="$emit('chords')">
+				<a
+					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+					:class="{ 'btn-secondary': !chords, 'btn-primary': chords }"
+					href="#"
+					aria-label="Chords"
+					@click.prevent="$emit('chords')"
+					:data-tooltip="$t('tooltip.chords' + (!chords ? 'Show' : 'Hide')) + '\n' + $t('shortcut.ctrlK')"
+				>
 					<ion-icon name="musical-notes" class="icon-1-5x"></ion-icon>
 				</a>
-				<a class="btn btn-secondary btn-xl btn-fw btn-gray ml-1" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
+				<a
+					class="btn btn-secondary btn-xl btn-fw btn-gray tooltip ml-1"
+					href="#"
+					aria-label="Cancel"
+					@click.prevent="$emit('closed')"
+					:data-tooltip="$t('tooltip.presentationClose') + '\n' + $t('shortcut.esc')"
+				>
 					<ion-icon name="close" class="icon-1-5x"></ion-icon>
 				</a>
 			</div>

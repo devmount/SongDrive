@@ -909,6 +909,11 @@ a {
 	}
 }
 
+// tooltip
+.tooltip::after {
+	line-height: 1.1rem;
+}
+
 // empty
 .empty {
 	background: none;
