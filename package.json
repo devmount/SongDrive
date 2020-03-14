@@ -8,11 +8,23 @@
 		"url": "https://devmount.de"
 	},
 	"repository": {
-		"type" : "git",
-		"url" : "https://github.com/devmount/SongDrive.git"
+		"type": "git",
+		"url": "https://github.com/devmount/SongDrive.git"
 	},
 	"homepage": "https://devmount.github.io/SongDrive",
-	"keywords": ["vuejs2", "vuefire", "firebase", "firestore", "music", "song-management", "vue", "songs", "setlists", "spectre-css", "presentation"],
+	"keywords": [
+		"vuejs2",
+		"vuefire",
+		"firebase",
+		"firestore",
+		"music",
+		"song-management",
+		"vue",
+		"songs",
+		"setlists",
+		"spectre-css",
+		"presentation"
+	],
 	"bugs": "https://github.com/devmount/SongDrive/issues",
 	"private": false,
 	"browser": "./dist/index.html",
