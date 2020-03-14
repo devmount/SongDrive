@@ -9,8 +9,12 @@
 		@keydown.down.exact="$refs.presentation.slideNext()"
 		@keydown.right.exact="$refs.presentation.slideNext()"
 		@keydown.ctrl.83.prevent="autoSync = !autoSync"
+		@keydown.ctrl.66.prevent="hide = !hide"
 	>
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
+		<transition name="fade">
+			<div v-if="hide" class="hide"></div>
+		</transition>
 		<div class="modal-container">
 			<div v-if="songs && songs.length > 0" class="modal-body">
 				<hooper
@@ -66,6 +70,9 @@
 				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-4" :class="{ 'btn-secondary': !autoSync, 'btn-primary': autoSync }" href="#" aria-label="AutoSync" @click.prevent="autoSync = !autoSync">
 					<ion-icon name="sync" class="icon-1-5x"></ion-icon>
 				</a>
+				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !hide, 'btn-primary': hide }" href="#" aria-label="Hide" @click.prevent="hide = !hide">
+					<ion-icon name="eye-off-outline" class="icon-1-5x"></ion-icon>
+				</a>
 				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !chords, 'btn-primary': chords }" href="#" aria-label="Chords" @click.prevent="$emit('chords')">
 					<ion-icon name="musical-notes" class="icon-1-5x"></ion-icon>
 				</a>
@@ -108,6 +115,7 @@ export default {
 			},
 			currentPosition: 0,
 			autoSync: false,
+			hide: false,
 			now: new Date,
 			blink: true,
 			tunes: basics.tunes
@@ -140,18 +148,6 @@ export default {
 			this.currentPosition = payload.currentSlide
 			this.$emit('updatePosition', payload.currentSlide)
 		},
-		navigate(event) {
-			switch (event.srcKey) {
-				case 'up':
-				case 'left':
-					this.$refs.presentation.slidePrev()
-					break
-				case 'down':
-				case 'right':
-					this.$refs.presentation.slideNext()
-					break
-			}
-		}
 	},
 	watch: {
 		active() {
@@ -239,6 +235,24 @@ $mono-font-family: "Fira Code", "Fira Mono", monospace;
 			}
 		}
 	}
+
+	.hide {
+		background: $black-color;
+		position: absolute;
+		top: 0;
+		width: 100vw;
+		height: calc(100vh - 90px);
+		z-index: 100;
+	}
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 
 </style>
