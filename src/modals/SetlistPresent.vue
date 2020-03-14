@@ -4,10 +4,11 @@
 		:class="{ active: active }"
 		ref="container"
 		tabindex="0"
-		@keydown.up="$refs.presentation.slidePrev()"
-		@keydown.left="$refs.presentation.slidePrev()"
-		@keydown.down="$refs.presentation.slideNext()"
-		@keydown.right="$refs.presentation.slideNext()"
+		@keydown.up.exact="$refs.presentation.slidePrev()"
+		@keydown.left.exact="$refs.presentation.slidePrev()"
+		@keydown.down.exact="$refs.presentation.slideNext()"
+		@keydown.right.exact="$refs.presentation.slideNext()"
+		@keydown.ctrl.83.prevent="autoSync = !autoSync"
 	>
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
 		<div class="modal-container">
