@@ -86,6 +86,8 @@ export default {
 			presentationClose: 'Close Presentation',
 			chordsShow: 'Show Chords',
 			chordsHide: 'Hide Chords',
+			nextSlide: 'Next Slide',
+			previousSlide: 'Previous Slide',
 		},
 		key: {
 			ctrl: 'CTRL',
@@ -410,6 +412,8 @@ export default {
 			presentationClose: 'Präsentation beenden',
 			chordsShow: 'Akkorde zeigen',
 			chordsHide: 'Akkorde ausblenden',
+			nextSlide: 'Nächste Folie',
+			previousSlide: 'Vorherige Folie',
 		},
 		key: {
 			ctrl: 'STRG',
