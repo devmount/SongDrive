@@ -75,7 +75,7 @@
 					href="#"
 					aria-label="AutoSync"
 					@click.prevent="autoSync = !autoSync"
-					:data-tooltip="$t('tooltip.sync' + (!autoSync ? 'On' : 'Off')) + '\n' + $t('shortcut.ctrlS')"
+					:data-tooltip="$t('tooltip.sync' + (!autoSync ? 'On' : 'Off')) + '\n' + $t('key.ctrl') + ' + ' + $t('key.S')"
 				>
 					<ion-icon name="sync" class="icon-1-5x"></ion-icon>
 				</a>
@@ -85,7 +85,7 @@
 					href="#"
 					aria-label="Hide"
 					@click.prevent="hide = !hide"
-					:data-tooltip="$t('tooltip.presentation' + (hide ? 'Show' : 'Hide')) + '\n' + $t('shortcut.ctrlB')"
+					:data-tooltip="$t('tooltip.presentation' + (hide ? 'Show' : 'Hide')) + '\n' + $t('key.ctrl') + ' + ' + $t('key.B')"
 				>
 					<ion-icon name="eye-off-outline" class="icon-1-5x"></ion-icon>
 				</a>
@@ -95,7 +95,7 @@
 					href="#"
 					aria-label="Chords"
 					@click.prevent="$emit('chords')"
-					:data-tooltip="$t('tooltip.chords' + (!chords ? 'Show' : 'Hide')) + '\n' + $t('shortcut.ctrlK')"
+					:data-tooltip="$t('tooltip.chords' + (!chords ? 'Show' : 'Hide')) + '\n' + $t('key.ctrl') + ' + ' + $t('key.K')"
 				>
 					<ion-icon name="musical-notes" class="icon-1-5x"></ion-icon>
 				</a>
@@ -104,7 +104,7 @@
 					href="#"
 					aria-label="Cancel"
 					@click.prevent="$emit('closed')"
-					:data-tooltip="$t('tooltip.presentationClose') + '\n' + $t('shortcut.esc')"
+					:data-tooltip="$t('tooltip.presentationClose') + '\n' + $t('key.esc')"
 				>
 					<ion-icon name="close" class="icon-1-5x"></ion-icon>
 				</a>

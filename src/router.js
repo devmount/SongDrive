@@ -18,5 +18,6 @@ export default new Router({
 		{ path: '/setlist/:id',    name: 'setlist-show',  component: () => import('./views/SetlistShow') },
 		{ path: '/profile',        name: 'profile',       component: () => import('./views/Profile')     },
 		{ path: '/settings',       name: 'settings',      component: () => import('./views/Settings')    },
+		{ path: '/shortcuts',      name: 'shortcuts',     component: () => import('./views/Shortcuts')   },
 	]
 })

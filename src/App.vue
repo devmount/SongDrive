@@ -76,6 +76,11 @@
 					<ul class="menu text-uppercase">
 						<li class="divider text-center" :data-content="$t('divider.info')"></li>
 						<li class="menu-item">
+							<router-link to="/shortcuts" class="py-2" @click.native="open = false">
+								<ion-icon name="bulb-outline" class="mr-2"></ion-icon> {{ $t('page.shortcuts') }}
+							</router-link>
+						</li>
+						<li class="menu-item">
 							<a href="https://devmount.github.io/SongDrive" class="py-2" target="_blank">
 								<ion-icon name="book-outline" class="mr-2"></ion-icon>
 								{{ $t('page.docu') }}
