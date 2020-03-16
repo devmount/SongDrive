@@ -88,12 +88,16 @@ export default {
 			chordsHide: 'Hide Chords',
 			nextSlide: 'Next Slide',
 			previousSlide: 'Previous Slide',
+			pagination: 'List navigation',
+			search: 'Activate Search',
+			clear: 'Clear search and filter',
 		},
 		key: {
 			ctrl: 'CTRL',
 			S: 'S',
 			B: 'B',
 			K: 'K',
+			F: 'F',
 			esc: 'ESC',
 		},
 		app: {
@@ -414,12 +418,16 @@ export default {
 			chordsHide: 'Akkorde ausblenden',
 			nextSlide: 'Nächste Folie',
 			previousSlide: 'Vorherige Folie',
+			pagination: 'Seiten-Navigation',
+			search: 'Suche aktivieren',
+			clear: 'Suche und Filter zurücksetzen',
 		},
 		key: {
 			ctrl: 'STRG',
 			S: 'S',
 			B: 'B',
 			K: 'K',
+			F: 'F',
 			esc: 'ESC',
 		},
 		app: {

@@ -7,6 +7,7 @@
 			@keydown.left.exact="!isFirstPage ? page-- : null"
 			@keydown.right.exact="!isLastPage ? page++ : null"
 			@keydown.ctrl.70.prevent="$refs.search.focus()"
+			@keydown.esc.exact="search=''; filter=''; tuning=''"
 		>
 			<div class="columns">
 				<!-- heading -->
