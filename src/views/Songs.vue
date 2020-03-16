@@ -1,6 +1,13 @@
 <template>
 	<div class="songs">
-		<div class="container no-sidebar">
+		<div
+			class="container no-sidebar"
+			ref="container"
+			tabindex="0"
+			@keydown.left.exact="!isFirstPage ? page-- : null"
+			@keydown.right.exact="!isLastPage ? page++ : null"
+			@keydown.ctrl.70.prevent="$refs.search.focus()"
+		>
 			<div class="columns">
 				<!-- heading -->
 				<div class="column col-12">
@@ -46,7 +53,7 @@
 					<div class="input-group filter">
 						<!-- search title, subtitles -->
 						<span class="input-group-addon addon-lg"><ion-icon name="search"></ion-icon></span>
-						<input type="search" v-model="search" class="form-input input-lg" :placeholder="$t('placeholder.searchSongTitle')" />
+						<input type="search" ref="search" v-model="search" class="form-input input-lg" :placeholder="$t('placeholder.searchSongTitle')" />
 						<div class="dropdown dropdown-right">
 							<div class="btn-group">
 								<a class="btn input-group-btn btn-secondary btn-lg dropdown-toggle" :class="{ 'badge': filter!=''||tuning!=''}" tabindex="0">
@@ -218,6 +225,9 @@ export default {
 			},
 			tunes: basics.tunes
 		}
+	},
+	mounted () {
+		this.$refs.container.focus()
 	},
 	computed: {
 		songsArray () {
