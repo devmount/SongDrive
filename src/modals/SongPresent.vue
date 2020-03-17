@@ -1,5 +1,12 @@
 <template>
-	<div class="modal modal-lg modal-full modal-presentation" :class="{ active: active }">
+	<div
+		class="modal modal-lg modal-full modal-presentation"
+		:class="{ active: active }"
+		ref="container"
+		tabindex="0"
+		@keydown.ctrl.75.prevent="chords = !chords"
+		@keydown.esc.exact="$emit('closed')"
+	>
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
 		<div class="modal-container">
 			<div class="modal-header">
@@ -58,6 +65,7 @@ export default {
 	},
 	mounted () {
 		this.maximizeFontsize()
+		this.$refs.container.focus()
 	},
 	watch: {
 		chords() {
