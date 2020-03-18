@@ -11,7 +11,7 @@
 				<div class="column col-4 col-xl-6 col-sm-12 mt-4">
 					<div class="panel">
 						<div class="panel-header">
-							<div class="panel-title h5">{{ $t('widget.presentation') }}</div>
+							<div class="panel-title h5">{{ $t('widget.setlistPresentation') }}</div>
 						</div>
 						<div class="panel-body text-center pb-3">
 							<table class="table">
@@ -73,6 +73,49 @@
 										<td><kbd>{{ $t('key.esc') }}</kbd></td>
 										<td><ion-icon name="close-outline"></ion-icon></td>
 										<td>{{ $t('tooltip.clear') }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="column col-4 col-xl-6 col-sm-12 mt-4">
+					<div class="panel">
+						<div class="panel-header">
+							<div class="panel-title h5">{{ $t('widget.singleSongView') }}</div>
+						</div>
+						<div class="panel-body text-center pb-3">
+							<table class="table">
+								<tbody>
+									<tr>
+										<td><kbd><ion-icon name="arrow-forward"></ion-icon></kbd> / <kbd><ion-icon name="arrow-up"></ion-icon></kbd></td>
+										<td><ion-icon name="musical-note"></ion-icon></td>
+										<td>{{ $t('tooltip.transposeUp') }}</td>
+									</tr>
+									<tr>
+										<td><kbd><ion-icon name="arrow-back"></ion-icon></kbd> / <kbd><ion-icon name="arrow-down"></ion-icon></kbd></td>
+										<td><ion-icon name="musical-note"></ion-icon></td>
+										<td>{{ $t('tooltip.transposeDown') }}</td>
+									</tr>
+									<tr>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.R') }}</kbd></td>
+										<td><ion-icon name="musical-note"></ion-icon></td>
+										<td>{{ $t('tooltip.keyReset') }}</td>
+									</tr>
+									<tr>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.K') }}</kbd></td>
+										<td><ion-icon name="musical-notes"></ion-icon></td>
+										<td>{{ $t('tooltip.chordsShow') }} / {{ $t('tooltip.chordsHide') }}</td>
+									</tr>
+									<tr>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.P') }}</kbd></td>
+										<td><ion-icon name="videocam-outline"></ion-icon></td>
+										<td>{{ $t('tooltip.presentationStart') }}</td>
+									</tr>
+									<tr>
+										<td><kbd>{{ $t('key.esc') }}</kbd></td>
+										<td><ion-icon name="close"></ion-icon></td>
+										<td>{{ $t('tooltip.presentationClose') }}</td>
 									</tr>
 								</tbody>
 							</table>

@@ -1,5 +1,17 @@
 <template>
-	<div class="song-show">
+	<div
+		class="song-show"
+		ref="song-show"
+		tabindex="0"
+		@keydown.up.exact="chords ? tuning-- : null"
+		@keydown.left.exact="chords ? tuning-- : null"
+		@keydown.down.exact="chords ? tuning++ : null"
+		@keydown.right.exact="chords ? tuning++ : null"
+		@keydown.ctrl.75.prevent="chords = !chords"
+		@keydown.ctrl.82.prevent="chords ? tuning=0 : null"
+		@keydown.ctrl.80.prevent="modal.present=true"
+		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; $refs['song-show'].focus()"
+	>
 		<div class="off-canvas off-canvas-secondary">
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">
@@ -196,6 +208,9 @@ export default {
 			existing: true,
 			tunes: basics.tunes
 		}
+	},
+	mounted () {
+		this.$refs['song-show'].focus()
 	},
 	methods: {
 		isChordLine(line) {
