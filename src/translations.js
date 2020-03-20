@@ -133,8 +133,8 @@ export default {
 			backup: 'Backup',
 			stats: 'Stats',
 			keys: 'Keys',
-			setlistPresentation: 'Setlist Presentation',
-			singleSongView: 'Single Song View',
+			songView: 'Song View',
+			setlistView: 'Setlist View',
 		},
 		title: {
 			songTuning: 'Song key',
@@ -470,8 +470,8 @@ export default {
 			backup: 'Backup',
 			stats: 'Statistik',
 			keys: 'Tonarten',
-			setlistPresentation: 'Setlist Präsentation',
-			singleSongView: 'Ansicht Song',
+			songView: 'Ansicht Song',
+			setlistView: 'Ansicht Setlist',
 		},
 		title: {
 			songTuning: 'Tonart',

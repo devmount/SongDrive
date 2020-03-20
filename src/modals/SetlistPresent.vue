@@ -10,7 +10,6 @@
 		@keydown.right.exact="$refs.presentation.slideNext()"
 		@keydown.ctrl.83.prevent="autoSync = !autoSync"
 		@keydown.ctrl.66.prevent="hide = !hide"
-		@keydown.ctrl.75.prevent="chords = !chords"
 		@keydown.esc.exact="$emit('closed')"
 	>
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
