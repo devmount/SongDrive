@@ -371,6 +371,7 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Fira+Mono');
 @import url('https://cdn.jsdelivr.net/gh/tonsky/FiraCode@1.206/distr/fira_code.css');
 
+$mode: 'dark';
 // overwrite spectre variables
 $primary-color: #88b544;
 $primary-dark-color: #222627;
@@ -385,6 +386,23 @@ $gray-color: #5e6769;
 $gray-color-dark: #4a5052;
 $dark-color: #010101;
 $black-color: #000000;
+
+@if $mode == 'light' {
+	$primary-color: #88b544;
+	$primary-dark-color: #dbddd8;
+	$error-color: #ed2f47;
+	$body-font-color: #2e3a3e;
+	$bg-color: #f9fdf1;
+	$bg-color-medium: #e6e7e4;
+	$bg-color-light: #eef0eb;
+	$bg-color-dark: #dcddd8;
+	$border-color: #dbddd8;
+	$gray-color: #9ecf88;
+	$gray-color-dark: #4f524b;
+	$dark-color: #fcfcfc;
+	$black-color: #2e2e2e;
+}
+
 $mono-font-family: "Fira Mono", monospace;
 $size-2x: 1440px;
 $border-radius: 0;
