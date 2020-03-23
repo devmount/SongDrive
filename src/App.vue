@@ -371,36 +371,74 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Fira+Mono');
 @import url('https://cdn.jsdelivr.net/gh/tonsky/FiraCode@1.206/distr/fira_code.css');
 
-$mode: 'dark';
-// overwrite spectre variables
+$dark: true;
+// Core colors
 $primary-color: #88b544;
-$primary-dark-color: #222627;
+$primary-color-dark: darken($primary-color, 3%);
+$primary-color-light: lighten($primary-color, 3%);
+$secondary-color: lighten($primary-color, 37.5%);
+$secondary-color-dark: darken($secondary-color, 3%);
+$secondary-color-light: lighten($secondary-color, 3%);
+// Gray colors
+$dark-color: #303742;
+$light-color: #fff;
+$black-color: #000;
+$gray-color: lighten($dark-color, 55%);
+$gray-color-dark: darken($gray-color, 30%);
+$gray-color-light: lighten($gray-color, 20%);
+$border-color: lighten($dark-color, 65%);
+$border-color-dark: darken($border-color, 10%);
+$border-color-light: lighten($border-color, 8%);
+$bg-color: lighten($dark-color, 75%);
+$bg-color-dark: darken($bg-color, 3%);
+$bg-color-medium: lighten($bg-color, 3%);
+$bg-color-light: $light-color;
+// Control colors
+$success-color: #88b544;
+$warning-color: #ffb700;
 $error-color: #ed2f47;
-$body-font-color: #c1ced1;
-$bg-color: #131516;
-$bg-color-medium: #181a1b;
-$bg-color-light: #1b1e1f;
-$bg-color-dark: #222627;
-$border-color: #222627;
-$gray-color: #5e6769;
-$gray-color-dark: #4a5052;
-$dark-color: #010101;
-$black-color: #000000;
+// Other colors
+$code-color: #ed2f47;
+$highlight-color: #ffe9b3;
+$body-bg: $bg-color-light;
+$body-font-color: lighten($dark-color, 5%);
+$link-color: $primary-color;
+$link-color-dark: darken($link-color, 10%);
+$link-color-light: lighten($link-color, 10%);
 
-@if $mode == 'light' {
+@if $dark {
 	$primary-color: #88b544;
-	$primary-dark-color: #dbddd8;
+	$primary-color-dark: darken($primary-color, 3%);
+	$primary-color-light: lighten($primary-color, 3%);
+	$secondary-color: lighten($primary-color, 37.5%);
+	$secondary-color-dark: darken($secondary-color, 3%);
+	$secondary-color-light: lighten($secondary-color, 3%);
+	// Gray colors
+	$dark-color: #010101;
+	$light-color: #fff;
+	$black-color: #000;
+	$gray-color: #5e6769;
+	$gray-color-dark: #4a5052;
+	$gray-color-light: lighten($gray-color, 20%);
+	$border-color: #222627;
+	$border-color-dark: darken($border-color, 10%);
+	$border-color-light: lighten($border-color, 8%);
+	$bg-color: #131516;
+	$bg-color-dark: #222627;
+	$bg-color-medium: #181a1b;
+	$bg-color-light: #1b1e1f;
+	// Control colors
+	$success-color: #88b544;
+	$warning-color: #ffb700;
 	$error-color: #ed2f47;
-	$body-font-color: #2e3a3e;
-	$bg-color: #f9fdf1;
-	$bg-color-medium: #e6e7e4;
-	$bg-color-light: #eef0eb;
-	$bg-color-dark: #dcddd8;
-	$border-color: #dbddd8;
-	$gray-color: #9ecf88;
-	$gray-color-dark: #4f524b;
-	$dark-color: #fcfcfc;
-	$black-color: #2e2e2e;
+	// Other colors
+	$code-color: #ed2f47;
+	$highlight-color: #ffe9b3;
+	$body-bg: $bg-color-light;
+	$body-font-color: #c1ced1;
+	$link-color: $primary-color;
+	$link-color-dark: darken($link-color, 10%);
+	$link-color-light: lighten($link-color, 10%);
 }
 
 $mono-font-family: "Fira Mono", monospace;
@@ -502,7 +540,7 @@ ion-icon {
 
 // colors
 .bg-primary-dark {
-	background-color: $primary-dark-color;
+	background-color: $bg-color-dark;
 }
 
 // responsive grid
@@ -763,7 +801,7 @@ code {
 a:focus,
 a:active,
 .btn:focus {
-  box-shadow: 0 0 0 .2rem rgba($primary-dark-color, .2);
+  box-shadow: 0 0 0 .2rem rgba($bg-color-dark, .2);
 }
 .form-checkbox,
 .form-radio,
@@ -1171,14 +1209,14 @@ a {
 	.menu-item {
 		a {
 			&:hover {
-				background: $primary-dark-color;
+				background: $bg-color-dark;
 			}
 			&.text-error:hover {
 				background: #27181c;
 			}
 
 			&.router-link-exact-active {
-				background: $primary-dark-color;
+				background: $bg-color-dark;
 				color: $primary-color;
 			}
 		}
@@ -1251,7 +1289,7 @@ a {
 			.prev:not(.disabled):hover, 
 			.next:not(.disabled):hover, 
 			.up:not(.disabled):hover {
-				background: $primary-dark-color;
+				background: $bg-color-dark;
 				color: $primary-color;
 			}
 
