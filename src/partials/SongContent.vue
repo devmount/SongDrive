@@ -1,5 +1,5 @@
 <template>
-	<div class="content columns">
+	<div class="content song-content columns">
 		<div
 			class="column col-6"
 			:class="{ 'present': presentation, 'text': !chords, 'col-2x-12': !presentation }"
@@ -85,89 +85,5 @@ export default {
 </script>
 
 <style lang="scss">
-$primary-color: #88b544;
-$bg-color-light: #1b1e1f;
-$bg-color-dark: #293031;
 
-pre {
-	position: relative;
-	overflow: visible;
-	margin-top: 40px;
-	margin-bottom: 0;
-
-  &>span {
-    display: block;
-
-		&.chords {
-			color: $primary-color;
-		}
-  }
-	// prevent short song parts being displayed next to each other
-	&::after {
-		content: '';
-		height: 1px;
-		width: 40vw;
-		display: block;
-	}
-}
-.present > pre {
-	display: inline-block;
-
-	&:first-child {
-		margin-top: 20px;
-	}
-}
-.verse {
-	border-left: 2px solid $bg-color-dark;
-	position: relative;
-	padding-left: 1em;
-	margin-left: .6em;
-}
-.verse::before {
-	display: inline-block;
-	position: absolute;
-	background: $bg-color-light;
-	left: -.45em;
-	top: .35em;
-	width: .8em;
-	line-height: 1.3em;
-	height: 1.15em;
-	text-align: center;
-	font-size: 2em;
-	font-family: "Fira Sans";
-	font-weight: 300;
-}
-.verse.part1::before {
-	content: '1';
-}
-.verse.part2::before {
-	content: '2';
-}
-.verse.part3::before {
-	content: '3';
-}
-.verse.part4::before {
-	content: '4';
-}
-.verse.part5::before {
-	content: '5';
-}
-.verse.part6::before {
-	content: '6';
-}
-.verse.part7::before {
-	content: '7';
-}
-.verse.part8::before {
-	content: '8';
-}
-.verse.part9::before {
-	content: '9';
-}
-
-.text > pre {
-	font-family: Fira Sans;
-	font-size: 1.5em;
-	margin-bottom: .2em;
-}
 </style>

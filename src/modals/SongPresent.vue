@@ -77,19 +77,5 @@ export default {
 </script>
 
 <style lang="scss">
-$black-color: #000000;
 
-.modal-presentation {
-
-	&.modal-lg.modal-full {
-		.verse::before {
-			background: $black-color;
-		}
-	}
-
-	.modal-container .modal-header {
-		padding-bottom: 0;
-	}
-	
-}
 </style>

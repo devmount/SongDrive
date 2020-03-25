@@ -1024,6 +1024,86 @@ a {
 			height: 50vh;
 		}
 	}
+
+	&.modal-presentation {
+		&.modal-lg.modal-full {
+			.verse::before {
+				background: $black-color;
+			}
+		}
+		.modal-container .modal-header {
+			padding-bottom: 0;
+		}
+	}
+
+	&.modal-setlist-presentation {
+		&.modal-lg.modal-full {
+			.verse::before {
+				background: $black-color;
+			}
+		}
+
+		.modal-container {
+			.modal-header,
+			.modal-body {
+				padding-bottom: 0;
+				padding-left: 0;
+				padding-right: 0;
+			}
+
+			.modal-footer {
+				width: 100%;
+
+				.navigation-prev {
+					position: absolute;
+					bottom: .8rem;
+					right: 50%;
+				}
+				.navigation-next {
+					position: absolute;
+					bottom: .8rem;
+					left: 50%;
+				}
+				.chords {
+					font-weight: bold;
+					color: $primary-color;
+				}
+
+				.clock {
+					font-family: $mono-font-family;
+					font-size: 1.5em;
+					vertical-align: middle;
+				}
+
+				&.hidden {
+					opacity: 0;
+					transition: opacity .5s ease;
+
+					&:hover {
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		.hide {
+			background: $black-color;
+			position: absolute;
+			top: 0;
+			width: 100vw;
+			height: calc(100vh - 90px);
+			z-index: 100;
+		}
+	}
+
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: opacity .5s;
+	}
+	.fade-enter,
+	.fade-leave-to {
+		opacity: 0;
+	}
 }
 @media (min-width: $size-sm) {
 	.modal-lg {
@@ -1212,9 +1292,8 @@ a {
 				background: $bg-color-dark;
 			}
 			&.text-error:hover {
-				background: #27181c;
+				background: darken($error-color, 46%);
 			}
-
 			&.router-link-exact-active {
 				background: $bg-color-dark;
 				color: $primary-color;
@@ -1318,6 +1397,91 @@ a {
 				font-weight: 900;
 			}
 		}
+	}
+}
+
+// song content
+.song-content {
+	pre {
+		position: relative;
+		overflow: visible;
+		margin-top: 40px;
+		margin-bottom: 0;
+
+		&>span {
+			display: block;
+
+			&.chords {
+				color: $primary-color;
+			}
+		}
+		// prevent short song parts being displayed next to each other
+		&::after {
+			content: '';
+			height: 1px;
+			width: 40vw;
+			display: block;
+		}
+	}
+	.present > pre {
+		display: inline-block;
+
+		&:first-child {
+			margin-top: 20px;
+		}
+	}
+	.verse {
+		border-left: 2px solid $bg-color-dark;
+		position: relative;
+		padding-left: 1em;
+		margin-left: .6em;
+	}
+	.verse::before {
+		display: inline-block;
+		position: absolute;
+		background: $bg-color-light;
+		left: -.45em;
+		top: .35em;
+		width: .8em;
+		line-height: 1.3em;
+		height: 1.15em;
+		text-align: center;
+		font-size: 2em;
+		font-family: "Fira Sans";
+		font-weight: 300;
+	}
+	.verse.part1::before {
+		content: '1';
+	}
+	.verse.part2::before {
+		content: '2';
+	}
+	.verse.part3::before {
+		content: '3';
+	}
+	.verse.part4::before {
+		content: '4';
+	}
+	.verse.part5::before {
+		content: '5';
+	}
+	.verse.part6::before {
+		content: '6';
+	}
+	.verse.part7::before {
+		content: '7';
+	}
+	.verse.part8::before {
+		content: '8';
+	}
+	.verse.part9::before {
+		content: '9';
+	}
+
+	.text > pre {
+		font-family: "Fira Sans";
+		font-size: 1.5em;
+		margin-bottom: .2em;
 	}
 }
 
