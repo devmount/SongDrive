@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="modal modal-lg modal-full modal-presentation"
-		:class="{ active: active }"
+		:class="{ active: active, light: !dark }"
 		ref="container"
 		tabindex="0"
 		@keydown.ctrl.75.prevent="chords = !chords"
@@ -25,6 +25,9 @@
 				/>
 			</div>
 			<div class="modal-footer">
+				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': dark, 'btn-primary': !dark }" href="#" aria-label="Light mode" @click.prevent="dark = !dark">
+					<ion-icon name="contrast-outline" class="icon-1-5x"></ion-icon>
+				</a>
 				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !chords, 'btn-primary': chords }" href="#" aria-label="Chords" @click.prevent="$emit('chords')">
 					<ion-icon name="musical-notes" class="icon-1-5x"></ion-icon>
 				</a>
@@ -52,6 +55,11 @@ export default {
 		content: String,
 		chords: Boolean,
 		tuning: Number,
+	},
+	data () {
+		return {
+			dark: true,
+		}
 	},
 	methods: {
 		maximizeFontsize() {

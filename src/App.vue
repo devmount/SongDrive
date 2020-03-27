@@ -1025,6 +1025,24 @@ a {
 		}
 	}
 
+	&.light {
+		&.modal-presentation,
+		&.modal-setlist-presentation {
+			&.modal-lg.modal-full {
+				color: $dark-color;
+				.verse::before {
+					background: $light-color;
+				}
+				.modal-container {
+					background: $light-color;
+					.modal-header {
+						color: $black-color;
+					}
+				}
+			}
+		}
+	}
+
 	&.modal-presentation {
 		&.modal-lg.modal-full {
 			.verse::before {
