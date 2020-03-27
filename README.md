@@ -10,7 +10,7 @@ A song management web application to store, synchronize and present songs and se
 
 This is how the SongDrive Dashboard currently looks like.
 
-![20200223_songdrive_dashboard](https://user-images.githubusercontent.com/5441654/75110387-f90b3600-562d-11ea-9dcd-9acd4fd901ff.png)
+![20200223_songdrive_dashboard](https://user-images.githubusercontent.com/5441654/77798970-235c7300-7074-11ea-9485-576584d19273.png)
 
 *A demo page is planned.*
 
@@ -26,7 +26,9 @@ This is how the SongDrive Dashboard currently looks like.
 - Presentation mode for setlists with device synchronization
 - PDF export for songs, setlists and songsheets
 - Plain text, SNG and Slack formatted export for songs and setlists
-- *Hotkey support* (planned)
+- Hotkey support
+- General statistics, setlist and user specific stats
+- UI supports multiple languages (currently: EN, DE)
 
 ## Installation
 
