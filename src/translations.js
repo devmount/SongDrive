@@ -95,6 +95,7 @@ export default {
 			transposeUp: 'Transpose up a semitone',
 			transposeDown: 'Transpose down a semitone',
 			keyReset: 'Reset to original key',
+			lightModeOnOff: 'Light Mode on / off',
 		},
 		key: {
 			ctrl: 'CTRL',
@@ -104,6 +105,7 @@ export default {
 			B: 'B',
 			K: 'K',
 			F: 'F',
+			L: 'L',
 			esc: 'ESC',
 		},
 		app: {
@@ -432,6 +434,7 @@ export default {
 			transposeUp: 'Einen Halbton hoch transponieren',
 			transposeDown: 'Einen Halbton runter transponieren',
 			keyReset: 'Auf Original-Tonart zurücksetzen',
+			lightModeOnOff: 'Hell-Modus an / aus',
 		},
 		key: {
 			ctrl: 'STRG',
@@ -441,6 +444,7 @@ export default {
 			B: 'B',
 			K: 'K',
 			F: 'F',
+			L: 'L',
 			esc: 'ESC',
 		},
 		app: {

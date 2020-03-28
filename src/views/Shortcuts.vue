@@ -70,6 +70,11 @@
 										<td>{{ $t('tooltip.presentationStart') }}</td>
 									</tr>
 									<tr>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.L') }}</kbd></td>
+										<td><ion-icon name="contrast-outline"></ion-icon></td>
+										<td>{{ $t('tooltip.lightModeOnOff') }}</td>
+									</tr>
+									<tr>
 										<td><kbd>{{ $t('key.esc') }}</kbd></td>
 										<td><ion-icon name="close"></ion-icon></td>
 										<td>{{ $t('tooltip.presentationClose') }}</td>

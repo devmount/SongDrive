@@ -4,6 +4,7 @@
 		:class="{ active: active, light: !dark }"
 		ref="container"
 		tabindex="0"
+		@keydown.ctrl.76.prevent="dark = !dark"
 		@keydown.ctrl.75.prevent="chords = !chords"
 		@keydown.esc.exact="$emit('closed')"
 	>

@@ -419,7 +419,7 @@ $link-color-light: lighten($link-color, 10%);
 	$black-color: #000;
 	$gray-color: #5e6769;
 	$gray-color-dark: #4a5052;
-	$gray-color-light: lighten($gray-color, 20%);
+	$gray-color-light: lighten($gray-color, 40%);
 	$border-color: #222627;
 	$border-color-dark: darken($border-color, 10%);
 	$border-color-light: lighten($border-color, 8%);
@@ -1040,6 +1040,12 @@ a {
 					}
 				}
 			}
+		}
+		.text-gray {
+			color: $gray-color-light;
+		}
+		.song-content .verse {
+			border-left-color: $gray-color-light;
 		}
 	}
 
