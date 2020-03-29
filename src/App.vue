@@ -442,6 +442,7 @@ $link-color-light: lighten($link-color, 10%);
 }
 
 $mono-font-family: "Fira Mono", monospace;
+$code-font-family: "Fira Code", monospace;
 $size-2x: 1440px;
 $border-radius: 0;
 
@@ -1094,7 +1095,7 @@ a {
 				}
 
 				.clock {
-					font-family: $mono-font-family;
+					font-family: $code-font-family;
 					font-size: 1.5em;
 					vertical-align: middle;
 				}
