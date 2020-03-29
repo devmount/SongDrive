@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="modal modal-lg modal-full modal-setlist-presentation"
-		:class="{ active: active }"
+		:class="{ active: active, light: !dark }"
 		ref="container"
 		tabindex="0"
 		@keydown.up.exact="$refs.presentation.slidePrev()"
@@ -10,6 +10,7 @@
 		@keydown.right.exact="$refs.presentation.slideNext()"
 		@keydown.ctrl.83.prevent="autoSync = !autoSync"
 		@keydown.ctrl.66.prevent="hide = !hide"
+		@keydown.ctrl.76.prevent="dark = !dark"
 		@keydown.esc.exact="$emit('closed')"
 	>
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
@@ -90,6 +91,16 @@
 				</a>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+					:class="{ 'btn-secondary': dark, 'btn-primary': !dark }"
+					href="#"
+					aria-label="Light mode"
+					@click.prevent="dark = !dark"
+					:data-tooltip="$t('tooltip.lightModeOnOff') + '\n' + $t('key.ctrl') + ' + ' + $t('key.L')"
+				>
+					<ion-icon name="contrast-outline" class="icon-1-5x"></ion-icon>
+				</a>
+				<a
+					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
 					:class="{ 'btn-secondary': !chords, 'btn-primary': chords }"
 					href="#"
 					aria-label="Chords"
@@ -144,6 +155,7 @@ export default {
 			currentPosition: 0,
 			autoSync: false,
 			hide: false,
+			dark: true,
 			now: new Date,
 			blink: true,
 			tunes: basics.tunes
