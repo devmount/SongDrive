@@ -371,8 +371,6 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Fira+Mono');
 @import url('https://cdn.jsdelivr.net/gh/tonsky/FiraCode@1.206/distr/fira_code.css');
 
-$dark: true;
-// Core colors
 $primary-color: #88b544;
 $primary-color-dark: darken($primary-color, 3%);
 $primary-color-light: lighten($primary-color, 3%);
@@ -380,19 +378,19 @@ $secondary-color: lighten($primary-color, 37.5%);
 $secondary-color-dark: darken($secondary-color, 3%);
 $secondary-color-light: lighten($secondary-color, 3%);
 // Gray colors
-$dark-color: #303742;
+$dark-color: #010101;
 $light-color: #fff;
 $black-color: #000;
-$gray-color: lighten($dark-color, 55%);
-$gray-color-dark: darken($gray-color, 30%);
-$gray-color-light: lighten($gray-color, 20%);
-$border-color: lighten($dark-color, 65%);
+$gray-color: #5e6769;
+$gray-color-dark: #4a5052;
+$gray-color-light: lighten($gray-color, 40%);
+$border-color: #222627;
 $border-color-dark: darken($border-color, 10%);
 $border-color-light: lighten($border-color, 8%);
-$bg-color: lighten($dark-color, 75%);
-$bg-color-dark: darken($bg-color, 3%);
-$bg-color-medium: lighten($bg-color, 3%);
-$bg-color-light: $light-color;
+$bg-color: #131516;
+$bg-color-dark: #222627;
+$bg-color-medium: #181a1b;
+$bg-color-light: #1b1e1f;
 // Control colors
 $success-color: #88b544;
 $warning-color: #ffb700;
@@ -401,45 +399,10 @@ $error-color: #ed2f47;
 $code-color: #ed2f47;
 $highlight-color: #ffe9b3;
 $body-bg: $bg-color-light;
-$body-font-color: lighten($dark-color, 5%);
+$body-font-color: #c1ced1;
 $link-color: $primary-color;
 $link-color-dark: darken($link-color, 10%);
 $link-color-light: lighten($link-color, 10%);
-
-@if $dark {
-	$primary-color: #88b544;
-	$primary-color-dark: darken($primary-color, 3%);
-	$primary-color-light: lighten($primary-color, 3%);
-	$secondary-color: lighten($primary-color, 37.5%);
-	$secondary-color-dark: darken($secondary-color, 3%);
-	$secondary-color-light: lighten($secondary-color, 3%);
-	// Gray colors
-	$dark-color: #010101;
-	$light-color: #fff;
-	$black-color: #000;
-	$gray-color: #5e6769;
-	$gray-color-dark: #4a5052;
-	$gray-color-light: lighten($gray-color, 40%);
-	$border-color: #222627;
-	$border-color-dark: darken($border-color, 10%);
-	$border-color-light: lighten($border-color, 8%);
-	$bg-color: #131516;
-	$bg-color-dark: #222627;
-	$bg-color-medium: #181a1b;
-	$bg-color-light: #1b1e1f;
-	// Control colors
-	$success-color: #88b544;
-	$warning-color: #ffb700;
-	$error-color: #ed2f47;
-	// Other colors
-	$code-color: #ed2f47;
-	$highlight-color: #ffe9b3;
-	$body-bg: $bg-color-light;
-	$body-font-color: #c1ced1;
-	$link-color: $primary-color;
-	$link-color-dark: darken($link-color, 10%);
-	$link-color-light: lighten($link-color, 10%);
-}
 
 $mono-font-family: "Fira Mono", monospace;
 $code-font-family: "Fira Code", monospace;
