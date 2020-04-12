@@ -989,30 +989,6 @@ a {
 		}
 	}
 
-	&.light {
-		&.modal-presentation,
-		&.modal-setlist-presentation {
-			&.modal-lg.modal-full {
-				color: $dark-color;
-				.verse::before {
-					background: $light-color;
-				}
-				.modal-container {
-					background: $light-color;
-					.modal-header {
-						color: $black-color;
-					}
-				}
-			}
-		}
-		.text-gray {
-			color: $gray-color-light;
-		}
-		.song-content .verse {
-			border-left-color: $gray-color-light;
-		}
-	}
-
 	&.modal-presentation {
 		&.modal-lg.modal-full {
 			.verse::before {
@@ -1510,6 +1486,33 @@ a {
 			&:focus {
 				outline: none;
 			}
+		}
+	}
+}
+
+// light mode
+.light {
+	&.modal {
+		&.modal-presentation,
+		&.modal-setlist-presentation {
+			&.modal-lg.modal-full {
+				color: $dark-color;
+				.verse::before {
+					background: $light-color;
+				}
+				.modal-container {
+					background: $light-color;
+					.modal-header {
+						color: $black-color;
+					}
+				}
+			}
+		}
+		.text-gray {
+			color: $gray-color-light;
+		}
+		.song-content .verse {
+			border-left-color: $gray-color-light;
 		}
 	}
 }
