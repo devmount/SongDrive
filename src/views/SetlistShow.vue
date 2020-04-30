@@ -414,8 +414,8 @@ export default {
 						margin: [ 0, 17, 0, 0 ]
 					},
 					code: {
-						font: 'FiraMono',
-						fontSize: 12,
+						font: this.chords ? 'FiraMono' : 'FiraSans',
+						fontSize: this.chords ? 12 : 16,
 						margin: [ 0, 15, 0, 0 ]
 					},
 					footer: {
@@ -481,7 +481,7 @@ export default {
 						// song title [tuning] with a line beneath
 						{ text: song.title.toUpperCase(), style: 'header' },
 						{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
-						{ text: 'Tuning: ' + (song.customTuning ? song.customTuning : song.tuning), style: 'subtitle', alignment: 'right', margin: [ 0, 4, 0, 0 ] },
+						{ text: this.chords ? 'Tuning: ' + (song.customTuning ? song.customTuning : song.tuning) : '', style: 'subtitle', alignment: 'right', margin: [ 0, 4, 0, 0 ] },
 						content,
 						// footer with ccli#, author names and (c) year publisher
 						{

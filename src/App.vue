@@ -1366,10 +1366,14 @@ a {
 
 // song content
 .song-content {
+	& > .column {
+		// display: flex;
+		// flex-direction: column;
+	}
 	pre {
 		position: relative;
 		overflow: visible;
-		margin-top: 40px;
+		margin-top: 30px;
 		margin-bottom: 0;
 
 		&>span {
