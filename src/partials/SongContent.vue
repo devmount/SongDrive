@@ -25,7 +25,8 @@ export default {
 	},
 	data () {
 		return {
-			tunes: basics.tunes
+			tunes: basics.tunes,
+			margin: 40
 		}
 	},
 	methods: {
@@ -37,38 +38,43 @@ export default {
 			for (let a of document.querySelectorAll('.present')) {
 				// all child elements
 				for (let b of a.querySelectorAll('pre')) {
-					var fontSize = parseInt(getComputedStyle(b).fontSize.match(/\d+/)[0])
-					// increase font size as long as the child is still smaller than the parent
-					while (b.offsetWidth < a.offsetWidth*.9) {
-						b.style.fontSize = (fontSize++) + 'px'
+					let fontSize = parseInt(getComputedStyle(b).fontSize.match(/\d+/)[0])
+					// increase font size as long as the child is still smaller than the parent with a max of 100 iterations
+					let n1 = 100
+					while (b.offsetWidth < a.offsetWidth*.9 && n1 > 0) {
+						fontSize += 4
+						b.style.fontSize = fontSize + 'px'
+						n1--
 					}
-					// decrease font size if the child width exceeds the parents width
-					while (b.offsetWidth > a.offsetWidth*.9) {
+					// decrease font size if the child width exceeds the parents width with a max of 100 iterations
+					let n2 = 100
+					while (b.offsetWidth > a.offsetWidth*.9 && n2 > 0) {
 						b.style.fontSize = (fontSize--) + 'px'
+						n2--
 					}
 				}
-			}  
+			}
 			// decrease font size of parts with greatest font size first if it doesnt fit into viewport height
-			const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)-85
+			let vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)-85
 			// handle both columns
 			for (let c of document.querySelectorAll('.present')) {
-				var parts = []
+				let parts = []
 				for (let d of c.querySelectorAll('pre')) {
 					parts.push({
 						part: d,
 						size: parseInt(getComputedStyle(d).fontSize.match(/\d+/)[0]),
-						height: d.offsetHeight+40
+						height: d.offsetHeight+this.margin
 					})
 				}
 				// decrease font size of parts in columns with a greater height than viewport
-				// as long as the sum of the heights of the parts is greater than the viewport height with a max of 100 iterations
-				var n = 100
+				// as long as the sum of the heights of the parts is greater than the viewport height with a max of 20 iterations
+				let n = 50
 				while (parts.map(o=>o.height).reduce((p,c)=>p+c) > vh && n > 0) {
 					parts.sort(function(a, b) { return b.size - a.size; })
 					if (parts.length > 0) {
 						parts[0].part.style.fontSize = (parts[0].size - 5) + 'px'
 						parts[0].size = parseInt(getComputedStyle(parts[0].part).fontSize.match(/\d+/)[0])
-						parts[0].height = parts[0].part.offsetHeight+40
+						parts[0].height = parts[0].part.offsetHeight+this.margin
 					}
 					n--
 				}
@@ -83,7 +89,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss">
-
-</style>

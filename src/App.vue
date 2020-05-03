@@ -1367,14 +1367,19 @@ a {
 // song content
 .song-content {
 	& > .column {
-		// display: flex;
-		// flex-direction: column;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
 	}
 	pre {
 		position: relative;
 		overflow: visible;
 		margin-top: 30px;
 		margin-bottom: 0;
+		
+		.present > & {
+			font-size: 25px;
+		}
 
 		&>span {
 			display: block;
