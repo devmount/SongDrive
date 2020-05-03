@@ -998,6 +998,9 @@ a {
 		.modal-container .modal-header {
 			padding-bottom: 0;
 		}
+		.modal-container .modal-body {
+			overflow: visible;
+		}
 	}
 
 	&.modal-setlist-presentation {
@@ -1013,6 +1016,7 @@ a {
 				padding-bottom: 0;
 				padding-left: 0;
 				padding-right: 0;
+				overflow: visible;
 			}
 
 			.modal-footer {
