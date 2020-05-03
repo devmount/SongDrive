@@ -67,7 +67,7 @@ export default {
 					})
 				}
 				// decrease font size of parts in columns with a greater height than viewport
-				// as long as the sum of the heights of the parts is greater than the viewport height with a max of 20 iterations
+				// as long as the sum of the heights of the parts is greater than the viewport height with a max of 50 iterations
 				let n = 50
 				while (parts.map(o=>o.height).reduce((p,c)=>p+c) > vh && n > 0) {
 					parts.sort(function(a, b) { return b.size - a.size; })

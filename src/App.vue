@@ -1376,7 +1376,7 @@ a {
 		overflow: visible;
 		margin-top: 30px;
 		margin-bottom: 0;
-		
+
 		.present > & {
 			font-size: 25px;
 		}
@@ -1404,7 +1404,7 @@ a {
 		}
 	}
 	.verse {
-		border-left: 2px solid $bg-color-dark;
+		// border-left: 2px solid $bg-color-dark;
 		position: relative;
 		padding-left: 1em;
 		margin-left: .6em;
@@ -1414,7 +1414,7 @@ a {
 		position: absolute;
 		background: $bg-color-light;
 		left: -.45em;
-		top: .35em;
+		top: .31em;
 		width: .8em;
 		line-height: 1.3em;
 		height: 1.15em;
@@ -1455,6 +1455,10 @@ a {
 		font-family: "Fira Sans";
 		font-size: 1.5em;
 		margin-bottom: .2em;
+
+		&.verse::before {
+			top: -.1em;
+		}
 	}
 }
 
