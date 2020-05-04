@@ -1524,12 +1524,39 @@ a {
 					}
 				}
 			}
-		}
-		.text-gray {
-			color: $gray-color-light;
+			.hooper.presentation {
+				.hooper-pagination {
+					.hooper-indicator:not(.is-active) {
+						background-color: $gray-color-light;
+					}
+				}
+			}
+			.hide {
+				background: $light-color;
+			}
 		}
 		.song-content .verse {
 			border-left-color: $gray-color-light;
+		}
+	}
+	.text-gray {
+		color: $gray-color-light;
+	}
+	.btn {
+		&.btn-secondary {
+			background: $gray-color-light;
+			border-color: darken($gray-color-light, 10%);
+			color: $bg-color-dark;
+			&:focus:not(.btn-error) {
+				background: $gray-color-light;
+				border-color: darken($gray-color-light, 10%);
+				color: $bg-color-dark;
+			}
+		}
+		&.btn-link {
+			&.btn-gray {
+				color: $gray-color;
+			}
 		}
 	}
 }
