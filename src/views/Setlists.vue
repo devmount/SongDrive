@@ -280,7 +280,7 @@ export default {
 		},
 		setlistYears() {
 			if (this.ready.setlists) {
-				let start = parseInt(Object.keys(this.setlists).slice(-1)[0].substring(0, 4))
+				let start = parseInt(Object.keys(this.setlists).sort().slice(0)[0].substring(0, 4))
 				let end = parseInt((new Date()).getFullYear())
 				return Array.from(Array(end-start+1).keys(), x => x + start).reverse()
 			} else {
