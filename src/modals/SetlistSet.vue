@@ -255,7 +255,7 @@ export default {
 				var self = this
 				var processedSetlist = {
 					active: false,
-					creator: this.user,
+					creator: !this.existing ? this.user : this.setlist.creator,
 					position: 0,
 					title: this.setlist.title,
 					date: this.setlist.date,
