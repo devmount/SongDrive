@@ -35,6 +35,7 @@
 											:inline="true"
 											:monday-first="true"
 											:open-date="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
+											:language="calendarLanguage[$i18n.locale]"
 											name="setlistdate"
 											@selected="updateDate"
 										></datepicker>
@@ -147,7 +148,8 @@
 // get basic program parameters
 import basics from '@/basics'
 // init datepicker component
-import Datepicker from 'vuejs-datepicker';
+import Datepicker from 'vuejs-datepicker'
+import {en, de} from 'vuejs-datepicker/dist/locale'
 
 export default {
 	name: 'setlist-set',
@@ -177,7 +179,11 @@ export default {
 				title: false,
 				slug: false,
 			},
-			tunes: basics.tunes
+			tunes: basics.tunes,
+			calendarLanguage: {
+				en: en,
+				de: de
+			}
 		}
 	},
 	watch: {
