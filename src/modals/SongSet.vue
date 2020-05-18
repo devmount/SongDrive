@@ -33,7 +33,7 @@
 											<label class="form-label" for="language">{{ $t('field.language') }} <span class="text-error">*</span></label>
 											<select v-model="song.language" class="form-select" id="language">
 												<option value="">{{ $t('placeholder.select') }}</option>
-												<option v-for="(label, key) in languages" :value="key" :key="key">{{ label }}</option>
+												<option v-for="(label, key) in songLanguages()" :value="key" :key="key">{{ label }}</option>
 											</select>
 											<p v-if="error.language" class="form-input-hint">{{ $t('error.requiredLanguage') }}</p>
 										</div>
@@ -49,7 +49,7 @@
 											<label class="form-label" for="tuning">{{ $t('field.tuning') }}</label>
 											<select v-model="song.tuning" class="form-select" id="tuning">
 												<option value="">{{ $t('placeholder.select') }}</option>
-												<option v-for="tune in tunes" :key="tune">{{ tune }}</option>
+												<option v-for="tune in keyScale()" :key="tune">{{ tune }}</option>
 											</select>
 										</div>
 									</div>
@@ -258,9 +258,6 @@
 </template>
 
 <script>
-// get basic program parameters
-import basics from '@/basics'
-
 export default {
 	name: 'song-set',
 	props: {
@@ -290,8 +287,6 @@ export default {
 				content: false,
 				slug: false,
 			},
-			tunes: basics.tunes,
-			languages: basics.languages,
 		}
 	},
 	methods: {

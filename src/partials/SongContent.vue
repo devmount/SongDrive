@@ -3,7 +3,7 @@
 		<div
 			class="column col-6"
 			:class="{ 'present': presentation, 'text': !chords, 'col-2x-12': !presentation }"
-			v-for="(parts, i) in parsedContent"
+			v-for="(parts, i) in parsedContent(content, tuning, chords, true)"
 			:key="i"
 		>
 			<pre v-for="(part, j) in parts" :key="j" :class="part.class"><span v-for="(line, l) in part.content.split('\n')" :key="l" :class="{ chords: isChordLine(line) }">{{ line }}</span></pre>
@@ -12,9 +12,6 @@
 </template>
 
 <script>
-// get basic program parameters
-import basics from '@/basics'
-
 export default {
 	name: 'song-content',
 	props: {
@@ -25,14 +22,10 @@ export default {
 	},
 	data () {
 		return {
-			tunes: basics.tunes,
 			margin: 40
 		}
 	},
 	methods: {
-		isChordLine(line) {
-			return basics.isChordLine(line)
-		},
 		maximizeFontsize() {
 			// all parent elements
 			for (let a of document.querySelectorAll('.present')) {
@@ -81,11 +74,5 @@ export default {
 			}
 		}
 	},
-	computed: {
-		// parse song content
-		parsedContent() {
-			return basics.parsedContent(this.content, this.tuning, this.chords, true)
-		}
-	}
 }
 </script>

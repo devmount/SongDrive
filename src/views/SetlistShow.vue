@@ -200,9 +200,6 @@
 </template>
 
 <script>
-// get basic program parameters
-import basics from '@/basics'
-
 // get components
 import SetlistSet from '@/modals/SetlistSet'
 import SetlistDelete from '@/modals/SetlistDelete'
@@ -240,7 +237,6 @@ export default {
 			},
 			existing: true,
 			chords: true,
-			tunes: basics.tunes
 		}
 	},
 	computed: {
@@ -259,7 +255,7 @@ export default {
 				for (const key in this.setlist.songs) {
 					if (this.setlist.songs.hasOwnProperty(key)) {
 						let song = this.songs[this.setlist.songs[key].id], setlistTuning = this.setlist.songs[key].tuning
-						song['customTuningDelta'] = setlistTuning != 0 ? this.tunes.indexOf(setlistTuning) - this.tunes.indexOf(song.tuning) : 0
+						song['customTuningDelta'] = setlistTuning != 0 ? this.keyScale().indexOf(setlistTuning) - this.keyScale().indexOf(song.tuning) : 0
 						song['customTuning'] = setlistTuning != 0 ? setlistTuning : song.tuning
 						songs.push(song)
 					}
@@ -281,7 +277,7 @@ export default {
 				datasets: [
 					{ data: Object.values(languages), color: 'rgb(136, 181, 68)', bcolor: 'rgb(136, 181, 68, .1)'  },
 				],
-				labels: Object.keys(languages).map(e => ' ' + basics.languages[e])
+				labels: Object.keys(languages).map(e => ' ' + this.songLanguages()[e])
 			}
 		},
 		setlistKeys () {
@@ -314,11 +310,11 @@ export default {
 			let songs = this.setlist.songs
 			// update tuning
 			let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning
-			let i = this.tunes.indexOf(tone)
-			if (i>=this.tunes.length-1) {
-				tone = this.tunes[0]
+			let i = this.keyScale().indexOf(tone)
+			if (i>=this.keyScale().length-1) {
+				tone = this.keyScale()[0]
 			} else {
-				tone = this.tunes[++i]
+				tone = this.keyScale()[++i]
 			}
 			// save tuning in setlist
 			songs[songPosition].tuning = tone
@@ -328,11 +324,11 @@ export default {
 			let songs = this.setlist.songs
 			// update tuning
 			let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning
-			let i = this.tunes.indexOf(tone)
+			let i = this.keyScale().indexOf(tone)
 			if (i<=0) {
-				tone = this.tunes[this.tunes.length-1]
+				tone = this.keyScale()[this.keyScale().length-1]
 			} else {
-				tone = this.tunes[--i]
+				tone = this.keyScale()[--i]
 			}
 			// save tuning in setlist
 			songs[songPosition].tuning = tone
@@ -450,7 +446,7 @@ export default {
 				if (this.setlist.songs.hasOwnProperty(key)) {
 					const song = this.songs[this.setlist.songs[key].id]
 					// handle song content parts
-					var content = [], parts = basics.parsedContent(song.content, song.customTuning ? song.customTuningDelta : 0, this.chords, false)
+					var content = [], parts = this.parsedContent(song.content, song.customTuning ? song.customTuningDelta : 0, this.chords, false)
 					parts.forEach(function(part) {
 						if (part.type == 'v' && part.number != '0') {
 							content.push({
@@ -502,9 +498,6 @@ export default {
 			}
 			return sheets
 		},
-		humanDate (d, locale) {
-			return basics.humanDate(d, locale)
-		}
 	},
 }
 </script>

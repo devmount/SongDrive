@@ -47,7 +47,7 @@
 				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
 					<div class="panel">
 						<div class="panel-body text-center pb-3">
-							<div class="text-huge">{{ Object.keys(languages).length }}</div>
+							<div class="text-huge">{{ Object.keys(songLanguages()).length }}</div>
 							<div class="panel-title h5"><ion-icon name="globe-outline"></ion-icon> {{ $t('widget.languages') }}</div>
 						</div>
 					</div>
@@ -241,9 +241,6 @@
 </template>
 
 <script>
-// get basic program parameters
-import basics from '@/basics'
-
 // get components
 import LineChart from '@/charts/LineChart'
 import BarChart from '@/charts/BarChart'
@@ -264,7 +261,6 @@ export default {
 			reorderedSetlists: [],
 			setlistsPage: 0,
 			listLength: 6,
-			languages: basics.languages,
 		}
 	},
 	methods: {

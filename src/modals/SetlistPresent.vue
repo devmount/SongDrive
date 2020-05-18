@@ -124,8 +124,6 @@
 </template>
 
 <script>
-// get basic program parameters
-import basics from '@/basics'
 // get slider component
 import { Hooper, Slide, Pagination as HooperPagination } from 'hooper'
 import 'hooper/dist/hooper.css'
@@ -158,7 +156,6 @@ export default {
 			dark: true,
 			now: new Date,
 			blink: true,
-			tunes: basics.tunes
 		}
 	},
 	created () {

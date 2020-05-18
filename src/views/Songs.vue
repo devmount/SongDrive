@@ -72,7 +72,7 @@
 										<!-- filter key -->
 										<select v-model="tuning" class="form-select select-lg filter" required>
 											<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
-											<option v-for="t in tunes" :key="t" :value="t">{{ t }}</option>
+											<option v-for="t in keyScale()" :key="t" :value="t">{{ t }}</option>
 										</select>
 									</li>
 									<li class="menu-item">
@@ -190,8 +190,6 @@
 </template>
 
 <script>
-// get basic program parameters
-import basics from '@/basics'
 // get components
 import SongSet from '@/modals/SongSet'
 import SongDelete from '@/modals/SongDelete'
@@ -224,7 +222,6 @@ export default {
 				song: {},
 				existing: true
 			},
-			tunes: basics.tunes
 		}
 	},
 	mounted () {

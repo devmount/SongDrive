@@ -54,7 +54,7 @@
 							<div class="form-group mb-1">
 								<label class="form-label" for="language">{{ $t('field.language') }}</label>
 								<select v-model="$i18n.locale" class="form-select" id="language">
-									<option v-for="(lang, i) in ['en','de']" :key="i" :value="lang">{{ languages[lang] }}</option>
+									<option v-for="(lang, i) in ['en','de']" :key="i" :value="lang">{{ songLanguages()[lang] }}</option>
 								</select>
 							</div>
 						</div>
@@ -195,8 +195,6 @@
 </template>
 
 <script>
-// get basic program parameters
-import basics from '@/basics'
 // get components
 import UserSet from '@/modals/UserSet'
 import UserDelete from '@/modals/UserDelete'
@@ -225,7 +223,6 @@ export default {
 				key: '',
 				existing: true,
 			},
-			languages: basics.languages,
 		}
 	},
 	methods: {
@@ -254,7 +251,7 @@ export default {
 				'users': this.users,
 				'tags': this.tags
 			}
-			basics.download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json')
+			this.download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json')
 			// toast success message
 			this.$notify({ title: this.$t('toast.databaseExported'), text: this.$t('toast.databaseExportedText'), type: 'primary' })
 		},

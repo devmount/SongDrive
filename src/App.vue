@@ -26,7 +26,7 @@
 							<div class="menu-badge">
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" :data-tooltip="$t('tooltip.songAdd')" @click="modal.addsong = true"><ion-icon name="add-sharp"></ion-icon></button>
+								<button v-if="auth.user && users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" :data-tooltip="$t('tooltip.songAdd')" @click="modal.addsong = true"><ion-icon name="add-sharp"></ion-icon></button>
 							</div>
 						</li>
 						<li class="menu-item">
@@ -34,7 +34,7 @@
 							<div class="menu-badge">
 								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button v-if="auth.user && users[auth.user] && ready.users && auth.roles[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" :data-tooltip="$t('tooltip.setlistAdd')" @click="modal.addsetlist = true"><ion-icon name="add-sharp"></ion-icon></button>
+								<button v-if="auth.user && users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" :data-tooltip="$t('tooltip.setlistAdd')" @click="modal.addsetlist = true"><ion-icon name="add-sharp"></ion-icon></button>
 							</div>
 						</li>
 						<li class="divider text-center" :data-content="$t('divider.account')"></li>
@@ -122,7 +122,7 @@
 					:db="db"
 					:user="auth.user"
 					:userObject="auth.userObject"
-					:role="auth.user && users[auth.user] && ready.users ? auth.roles[users[auth.user].role] : ''"
+					:role="auth.user && users[auth.user] && ready.users ? userRoles()[users[auth.user].role] : ''"
 					:roleName="auth.user && users[auth.user] && ready.users ? users[auth.user].role : ''"
 					:songs="songs"
 					:setlists="setlists"
@@ -185,8 +185,6 @@
 </template>
 
 <script>
-// get basic program parameters
-import basics from '@/basics'
 // get components
 import SongSet from '@/modals/SongSet'
 import SetlistSet from '@/modals/SetlistSet'
@@ -278,7 +276,6 @@ export default {
 			},
 			db: db,
 			auth: {
-				roles: basics.roles,
 				email: '',
 				password: '',
 				user: firebase.auth().currentUser ? firebase.auth().currentUser.uid : '',

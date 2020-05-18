@@ -165,15 +165,13 @@
 </template>
 
 <script>
-// get basic program parameters
-import basics from '@/basics'
-let os = require('os')
 // get components
 import SongContent from '@/partials/SongContent'
 import SongSet from '@/modals/SongSet'
 import SongDelete from '@/modals/SongDelete'
 import SongPresent from '@/modals/SongPresent'
 // pdf creation
+let os = require('os')
 var pdfMake = require('pdfmake/build/pdfmake')
 var pdfFonts = require('@/assets/vfs_fonts')
 pdfMake.vfs = pdfFonts.pdfMake.vfs
@@ -206,19 +204,15 @@ export default {
 				present: false,
 			},
 			existing: true,
-			tunes: basics.tunes
 		}
 	},
 	mounted () {
 		this.$refs['song-show'].focus()
 	},
 	methods: {
-		isChordLine(line) {
-			return basics.isChordLine(line)
-		},
 		exportTxt: function() {
 			// add header
-			var content = this.song.title + ' [' + this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' + '\n\n'
+			var content = this.song.title + ' [' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' + '\n\n'
 			var lines = this.song.content.split(os.EOL)
 			// process lines
 			for (var i = 0; i < lines.length; i++) {
@@ -244,7 +238,7 @@ export default {
 			content += os.EOL + this.song.authors + os.EOL + os.EOL +
 				'© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ')
 			// start download
-			basics.download(content, this.songKey + '.txt')
+			this.download(content, this.songKey + '.txt')
 			// toast success message
 			this.$notify({ title: this.$t('toast.exportedText'), text: this.$t('toast.exportedSongTextText'), type: 'primary' })
 		},
@@ -256,7 +250,7 @@ export default {
 				'#Author=' + this.song.authors +
 				'#Melody=' + this.song.authors +
 				'#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + os.EOL +
-				'#Key=' + this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + os.EOL +
+				'#Key=' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + os.EOL +
 				'#CCLI=' + this.song.ccli + os.EOL +
 				'---' + os.EOL
 			var lines = this.song.content.split(os.EOL)
@@ -276,7 +270,7 @@ export default {
 				.replace(/--m/g, "mitro")
 				.replace(/--o/g, "outro")
 			// start download
-			basics.download(content, this.songKey + '.sng')
+			this.download(content, this.songKey + '.sng')
 			// toast success message
 			this.$notify({ title: this.$t('toast.exportedSng'), text: this.$t('toast.exportedSongSngText'), type: 'primary' })
 		},
@@ -315,7 +309,7 @@ export default {
 		},
 		getPdfSongContent () {
 			// handle song content parts
-			var content = [], parts = basics.parsedContent(this.song.content, this.tuning, this.chords, false)
+			var content = [], parts = this.parsedContent(this.song.content, this.tuning, this.chords, false)
 			parts.forEach(function(part) {
 				if (part.type == 'v' && part.number != '0') {
 					content.push({
@@ -345,7 +339,7 @@ export default {
 			// return array with song data
 			return [
 				// song title [tuning] with a line beneath
-				{ text: this.song.title.toUpperCase() + (this.tuning ? '  [' + this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' : ''), style: 'header' },
+				{ text: this.song.title.toUpperCase() + (this.tuning ? '  [' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' : ''), style: 'header' },
 				{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
 				content,
 				// imprint with ccli#, author names and (c) year publisher
@@ -389,9 +383,9 @@ export default {
 		showTuning () {
 			if (this.song) {
 				return {
-					previous: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning-1 % 12)) % 12],
-					current: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning % 12)) % 12],
-					next: this.tunes[(12 + this.tunes.indexOf(this.song.tuning) + (this.tuning+1 % 12)) % 12],
+					previous: this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning-1 % 12)) % 12],
+					current: this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12],
+					next: this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning+1 % 12)) % 12],
 				}
 			} else {
 				return '-'

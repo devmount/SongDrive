@@ -20,7 +20,7 @@
 					<label class="form-label" for="role">{{ $t('field.role') }} <span class="text-error">*</span></label>
 					<select v-model="user.role" id="role" class="form-select filter" required>
 						<option value="" disabled selected>{{ $t('placeholder.select') }}</option>
-						<option v-for="(r,k) in roles" :key="k" :value="k">{{ k }}</option>
+						<option v-for="(r,k) in userRoles()" :key="k" :value="k">{{ k }}</option>
 					</select>
 				</div>
 			</div>
@@ -36,9 +36,6 @@
 </template>
 
 <script>
-// get basic program parameters
-import basics from '@/basics'
-
 export default {
 	name: 'user-set',
 	props: {
@@ -56,7 +53,6 @@ export default {
 				email: false,
 				role: false,
 			},
-			roles: basics.roles,
 		}
 	},
 	methods: {

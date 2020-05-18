@@ -77,7 +77,7 @@
 												<span class="input-group-addon"><ion-icon name="musical-note"></ion-icon></span>
 												<select v-model="tuning" class="form-select filter" required>
 													<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
-													<option v-for="t in tunes" :key="t" :value="t">{{ t }}</option>
+													<option v-for="t in keyScale()" :key="t" :value="t">{{ t }}</option>
 												</select>
 												<button class="btn input-group-btn btn-link" @click="tuning = ''"><ion-icon name="close"></ion-icon></button>
 											</div>
@@ -145,8 +145,6 @@
 </template>
 
 <script>
-// get basic program parameters
-import basics from '@/basics'
 // init datepicker component
 import Datepicker from 'vuejs-datepicker'
 import {en, de} from 'vuejs-datepicker/dist/locale'
@@ -179,7 +177,6 @@ export default {
 				title: false,
 				slug: false,
 			},
-			tunes: basics.tunes,
 			calendarLanguage: {
 				en: en,
 				de: de
@@ -227,11 +224,11 @@ export default {
 			let songs = this.setlist.songs
 			// update tuning
 			let tone = songs[position].tuning ? songs[position].tuning : this.songs[songs[position].id].tuning
-			let i = this.tunes.indexOf(tone)
-			if (i>=this.tunes.length-1) {
-				tone = this.tunes[0]
+			let i = this.keyScale().indexOf(tone)
+			if (i>=this.keyScale().length-1) {
+				tone = this.keyScale()[0]
 			} else {
-				tone = this.tunes[++i]
+				tone = this.keyScale()[++i]
 			}
 			// save tuning in setlist
 			this.setlist.songs[position].tuning = tone
@@ -241,11 +238,11 @@ export default {
 			let songs = this.setlist.songs
 			// update tuning
 			let tone = songs[position].tuning ? songs[position].tuning : this.songs[songs[position].id].tuning
-			let i = this.tunes.indexOf(tone)
+			let i = this.keyScale().indexOf(tone)
 			if (i<=0) {
-				tone = this.tunes[this.tunes.length-1]
+				tone = this.keyScale()[this.keyScale().length-1]
 			} else {
-				tone = this.tunes[--i]
+				tone = this.keyScale()[--i]
 			}
 			// save tuning in setlist
 			this.setlist.songs[position].tuning = tone
@@ -347,9 +344,6 @@ export default {
 		cancel () {
 			this.$emit('closed')
 		},
-		humanDate (d, locale) {
-			return basics.humanDate(d, locale)
-		}
 	},
 	computed: {
 		// filter song list by search query
