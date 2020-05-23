@@ -20,7 +20,7 @@
 					<label class="form-label" for="role">{{ $t('field.role') }} <span class="text-error">*</span></label>
 					<select v-model="user.role" id="role" class="form-select filter" required>
 						<option value="" disabled selected>{{ $t('placeholder.select') }}</option>
-						<option v-for="(r,k) in userRoles()" :key="k" :value="k">{{ k }}</option>
+						<option v-for="(r,k) in userRoles()" :key="k" :value="k">{{ $t('role.' + k) }}</option>
 					</select>
 				</div>
 			</div>

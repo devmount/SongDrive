@@ -549,7 +549,7 @@ export default {
 			admin: 'Admin',
 			editor: 'Editor',
 			performer: 'Performer',
-			reader: 'Reader',
+			reader: 'Beobachter',
 			unconfirmed: 'Unbestätigt',
 		},
 		text: {
