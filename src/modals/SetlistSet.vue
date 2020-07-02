@@ -54,32 +54,45 @@
 							<div class="columns">
 								<div class="column col-6 col-sm-12">
 									<label class="form-label" for="search">Songs</label>
-									<div class="columns col-gapless">
-										<div class="column col-xl-12 col-12 mb-1">
-											<div class="input-group filter">
-												<span class="input-group-addon"><ion-icon name="search-outline"></ion-icon></span>
-												<input v-model="search" id="search" type="search" class="form-input" :placeholder="$t('placeholder.searchSongTitle')" />
-												<button class="btn input-group-btn btn-link" @click="search = ''"><ion-icon name="close"></ion-icon></button>
-											</div>
-										</div>
-										<div class="column col-xl-12 col-6 mb-1">
-											<div class="input-group filter">
-												<span class="input-group-addon"><ion-icon name="pricetag-outline"></ion-icon></span>
-												<select v-model="filter" class="form-select filter" required>
-													<option value="" disabled selected>{{ $t('placeholder.tag') }}</option>
-													<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ $t('tag.' + tag.key) }}</option>
-												</select>
-												<button class="btn input-group-btn btn-link" @click="filter = ''"><ion-icon name="close"></ion-icon></button>
-											</div>
-										</div>
-										<div class="column col-xl-12 col-6 mb-1">
-											<div class="input-group filter">
-												<span class="input-group-addon"><ion-icon name="musical-note"></ion-icon></span>
-												<select v-model="tuning" class="form-select filter" required>
-													<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
-													<option v-for="t in keyScale()" :key="t" :value="t">{{ t }}</option>
-												</select>
-												<button class="btn input-group-btn btn-link" @click="tuning = ''"><ion-icon name="close"></ion-icon></button>
+									<div class="input-group filter">
+										<!-- search title, subtitles -->
+										<span class="input-group-addon"><ion-icon name="search-outline"></ion-icon></span>
+										<input type="search" id="search" v-model="search" class="form-input" :placeholder="$t('placeholder.searchSongTitle')" />
+										<div class="dropdown dropdown-right">
+											<div class="btn-group">
+												<a class="btn input-group-btn btn-secondary dropdown-toggle" :class="{ 'badge': filter!=''||tuning!=''||language!=''}" tabindex="0">
+													<ion-icon name="filter-sharp"></ion-icon>
+												</a>
+												<ul class="menu text-left">
+													<li class="menu-item">
+														<!-- filter tag -->
+														<select v-model="filter" class="form-select select-lg filter" required>
+															<option value="" disabled selected>{{ $t('placeholder.tag') }}</option>
+															<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ $t('tag.' + tag.key) }}</option>
+														</select>
+													</li>
+													<li class="menu-item">
+														<!-- filter key -->
+														<select v-model="tuning" class="form-select select-lg filter" required>
+															<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
+															<option v-for="t in keyScale()" :key="t" :value="t">{{ t }}</option>
+														</select>
+													</li>
+													<li class="menu-item">
+														<!-- filter language -->
+														<select v-model="language" class="form-select select-lg filter" required>
+															<option value="" disabled selected>{{ $t('placeholder.language') }}</option>
+															<option v-for="(l, k) in songLanguages()" :key="k" :value="k">{{ l }}</option>
+														</select>
+													</li>
+													<li class="menu-item">
+														<!-- reset filter -->
+														<button class="btn input-group-btn btn-lg btn-secondary btn-error stretch" @click="search=''; filter=''; tuning=''; language=''">
+															<ion-icon name="close"></ion-icon>
+															{{ $t('button.reset') }}
+														</button>
+													</li>
+												</ul>
 											</div>
 										</div>
 									</div>
@@ -173,6 +186,7 @@ export default {
 			search: '',
 			filter: '',
 			tuning: '',
+			language: '',
 			error: {
 				title: false,
 				slug: false,
@@ -361,6 +375,9 @@ export default {
 			}
 			if (this.tuning != '') {
 				songs = Object.filter(songs, s => s.tuning.indexOf(this.tuning) !== -1)
+			}
+			if (this.language != '') {
+				songs = Object.filter(songs, s => s.language.indexOf(this.language) !== -1)
 			}
 			return songs
 		},
