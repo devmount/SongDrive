@@ -313,7 +313,7 @@ export default {
 					translations: this.song.translations,
 					tuning: this.song.tuning,
 					year: this.song.year ? parseInt(this.song.year) : '',
-					youtube: this.song.youtube,
+					youtube: this.song.youtube ? this.song.youtube : '',
 				}
 				// new song should be created
 				if (!this.existing) {
