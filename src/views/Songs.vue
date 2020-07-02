@@ -57,7 +57,7 @@
 						<input type="search" ref="search" v-model="search" class="form-input input-lg" :placeholder="$t('placeholder.searchSongTitle')" />
 						<div class="dropdown dropdown-right">
 							<div class="btn-group">
-								<a class="btn input-group-btn btn-secondary btn-lg dropdown-toggle" :class="{ 'badge': filter!=''||tuning!=''}" tabindex="0">
+								<a class="btn input-group-btn btn-secondary btn-lg dropdown-toggle" :class="{ 'badge': filter!=''||tuning!=''||language!=''}" tabindex="0">
 									<ion-icon name="filter-sharp"></ion-icon>
 								</a>
 								<ul class="menu text-left">
@@ -76,8 +76,15 @@
 										</select>
 									</li>
 									<li class="menu-item">
+										<!-- filter language -->
+										<select v-model="language" class="form-select select-lg filter" required>
+											<option value="" disabled selected>{{ $t('placeholder.language') }}</option>
+											<option v-for="(l, k) in songLanguages()" :key="k" :value="k">{{ l }}</option>
+										</select>
+									</li>
+									<li class="menu-item">
 										<!-- reset filter -->
-										<button class="btn input-group-btn btn-lg btn-secondary btn-error stretch" @click="search=''; filter=''; tuning=''">
+										<button class="btn input-group-btn btn-lg btn-secondary btn-error stretch" @click="search=''; filter=''; tuning=''; language=''">
 											<ion-icon name="close"></ion-icon>
 											{{ $t('button.reset') }}
 										</button>
@@ -206,6 +213,7 @@ export default {
 			search: '',
 			filter: this.$route.params.tag ? this.$route.params.tag : '',
 			tuning: '',
+			language: '',
 			page: 0,
 			listLength: 12,
 			order: { 
@@ -270,6 +278,12 @@ export default {
 					return song.tuning.indexOf(self.tuning) !== -1
 				})
 			}
+			if (this.language != '') {
+				songs = songs.filter(song => {
+					// filter field: language
+					return song.language.indexOf(self.language) !== -1
+				})
+			}
 			return songs
 		},
 		pagedSongs () {
@@ -303,6 +317,9 @@ export default {
 			this.page = 0
 		},
 		tuning () {
+			this.page = 0
+		},
+		language () {
 			this.page = 0
 		},
 	}
