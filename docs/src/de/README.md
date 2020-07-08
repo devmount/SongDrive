@@ -1,6 +1,8 @@
 ---
 home: true
 heroImage: /logo.svg
+heroText: SongDrive
+tagline: Speichern, Synchronisieren und Präsentieren von Liedern und Setlisten
 actionText: Los geht's →
 actionLink: /de/guide/
 features:
