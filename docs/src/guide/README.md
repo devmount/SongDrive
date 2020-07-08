@@ -16,25 +16,24 @@ SongDrive ships with a lot of features supporting artists in preparation of or d
 - create, edit and delete songs
 - viewport optimized fullscreen view for a single song
 - switch song languages
-- filter songs and setlists on typing and by tags
-- transpose song tuning
+- filter lists of songs and setlists on typing and by tags or key
+- transpose song key and save key per setlist
 - create, edit and delete setlists
 - rearrange songs in setlists with drag and drop
 - viewport optimized presentation view for setlists
 - PDF export for songs, setlists and songsheets
 - plain text export for songs, setlists and songsheets
 - setlist export in slack and markdown formatting
+- hotkeys, shortcuts support
+- UI multi language support
+- maintain Youtube links to directly listen to the songs
 
 ### Todo
 
 SongDrive is still a work in progress. There are some things that it currently does not support but are planned:
 
-- hotkeys, shortcuts <Badge text="todo" type="warn"/>
 - light mode <Badge text="todo" type="warn"/>
-- list enhancements (pagination) <Badge text="todo" type="warn"/>
-- multi language support <Badge text="todo" type="warn"/>
 - offline version (pwa, service worker) <Badge text="todo" type="warn"/>
-- maintain Youtube links to listen to the songs <Badge text="todo" type="warn"/>
 - present note slides in setlist presentations <Badge text="todo" type="warn"/>
 - tag based song suggestions <Badge text="todo" type="warn"/>
 
@@ -91,7 +90,7 @@ Feedback and contributions are very welcome! You can help by reporting bugs, sug
     ```
 
 ::: warning HINT
-The setup process is still in development. An additional step with the possibility to add test data will be added soon.
+The setup process is still in development. An additional step with the possibility to add test data will be added in a future release.
 :::
 
 ## User roles
@@ -247,5 +246,14 @@ If you click on of the rows, the setlist and a secondary menu is shown on the le
 
 #### Settings
 
-#### Logout
+#### Sign in and out
+
+### Info
+
+#### Shortcuts
+
+#### Documentation
+
+#### GitHub
+
 -->

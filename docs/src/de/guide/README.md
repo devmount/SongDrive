@@ -16,25 +16,24 @@ SongDrive bringt viele Funktionen mit, die den Musiker sowohl in der Vorbereitun
 - Lieder erstellen, bearbeiten und löschen
 - optimierte Vollbildansicht eines Liedes (kein Scrollen)
 - Sprache des Liedes umschalten
-- Lieder und Setlisten während der Eingabe filtern oder mithilfe von Tags
-- Tonarten transponieren
+- Listen von Liedern und Setlisten per Suchbegriff beim Tippen filtern oder mithilfe von Tags oder Tonart
+- Tonarten transponieren und und per Setlist speichern
 - Setlisten erstellen, bearbeiten und löschen
 - Lieder einer Setlist per Drag and Drop neu anordnen
 - optimierte Präsentationsansicht einer Setlist
 - Lieder, Setlisten und Liedzettel als PDF exportieren
 - Text-Export für Lieder, Setlisten und Liedzettel
 - Export von Setlisten für Slack und als Markdown
+- Unterstützung von Tastenkürzeln
+- Mehrsprachigkeit der Benutzeroberfläche
+- Pflege von Youtube Links zum direkten Anhören der Lieder
 
 ### Todo
 
 SongDrive ist aktuell in Entwicklung. Einige Funktionen sind noch nicht vorhanden, aber in Planung:
 
-- Tastenkürzel <Badge text="todo" type="warn"/>
 - Light Mode <Badge text="todo" type="warn"/>
-- Verbesserung der Listenanzeige (Seitennavigation) <Badge text="todo" type="warn"/>
-- Mehrsprachigkeit der Benutzeroberfläche <Badge text="todo" type="warn"/>
 - Offline Verfügbarkeit (PWA, Service Worker) <Badge text="todo" type="warn"/>
-- Pflege von Youtube Links zum Anhören der Lieder <Badge text="todo" type="warn"/>
 - Präsentation von Notizfolien in Setlisten <Badge text="todo" type="warn"/>
 - Tagbasierte Vorschläge ähnlicher Lieder <Badge text="todo" type="warn"/>
 
@@ -239,3 +238,22 @@ Durch Klick auf eine Zeile, wird die Setlist angezeigt mit einem zusätzlichen M
 - *slack*: exportiert die Setlist für [Slack](https://get.slack.help/hc/en-us/articles/202288908-Format-your-messages)
 - *list*: exportiert die Setlist Liederliste als PDF-Datei
 - *Sheets*: exportiert alle in dieser Setlist enthaltenen Songs als einzelnes PDF (ein Song pro Seite).
+
+<!--
+### Konto
+
+#### Profil
+
+#### Einstellungen
+
+#### Login und Logout
+
+### Info
+
+#### Tastenkürzel
+
+#### Dokumentation
+
+#### GitHub
+
+-->
