@@ -238,6 +238,8 @@ export default {
 			createNewAccount: 'Create a new SongDrive account.',
 			noSongsAvailableSignedIn: 'There are currently no songs available. Add songs to see them here or import backup or demo data.',
 			noSongsAvailableSignedOut: 'There are currently no songs available. Sign in to add songs or import data from backups or demo database.',
+			noSetlistsAvailableSignedIn: 'There are currently no setlists available. Add setlists to see them here or import backup or demo data.',
+			noSetlistsAvailableSignedOut: 'There are currently no setlists available. Sign in to add setlists or import data from backups or demo database.',
 		},
 		toast: {
 			signedIn: 'Signed in',
@@ -580,6 +582,8 @@ export default {
 			createNewAccount: 'Erstelle ein neues SongDrive Konto.',
 			noSongsAvailableSignedIn: 'Es sind aktuell keine Songs vorhanden. Füge Songs hinzu oder importiere Backup- oder Demo-Daten.',
 			noSongsAvailableSignedOut: 'Es sind aktuell keine Songs vorhanden. Bitte melde dich an, um Songs hinzuzufügen oder zu importieren.',
+			noSetlistsAvailableSignedIn: 'Es sind aktuell keine Setlisten vorhanden. Füge Setlisten hinzu oder importiere Backup- oder Demo-Daten.',
+			noSetlistsAvailableSignedOut: 'Es sind aktuell keine Setlisten vorhanden. Bitte melde dich an, um Setlisten hinzuzufügen oder zu importieren.',
 		},
 		toast: {
 			signedIn: 'Eingeloggt',

@@ -4,9 +4,9 @@
 			class="container no-sidebar"
 			ref="container"
 			tabindex="0"
-			@keydown.left.exact="!isFirstPage ? page-- : null"
-			@keydown.right.exact="!isLastPage ? page++ : null"
-			@keydown.ctrl.70.prevent="$refs.search.focus()"
+			@keydown.left.exact="!isFirstPage && !noSetlists ? page-- : null"
+			@keydown.right.exact="!isLastPage && !noSetlists ? page++ : null"
+			@keydown.ctrl.70.prevent="!noSetlists ? $refs.search.focus() : null"
 			@keydown.esc.exact="search=''; filter='';"
 		>
 			<div class="columns">
@@ -19,7 +19,16 @@
 					</h2>
 				</div>
 			</div>
-			<div v-if="ready.setlists" class="columns mt-2 mb-3">
+
+			<div v-if="noSetlists" class="columns mt-2">
+				<!-- heading -->
+				<div class="column col-12">
+					<span v-if="user != '' && role != ''">{{ $t('text.noSetlistsAvailableSignedIn') }}</span>
+					<span v-else>{{ $t('text.noSetlistsAvailableSignedOut') }}</span>
+				</div>
+			</div>
+
+			<div v-if="ready.setlists && !noSetlists" class="columns mt-2 mb-3">
 				<!-- pagination -->
 				<div class="column col-3 col-xl-6 col-md-9 col-sm-12 col-mx-auto">
 					<ul class="pagination">
@@ -83,7 +92,7 @@
 			</div>
 
 			<!-- setlist list -->
-			<table v-if="ready.setlists" class="table table-striped table-hover">
+			<table v-if="ready.setlists && !noSetlists" class="table table-striped table-hover">
 				<thead>
 					<tr>
 						<th></th>
@@ -275,8 +284,11 @@ export default {
 			}
 			return setlists
 		},
+		noSetlists () {
+			return this.ready.setlists && this.setlistsArray.length == 0
+		},
 		setlistYears() {
-			if (this.ready.setlists) {
+			if (this.ready.setlists && !this.noSetlists) {
 				let start = parseInt(Object.keys(this.setlists).sort()[0].substring(0, 4))
 				let end = parseInt(Object.keys(this.setlists).sort().slice(-1)[0].substring(0, 4))
 				return Array.from(Array(end-start+1).keys(), x => x + start).reverse()
