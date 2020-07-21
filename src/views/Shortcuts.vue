@@ -22,7 +22,7 @@
 										<td>{{ $t('tooltip.pagination') }}</td>
 									</tr>
 									<tr>
-										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.F') }}</kbd></td>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.F') }}</kbd></td>
 										<td><ion-icon name="search"></ion-icon></td>
 										<td>{{ $t('tooltip.search') }}</td>
 									</tr>
@@ -45,7 +45,7 @@
 							<table class="table">
 								<tbody>
 									<tr>
-										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.K') }}</kbd></td>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.K') }}</kbd></td>
 										<td><ion-icon name="musical-notes"></ion-icon></td>
 										<td>{{ $t('tooltip.chordsShow') }} / {{ $t('tooltip.chordsHide') }}</td>
 									</tr>
@@ -60,17 +60,17 @@
 										<td>{{ $t('tooltip.transposeDown') }}</td>
 									</tr>
 									<tr>
-										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.R') }}</kbd></td>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.R') }}</kbd></td>
 										<td><ion-icon name="musical-note"></ion-icon></td>
 										<td>{{ $t('tooltip.keyReset') }}</td>
 									</tr>
 									<tr>
-										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.P') }}</kbd></td>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.P') }}</kbd></td>
 										<td><ion-icon name="videocam-outline"></ion-icon></td>
 										<td>{{ $t('tooltip.presentationStart') }}</td>
 									</tr>
 									<tr>
-										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.L') }}</kbd></td>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.L') }}</kbd></td>
 										<td><ion-icon name="contrast-outline"></ion-icon></td>
 										<td>{{ $t('tooltip.lightModeOnOff') }}</td>
 									</tr>
@@ -93,17 +93,17 @@
 							<table class="table">
 								<tbody>
 									<tr>
-										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.S') }}</kbd></td>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.S') }}</kbd></td>
 										<td><ion-icon name="sync"></ion-icon></td>
 										<td>{{ $t('tooltip.syncOn') }} / {{ $t('tooltip.syncOff') }}</td>
 									</tr>
 									<tr>
-										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.K') }}</kbd></td>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.K') }}</kbd></td>
 										<td><ion-icon name="musical-notes"></ion-icon></td>
 										<td>{{ $t('tooltip.chordsShow') }} / {{ $t('tooltip.chordsHide') }}</td>
 									</tr>
 									<tr>
-										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.P') }}</kbd></td>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.P') }}</kbd></td>
 										<td><ion-icon name="videocam-outline"></ion-icon></td>
 										<td>{{ $t('tooltip.presentationStart') }}</td>
 									</tr>
@@ -118,7 +118,7 @@
 										<td>{{ $t('tooltip.previousSlide') }}</td>
 									</tr>
 									<tr>
-										<td><kbd>{{ $t('key.ctrl') }}</kbd> + <kbd>{{ $t('key.B') }}</kbd></td>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.B') }}</kbd></td>
 										<td><ion-icon name="eye-off-outline"></ion-icon></td>
 										<td>{{ $t('tooltip.presentationShow') }} / {{ $t('tooltip.presentationHide') }}</td>
 									</tr>
