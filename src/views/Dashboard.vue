@@ -1,6 +1,7 @@
 <template>
 	<div class="dashboard">
 		<div class="container no-sidebar">
+
 			<!-- heading -->
 			<div class="columns">
 				<div class="column">
@@ -9,12 +10,14 @@
 					</h2>
 				</div>
 			</div>
+
 				<!-- loader -->
 			<div class="columns col-12 py-4 my-4" v-if="!ready.songs || !ready.setlists">
 				<div class="column">
 					<div class="loading loading-xl"></div>
 				</div>
 			</div>
+
 			<!-- stored songs count -->
 			<div class="columns" v-if="ready.songs && ready.setlists">
 				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
@@ -43,19 +46,20 @@
 						</div>
 					</div>
 				</div>
-				<!-- languages count -->
+				<!-- languages count TODO: calculate song languages in use -->
 				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
 					<div class="panel">
 						<div class="panel-body text-center pb-3">
 							<div class="text-huge">{{ Object.keys(songLanguages()).length }}</div>
-							<div class="panel-title h5"><ion-icon name="globe-outline"></ion-icon> {{ $t('widget.languages') }}</div>
+							<div class="panel-title h5"><ion-icon name="globe-outline" class="mr-2"></ion-icon> {{ $t('widget.languages') }}</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- song list -->
+
 			<div class="columns" v-if="ready.songs && ready.setlists">
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+				<!-- song list -->
+				<div v-if="!noSongs" class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
 						<div class="panel-header">
 							<div class="panel-title h5">
@@ -103,7 +107,7 @@
 								<button class="btn btn-secondary" @click="shuffleSongs"><ion-icon name="shuffle" class="mr-2"></ion-icon>{{ $t('button.shuffle') }}</button>
 								<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs"><ion-icon name="arrow-up" class="mr-2"></ion-icon>{{ $t('widget.newest') }}</button>
 								<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs"><ion-icon name="arrow-down" class="mr-2"></ion-icon>{{ $t('widget.oldest') }}</button>
-								<button class="btn btn-secondary" @click="popularSongs"><ion-icon name="trending-up" class="mr-2"></ion-icon>{{ $t('widget.popular') }}</button>
+								<button v-if="!noSetlists" class="btn btn-secondary" @click="popularSongs"><ion-icon name="trending-up" class="mr-2"></ion-icon>{{ $t('widget.popular') }}</button>
 							</div>
 						</div>
 						<div class="panel-link">
@@ -112,7 +116,7 @@
 					</div>
 				</div>
 				<!-- setlist list -->
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+				<div v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
 						<div class="panel-header">
 							<div class="panel-title h5">
@@ -159,7 +163,7 @@
 					</div>
 				</div>
 				<!-- song of the year -->
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+				<div v-if="!noSongs && !noSetlists" class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
 						<div class="panel-header">
 							<div class="panel-title h5">
@@ -190,7 +194,7 @@
 				</div>
 			</div>
 			<div class="columns" v-if="ready.songs && ready.setlists">
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+				<div v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
 						<div class="panel-header">
 							<div class="panel-title h5">
@@ -205,7 +209,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+				<div v-if="!noSongs && !noSetlists" class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
 						<div class="panel-header">
 							<div class="panel-title h5">
@@ -220,7 +224,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+				<div v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
 						<div class="panel-header">
 							<div class="panel-title h5">
@@ -333,6 +337,9 @@ export default {
 			})
 			return songs.filter(s => s.year > 0).sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0))
 		},
+		noSongs () {
+			return this.ready.songs && this.songsArray.length == 0
+		},
 		songlist () {
 			if (this.reorderedSongs.length === 0) {
 				return this.songsArray.slice(this.songsPage*this.listLength, (this.songsPage+1)*this.listLength)
@@ -347,6 +354,9 @@ export default {
 				setlist['id'] = key
 				return setlist
 			})
+		},
+		noSetlists () {
+			return this.ready.setlists && this.setlistsArray.length == 0
 		},
 		setlistlist () {
 			if (this.reorderedSetlists.length === 0) {
