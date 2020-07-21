@@ -4,9 +4,9 @@
 			class="container no-sidebar"
 			ref="container"
 			tabindex="0"
-			@keydown.left.exact="!isFirstPage ? page-- : null"
-			@keydown.right.exact="!isLastPage ? page++ : null"
-			@keydown.ctrl.70.prevent="$refs.search.focus()"
+			@keydown.left.exact="!isFirstPage && !noSongs ? page-- : null"
+			@keydown.right.exact="!isLastPage && !noSongs ? page++ : null"
+			@keydown.ctrl.70.prevent="!noSongs ? $refs.search.focus() : null"
 			@keydown.esc.exact="search=''; filter=''; tuning=''"
 		>
 			<div class="columns">
@@ -19,7 +19,16 @@
 					</h2>
 				</div>
 			</div>
-			<div v-if="ready.songs" class="columns mt-2 mb-3">
+
+			<div v-if="noSongs" class="columns mt-2">
+				<!-- heading -->
+				<div class="column col-12">
+					<span v-if="user != '' && role != ''">{{ $t('text.noSongsAvailableSignedIn') }}</span>
+					<span v-else>{{ $t('text.noSongsAvailableSignedOut') }}</span>
+				</div>
+			</div>
+
+			<div v-if="ready.songs && !noSongs" class="columns mt-2 mb-3">
 				<!-- pagination -->
 				<div class="column col-3 col-xl-6 col-md-9 col-sm-12 col-mx-auto">
 					<ul class="pagination">
@@ -97,7 +106,7 @@
 			</div>
 		
 			<!-- song list -->
-			<table v-if="ready.songs" class="table table-striped table-hover">
+			<table v-if="ready.songs && !noSongs" class="table table-striped table-hover">
 				<thead>
 					<tr>
 						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'title' }" @click="sortList('title')">
@@ -285,6 +294,9 @@ export default {
 				})
 			}
 			return songs
+		},
+		noSongs () {
+			return this.ready.songs && this.songsArray.length == 0
 		},
 		pagedSongs () {
 			return this.filteredSongs.slice(this.page*this.listLength, (this.page+1)*this.listLength)
