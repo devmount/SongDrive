@@ -77,13 +77,40 @@ Feedback und Mitarbeit sind großartig! Du kannst helfen indem du Fehler meldest
     }
     ```
 
-7. Jetzt kann die App gestartet werden. Entweder den Development-Server mit Hot-Reload starten unter `localhost:8080` ...
+7. In der Firebase Konsole *Create Database* unter Develop > Database klicken. *Start in production mode* wählen und die folgenden Sicherheitsregeln hinterlegen:
+
+    ```javascript
+    rules_version = '2';
+    service cloud.firestore {
+      match /databases/{database}/documents {
+        match /{document=**} {
+          allow read;
+          allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+        }
+        match /setlists/{setlist} {
+          allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer"
+                                || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
+          allow delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor"
+                        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer" && request.auth.uid == resource.data.creator;
+        }
+        match /songs/{song} {
+          allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
+          allow delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
+        }
+        match /registrations/{user} {
+          allow create: if request.auth.uid != '';
+        }
+      }
+    }
+    ```
+
+8. Jetzt kann die App gestartet werden. Entweder den Development-Server mit Hot-Reload starten unter `localhost:8080` ...
 
     ```bash
     yarn serve
     ```
 
-8. ... oder den für die Produktion optimierten Build erstellen. Alle erzeugten Dateien können anschließend im `dist` Ordner gefunden werden.
+9. ... oder den für die Produktion optimierten Build erstellen. Alle erzeugten Dateien können anschließend im `dist` Ordner gefunden werden.
 
     ```bash
     yarn build

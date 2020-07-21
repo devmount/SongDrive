@@ -66,21 +66,48 @@ This is how the SongDrive Dashboard currently looks like.
     }
     ```
 
-7. Now your app is ready to be launched. Either start the development server with hot reload at `localhost:8080` ...
+7. Go back to your Firebase console, and click *Create Database* under Develop > Database. Choose *Start in production mode* and set the following security rules:
+
+    ```javascript
+    rules_version = '2';
+    service cloud.firestore {
+      match /databases/{database}/documents {
+        match /{document=**} {
+          allow read;
+          allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+        }
+        match /setlists/{setlist} {
+          allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer"
+                                || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
+          allow delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor"
+                        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer" && request.auth.uid == resource.data.creator;
+        }
+        match /songs/{song} {
+          allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
+          allow delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
+        }
+        match /registrations/{user} {
+          allow create: if request.auth.uid != '';
+        }
+      }
+    }
+    ```
+
+8. Now your app is ready to be launched. Either start the development server with hot reload at `localhost:8080` ...
 
     ```bash
     yarn serve
     ```
 
-8. ... or create an optimized production build with minification. All build files can be found in the `dist` directory.
+9. ... or create an optimized production build with minification. All build files can be found in the `dist` directory.
 
     ```bash
     yarn build
     ```
 
-> **HINT**
->
-> The setup process is still in development. An additional step with the possibility to import test data will be added soon.
+::: warning HINT
+The setup process is still in development. An additional step with the possibility to add test data will be added in a future release.
+:::
 
 ## Licence
 
