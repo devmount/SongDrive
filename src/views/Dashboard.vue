@@ -46,11 +46,11 @@
 						</div>
 					</div>
 				</div>
-				<!-- languages count TODO: calculate song languages in use -->
+				<!-- used languages count -->
 				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
 					<div class="panel">
 						<div class="panel-body text-center pb-3">
-							<div class="text-huge">{{ Object.keys(songLanguages()).length }}</div>
+							<div class="text-huge">{{ languagesUsed }}</div>
 							<div class="panel-title h5"><ion-icon name="globe-outline" class="mr-2"></ion-icon> {{ $t('widget.languages') }}</div>
 						</div>
 					</div>
@@ -339,6 +339,15 @@ export default {
 		},
 		noSongs () {
 			return this.ready.songs && this.songsArray.length == 0
+		},
+		languagesUsed () {
+			let languages = []
+			this.songsArray.forEach(song => {
+				if (!languages.includes(song.language)) {
+					languages.push(song.language)
+				}
+			})
+			return languages.length
 		},
 		songlist () {
 			if (this.reorderedSongs.length === 0) {
