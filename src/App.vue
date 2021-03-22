@@ -635,6 +635,23 @@ code {
 .text-transparent {
 	color: transparent;
 }
+.featured {
+	.featured-number {
+		font-size: 4em;
+		line-height: 1.5em;
+		font-weight: 300;
+
+		@media (max-width: $size-lg) {
+			font-size: 3em;
+			line-height: 1.25em;
+		}
+	}
+	.featured-description {
+		@media (max-width: $size-lg) {
+			font-size: .75rem;
+		}
+	}
+}
 
 // display
 .d-flex > * {
