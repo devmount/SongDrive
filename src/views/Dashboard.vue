@@ -20,38 +20,38 @@
 
 			<!-- stored songs count -->
 			<div class="columns" v-if="ready.songs && ready.setlists">
-				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
+				<div class="column col-3 col-xl-6 mt-4">
 					<div class="panel">
-						<div class="panel-body text-center pb-3">
-							<div class="text-huge">{{ Object.keys(songs).length }}</div>
-							<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsStored') }}</div>
+						<div class="panel-body text-center pb-3 featured">
+							<div class="featured-number">{{ Object.keys(songs).length }}</div>
+							<div class="panel-title h5 featured-description"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsStored') }}</div>
 						</div>
 					</div>
 				</div>
 				<!-- stored setlists count -->
-				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
+				<div class="column col-3 col-xl-6 mt-4">
 					<div class="panel">
-						<div class="panel-body text-center pb-3">
-							<div class="text-huge">{{ Object.keys(setlists).length }}</div>
-							<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistsStored') }}</div>
+						<div class="panel-body text-center pb-3 featured">
+							<div class="featured-number">{{ Object.keys(setlists).length }}</div>
+							<div class="panel-title h5 featured-description"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistsStored') }}</div>
 						</div>
 					</div>
 				</div>
 				<!-- performed songs count -->
-				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
+				<div class="column col-3 col-xl-6 mt-4">
 					<div class="panel">
-						<div class="panel-body text-center pb-3">
-							<div class="text-huge"><span class="text-gray">~</span>{{ songsPerformed }}</div>
-							<div class="panel-title h5"><ion-icon name="mic-outline" class="mr-2"></ion-icon> {{ $t('widget.songsPerformed') }}</div>
+						<div class="panel-body text-center pb-3 featured">
+							<div class="featured-number"><span class="text-gray">~</span>{{ songsPerformed }}</div>
+							<div class="panel-title h5 featured-description"><ion-icon name="mic-outline" class="mr-2"></ion-icon> {{ $t('widget.songsPerformed') }}</div>
 						</div>
 					</div>
 				</div>
 				<!-- used languages count -->
-				<div class="column col-3 col-xl-6 col-sm-12 mt-4">
+				<div class="column col-3 col-xl-6 mt-4">
 					<div class="panel">
-						<div class="panel-body text-center pb-3">
-							<div class="text-huge">{{ languagesUsed }}</div>
-							<div class="panel-title h5"><ion-icon name="globe-outline" class="mr-2"></ion-icon> {{ $t('widget.languages') }}</div>
+						<div class="panel-body text-center pb-3 featured">
+							<div class="featured-number">{{ languagesUsed }}</div>
+							<div class="panel-title h5 featured-description"><ion-icon name="globe-outline" class="mr-2"></ion-icon> {{ $t('widget.languages') }}</div>
 						</div>
 					</div>
 				</div>
