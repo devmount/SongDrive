@@ -2,6 +2,7 @@
 node_modules
 /dist
 config.js
+demo.config.js
 Thumbs.db
 
 # local env files
