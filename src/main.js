@@ -3,6 +3,24 @@ import App from './App'
 import router from './router'
 import './registerServiceWorker'
 
+// set firebase db config
+let firebase = require("firebase/app")
+const conf = {
+	apiKey: String(process.env.VUE_APP_FB_API_KEY),
+	authDomain: process.env.VUE_APP_FB_PROJECT_ID + ".firebaseapp.com",
+	databaseURL: "https://" + process.env.VUE_APP_FB_PROJECT_ID + ".firebaseio.com",
+	projectId: String(process.env.VUE_APP_FB_PROJECT_ID),
+	storageBucket: process.env.VUE_APP_FB_PROJECT_ID + ".appspot.com"
+}
+let firebaseApp = firebase.initializeApp(conf)
+
+// set global properties
+Vue.prototype.$db = firebaseApp.firestore()
+
+// set local config
+Vue.config.productionTip = false
+Vue.config.ignoredElements = [/^ion-/]
+
 // vue-firestore
 import VueFirestore from 'vue-firestore'
 Vue.use(VueFirestore)
@@ -10,9 +28,6 @@ Vue.use(VueFirestore)
 // vue-notification
 import Notifications from 'vue-notification'
 Vue.use(Notifications)
-
-// ionicons
-Vue.config.ignoredElements = [/^ion-/]
 
 // vue-sortable
 import Sortable from 'sortablejs'
@@ -49,9 +64,6 @@ Chart.defaults.global.tooltips.titleMarginBottom = 10
 Chart.defaults.global.tooltips.xPadding = 10
 Chart.defaults.global.tooltips.yPadding = 10
 Chart.defaults.global.tooltips.cornerRadius = 2
-
-// vue configuration
-Vue.config.productionTip = false
 
 // global mixins
 let isChordLine = (line) => {
