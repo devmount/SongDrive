@@ -45,27 +45,15 @@ This is how the SongDrive Dashboard currently looks like.
     yarn
     ```
 
-3. Create an empty file called `config.js` in `SongDrive/src`
+3. Create an environment configuration file `.env` from the existing example configuration in the root directory:
 
     ```bash
-    touch src/config.js
+    cp .env.example .env
     ```
 
 4. Log in to your [Firebase account](https://console.firebase.google.com), hit the "Add a project" button and set up a project name and a server location
 5. Now you can add an app by clicking the "Web" button, choose a nickname and click "Next"
-6. Copy the firebase configuration object from the code that is shown to your just created `config.js` in the following format:
-
-    ```javascript
-    export const config = {
-        apiKey: "<your-api-key>",
-        authDomain: "<your-auth-domain>",
-        databaseURL: "<your-database-url>",
-        projectId: "<your-project-id>",
-        storageBucket: "<your-storage-bucket>",
-        messagingSenderId: "<your-messaging-sender-id>"
-    }
-    ```
-
+6. Copy *API key* and *project ID* into your `.env` file
 7. Go back to your Firebase console, and click *Create Database* under Develop > Database. Choose *Start in production mode* and set the following security rules:
 
     ```javascript
