@@ -261,7 +261,6 @@
 export default {
 	name: 'song-set',
 	props: {
-		db: Object,
 		active: Boolean,
 		existing: Boolean,
 		initialSong: Object,
@@ -317,7 +316,7 @@ export default {
 				}
 				// new song should be created
 				if (!this.existing) {
-					this.db.collection('songs').doc(slug).set(processedSong)
+					this.$db.collection('songs').doc(slug).set(processedSong)
 					.then(function() {
 						self.$emit('closed')
 						self.$emit('reset')
@@ -337,7 +336,7 @@ export default {
 					// check if key remained (no title or language changes)
 					if (this.songKey == slug) {
 						// just update the existing setlist
-						this.db.collection('songs').doc(this.songKey).update(processedSong)
+						this.$db.collection('songs').doc(this.songKey).update(processedSong)
 						.then(function() {
 							self.$emit('closed')
 							self.$emit('reset')
@@ -352,8 +351,8 @@ export default {
 						})
 					} else {
 						// update key by adding a new song and removing the old one
-						this.db.collection('songs').doc(this.songKey).delete()
-						this.db.collection('songs').doc(slug).set(processedSong)
+						this.$db.collection('songs').doc(this.songKey).delete()
+						this.$db.collection('songs').doc(slug).set(processedSong)
 						.then(function() {
 							self.$emit('closed')
 							self.$emit('reset')

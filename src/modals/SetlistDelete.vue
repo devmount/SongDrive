@@ -24,7 +24,6 @@
 export default {
 	name: 'setlist-delete',
 	props: {
-		db: Object,
 		active: Boolean,
 		title: String,
 		id: String
@@ -32,7 +31,7 @@ export default {
 	methods: {
 		deleteSetlist () {
 			var self = this
-			this.db.collection('setlists').doc(this.id).delete().then(function() {
+			this.$db.collection('setlists').doc(this.id).delete().then(function() {
 				self.$emit('closed')
 				if (self.$route.name != 'setlists') {
 					self.$router.push({ name: 'setlists' })

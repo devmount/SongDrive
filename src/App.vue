@@ -119,7 +119,6 @@
 			<div class="off-canvas-content">
 				<router-view
 					:key="$route.fullPath"
-					:db="$db"
 					:user="auth.user"
 					:userObject="auth.userObject"
 					:role="auth.user && users[auth.user] && ready.users ? userRoles()[users[auth.user].role] : ''"
@@ -136,7 +135,6 @@
 			<!-- modals -->
 			<SongSet
 				v-if="modal.addsong"
-				:db="$db"
 				:active="modal.addsong"
 				:existing="false"
 				:initialSong="newSong"
@@ -149,7 +147,6 @@
 			/>
 			<SetlistSet
 				v-if="modal.addsetlist"
-				:db="$db"
 				:active="modal.addsetlist"
 				:existing="false"
 				:initialSetlist="newSetlist"
@@ -164,7 +161,6 @@
 			/>
 			<SignUp
 				v-if="modal.signup"
-				:db="$db"
 				:active="modal.signup"
 				@closed="modal.signup = false"
 				@submitted="signUp"
@@ -193,10 +189,6 @@ import SignUp from '@/modals/SignUp'
 var firebase = require("firebase/app")
 require("firebase/auth")
 require('firebase/firestore')
-// import { config } from "./config"
-
-// var firebaseApp = firebase.initializeApp(config)
-// const db = firebaseApp.firestore()
 
 export default {
 	name: 'app',
@@ -274,7 +266,6 @@ export default {
 				date: '',
 				songs: [],
 			},
-			// db: db,
 			auth: {
 				email: '',
 				password: '',

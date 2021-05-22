@@ -165,7 +165,6 @@
 			<!-- modals -->
 			<SetlistSet
 				v-if="modal.set"
-				:db="db"
 				:active="modal.set"
 				:existing="existing"
 				:initialSetlist="setlist"
@@ -179,7 +178,6 @@
 			/>
 			<SetlistDelete
 				v-if="modal.delete"
-				:db="db"
 				:active="modal.delete"
 				:title="setlist ? setlist.title : ''"
 				:id="setlistKey"
@@ -221,7 +219,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'setlist-show',
-	props: ['db', 'songs', 'setlists', 'users', 'tags', 'user', 'role', 'ready'],
+	props: ['songs', 'setlists', 'users', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,
@@ -302,7 +300,7 @@ export default {
 			const movedItem = this.setlist.songs.splice(oldIndex, 1)[0]
 			this.setlist.songs.splice(newIndex, 0, movedItem)
 			var self = this
-			this.db.collection('setlists').doc(this.$route.params.id).set({songs: this.setlist.songs}, { merge: true }).then(function() {
+			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: this.setlist.songs}, { merge: true }).then(function() {
 				self.$notify({ title: self.$t('toast.songOrderUpdated'), text: self.$t('toast.setlistSavedText'), type: 'primary'} )
 			})
 		},
@@ -318,7 +316,7 @@ export default {
 			}
 			// save tuning in setlist
 			songs[songPosition].tuning = tone
-			this.db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
+			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
 		},
 		tuneDown (song, songPosition) {
 			let songs = this.setlist.songs
@@ -332,19 +330,19 @@ export default {
 			}
 			// save tuning in setlist
 			songs[songPosition].tuning = tone
-			this.db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
+			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
 		},
 		updateActive () {
 			// update setlist's active flag to enable sync
 			var self = this, sync = !this.setlist.active
-			this.db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(function() {
+			this.$db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(function() {
 				self.$notify({ title: self.$t('toast.sync' + (sync ? 'Activated' : 'Deactivated')), text: self.$t('toast.setlistStatusSavedText'), type: 'primary' })
 			})
 		},
 		updatePosition (position) {
 			// update setlist's position if sync enabled
 			if (this.setlist.active) {
-				this.db.collection('setlists').doc(this.$route.params.id).set({position: position}, { merge: true })
+				this.$db.collection('setlists').doc(this.$route.params.id).set({position: position}, { merge: true })
 			}
 		},
 		copyList (format) {

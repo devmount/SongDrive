@@ -24,7 +24,6 @@
 export default {
 	name: 'user-delete',
 	props: {
-		db: Object,
 		active: Boolean,
 		userName: String,
 		userKey: String
@@ -32,7 +31,7 @@ export default {
 	methods: {
 		deleteUser () {
 			var self = this
-			this.db.collection('users').doc(this.userKey).delete().then(function() {
+			this.$db.collection('users').doc(this.userKey).delete().then(function() {
 				self.$emit('closed')
 				// toast success message
 				self.$notify({ title: self.$parent.$t('toast.userDeleted'), text: self.$parent.$t('toast.userDeletedText'), type: 'primary' })

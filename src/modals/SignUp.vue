@@ -40,7 +40,6 @@
 export default {
 	name: 'sing-up',
 	props: {
-		db: Object,
 		active: Boolean,
 	},
 	data () {

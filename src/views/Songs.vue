@@ -183,7 +183,6 @@
 			<!-- modals -->
 			<SongSet
 				v-if="modal.set"
-				:db="db"
 				:active="modal.set"
 				:existing="active.existing"
 				:initialSong="active.song"
@@ -195,7 +194,6 @@
 			/>
 			<SongDelete
 				v-if="modal.delete"
-				:db="db"
 				:active="modal.delete"
 				:title="active.title"
 				:id="active.key"
@@ -212,7 +210,7 @@ import SongDelete from '@/modals/SongDelete'
 
 export default {
 	name: 'songs',
-	props: ['db', 'songs', 'tags', 'user', 'role', 'ready'],
+	props: ['songs', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SongSet,
 		SongDelete,
