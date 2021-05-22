@@ -168,7 +168,6 @@ export default {
 		Datepicker
 	},
 	props: {
-		db: Object,
 		active: Boolean,
 		existing: Boolean,
 		initialSetlist: Object,
@@ -280,7 +279,7 @@ export default {
 				}
 				// new setlist should be created
 				if (!this.existing) {
-					this.db.collection('setlists').doc(slug).set(processedSetlist)
+					this.$db.collection('setlists').doc(slug).set(processedSetlist)
 					.then(function() {
 						self.$emit('closed')
 						self.$emit('reset')
@@ -300,7 +299,7 @@ export default {
 					// check if key remained (no title or date change)
 					if (this.setlistKey == slug) {
 						// just update the existing setlist
-						this.db.collection('setlists').doc(this.setlistKey).update(processedSetlist)
+						this.$db.collection('setlists').doc(this.setlistKey).update(processedSetlist)
 						.then(function() {
 							self.$emit('closed')
 							self.$emit('reset')
@@ -315,8 +314,8 @@ export default {
 						})
 					} else {
 						// update key by adding a new setlist and removing the old one
-						this.db.collection('setlists').doc(this.setlistKey).delete()
-						this.db.collection('setlists').doc(slug).set(processedSetlist)
+						this.$db.collection('setlists').doc(this.setlistKey).delete()
+						this.$db.collection('setlists').doc(slug).set(processedSetlist)
 						.then(function() {
 							self.$emit('closed')
 							self.$emit('reset')

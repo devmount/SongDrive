@@ -24,7 +24,6 @@
 export default {
 	name: 'song-delete',
 	props: {
-		db: Object,
 		active: Boolean,
 		title: String,
 		id: String
@@ -32,7 +31,7 @@ export default {
 	methods: {
 		deleteSong () {
 			var self = this
-			this.db.collection('songs').doc(this.id).delete().then(function() {
+			this.$db.collection('songs').doc(this.id).delete().then(function() {
 				self.$emit('closed')
 				if (self.$route.name != 'songs') {
 					self.$router.push({ name: 'songs' })

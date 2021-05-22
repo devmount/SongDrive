@@ -174,7 +174,6 @@
 			<!-- modals -->
 			<SetlistSet
 				v-if="modal.set"
-				:db="db"
 				:active="modal.set"
 				:existing="active.existing"
 				:initialSetlist="active.setlist"
@@ -188,7 +187,6 @@
 			/>
 			<SetlistDelete
 				v-if="modal.delete"
-				:db="db"
 				:active="modal.delete"
 				:title="active.title"
 				:id="active.key"
@@ -206,7 +204,7 @@ import SetlistDelete from '@/modals/SetlistDelete'
 
 export default {
 	name: 'setlists',
-	props: ['db', 'songs', 'setlists', 'tags', 'users', 'user', 'role', 'ready'],
+	props: ['songs', 'setlists', 'tags', 'users', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,

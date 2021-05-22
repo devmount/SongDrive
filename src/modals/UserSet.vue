@@ -39,7 +39,6 @@
 export default {
 	name: 'user-set',
 	props: {
-		db: Object,
 		active: Boolean,
 		initialUser: Object,
 		existing: Boolean,
@@ -65,7 +64,7 @@ export default {
 			if (!this.errors) {
 				let self = this
 				if (this.existing) {
-					this.db.collection('users').doc(this.userKey).update({
+					this.$db.collection('users').doc(this.userKey).update({
 						name: self.user.name,
 						email: self.user.email,
 						role: self.user.role
@@ -77,13 +76,13 @@ export default {
 				}
 				// user is not yet confirmed
 				else {
-					this.db.collection('users').doc(this.userKey).set({
+					this.$db.collection('users').doc(this.userKey).set({
 						name: self.user.name,
 						email: self.user.email,
 						role: self.user.role
 					}).then(function() {
 						// user added successfully, now delete temporary registration
-						self.db.collection('registrations').doc(self.userKey).delete().then(function() {
+						self.$db.collection('registrations').doc(self.userKey).delete().then(function() {
 							self.$notify({ title: self.$parent.$t('toast.userAdded'), text: self.$parent.$t('toast.userSavedText'), type: 'primary' })
 						})
 					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))

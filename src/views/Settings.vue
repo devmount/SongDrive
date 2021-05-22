@@ -174,7 +174,6 @@
 			<!-- modal: set user -->
 			<UserSet
 				v-if="modal.userset"
-				:db="db"
 				:active="modal.userset"
 				:existing="active.existing"
 				:initialUser="active.user"
@@ -184,7 +183,6 @@
 			<!-- modal: delete user -->
 			<UserDelete
 				v-if="modal.userdelete"
-				:db="db"
 				:active="modal.userdelete"
 				:userName="active.user.name"
 				:userKey="active.key"
@@ -205,7 +203,7 @@ export default {
 		UserSet,
 		UserDelete,
 	},
-	props: ['db', 'user', 'userObject', 'ready', 'roleName', 'role', 'users', 'registrations', 'tags', 'songs', 'setlists'],
+	props: ['user', 'userObject', 'ready', 'roleName', 'role', 'users', 'registrations', 'tags', 'songs', 'setlists'],
 	data () {
 		return {
 			profile: {
@@ -229,7 +227,7 @@ export default {
 		updateProfile () {
 			let self = this
 			this.userObject.updateProfile(this.profile).then(function() {
-				self.db.collection('users').doc(self.userObject.uid).update({
+				self.$db.collection('users').doc(self.userObject.uid).update({
 					name: self.profile.displayName,
 					email: self.profile.email
 				}).then(function() {

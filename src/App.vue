@@ -119,7 +119,6 @@
 			<div class="off-canvas-content">
 				<router-view
 					:key="$route.fullPath"
-					:db="db"
 					:user="auth.user"
 					:userObject="auth.userObject"
 					:role="auth.user && users[auth.user] && ready.users ? userRoles()[users[auth.user].role] : ''"
@@ -136,7 +135,6 @@
 			<!-- modals -->
 			<SongSet
 				v-if="modal.addsong"
-				:db="db"
 				:active="modal.addsong"
 				:existing="false"
 				:initialSong="newSong"
@@ -149,7 +147,6 @@
 			/>
 			<SetlistSet
 				v-if="modal.addsetlist"
-				:db="db"
 				:active="modal.addsetlist"
 				:existing="false"
 				:initialSetlist="newSetlist"
@@ -164,7 +161,6 @@
 			/>
 			<SignUp
 				v-if="modal.signup"
-				:db="db"
 				:active="modal.signup"
 				@closed="modal.signup = false"
 				@submitted="signUp"
@@ -193,10 +189,6 @@ import SignUp from '@/modals/SignUp'
 var firebase = require("firebase/app")
 require("firebase/auth")
 require('firebase/firestore')
-import { config } from "./config"
-
-var firebaseApp = firebase.initializeApp(config)
-const db = firebaseApp.firestore()
 
 export default {
 	name: 'app',
@@ -208,31 +200,31 @@ export default {
 	firestore () {
 		return {
 			songs: {
-				ref: db.collection('songs'),
+				ref: this.$db.collection('songs'),
 				objects: true,
 				resolve: () => { this.ready.songs = true },
 				reject: () => { this.ready.songs = true }
 			},
 			setlists: {
-				ref: db.collection('setlists').orderBy('date', 'desc'),
+				ref: this.$db.collection('setlists').orderBy('date', 'desc'),
 				objects: true,
 				resolve: () => { this.ready.setlists = true },
 				reject: () => { this.ready.setlists = true }
 			},
 			tags: {
-				ref: db.collection('tags'),
+				ref: this.$db.collection('tags'),
 				objects: true,
 				resolve: () => { this.ready.tags = true },
 				reject: () => { this.ready.tags = true }
 			},
 			users: {
-				ref: db.collection('users'),
+				ref: this.$db.collection('users'),
 				objects: true,
 				resolve: () => { this.ready.users = true },
 				reject: () => { this.ready.users = true }
 			},
 			registrations: {
-				ref: db.collection('registrations'),
+				ref: this.$db.collection('registrations'),
 				objects: true,
 				resolve: () => { this.ready.registrations = true },
 				reject: () => { this.ready.registrations = true }
@@ -274,7 +266,6 @@ export default {
 				date: '',
 				songs: [],
 			},
-			db: db,
 			auth: {
 				email: '',
 				password: '',
@@ -332,7 +323,7 @@ export default {
 				// sign-up successful
 				self.auth.user = firebase.auth().currentUser.uid
 				// create registration for admin approval
-				self.db.collection('registrations').doc(self.auth.user).set({ email: u.email, name: u.name })
+				self.$db.collection('registrations').doc(self.auth.user).set({ email: u.email, name: u.name })
 					.then(() => {
 						self.auth.userObject = firebase.auth().currentUser
 						self.auth.userObject.updateProfile({ displayName: u.name })

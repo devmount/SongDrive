@@ -131,7 +131,6 @@
 			<!-- modals -->
 			<SongSet
 				v-if="modal.set"
-				:db="db"
 				:active="modal.set"
 				:existing="existing"
 				:initialSong="song"
@@ -143,7 +142,6 @@
 			/>
 			<SongDelete
 				v-if="modal.delete"
-				:db="db"
 				:active="modal.delete"
 				:title="song ? song.title : ''"
 				:id="songKey"
@@ -186,7 +184,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'song-show',
-	props: ['db', 'songs', 'tags', 'user', 'role', 'ready'],
+	props: ['songs', 'tags', 'user', 'role', 'ready'],
 	components: {
 		SongContent,
 		SongSet,
