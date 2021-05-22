@@ -32,8 +32,8 @@
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint",
-		"docs:dev": "vuepress dev docs/src",
-		"docs:build": "vuepress build docs/src"
+		"docs:dev": "vuepress dev src/docs",
+		"docs:build": "vuepress build src/docs"
 	},
 	"dependencies": {
 		"chart.js": "^2.9.3",
@@ -74,7 +74,9 @@
 			"plugin:vue/essential",
 			"eslint:recommended"
 		],
-		"rules": {},
+		"rules": {
+			"no-console": "off"
+		},
 		"parserOptions": {
 			"parser": "babel-eslint"
 		}
