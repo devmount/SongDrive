@@ -81,13 +81,18 @@ This is how the SongDrive Dashboard currently looks like.
     }
     ```
 
-8. Now your app is ready to be launched. Either start the development server with hot reload at `localhost:8080` ...
+8. Create the first user in the Firebase console under Build > Authentification > Add user. After that you'll see the User UID in the table. Copy that UID, navigate to Build > Firestore Database > + Start collection. Input *users* as Collection ID and click Next. Insert the copied UID as Document ID and add the following fields to the document:
+    - `email` = string | *your email address*
+    - `name` = string | *your name*
+    - `role` = string | `admin`
+
+9. Now your app is ready to be launched. Either start the development server with hot reload at `localhost:8080` ...
 
     ```bash
     yarn serve
     ```
 
-9. ... or create an optimized production build with minification. All build files can be found in the `dist` directory.
+10. ... or create an optimized production build with minification. All build files can be found in the `dist` directory.
 
     ```bash
     yarn build
