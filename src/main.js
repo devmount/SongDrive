@@ -4,7 +4,7 @@ import router from './router'
 import './registerServiceWorker'
 
 // set firebase db config
-let firebase = require("firebase/app")
+import firebase from 'firebase/compat/app';
 const conf = {
 	apiKey: String(process.env.VUE_APP_FB_API_KEY),
 	authDomain: process.env.VUE_APP_FB_PROJECT_ID + ".firebaseapp.com",

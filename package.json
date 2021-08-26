@@ -36,7 +36,7 @@
 	},
 	"dependencies": {
 		"chart.js": "^2.9.3",
-		"firebase": "^7.8.1",
+		"firebase": "^9.0.0",
 		"hooper": "^0.3.4",
 		"ionicons": "^5.0.0",
 		"pdfmake": "^0.2.2",

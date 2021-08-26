@@ -187,9 +187,9 @@ import SongSet from '@/modals/SongSet'
 import SetlistSet from '@/modals/SetlistSet'
 import SignUp from '@/modals/SignUp'
 // get database object authorized in config.js
-var firebase = require("firebase/app")
-require("firebase/auth")
-require('firebase/firestore')
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 export default {
 	name: 'app',
