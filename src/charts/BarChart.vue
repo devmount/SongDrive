@@ -1,65 +1,128 @@
 <template>
 <div class="chart">
-	<canvas :id='id'></canvas>
+	<h2 v-if="title" class="text-center">{{ title }}</h2>
+	<p v-if="description" class="text-gray text-center">{{ description }}</p>
+	<div class="chart-container">
+		<canvas :id="id"></canvas>
+	</div>
 </div>
 </template>
 
 <script>
-/* eslint no-undef: 0 */
+import { Chart, transparentGradientBar } from '../chart.config'
+
 export default {
 	props: {
+		title: String,
+		description: String,
 		labels: Array,
 		datasets: Array,
+		horizontal: Boolean,
+		ordinate: Boolean,
 	},
 	data () {
 		return {
-			id: Math.random().toString(36).substring(7)
+			id: Math.random().toString(36).substring(7),
+			chart: null
 		}
 	},
 	mounted () {
-		if (this.labels.length>0 && this.datasets.length>0) {
-			let datasets = []
-			for (let i = 0; i < this.datasets.length; i++) {
-				const dataset = this.datasets[i]
-				datasets.push({
-					label: dataset.label,
-					data: dataset.data,
-					backgroundColor: dataset.bcolor,
-					borderWidth: { top: 3 },
-					borderColor: dataset.color,
-					barPercentage: 1,
-					categoryPercentage: .6,
-				})
-			}
-			new Chart(this.id, {
-				type: 'bar',
+		if (this.labels && this.datasets) {
+			this.draw()
+		}
+	},
+	computed: {
+		processedDatasets () {
+			let datasets = this.datasets
+			datasets.map(d => {
+				d.backgroundColor = context => {
+					const { ctx, chartArea } = context.chart;
+					if (!chartArea) return null;
+					return transparentGradientBar(ctx,
+						chartArea,
+						Array.isArray(d.borderColor) ? d.borderColor[context.dataIndex] : d.borderColor,
+						this.horizontal
+					);
+				}
+			})
+			return datasets
+		}
+	},
+	methods: {
+		draw () {
+			this.chart = new Chart(this.id, {
+				type: "bar",
 				data: {
-					datasets: datasets,
+					datasets: this.processedDatasets,
 					labels: this.labels,
 				},
 				options: {
+					indexAxis: this.horizontal ? 'y' : 'x',
+					responsive: true,
+					maintainAspectRatio: false,
+					datasets: {
+						bar: {
+							borderWidth: this.horizontal ? { right: 2} : { top: 2 },
+							barPercentage: 1,
+							categoryPercentage: .6,
+						}
+					},
 					scales: {
-						xAxes: [{
+						x: {
 							stacked: false,
-							gridLines: {
+							grid: {
 								display: false,
+								drawBorder: false,
 							},
 							ticks: {
 								maxRotation: 0,
 								autoSkipPadding: 10,
-							}
-						}],
-						yAxes: [{
-							display: false,
+							},
+							beginAtZero: true
+						},
+						y: {
+							display: this.horizontal || this.ordinate,
 							stacked: false,
-							gridLines: {
+							grid: {
 								display: false,
-							}
-						}]
+								drawBorder: false,
+							},
+							beginAtZero: true
+						}
+					},
+					plugins: {
+						tooltip: {
+							intersect: true,
+							position: 'nearest'
+						}
 					}
 				}
 			})
+		},
+	},
+	watch: {
+		// update chart if data changes in an animatable way
+		datasets () {
+			this.chart.data.labels = this.labels
+			this.chart.data.datasets = this.processedDatasets
+			this.chart.update()
+		},
+		// update chart if ordinate display changes
+		ordinate (newValue) {
+			this.chart.options.scales.y.display = this.horizontal || newValue
+			this.chart.update()
 		}
 	}
 }
 </script>
+
+<style lang="stylus">
+.chart
+	display flex
+	flex-flow column
+	&>h2, &>p
+		flex 0 1 auto
+	&>.chart-container
+		position relative
+		flex 1 1 auto
+</style>

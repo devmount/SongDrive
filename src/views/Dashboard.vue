@@ -205,6 +205,8 @@
 							<LineChart
 								:datasets="setlistsPerYear.datasets"
 								:labels="setlistsPerYear.labels"
+								:ordinate="false"
+								:abscissa="true"
 							/>
 						</div>
 					</div>
@@ -220,6 +222,8 @@
 							<LineChart
 								:datasets="songsPerYear.datasets"
 								:labels="songsPerYear.labels"
+								:ordinate="false"
+								:abscissa="true"
 							/>
 						</div>
 					</div>
@@ -235,6 +239,7 @@
 							<BarChart
 								:datasets="setlistsPerWeekday.datasets"
 								:labels="setlistsPerWeekday.labels"
+								:ordinate="false"
 							/>
 						</div>
 					</div>
@@ -418,7 +423,7 @@ export default {
 			})
 			return {
 				datasets: [
-					{ label: ' ' + this.$t('page.setlists'), data: Object.values(years), color: 'rgb(136, 181, 68)', bcolor: 'rgb(136, 181, 68, .1)'  },
+					{ label: ' ' + this.$t('page.setlists'), data: Object.values(years), borderColor: '#88b544' },
 				],
 				labels: Object.keys(years)
 			}
@@ -436,7 +441,7 @@ export default {
 			})
 			return {
 				datasets: [
-					{ label: ' ' + this.$t('page.songs'), data: Object.values(years), color: 'rgb(136, 181, 68)', bcolor: 'rgb(136, 181, 68, .1)'  },
+					{ label: ' ' + this.$t('page.songs'), data: Object.values(years), borderColor: '#88b544' },
 				],
 				labels: Object.keys(years)
 			}
@@ -452,7 +457,7 @@ export default {
 			})
 			return {
 				datasets: [
-					{ label: ' ' + this.$t('page.setlists'), data: Object.values(weekday), color: 'rgb(136, 181, 68)', bcolor: 'rgb(136, 181, 68, .1)'  },
+					{ label: ' ' + this.$t('page.setlists'), data: Object.values(weekday), borderColor: '#88b544' },
 				],
 				labels: Object.keys(weekday).map(d => d.slice(0,2))
 			}

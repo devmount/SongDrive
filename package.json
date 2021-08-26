@@ -35,7 +35,7 @@
 		"docs:build": "vuepress build src/docs"
 	},
 	"dependencies": {
-		"chart.js": "^2.9.3",
+		"chart.js": "^3.5.1",
 		"firebase": "^9.0.0",
 		"hooper": "^0.3.4",
 		"ionicons": "^5.0.0",
