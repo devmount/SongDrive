@@ -4,7 +4,7 @@ import router from './router'
 import './registerServiceWorker'
 
 // set firebase db config
-let firebase = require("firebase/app")
+import firebase from 'firebase/compat/app';
 const conf = {
 	apiKey: String(process.env.VUE_APP_FB_API_KEY),
 	authDomain: process.env.VUE_APP_FB_PROJECT_ID + ".firebaseapp.com",
@@ -50,20 +50,6 @@ const i18n = new VueI18n({
   locale: ['en', 'de'].indexOf(lang) > -1 ? lang : 'en', // set locale
   messages, // set locale messages
 })
-
-// initialize Chart.js with global configuration
-import Chart from 'chart.js'
-Chart.defaults.global.defaultFontColor = "#7e8d97"
-Chart.defaults.global.elements.arc.borderWidth = 0
-Chart.defaults.global.legend.display = false
-Chart.defaults.global.hover.mode = 'index'
-Chart.defaults.global.tooltips.mode = 'index'
-Chart.defaults.global.tooltips.intersect = false
-Chart.defaults.global.tooltips.multiKeyBackground = '#000'
-Chart.defaults.global.tooltips.titleMarginBottom = 10
-Chart.defaults.global.tooltips.xPadding = 10
-Chart.defaults.global.tooltips.yPadding = 10
-Chart.defaults.global.tooltips.cornerRadius = 2
 
 // global mixins
 let isChordLine = (line) => {

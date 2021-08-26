@@ -138,6 +138,7 @@
 								</div>
 								<div class="panel-body">
 									<DoughnutChart
+										:info="{ number: setlistLanguages.labels.length, label: $t('widget.languages') }"
 										:datasets="setlistLanguages.datasets"
 										:labels="setlistLanguages.labels"
 									/>
@@ -153,6 +154,7 @@
 								</div>
 								<div class="panel-body">
 									<DoughnutChart
+										:info="{ number: setlistKeys.labels.length, label: $t('widget.keys') }"
 										:datasets="setlistKeys.datasets"
 										:labels="setlistKeys.labels"
 									/>
@@ -273,7 +275,7 @@ export default {
 			}
 			return {
 				datasets: [
-					{ data: Object.values(languages), color: 'rgb(136, 181, 68)', bcolor: 'rgb(136, 181, 68, .1)'  },
+					{ data: Object.values(languages), color: '#88b544' },
 				],
 				labels: Object.keys(languages).map(e => ' ' + this.songLanguages()[e])
 			}
@@ -289,7 +291,7 @@ export default {
 			}
 			return {
 				datasets: [
-					{ data: Object.values(keys), color: 'rgb(136, 181, 68)', bcolor: 'rgb(136, 181, 68, .1)'  },
+					{ data: Object.values(keys), color: '#88b544' },
 				],
 				labels: Object.keys(keys).map(e => ' ' + e)
 			}

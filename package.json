@@ -31,16 +31,15 @@
 	"scripts": {
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",
-		"lint": "vue-cli-service lint",
 		"docs:dev": "vuepress dev src/docs",
 		"docs:build": "vuepress build src/docs"
 	},
 	"dependencies": {
-		"chart.js": "^2.9.3",
-		"firebase": "^7.8.1",
-		"hooper": "^0.1.5",
+		"chart.js": "^3.5.1",
+		"firebase": "^9.0.0",
+		"hooper": "^0.3.4",
 		"ionicons": "^5.0.0",
-		"pdfmake": "^0.1.64",
+		"pdfmake": "^0.2.2",
 		"register-service-worker": "^1.6.2",
 		"sortablejs": "^1.9.0",
 		"spectre.css": "^0.5.8",
@@ -54,32 +53,12 @@
 	},
 	"devDependencies": {
 		"@vue/cli-plugin-babel": "^4.5.0",
-		"@vue/cli-plugin-eslint": "^4.5.0",
 		"@vue/cli-plugin-pwa": "^4.5.0",
 		"@vue/cli-service": "^4.5.0",
-		"babel-eslint": "^10.0.1",
-		"eslint": "^5.16.0",
-		"eslint-plugin-vue": "^5.2.3",
-		"node-sass": "^4.12.0",
-		"sass-loader": "^8.0.2",
+		"node-sass": "^6.0.1",
+		"sass-loader": "^10.1.1",
 		"vue-template-compiler": "^2.6.10",
 		"vuepress": "^1.8.2"
-	},
-	"eslintConfig": {
-		"root": true,
-		"env": {
-			"node": true
-		},
-		"extends": [
-			"plugin:vue/essential",
-			"eslint:recommended"
-		],
-		"rules": {
-			"no-console": "off"
-		},
-		"parserOptions": {
-			"parser": "babel-eslint"
-		}
 	},
 	"postcss": {
 		"plugins": {
