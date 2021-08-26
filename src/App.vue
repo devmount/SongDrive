@@ -56,10 +56,10 @@
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
 										<img v-if="auth.userObject.photoURL" class="avatar" :src="auth.userObject.photoURL" alt="Avatar">
-										<figure v-else-if="auth.userObject.displayName" class="avatar" :data-initial="auth.userObject.displayName.substring(0,2).toUpperCase()" alt="Avatar"></figure>
+										<figure v-else-if="userName" class="avatar" :data-initial="userName.substring(0,2).toUpperCase()" alt="Avatar"></figure>
 									</div>
 									<div class="tile-content">
-										{{ auth.userObject.displayName }}
+										{{ userName }}
 										<div class="text-gray text-small">{{ users[auth.user] ? $t('role.' + users[auth.user].role) : $t('role.unconfirmed') }}</div>
 									</div>
 								</div>
@@ -346,7 +346,13 @@ export default {
 		// check if db is empty = no users or registrations yet
 		noUsers() {
 			return Object.keys(this.users).length === 0 && Object.keys(this.registrations).length === 0
-		}
+		},
+		// get user name either from user object or from users db table
+		userName () {
+			return this.auth.userObject.displayName
+				? this.auth.userObject.displayName
+				: this.users[this.auth.user]?.name ? this.users[this.auth.user].name : '' 
+		},
 	},
 	mounted () {
 		// check initially if authenticated user exists
