@@ -38,7 +38,7 @@
 							</div>
 						</li>
 						<li class="divider text-center" :data-content="$t('divider.account')"></li>
-						<li v-if="!auth.user" class="menu-item pb-2">
+						<li v-if="!auth.user && ready.users" class="menu-item pb-2">
 							<div class="form-group">
 								<input v-if="!noUsers" type="text" v-model="auth.email" class="form-input mb-1" :placeholder="$t('field.email')" />
 								<input v-if="!noUsers" type="password" v-model="auth.password" class="form-input mb-2" :placeholder="$t('field.password')"  @click="signIn" @keydown.enter="signIn" />
