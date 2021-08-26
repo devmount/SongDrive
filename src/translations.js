@@ -240,6 +240,7 @@ export default {
 			noSongsAvailableSignedOut: 'There are currently no songs available. Sign in to add songs or import data from backups or demo database.',
 			noSetlistsAvailableSignedIn: 'There are currently no setlists available. Add setlists to see them here or import backup or demo data.',
 			noSetlistsAvailableSignedOut: 'There are currently no setlists available. Sign in to add setlists or import data from backups or demo database.',
+			noUsersAvailable: 'There are no users yet. Please create an admin user in the Firebase backend to enable registration and start using SongDrive.',
 		},
 		toast: {
 			signedIn: 'Signed in',
@@ -584,6 +585,7 @@ export default {
 			noSongsAvailableSignedOut: 'Es sind aktuell keine Songs vorhanden. Bitte melde dich an, um Songs hinzuzufügen oder zu importieren.',
 			noSetlistsAvailableSignedIn: 'Es sind aktuell keine Setlisten vorhanden. Füge Setlisten hinzu oder importiere Backup- oder Demo-Daten.',
 			noSetlistsAvailableSignedOut: 'Es sind aktuell keine Setlisten vorhanden. Bitte melde dich an, um Setlisten hinzuzufügen oder zu importieren.',
+			noUsersAvailable: 'Es gibt bisher noch keine Benutzer. Bitte füge einen Administrator im Firebase Backend hinzu um die Registrierung zu aktivieren und SongDrive zu nutzen.',
 		},
 		toast: {
 			signedIn: 'Eingeloggt',

@@ -38,14 +38,15 @@
 							</div>
 						</li>
 						<li class="divider text-center" :data-content="$t('divider.account')"></li>
-						<li v-if="!auth.user" class="menu-item pb-2">
+						<li v-if="!auth.user && ready.users" class="menu-item pb-2">
 							<div class="form-group">
-								<input type="text" v-model="auth.email" class="form-input mb-1" :placeholder="$t('field.email')" />
-								<input type="password" v-model="auth.password" class="form-input mb-2" :placeholder="$t('field.password')"  @click="signIn" @keydown.enter="signIn" />
-								<button class="btn btn-primary d-block stretch mb-2">
+								<input v-if="!noUsers" type="text" v-model="auth.email" class="form-input mb-1" :placeholder="$t('field.email')" />
+								<input v-if="!noUsers" type="password" v-model="auth.password" class="form-input mb-2" :placeholder="$t('field.password')"  @click="signIn" @keydown.enter="signIn" />
+								<button v-if="!noUsers" class="btn btn-primary d-block stretch mb-2">
 									{{ $t('button.signIn') }} <ion-icon name="log-in-outline" class="icon-right"></ion-icon>
 								</button>
-								<button class="btn btn-secondary d-block stretch" @click="modal.signup = true">
+								<div v-if="noUsers" class="text-normalcase text-center mb-2">{{ $t('text.noUsersAvailable') }}</div>
+								<button v-if="!noUsers" class="btn d-block stretch" :class="{ 'btn-secondary': !noUsers, 'btn-primary': noUsers}" @click="modal.signup = true">
 									{{ $t('button.signUp') }} <ion-icon name="person-add-outline" class="icon-right"></ion-icon>
 								</button>
 							</div>
@@ -55,10 +56,10 @@
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
 										<img v-if="auth.userObject.photoURL" class="avatar" :src="auth.userObject.photoURL" alt="Avatar">
-										<figure v-else-if="auth.userObject.displayName" class="avatar" :data-initial="auth.userObject.displayName.substring(0,2).toUpperCase()" alt="Avatar"></figure>
+										<figure v-else-if="userName" class="avatar" :data-initial="userName.substring(0,2).toUpperCase()" alt="Avatar"></figure>
 									</div>
 									<div class="tile-content">
-										{{ auth.userObject.displayName }}
+										{{ userName }}
 										<div class="text-gray text-small">{{ users[auth.user] ? $t('role.' + users[auth.user].role) : $t('role.unconfirmed') }}</div>
 									</div>
 								</div>
@@ -341,7 +342,17 @@ export default {
 	computed: {
 		appVersion() {
 			return process.env.PACKAGE_VERSION;
-		}
+		},
+		// check if db is empty = no users or registrations yet
+		noUsers() {
+			return Object.keys(this.users).length === 0 && Object.keys(this.registrations).length === 0
+		},
+		// get user name either from user object or from users db table
+		userName () {
+			return this.auth.userObject.displayName
+				? this.auth.userObject.displayName
+				: this.users[this.auth.user]?.name ? this.users[this.auth.user].name : '' 
+		},
 	},
 	mounted () {
 		// check initially if authenticated user exists
@@ -607,6 +618,9 @@ code {
 	font-family: $mono-font-family;
 	background: $bg-color-dark;
 	color: $body-font-color;
+}
+.text-normalcase {
+	text-transform: initial;
 }
 .text-pre {
 	font-family: $mono-font-family;

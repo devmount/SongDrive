@@ -14,8 +14,8 @@
 							<figure v-if="userObject.photoURL" class="avatar avatar-xxl mb-2">
 								<img :src="userObject.photoURL" alt="Avatar" />
 							</figure>
-							<figure v-else-if="userObject.displayName" class="avatar avatar-xxl mb-2" :data-initial="userObject.displayName.substring(0,2).toUpperCase()"></figure>
-							<div v-if="userObject.displayName" class="panel-title h5">{{ userObject.displayName }}</div>
+							<figure v-else-if="userName" class="avatar avatar-xxl mb-2" :data-initial="userName.substring(0,2).toUpperCase()"></figure>
+							<div v-if="userName" class="panel-title h5">{{ userName }}</div>
 							<div v-if="roleName" class="panel-subtitle text-gray">{{ $t('role.' + roleName) }}</div>
 						</div>
 						<div class="panel-body">
@@ -75,8 +75,13 @@
 <script>
 export default {
 	name: 'profile',
-	props: ['setlists', 'user', 'userObject', 'role', 'roleName', 'ready'],
+	props: ['setlists', 'user', 'users', 'userObject', 'role', 'roleName', 'ready'],
 	computed: {
+		userName () {
+			return this.userObject.displayName
+				? this.userObject.displayName
+				: this.users[this.user]?.name ? this.users[this.user].name : '' 
+		},
 		setlistsFromUser () {
 			return Object.filter(this.setlists, s => s.creator == this.userObject.uid)
 		},
