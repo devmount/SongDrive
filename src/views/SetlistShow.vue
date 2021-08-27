@@ -12,62 +12,129 @@
 			<!-- secondary sidebar -->
 			<div class="off-canvas-sidebar active">
 				<div class="sidebar-wrapper">
-					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="$router.go(-1)">
-						<ion-icon name="arrow-back-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.back') }}</span>
+					<button
+						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+						:data-tooltip="$t('button.back')"
+						@click="$router.go(-1)"
+					>
+						<ion-icon name="arrow-back-outline" class="icon-left"></ion-icon>
+						<span class="hide-lg">{{ $t('button.back') }}</span>
 					</button>
 					<!-- sidebar: manage -->
-					<div v-if="user && role > 1" class="divider text-center show-lg" :data-content="$t('divider.manage').charAt(0)"></div>
-					<div v-if="user && role > 1" class="divider text-center hide-lg" :data-content="$t('divider.manage')"></div>
-					<button v-if="user && role > 1" class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="existing=true; modal.set=true">
-						<ion-icon name="create-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.edit') }}</span>
-					</button>
-					<button v-if="user && role > 1" class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="existing=false; modal.set=true">
-						<ion-icon name="copy-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.duplicate') }}</span>
-					</button>
-					<button v-if="user && role > 2" class="btn btn-secondary btn-error d-block stretch text-uppercase" @click="modal.delete = true">
-						<ion-icon name="trash-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.delete') }}</span>
+					<template v-if="user && role > 1">
+						<div class="divider text-center show-lg" :data-content="$t('divider.manage').charAt(0)"></div>
+						<div class="divider text-center hide-lg" :data-content="$t('divider.manage')"></div>
+						<button
+							class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+							:data-tooltip="$t('divider.manage') + ': ' + $t('button.edit')"
+							@click="existing=true; modal.set=true"
+						>
+							<ion-icon name="create-outline" class="icon-left"></ion-icon>
+							<span class="hide-lg">{{ $t('button.edit') }}</span>
+						</button>
+						<button
+							class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+							:data-tooltip="$t('divider.manage') + ': ' + $t('button.duplicate')"
+							@click="existing=false; modal.set=true"
+						>
+							<ion-icon name="copy-outline" class="icon-left"></ion-icon>
+							<span class="hide-lg">{{ $t('button.duplicate') }}</span>
+						</button>
+					</template>
+					<button
+						v-if="user && role > 2"
+						class="btn btn-secondary btn-error d-block stretch text-uppercase tooltip tooltip-right tooltip-lg"
+						:data-tooltip="$t('divider.manage') + ': ' + $t('button.delete')"
+						@click="modal.delete = true"
+					>
+						<ion-icon name="trash-outline" class="icon-left"></ion-icon>
+						<span class="hide-lg">{{ $t('button.delete') }}</span>
 					</button>
 					<!-- sidebar: view -->
 					<div class="divider text-center show-lg" :data-content="$t('divider.view').charAt(0)"></div>
 					<div class="divider text-center hide-lg" :data-content="$t('divider.view')"></div>
 					<div v-if="setlist && user && role > 1" class="form-group">
-						<label class="form-switch switch-lg text-uppercase c-hand">
+						<label
+							class="form-switch switch-lg text-uppercase c-hand tooltip tooltip-right tooltip-lg"
+							:data-tooltip="$t('divider.view') + ': ' + $t('switch.sync')"
+						>
 							<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
-							<i class="form-icon"></i><span class="hide-lg"> {{ $t('switch.sync') }}</span>
+							<i class="form-icon"></i>
+							<span class="hide-lg">{{ $t('switch.sync') }}</span>
 						</label>
 					</div>
 					<div class="form-group">
-						<label class="form-switch switch-lg text-uppercase c-hand">
+						<label
+							class="form-switch switch-lg text-uppercase c-hand tooltip tooltip-right tooltip-lg"
+							:data-tooltip="$t('divider.view') + ': ' + $t('switch.chords')"
+						>
 							<input type="checkbox" v-model="chords">
-							<i class="form-icon"></i><span class="hide-lg"> {{ $t('switch.chords') }}</span>
+							<i class="form-icon"></i>
+							<span class="hide-lg">{{ $t('switch.chords') }}</span>
 						</label>
 					</div>
-					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="modal.present=true">
-						<ion-icon name="videocam-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.present') }}</span>
+					<button
+						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+						:data-tooltip="$t('divider.view') + ': ' + $t('button.present')"
+						@click="modal.present=true"
+					>
+						<ion-icon name="videocam-outline" class="icon-left"></ion-icon>
+						<span class="hide-lg">{{ $t('button.present') }}</span>
 					</button>
-					<router-link :to="{ name: 'setlist-show', params: { id: setlistKey }}" target="_blank" class="btn btn-secondary d-block stretch text-uppercase">
-						<ion-icon name="open-outline" class="icon-left"></ion-icon><span class="hide-lg"> {{ $t('button.launch') }}</span>
+					<router-link
+						:to="{ name: 'setlist-show', params: { id: setlistKey }}"
+						target="_blank"
+						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg"
+						:data-tooltip="$t('divider.view') + ': ' + $t('button.launch')"
+					>
+						<ion-icon name="open-outline" class="icon-left"></ion-icon>
+						<span class="hide-lg">{{ $t('button.launch') }}</span>
 					</router-link>
 					<!-- sidebar: export -->
 					<div class="divider text-center show-lg" :data-content="$t('divider.copy').charAt(0)"></div>
 					<div class="divider text-center hide-lg" :data-content="$t('divider.copy')"></div>
-					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="copyList('plain')">
-						<ion-icon name="list" class="icon-left"></ion-icon><span class="hide-lg text-pre">{{ $t('button.formatPlain') }}</span>
+					<button
+						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+						:data-tooltip="$t('divider.copy') + ': ' + $t('button.formatPlain')"
+						@click="copyList('plain')"
+					>
+						<ion-icon name="list" class="icon-left"></ion-icon>
+						<span class="hide-lg text-pre">{{ $t('button.formatPlain') }}</span>
 					</button>
-					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="copyList('markdown')">
-						<ion-icon name="logo-markdown" class="icon-left"></ion-icon><span class="hide-lg text-pre">{{ $t('button.formatMarkdown') }}</span>
+					<button
+						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+						:data-tooltip="$t('divider.copy') + ': ' + $t('button.formatMarkdown')"
+						@click="copyList('markdown')"
+					>
+						<ion-icon name="logo-markdown" class="icon-left"></ion-icon>
+						<span class="hide-lg text-pre">{{ $t('button.formatMarkdown') }}</span>
 					</button>
-					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="copyList('slack')">
-						<ion-icon name="logo-slack" class="icon-left"></ion-icon><span class="hide-lg text-pre">{{ $t('button.formatSlack') }}</span>
+					<button
+						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+						:data-tooltip="$t('divider.copy') + ': ' + $t('button.formatSlack')"
+						@click="copyList('slack')"
+					>
+						<ion-icon name="logo-slack" class="icon-left"></ion-icon>
+						<span class="hide-lg text-pre">{{ $t('button.formatSlack') }}</span>
 					</button>
 					<!-- sidebar: export -->
 					<div class="divider text-center show-lg" :data-content="$t('divider.export').charAt(0)"></div>
 					<div class="divider text-center hide-lg" :data-content="$t('divider.export')"></div>
-					<button class="btn btn-secondary d-block stretch text-uppercase mb-1" @click="exportPdf('list')">
-						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre">{{ $t('button.exportSetlistList') }}</span>
+					<button
+						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+						:data-tooltip="$t('divider.export') + ': ' + $t('button.exportSetlistList')"
+						@click="exportPdf('list')"
+					>
+						<ion-icon name="download-outline" class="icon-left"></ion-icon>
+						<span class="hide-lg text-pre">{{ $t('button.exportSetlistList') }}</span>
 					</button>
-					<button class="btn btn-secondary d-block stretch text-uppercase" @click="exportPdf('sheets')">
-						<ion-icon name="download-outline" class="icon-left"></ion-icon><span class="hide-lg text-pre">{{ $t('button.exportSetlistSheets') }}</span>
+					<button
+						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg"
+						:data-tooltip="$t('divider.export') + ': ' + $t('button.exportSetlistSheets')"
+						@click="exportPdf('sheets')"
+					>
+						<ion-icon name="download-outline" class="icon-left"></ion-icon>
+						<span class="hide-lg text-pre">{{ $t('button.exportSetlistSheets') }}</span>
 					</button>
 				</div>
 			</div>

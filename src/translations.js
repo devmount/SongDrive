@@ -403,7 +403,7 @@ export default {
 			updateSong: 'Song Aktualisieren',
 			createSetlist: 'Setlist Erstellen',
 			updateSetlist: 'Setlist Aktualisieren',
-			back: 'Back',
+			back: 'Zurück',
 			present: 'Präsentieren',
 			filetypeTxt: '.txt',
 			filetypeSng: '.sng',
