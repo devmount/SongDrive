@@ -190,6 +190,7 @@ import SignUp from '@/modals/SignUp'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { collection, onSnapshot } from "firebase/firestore";
 
 export default {
 	name: 'app',
@@ -198,42 +199,15 @@ export default {
 		SetlistSet,
 		SignUp
 	},
-	firestore () {
-		return {
-			songs: {
-				ref: this.$db.collection('songs'),
-				objects: true,
-				resolve: () => { this.ready.songs = true },
-				reject: () => { this.ready.songs = true }
-			},
-			setlists: {
-				ref: this.$db.collection('setlists').orderBy('date', 'desc'),
-				objects: true,
-				resolve: () => { this.ready.setlists = true },
-				reject: () => { this.ready.setlists = true }
-			},
-			tags: {
-				ref: this.$db.collection('tags'),
-				objects: true,
-				resolve: () => { this.ready.tags = true },
-				reject: () => { this.ready.tags = true }
-			},
-			users: {
-				ref: this.$db.collection('users'),
-				objects: true,
-				resolve: () => { this.ready.users = true },
-				reject: () => { this.ready.users = true }
-			},
-			registrations: {
-				ref: this.$db.collection('registrations'),
-				objects: true,
-				resolve: () => { this.ready.registrations = true },
-				reject: () => { this.ready.registrations = true }
-			},
-		}
-	},
 	data () {
 		return {
+			// db tables
+			songs: {},
+			setlists: {},
+			tags: {},
+			users: {},
+			registrations: {},
+			// loading indicators
 			ready: {
 				songs: false,
 				setlists: false,
@@ -241,12 +215,14 @@ export default {
 				users: false,
 				registrations: false,
 			},
+			// modals
 			open: false,
 			modal: {
 				addsong: false,
 				addsetlist: false,
 				signup: false,
 			},
+			// objects to save
 			newSong: {
 				authors: '',
 				ccli: '',
@@ -267,6 +243,7 @@ export default {
 				date: '',
 				songs: [],
 			},
+			// authentification
 			auth: {
 				email: '',
 				password: '',
@@ -274,6 +251,29 @@ export default {
 				userObject: firebase.auth().currentUser ? firebase.auth().currentUser : {},
 			}
 		}
+	},
+	created () {
+		// add listeners for changes on each db table
+		["users", "registrations", "songs", "setlists", "tags"].forEach(table => {
+			onSnapshot(collection(this.$db, table), (snapshot) => {
+				snapshot.docChanges().forEach((change) => {
+					if (change.type === "added" || change.type === "modified") {
+						this.$set(this[table], change.doc.id, change.doc.data())
+					}
+					if (change.type === "removed") {
+						this.$delete(this[table], change.doc.id);
+					}
+				});
+				this.ready[table] = true;
+			});
+		});
+	},
+	mounted () {
+		// check initially if authenticated user exists
+		firebase.auth().onAuthStateChanged(function(user) {
+			this.auth.user = user ? user.uid : ''
+			this.auth.userObject = user ? user : ''
+		}.bind(this))
 	},
 	methods: {
 		resetSong () {
@@ -354,14 +354,6 @@ export default {
 				: this.users[this.auth.user]?.name ? this.users[this.auth.user].name : '' 
 		},
 	},
-	mounted () {
-		// check initially if authenticated user exists
-		var self = this
-		firebase.auth().onAuthStateChanged(function(user) {
-			self.auth.user = user ? user.uid : ''
-			self.auth.userObject = user ? user : ''
-		}.bind(this))
-	}
 }
 </script>
 
