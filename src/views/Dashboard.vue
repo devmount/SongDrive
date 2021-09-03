@@ -272,6 +272,11 @@ export default {
 			listLength: 6,
 		}
 	},
+	mounted () {
+		// initially load latest songs and setlists
+		this.newestSongs();
+		this.newestSetlists();
+	},
 	methods: {
 		shuffleSongs () {
 			this.songsPage = 0
@@ -355,11 +360,7 @@ export default {
 			return languages.length
 		},
 		songlist () {
-			if (this.reorderedSongs.length === 0) {
-				return this.songsArray.slice(this.songsPage*this.listLength, (this.songsPage+1)*this.listLength)
-			} else {
-				return this.reorderedSongs.slice(this.songsPage*this.listLength, (this.songsPage+1)*this.listLength)
-			}
+			return this.reorderedSongs.slice(this.songsPage*this.listLength, (this.songsPage+1)*this.listLength)
 		},
 		setlistsArray () {
 			let self = this
@@ -373,11 +374,7 @@ export default {
 			return this.ready.setlists && this.setlistsArray.length == 0
 		},
 		setlistlist () {
-			if (this.reorderedSetlists.length === 0) {
-				return this.setlistsArray.slice(this.setlistsPage*this.listLength, (this.setlistsPage+1)*this.listLength)
-			} else {
-				return this.reorderedSetlists.slice(this.setlistsPage*this.listLength, (this.setlistsPage+1)*this.listLength)
-			}
+			return this.reorderedSetlists.slice(this.setlistsPage*this.listLength, (this.setlistsPage+1)*this.listLength)
 		},
 		songOfYear () {
 			let popularSongs = {}
