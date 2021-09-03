@@ -272,11 +272,6 @@ export default {
 			listLength: 6,
 		}
 	},
-	mounted () {
-		// initially load latest songs and setlists
-		this.newestSongs();
-		this.newestSetlists();
-	},
 	methods: {
 		shuffleSongs () {
 			this.songsPage = 0
@@ -291,12 +286,18 @@ export default {
 		newestSongs () {
 			this.songsPage = 0
 			this.songsProperty = 'newest'
-			this.reorderedSongs = this.songsArray.filter(s => s.year > 0).sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0))
+			const reorderedSongs = this.songsArray.filter(s => s.year > 0).sort(
+				(a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0)
+			);
+			this.reorderedSongs = reorderedSongs;
+			return reorderedSongs;
 		},
 		oldestSongs () {
 			this.songsPage = 0
 			this.songsProperty = 'oldest'
-			this.reorderedSongs = this.songsArray.filter(s => s.year > 0).sort((a, b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0))
+			this.reorderedSongs = this.songsArray.filter(s => s.year > 0).sort(
+				(a, b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0)
+			)
 		},
 		popularSongs () {
 			this.songsPage = 0
@@ -326,12 +327,18 @@ export default {
 		newestSetlists () {
 			this.setlistsPage = 0
 			this.setlistsProperty = 'newest'
-			this.reorderedSetlists = this.setlistsArray.filter(s => s.date != '').sort((a,b) => (new Date(a.date) < new Date(b.date)) ? 1 : ((new Date(b.date) < new Date(a.date)) ? -1 : 0))
+			const reorderedSetlists = this.setlistsArray.filter(s => s.date != '').sort(
+				(a,b) => (new Date(a.date) < new Date(b.date)) ? 1 : ((new Date(b.date) < new Date(a.date)) ? -1 : 0)
+			);
+			this.reorderedSetlists = reorderedSetlists;
+			return reorderedSetlists;
 		},
 		oldestSetlists () {
 			this.setlistsPage = 0
 			this.setlistsProperty = 'oldest'
-			this.reorderedSetlists = this.setlistsArray.filter(s => s.date != '').sort((a,b) => (new Date(a.date) > new Date(b.date)) ? 1 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0))
+			this.reorderedSetlists = this.setlistsArray.filter(s => s.date != '').sort(
+				(a,b) => (new Date(a.date) > new Date(b.date)) ? 1 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0)
+			)
 		},
 	},
 	computed: {
@@ -360,7 +367,8 @@ export default {
 			return languages.length
 		},
 		songlist () {
-			return this.reorderedSongs.slice(this.songsPage*this.listLength, (this.songsPage+1)*this.listLength)
+			const songs = this.reorderedSongs.length > 0 ? this.reorderedSongs : this.newestSongs();
+			return songs.slice(this.songsPage*this.listLength, (this.songsPage+1)*this.listLength);
 		},
 		setlistsArray () {
 			let self = this
@@ -374,7 +382,8 @@ export default {
 			return this.ready.setlists && this.setlistsArray.length == 0
 		},
 		setlistlist () {
-			return this.reorderedSetlists.slice(this.setlistsPage*this.listLength, (this.setlistsPage+1)*this.listLength)
+			const setlists = this.reorderedSetlists.length > 0 ? this.reorderedSetlists : this.newestSetlists();
+			return setlists.slice(this.setlistsPage*this.listLength, (this.setlistsPage+1)*this.listLength);
 		},
 		songOfYear () {
 			let popularSongs = {}
