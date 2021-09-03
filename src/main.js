@@ -21,10 +21,6 @@ Vue.prototype.$db = firebaseApp.firestore()
 Vue.config.productionTip = false
 Vue.config.ignoredElements = [/^ion-/]
 
-// vue-firestore
-import VueFirestore from 'vue-firestore'
-Vue.use(VueFirestore)
-
 // vue-notification
 import Notifications from 'vue-notification'
 Vue.use(Notifications)
