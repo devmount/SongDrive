@@ -235,9 +235,9 @@
 
 <script>
 // get components
-import SongSet from '@/modals/SongSet'
-import SetlistSet from '@/modals/SetlistSet'
-import SignUp from '@/modals/SignUp'
+import SongSet from '@/modals/SongSet';
+import SetlistSet from '@/modals/SetlistSet';
+import SignUp from '@/modals/SignUp';
 // get database object authorized in config.js
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -302,7 +302,7 @@ export default {
 				user: firebase.auth().currentUser ? firebase.auth().currentUser.uid : '',
 				userObject: firebase.auth().currentUser ? firebase.auth().currentUser : {},
 			}
-		}
+		};
 	},
 	created () {
 		// add listeners for changes on each db table
@@ -310,7 +310,7 @@ export default {
 			onSnapshot(collection(this.$db, table), (snapshot) => {
 				snapshot.docChanges().forEach((change) => {
 					if (change.type === "added" || change.type === "modified") {
-						this.$set(this[table], change.doc.id, change.doc.data())
+						this.$set(this[table], change.doc.id, change.doc.data());
 					}
 					if (change.type === "removed") {
 						this.$delete(this[table], change.doc.id);
@@ -323,9 +323,9 @@ export default {
 	mounted () {
 		// check initially if authenticated user exists
 		firebase.auth().onAuthStateChanged(function(user) {
-			this.auth.user = user ? user.uid : ''
-			this.auth.userObject = user ? user : ''
-		}.bind(this))
+			this.auth.user = user ? user.uid : '';
+			this.auth.userObject = user ? user : '';
+		}.bind(this));
 	},
 	methods: {
 		resetSong () {
@@ -342,65 +342,78 @@ export default {
 				translations: [],
 				tuning: '',
 				year: ''
-			}
+			};
 		},
 		resetSetlist () {
 			this.newSetlist = {
 				title: '',
 				date: '',
 				songs: [],
-			}
+			};
 		},
 		signIn () {
-			var self = this
 			firebase.auth().signInWithEmailAndPassword(this.auth.email, this.auth.password).then(() => {
 				// sign-in successful
-				self.auth.user = firebase.auth().currentUser.uid
-				self.auth.userObject = firebase.auth().currentUser
-				self.auth.email = ''
-				self.auth.password = ''
-				self.$notify({ title: self.$t('toast.signedIn'), text: self.$t('toast.signedInText', { name: self.auth.userObject.displayName}), type: 'primary' })
-			}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
+				this.auth.user = firebase.auth().currentUser.uid;
+				this.auth.userObject = firebase.auth().currentUser;
+				this.auth.email = '';
+				this.auth.password = '';
+				this.$notify({
+					title: this.$t('toast.signedIn'),
+					text: this.$t('toast.signedInText', { name: this.auth.userObject.displayName }),
+					type: 'primary'
+				});
+			}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
 		},
 		signOut () {
-			var self = this
 			firebase.auth().signOut().then(() => {
 				// sign-out successful
-				self.auth.user = ''
-				self.$notify({ title: self.$t('toast.signedOut'), text: self.$t('toast.signedOutText'), type: 'primary' })
-			}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
+				this.auth.user = '';
+				this.$notify({
+					title: this.$t('toast.signedOut'),
+					text: this.$t('toast.signedOutText'),
+					type: 'primary'
+				});
+			}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
 		},
-		signUp (u) {
-			var self = this
-			firebase.auth().createUserWithEmailAndPassword(u.email, u.password).then(() => {
+		signUp (user) {
+			firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
 				// sign-up successful
-				self.auth.user = firebase.auth().currentUser.uid
+				this.auth.user = firebase.auth().currentUser.uid
 				// create registration for admin approval
-				self.$db.collection('registrations').doc(self.auth.user).set({ email: u.email, name: u.name })
+				this.$db.collection('registrations').doc(this.auth.user).set({ email: user.email, name: user.name })
 					.then(() => {
-						self.auth.userObject = firebase.auth().currentUser
-						self.auth.userObject.updateProfile({ displayName: u.name })
-						self.$notify({ title: self.$t('toast.signedUp'), text: self.$t('toast.signedUpText', { name: u.name }), type: 'primary' })
-					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
+						this.auth.userObject = firebase.auth().currentUser
+						this.auth.userObject.updateProfile({ displayName: user.name })
+						this.$notify({
+							title: this.$t('toast.signedUp'),
+							text: this.$t('toast.signedUpText', { name: user.name }),
+							type: 'primary'
+						});
+					}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
 				// send verification email
 				firebase.auth().currentUser.sendEmailVerification()
 					.then(() => {
 						// Verification email sent
-						self.$notify({ title:  self.$t('toast.verficationSent'), text:  self.$t('toast.verficationSentText'), type: 'primary' })
-					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
-			}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
+						this.$notify({
+							title:  this.$t('toast.verficationSent'),
+							text:  this.$t('toast.verficationSentText'),
+							type: 'primary'
+						});
+					}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+			}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
 		},
 	},
 	computed: {
 		// check if db is empty = no users or registrations yet
 		noUsers() {
-			return Object.keys(this.users).length === 0 && Object.keys(this.registrations).length === 0
+			return Object.keys(this.users).length === 0 && Object.keys(this.registrations).length === 0;
 		},
 		// get user name either from user object or from users db table
 		userName () {
 			return this.auth.userObject.displayName
 				? this.auth.userObject.displayName
-				: this.users[this.auth.user]?.name ? this.users[this.auth.user].name : '' 
+				: this.users[this.auth.user]?.name ? this.users[this.auth.user].name : '';
 		},
 	},
 }
@@ -409,5 +422,4 @@ export default {
 <style lang="scss">
 // apply all global styles
 @import "@/assets/global";
-
 </style>
