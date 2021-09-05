@@ -19,34 +19,73 @@
 					<ul class="menu text-uppercase">
 						<li class="divider text-center" :data-content="$t('divider.start')"></li>
 						<li class="menu-item">
-							<router-link to="/" class="py-2" @click.native="open = false"><ion-icon name="apps-sharp" class="mr-2"></ion-icon> {{ $t('page.dashboard') }}</router-link>
+							<router-link to="/" class="py-2" @click.native="open = false">
+								<ion-icon name="apps-sharp" class="mr-2"></ion-icon> {{ $t('page.dashboard') }}
+							</router-link>
 						</li>
 						<li class="menu-item">
-							<router-link to="/songs" class="py-2" @click.native="open = false"><ion-icon name="musical-notes-sharp" class="mr-2"></ion-icon> {{ $t('page.songs') }}</router-link>
+							<router-link to="/songs" class="py-2" @click.native="open = false">
+								<ion-icon name="musical-notes-sharp" class="mr-2"></ion-icon> {{ $t('page.songs') }}
+							</router-link>
 							<div class="menu-badge">
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button v-if="auth.user && users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 2" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" :data-tooltip="$t('tooltip.songAdd')" @click="modal.addsong = true"><ion-icon name="add-sharp"></ion-icon></button>
+								<button
+									v-if="auth.user && users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 2"
+									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
+									:data-tooltip="$t('tooltip.songAdd')"
+									@click="modal.addsong = true"
+								>
+									<ion-icon name="add-sharp"></ion-icon>
+								</button>
 							</div>
 						</li>
 						<li class="menu-item">
-							<router-link to="/setlists" class="py-2" @click.native="open = false"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('page.setlists') }}</router-link>
+							<router-link to="/setlists" class="py-2" @click.native="open = false">
+								<ion-icon name="list" class="mr-2"></ion-icon> {{ $t('page.setlists') }}
+							</router-link>
 							<div class="menu-badge">
 								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button v-if="auth.user && users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 1" class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left" :data-tooltip="$t('tooltip.setlistAdd')" @click="modal.addsetlist = true"><ion-icon name="add-sharp"></ion-icon></button>
+								<button
+									v-if="auth.user && users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 1"
+									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
+									:data-tooltip="$t('tooltip.setlistAdd')"
+									@click="modal.addsetlist = true"
+								>
+									<ion-icon name="add-sharp"></ion-icon>
+								</button>
 							</div>
 						</li>
 						<li class="divider text-center" :data-content="$t('divider.account')"></li>
 						<li v-if="!auth.user && ready.users" class="menu-item pb-2">
 							<div class="form-group">
-								<input v-if="!noUsers" type="text" v-model="auth.email" class="form-input mb-1" :placeholder="$t('field.email')" />
-								<input v-if="!noUsers" type="password" v-model="auth.password" class="form-input mb-2" :placeholder="$t('field.password')"  @click="signIn" @keydown.enter="signIn" />
-								<button v-if="!noUsers" class="btn btn-primary d-block stretch mb-2">
+								<input
+									v-if="!noUsers"
+									type="text"
+									v-model="auth.email"
+									class="form-input mb-1"
+									:placeholder="$t('field.email')"
+									@keydown.enter="signIn"
+								/>
+								<input
+									v-if="!noUsers"
+									type="password"
+									v-model="auth.password"
+									class="form-input mb-2"
+									:placeholder="$t('field.password')"
+									@keydown.enter="signIn"
+								/>
+								<button v-if="!noUsers" class="btn btn-primary d-block stretch mb-2" @click="signIn">
 									{{ $t('button.signIn') }} <ion-icon name="log-in-outline" class="icon-right"></ion-icon>
 								</button>
 								<div v-if="noUsers" class="text-normalcase text-center mb-2">{{ $t('text.noUsersAvailable') }}</div>
-								<button v-if="!noUsers" class="btn d-block stretch" :class="{ 'btn-secondary': !noUsers, 'btn-primary': noUsers}" @click="modal.signup = true">
+								<button
+									v-if="!noUsers"
+									class="btn d-block stretch"
+									:class="{ 'btn-secondary': !noUsers, 'btn-primary': noUsers}"
+									@click="modal.signup = true"
+								>
 									{{ $t('button.signUp') }} <ion-icon name="person-add-outline" class="icon-right"></ion-icon>
 								</button>
 							</div>
@@ -56,17 +95,26 @@
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
 										<img v-if="auth.userObject.photoURL" class="avatar" :src="auth.userObject.photoURL" alt="Avatar">
-										<figure v-else-if="userName" class="avatar" :data-initial="userName.substring(0,2).toUpperCase()" alt="Avatar"></figure>
+										<figure
+											v-else-if="userName"
+											class="avatar"
+											:data-initial="userName.substring(0,2).toUpperCase()"
+											alt="Avatar"
+										></figure>
 									</div>
 									<div class="tile-content">
 										{{ userName }}
-										<div class="text-gray text-small">{{ users[auth.user] ? $t('role.' + users[auth.user].role) : $t('role.unconfirmed') }}</div>
+										<div class="text-gray text-small">
+											{{ users[auth.user] ? $t('role.' + users[auth.user].role) : $t('role.unconfirmed') }}
+										</div>
 									</div>
 								</div>
 							</router-link>
 						</li>
 						<li v-if="auth.user && users[auth.user]" class="menu-item">
-							<router-link to="/settings" class="py-2" @click.native="open = false"><ion-icon name="options-outline" class="mr-2"></ion-icon> {{ $t('page.settings') }}</router-link>
+							<router-link to="/settings" class="py-2" @click.native="open = false">
+								<ion-icon name="options-outline" class="mr-2"></ion-icon> {{ $t('page.settings') }}
+							</router-link>
 						</li>
 						<li v-if="auth.user" class="menu-item">
 							<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
@@ -108,8 +156,12 @@
 						</div>
 						<div class="text-center text-small text-gray">
 							2016–{{ (new Date()).getFullYear() }}
-							<svg class="legal" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path></svg>
-							<a href="https://github.com/devmount/SongDrive/blob/master/LICENSE" target="_blank"> {{ $t('app.license') }}</a>
+							<svg class="legal" viewBox="0 0 14 16">
+								<path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path>
+							</svg>
+							<a href="https://github.com/devmount/SongDrive/blob/master/LICENSE" target="_blank">
+								{{ $t('app.license') }}
+							</a>
 						</div>
 					</footer>
 				</div>
