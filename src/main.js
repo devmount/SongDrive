@@ -170,38 +170,38 @@ Vue.mixin({
 					// add class to part
 					switch (line.charAt(2).toLowerCase()) {
 						case 'v':
-							types.push('v')
+							types.push('v');
 							classes.push('verse ' + ((!isNaN(parseInt(line.trim().charAt(3)))) ? 'part' + line.trim().charAt(3) : ''));
 							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
 							break;
 						case 'p':
-							types.push('p')
-							classes.push('prechorus')
+							types.push('p');
+							classes.push('prechorus');
 							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
 							break;
 						case 'c':
-							types.push('c')
-							classes.push('chorus')
+							types.push('c');
+							classes.push('chorus');
 							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
 							break;
 						case 'b':
-							types.push('b')
-							classes.push('bridge')
+							types.push('b');
+							classes.push('bridge');
 							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
 							break;
 						case 'i':
-							types.push('i')
-							classes.push('intro')
+							types.push('i');
+							classes.push('intro');
 							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
 							break;
 						case 'm':
-							types.push('m')
-							classes.push('mitro')
+							types.push('m');
+							classes.push('mitro');
 							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
 							break;
 						case 'o':
-							types.push('o')
-							classes.push('outro')
+							types.push('o');
+							classes.push('outro');
 							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
 							break;
 						default:
