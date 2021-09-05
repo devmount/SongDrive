@@ -40,11 +40,14 @@ Vue.use(VueClipboard)
 
 // vue-i18n
 import VueI18n from 'vue-i18n'
-import messages from './translations'
 Vue.use(VueI18n)
-let lang = navigator.language.slice(0, 2)
+const messages = {
+	"de": require("./locales/de.json"), // German
+	"en": require("./locales/en.json"), // English
+}
 const i18n = new VueI18n({
-  locale: ['en', 'de'].indexOf(lang) > -1 ? lang : 'en', // set locale
+	locale: navigator.language.slice(0, 2),
+	fallbackLocale: "en",
   messages, // set locale messages
 })
 
