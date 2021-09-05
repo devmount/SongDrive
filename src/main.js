@@ -14,10 +14,11 @@ const conf = {
 }
 let firebaseApp = firebase.initializeApp(conf)
 
-// set global properties
+// vue global properties
 Vue.prototype.$db = firebaseApp.firestore()
+Vue.prototype.$version = process.env.VUE_APP_VERSION
 
-// set local config
+// vue local config
 Vue.config.productionTip = false
 Vue.config.ignoredElements = [/^ion-/]
 

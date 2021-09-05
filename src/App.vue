@@ -13,7 +13,7 @@
 						<router-link to="/" class="logo">
 							<img src="./assets/logo.svg" alt="SongDrive Song Management Tool" />
 							<h1>{{ $t('app.name') }}</h1>
-							<div class="text-gray text-small text-right mr-5 pr-1">v{{ appVersion }} BETA</div>
+							<div class="text-gray text-small text-right mr-5 pr-1">v{{ $version }} BETA</div>
 						</router-link>
 					</div>
 					<ul class="menu text-uppercase">
@@ -340,9 +340,6 @@ export default {
 		},
 	},
 	computed: {
-		appVersion() {
-			return process.env.PACKAGE_VERSION;
-		},
 		// check if db is empty = no users or registrations yet
 		noUsers() {
 			return Object.keys(this.users).length === 0 && Object.keys(this.registrations).length === 0
