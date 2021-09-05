@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import './registerServiceWorker'
+import Vue from 'vue';
+import App from './App';
+import router from './router';
+import './registerServiceWorker';
 
 // set firebase db config
 import firebase from 'firebase/compat/app';
@@ -11,52 +11,52 @@ const conf = {
 	databaseURL: "https://" + process.env.VUE_APP_FB_PROJECT_ID + ".firebaseio.com",
 	projectId: String(process.env.VUE_APP_FB_PROJECT_ID),
 	storageBucket: process.env.VUE_APP_FB_PROJECT_ID + ".appspot.com"
-}
-let firebaseApp = firebase.initializeApp(conf)
+};
+let firebaseApp = firebase.initializeApp(conf);
 
 // vue global properties
-Vue.prototype.$db = firebaseApp.firestore()
-Vue.prototype.$version = process.env.VUE_APP_VERSION
+Vue.prototype.$db = firebaseApp.firestore();
+Vue.prototype.$version = process.env.VUE_APP_VERSION;
 
 // vue local config
-Vue.config.productionTip = false
-Vue.config.ignoredElements = [/^ion-/]
+Vue.config.productionTip = false;
+Vue.config.ignoredElements = [/^ion-/];
 
 // vue-notification
-import Notifications from 'vue-notification'
-Vue.use(Notifications)
+import Notifications from 'vue-notification';
+Vue.use(Notifications);
 
 // vue-sortable
-import Sortable from 'sortablejs'
+import Sortable from 'sortablejs';
 Vue.directive('sortable', {
 	inserted: function (el, binding) {
-		new Sortable(el, binding.value || {})
+		new Sortable(el, binding.value || {});
 	}
-})
+});
 
 // vue-clipboard2
-import VueClipboard from 'vue-clipboard2'
-Vue.use(VueClipboard)
+import VueClipboard from 'vue-clipboard2';
+Vue.use(VueClipboard);
 
 // vue-i18n
-import VueI18n from 'vue-i18n'
-Vue.use(VueI18n)
+import VueI18n from 'vue-i18n';
+Vue.use(VueI18n);
 const messages = {
 	"de": require("./locales/de.json"), // German
 	"en": require("./locales/en.json"), // English
-}
+};
 const i18n = new VueI18n({
-	locale: navigator.language.slice(0, 2),
-	fallbackLocale: "en",
-  messages, // set locale messages
-})
+	locale: navigator.language.slice(0, 2), // set locale based on browser locale
+	fallbackLocale: "en", // default to English
+  messages
+});
 
 // global mixins
 let isChordLine = (line) => {
-	if (line.trim() == '') return false
-	return line.slice(-2) === '  '
-}
-let keyScale = () => ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H']
+	if (line.trim() == '') return false;
+	return line.slice(-2) === '  ';
+};
+let keyScale = () => ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'];
 
 Vue.mixin({
   methods: {
@@ -94,75 +94,75 @@ Vue.mixin({
 		// parse song content syntax
 		parsedContent: (content, tuning, showChords, twoColumns) => {
 			// initialize arrays for parsed lines, classes of parts, type abbr., numbers of type and part index
-			var parsed = [], classes = [], types = [], numbers = [], part = 0
-			var lines = content.split('\n')
+			var parsed = [], classes = [], types = [], numbers = [], part = 0;
+			var lines = content.split('\n');
 			// check every single line of song content
 			for (var i = 0; i < lines.length; i++) {
-				var line = lines[i]
+				var line = lines[i];
 				// handle display chord lines
 				if (isChordLine(line) && !showChords) {
 					// skip chord line if no chords shall be displayed
-					continue
+					continue;
 				}
 				// handle chord tuning
 				if (isChordLine(line) && tuning != 0) {
-					// init the new line to build and the current over- or underflow of spaces due to different chord string lenghts
-					var newLine = '', spaces = 0, j = 0
+					// build new line by handling the current over- or underflow of spaces due to different chord string lenghts
+					var newLine = '', spaces = 0, j = 0;
 					while (j < line.length) {
 						// get single character in line
-						var c = line[j]
+						var c = line[j];
 						// handle over- or underflow of spaces to keep chords on their original position
 						if (spaces > 0 && c == ' ') {
 							// to few spaces: double next existing space and decrease space count
-							c = '  '
-							spaces--
+							c = '  ';
+							spaces--;
 						}
 						if (spaces < 0 && c == ' ' && line[j+1] == ' ') {
 							// to many spaces: skip one of two consecutive spaces and increase space count
-							spaces++
-							j++
-							continue
+							spaces++;
+							j++;
+							continue;
 						}
 						// on '#': skip to next character as it will be handled together with tune
 						if (c == '#') {
-							j++
-							continue
+							j++;
+							continue;
 						}
-						var isHalf = line[j+1] == '#'
+						var isHalf = line[j+1] == '#';
 						// check if character is a tune with '#'
 						if (isHalf) {
-							c = c + '#'
+							c = c + '#';
 						}
 						// check if character is a transposable character
 						if (keyScale().indexOf(c) > -1) {
 							// replace character by next tune character
-							var nextTune = keyScale()[(12 + keyScale().indexOf(c) + (tuning % 12)) % 12]
-							newLine += nextTune
+							var nextTune = keyScale()[(12 + keyScale().indexOf(c) + (tuning % 12)) % 12];
+							newLine += nextTune;
 							// update over- or underflow of spaces
-							spaces += c.length - nextTune.length
+							spaces += c.length - nextTune.length;
 						} else {
-							newLine += c
+							newLine += c;
 						}
-						j++
+						j++;
 					}
 					// make sure that last two characters stay spaces for chord line identification (rtrim and add 2 spaces)
-					newLine = newLine.replace(/\s+$/, '') + '  '
+					newLine = newLine.replace(/\s+$/, '') + '  ';
 					// add lines to new content
 					if (!parsed[part]) {
-						parsed[part] = []
+						parsed[part] = [];
 					}
-					parsed[part].push(newLine)
-					continue
+					parsed[part].push(newLine);
+					continue;
 				}
 				// handle normal song line
 				if (line.trim().indexOf('--') < 0) {
 					// only consider line if not empty
 					if (line.trim() != '') {
 						if (!parsed[part]) {
-							parsed[part] = []
+							parsed[part] = [];
 						}
 						// add line to current part
-						parsed[part].push(line)
+						parsed[part].push(line);
 					}
 				}
 				// handle song part marker (e.g. --V1)
@@ -171,40 +171,48 @@ Vue.mixin({
 					switch (line.charAt(2).toLowerCase()) {
 						case 'v':
 							types.push('v')
-							classes.push('verse ' + ((!isNaN(parseInt(line.trim().charAt(3)))) ? 'part' + line.trim().charAt(3) : ''))
-							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
+							classes.push('verse ' + ((!isNaN(parseInt(line.trim().charAt(3)))) ? 'part' + line.trim().charAt(3) : ''));
+							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+							break;
 						case 'p':
 							types.push('p')
 							classes.push('prechorus')
-							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
+							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+							break;
 						case 'c':
 							types.push('c')
 							classes.push('chorus')
-							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
+							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+							break;
 						case 'b':
 							types.push('b')
 							classes.push('bridge')
-							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
+							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+							break;
 						case 'i':
 							types.push('i')
 							classes.push('intro')
-							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
+							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+							break;
 						case 'm':
 							types.push('m')
 							classes.push('mitro')
-							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
+							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+							break;
 						case 'o':
 							types.push('o')
 							classes.push('outro')
-							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0'); break
+							numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+							break;
 						default:
 							// a non existent part tag was found
+							break;
 					}
 					// consider next part
-					part++
+					part++;
 				}
 			}
-			var newContent = []
+			var newContent = [];
 			// if multiple parts: rejoin lines of every part
 			if (parsed.length > 1) {
 				for (var p = 1; p < parsed.length; p++) {
@@ -213,7 +221,7 @@ Vue.mixin({
 						number: numbers[p-1],
 						class: classes[p-1],
 						content: parsed[p].join('\n')
-					})
+					});
 				}
 			}
 			// if no parts (no markers set): take whole content as one unclassified part
@@ -223,42 +231,42 @@ Vue.mixin({
 					number: 0,
 					class: '',
 					content: content
-				})
+				});
 			}
 			if (twoColumns) {
 				// split content into two columns and return
-				let half = Math.ceil(newContent.length / 2)
-				return [newContent.slice(0, half), newContent.slice(half, newContent.length)]
+				let half = Math.ceil(newContent.length / 2);
+				return [newContent.slice(0, half), newContent.slice(half, newContent.length)];
 			} else {
-				return newContent
+				return newContent;
 			}
 		},
 		// file download
 		download: (data, filename) => {
-			var a = document.createElement('a')
-			var file = new Blob([data], { type:'text/plain;charset=UTF-8' })
+			var a = document.createElement('a');
+			var file = new Blob([data], { type:'text/plain;charset=UTF-8' });
 			// IE10+
 			if (window.navigator.msSaveOrOpenBlob) {
-				window.navigator.msSaveOrOpenBlob(file, filename)
+				window.navigator.msSaveOrOpenBlob(file, filename);
 			}
 			// other browsers
 			else {
-				var url = URL.createObjectURL(file)
-				a.href = url
-				a.download = filename
-				document.body.appendChild(a)
-				a.click()
+				var url = URL.createObjectURL(file);
+				a.href = url;
+				a.download = filename;
+				document.body.appendChild(a);
+				a.click();
 				setTimeout(function() {
-					document.body.removeChild(a)
-					window.URL.revokeObjectURL(url)
-				}, 0)
+					document.body.removeChild(a);
+					window.URL.revokeObjectURL(url);
+				}, 0);
 			}
 		},
 		// format human readable date
 		humanDate: (d, locale) => {
-			if (!d) return ''
-			let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-			return (new Date(d)).toLocaleDateString(locale + '-' + locale.toUpperCase(), options)
+			if (!d) return '';
+			let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+			return (new Date(d)).toLocaleDateString(locale + '-' + locale.toUpperCase(), options);
 		}
   }
 })
@@ -266,11 +274,11 @@ Vue.mixin({
 // extend Object for filtering
 Object.filter = (obj, predicate) => 
 	Object.keys(obj)
-		.filter( key => predicate(obj[key]) )
-		.reduce( (res, key) => (res[key] = obj[key], res), {} );
+		.filter(key => predicate(obj[key]))
+		.reduce((res, key) => (res[key] = obj[key], res), {});
 
 new Vue({
 	router,
 	i18n,
 	render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
