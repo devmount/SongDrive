@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { Chart } from '../chart.config'
+import { Chart } from '../chart.config';
 
 export default {
 	props: {
@@ -27,11 +27,11 @@ export default {
 		return {
 			id: Math.random().toString(36).substring(7),
 			chart: null
-		}
+		};
 	},
 	mounted () {
 		if (this.labels && this.datasets) {
-			this.draw()
+			this.draw();
 		}
 	},
 	methods: {
@@ -56,7 +56,7 @@ export default {
 						}
 					}
 				}
-			})
+			});
 		},
 		// paint every segment depending on its data
 		colorize (datasets) {

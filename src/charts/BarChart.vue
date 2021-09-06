@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { Chart, transparentGradientBar } from '../chart.config'
+import { Chart, transparentGradientBar } from '../chart.config';
 
 export default {
 	props: {
@@ -24,28 +24,29 @@ export default {
 		return {
 			id: Math.random().toString(36).substring(7),
 			chart: null
-		}
+		};
 	},
 	mounted () {
 		if (this.labels && this.datasets) {
-			this.draw()
+			this.draw();
 		}
 	},
 	computed: {
 		processedDatasets () {
-			let datasets = this.datasets
+			let datasets = this.datasets;
 			datasets.map(d => {
 				d.backgroundColor = context => {
 					const { ctx, chartArea } = context.chart;
 					if (!chartArea) return null;
-					return transparentGradientBar(ctx,
+					return transparentGradientBar(
+						ctx,
 						chartArea,
 						Array.isArray(d.borderColor) ? d.borderColor[context.dataIndex] : d.borderColor,
 						this.horizontal
 					);
 				}
 			})
-			return datasets
+			return datasets;
 		}
 	},
 	methods: {
@@ -97,20 +98,20 @@ export default {
 						}
 					}
 				}
-			})
-		},
+			});
+		}
 	},
 	watch: {
 		// update chart if data changes in an animatable way
 		datasets () {
-			this.chart.data.labels = this.labels
-			this.chart.data.datasets = this.processedDatasets
-			this.chart.update()
+			this.chart.data.labels = this.labels;
+			this.chart.data.datasets = this.processedDatasets;
+			this.chart.update();
 		},
 		// update chart if ordinate display changes
 		ordinate (newValue) {
-			this.chart.options.scales.y.display = this.horizontal || newValue
-			this.chart.update()
+			this.chart.options.scales.y.display = this.horizontal || newValue;
+			this.chart.update();
 		}
 	}
 }

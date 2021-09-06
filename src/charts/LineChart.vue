@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { Chart, transparentGradientLine } from '../chart.config'
+import { Chart, transparentGradientLine } from '../chart.config';
 
 export default {
 	props: {
@@ -44,16 +44,16 @@ export default {
 		return {
 			id: Math.random().toString(36).substring(7),
 			chart: null
-		}
+		};
 	},
 	mounted () {
 		if (this.labels && this.datasets) {
-			this.draw()
+			this.draw();
 		}
 	},
 	computed: {
 		processedDatasets () {
-			let datasets = this.datasets
+			let datasets = this.datasets;
 			datasets.map(d => {
 				// gradient for background
 				d.backgroundColor = context => {
@@ -66,7 +66,7 @@ export default {
 					borderDash: ctx => this.unfinished && ctx.p0?.parsed.x == d.data.length-2 ? [10, 5] : undefined
 				};
 			})
-			return datasets
+			return datasets;
 		}
 	},
 	methods: {
@@ -119,22 +119,22 @@ export default {
 						}
 					}
 				}
-			})
+			});
 		}
 	},
 	watch: {
 		// update chart if data changes in an animatable way
 		datasets () {
-			this.chart.data.labels = this.labels
-			this.chart.data.datasets = this.processedDatasets
+			this.chart.data.labels = this.labels;
+			this.chart.data.datasets = this.processedDatasets;
 			// show points if only one data column exists and therefore no line can be drawn
-			this.chart.options.datasets.line.pointRadius = this.labels.length == 1 ? 5 : 0
-			this.chart.update()
+			this.chart.options.datasets.line.pointRadius = this.labels.length == 1 ? 5 : 0;
+			this.chart.update();
 		},
 		// update chart if ordinate display changes
 		ordinate (newValue) {
-			this.chart.options.scales.y.display = newValue
-			this.chart.update()
+			this.chart.options.scales.y.display = newValue;
+			this.chart.update();
 		}
 	}
 }
