@@ -317,7 +317,7 @@ export default {
 			return false
 		},
 		getSetlistSongs () {
-			if (this.ready.songs && this.ready.setlists) {
+			if (this.ready.songs && this.ready.setlists && this.setlist?.songs?.length > 0) {
 				let songs = []
 				for (const key in this.setlist.songs) {
 					if (this.setlist.songs.hasOwnProperty(key)) {
