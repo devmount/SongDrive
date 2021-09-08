@@ -446,7 +446,7 @@ export default {
 			return false
 		},
 		showLanguages () {
-			if (this.ready.songs && this.song) {
+			if (this.ready.songs && this.song?.translations?.length > 0) {
 				var languages = [[this.$route.params.id, this.song.language]]
 				for (const key in this.song.translations) {
 					if (this.song.translations.hasOwnProperty(key)) {
