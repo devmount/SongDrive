@@ -13,7 +13,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">{{ $t('button.cancel') }}</a>
+				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
+					{{ $t('button.cancel') }}
+				</a>
 				<button class="btn btn-error ml-2" @click="deleteUser">{{ $t('button.delete') }}</button>
 			</div>
 		</div>
@@ -30,21 +32,24 @@ export default {
 	},
 	methods: {
 		deleteUser () {
-			var self = this
-			this.$db.collection('users').doc(this.userKey).delete().then(function() {
-				self.$emit('closed')
+			this.$db.collection('users').doc(this.userKey).delete().then(() => {
+				this.$emit('closed');
 				// toast success message
-				self.$notify({ title: self.$parent.$t('toast.userDeleted'), text: self.$parent.$t('toast.userDeletedText'), type: 'primary' })
-			}).catch(function(error) {
-				self.$emit('closed')
+				this.$notify({
+					title: this.$parent.$t('toast.userDeleted'),
+					text: this.$parent.$t('toast.userDeletedText'),
+					type: 'primary'
+				});
+			}).catch((error) => {
+				this.$emit('closed');
 				// toast error message
-				self.$notify({ title: error.code, text: error.message, type: 'error' })
-			})
-		},
+				this.$notify({
+					title: error.code,
+					text: error.message,
+					type: 'error'
+				});
+			});
+		}
 	}
 }
 </script>
-
-<style lang="scss">
-
-</style>

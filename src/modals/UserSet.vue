@@ -12,20 +12,36 @@
 			<div class="modal-body">
 				<div class="content">
 					<label class="form-label" for="name">{{ $t('field.name') }} <span class="text-error">*</span></label>
-					<input id="name" type="text" v-model="user.name" class="form-input mb-1" :class="{ 'is-error': error.name }" :placeholder="$t('placeholder.exampleUserName')" />
+					<input
+						id="name"
+						type="text"
+						v-model="user.name"
+						class="form-input mb-1"
+						:class="{ 'is-error': error.name }"
+						:placeholder="$t('placeholder.exampleUserName')"
+					/>
 					<p v-if="error.name" class="form-input-hint">{{ $t('error.requiredName') }}</p>
 					<label class="form-label" for="email">{{ $t('field.email') }} <span class="text-error">*</span></label>
-					<input id="email" type="email" v-model="user.email" class="form-input mb-1" :class="{ 'is-error': error.email }" :placeholder="$t('placeholder.exampleUserEmail')" />
+					<input
+						id="email"
+						type="email"
+						v-model="user.email"
+						class="form-input mb-1"
+						:class="{ 'is-error': error.email }"
+						:placeholder="$t('placeholder.exampleUserEmail')"
+					/>
 					<p v-if="error.email" class="form-input-hint">{{ $t('error.requiredEmail') }}</p>
 					<label class="form-label" for="role">{{ $t('field.role') }} <span class="text-error">*</span></label>
 					<select v-model="user.role" id="role" class="form-select filter" required>
 						<option value="" disabled selected>{{ $t('placeholder.select') }}</option>
-						<option v-for="(r,k) in userRoles()" :key="k" :value="k">{{ $t('role.' + k) }}</option>
+						<option v-for="(r, k) in userRoles()" :key="k" :value="k">{{ $t('role.' + k) }}</option>
 					</select>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">{{ $t('button.cancel') }}</a>
+				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
+					{{ $t('button.cancel') }}
+				</a>
 				<button class="btn btn-primary ml-2" @click="setUser">
 					<span v-if="!existing">{{ $t('button.addUser') }}</span>
 					<span v-else>{{ $t('button.updateUser') }}</span>
@@ -51,42 +67,63 @@ export default {
 				name: false,
 				email: false,
 				role: false,
-			},
+			}
 		}
 	},
 	methods: {
 		setUser() {
 			// first check for form errors
-			this.error.name = this.user.name == ''
-			this.error.email = this.user.email == ''
-			this.error.role = this.user.role == ''
+			this.error.name = this.user.name == '';
+			this.error.email = this.user.email == '';
+			this.error.role = this.user.role == '';
 			// no errors: send submitted user data and close modal
 			if (!this.errors) {
-				let self = this
 				if (this.existing) {
 					this.$db.collection('users').doc(this.userKey).update({
-						name: self.user.name,
-						email: self.user.email,
-						role: self.user.role
-					}).then(function() {
+						name: this.user.name,
+						email: this.user.email,
+						role: this.user.role
+					}).then(() => {
 						// user updated successfully!
-						self.$notify({ title: self.$parent.$t('toast.userUpdated'), text: self.$parent.$t('toast.userSavedText'), type: 'primary' })
-					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
-					this.$emit('closed')
+						this.$notify({
+							title: this.$parent.$t('toast.userUpdated'),
+							text: this.$parent.$t('toast.userSavedText'),
+							type: 'primary'
+						});
+					}).catch((error) => {
+						// an error occured on updating user
+						this.$notify({
+							title: error.code,
+							text: error.message,
+							type: 'error'
+						});
+					});
+					this.$emit('closed');
 				}
 				// user is not yet confirmed
 				else {
 					this.$db.collection('users').doc(this.userKey).set({
-						name: self.user.name,
-						email: self.user.email,
-						role: self.user.role
-					}).then(function() {
+						name: this.user.name,
+						email: this.user.email,
+						role: this.user.role
+					}).then(() => {
 						// user added successfully, now delete temporary registration
-						self.$db.collection('registrations').doc(self.userKey).delete().then(function() {
-							self.$notify({ title: self.$parent.$t('toast.userAdded'), text: self.$parent.$t('toast.userSavedText'), type: 'primary' })
+						this.$db.collection('registrations').doc(this.userKey).delete().then(() => {
+							this.$notify({
+								title: this.$parent.$t('toast.userAdded'),
+								text: this.$parent.$t('toast.userSavedText'),
+								type: 'primary'
+							});
 						})
-					}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
-					this.$emit('closed')
+					}).catch((error) => {
+						// an error occured on adding user
+						this.$notify({
+							title: error.code,
+							text: error.message,
+							type: 'error'
+						});
+					});
+					this.$emit('closed');
 				}
 			}
 		}
@@ -94,12 +131,8 @@ export default {
 	computed: {
 		// calculate wether form errors occured
 		errors () {
-			return (this.error.name || this.error.email || this.error.role)
+			return (this.error.name || this.error.email || this.error.role);
 		}
 	}
 }
 </script>
-
-<style lang="scss">
-
-</style>
