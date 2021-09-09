@@ -145,9 +145,14 @@
 						<div v-if="ready.setlists && setlist" class="column col-12">
 							<h2>{{ setlist.title }}</h2>
 							<h3>
-								<ion-icon name="list" class="icon-sm"></ion-icon> {{ $tc('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
-								<ion-icon name="calendar-outline" class="icon-sm ml-3"></ion-icon> {{ humanDate(setlist.date, $i18n.locale) }}
-								<span v-if="ready.users && users[setlist.creator]"><ion-icon name="person-outline" class="icon-sm ml-3"></ion-icon> {{ users[setlist.creator].name }}</span>
+								<ion-icon name="list" class="icon-sm"></ion-icon>
+								{{ $tc('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
+								<ion-icon name="calendar-outline" class="icon-sm ml-3"></ion-icon>
+								{{ humanDate(setlist.date, $i18n.locale) }}
+								<span v-if="ready.users && users[setlist.creator]">
+									<ion-icon name="person-outline" class="icon-sm ml-3"></ion-icon>
+									{{ users[setlist.creator].name }}
+								</span>
 							</h3>
 						</div>
 						<div v-if="ready.songs && ready.setlists && setlist" class="column col-12">
@@ -164,25 +169,41 @@
 								</thead>
 								<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
 									<tr v-for="(song, i) in setlist.songs" :key="song.id">
-										<td v-if="user && role > 1" class="c-move text-center text-gray"><ion-icon name="reorder-four-outline" class="icon-1-5x pl-2 handle"></ion-icon></td>
+										<td v-if="user && role > 1" class="c-move text-center text-gray">
+											<ion-icon name="reorder-four-outline" class="icon-1-5x pl-2 handle"></ion-icon>
+										</td>
 										<td class="c-hand" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id }})">
-											{{ songs[song.id].title }} <br class="show-xl hide-sm" /><span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span>
+											{{ songs[song.id].title }} <br class="show-xl hide-sm" />
+											<span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span>
 										</td>
 										<td class="hide-xl text-uppercase">{{ songs[song.id].language }}</td>
 										<td class="tuning">
-											<button v-if="user && role > 1" class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(songs[song.id], i)">
+											<button
+												v-if="user && role > 1"
+												class="btn btn-secondary btn-sm btn-fw"
+												@click.prevent="tuneDown(songs[song.id], i)"
+											>
 												<ion-icon name="arrow-back" class="icon-sm"></ion-icon>
 											</button>
 											<code>{{ song.tuning ? song.tuning : songs[song.id].tuning }}</code>
-											<button v-if="user && role > 1" class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneUp(songs[song.id], i)">
+											<button
+												v-if="user && role > 1"
+												class="btn btn-secondary btn-sm btn-fw"
+												@click.prevent="tuneUp(songs[song.id], i)"
+											>
 												<ion-icon name="arrow-forward" class="icon-sm"></ion-icon>
 											</button>
 										</td>
 										<td class="hide-xl">
-											<a :href="'https://songselect.ccli.com/Songs/' + songs[song.id].ccli" target="_blank">{{ songs[song.id].ccli }}</a>
+											<a :href="'https://songselect.ccli.com/Songs/' + songs[song.id].ccli" target="_blank">
+												{{ songs[song.id].ccli }}
+											</a>
 										</td>
 										<td class="text-right">
-											<button class="btn btn-primary" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id }})">
+											<button
+												class="btn btn-primary"
+												@click.prevent="$router.push({ name: 'song-show', params: { id: song.id }})"
+											>
 												<ion-icon name="eye-outline"></ion-icon>
 												<span class="hide-lg ml-2">{{ $t('button.show') }}</span>
 											</button>
@@ -268,15 +289,15 @@
 
 <script>
 // get components
-import SetlistSet from '@/modals/SetlistSet'
-import SetlistDelete from '@/modals/SetlistDelete'
-import SetlistPresent from '@/modals/SetlistPresent'
-import DoughnutChart from '@/charts/DoughnutChart'
+import SetlistSet from '@/modals/SetlistSet';
+import SetlistDelete from '@/modals/SetlistDelete';
+import SetlistPresent from '@/modals/SetlistPresent';
+import DoughnutChart from '@/charts/DoughnutChart';
 
 // pdf creation
-var pdfMake = require('pdfmake/build/pdfmake')
-var pdfFonts = require('@/assets/vfs_fonts')
-pdfMake.vfs = pdfFonts.pdfMake.vfs
+var pdfMake = require('pdfmake/build/pdfmake');
+var pdfFonts = require('@/assets/vfs_fonts');
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.fonts = {
 	FiraMono: {
 		normal: 'FiraMono-Regular.ttf',
@@ -284,7 +305,7 @@ pdfMake.fonts = {
 	FiraSans: {
 		normal: 'FiraSans-Light.ttf',
 	}
-}
+};
 
 export default {
 	name: 'setlist-show',
@@ -308,146 +329,166 @@ export default {
 	},
 	computed: {
 		setlistKey () {
-			return this.$route.params.id
+			return this.$route.params.id;
 		},
 		setlist () {
 			if (this.ready.setlists) {
-				return this.setlists[this.setlistKey]
+				return this.setlists[this.setlistKey];
 			}
-			return false
+			return false;
 		},
 		getSetlistSongs () {
 			if (this.ready.songs && this.ready.setlists && this.setlist?.songs?.length > 0) {
-				let songs = []
+				let songs = [];
 				for (const key in this.setlist.songs) {
 					if (this.setlist.songs.hasOwnProperty(key)) {
-						let song = this.songs[this.setlist.songs[key].id], setlistTuning = this.setlist.songs[key].tuning
-						song['customTuningDelta'] = setlistTuning != 0 ? this.keyScale().indexOf(setlistTuning) - this.keyScale().indexOf(song.tuning) : 0
-						song['customTuning'] = setlistTuning != 0 ? setlistTuning : song.tuning
-						songs.push(song)
+						let song = this.songs[this.setlist.songs[key].id], setlistTuning = this.setlist.songs[key].tuning;
+						song['customTuningDelta'] = setlistTuning != 0
+							? this.keyScale().indexOf(setlistTuning) - this.keyScale().indexOf(song.tuning)
+							: 0;
+						song['customTuning'] = setlistTuning != 0 ? setlistTuning : song.tuning;
+						songs.push(song);
 					}
 				}
-				return songs
+				return songs;
 			}
-			return []
+			return [];
 		},
 		setlistLanguages () {
-			let languages = {}
+			let languages = {};
 			for (let i = 0; i < this.getSetlistSongs.length; i++) {
-				const song = this.getSetlistSongs[i]
+				const song = this.getSetlistSongs[i];
 				if (!languages.hasOwnProperty(song.language)) {
-					languages[song.language] = 0
+					languages[song.language] = 0;
 				}
-				languages[song.language]++
+				languages[song.language]++;
 			}
 			return {
 				datasets: [
 					{ data: Object.values(languages), color: '#88b544' },
 				],
 				labels: Object.keys(languages).map(e => ' ' + this.songLanguages()[e])
-			}
+			};
 		},
 		setlistKeys () {
-			let keys = {}
+			let keys = {};
 			for (let i = 0; i < this.getSetlistSongs.length; i++) {
-				const song = this.getSetlistSongs[i]
+				const song = this.getSetlistSongs[i];
 				if (!keys.hasOwnProperty(song.customTuning)) {
-					keys[song.customTuning] = 0
+					keys[song.customTuning] = 0;
 				}
-				keys[song.customTuning]++
+				keys[song.customTuning]++;
 			}
 			return {
 				datasets: [
 					{ data: Object.values(keys), color: '#88b544' },
 				],
 				labels: Object.keys(keys).map(e => ' ' + e)
-			}
+			};
 		},
 	},
 	methods: {
 		reorder ({oldIndex, newIndex}) {
-			const movedItem = this.setlist.songs.splice(oldIndex, 1)[0]
-			this.setlist.songs.splice(newIndex, 0, movedItem)
-			var self = this
-			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: this.setlist.songs}, { merge: true }).then(function() {
-				self.$notify({ title: self.$t('toast.songOrderUpdated'), text: self.$t('toast.setlistSavedText'), type: 'primary'} )
-			})
+			const movedItem = this.setlist.songs.splice(oldIndex, 1)[0];
+			this.setlist.songs.splice(newIndex, 0, movedItem);
+			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: this.setlist.songs}, { merge: true })
+				.then(() => {
+					this.$notify({
+						title: this.$t('toast.songOrderUpdated'),
+						text: this.$t('toast.setlistSavedText'),
+						type: 'primary'
+					});
+				});
 		},
 		tuneUp (song, songPosition) {
-			let songs = this.setlist.songs
+			let songs = this.setlist.songs;
 			// update tuning
-			let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning
-			let i = this.keyScale().indexOf(tone)
+			let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning;
+			let i = this.keyScale().indexOf(tone);
 			if (i>=this.keyScale().length-1) {
-				tone = this.keyScale()[0]
+				tone = this.keyScale()[0];
 			} else {
-				tone = this.keyScale()[++i]
+				tone = this.keyScale()[++i];
 			}
 			// save tuning in setlist
-			songs[songPosition].tuning = tone
-			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
+			songs[songPosition].tuning = tone;
+			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true });
 		},
 		tuneDown (song, songPosition) {
-			let songs = this.setlist.songs
+			let songs = this.setlist.songs;
 			// update tuning
-			let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning
-			let i = this.keyScale().indexOf(tone)
+			let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning;
+			let i = this.keyScale().indexOf(tone);
 			if (i<=0) {
-				tone = this.keyScale()[this.keyScale().length-1]
+				tone = this.keyScale()[this.keyScale().length-1];
 			} else {
-				tone = this.keyScale()[--i]
+				tone = this.keyScale()[--i];
 			}
 			// save tuning in setlist
-			songs[songPosition].tuning = tone
-			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true })
+			songs[songPosition].tuning = tone;
+			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true });
 		},
 		updateActive () {
 			// update setlist's active flag to enable sync
-			var self = this, sync = !this.setlist.active
-			this.$db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(function() {
-				self.$notify({ title: self.$t('toast.sync' + (sync ? 'Activated' : 'Deactivated')), text: self.$t('toast.setlistStatusSavedText'), type: 'primary' })
-			})
+			var sync = !this.setlist.active;
+			this.$db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(() => {
+				this.$notify({
+					title: this.$t('toast.sync' + (sync ? 'Activated' : 'Deactivated')),
+					text: this.$t('toast.setlistStatusSavedText'),
+					type: 'primary'
+				});
+			});
 		},
 		updatePosition (position) {
 			// update setlist's position if sync enabled
 			if (this.setlist.active) {
-				this.$db.collection('setlists').doc(this.$route.params.id).set({position: position}, { merge: true })
+				this.$db.collection('setlists').doc(this.$route.params.id).set({position: position}, { merge: true });
 			}
 		},
 		copyList (format) {
 			// build text list
-			let list = [], label = ''
+			let list = [], label = '';
 			switch (format) {
 				case 'plain':
 					list = this.setlist.songs.map(
-						(s, i) => (i+1) + '. ' + this.songs[s.id].title + ' (' + this.songs[s.id].subtitle + ') [' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + ']'
-					)
-					label = 'plain text'
-					break
+						(s, i) => (i+1) + '. ' + this.songs[s.id].title + ' (' + this.songs[s.id].subtitle + ')'
+						+ ' [' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + ']'
+					);
+					label = 'plain text';
+					break;
 				case 'markdown':
 					list = this.setlist.songs.map(
-						(s, i) => (i+1) + '. **' + this.songs[s.id].title + '** – _' + this.songs[s.id].subtitle + '_ [**`' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + '`**]'
-					)
-					label = 'markdown'
-					break
+						(s, i) => (i+1) + '. **' + this.songs[s.id].title + '** – _' + this.songs[s.id].subtitle + '_'
+						+ ' [**`' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + '`**]'
+					);
+					label = 'markdown';
+					break;
 				case 'slack':
 					list = this.setlist.songs.map(
-						(s, i) => (i+1) + '. *' + this.songs[s.id].title + '* – _' + this.songs[s.id].subtitle + '_ `' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + '`'
-					)
-					label = 'slack'
-					break
+						(s, i) => (i+1) + '. *' + this.songs[s.id].title + '* – _' + this.songs[s.id].subtitle + '_'
+						+ ' `' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + '`'
+					);
+					label = 'slack';
+					break;
 				default:
 					break;
 			}
-			var self = this
-			this.$copyText(list.join('\n')).then(function () {
-				self.$notify({ title: self.$t('toast.copiedToClipboard'), text: self.$t('toast.setlistFormatCopiedText', {format: label}), type: 'primary' })
-			}, function (error) {
-				self.$notify({ title: self.$t('toast.failedToCopy'), text: error, type: 'error' })
-			})
+			this.$copyText(list.join('\n')).then(() => {
+				this.$notify({
+					title: this.$t('toast.copiedToClipboard'),
+					text: this.$t('toast.setlistFormatCopiedText', {format: label}),
+					type: 'primary'
+				});
+			}, (error) => {
+				this.$notify({
+					title: this.$t('toast.failedToCopy'),
+					text: error,
+					type: 'error'
+				});
+			});
 		},
 		exportPdf (mode) {
-			var content = mode == 'sheets' ? this.getPdfSongsheets() : this.getPdfSetlist()
+			var content = mode == 'sheets' ? this.getPdfSongsheets() : this.getPdfSetlist();
 			// return page configuration with computed content
 			var doc = {
 				pageSize: 'A4',
@@ -485,36 +526,50 @@ export default {
 						font: 'FiraSans',
 						fontSize: 8,
 						margin: [ 0, 30, 0, 0 ]
-					},
+					}
 				}
-			}
-			pdfMake.createPdf(doc).download()
+			};
+			pdfMake.createPdf(doc).download();
 			// toast success message
-			this.$notify({ title: this.$t('toast.exportedPdf'), text: this.$t('toast.exportedSetlistPdfText'), type: 'primary' })
+			this.$notify({
+				title: this.$t('toast.exportedPdf'),
+				text: this.$t('toast.exportedSetlistPdfText'),
+				type: 'primary'
+			});
 		},
 		getPdfSetlist () {
-			let songs = []
+			let songs = [];
 			for (const key in this.setlist.songs) {
 				if (this.setlist.songs.hasOwnProperty(key)) {
 					const song = this.songs[this.setlist.songs[key].id];
-					songs.push(' ‒ ' + song.title + ' [' + (song.customTuning ? song.customTuning : song.tuning) + ']')
+					songs.push(' ‒ ' + song.title + ' [' + (song.customTuning ? song.customTuning : song.tuning) + ']');
 				}
 			}
 			return [
 				{ text: this.setlist.title.toUpperCase(), style: 'header' },
 				{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
-				{ text: (new Date(this.setlist.date)).toLocaleDateString("de-DE", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }), style: 'subtitle', margin: [ 0, 6, 0, 0 ] },
+				{
+					text: (new Date(this.setlist.date)).toLocaleDateString("de-DE",
+					{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+					style: 'subtitle',
+					margin: [ 0, 6, 0, 0 ]
+				},
 				{ ol: songs, style: 'list'}
-			]
+			];
 		},
 		getPdfSongsheets () {
-			var sheets = []
+			var sheets = [];
 			for (const key in this.setlist.songs) {
 				if (this.setlist.songs.hasOwnProperty(key)) {
-					const song = this.songs[this.setlist.songs[key].id]
+					const song = this.songs[this.setlist.songs[key].id];
 					// handle song content parts
-					var content = [], parts = this.parsedContent(song.content, song.customTuning ? song.customTuningDelta : 0, this.chords, false)
-					parts.forEach(function(part) {
+					var content = [];
+					let parts = this.parsedContent(
+						song.content,
+						song.customTuning ? song.customTuningDelta : 0,
+						this.chords, false
+					);
+					parts.forEach((part) => {
 						if (part.type == 'v' && part.number != '0') {
 							content.push({
 								columnGap: 8,
@@ -531,20 +586,25 @@ export default {
 										style: 'code',
 									}
 								]
-							})
+							});
 						} else {
 							content.push({
 								// song content with respect to leading whitespaces
 								text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B'),
 								style: 'code',
-							})
+							});
 						}
-					}, this)
+					});
 					var meta = [
 						// song title [tuning] with a line beneath
 						{ text: song.title.toUpperCase(), style: 'header' },
 						{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
-						{ text: this.chords ? 'Tuning: ' + (song.customTuning ? song.customTuning : song.tuning) : '', style: 'subtitle', alignment: 'right', margin: [ 0, 4, 0, 0 ] },
+						{
+							text: this.chords ? 'Tuning: ' + (song.customTuning ? song.customTuning : song.tuning) : '',
+							style: 'subtitle',
+							alignment: 'right',
+							margin: [ 0, 4, 0, 0 ]
+						},
 						content,
 						// footer with ccli#, author names and (c) year publisher
 						{
@@ -555,17 +615,17 @@ export default {
 							],
 							style: 'footer'
 						}
-					]
+					];
 					// add page break after every song exept for the last
 					if (this.setlist.songs.length > 0 && key < this.setlist.songs.length-1) {
-						meta.push({ text: '', pageBreak: 'after', style: 'code' })
+						meta.push({ text: '', pageBreak: 'after', style: 'code' });
 					}
-					sheets = sheets.concat(meta)
+					sheets = sheets.concat(meta);
 				}
 			}
-			return sheets
-		},
-	},
+			return sheets;
+		}
+	}
 }
 </script>
 

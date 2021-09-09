@@ -20,21 +20,45 @@
 						<div class="panel-body">
 							<div class="form-group">
 								<label class="form-label" for="name">{{ $t('field.name') }}</label>
-								<input v-model="profile.displayName" class="form-input" id="name" type="text" placeholder="john doe" />
+								<input
+									v-model="profile.displayName"
+									class="form-input"
+									id="name"
+									type="text"
+									placeholder="john doe"
+								/>
 							</div>
 							<div class="form-group">
 								<label class="form-label" for="email">{{ $t('field.email') }}</label>
-								<input v-model="profile.email" class="form-input" id="email" type="text" placeholder="john@doe.com" disabled />
+								<input
+									v-model="profile.email"
+									class="form-input"
+									id="email"
+									type="text"
+									placeholder="john@doe.com"
+									disabled
+								/>
 							</div>
 							<div class="form-group mb-3">
 								<label class="form-label" for="photo">{{ $t('field.photo') }}</label>
-								<input v-model="profile.photoURL" class="form-input" id="photo" type="text" placeholder="https://your-photo.link/image.png" />
+								<input
+									v-model="profile.photoURL"
+									class="form-input"
+									id="photo"
+									type="text"
+									placeholder="https://your-photo.link/image.png"
+								/>
 							</div>
 							<label for="preview" class="mr-4">{{ $t('label.preview') }}:</label>
 							<figure v-if="profile.photoURL" id="preview" class="avatar avatar-xxl mb-2">
 								<img :src="profile.photoURL" alt="Avatar" />
 							</figure>
-							<figure v-else-if="profile.displayName" id="preview" class="avatar avatar-xxl" :data-initial="profile.displayName.substring(0,2).toUpperCase()"></figure>
+							<figure
+								v-else-if="profile.displayName"
+								id="preview"
+								class="avatar avatar-xxl"
+								:data-initial="profile.displayName.substring(0,2).toUpperCase()"
+							></figure>
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">
@@ -54,7 +78,9 @@
 							<div class="form-group mb-1">
 								<label class="form-label" for="language">{{ $t('field.language') }}</label>
 								<select v-model="$i18n.locale" class="form-select" id="language">
-									<option v-for="(lang, i) in ['en','de']" :key="i" :value="lang">{{ songLanguages()[lang] }}</option>
+									<option v-for="(lang, i) in ['en','de']" :key="i" :value="lang">
+										{{ songLanguages()[lang] }}
+									</option>
 								</select>
 							</div>
 						</div>
@@ -95,10 +121,16 @@
 									<div class="tile-subtitle text-gray text-small">{{ u.email }}</div>
 								</div>
 								<div class="tile-action">
-									<button class="btn btn-link btn-action" @click.prevent="active.user=u; active.key=k; active.existing=true; modal.userset=true">
+									<button
+										class="btn btn-link btn-action"
+										@click.prevent="active.user=u; active.key=k; active.existing=true; modal.userset=true"
+									>
 										<ion-icon name="create-outline"></ion-icon>
 									</button>
-									<button class="btn btn-link btn-action text-error" @click.prevent="active.user=u; active.key=k; modal.userdelete=true">
+									<button
+										class="btn btn-link btn-action text-error"
+										@click.prevent="active.user=u; active.key=k; modal.userdelete=true"
+									>
 										<ion-icon name="person-remove-outline"></ion-icon>
 									</button>
 								</div>
@@ -112,7 +144,9 @@
 							<p class="empty-subtitle">{{ $t('text.goodWork') }}</p>
 						</div>
 						<div v-else class="panel-footer mt-5">
-							<div class="panel-title h5 mt-1 text-center">{{ Object.keys(registrations).length }} {{ $t('widget.registrations') }}</div>
+							<div class="panel-title h5 mt-1 text-center">
+								{{ Object.keys(registrations).length }} {{ $t('widget.registrations') }}
+							</div>
 							<div class="panel-subtitle mb-4 text-gray text-center">{{ $t('text.manageUnconfirmedUsers') }}</div>
 							<div
 								v-for="(r, k) in registrations" :key="k"
@@ -129,7 +163,10 @@
 									<div class="tile-subtitle text-gray text-small">{{ r.email }}</div>
 								</div>
 								<div class="tile-action">
-									<button class="btn btn-link btn-action" @click.prevent="active.user=r; active.key=k; active.existing=false; modal.userset=true">
+									<button
+										class="btn btn-link btn-action"
+										@click.prevent="active.user=r; active.key=k; active.existing=false; modal.userset=true"
+									>
 										<ion-icon name="person-add-outline"></ion-icon>
 									</button>
 								</div>
@@ -145,7 +182,12 @@
 							<div class="panel-subtitle text-gray">{{ $t('text.manageTags') }}</div>
 						</div>
 						<div class="panel-body">
-							<router-link v-for="tag in tags" :key="tag.key" :to="{ name: 'songs-tag', params: { tag: tag.key }}" class="mr-2">
+							<router-link
+								v-for="tag in tags"
+								:key="tag.key"
+								:to="{ name: 'songs-tag', params: { tag: tag.key }}"
+								class="mr-2"
+							>
 								<span class="label px-2 py-1 my-1">
 									<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
 									{{ $t('tag.' + tag.key) }}
@@ -194,8 +236,8 @@
 
 <script>
 // get components
-import UserSet from '@/modals/UserSet'
-import UserDelete from '@/modals/UserDelete'
+import UserSet from '@/modals/UserSet';
+import UserDelete from '@/modals/UserDelete';
 
 export default {
 	name: 'settings',
@@ -220,23 +262,29 @@ export default {
 				user: {},
 				key: '',
 				existing: true,
-			},
-		}
+			}
+		};
 	},
 	methods: {
 		updateProfile () {
-			let self = this
-			this.userObject.updateProfile(this.profile).then(function() {
-				self.$db.collection('users').doc(self.userObject.uid).update({
-					name: self.profile.displayName,
-					email: self.profile.email
-				}).then(function() {
+			this.userObject.updateProfile(this.profile).then(() => {
+				this.$db.collection('users').doc(this.userObject.uid).update({
+					name: this.profile.displayName,
+					email: this.profile.email
+				}).then(() => {
 					// Profile updated successfully!
-					self.$notify({ title: self.$t('toast.userUpdated'), text: self.$t('toast.userUpdatedText'), type: 'primary' })
-				}).catch((error) => self.$notify({ title: error.code, text: error.message, type: 'error' }))
-			}, function(error) {
+					this.$notify({
+						title: this.$t('toast.userUpdated'),
+						text: this.$t('toast.userUpdatedText'),
+						type: 'primary'
+					});
+				}).catch((error) => {
+					// An error happened.
+					this.$notify({ title: error.code, text: error.message, type: 'error' });
+				});
+			}, (error) => {
 				// An error happened.
-				self.$notify({ title: error.code, text: error.message, type: 'error' })
+				this.$notify({ title: error.code, text: error.message, type: 'error' });
 			});
 		},
 		updateTags () {
@@ -248,15 +296,15 @@ export default {
 				'setlists': this.setlists,
 				'users': this.users,
 				'tags': this.tags
-			}
-			this.download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json')
+			};
+			this.download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json');
 			// toast success message
-			this.$notify({ title: this.$t('toast.databaseExported'), text: this.$t('toast.databaseExportedText'), type: 'primary' })
-		},
+			this.$notify({
+				title: this.$t('toast.databaseExported'),
+				text: this.$t('toast.databaseExportedText'),
+				type: 'primary'
+			});
+		}
 	}
 }
 </script>
-
-<style lang="scss">
-
-</style>

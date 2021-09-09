@@ -17,7 +17,10 @@
 							<table class="table">
 								<tbody>
 									<tr>
-										<td><kbd><ion-icon name="arrow-back"></ion-icon></kbd> / <kbd><ion-icon name="arrow-forward"></ion-icon></kbd></td>
+										<td>
+											<kbd><ion-icon name="arrow-back"></ion-icon></kbd> /
+											<kbd><ion-icon name="arrow-forward"></ion-icon></kbd>
+										</td>
 										<td></td>
 										<td>{{ $t('tooltip.pagination') }}</td>
 									</tr>
@@ -50,12 +53,18 @@
 										<td>{{ $t('tooltip.chordsShow') }} / {{ $t('tooltip.chordsHide') }}</td>
 									</tr>
 									<tr>
-										<td><kbd><ion-icon name="arrow-forward"></ion-icon></kbd> / <kbd><ion-icon name="arrow-up"></ion-icon></kbd></td>
+										<td>
+											<kbd><ion-icon name="arrow-forward"></ion-icon></kbd> /
+											<kbd><ion-icon name="arrow-up"></ion-icon></kbd>
+										</td>
 										<td><ion-icon name="musical-note"></ion-icon></td>
 										<td>{{ $t('tooltip.transposeUp') }}</td>
 									</tr>
 									<tr>
-										<td><kbd><ion-icon name="arrow-back"></ion-icon></kbd> / <kbd><ion-icon name="arrow-down"></ion-icon></kbd></td>
+										<td>
+											<kbd><ion-icon name="arrow-back"></ion-icon></kbd> /
+											<kbd><ion-icon name="arrow-down"></ion-icon></kbd>
+										</td>
 										<td><ion-icon name="musical-note"></ion-icon></td>
 										<td>{{ $t('tooltip.transposeDown') }}</td>
 									</tr>
@@ -108,12 +117,18 @@
 										<td>{{ $t('tooltip.presentationStart') }}</td>
 									</tr>
 									<tr>
-										<td><kbd><ion-icon name="arrow-forward"></ion-icon></kbd> / <kbd><ion-icon name="arrow-down"></ion-icon></kbd></td>
+										<td>
+											<kbd><ion-icon name="arrow-forward"></ion-icon></kbd> /
+											<kbd><ion-icon name="arrow-down"></ion-icon></kbd>
+										</td>
 										<td></td>
 										<td>{{ $t('tooltip.nextSlide') }}</td>
 									</tr>
 									<tr>
-										<td><kbd><ion-icon name="arrow-back"></ion-icon></kbd> / <kbd><ion-icon name="arrow-up"></ion-icon></kbd></td>
+										<td>
+											<kbd><ion-icon name="arrow-back"></ion-icon></kbd> /
+											<kbd><ion-icon name="arrow-up"></ion-icon></kbd>
+										</td>
 										<td></td>
 										<td>{{ $t('tooltip.previousSlide') }}</td>
 									</tr>
@@ -142,7 +157,3 @@ export default {
 	name: 'shortcuts',
 }
 </script>
-
-<style lang="scss">
-
-</style>
