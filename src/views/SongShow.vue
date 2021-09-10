@@ -305,7 +305,7 @@ export default {
 		this.$refs['song-show'].focus();
 	},
 	methods: {
-		exportTxt: function() {
+		exportTxt () {
 			// add header
 			var content = this.song.title
 				+ ' [' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']'
@@ -343,7 +343,7 @@ export default {
 				type: 'primary'
 			});
 		},
-		exportSng: function() {
+		exportSng () {
 			// add header
 			var content =
 				'#LangCount=1' + os.EOL
@@ -379,7 +379,7 @@ export default {
 				type: 'primary'
 			});
 		},
-		exportPdf: function() {
+		exportPdf () {
 			var content = this.getPdfSongContent();
 			// return page configuration with computed content
 			var doc = {

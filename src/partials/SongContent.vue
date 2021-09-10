@@ -67,7 +67,7 @@ export default {
 				// as long as the sum of the heights of the parts is greater than the viewport height with a max of 50 iterations
 				let n = 50;
 				while (parts.map(o=>o.height).reduce((p,c)=>p+c) > vh && n > 0) {
-					parts.sort(function(a, b) { return b.size - a.size; });
+					parts.sort((a, b) => b.size - a.size);
 					if (parts.length > 0) {
 						parts[0].part.style.fontSize = (parts[0].size - 5) + 'px';
 						parts[0].size = parseInt(getComputedStyle(parts[0].part).fontSize.match(/\d+/)[0]);

@@ -29,7 +29,7 @@ Vue.use(Notifications);
 // vue-sortable
 import Sortable from 'sortablejs';
 Vue.directive('sortable', {
-	inserted: function (el, binding) {
+	inserted (el, binding) {
 		new Sortable(el, binding.value || {});
 	}
 });
@@ -256,7 +256,7 @@ Vue.mixin({
 				a.download = filename;
 				document.body.appendChild(a);
 				a.click();
-				setTimeout(function() {
+				setTimeout(() => {
 					document.body.removeChild(a);
 					window.URL.revokeObjectURL(url);
 				}, 0);

@@ -322,10 +322,10 @@ export default {
 	},
 	mounted () {
 		// check initially if authenticated user exists
-		firebase.auth().onAuthStateChanged(function(user) {
+		firebase.auth().onAuthStateChanged((user) => {
 			this.auth.user = user ? user.uid : '';
 			this.auth.userObject = user ? user : '';
-		}.bind(this));
+		});
 	},
 	methods: {
 		resetSong () {

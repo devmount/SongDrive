@@ -239,7 +239,7 @@ export default {
 	},
 	watch: {
 		// update this.setlist.songs according to selection
-		setlistSongs: function (newList, oldList) {
+		setlistSongs (newList, oldList) {
 			// song was added
 			if (newList.length > oldList.length) {
 				let songAdded = newList.filter(x => !oldList.includes(x))[0];
