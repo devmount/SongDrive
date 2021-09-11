@@ -26,13 +26,30 @@
 				/>
 			</div>
 			<div class="modal-footer">
-				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': dark, 'btn-primary': !dark }" href="#" aria-label="Light mode" @click.prevent="dark = !dark">
+				<a
+					class="btn btn-xl btn-fw btn-gray btn-toggle ml-1"
+					:class="{ 'btn-secondary': dark, 'btn-primary': !dark }"
+					href="#"
+					aria-label="Light mode"
+					@click.prevent="dark = !dark"
+				>
 					<ion-icon name="contrast-outline" class="icon-1-5x"></ion-icon>
 				</a>
-				<a class="btn btn-xl btn-fw btn-gray btn-toggle ml-1" :class="{ 'btn-secondary': !chords, 'btn-primary': chords }" href="#" aria-label="Chords" @click.prevent="$emit('chords')">
+				<a
+					class="btn btn-xl btn-fw btn-gray btn-toggle ml-1"
+					:class="{ 'btn-secondary': !chords, 'btn-primary': chords }"
+					href="#"
+					aria-label="Chords"
+					@click.prevent="$emit('chords')"
+				>
 					<ion-icon name="musical-notes" class="icon-1-5x"></ion-icon>
 				</a>
-				<a class="btn btn-secondary btn-xl btn-fw btn-gray ml-1" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
+				<a
+					class="btn btn-secondary btn-xl btn-fw btn-gray ml-1"
+					href="#"
+					aria-label="Cancel"
+					@click.prevent="$emit('closed')"
+				>
 					<ion-icon name="close" class="icon-1-5x"></ion-icon>
 				</a>
 			</div>
@@ -42,7 +59,7 @@
 
 <script>
 // get components
-import SongContent from '@/partials/SongContent'
+import SongContent from '@/partials/SongContent';
 
 export default {
 	name: 'song-present',
@@ -60,31 +77,26 @@ export default {
 	data () {
 		return {
 			dark: true,
-		}
+		};
 	},
 	methods: {
 		maximizeFontsize() {
-			let self = this
 			// wait for dom to be ready
 			this.$nextTick(() => {
 				// maximize content of each song/slide
-				self.$refs.songcontent.maximizeFontsize()
-			})
+				this.$refs.songcontent.maximizeFontsize();
+			});
 		}
 	},
 	mounted () {
-		this.maximizeFontsize()
-		this.$refs.container.focus()
+		this.maximizeFontsize();
+		this.$refs.container.focus();
 	},
 	watch: {
 		chords() {
 			// maximize fontsize when presentation view is opened
-			this.maximizeFontsize()
+			this.maximizeFontsize();
 		}
 	}
 }
 </script>
-
-<style lang="scss">
-
-</style>

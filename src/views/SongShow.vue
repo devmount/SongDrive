@@ -189,13 +189,23 @@
 							<footer class="text-small">
 								<p>{{ song.authors }}</p>
 								<p>
-									<a v-if="song.ccli" :href="'https://songselect.ccli.com/Songs/' + song.ccli" class="mr-4" target="_blank">
+									<a
+										v-if="song.ccli"
+										:href="'https://songselect.ccli.com/Songs/' + song.ccli"
+										class="mr-4"
+										target="_blank"
+									>
 										<span class="label px-2 py-1">
 											<ion-icon name="open-outline" class="icon-sm mr-1"></ion-icon>
 											{{ $t('field.ccli') }}
 										</span>
 									</a>
-									<router-link v-for="tag in song.tags" :key="tag" :to="{ name: 'songs-tag', params: { tag: tag }}" class="mr-2">
+									<router-link
+										v-for="tag in song.tags"
+										:key="tag"
+										:to="{ name: 'songs-tag', params: { tag: tag }}"
+										class="mr-2"
+									>
 										<span class="label px-2 py-1">
 											<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
 											{{ $t('tag.' + tag) }}
@@ -206,7 +216,11 @@
 							</footer>
 						</div>
 						<div v-if="ready.songs && song && song.youtube" class="column col-6 col-md-12">
-							<iframe :src="'https://www.youtube-nocookie.com/embed/' + song.youtube" frameborder="0" allowfullscreen></iframe>
+							<iframe
+								:src="'https://www.youtube-nocookie.com/embed/' + song.youtube"
+								frameborder="0"
+								allowfullscreen
+							></iframe>
 						</div>
 					</div>
 				</div>
@@ -247,15 +261,15 @@
 
 <script>
 // get components
-import SongContent from '@/partials/SongContent'
-import SongSet from '@/modals/SongSet'
-import SongDelete from '@/modals/SongDelete'
-import SongPresent from '@/modals/SongPresent'
+import SongContent from '@/partials/SongContent';
+import SongSet from '@/modals/SongSet';
+import SongDelete from '@/modals/SongDelete';
+import SongPresent from '@/modals/SongPresent';
 // pdf creation
-let os = require('os')
-var pdfMake = require('pdfmake/build/pdfmake')
-var pdfFonts = require('@/assets/vfs_fonts')
-pdfMake.vfs = pdfFonts.pdfMake.vfs
+let os = require('os');
+var pdfMake = require('pdfmake/build/pdfmake');
+var pdfFonts = require('@/assets/vfs_fonts');
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.fonts = {
 	FiraMono: {
 		normal: 'FiraMono-Regular.ttf',
@@ -263,7 +277,7 @@ pdfMake.fonts = {
 	FiraSans: {
 		normal: 'FiraSans-Light.ttf',
 	}
-}
+};
 
 export default {
 	name: 'song-show',
@@ -288,58 +302,64 @@ export default {
 		}
 	},
 	mounted () {
-		this.$refs['song-show'].focus()
+		this.$refs['song-show'].focus();
 	},
 	methods: {
-		exportTxt: function() {
+		exportTxt () {
 			// add header
-			var content = this.song.title + ' [' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' + '\n\n'
-			var lines = this.song.content.split(os.EOL)
+			var content = this.song.title
+				+ ' [' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']'
+				+ '\n\n';
+			var lines = this.song.content.split(os.EOL);
 			// process lines
 			for (var i = 0; i < lines.length; i++) {
-				var line = lines[i]
+				var line = lines[i];
 				// handle chord line
-				if (this.isChordLine(line)) continue
+				if (this.isChordLine(line)) continue;
 				// handle verse marker
 				if (line.trim().toLowerCase().indexOf('--v') >= 0 && !isNaN(parseInt(line.trim().charAt(3)))) {
 					// if next line is chord line, prepend number to the line after
 					if (this.isChordLine(lines[i+1])) {
-						lines[i+2] = line.trim().charAt(3) + '. ' + lines[i+2]
+						lines[i+2] = line.trim().charAt(3) + '. ' + lines[i+2];
 						// add 3 spaces to next line to sync chords with text again
-						lines[i+1] = '   ' + lines[i+1]
+						lines[i+1] = '   ' + lines[i+1];
 					} else {
-						lines[i+1] = line.trim().charAt(3) + '. ' + lines[i+1]
+						lines[i+1] = line.trim().charAt(3) + '. ' + lines[i+1];
 					}
 				}
 				// handle marker
-				if (line.trim().indexOf('--') >= 0) continue
+				if (line.trim().indexOf('--') >= 0) continue;
 				// keep line for export
-				content += line + os.EOL
+				content += line + os.EOL;
 			}
-			content += os.EOL + this.song.authors + os.EOL + os.EOL +
-				'© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ')
+			content += os.EOL + this.song.authors + os.EOL + os.EOL
+				+ '© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
 			// start download
-			this.download(content, this.songKey + '.txt')
+			this.download(content, this.songKey + '.txt');
 			// toast success message
-			this.$notify({ title: this.$t('toast.exportedText'), text: this.$t('toast.exportedSongTextText'), type: 'primary' })
+			this.$notify({
+				title: this.$t('toast.exportedText'),
+				text: this.$t('toast.exportedSongTextText'),
+				type: 'primary'
+			});
 		},
-		exportSng: function() {
+		exportSng () {
 			// add header
 			var content =
-				'#LangCount=1' + os.EOL +
-				'#Title=' + this.song.title + os.EOL +
-				'#Author=' + this.song.authors +
-				'#Melody=' + this.song.authors +
-				'#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + os.EOL +
-				'#Key=' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + os.EOL +
-				'#CCLI=' + this.song.ccli + os.EOL +
-				'---' + os.EOL
-			var lines = this.song.content.split(os.EOL)
+				'#LangCount=1' + os.EOL
+				+ '#Title=' + this.song.title + os.EOL
+				+ '#Author=' + this.song.authors
+				+ '#Melody=' + this.song.authors
+				+ '#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + os.EOL
+				+ '#Key=' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + os.EOL
+				+ '#CCLI=' + this.song.ccli + os.EOL
+				+ '---' + os.EOL
+			var lines = this.song.content.split(os.EOL);
 			// remove chord lines
 			for (var i = 0; i < lines.length; i++) {
-				var line = lines[i]
-				if (this.isChordLine(line)) continue
-				else content += line + os.EOL
+				var line = lines[i];
+				if (this.isChordLine(line)) continue;
+				else content += line + os.EOL;
 			}
 			// replace marker
 			content = content
@@ -349,14 +369,18 @@ export default {
 				.replace(/--b/g, "bridge")
 				.replace(/--i/g, "intro")
 				.replace(/--m/g, "mitro")
-				.replace(/--o/g, "outro")
+				.replace(/--o/g, "outro");
 			// start download
-			this.download(content, this.songKey + '.sng')
+			this.download(content, this.songKey + '.sng');
 			// toast success message
-			this.$notify({ title: this.$t('toast.exportedSng'), text: this.$t('toast.exportedSongSngText'), type: 'primary' })
+			this.$notify({
+				title: this.$t('toast.exportedSng'),
+				text: this.$t('toast.exportedSongSngText'),
+				type: 'primary'
+			});
 		},
-		exportPdf: function() {
-			var content = this.getPdfSongContent()
+		exportPdf () {
+			var content = this.getPdfSongContent();
 			// return page configuration with computed content
 			var doc = {
 				pageSize: 'A4',
@@ -383,15 +407,19 @@ export default {
 						margin: [ 0, 20, 0, 0 ]
 					}
 				}
-			}
-			pdfMake.createPdf(doc).download()
+			};
+			pdfMake.createPdf(doc).download();
 			// toast success message
-			this.$notify({ title: this.$t('toast.exportedPdf'), text: this.$t('toast.exportedSongPdfText'), type: 'primary' })
+			this.$notify({
+				title: this.$t('toast.exportedPdf'),
+				text: this.$t('toast.exportedSongPdfText'),
+				type: 'primary'
+			});
 		},
 		getPdfSongContent () {
 			// handle song content parts
-			var content = [], parts = this.parsedContent(this.song.content, this.tuning, this.chords, false)
-			parts.forEach(function(part) {
+			var content = [], parts = this.parsedContent(this.song.content, this.tuning, this.chords, false);
+			parts.forEach((part) => {
 				if (part.type == 'v' && part.number != '0') {
 					content.push({
 						columnGap: 8,
@@ -408,15 +436,15 @@ export default {
 								text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B')
 							}
 						]
-					})
+					});
 				} else {
 					content.push({
 						style: 'code',
 						// song content with respect to leading whitespaces
 						text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B')
-					})
+					});
 				}
-			}, this)
+			});
 			// return array with song data
 			return [
 				// song title [tuning] with a line beneath
@@ -432,33 +460,33 @@ export default {
 						'\u00A9 ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher
 					]
 				}
-			]
-		},
+			];
+		}
 	},
 	computed: {
 		songKey () {
-			return this.$route.params.id
+			return this.$route.params.id;
 		},
 		song () {
 			if (this.ready.songs) {
-				return this.songs[this.songKey]
+				return this.songs[this.songKey];
 			}
-			return false
+			return false;
 		},
 		showLanguages () {
-			if (this.ready.songs && this.song) {
-				var languages = [[this.$route.params.id, this.song.language]]
+			if (this.ready.songs && this.song?.translations?.length > 0) {
+				var languages = [[this.$route.params.id, this.song.language]];
 				for (const key in this.song.translations) {
 					if (this.song.translations.hasOwnProperty(key)) {
 						const songKey = this.song.translations[key];
-						languages.push([songKey, this.songs[songKey].language])
+						languages.push([songKey, this.songs[songKey].language]);
 					}
 				}
-				return languages.sort(function(a, b) { 
-					return a[1] > b[1] ? 1 : -1
+				return languages.sort((a, b) => { 
+					return a[1] > b[1] ? 1 : -1;
 				})
 			} else {
-				return []
+				return [[this.song.id, this.song.language]];
 			}
 		},
 		showTuning () {
@@ -467,15 +495,11 @@ export default {
 					previous: this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning-1 % 12)) % 12],
 					current: this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12],
 					next: this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning+1 % 12)) % 12],
-				}
+				};
 			} else {
-				return '-'
+				return '-';
 			}
 		}
 	}
 }
 </script>
-
-<style lang="scss">
-
-</style>

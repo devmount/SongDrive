@@ -14,7 +14,11 @@
 							<figure v-if="userObject.photoURL" class="avatar avatar-xxl mb-2">
 								<img :src="userObject.photoURL" alt="Avatar" />
 							</figure>
-							<figure v-else-if="userName" class="avatar avatar-xxl mb-2" :data-initial="userName.substring(0,2).toUpperCase()"></figure>
+							<figure
+								v-else-if="userName"
+								class="avatar avatar-xxl mb-2"
+								:data-initial="userName.substring(0,2).toUpperCase()"
+							></figure>
 							<div v-if="userName" class="panel-title h5">{{ userName }}</div>
 							<div v-if="roleName" class="panel-subtitle text-gray">{{ $t('role.' + roleName) }}</div>
 						</div>
@@ -39,8 +43,14 @@
 							</div>
 						</div>
 						<div v-if="role" class="panel-footer">
-							<router-link to="/settings" class="btn btn-secondary btn-block text-uppercase mb-1" @click.native="open = false">
-								<ion-icon name="options"></ion-icon> {{ $t('page.settings')}} <ion-icon name="create-outline" class="float-right ml-2"></ion-icon>
+							<router-link
+								to="/settings"
+								class="btn btn-secondary btn-block text-uppercase mb-1"
+								@click.native="open = false"
+							>
+								<ion-icon name="options"></ion-icon>
+								{{ $t('page.settings')}}
+								<ion-icon name="create-outline" class="float-right ml-2"></ion-icon>
 							</router-link>
 						</div>
 					</div>
@@ -52,7 +62,10 @@
 								<div class="panel-body text-center pb-3">
 									<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 									<div v-else class="text-huge">{{ Object.keys(setlistsFromUser).length }}</div>
-									<div class="panel-title h5"><ion-icon name="list" class="mr-2"></ion-icon> {{ $t('widget.setlistsCreated')}}</div>
+									<div class="panel-title h5">
+										<ion-icon name="list" class="mr-2"></ion-icon>
+										{{ $t('widget.setlistsCreated')}}
+									</div>
 								</div>
 							</div>
 						</div>
@@ -60,8 +73,13 @@
 							<div class="panel">
 								<div class="panel-body text-center pb-3">
 									<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
-									<div v-else class="text-huge"><span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span></div>
-									<div class="panel-title h5"><ion-icon name="musical-notes" class="mr-2"></ion-icon> {{ $t('widget.songsPerformed') }}</div>
+									<div v-else class="text-huge">
+										<span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span>
+									</div>
+									<div class="panel-title h5">
+										<ion-icon name="musical-notes" class="mr-2"></ion-icon>
+										{{ $t('widget.songsPerformed') }}
+									</div>
 								</div>
 							</div>
 						</div>
@@ -80,21 +98,15 @@ export default {
 		userName () {
 			return this.userObject.displayName
 				? this.userObject.displayName
-				: this.users[this.user]?.name ? this.users[this.user].name : '' 
+				: this.users[this.user]?.name ? this.users[this.user].name : '';
 		},
 		setlistsFromUser () {
-			return Object.filter(this.setlists, s => s.creator == this.userObject.uid)
+			return Object.filter(this.setlists, s => s.creator == this.userObject.uid);
 		},
 		songsFromUser () {
-			let list = this.setlistsFromUser
-			return Object.keys(list).reduce(function (previous, key) {
-				return previous + list[key].songs.length;
-			}, 0)
-		},
+			let list = this.setlistsFromUser;
+			return Object.keys(list).reduce((previous, key) => previous + list[key].songs.length, 0);
+		}
 	}
 }
 </script>
-
-<style lang="scss">
-
-</style>

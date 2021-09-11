@@ -42,13 +42,17 @@
 							:class="{ active: (p-1) == page }"
 							v-for="(p, i) in pageCount"
 							:key="i"
-							v-show="pageCount < 6 || (p==1 || p==2 || (page==0 && p==3) || ((page==0||page==1) && p==4) || (p > page-1 && p < page+3) || ((page==pageCount-1||page==pageCount-2) && p==pageCount-3) || (page==pageCount-1 && p==pageCount-2) || p==pageCount-1 || p==pageCount)"
+							v-show="showPageItem(p)"
 						>
-							<span v-show="pageCount>=6 && page>2 && p==2">...</span>
-							<a class="c-hand" v-show="pageCount < 6 || (p==1 || (page==0 && p==3) || ((page==0||page==1) && p==4) || (p > page-1 && p < page+3) || ((page==pageCount-1||page==pageCount-2) && p==pageCount-3) || (page==pageCount-1 && p==pageCount-2) || p==pageCount)" @click="page = p-1">
+							<span v-show="showFirstEllipsis(p)">...</span>
+							<a
+								class="c-hand"
+								v-show="showPageItemLink(p)"
+								@click="page = p-1"
+							>
 								{{ p }}
 							</a>
-							<span v-show="pageCount>=6 &&page<pageCount-3 && p==pageCount-1">...</span>
+							<span v-show="showLastEllipsis(p)">...</span>
 						</li>
 						<li class="page-item" :class="{ disabled: isLastPage }">
 							<a class="btn btn-secondary" @click="!isLastPage ? page++ : null">
@@ -63,10 +67,20 @@
 					<div class="input-group filter">
 						<!-- search title, subtitles -->
 						<span class="input-group-addon addon-lg"><ion-icon name="search"></ion-icon></span>
-						<input type="search" ref="search" v-model="search" class="form-input input-lg" :placeholder="$t('placeholder.searchSongTitle')" />
+						<input
+							type="search"
+							ref="search"
+							v-model="search"
+							class="form-input input-lg"
+							:placeholder="$t('placeholder.searchSongTitle')"
+						/>
 						<div class="dropdown dropdown-right">
 							<div class="btn-group">
-								<a class="btn input-group-btn btn-secondary btn-lg dropdown-toggle" :class="{ 'badge': filter!=''||tuning!=''||language!=''}" tabindex="0">
+								<a
+									class="btn input-group-btn btn-secondary btn-lg dropdown-toggle"
+									:class="{ 'badge': filter!=''||tuning!=''||language!=''}"
+									tabindex="0"
+								>
 									<ion-icon name="filter-sharp"></ion-icon>
 								</a>
 								<ul class="menu text-left">
@@ -93,7 +107,10 @@
 									</li>
 									<li class="menu-item">
 										<!-- reset filter -->
-										<button class="btn input-group-btn btn-lg btn-secondary btn-error stretch" @click="search=''; filter=''; tuning=''; language=''">
+										<button
+											class="btn input-group-btn btn-lg btn-secondary btn-error stretch"
+											@click="search=''; filter=''; tuning=''; language=''"
+										>
 											<ion-icon name="close"></ion-icon>
 											{{ $t('button.reset') }}
 										</button>
@@ -109,30 +126,19 @@
 			<table v-if="ready.songs && !noSongs" class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'title' }" @click="sortList('title')">
-							{{ $t('field.title') }}
-							<ion-icon v-if="order.field == 'title' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'title' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
-						</th>
-						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'subtitle' }" @click="sortList('subtitle')">
-							{{ $t('field.subtitle') }}
-							<ion-icon v-if="order.field == 'subtitle' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'subtitle' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
-						</th>
-						<th class="c-hand hide-md" :class="{ 'bg-primary-dark': order.field == 'authors' }" @click="sortList('authors')">
-							{{ $t('field.authors') }}
-							<ion-icon v-if="order.field == 'authors' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'authors' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
-						</th>
-						<th class="c-hand hide-xl" :class="{ 'bg-primary-dark': order.field == 'year' }" @click="sortList('year')">
-							{{ $t('field.year') }}
-							<ion-icon v-if="order.field == 'year' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'year' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
-						</th>
-						<th class="c-hand" :class="{ 'bg-primary-dark': order.field == 'tuning' }" @click="sortList('tuning')">
-							{{ $t('field.tuning') }}
-							<ion-icon v-if="order.field == 'tuning' && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == 'tuning' && order.ascending" class="icon-right" name="caret-up"></ion-icon>
+						<th
+							v-for="col in ['title', 'subtitle', 'authors', 'year', 'tuning']"
+							class="c-hand"
+							:class="{
+								'bg-primary-dark': order.field == col,
+								'hide-md': col == 'authors',
+								'hide-xl': col == 'subtitle' || col == 'year'
+							}"
+							@click="sortList(col)"
+						>
+							{{ $t('field.' + col) }}
+							<ion-icon v-if="order.field == col && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
+							<ion-icon v-if="order.field == col && order.ascending" class="icon-right" name="caret-up"></ion-icon>
 						</th>
 						<th></th>
 					</tr>
@@ -142,10 +148,18 @@
 						<td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 							{{ song.title }} <div class="show-xl text-gray">{{ song.subtitle }}</div>
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">{{ song.subtitle }}</td>
-						<td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">{{ song.authors }}</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">{{ song.year }}</td>
-						<td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">{{ song.tuning }}</td>
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+							{{ song.subtitle }}
+						</td>
+						<td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+							{{ song.authors }}
+						</td>
+						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+							{{ song.year }}
+						</td>
+						<td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+							{{ song.tuning }}
+						</td>
 						<td class="text-right">
 							<div class="dropdown dropdown-right">
 								<div class="btn-group">
@@ -158,18 +172,30 @@
 												<ion-icon name="eye-outline" class="mr-2"></ion-icon> {{ $t('button.show') }}
 											</router-link>
 										</li>
-										<li v-if="user && role > 2" class="menu-item">
-											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=song.id; active.existing=true; modal.set=true">
+										<li v-if="user && role > 1" class="menu-item">
+											<a
+												href="#"
+												class="py-3 px-3"
+												@click.prevent="editDialog(song, true)"
+											>
 												<ion-icon name="create-outline" class="mr-2"></ion-icon> {{ $t('button.edit') }}
 											</a>
 										</li>
-										<li v-if="user && role > 2" class="menu-item">
-											<a href="#" class="py-3 px-3" @click.prevent="active.title=song.title; active.song=song; active.key=song.id; active.existing=false; modal.set=true">
+										<li v-if="user && role > 1" class="menu-item">
+											<a
+												href="#"
+												class="py-3 px-3"
+												@click.prevent="editDialog(song, false)"
+											>
 												<ion-icon name="copy-outline" class="mr-2"></ion-icon> {{ $t('button.duplicate') }}
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
-											<a href="#" class="py-3 px-3 text-error" @click.prevent="active.title=song.title; active.key=song.id; modal.delete=true">
+											<a
+												href="#"
+												class="py-3 px-3 text-error"
+												@click.prevent="deleteDialog(song)"
+											>
 												<ion-icon name="trash-outline" class="mr-2"></ion-icon> {{ $t('button.delete') }}
 											</a>
 										</li>
@@ -205,8 +231,8 @@
 
 <script>
 // get components
-import SongSet from '@/modals/SongSet'
-import SongDelete from '@/modals/SongDelete'
+import SongSet from '@/modals/SongSet';
+import SongDelete from '@/modals/SongDelete';
 
 export default {
 	name: 'songs',
@@ -236,106 +262,143 @@ export default {
 				key: '',
 				song: {},
 				existing: true
-			},
+			}
 		}
 	},
 	mounted () {
-		this.$refs.container.focus()
+		this.$refs.container.focus();
 	},
 	computed: {
 		songsArray () {
-			let self = this
-			let songs = Object.keys(this.songs).map(function (key) {
-				let song = self.songs[key]
-				song['id'] = key
-				return song
+			let songs = Object.keys(this.songs).map((key) => {
+				let song = this.songs[key];
+				song['id'] = key;
+				return song;
 			})
-			songs.sort(function(a, b) {
-				var propA = String(a[self.order.field]).toLowerCase().trim()
-				var propB = String(b[self.order.field]).toLowerCase().trim()
-				if (self.order.ascending) {
-					if (propA < propB) { return -1 }
-					if (propA > propB) { return 1 }
+			songs.sort((a, b) => {
+				var propA = String(a[this.order.field]).toLowerCase().trim();
+				var propB = String(b[this.order.field]).toLowerCase().trim();
+				if (this.order.ascending) {
+					if (propA < propB) { return -1 };
+					if (propA > propB) { return 1 };
 				} else {
-					if (propA < propB) { return 1 }
-					if (propA > propB) { return -1 }
+					if (propA < propB) { return 1 };
+					if (propA > propB) { return -1 };
 				}
-				return 0
+				return 0;
 			})
-			return songs
+			return songs;
 		},
 		filteredSongs () {
-			var songs = this.songsArray, self = this
+			var songs = this.songsArray;
 			if (this.search != '') {
 				songs = songs.filter(song => {
 					// filter fields: title, subtitle
-					var key = self.search.toLowerCase()
-					return song.title.toLowerCase().indexOf(key) !== -1 || song.subtitle.toLowerCase().indexOf(key) !== -1 || song.content.toLowerCase().indexOf(key) !== -1
-				})
+					var key = this.search.toLowerCase();
+					return song.title.toLowerCase().indexOf(key) !== -1
+						|| song.subtitle.toLowerCase().indexOf(key) !== -1
+						|| song.content.toLowerCase().indexOf(key) !== -1
+				});
 			}
 			if (this.filter != '') {
 				songs = songs.filter(song => {
 					// filter field: tags
-					return song.tags.indexOf(self.filter) !== -1
-				})
+					return song.tags.indexOf(this.filter) !== -1;
+				});
 			}
 			if (this.tuning != '') {
 				songs = songs.filter(song => {
 					// filter field: tuning
-					return song.tuning.indexOf(self.tuning) !== -1
-				})
+					return song.tuning.indexOf(this.tuning) !== -1;
+				});
 			}
 			if (this.language != '') {
 				songs = songs.filter(song => {
 					// filter field: language
-					return song.language.indexOf(self.language) !== -1
-				})
+					return song.language.indexOf(this.language) !== -1;
+				});
 			}
 			return songs
 		},
 		noSongs () {
-			return this.ready.songs && this.songsArray.length == 0
+			return this.ready.songs && this.songsArray.length == 0;
 		},
 		pagedSongs () {
-			return this.filteredSongs.slice(this.page*this.listLength, (this.page+1)*this.listLength)
+			return this.filteredSongs.slice(this.page*this.listLength, (this.page+1)*this.listLength);
 		},
 		isFirstPage () {
-			return this.page == 0
+			return this.page == 0;
 		},
 		isLastPage () {
-			return this.page == this.pageCount-1
+			return this.page == this.pageCount-1;
 		},
 		pageCount () {
-			return Math.ceil(this.filteredSongs.length/this.listLength)
+			return Math.ceil(this.filteredSongs.length/this.listLength);
 		}
 	},
 	methods: {
 		sortList (field) {
 			if (this.order.field == field) {
-				this.order.ascending = !this.order.ascending
+				this.order.ascending = !this.order.ascending;
 			} else {
-				this.order.ascending = true
+				this.order.ascending = true;
 			}
-			this.order.field = field
+			this.order.field = field;
+		},
+		showPageItem (p) {
+			return this.pageCount < 6 || (
+				p == 1 || p == 2
+				|| (this.page == 0 && p == 3)
+				|| ((this.page == 0 || this.page == 1) && p == 4)
+				|| (p > this.page-1 && p < this.page+3)
+				|| ((this.page == this.pageCount-1||this.page == this.pageCount-2) && p == this.pageCount-3)
+				|| (this.page == this.pageCount-1 && p == this.pageCount-2)
+				|| p == this.pageCount-1 || p == this.pageCount
+			);
+		},
+		showFirstEllipsis (p) {
+			return this.pageCount >= 6 && this.page > 2 && p == 2;
+		},
+		showPageItemLink (p) {
+			return this.pageCount < 6 || (
+				p == 1
+				|| (this.page == 0 && p == 3)
+				|| ((this.page == 0 || this.page == 1) && p == 4)
+				|| (p > this.page-1 && p < this.page+3)
+				|| ((this.page == this.pageCount-1 || this.page == this.pageCount-2) && p == this.pageCount-3)
+				|| (this.page == this.pageCount-1 && p == this.pageCount-2)
+				|| p == this.pageCount
+			);
+		},
+		showLastEllipsis (p) {
+			return this.pageCount >= 6 && this.page < this.pageCount-3 && p == this.pageCount-1;
+		},
+		editDialog (song, existing) {
+			this.active.title = song.title;
+			this.active.song = song;
+			this.active.key = song.id;
+			this.active.existing = existing;
+			this.modal.set = true;
+		},
+		deleteDialog (song) {
+			this.active.title = song.title;
+			this.active.key = song.id;
+			this.modal.delete = true;
 		}
 	},
 	watch: {
 		search () {
-			this.page = 0
+			this.page = 0;
 		},
 		filter () {
-			this.page = 0
+			this.page = 0;
 		},
 		tuning () {
-			this.page = 0
+			this.page = 0;
 		},
 		language () {
-			this.page = 0
+			this.page = 0;
 		},
 	}
 }
 </script>
-
-<style lang="scss">
-
-</style>

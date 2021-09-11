@@ -50,7 +50,8 @@
 					>
 						<ion-icon name="arrow-back" class="icon-1-5x"></ion-icon>
 						<span v-if="currentPosition > 0" class="ml-2">
-							{{ songs[currentPosition-1].title }} <span class="chords ml-2">{{ songs[currentPosition-1].customTuning }}</span>
+							{{ songs[currentPosition-1].title }}
+							<span class="chords ml-2">{{ songs[currentPosition-1].customTuning }}</span>
 						</span>
 					</a>
 				</div>
@@ -63,7 +64,8 @@
 						@click.prevent="$refs.presentation.slideNext()"
 					>
 						<span v-if="currentPosition < songs.length-1" class="mr-3">
-							{{ songs[currentPosition+1].title }} <span class="chords ml-2">{{ songs[currentPosition+1].customTuning }}</span>
+							{{ songs[currentPosition+1].title }}
+							<span class="chords ml-2">{{ songs[currentPosition+1].customTuning }}</span>
 						</span>
 						<ion-icon name="arrow-forward" class="icon-1-5x"></ion-icon>
 					</a>
@@ -125,10 +127,10 @@
 
 <script>
 // get slider component
-import { Hooper, Slide, Pagination as HooperPagination } from 'hooper'
-import 'hooper/dist/hooper.css'
+import { Hooper, Slide, Pagination as HooperPagination } from 'hooper';
+import 'hooper/dist/hooper.css';
 // get internal components
-import SongContent from '@/partials/SongContent'
+import SongContent from '@/partials/SongContent';
 
 export default {
 	name: 'setlist-present',
@@ -156,67 +158,61 @@ export default {
 			dark: true,
 			now: new Date,
 			blink: true,
-		}
+		};
 	},
 	created () {
-		setInterval(() => { this.now = new Date; this.blink = !this.blink }, 1000)
+		setInterval(() => { this.now = new Date; this.blink = !this.blink }, 1000);
 	},
 	mounted () {
-		this.$refs.container.focus()
+		this.$refs.container.focus();
 	},
 	computed: {
 		timeonly() {
-			let timestring = String(this.now).slice(16, 21)
-			return this.blink ? timestring : timestring.replace(':', ' ')
+			let timestring = String(this.now).slice(16, 21);
+			return this.blink ? timestring : timestring.replace(':', ' ');
 		}
 	},
 	methods: {
 		maximizeFontsize() {
-			let self = this
 			// wait for dom to be ready
-			this.$nextTick(function () {
+			this.$nextTick(() => {
 				// maximize content of each song/slide
-				for (let i = 0; i < self.songs.length; i++) {
-					self.$refs['songcontent' + i][0].maximizeFontsize()
+				for (let i = 0; i < this.songs.length; i++) {
+					this.$refs['songcontent' + i][0].maximizeFontsize();
 				}
-			})
+			});
 		},
 		updatePosition(payload) {
-			this.currentPosition = payload.currentSlide
-			this.$emit('updatePosition', payload.currentSlide)
+			this.currentPosition = payload.currentSlide;
+			this.$emit('updatePosition', payload.currentSlide);
 		},
 	},
 	watch: {
 		active() {
 			// maximize fontsize when presentation view is opened
 			if (this.active) {
-				let self = this
 				// wait for all compontents to be mounted
-				this.$nextTick(function () {
-					self.$refs.presentation.restart()
-				})
+				this.$nextTick(() => {
+					this.$refs.presentation.restart();
+				});
 			}
 		},
 		chords() {
 			// maximize fontsize again when chords are toggled
-			this.maximizeFontsize()
+			this.maximizeFontsize();
 		},
 		position() {
 			// update local position if autoSync is on and remote position was updated
 			if (this.autoSync) {
-				this.$refs.presentation.slideTo(this.position)
+				this.$refs.presentation.slideTo(this.position);
 			}
 		},
 		autoSync() {
 			// update local position if autoSync was turned on
 			if (this.autoSync) {
-				this.$refs.presentation.slideTo(this.position)
+				this.$refs.presentation.slideTo(this.position);
 			}
 		},
 	}
 }
 </script>
-
-<style lang="scss">
-
-</style>

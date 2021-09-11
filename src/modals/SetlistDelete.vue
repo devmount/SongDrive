@@ -13,7 +13,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">{{ $t('button.cancel') }}</a>
+				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
+					{{ $t('button.cancel') }}
+				</a>
 				<button class="btn btn-error ml-2" @click="deleteSetlist">{{ $t('button.delete') }}</button>
 			</div>
 		</div>
@@ -30,24 +32,27 @@ export default {
 	},
 	methods: {
 		deleteSetlist () {
-			var self = this
-			this.$db.collection('setlists').doc(this.id).delete().then(function() {
-				self.$emit('closed')
-				if (self.$route.name != 'setlists') {
-					self.$router.push({ name: 'setlists' })
+			this.$db.collection('setlists').doc(this.id).delete().then(() => {
+				this.$emit('closed');
+				if (this.$route.name != 'setlists') {
+					this.$router.push({ name: 'setlists' });
 				}
 				// toast success message
-				self.$notify({ title: self.$parent.$t('toast.setlistDeleted'), text: self.$parent.$t('toast.setlistDeletedText'), type: 'primary' })
-			}).catch(function(error) {
-				self.$emit('closed')
+				this.$notify({
+					title: this.$parent.$t('toast.setlistDeleted'),
+					text: this.$parent.$t('toast.setlistDeletedText'),
+					type: 'primary'
+				});
+			}).catch((error) => {
+				this.$emit('closed');
 				// toast error message
-				self.$notify({ title: error.code, text: error.message, type: 'error' })
+				this.$notify({
+					title: error.code,
+					text: error.message,
+					type: 'error'
+				});
 			})
 		},
 	}
 }
 </script>
-
-<style lang="scss">
-
-</style>
