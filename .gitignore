@@ -2,6 +2,7 @@
 node_modules
 dist
 Thumbs.db
+deploy.sh
 
 # local env files
 .env.local
