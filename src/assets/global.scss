@@ -14,7 +14,9 @@ $light-color: #fff;
 $black-color: #000;
 $gray-color: #5e6769;
 $gray-color-dark: #4a5052;
-$gray-color-light: lighten($gray-color, 40%);
+$gray-color-600: lighten($gray-color, 10%);
+$gray-color-700: lighten($gray-color, 20%);
+$gray-color-800: lighten($gray-color, 40%);
 $border-color: #222627;
 $border-color-dark: darken($border-color, 10%);
 $border-color-light: lighten($border-color, 8%);
@@ -136,6 +138,9 @@ ion-icon {
 // colors
 .bg-primary-dark {
 	background-color: $bg-color-dark;
+}
+.text-gray {
+	color: $gray-color-600 !important;
 }
 
 // responsive grid
@@ -346,7 +351,7 @@ code {
 	&.btn-secondary {
 		background: $bg-color-dark;
 		border-color: $bg-color-medium;
-		color: $gray-color;
+		color: $gray-color-700;
 		
 		&:focus:not(.btn-error) {
 			background: $bg-color-dark;
@@ -390,7 +395,7 @@ code {
 	}
 	&.btn-link {
 		&.btn-gray {
-			color: $gray-color;
+			color: $gray-color-600;
 		}
 	}
 }
@@ -491,6 +496,10 @@ a:active,
 		width: auto;
 	}
 }
+::placeholder {
+  color: $gray-color-600 !important;
+  opacity: 1;
+}
 
 // filter select field
 .filter {
@@ -575,7 +584,7 @@ a {
 
 		.btn {
 			text-transform: uppercase;
-			color: $gray-color;
+			color: $gray-color-600;
 
 			&:hover {
 			background: $border-color;
@@ -594,6 +603,12 @@ a {
 // empty
 .empty {
 	background: none;
+	.empty-title {
+		color: $gray-color-800;
+	}
+	.empty-subtitle {
+		color: $gray-color-600;
+	}
 }
 
 // modal
@@ -836,6 +851,7 @@ a {
 			margin-top: 2em;
 		}
 		.divider[data-content]::after {
+			color: $gray-color-700;
 			background: $bg-color-medium;
 			text-transform: uppercase;
 			letter-spacing: 2px;
@@ -908,6 +924,7 @@ a {
 		margin-bottom: 1.2em;
 
 		&[data-content]::after {
+			color: $gray-color-700;
 			background: $bg-color;
 			text-transform: uppercase;
 			letter-spacing: 2px;
@@ -1187,7 +1204,7 @@ a {
 			.hooper.presentation {
 				.hooper-pagination {
 					.hooper-indicator:not(.is-active) {
-						background-color: $gray-color-light;
+						background-color: $gray-color-800;
 					}
 				}
 			}
@@ -1196,26 +1213,26 @@ a {
 			}
 		}
 		.song-content .verse {
-			border-left-color: $gray-color-light;
+			border-left-color: $gray-color-800;
 		}
 	}
 	.text-gray {
-		color: $gray-color-light;
+		color: $gray-color-800;
 	}
 	.btn {
 		&.btn-secondary {
-			background: $gray-color-light;
-			border-color: darken($gray-color-light, 10%);
+			background: $gray-color-800;
+			border-color: darken($gray-color-800, 10%);
 			color: $bg-color-dark;
 			&:focus:not(.btn-error) {
-				background: $gray-color-light;
-				border-color: darken($gray-color-light, 10%);
+				background: $gray-color-800;
+				border-color: darken($gray-color-800, 10%);
 				color: $bg-color-dark;
 			}
 		}
 		&.btn-link {
 			&.btn-gray {
-				color: $gray-color;
+				color: $gray-color-600;
 			}
 		}
 	}
