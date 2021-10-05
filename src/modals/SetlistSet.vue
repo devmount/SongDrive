@@ -445,7 +445,6 @@ export default {
 					}
 				});
 			});
-			console.log(songs);
 			return songs;
 		}
 	}
