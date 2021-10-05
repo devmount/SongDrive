@@ -132,7 +132,7 @@
 											<input v-model="setlistSongs" :value="key" type="checkbox">
 											<i class="form-icon"></i> {{ fsong.title }} <label class="label px-2">{{ fsong.tuning }}</label>
 											<div class="text-gray text-small">
-												{{ fsong.subtitle }}
+												{{ fsong.subtitle }} | {{ performedSongs[key] }}
 											</div>
 										</label>
 									</div>
@@ -434,6 +434,20 @@ export default {
 			}
 			return songs;
 		},
-	},
+		// list of songs and the date of their last performance
+		performedSongs () {
+			let songs = {};
+			let setlists = Object.values(this.setlists).sort((a, b) => b.date.localeCompare(a.date));
+			setlists.forEach(setlist => {
+				setlist.songs.forEach(song => {
+					if (!(song.id in songs)) {
+						songs[song.id] = this.humanDate(setlist.date, this.$i18n.locale, false);
+					}
+				});
+			});
+			console.log(songs);
+			return songs;
+		}
+	}
 }
 </script>

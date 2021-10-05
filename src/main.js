@@ -263,9 +263,11 @@ Vue.mixin({
 			}
 		},
 		// format human readable date
-		humanDate: (d, locale) => {
+		humanDate: (d, locale, showWeekdate=true) => {
 			if (!d) return '';
-			let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+			let options = showWeekdate
+				? { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+				: { year: 'numeric', month: 'long', day: 'numeric' };
 			return (new Date(d)).toLocaleDateString(locale + '-' + locale.toUpperCase(), options);
 		}
   }
