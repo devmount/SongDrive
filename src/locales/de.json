@@ -141,11 +141,12 @@
 		"songOccuredOn": "Dieser Song wurde in {num} Setlisten verwendet",
 		"songPublishedIn": "Dieser Song wurde {year} veröffentlicht",
 		"noYear": "Für diesen Song ist keine Jahresangabe verfügbar",
-		"setlistContains": "Diese Setlist enthält {num} Songs"
+		"setlistContains": "Diese Setlist enthält {num} Songs",
+		"lastPerformed": "Zuletzt aufgeführt"
 	},
 	"placeholder": {
 		"select": "",
-		"searchSongTitle": "Suche nach Song Titel oder Untertitel...",
+		"searchSongTitle": "Suche nach Song Titel, Untertitel und Volltext",
 		"searchSetlistTitle": "Setlist Titel...",
 		"searchTagName": "Tag Name ...",
 		"tag": "Tag ...",
@@ -181,7 +182,7 @@
 		"youtubeId": "Youtube ID",
 		"translations": "Übersetzungen",
 		"content": "Inhalt",
-		"date": "Datum",
+		"date": "Datum der Veranstaltung",
 		"creator": "Ersteller",
 		"songs": "Songs",
 		"email": "Email",
