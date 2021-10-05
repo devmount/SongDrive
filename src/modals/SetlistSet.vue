@@ -38,8 +38,8 @@
 								<div class="column col-12 col-md-6">
 									<div class="form-group mb-2">
 										<label class="form-label" for="date">
-											{{ $t('field.date') }}
-											<span class="text-gray ml-2">{{ humanDate(setlist.date, $i18n.locale) }}</span>
+											{{ $t('field.date') }}<br />
+											<span class="text-gray">{{ humanDate(setlist.date, $i18n.locale) }}</span>
 										</label>
 										<datepicker
 											:value="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
@@ -132,7 +132,7 @@
 											<input v-model="setlistSongs" :value="key" type="checkbox">
 											<i class="form-icon"></i> {{ fsong.title }} <label class="label px-2">{{ fsong.tuning }}</label>
 											<div class="text-gray text-small">
-												{{ fsong.subtitle }} | {{ performedSongs[key] }}
+												{{ fsong.subtitle }} | <span :title="$t('title.lastPerformed')">{{ performedSongs[key] }}</span>
 											</div>
 										</label>
 									</div>

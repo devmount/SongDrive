@@ -141,11 +141,12 @@
 		"songOccuredOn": "This song occured on {num} setlists",
 		"songPublishedIn": "This song was published in {year}",
 		"noYear": "No year available for this song",
-		"setlistContains": "This setlist contains {num} songs"
+		"setlistContains": "This setlist contains {num} songs",
+		"lastPerformed": "Last performed"
 	},
 	"placeholder": {
 		"select": "",
-		"searchSongTitle": "Search for Song title or subtitle ...",
+		"searchSongTitle": "Search for Song title, subtitle and full text",
 		"searchSetlistTitle": "Setlist title ...",
 		"searchTagName": "Tag name ...",
 		"tag": "Tag ...",
