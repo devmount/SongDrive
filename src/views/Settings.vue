@@ -305,6 +305,13 @@ export default {
 				type: 'primary'
 			});
 		}
+	},
+	watch: {
+		userObject () {
+			this.profile.displayName = this.userObject.displayName;
+			this.profile.email = this.userObject.email;
+			this.profile.photoURL = this.userObject.photoURL;
+		}
 	}
 }
 </script>
