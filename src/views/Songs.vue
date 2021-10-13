@@ -215,6 +215,7 @@
 				:songKey="active.key"
 				:songs="songs"
 				:tags="tags"
+				:languages="languages"
 				:ready="ready"
 				@closed="modal.set = false"
 			/>
@@ -236,7 +237,7 @@ import SongDelete from '@/modals/SongDelete';
 
 export default {
 	name: 'songs',
-	props: ['songs', 'tags', 'user', 'role', 'ready'],
+	props: ['songs', 'tags', 'languages', 'user', 'role', 'ready'],
 	components: {
 		SongSet,
 		SongDelete,

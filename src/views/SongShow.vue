@@ -234,6 +234,7 @@
 				:songKey="songKey"
 				:songs="songs"
 				:tags="tags"
+				:languages="languages"
 				:ready="ready"
 				@closed="modal.set = false"
 			/>
@@ -281,7 +282,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'song-show',
-	props: ['songs', 'tags', 'user', 'role', 'ready'],
+	props: ['songs', 'tags', 'languages', 'user', 'role', 'ready'],
 	components: {
 		SongContent,
 		SongSet,

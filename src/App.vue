@@ -195,6 +195,7 @@
 				songKey=""
 				:songs="songs"
 				:tags="tags"
+				:languages="languages"
 				:ready="ready"
 				@closed="modal.addsong = false"
 				@reset="resetSong"
