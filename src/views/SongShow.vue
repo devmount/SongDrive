@@ -60,7 +60,7 @@
 						<div
 							v-for="(tsong, i) in showLanguages"
 							:key="i" class=" tooltip tooltip-right tooltip-lg"
-							:data-tooltip="$t('divider.language') + ': ' + songLanguages()[tsong[1]]"
+							:data-tooltip="$t('divider.language') + ': ' + languages[tsong[1]].label"
 						>
 							<router-link
 								:to="{ name: 'song-show', params: { id: tsong[0] }}"

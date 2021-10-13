@@ -266,6 +266,7 @@
 				:songs="songs"
 				:setlists="setlists"
 				:tags="tags"
+				:languages="languages"
 				:ready="ready"
 				@closed="modal.set = false"
 			/>
@@ -312,7 +313,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'setlist-show',
-	props: ['songs', 'setlists', 'users', 'tags', 'user', 'role', 'ready'],
+	props: ['songs', 'setlists', 'users', 'tags', 'languages', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,
@@ -370,7 +371,7 @@ export default {
 				datasets: [
 					{ data: Object.values(languages), color: '#88b544' },
 				],
-				labels: Object.keys(languages).map(e => ' ' + this.songLanguages()[e])
+				labels: Object.keys(languages).map(e => ' ' + this.languages[e].label)
 			};
 		},
 		setlistKeys () {

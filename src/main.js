@@ -62,13 +62,6 @@ Vue.mixin({
   methods: {
 		// scale to use for song tuning and transponation
 		keyScale: keyScale,
-		// TODO: temporary song language list - shall be managed by admins in future
-		songLanguages: () => ({
-			de: 'Deutsch',
-			en: 'English',
-			fr: 'Français',
-			li: 'Lingala',
-		}),
 		/*
 			user roles and permissions: Reader, Performer, Editor and Administrator
 			RPEA

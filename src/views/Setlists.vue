@@ -204,6 +204,7 @@
 				:songs="songs"
 				:setlists="setlists"
 				:tags="tags"
+				:languages="languages"
 				:ready="ready"
 				@closed="modal.set = false"
 			/>
@@ -226,7 +227,7 @@ import SetlistDelete from '@/modals/SetlistDelete';
 
 export default {
 	name: 'setlists',
-	props: ['songs', 'setlists', 'tags', 'users', 'user', 'role', 'ready'],
+	props: ['songs', 'setlists', 'tags', 'languages', 'users', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,

@@ -210,6 +210,7 @@
 				:songs="songs"
 				:setlists="setlists"
 				:tags="tags"
+				:languages="languages"
 				:ready="ready"
 				@closed="modal.addsetlist = false"
 				@reset="resetSetlist"

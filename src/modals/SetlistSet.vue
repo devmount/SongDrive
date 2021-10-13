@@ -110,7 +110,7 @@
 														<!-- filter language -->
 														<select v-model="language" class="form-select select-lg filter" required>
 															<option value="" disabled selected>{{ $t('placeholder.language') }}</option>
-															<option v-for="(l, k) in songLanguages()" :key="k" :value="k">{{ l }}</option>
+															<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
 														</select>
 													</li>
 													<li class="menu-item">
@@ -217,6 +217,7 @@ export default {
 		songs: Object,
 		setlists: Object,
 		tags: Object,
+		languages: Object,
 		ready: Object,
 	},
 	data () {
