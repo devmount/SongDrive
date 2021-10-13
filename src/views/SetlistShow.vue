@@ -371,7 +371,7 @@ export default {
 				datasets: [
 					{ data: Object.values(languages), color: '#88b544' },
 				],
-				labels: Object.keys(languages).map(e => ' ' + this.languages[e].label)
+				labels: Object.keys(languages).map(e => ' ' + this.languages[e]?.label)
 			};
 		},
 		setlistKeys () {
