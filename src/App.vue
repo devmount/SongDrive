@@ -181,6 +181,7 @@
 					:tags="tags"
 					:users="users"
 					:registrations="registrations"
+					:languages="languages"
 					:ready="ready"
 				></router-view>
 			</div>
@@ -259,6 +260,7 @@ export default {
 			tags: {},
 			users: {},
 			registrations: {},
+			languages: {},
 			// loading indicators
 			ready: {
 				songs: false,
@@ -266,6 +268,7 @@ export default {
 				tags: false,
 				users: false,
 				registrations: false,
+				languages: false,
 			},
 			// modals
 			open: false,
@@ -306,7 +309,7 @@ export default {
 	},
 	created () {
 		// add listeners for changes on each db table
-		["users", "registrations", "songs", "setlists", "tags"].forEach(table => {
+		["users", "registrations", "songs", "setlists", "tags", "languages"].forEach(table => {
 			onSnapshot(collection(this.$db, table), (snapshot) => {
 				snapshot.docChanges().forEach((change) => {
 					if (change.type === "added" || change.type === "modified") {

@@ -221,12 +221,15 @@
 							<div class="panel pb-4">
 								<div class="panel-header">
 									<div class="panel-title h5 text-center">
-										<ion-icon name="globe-outline"></ion-icon> {{ $t('widget.languages') }}
+										<ion-icon name="globe-outline"></ion-icon> {{ $tc('widget.languages', 2) }}
 									</div>
 								</div>
 								<div class="panel-body">
 									<DoughnutChart
-										:info="{ number: setlistLanguages.labels.length, label: $t('widget.languages') }"
+										:info="{
+											number: setlistLanguages.labels.length,
+											label: $tc('widget.languages', setlistLanguages.labels.length)
+										}"
 										:datasets="setlistLanguages.datasets"
 										:labels="setlistLanguages.labels"
 									/>

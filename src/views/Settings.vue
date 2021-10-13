@@ -10,6 +10,7 @@
 				</div>
 			</div>
 			<div v-if="ready.users && user && userObject" class="columns">
+				<!-- profile -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
 						<div class="panel-header text-center">
@@ -67,8 +68,9 @@
 						</div>
 					</div>
 				</div>
+				<!-- SongDrive UI -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
-					<div class="panel">
+					<div class="panel" v-if="ready.languages">
 						<div class="panel-header text-center">
 							<ion-icon name="cog-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $t('app.name') }}</div>
@@ -79,7 +81,7 @@
 								<label class="form-label" for="language">{{ $t('field.language') }}</label>
 								<select v-model="$i18n.locale" class="form-select" id="language">
 									<option v-for="(lang, i) in ['en','de']" :key="i" :value="lang">
-										{{ songLanguages()[lang] }}
+										{{ languages[lang].label }}
 									</option>
 								</select>
 							</div>
@@ -95,6 +97,7 @@
 						{{ $t('page.administration') }}
 					</h2>
 				</div>
+				<!-- user administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
 						<div class="panel-header text-center">
@@ -174,11 +177,55 @@
 						</div>
 					</div>
 				</div>
+				<!-- language administration -->
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel" v-if="ready.languages">
+						<div class="panel-header text-center">
+							<ion-icon name="language-outline" class="icon-2x"></ion-icon>
+							<div class="panel-title h5 mt-1">{{ $tc('widget.languages', numberOfLanguages, [numberOfLanguages]) }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.manageLanguages') }}</div>
+						</div>
+						<div class="panel-body">
+							<div
+								v-for="(language, key) in languages"
+								class="tile tile-centered tile-hover p-2"
+							>
+								<div class="tile-icon">
+									<figure
+										class="avatar avatar-secondary"
+										:data-initial="key.substring(0,2).toUpperCase()"
+										alt="Avatar"
+									></figure>
+								</div>
+								<div class="tile-content">
+									<div class="tile-title">{{ language.label }}</div>
+								</div>
+								<div class="tile-action">
+									<button
+										class="btn btn-link btn-action"
+										@click.prevent="active.key=key; active.existing=true; modal.languageset=true"
+									>
+										<ion-icon name="create-outline"></ion-icon>
+									</button>
+									<button
+										class="btn btn-link btn-action text-error"
+										@click.prevent="active.key=key; modal.languagedelete=true"
+									>
+										<ion-icon name="trash-outline"></ion-icon>
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer mt-5">
+						</div>
+					</div>
+				</div>
+				<!-- tag administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
 						<div class="panel-header text-center">
 							<ion-icon name="pricetags-outline" class="icon-2x"></ion-icon>
-							<div class="panel-title h5 mt-1">{{ Object.keys(tags).length }} {{ $t('widget.tags') }}</div>
+							<div class="panel-title h5 mt-1">{{ $tc('widget.tags', numberOfTags, [numberOfTags]) }}</div>
 							<div class="panel-subtitle text-gray">{{ $t('text.manageTags') }}</div>
 						</div>
 						<div class="panel-body">
@@ -198,6 +245,7 @@
 						</div>
 					</div>
 				</div>
+				<!-- backup administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
 						<div class="panel-header text-center">
@@ -245,7 +293,19 @@ export default {
 		UserSet,
 		UserDelete,
 	},
-	props: ['user', 'userObject', 'ready', 'roleName', 'role', 'users', 'registrations', 'tags', 'songs', 'setlists'],
+	props: [
+		'user',
+		'userObject',
+		'ready',
+		'roleName',
+		'role',
+		'users',
+		'registrations',
+		'tags',
+		'songs',
+		'setlists',
+		'languages'
+	],
 	data () {
 		return {
 			profile: {
@@ -304,6 +364,14 @@ export default {
 				text: this.$t('toast.databaseExportedText'),
 				type: 'primary'
 			});
+		}
+	},
+	computed: {
+		numberOfTags () {
+			return Object.keys(this.tags).length
+		},
+		numberOfLanguages () {
+			return Object.keys(this.languages).length
 		}
 	},
 	watch: {

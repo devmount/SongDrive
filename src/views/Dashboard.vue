@@ -59,7 +59,7 @@
 							<div class="featured-number">{{ languagesUsed }}</div>
 							<div class="panel-title h5 featured-description">
 								<ion-icon name="globe-outline" class="mr-2"></ion-icon>
-								{{ $t('widget.languages') }}
+								{{ $tc('widget.languages', languagesUsed) }}
 							</div>
 						</div>
 					</div>
