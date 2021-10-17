@@ -187,7 +187,7 @@
 						</div>
 						<div class="panel-body">
 							<div
-								v-for="(language, key) in languages"
+								v-for="(l, key) in languages"
 								class="tile tile-centered tile-hover p-2"
 							>
 								<div class="tile-icon">
@@ -198,18 +198,18 @@
 									></figure>
 								</div>
 								<div class="tile-content">
-									<div class="tile-title">{{ language.label }}</div>
+									<div class="tile-title">{{ l.label }}</div>
 								</div>
 								<div class="tile-action">
 									<button
 										class="btn btn-link btn-action"
-										@click.prevent="active.key=key; active.existing=true; modal.languageset=true"
+										@click="active.language=l; active.key=key; active.existing=true; modal.languageset=true"
 									>
 										<ion-icon name="create-outline"></ion-icon>
 									</button>
 									<button
 										class="btn btn-link btn-action text-error"
-										@click.prevent="active.key=key; modal.languagedelete=true"
+										@click="active.language=l; active.key=key; modal.languagedelete=true;"
 									>
 										<ion-icon name="trash-outline"></ion-icon>
 									</button>
@@ -278,6 +278,14 @@
 				:userKey="active.key"
 				@closed="modal.userdelete = false"
 			/>
+			<!-- modal: delete language -->
+			<LanguageDelete
+				v-if="modal.languagedelete"
+				:active="modal.languagedelete"
+				:languageName="active.language.label"
+				:languageKey="active.key"
+				@closed="modal.languagedelete = false"
+			/>
 		</div>
 	</div>
 </template>
@@ -286,12 +294,14 @@
 // get components
 import UserSet from '@/modals/UserSet';
 import UserDelete from '@/modals/UserDelete';
+import LanguageDelete from '@/modals/LanguageDelete';
 
 export default {
 	name: 'settings',
 	components: {
 		UserSet,
 		UserDelete,
+		LanguageDelete,
 	},
 	props: [
 		'user',
@@ -317,9 +327,12 @@ export default {
 			modal: {
 				userset: false,
 				userdelete: false,
+				languageset: false,
+				languagedelete: false,
 			},
 			active: {
 				user: {},
+				language: {},
 				key: '',
 				existing: true,
 			}

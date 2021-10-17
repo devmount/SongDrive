@@ -23,6 +23,7 @@
 		"addUser": "Benutzer hinzufügen",
 		"editUser": "Benutzer Bearbeiten",
 		"deleteUser": "Benutzer Löschen",
+		"deleteLanguage": "Sprache Löschen",
 		"tags": "Tags",
 		"translations": "Übersetzungen",
 		"signUp": "Registrieren"
@@ -234,6 +235,7 @@
 		"reallyDeleteSong": "Möchtest du wirklich den Song «{title}» löschen?",
 		"reallyDeleteSetlist": "Möchtest du wirklich die Setlist «{title}» löschen?",
 		"reallyDeleteUser": "Möchtest du wirklich den Benutzer «{name}» löschen?",
+		"reallyDeleteLanguage": "Möchtest du wirklich die Sprache «{name}» löschen?",
 		"cannotBeUndone": "Das kann nicht rückgängig gemacht werden.",
 		"createNewAccount": "Erstelle ein neues SongDrive Konto.",
 		"noSongsAvailableSignedIn": "Es sind aktuell keine Songs vorhanden. Füge Songs hinzu oder importiere Backup- oder Demo-Daten.",

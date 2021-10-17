@@ -23,6 +23,7 @@
 		"addUser": "Add User",
 		"editUser": "Edit User",
 		"deleteUser": "Delete User",
+		"deleteLanguage": "Delete Language",
 		"tags": "Tags",
 		"translations": "Translations",
 		"signUp": "Sign Up"
@@ -234,6 +235,7 @@
 		"reallyDeleteSong": "Do you really want to delete the Song «{title}» ?",
 		"reallyDeleteSetlist": "Do you really want to delete the Setlist «{title}» ?",
 		"reallyDeleteUser": "Do you really want to delete the User «{name}» ?",
+		"reallyDeleteLanguage": "Do you really want to delete the Language «{name}» ?",
 		"cannotBeUndone": "This cannot be undone.",
 		"createNewAccount": "Create a new SongDrive account.",
 		"noSongsAvailableSignedIn": "There are currently no songs available. Add songs to see them here or import backup or demo data.",
