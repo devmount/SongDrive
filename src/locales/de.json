@@ -23,6 +23,8 @@
 		"addUser": "Benutzer hinzufügen",
 		"editUser": "Benutzer Bearbeiten",
 		"deleteUser": "Benutzer Löschen",
+		"addLanguage": "Sprache hinzufügen",
+		"editLanguage": "Sprache Bearbeiten",
 		"deleteLanguage": "Sprache Löschen",
 		"tags": "Tags",
 		"translations": "Übersetzungen",
@@ -69,7 +71,9 @@
 		"exportSetlistList": "Liste",
 		"exportSetlistSheets": "Liedzettel",
 		"addUser": "Benutzer Hinzufügen",
-		"updateUser": "Benutzer Aktualisieren"
+		"updateUser": "Benutzer Aktualisieren",
+		"addLanguage": "Sprache Hinzufügen",
+		"updateLanguage": "Sprache Aktualisieren"
 	},
 	"switch": {
 		"chords": "Akkorde",
@@ -167,7 +171,9 @@
 		"exampleUserName": "z.B. Max Muster",
 		"exampleUserEmail": "z.B. max@muster.de",
 		"examplePassword": "z.B. {p}",
-		"repeatPassword": "Password wiederholen"
+		"repeatPassword": "Password wiederholen",
+		"exampleLanguageLabel": "z.B. Deutsch",
+		"exampleLanguageIsocode": "z.B. de"
 	},
 	"field": {
 		"title": "Titel",
@@ -189,6 +195,8 @@
 		"email": "Email",
 		"photo": "Photo",
 		"name": "Name",
+		"label": "Bezeichnung",
+		"isocode": "ISO Code",
 		"role": "Rolle",
 		"password": "Passwort"
 	},
@@ -199,6 +207,7 @@
 		"requiredLanguage": "Die Sprache muss ausgewählt werden.",
 		"requiredContent": "Der Inhalt des Songs fehlt.",
 		"requiredName": "Ein Name muss angegeben werden.",
+		"requiredLabel": "Eine Bezeichnung muss angegeben werden.",
 		"requiredEmail": "Eine E-Mail-Adresse muss angegeben werden.",
 		"requiredPassword": "Ein Passwort muss angegeben werden.",
 		"passwordsDontMatch": "Die Passwörter stimmen nicht überein.",
@@ -271,6 +280,9 @@
 		"songSavedText": "Der Song wurde erfolgreich gespeichert.",
 		"userAdded": "Benutzer hinzugefügt",
 		"userSavedText": "Die Benutzerdaten wurden erfolgreich gespeichert.",
+		"languageAdded": "Sprache hinzugefügt",
+		"languageUpdated": "Sprache aktualisiert",
+		"languageSavedText": "Die Sprache wurde erfolgreich gespeichert.",
 		"songOrderUpdated": "Songreihenfolge aktualisiert",
 		"syncActivated": "Synchronisierung aktiviert",
 		"syncDeactivated": "Synchronisierung deaktiviert",

@@ -23,6 +23,8 @@
 		"addUser": "Add User",
 		"editUser": "Edit User",
 		"deleteUser": "Delete User",
+		"addLanguage": "Add Language",
+		"editLanguage": "Edit Language",
 		"deleteLanguage": "Delete Language",
 		"tags": "Tags",
 		"translations": "Translations",
@@ -69,7 +71,9 @@
 		"exportSetlistList": "List",
 		"exportSetlistSheets": "Sheets",
 		"addUser": "Add User",
-		"updateUser": "Update User"
+		"updateUser": "Update User",
+		"addLanguage": "Add Language",
+		"updateLanguage": "Update Language"
 	},
 	"switch": {
 		"chords": "Chords",
@@ -167,7 +171,9 @@
 		"exampleUserName": "e.g. John Doe",
 		"exampleUserEmail": "e.g. john@doe.com",
 		"examplePassword": "e.g. {p}",
-		"repeatPassword": "Repeat Password"
+		"repeatPassword": "Repeat Password",
+		"exampleLanguageLabel": "e.g. English",
+		"exampleLanguageIsocode": "e.g. en"
 	},
 	"field": {
 		"title": "Title",
@@ -189,6 +195,8 @@
 		"email": "Email",
 		"photo": "Photo",
 		"name": "Name",
+		"label": "Label",
+		"isocode": "ISO Code",
 		"role": "Role",
 		"password": "Password"
 	},
@@ -199,6 +207,7 @@
 		"requiredLanguage": "The language is required.",
 		"requiredContent": "The song content is missing.",
 		"requiredName": "A name is required.",
+		"requiredLabel": "A label is required.",
 		"requiredEmail": "An email address is required.",
 		"requiredPassword": "A password is required.",
 		"passwordsDontMatch": "The passwords don't match.",
@@ -271,6 +280,9 @@
 		"songSavedText": "The song was successfully saved.",
 		"userAdded": "User added",
 		"userSavedText": "User data was successfully saved.",
+		"languageAdded": "Language added",
+		"languageUpdated": "Language updated",
+		"languageSavedText": "Language data was successfully saved.",
 		"songOrderUpdated": "Song order updated",
 		"syncActivated": "Setlist Sync activated",
 		"syncDeactivated": "Setlist Sync deactivated",

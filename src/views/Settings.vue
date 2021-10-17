@@ -278,6 +278,15 @@
 				:userKey="active.key"
 				@closed="modal.userdelete = false"
 			/>
+			<!-- modal: set language -->
+			<LanguageSet
+				v-if="modal.languageset"
+				:active="modal.languageset"
+				:existing="active.existing"
+				:initialLanguage="active.language"
+				:languageKey="active.key"
+				@closed="modal.languageset = false"
+			/>
 			<!-- modal: delete language -->
 			<LanguageDelete
 				v-if="modal.languagedelete"
@@ -294,6 +303,7 @@
 // get components
 import UserSet from '@/modals/UserSet';
 import UserDelete from '@/modals/UserDelete';
+import LanguageSet from '@/modals/LanguageSet';
 import LanguageDelete from '@/modals/LanguageDelete';
 
 export default {
@@ -301,6 +311,7 @@ export default {
 	components: {
 		UserSet,
 		UserDelete,
+		LanguageSet,
 		LanguageDelete,
 	},
 	props: [
