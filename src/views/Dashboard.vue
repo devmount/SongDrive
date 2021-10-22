@@ -407,7 +407,7 @@ export default {
 				song['id'] = key;
 				return song;
 			});
-			return songs.filter(s => s.year > 0).sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0));
+			return songs.sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0));
 		},
 		noSongs () {
 			return this.ready.songs && this.songsArray.length == 0;
