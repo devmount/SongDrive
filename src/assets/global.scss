@@ -135,6 +135,15 @@ ion-icon {
 .ls-1 { letter-spacing: 1px; }
 .ls-2 { letter-spacing: 2px; }
 
+.pos-relative {
+	position: relative;
+}
+.pos-absolute-tr {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
 // colors
 .bg-primary-dark {
 	background-color: $bg-color-dark;
