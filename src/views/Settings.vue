@@ -180,10 +180,18 @@
 				<!-- language administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel" v-if="ready.languages">
-						<div class="panel-header text-center">
+						<div class="panel-header text-center pos-relative">
 							<ion-icon name="language-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $tc('widget.languages', numberOfLanguages, [numberOfLanguages]) }}</div>
 							<div class="panel-subtitle text-gray">{{ $t('text.manageLanguages') }}</div>
+							<div class="pos-absolute-tr">
+								<button
+									class="btn btn-secondary px-3 m-3"
+									@click="active.language={ label: '' }; active.key=''; active.existing=false; modal.languageset=true"
+								>
+									<ion-icon name="add-outline"></ion-icon>
+								</button>
+							</div>
 						</div>
 						<div class="panel-body">
 							<div

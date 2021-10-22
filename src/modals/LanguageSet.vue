@@ -61,9 +61,8 @@ export default {
 			isocode: this.languageKey,
 			language: JSON.parse(JSON.stringify(this.initialLanguage)),
 			error: {
-				name: false,
-				email: false,
-				role: false,
+				label: false,
+				isocode: false,
 			}
 		}
 	},
@@ -71,7 +70,7 @@ export default {
 		setLanguage() {
 			// first check for form errors
 			this.error.label = this.language.label == '';
-			this.error.isocode = this.language.isocode == '';
+			this.error.isocode = this.isocode == '';
 			// no errors: send submitted language data and close modal
 			if (!this.errors) {
 				// language already exists
