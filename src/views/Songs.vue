@@ -102,7 +102,7 @@
 										<!-- filter language -->
 										<select v-model="language" class="form-select select-lg filter" required>
 											<option value="" disabled selected>{{ $t('placeholder.language') }}</option>
-											<option v-for="(l, k) in songLanguages()" :key="k" :value="k">{{ l }}</option>
+											<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
 										</select>
 									</li>
 									<li class="menu-item">
@@ -215,6 +215,7 @@
 				:songKey="active.key"
 				:songs="songs"
 				:tags="tags"
+				:languages="languages"
 				:ready="ready"
 				@closed="modal.set = false"
 			/>
@@ -236,7 +237,7 @@ import SongDelete from '@/modals/SongDelete';
 
 export default {
 	name: 'songs',
-	props: ['songs', 'tags', 'user', 'role', 'ready'],
+	props: ['songs', 'tags', 'languages', 'user', 'role', 'ready'],
 	components: {
 		SongSet,
 		SongDelete,

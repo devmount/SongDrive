@@ -46,13 +46,13 @@
 										</div>
 									</div>
 									<div class="column col-4 col-md-12">
-										<div class="form-group" :class="{ 'has-error': error.language }">
+										<div v-if="ready.languages" class="form-group" :class="{ 'has-error': error.language }">
 											<label class="form-label" for="language">
 												{{ $t('field.language') }} <span class="text-error">*</span>
 											</label>
 											<select v-model="song.language" class="form-select" id="language">
 												<option value="">{{ $t('placeholder.select') }}</option>
-												<option v-for="(label, key) in songLanguages()" :value="key" :key="key">{{ label }}</option>
+												<option v-for="(l, key) in languages" :value="key" :key="key">{{ l.label }}</option>
 											</select>
 											<p v-if="error.language" class="form-input-hint">{{ $t('error.requiredLanguage') }}</p>
 										</div>
@@ -369,6 +369,7 @@ export default {
 		songKey: String,
 		songs: Object,
 		tags: Object,
+		languages: Object,
 		ready: Object,
 	},
 	data () {

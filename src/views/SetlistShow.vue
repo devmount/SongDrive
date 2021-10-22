@@ -221,12 +221,15 @@
 							<div class="panel pb-4">
 								<div class="panel-header">
 									<div class="panel-title h5 text-center">
-										<ion-icon name="globe-outline"></ion-icon> {{ $t('widget.languages') }}
+										<ion-icon name="globe-outline"></ion-icon> {{ $tc('widget.languages', 2) }}
 									</div>
 								</div>
 								<div class="panel-body">
 									<DoughnutChart
-										:info="{ number: setlistLanguages.labels.length, label: $t('widget.languages') }"
+										:info="{
+											number: setlistLanguages.labels.length,
+											label: $tc('widget.languages', setlistLanguages.labels.length)
+										}"
 										:datasets="setlistLanguages.datasets"
 										:labels="setlistLanguages.labels"
 									/>
@@ -263,6 +266,7 @@
 				:songs="songs"
 				:setlists="setlists"
 				:tags="tags"
+				:languages="languages"
 				:ready="ready"
 				@closed="modal.set = false"
 			/>
@@ -309,7 +313,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'setlist-show',
-	props: ['songs', 'setlists', 'users', 'tags', 'user', 'role', 'ready'],
+	props: ['songs', 'setlists', 'users', 'tags', 'languages', 'user', 'role', 'ready'],
 	components: {
 		SetlistSet,
 		SetlistDelete,
@@ -367,7 +371,7 @@ export default {
 				datasets: [
 					{ data: Object.values(languages), color: '#88b544' },
 				],
-				labels: Object.keys(languages).map(e => ' ' + this.songLanguages()[e])
+				labels: Object.keys(languages).map(e => ' ' + this.languages[e]?.label)
 			};
 		},
 		setlistKeys () {

@@ -60,7 +60,7 @@
 						<div
 							v-for="(tsong, i) in showLanguages"
 							:key="i" class=" tooltip tooltip-right tooltip-lg"
-							:data-tooltip="$t('divider.language') + ': ' + songLanguages()[tsong[1]]"
+							:data-tooltip="$t('divider.language') + ': ' + (languages[tsong[1]] ? languages[tsong[1]].label : '')"
 						>
 							<router-link
 								:to="{ name: 'song-show', params: { id: tsong[0] }}"
@@ -234,6 +234,7 @@
 				:songKey="songKey"
 				:songs="songs"
 				:tags="tags"
+				:languages="languages"
 				:ready="ready"
 				@closed="modal.set = false"
 			/>
@@ -281,7 +282,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'song-show',
-	props: ['songs', 'tags', 'user', 'role', 'ready'],
+	props: ['songs', 'tags', 'languages', 'user', 'role', 'ready'],
 	components: {
 		SongContent,
 		SongSet,
