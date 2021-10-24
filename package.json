@@ -39,6 +39,7 @@
 		"firebase": "^9.0.0",
 		"hooper": "^0.3.4",
 		"ionicons": "^5.0.0",
+		"marked": "^3.0.7",
 		"pdfmake": "^0.2.2",
 		"register-service-worker": "^1.6.2",
 		"sortablejs": "^1.9.0",
@@ -55,6 +56,7 @@
 		"@vue/cli-plugin-pwa": "^4.5.0",
 		"@vue/cli-service": "^4.5.0",
 		"node-sass": "^6.0.1",
+		"raw-loader": "^4.0.2",
 		"sass-loader": "^10.2.0",
 		"vue-template-compiler": "^2.6.10",
 		"vuepress": "^1.8.2"
