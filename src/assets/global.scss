@@ -61,6 +61,9 @@ $grid-spacing: ($layout-spacing / ($layout-spacing * 0 + 1)) * $html-font-size;
 .icon-2x {
 	font-size: 32px;
 }
+.icon-3x {
+	font-size: 48px;
+}
 .icon-4x {
 	font-size: 64px;
 }
@@ -76,6 +79,9 @@ $grid-spacing: ($layout-spacing / ($layout-spacing * 0 + 1)) * $html-font-size;
 	float: left;
 	margin-top: 3px;
 	margin-left: 3px;
+}
+.icon-thin {
+	--ionicon-stroke-width: 20px;
 }
 ion-icon {
 	font-size: 19px;
@@ -132,6 +138,8 @@ ion-icon {
 .px-5 { padding-right: 1rem !important; padding-left: 1rem !important; }
 .py-5 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
 
+.mb-15 { margin-bottom: 3rem; }
+
 .ls-1 { letter-spacing: 1px; }
 .ls-2 { letter-spacing: 2px; }
 
@@ -144,12 +152,18 @@ ion-icon {
 	right: 0;
 }
 
-// colors
+// colors and text
 .bg-primary-dark {
 	background-color: $bg-color-dark;
 }
 .text-gray {
 	color: $gray-color-600 !important;
+}
+.text-primary {
+	color: $primary-color !important;
+}
+.weight-normal {
+	font-weight: 400;
 }
 
 // responsive grid
