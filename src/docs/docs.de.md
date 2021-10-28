@@ -1,5 +1,3 @@
-# Guide
-
 ## Einleitung
 
 SongDrive ist ein Werkzeug für Musiker, die regelmäßig Auftritte haben und wurde als persönliche Lieder-Datenbank entwickelt, um Lieder passend für verschiedene Anwendungsfälle präsentieren zu können. SongDrive kann u.a. genutzt werden, um:
@@ -32,10 +30,10 @@ SongDrive bringt viele Funktionen mit, die den Musiker sowohl in der Vorbereitun
 
 SongDrive ist aktuell in Entwicklung. Einige Funktionen sind noch nicht vorhanden, aber in Planung:
 
-- Light Mode <Badge text="todo" type="warn"/>
-- Offline Verfügbarkeit (PWA, Service Worker) <Badge text="todo" type="warn"/>
-- Präsentation von Notizfolien in Setlisten <Badge text="todo" type="warn"/>
-- Tagbasierte Vorschläge ähnlicher Lieder <Badge text="todo" type="warn"/>
+- Light Mode
+- Offline Verfügbarkeit (PWA, Service Worker)
+- Präsentation von Notizfolien in Setlisten
+- Tagbasierte Vorschläge ähnlicher Lieder
 
 ### Mithelfen
 
@@ -43,82 +41,7 @@ Feedback und Mitarbeit sind großartig! Du kannst helfen indem du Fehler meldest
 
 ## Installation
 
-1. Dateien herunterladen
-
-    ```bash
-    git clone https://github.com/devmount/SongDrive
-    ```
-
-2. Alle Abhängigkeiten mit [Yarn](https://yarnpkg.com) installieren
-
-    ```bash
-    cd SongDrive
-    yarn
-    ```
-
-3. Eine leere Datei `config.js` in `SongDrive/src` erstellen
-
-    ```bash
-    touch src/config.js
-    ```
-
-4. In [Firebase](https://console.firebase.google.com) einloggen, den Button "Add a project" klicken und einen Projektnamen sowie den Serverstandort angeben.
-5. Jetzt kann eine App hinzugefügt werden mithilfe des "Web" Buttons: Einen Namen vergeben und auf "Next" klicken
-6. Das Firebase Config-Objekt in die angelegte `config.js` wie folgt kopieren:
-
-    ```javascript
-    export const config = {
-      apiKey: "<your-api-key>",
-      authDomain: "<your-auth-domain>",
-      databaseURL: "<your-database-url>",
-      projectId: "<your-project-id>",
-      storageBucket: "<your-storage-bucket>",
-      messagingSenderId: "<your-messaging-sender-id>"
-    }
-    ```
-
-7. In der Firebase Konsole *Create Database* unter Develop > Database klicken. *Start in production mode* wählen und die folgenden Sicherheitsregeln hinterlegen:
-
-    ```javascript
-    rules_version = '2';
-    service cloud.firestore {
-      match /databases/{database}/documents {
-        match /{document=**} {
-          allow read;
-          allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-        }
-        match /setlists/{setlist} {
-          allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer"
-                                || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
-          allow delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor"
-                        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer" && request.auth.uid == resource.data.creator;
-        }
-        match /songs/{song} {
-          allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
-          allow delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
-        }
-        match /registrations/{user} {
-          allow create: if request.auth.uid != '';
-        }
-      }
-    }
-    ```
-
-8. Jetzt kann die App gestartet werden. Entweder den Development-Server mit Hot-Reload starten unter `localhost:8080` ...
-
-    ```bash
-    yarn serve
-    ```
-
-9. ... oder den für die Produktion optimierten Build erstellen. Alle erzeugten Dateien können anschließend im `dist` Ordner gefunden werden.
-
-    ```bash
-    yarn build
-    ```
-
-::: warning HINWEIS
-Der Installationsprozess ist noch in Entwicklung. Ein zusätzlicher Schritt zum Import von Testdaten ist geplant.
-:::
+Wenn du SongDrive auf deinem eigenen Server installieren möchtest, schau dir die Anweisungen zur Installation im [README.md](https://github.com/devmount/SongDrive/blob/main/README.md) an.
 
 ## Benutzerrollen
 

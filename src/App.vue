@@ -130,11 +130,9 @@
 							</router-link>
 						</li>
 						<li class="menu-item">
-							<a href="https://devmount.github.io/SongDrive" class="py-2" target="_blank">
-								<ion-icon name="book-outline" class="mr-2"></ion-icon>
-								{{ $t('page.docu') }}
-								<ion-icon name="open-outline" class="icon-right"></ion-icon>
-							</a>
+							<router-link to="/documentation" class="py-2" @click.native="open = false">
+								<ion-icon name="book-outline" class="mr-2"></ion-icon> {{ $t('page.docu') }}
+							</router-link>
 						</li>
 						<li class="menu-item">
 							<a href="https://github.com/devmount/SongDrive" class="py-2" target="_blank">

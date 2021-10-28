@@ -1,5 +1,3 @@
-# Guide
-
 ## Introduction
 
 SongDrive is a tool for musicians, that perform songs on a regular basis. It was created to provide a self-maintainable song database with a clean presentation of songs for different use cases, i.e.:
@@ -32,93 +30,18 @@ SongDrive ships with a lot of features supporting artists in preparation of or d
 
 SongDrive is still a work in progress. There are some things that it currently does not support but are planned:
 
-- light mode <Badge text="todo" type="warn"/>
-- offline version (pwa, service worker) <Badge text="todo" type="warn"/>
-- present note slides in setlist presentations <Badge text="todo" type="warn"/>
-- tag based song suggestions <Badge text="todo" type="warn"/>
+- light mode
+- offline version (pwa, service worker)
+- present note slides in setlist presentations
+- tag based song suggestions
 
 ### Contributions
 
-Feedback and contributions are very welcome! You can help by reporting bugs, suggesting improvements or directly contribute to the code base or the documentation. You'll find a detailed explanation in the [contribution guidelines on GitHub](https://github.com/devmount/SongDrive/blob/master/.github/CONTRIBUTING.md).
+Feedback and contributions are very welcome! You can help by reporting bugs, suggesting improvements or directly contribute to the code base or the documentation. You'll find a detailed explanation in the [contribution guidelines on GitHub](https://github.com/devmount/SongDrive/blob/main/.github/CONTRIBUTING.md).
 
 ## Installation
 
-1. Get all files
-
-    ```bash
-    git clone https://github.com/devmount/SongDrive
-    ```
-
-2. Install all dependencies using [Yarn](https://yarnpkg.com)
-
-    ```bash
-    cd SongDrive
-    yarn
-    ```
-
-3. Create an empty file called `config.js` in `SongDrive/src`
-
-    ```bash
-    touch src/config.js
-    ```
-
-4. Log in to your [Firebase account](https://console.firebase.google.com), hit the "Add a project" button and set up a project name and a server location
-5. Now you can add an app by clicking the "Web" button, choose a nickname and click "Next"
-6. Copy the firebase configuration object from the code that is shown to your just created `config.js` in the following format:
-
-    ```javascript
-    export const config = {
-      apiKey: "<your-api-key>",
-      authDomain: "<your-auth-domain>",
-      databaseURL: "<your-database-url>",
-      projectId: "<your-project-id>",
-      storageBucket: "<your-storage-bucket>",
-      messagingSenderId: "<your-messaging-sender-id>"
-    }
-    ```
-
-7. Go back to your Firebase console, and click *Create Database* under Develop > Database. Choose *Start in production mode* and set the following security rules:
-
-    ```javascript
-    rules_version = '2';
-    service cloud.firestore {
-      match /databases/{database}/documents {
-        match /{document=**} {
-          allow read;
-          allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-        }
-        match /setlists/{setlist} {
-          allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer"
-                                || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
-          allow delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor"
-                        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer" && request.auth.uid == resource.data.creator;
-        }
-        match /songs/{song} {
-          allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
-          allow delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
-        }
-        match /registrations/{user} {
-          allow create: if request.auth.uid != '';
-        }
-      }
-    }
-    ```
-
-8. Now your app is ready to be launched. Either start the development server with hot reload at `localhost:8080` ...
-
-    ```bash
-    yarn serve
-    ```
-
-9. ... or create an optimized production build with minification. All build files can be found in the `dist` directory.
-
-    ```bash
-    yarn build
-    ```
-
-::: warning HINT
-The setup process is still in development. An additional step with the possibility to add test data will be added in a future release.
-:::
+If you like to deploy SongDrive on your own server, please refer to the installation instructions in the [README.md](https://github.com/devmount/SongDrive/blob/main/README.md).
 
 ## User roles
 
