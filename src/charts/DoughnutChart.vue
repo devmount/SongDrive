@@ -90,23 +90,28 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-.chart
-	display flex
-	flex-flow column
-	&>h2, &>p
-		flex 0 1 auto
-	&>.chart-container
-		position relative
-		flex 1 1 auto
-		.chart-info
-			position: absolute
-			bottom: 3rem
-			left: 50%
-			transform: translateX(-50%)
-			text-align: center
-			.featured
-				font-size: 3.25em
-				line-height: 1em
-				font-weight: 500
+<style lang="scss">
+.chart {
+	display: flex;
+	flex-flow: column;
+	&>h2, &>p {
+		flex: 0 1 auto;
+	}
+	&>.chart-container {
+		position: relative;
+		flex: 1 1 auto;
+		.chart-info {
+			position: absolute;
+			bottom: 3rem;
+			left: 50%;
+			transform: translateX(-50%);
+			text-align: center;
+			.featured {
+				font-size: 3.25em;
+				line-height: 1em;
+				font-weight: 500;
+			}
+		}
+	}
+}
 </style>

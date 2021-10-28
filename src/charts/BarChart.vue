@@ -117,13 +117,16 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-.chart
-	display flex
-	flex-flow column
-	&>h2, &>p
-		flex 0 1 auto
-	&>.chart-container
-		position relative
-		flex 1 1 auto
+<style lang="scss">
+.chart {
+	display: flex;
+	flex-flow: column;
+	&>h2, &>p {
+		flex: 0 1 auto;
+	}
+	&>.chart-container {
+		position: relative;
+		flex: 1 1 auto;
+	}
+}
 </style>
