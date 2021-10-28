@@ -30,13 +30,12 @@
 	"browser": "./dist/index.html",
 	"scripts": {
 		"serve": "vue-cli-service serve",
-		"build": "vue-cli-service build",
-		"docs:dev": "vuepress dev src/docs",
-		"docs:build": "vuepress build src/docs"
+		"build": "vue-cli-service build"
 	},
 	"dependencies": {
 		"chart.js": "^3.5.1",
 		"firebase": "^9.0.0",
+		"highlight.js": "^11.3.1",
 		"hooper": "^0.3.4",
 		"ionicons": "^5.0.0",
 		"marked": "^3.0.7",
@@ -58,8 +57,7 @@
 		"node-sass": "^6.0.1",
 		"raw-loader": "^4.0.2",
 		"sass-loader": "^10.2.0",
-		"vue-template-compiler": "^2.6.10",
-		"vuepress": "^1.8.2"
+		"vue-template-compiler": "^2.6.10"
 	},
 	"postcss": {
 		"plugins": {
