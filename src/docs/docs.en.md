@@ -1,5 +1,3 @@
-# Guide
-
 ## Introduction
 
 SongDrive is a tool for musicians, that perform songs on a regular basis. It was created to provide a self-maintainable song database with a clean presentation of songs for different use cases, i.e.:

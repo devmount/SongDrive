@@ -242,6 +242,9 @@ ion-icon {
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
 	text-transform: uppercase;
+	font-weight: 400;
+}
+h1, .h1, h2, .h2 {
 	font-weight: 300;
 }
 h2, .h2 {
@@ -291,6 +294,10 @@ code {
 .text-small {
 	font-size: .8em;
 	line-height: 1.1em;
+}
+.text-big {
+	font-size: 1.5em;
+	line-height: 1.2em;
 }
 .text-huge {
 	font-size: 4em;

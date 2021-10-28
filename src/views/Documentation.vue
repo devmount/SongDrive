@@ -6,11 +6,11 @@
 				<!-- heading -->
 				<div class="column col-12 mb-15">
 					<img class="logo" src="@/assets/logo.svg" alt="SongDrive Song Management Tool" />
-					<h2 class="text-primary weight-normal mb-3">{{ $t('app.name') }}</h2>
-					<div class="text-gray">{{ $t('app.summary') }}</div>
+					<h2 class="text-primary weight-normal mt-5 mb-3">{{ $t('app.name') }}</h2>
+					<div class="text-big">{{ $t('app.summary') }}</div>
 				</div>
 				<!-- features -->
-				<div class="columns col-8 col-xl-12 col-mx-auto">
+				<div class="columns col-8 col-xl-12 col-mx-auto mb-15">
 					<div v-for="i in 3" class="column col-4 col-xl-6 col-sm-12">
 						<ion-icon :name="$t('docu.features')[i-1].icon" class="icon-3x icon-thin mb-3"></ion-icon>
 						<h3>{{ $t('docu.features')[i-1].title }}</h3>
@@ -19,23 +19,46 @@
 				</div>
 			</div>
 			<!-- content -->
-			<div v-html="content"></div>
+			<div class="columns">
+				<div class="column col-12" v-html="content"></div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+// markdown parser
 const marked = require("marked");
+const hljs = require('highlight.js');
+import 'highlight.js/styles/github-dark.css';
+
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  highlight: (code, lang) => {
+		const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+    return hljs.highlight(code, { language }).value;
+  },
+  langPrefix: 'hljs language-',
+  pedantic: false,
+  gfm: true,
+  breaks: true,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  xhtml: false
+});
+
+// documentation contents
 const docs = {
-	de: require("@/docs/docs.de.md"),
-	en: require("@/docs/docs.en.md"),
+	de: require("@/docs/docs.de.md").default.replace("\r\n", "\n"),
+	en: require("@/docs/docs.en.md").default.replace("\r\n", "\n"),
 };
 
 export default {
 	name: 'documentation',
 	computed: {
 		content () {
-			return marked(docs[this.$i18n.locale].default);
+			return marked(docs[this.$i18n.locale]);
 		}
 	}
 }
