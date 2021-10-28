@@ -1,5 +1,5 @@
 <template>
-	<div class="shortcuts">
+	<div class="documentation">
 		<div class="container no-sidebar">
 			<!-- title -->
 			<div class="columns text-center">
@@ -20,7 +20,7 @@
 			</div>
 			<!-- content -->
 			<div class="columns">
-				<div class="column col-12" v-html="content"></div>
+				<div class="column md-content" v-html="content"></div>
 			</div>
 		</div>
 	</div>
@@ -64,9 +64,22 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.logo {
-	width: 150px;
-	margin-top: 2rem;
+<style lang="scss">
+.documentation {
+	padding-bottom: 5rem;
+	
+	.logo {
+		width: 150px;
+		margin-top: 2rem;
+	}
+	.md-content {
+		max-width: 960px;
+		margin: 0 auto;
+	}
+	h2, h3 {
+		margin-top: 1.5em;
+		margin-bottom: 1em;
+		padding: 0;
+	}
 }
 </style>
