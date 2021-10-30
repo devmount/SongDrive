@@ -585,9 +585,13 @@ a {
 			font-weight: 400;
 		}
 	}
-	& .tile-title,
+	& .tile-title {
+		margin: -.1rem 0 -.1rem 0 !important;
+		line-height: 1rem;
+	}
 	& .tile-subtitle {
-		line-height: .85rem;
+		margin: 0 0 -.2rem 0 !important;
+		line-height: 1rem;
 	}
 	&.tile-hover:hover {
 		background: $bg-color-dark;
