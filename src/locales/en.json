@@ -34,6 +34,8 @@
     "signIn": "Sign In",
     "signOut": "Sign Out",
     "signUp": "Sign Up",
+    "source": "Source",
+    "top": "Top",
     "updateLanguage": "Update Language",
     "updateSetlist": "Update Setlist",
     "updateSong": "Update Song",
@@ -42,11 +44,13 @@
   "divider": {
     "account": "Account",
     "copy": "Copy",
+    "docs": "Docs",
     "export": "Export",
     "info": "Info",
     "language": "Language",
     "manage": "Manage",
     "start": "Start",
+    "toc": "TOC",
     "tuning": "Key",
     "view": "View"
   },

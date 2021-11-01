@@ -34,6 +34,8 @@
     "signIn": "Login",
     "signOut": "Logout",
     "signUp": "Registrieren",
+    "source": "Quelle",
+    "top": "Nach oben",
     "updateLanguage": "Sprache Aktualisieren",
     "updateSetlist": "Setlist Aktualisieren",
     "updateSong": "Song Aktualisieren",
@@ -42,11 +44,13 @@
   "divider": {
     "account": "Konto",
     "copy": "Kopieren",
+    "docs": "Doku",
     "export": "Export",
     "info": "Info",
     "language": "Sprache",
     "manage": "Verwalten",
     "start": "Start",
+    "toc": "Inhalt",
     "tuning": "Tonart",
     "view": "Ansicht"
   },
