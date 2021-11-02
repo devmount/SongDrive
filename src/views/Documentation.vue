@@ -36,7 +36,7 @@
 					>
 						<ion-icon name="code-slash-outline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ $t('button.source') }}</span>
-						<ion-icon name="open-outline" class="icon-right"></ion-icon>
+						<ion-icon name="open-outline" class="icon-right hide-lg"></ion-icon>
 					</a>
 					<a
 						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + $i18n.locale + '.md'"
@@ -46,7 +46,7 @@
 					>
 						<ion-icon name="create-outline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ $t('button.edit') }}</span>
-						<ion-icon name="open-outline" class="icon-right"></ion-icon>
+						<ion-icon name="open-outline" class="icon-right hide-lg"></ion-icon>
 					</a>
 				</div>
 			</div>
@@ -145,6 +145,18 @@ export default {
 		margin-top: 1.5em;
 		margin-bottom: 1em;
 		padding: 0;
+	}
+	table {
+		border-collapse: collapse;
+		th, td {
+			padding: .5rem;
+		}
+		thead th {
+			border-bottom: 1px solid currentColor;
+		}
+		tr:not(:last-child) td {
+			border-bottom: 1px solid #4a5052; // $gray-color-700
+		}
 	}
 }
 </style>
