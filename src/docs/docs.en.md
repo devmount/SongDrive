@@ -43,7 +43,7 @@ SongDrive is fully responsive and will work on smaller screens too, but some fea
 
 ### Installation
 
-If you like to deploy SongDrive on your own server, please refer to the installation instructions in the [README](https://github.com/devmount/SongDrive/blob/main/README.md).
+SongDrive is Open Source software and totally meant to be self-deployed. If you like to use SongDrive on your own server, please refer to the installation instructions in the [README](https://github.com/devmount/SongDrive/blob/main/README.md).
 
 ## User roles
 
@@ -189,19 +189,20 @@ Clicking on a setlist opens a preview which shows the actual list of songs and a
 - *List*: Export the list as PDF.
 - *Sheets*: Export the songsheets, all songs contained in this setlist as single PDF.
 
-<!--
 ### Account
+
+To protect the data in SongDrive, users have to authentificate themselves to access songs, setlists and more. The main menu on the left provides a *Sign Up* button to register a user account. As soon as an administrator approves the registration, you can use the *Sign In* form in the main menu.
 
 #### Profile
 
+When signed in, you have access to you profile information. It can be found by clicking [on your name](/profile) in the main menu. Your name, role email and profile picture are visible, as well as some numbers about how many setlists you created and how many songs you have performed (the sum of all songs on your setlists).
+
 #### Settings
+
+To update your profile information, visit the [Settings page](/settings). Your name and a link to a profile picture can be set. You can also choose the language of the SongDrive interface.
+
+If you are an administrator, you will have access to additional tools for user management, song language management, song tag managmenet and export or import of SongDrive data.
 
 ### Info
 
-#### Shortcuts
-
-#### Documentation
-
-#### GitHub
-
--->
+The info section in the main menu provides useful general information. The [Shortcuts page](/shortcuts) shows available hotkeys on different view in SongDrive, e.g. for navigation, search or several actions. The [Documentation page](/documentation) gives a detailed overview of SongDrive, its usage and its functions. It also provides the link to the official [GitHub repository](https://github.com/devmount/SongDrive), where SongDrive can be downloaded and contributed to.
