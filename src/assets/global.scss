@@ -51,6 +51,15 @@ $grid-spacing: ($layout-spacing / ($layout-spacing * 0 + 1)) * $html-font-size;
 @import "~spectre.css/src/spectre";
 @import "~spectre.css/src/spectre-exp";
 
+// general
+a, a:visited {
+	color: $link-color;
+	cursor: pointer;
+}
+a:focus, a:hover, a:active, a.active {
+	text-decoration: none;
+}
+
 // icons
 .icon {
 	font-size: 1em;
@@ -885,7 +894,7 @@ a {
 		position: relative;
 		transform: none;
 
-		.divider {
+		.divider:not(:first-child) {
 			margin-top: 2em;
 		}
 		.divider[data-content]::after {

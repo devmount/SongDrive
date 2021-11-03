@@ -269,6 +269,18 @@
 					</div>
 				</div>
 			</div>
+			<!-- not logged in -->
+			<div v-if="ready.users && !user" class="columns">
+				<div class="column col-">
+					<div class="empty">
+						<div class="empty-icon">
+							<ion-icon name="eye-off-outline" class="icon-4x"></ion-icon>
+						</div>
+						<p class="empty-title h5">{{ $t('text.pageNotAvailable') }}</p>
+						<p class="empty-subtitle">{{ $t('text.signInForAccess') }}</p>
+					</div>
+				</div>
+			</div>
 			<!-- modal: set user -->
 			<UserSet
 				v-if="modal.userset"

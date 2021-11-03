@@ -1,13 +1,15 @@
 <template>
 	<div class="profile">
 		<div class="container no-sidebar">
-			<div v-if="user && userObject" class="columns">
+			<div class="columns">
 				<!-- heading -->
-				<div class="column col-12">
+				<div class="column">
 					<h2 class="view-title">
 						{{ $t('page.profile') }}
 					</h2>
 				</div>
+			</div>
+			<div v-if="ready.users && user && userObject" class="columns">
 				<div class="column col-4 col-xl-6 col-sm-12 mt-4">
 					<div class="panel">
 						<div class="panel-header text-center">
@@ -83,6 +85,18 @@
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+			<!-- not logged in -->
+			<div v-if="ready.users && !user" class="columns">
+				<div class="column col-">
+					<div class="empty">
+						<div class="empty-icon">
+							<ion-icon name="eye-off-outline" class="icon-4x"></ion-icon>
+						</div>
+						<p class="empty-title h5">{{ $t('text.pageNotAvailable') }}</p>
+						<p class="empty-subtitle">{{ $t('text.signInForAccess') }}</p>
 					</div>
 				</div>
 			</div>
