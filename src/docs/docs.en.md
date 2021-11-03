@@ -2,7 +2,7 @@
 
 SongDrive is a tool for musicians performing songs on a regular basis. It was created to build a self-maintainable song database with a clean presentation of songs for different use cases, e.g.:
 
-- quickly searching for songs to play spontaneously
+- quickly finding songs to play spontaneously
 - transposing songs and export songsheets as PDF
 - creating setlists with minimal effort and provide custom tuning for songs
 - presenting setlists in different modes for the artist as well as for the audience
@@ -29,7 +29,7 @@ Feedback and contributions are very welcome! You can help by reporting bugs, sug
 
 ## Get started
 
-If you want to use an existing SongDrive installation, you first need register a new user account. You can use the *Sign Up* Button and provide a name, email address and a password. As soon as an administrator approves your registration and assigns a user role to your account, you can sign in and start using SongDrive according to the privileges of your role.
+If you want to get to know SongDrive by using an existing SongDrive installation, you first need register a new user account. You can use the *Sign Up* Button and provide a name, email address and a password. As soon as an administrator approves your registration and assigns a user role to your account, you can sign in and start using SongDrive according to the privileges of your role.
 
 ### Requirements
 
@@ -39,7 +39,7 @@ To use SongDrive, the following requirements should be met:
 - Internet connection when starting SongDrive
 - Device with a screen of at least 10" and FHD resolution (recommended)
 
-SongDrive is fully responsive and will work on smaller screens too, but some features (like the presentation mode) are especially designed for showing the full song to avoid the need for scrolling while performing the song.
+SongDrive is fully responsive and will work on smaller screens too, but some features (like the presentation mode) are especially designed for showing the full song to avoid the need for scrolling while performing the song. This works best on bigger screens.
 
 ### Installation
 
@@ -107,7 +107,7 @@ If you have the *editor* role at least, you can add new songs with the correspon
 
 The notation of song content and chords follows this simple rule: What you type is what you get. Just add the **lyric lines with the corresponding chords above the exact syllable**. An exact alignment is possible as SongDrive uses a monospaced font to show lyrics and chords. Add **two whitespaces** at the end of each chord line for them to be correctly recognized by the system as chord lines.
 
-In addition to lyrics and chords, you can label the different song parts using markers. A marker starts with **two dashes followed by a letter**, indicating the song part (i.e. *c* for *chorus*). The following table shows all possible markers:
+In addition to lyrics and chords, you can label the different song parts using markers. A marker starts with **two dashes followed by a letter**, indicating the song part (i.e. *c* for *chorus*). The following table shows all available markers:
 
 | Marker | Description |
 | ------ | ----------- |
@@ -187,7 +187,7 @@ Clicking on a setlist opens a preview which shows the actual list of songs and a
 - *Markdown*: Export the list in [Markdown](https://daringfireball.net/projects/markdown/).
 - *Slack*: Export the list formatted for [Slack](https://get.slack.help/hc/en-us/articles/202288908-Format-your-messages).
 - *List*: Export the list as PDF.
-- *Sheets*: Export the songsheets, all songs contained in this setlist as single PDF.
+- *Sheets*: Export the songsheets, all songs contained in this setlist as single PDF with one song per page.
 
 ### Account
 
@@ -195,7 +195,7 @@ To protect the data in SongDrive, users have to authentificate themselves to acc
 
 #### Profile
 
-When signed in, you have access to you profile information. It can be found by clicking [on your name](/profile) in the main menu. Your name, role email and profile picture are visible, as well as some numbers about how many setlists you created and how many songs you have performed (the sum of all songs on your setlists).
+When signed in, you have access to you profile information. It can be found by clicking [on your name](/profile) in the main menu. Your name, role, email and profile picture are visible, as well as some numbers about how many setlists you created and how many songs you have performed (the sum of all songs on your setlists).
 
 #### Settings
 
