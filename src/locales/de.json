@@ -274,6 +274,7 @@
     "noTranslations": "Dieser Song hat bisher keine Übersetzungen.",
     "noUnconfirmedUsers": "Keine unbestätigten Benutzer",
     "noUsersAvailable": "Es gibt bisher noch keine Benutzer. Bitte füge einen Administrator im Firebase Backend hinzu um die Registrierung zu aktivieren und SongDrive zu nutzen.",
+    "pageNotAvailable": "Seite nicht verfügbar",
     "reallyDeleteLanguage": "Möchtest du wirklich die Sprache «{name}» löschen?",
     "reallyDeleteSetlist": "Möchtest du wirklich die Setlist «{title}» löschen?",
     "reallyDeleteSong": "Möchtest du wirklich den Song «{title}» löschen?",
@@ -282,7 +283,8 @@
     "selectSomeTags": "Wähle ein paar Tags für den aktuellen Song aus",
     "selectSomeTranslations": "Wähle alle Songs die eine Übersetzung des aktuellen Songs sind",
     "selected": "ausgewählt",
-    "selection": "Auswahl"
+    "selection": "Auswahl",
+    "signInForAccess": "Bitte melde dich mit deinem Benutzerkonto an, um auf diese Seite zuzugreifen."
   },
   "title": {
     "lastPerformed": "Zuletzt aufgeführt",
