@@ -80,7 +80,7 @@
 							<div class="form-group mb-1">
 								<label class="form-label" for="language">{{ $t('field.language') }}</label>
 								<select v-model="$i18n.locale" class="form-select" id="language">
-									<option v-for="(lang, i) in ['en','de']" :key="i" :value="lang">
+									<option v-for="lang in uiLanguages" :value="lang">
 										{{ languages[lang].label }}
 									</option>
 								</select>
@@ -391,9 +391,6 @@ export default {
 				this.$notify({ title: error.code, text: error.message, type: 'error' });
 			});
 		},
-		updateTags () {
-			// TODO
-		},
 		exportDb () {
 			let data = {
 				'songs': this.songs,
@@ -408,14 +405,17 @@ export default {
 				text: this.$t('toast.databaseExportedText'),
 				type: 'primary'
 			});
-		}
+		},
 	},
 	computed: {
+		uiLanguages () {
+			return Object.keys(this.$i18n.messages);
+		},
 		numberOfTags () {
-			return Object.keys(this.tags).length
+			return Object.keys(this.tags).length;
 		},
 		numberOfLanguages () {
-			return Object.keys(this.languages).length
+			return Object.keys(this.languages).length;
 		}
 	},
 	watch: {
