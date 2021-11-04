@@ -80,8 +80,8 @@
 							<div class="form-group mb-1">
 								<label class="form-label" for="language">{{ $t('field.language') }}</label>
 								<select v-model="$i18n.locale" class="form-select" id="language">
-									<option v-for="(lang, i) in ['en','de']" :key="i" :value="lang">
-										{{ languages[lang].label }}
+									<option v-for="(label, key) in uiLanguages" :value="key">
+										{{ label }}
 									</option>
 								</select>
 							</div>
@@ -231,23 +231,30 @@
 				<!-- tag administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
-						<div class="panel-header text-center">
+						<div class="panel-header text-center pos-relative">
 							<ion-icon name="pricetags-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $tc('widget.tags', numberOfTags, [numberOfTags]) }}</div>
 							<div class="panel-subtitle text-gray">{{ $t('text.manageTags') }}</div>
+							<div class="pos-absolute-tr">
+								<button
+									class="btn btn-secondary px-3 m-3"
+									@click="active.tag={ key: '' }; active.key=''; active.existing=false; modal.tagset=true"
+								>
+									<ion-icon name="add-outline"></ion-icon>
+								</button>
+							</div>
 						</div>
 						<div class="panel-body">
-							<router-link
+							<a
 								v-for="tag in tags"
-								:key="tag.key"
-								:to="{ name: 'songs-tag', params: { tag: tag.key }}"
 								class="mr-2"
+								@click="active.tag=tag; active.key=tag.key; active.existing=true; modal.tagset=true"
 							>
 								<span class="label px-2 py-1 my-1">
 									<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
-									{{ $t('tag.' + tag.key) }}
+									{{ tag[$i18n.locale] ? tag[$i18n.locale] : tag.key }}
 								</span>
-							</router-link>
+							</a>
 						</div>
 						<div class="panel-footer mt-5">
 						</div>
@@ -315,6 +322,16 @@
 				:languageKey="active.key"
 				@closed="modal.languagedelete = false"
 			/>
+			<!-- modal: set tag -->
+			<TagSet
+				v-if="modal.tagset"
+				:active="modal.tagset"
+				:existing="active.existing"
+				:initialTag="active.tag"
+				:tagKey="active.key"
+				:uiLanguages="uiLanguages"
+				@closed="modal.tagset = false"
+			/>
 		</div>
 	</div>
 </template>
@@ -325,6 +342,7 @@ import UserSet from '@/modals/UserSet';
 import UserDelete from '@/modals/UserDelete';
 import LanguageSet from '@/modals/LanguageSet';
 import LanguageDelete from '@/modals/LanguageDelete';
+import TagSet from '@/modals/TagSet';
 
 export default {
 	name: 'settings',
@@ -333,6 +351,7 @@ export default {
 		UserDelete,
 		LanguageSet,
 		LanguageDelete,
+		TagSet,
 	},
 	props: [
 		'user',
@@ -348,6 +367,7 @@ export default {
 		'languages'
 	],
 	data () {
+		console.log(this.tags);
 		return {
 			profile: {
 				displayName: this.userObject.displayName,
@@ -360,10 +380,12 @@ export default {
 				userdelete: false,
 				languageset: false,
 				languagedelete: false,
+				tagset: false,
 			},
 			active: {
 				user: {},
 				language: {},
+				tag: {},
 				key: '',
 				existing: true,
 			}
@@ -391,9 +413,6 @@ export default {
 				this.$notify({ title: error.code, text: error.message, type: 'error' });
 			});
 		},
-		updateTags () {
-			// TODO
-		},
 		exportDb () {
 			let data = {
 				'songs': this.songs,
@@ -408,14 +427,21 @@ export default {
 				text: this.$t('toast.databaseExportedText'),
 				type: 'primary'
 			});
-		}
+		},
 	},
 	computed: {
+		uiLanguages () {
+			let uiLanguages = {};
+			Object.keys(this.$i18n.messages).forEach(key => {
+				uiLanguages[key] = this.languages[key].label;
+			})
+			return uiLanguages;
+		},
 		numberOfTags () {
-			return Object.keys(this.tags).length
+			return Object.keys(this.tags).length;
 		},
 		numberOfLanguages () {
-			return Object.keys(this.languages).length
+			return Object.keys(this.languages).length;
 		}
 	},
 	watch: {

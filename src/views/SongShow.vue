@@ -208,7 +208,7 @@
 									>
 										<span class="label px-2 py-1">
 											<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
-											{{ $t('tag.' + tag) }}
+											{{ tags[tag][$i18n.locale] ? tags[tag][$i18n.locale] : tag }}
 										</span>
 									</router-link>
 								</p>

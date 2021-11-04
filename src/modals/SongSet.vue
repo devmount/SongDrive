@@ -82,7 +82,8 @@
 										<div class="form-group">
 											<label class="form-label" for="tags">{{ $t('field.tags') }}</label>
 											<div v-for="tag in song.tags" :key="tag" class="chip s-rounded">
-												<ion-icon name="pricetag-outline" class="icon-sm mr-2"></ion-icon> {{ $t('tag.' + tag) }}
+												<ion-icon name="pricetag-outline" class="icon-sm mr-2"></ion-icon>
+												{{ tags[tag][$i18n.locale] ? tags[tag][$i18n.locale] : tag }}
 												<a
 													href="#"
 													class="btn btn-clear"
@@ -239,7 +240,8 @@
 								<div class="form-group max-column mt-2">
 									<label v-for="tag in filteredTags" :key="tag.key" class="form-checkbox">
 										<input v-model="song.tags" :value="tag.key" type="checkbox">
-										<i class="form-icon"></i> {{ $t('tag.' + tag.key) }}
+										<i class="form-icon"></i>
+										{{ tag[$i18n.locale] ? tag[$i18n.locale] : tag.key }}
 									</label>
 								</div>
 							</div>
@@ -257,7 +259,7 @@
 										<div class="tile-content">
 											<div class="tile-title">
 												<ion-icon name="pricetag-outline" class="mr-2"></ion-icon>
-												{{ $t('tag.' + tag) }}
+												{{ tags[tag][$i18n.locale] ? tags[tag][$i18n.locale] : tag }}
 											</div>
 										</div>
 										<div class="tile-action">
@@ -528,7 +530,8 @@ export default {
 						const tag = this.tags[key];
 						var search = this.search.tags.toLowerCase();
 						// search in tag labels
-						if (this.$parent.$t('tag.' + tag.key).toLowerCase().indexOf(search) !== -1) {
+						let label = tag[this.$i18n.locale] ? tag[this.$i18n.locale] : key;
+						if (label.toLowerCase().indexOf(search) !== -1) {
 							tags[key] = tag;
 						}
 					}
