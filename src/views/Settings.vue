@@ -231,10 +231,18 @@
 				<!-- tag administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
-						<div class="panel-header text-center">
+						<div class="panel-header text-center pos-relative">
 							<ion-icon name="pricetags-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $tc('widget.tags', numberOfTags, [numberOfTags]) }}</div>
 							<div class="panel-subtitle text-gray">{{ $t('text.manageTags') }}</div>
+							<div class="pos-absolute-tr">
+								<button
+									class="btn btn-secondary px-3 m-3"
+									@click="active.tag={ key: '' }; active.key=''; active.existing=false; modal.tagset=true"
+								>
+									<ion-icon name="add-outline"></ion-icon>
+								</button>
+							</div>
 						</div>
 						<div class="panel-body">
 							<a

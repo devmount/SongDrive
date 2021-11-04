@@ -99,7 +99,7 @@ export default {
 				}
 				// tag doesn't exist yet
 				else {
-					this.$db.collection('tags').doc(this.isocode).set({
+					this.$db.collection('tags').doc(this.key).set({
 						key: this.key,
 						...this.languages
 					}).then(() => {
