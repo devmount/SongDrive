@@ -88,7 +88,9 @@
 										<!-- filter tag -->
 										<select v-model="filter" class="form-select select-lg filter" required>
 											<option value="" disabled selected>{{ $t('placeholder.tag') }}</option>
-											<option v-for="tag in tags" :key="tag.key" :value="tag.key">{{ $t('tag.' + tag.key) }}</option>
+											<option v-for="tag in tags" :key="tag.key" :value="tag.key">
+												{{ tag[$i18n.locale] ? tag[$i18n.locale] : tag.key }}
+											</option>
 										</select>
 									</li>
 									<li class="menu-item">

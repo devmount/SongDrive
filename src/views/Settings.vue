@@ -252,7 +252,7 @@
 							>
 								<span class="label px-2 py-1 my-1">
 									<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
-									{{ $t('tag.' + tag.key) }}
+									{{ tag[$i18n.locale] ? tag[$i18n.locale] : tag.key }}
 								</span>
 							</a>
 						</div>
