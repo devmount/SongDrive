@@ -89,8 +89,27 @@ import 'highlight.js/styles/github-dark.css';
 marked.setOptions({
   renderer: new marked.Renderer(),
   highlight: (code, lang) => {
-		const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-    return hljs.highlight(code, { language }).value;
+		if (lang == 'songdrive') {
+			let parsedCode = [];
+			code.split('\n').forEach(line => {
+				// check for marker
+				if (line.substring(0,2) === '--') {
+					parsedCode.push('<span class="text-gray">' + line + '</span>');
+				} else
+				// check for chords
+				if (line.slice(-2) === '  ') {
+					parsedCode.push('<span class="text-primary">' + line + '</span>');
+				}
+				// lyrics
+				else {
+					parsedCode.push(line);
+				}
+			});
+			return parsedCode.join('\n');
+		} else {
+			const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+			return hljs.highlight(code, { language }).value;
+		}
   },
   langPrefix: 'hljs language-',
   pedantic: false,
