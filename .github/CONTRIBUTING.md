@@ -44,7 +44,9 @@ Simply fill in [the required template](PULL_REQUEST_TEMPLATE.md). Please do not 
 
 ## Adding Translations
 
-SongDrive has multi language support. You can add a new translation or improve an existing translation under in the `src/docs/` directory. To add a new translation, simply copy the `docs.en.md` file and use the two-letter code of the new language for the new file name (e.g. `docs.fr.md` for French). Then translate the values of all keys and submit the file in a corresponding PR.
+SongDrive has multi language support. You can add a new translation or improve an existing translation in the `src/locales/` directory. To add a new translation, simply copy the `en.json` file and use the two-letter code of the new language for the new file name (e.g. `fr.json` for French). Then translate the values of all keys and submit the file in a corresponding PR.
+
+You can als add a new translation for the documentation in the `src/docs/` directory. To add a new translation, simply copy the `docs.en.md` file and use the two-letter code of the new language for the new file name (e.g. `docs.fr.md` for French). Then translate the content of that file and submit it in a corresponding PR.
 
 ## Improving the docs
 
