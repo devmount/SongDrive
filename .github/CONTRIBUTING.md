@@ -1,6 +1,6 @@
 # Contributing to this project
 
-First off, thanks for taking the time to contribute! You are awesome! :tada::clap:
+First off, thanks for taking the time to contribute! You are awesome! 🎉👏🏻
 
 ## Table Of Contents
 
@@ -31,16 +31,16 @@ Simply fill in [the required template](PULL_REQUEST_TEMPLATE.md). Please do not 
 - Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
 - Limit the first line to 72 characters or less
 - Consider starting your commit messages with one of the following emojis:
-  - :heavy_plus_sign: `:heavy_plus_sign:` when adding a file or implementing a feature
-  - :hammer: `:hammer:` when fixing a bug or issue
-  - :green_heart: `:green_heart:` when improving code or comments
-  - :zap: `:zap:` when improving performance
-  - :scroll: `:scroll:` when updating docs or readme
-  - :key: `:key:` when dealing with security
-  - :repeat: `:repeat:` when updating dependencies or data
-  - :white_check_mark: `:white_check_mark:` when a new release was built
-  - :shirt: `:shirt:` when refactoring or removing linter warnings
-  - :x: `:x:` when removing code or files
+  - ➕ `:heavy_plus_sign:` when adding a file or implementing a feature
+  - 🔨 `:hammer:` when fixing a bug or issue
+  - 💚 `:green_heart:` when improving code or comments
+  - ⚡ `:zap:` when improving performance
+  - 📜 `:scroll:` when updating docs or readme
+  - 🔑 `:key:` when dealing with security
+  - 🔁 `:repeat:` when updating dependencies or data
+  - ✅ `:white_check_mark:` when a new release was built
+  - 👕 `:shirt:` when refactoring or removing linter warnings
+  - ❌ `:x:` when removing code or files
 
 ## Adding Translations
 
