@@ -15,7 +15,7 @@ A song management web application to store, synchronize and present songs and se
 
 This is how the SongDrive Dashboard currently looks like.
 
-![20200223_songdrive_dashboard](https://user-images.githubusercontent.com/5441654/77798970-235c7300-7074-11ea-9485-576584d19273.png)
+![20211105_songdrive_dashboard](https://user-images.githubusercontent.com/5441654/140494330-9022aa11-7513-4feb-b0e0-4f0f95f5a759.png)
 
 *A demo page is planned.*
 
