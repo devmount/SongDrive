@@ -11,7 +11,7 @@
 		"type": "git",
 		"url": "https://github.com/devmount/SongDrive.git"
 	},
-	"homepage": "https://devmount.github.io/SongDrive",
+	"homepage": "https://github.com/devmount/SongDrive",
 	"keywords": [
 		"vuejs2",
 		"vuefire",

@@ -6,8 +6,9 @@
 [![License](https://img.shields.io/badge/license-MIT-88b544.svg?style=flat-square)](./LICENSE)
 [![Contribution Guidlines](https://img.shields.io/badge/contributions-welcome-88b544.svg?style=flat-square)](./.github/CONTRIBUTING.md)
 
-A song management web application to store, synchronize and present songs and setlists, based on [Vue.js](//vuejs.org/), [Firebase](//firebase.google.com/) and [Spectre.css](//github.com/picturepan2/spectre). Head over to [the docs](https://devmount.github.io/SongDrive) for more information.
+A song management web application to store, synchronize and present songs and setlists, based on [Vue.js](//vuejs.org/), [Firebase](//firebase.google.com/) and [Spectre.css](//github.com/picturepan2/spectre). Head over to the docs ([EN](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md), [DE](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md)) for more information how to get started with SongDrive.
 
+> **Note**  
 > SongDrive v1.x is currently in beta, if you are looking for SongDrive v0.x, you can download the final release v0.2.10 [here](https://github.com/devmount/SongDrive/releases/tag/v0.2.10).
 
 ## Preview
@@ -102,9 +103,8 @@ This is how the SongDrive Dashboard currently looks like.
     yarn build
     ```
 
-::: warning HINT
-The setup process is still in development. An additional step with the possibility to add test data will be added in a future release.
-:::
+> **Note**  
+>The setup process is still in development. An additional step with the possibility to add test data will be added in a future release.
 
 ## Licence
 

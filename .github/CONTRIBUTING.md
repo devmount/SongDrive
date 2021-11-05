@@ -48,4 +48,7 @@ You can add a new translation or improve an existing translation as soon as Song
 
 ## Improving the docs
 
-You can contribute to [the docs](https://devmount.github.io/SongDrive) by simply clicking the *Edit this page* Link at the bottom of each page and create a corresponding PR.
+You can contribute to the docs by editing the [documentation Markdown files](https://github.com/devmount/SongDrive/tree/main/src/docs) und and create a corresponding PR. SongDrive is currently available in the following languages:
+
+- [English (`docs.en.md`)](https://github.com/devmount/SongDrive/edit/main/src/docs/docs.en.md)
+- [German (`docs.de.md`)](https://github.com/devmount/SongDrive/edit/main/src/docs/docs.de.md)
