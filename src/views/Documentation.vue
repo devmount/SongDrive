@@ -113,7 +113,7 @@ export default {
 					renderer: new marked.Renderer(),
 					highlight: (code, lang) => {
 						if (lang == 'songdrive') {
-							return this.highlight(code);
+							return this.sdHighlight(code);
 						} else {
 							const language = hljs.getLanguage(lang) ? lang : 'plaintext';
 							return hljs.highlight(code, { language }).value;
