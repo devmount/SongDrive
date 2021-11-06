@@ -592,7 +592,7 @@ export default {
 	line-height: 1.3em;
 }
 .prism-editor__container {
-	height: 100%;
+	min-height: 100%;
 }
 .prism-editor__textarea:focus {
 	outline: none;
