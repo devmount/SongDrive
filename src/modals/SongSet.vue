@@ -190,15 +190,21 @@
 								<div class="form-group" :class="{ 'has-error': error.content }">
 									<label class="form-label" for="content">
 										{{ $t('field.content') }} <span class="text-error">*</span>
+										<button
+											class="btn btn-secondary btn-sm tooltip tooltip-left float-right"
+											:data-tooltip="$t('modal.songSyntaxCheatsheet')"
+											@click="modal.infosongsyntax = true"
+										>
+											<ion-icon name="information-outline"></ion-icon>
+										</button>
 									</label>
-									<textarea
-										v-model="song.content"
-										class="form-input text-pre"
+									<prism-editor
 										id="content"
-										:placeholder="$t('placeholder.exampleSongContent')"
-										rows="17"
-										required
-									></textarea>
+										class="form-input text-pre"
+										v-model="song.content"
+										:highlight="highlighter"
+									></prism-editor>
+									<!-- :placeholder="$t('placeholder.exampleSongContent')" -->
 									<p v-if="error.content" class="form-input-hint">{{ $t('error.requiredContent') }}</p>
 								</div>
 							</div>
@@ -358,10 +364,20 @@
 				</div>
 			</div>
 		</div>
+		<!-- modal: info song syntax -->
+		<InfoSongSyntax
+			v-if="modal.infosongsyntax"
+			:active="modal.infosongsyntax"
+			@closed="modal.infosongsyntax = false"
+		/>
 	</div>
 </template>
 
 <script>
+import InfoSongSyntax from '@/modals/InfoSongSyntax';
+import { PrismEditor } from 'vue-prism-editor';
+import 'vue-prism-editor/dist/prismeditor.min.css';
+
 export default {
 	name: 'song-set',
 	props: {
@@ -374,12 +390,14 @@ export default {
 		languages: Object,
 		ready: Object,
 	},
+	components: { InfoSongSyntax, PrismEditor	},
 	data () {
 		return {
 			song: JSON.parse(JSON.stringify(this.initialSong)),
 			modal: {
 				tags: false,
 				translations: false,
+				infosongsyntax: false
 			},
 			search: {
 				tags: '',
@@ -394,6 +412,9 @@ export default {
 		};
 	},
 	methods: {
+		highlighter (code) {
+			return this.sdHighlight(code);
+		},
 		set () {
 			// first check for form errors
 			this.error.title = this.song.title == '';
@@ -575,8 +596,14 @@ export default {
 <style lang="scss">
 #content {
 	height: 55vh;
-	font-size: .7em;
+	font-size: .9em;
 	line-height: 1.3em;
+}
+.prism-editor__container {
+	min-height: 100%;
+}
+.prism-editor__textarea:focus {
+	outline: none;
 }
 .modal-secondary {
 	.max-column {

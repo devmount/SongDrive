@@ -63,18 +63,20 @@ Vue.mixin({
 		// scale to use for song tuning and transponation
 		keyScale: keyScale,
 		/*
-			user roles and permissions: Reader, Performer, Editor and Administrator
-			RPEA
-			XXXX see dashboard, song list and setlist list
-			XXXX open single songs (present, tune, export)
-			XXXX open single setlists (present, copy, export)
-			-XXX create and edit setlists
-			-XXX custom tuning in setlists
-			-XXX sync setlists
-			--XX create and edit songs
-			--XX delete songs and setlists
-			---X create, edit and delete tags
-			---X create, edit and delete users
+			user roles and permissions: Administrator, Editor, Performer and Reader
+			 A E P R                                              
+			------------------------------------------------------
+			 x x x x  see dashboard, song list and setlist list   
+			 x x x x  see single songs (present, tune, export)    
+			 x x x x  see single setlists (present, copy, export) 
+			 x x x    create and edit setlists                    
+			 x x x    custom song tuning in setlists              
+			 x x x    synchronize setlists                        
+			 x x      create and edit songs                       
+			 x x      delete songs and setlists                   
+			 x        create, edit and delete song tags           
+			 x        create, edit and delete song languages      
+			 x        create, edit and delete users               
 		*/
 		userRoles: () => ({
 			reader: 1,
@@ -262,6 +264,25 @@ Vue.mixin({
 				? { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 				: { year: 'numeric', month: 'long', day: 'numeric' };
 			return (new Date(d)).toLocaleDateString(locale + '-' + locale.toUpperCase(), options);
+		},
+		// highlight given text in SongDrive syntax highlighting
+		sdHighlight: (code) => {
+			let parsedCode = [];
+			code.split('\n').forEach(line => {
+				// check for marker
+				if (line.substring(0,2) === '--') {
+					parsedCode.push('<span class="text-gray">' + line + '</span>');
+				} else
+				// check for chords
+				if (line.slice(-2) === '  ') {
+					parsedCode.push('<span class="text-primary">' + line + '</span>');
+				}
+				// lyrics
+				else {
+					parsedCode.push(line);
+				}
+			});
+			return parsedCode.join('\n');
 		}
   }
 })
