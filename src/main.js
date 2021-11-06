@@ -262,6 +262,25 @@ Vue.mixin({
 				? { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 				: { year: 'numeric', month: 'long', day: 'numeric' };
 			return (new Date(d)).toLocaleDateString(locale + '-' + locale.toUpperCase(), options);
+		},
+		// highlight given text in SongDrive syntax highlighting
+		highlight: (code) => {
+			let parsedCode = [];
+			code.split('\n').forEach(line => {
+				// check for marker
+				if (line.substring(0,2) === '--') {
+					parsedCode.push('<span class="text-gray">' + line + '</span>');
+				} else
+				// check for chords
+				if (line.slice(-2) === '  ') {
+					parsedCode.push('<span class="text-primary">' + line + '</span>');
+				}
+				// lyrics
+				else {
+					parsedCode.push(line);
+				}
+			});
+			return parsedCode.join('\n');
 		}
   }
 })

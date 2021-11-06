@@ -86,41 +86,6 @@ const marked = require("marked");
 const hljs = require('highlight.js');
 import 'highlight.js/styles/github-dark.css';
 
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  highlight: (code, lang) => {
-		if (lang == 'songdrive') {
-			let parsedCode = [];
-			code.split('\n').forEach(line => {
-				// check for marker
-				if (line.substring(0,2) === '--') {
-					parsedCode.push('<span class="text-gray">' + line + '</span>');
-				} else
-				// check for chords
-				if (line.slice(-2) === '  ') {
-					parsedCode.push('<span class="text-primary">' + line + '</span>');
-				}
-				// lyrics
-				else {
-					parsedCode.push(line);
-				}
-			});
-			return parsedCode.join('\n');
-		} else {
-			const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-			return hljs.highlight(code, { language }).value;
-		}
-  },
-  langPrefix: 'hljs language-',
-  pedantic: false,
-  gfm: true,
-  breaks: true,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false,
-  xhtml: false
-});
-
 // documentation contents
 const docs = {
 	de: require("@/docs/docs.de.md").default,
@@ -142,7 +107,28 @@ export default {
 			return marked.lexer(docs[this.$i18n.locale]).filter(t => t.type === 'heading' && t.depth === 2);
 		},
 		content () {
-			return marked(docs[this.$i18n.locale]);
+			return marked(
+				docs[this.$i18n.locale],
+				{
+					renderer: new marked.Renderer(),
+					highlight: (code, lang) => {
+						if (lang == 'songdrive') {
+							return this.highlight(code);
+						} else {
+							const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+							return hljs.highlight(code, { language }).value;
+						}
+					},
+					langPrefix: 'hljs language-',
+					pedantic: false,
+					gfm: true,
+					breaks: true,
+					sanitize: false,
+					smartLists: true,
+					smartypants: false,
+					xhtml: false
+				}
+			);
 		}
 	}
 }
