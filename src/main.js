@@ -264,7 +264,7 @@ Vue.mixin({
 			return (new Date(d)).toLocaleDateString(locale + '-' + locale.toUpperCase(), options);
 		},
 		// highlight given text in SongDrive syntax highlighting
-		highlight: (code) => {
+		sdHighlight: (code) => {
 			let parsedCode = [];
 			code.split('\n').forEach(line => {
 				// check for marker

@@ -191,14 +191,20 @@
 									<label class="form-label" for="content">
 										{{ $t('field.content') }} <span class="text-error">*</span>
 									</label>
-									<textarea
+									<!-- <textarea
 										v-model="song.content"
 										class="form-input text-pre"
 										id="content"
 										:placeholder="$t('placeholder.exampleSongContent')"
 										rows="17"
 										required
-									></textarea>
+									></textarea> -->
+									<prism-editor
+										id="content"
+										class="form-input text-pre"
+										v-model="song.content"
+										:highlight="highlighter"
+									></prism-editor>
 									<p v-if="error.content" class="form-input-hint">{{ $t('error.requiredContent') }}</p>
 								</div>
 							</div>
@@ -362,6 +368,9 @@
 </template>
 
 <script>
+import { PrismEditor } from 'vue-prism-editor';
+import 'vue-prism-editor/dist/prismeditor.min.css';
+
 export default {
 	name: 'song-set',
 	props: {
@@ -374,6 +383,7 @@ export default {
 		languages: Object,
 		ready: Object,
 	},
+	components: { PrismEditor	},
 	data () {
 		return {
 			song: JSON.parse(JSON.stringify(this.initialSong)),
@@ -394,6 +404,9 @@ export default {
 		};
 	},
 	methods: {
+		highlighter (code) {
+			return this.sdHighlight(code);
+		},
 		set () {
 			// first check for form errors
 			this.error.title = this.song.title == '';
@@ -575,8 +588,14 @@ export default {
 <style lang="scss">
 #content {
 	height: 55vh;
-	font-size: .7em;
+	font-size: .9em;
 	line-height: 1.3em;
+}
+.prism-editor__container {
+	height: 100%;
+}
+.prism-editor__textarea:focus {
+	outline: none;
 }
 .modal-secondary {
 	.max-column {
