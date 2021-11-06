@@ -7,13 +7,9 @@
 				<div class="modal-title h5">{{ $t('modal.songSyntaxCheatsheet') }}</div>
 			</div>
 			<div class="modal-body">
-				<div class="content" v-html="content"></div>
+				<div v-html="content"></div>
 			</div>
-			<div class="modal-footer">
-				<button class="btn btn-gray" aria-label="Close" @click.prevent="$emit('closed')">
-					{{ $t('button.close') }}
-				</button>
-			</div>
+			<div class="modal-footer"></div>
 		</div>
 	</div>
 </template>
