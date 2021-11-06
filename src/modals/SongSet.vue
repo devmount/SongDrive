@@ -190,21 +190,21 @@
 								<div class="form-group" :class="{ 'has-error': error.content }">
 									<label class="form-label" for="content">
 										{{ $t('field.content') }} <span class="text-error">*</span>
+										<button
+											class="btn btn-secondary btn-sm tooltip tooltip-left float-right"
+											:data-tooltip="$t('modal.songSyntaxCheatsheet')"
+											@click="modal.infosongsyntax = true"
+										>
+											<ion-icon name="information-outline"></ion-icon>
+										</button>
 									</label>
-									<!-- <textarea
-										v-model="song.content"
-										class="form-input text-pre"
-										id="content"
-										:placeholder="$t('placeholder.exampleSongContent')"
-										rows="17"
-										required
-									></textarea> -->
 									<prism-editor
 										id="content"
 										class="form-input text-pre"
 										v-model="song.content"
 										:highlight="highlighter"
 									></prism-editor>
+									<!-- :placeholder="$t('placeholder.exampleSongContent')" -->
 									<p v-if="error.content" class="form-input-hint">{{ $t('error.requiredContent') }}</p>
 								</div>
 							</div>
@@ -364,10 +364,17 @@
 				</div>
 			</div>
 		</div>
+		<!-- modal: info song syntax -->
+		<InfoSongSyntax
+			v-if="modal.infosongsyntax"
+			:active="modal.infosongsyntax"
+			@closed="modal.infosongsyntax = false"
+		/>
 	</div>
 </template>
 
 <script>
+import InfoSongSyntax from '@/modals/InfoSongSyntax';
 import { PrismEditor } from 'vue-prism-editor';
 import 'vue-prism-editor/dist/prismeditor.min.css';
 
@@ -383,13 +390,14 @@ export default {
 		languages: Object,
 		ready: Object,
 	},
-	components: { PrismEditor	},
+	components: { InfoSongSyntax, PrismEditor	},
 	data () {
 		return {
 			song: JSON.parse(JSON.stringify(this.initialSong)),
 			modal: {
 				tags: false,
 				translations: false,
+				infosongsyntax: false
 			},
 			search: {
 				tags: '',
