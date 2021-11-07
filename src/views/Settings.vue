@@ -179,7 +179,7 @@
 				</div>
 				<!-- language administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
-					<div class="panel" v-if="ready.languages">
+					<div class="panel">
 						<div class="panel-header text-center pos-relative">
 							<ion-icon name="language-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $tc('widget.languages', numberOfLanguages, [numberOfLanguages]) }}</div>
@@ -269,8 +269,11 @@
 							<div class="panel-subtitle text-gray">{{ $t('text.exportImportData') }}</div>
 						</div>
 						<div class="panel-footer mt-5">
-							<button class="btn btn-primary btn-block text-uppercase" @click="exportDb">
-								<ion-icon name="download-outline" class="icon-left"></ion-icon> {{ $t('button.export') }}
+							<button class="btn btn-primary btn-block text-uppercase mb-2" @click="exportDb">
+								<ion-icon name="archive-outline" class="icon-left"></ion-icon> {{ $t('button.export') }}
+							</button>
+							<button class="btn btn-primary btn-block text-uppercase" @click="modal.importdata=true">
+								<ion-icon name="download-outline" class="icon-left"></ion-icon> {{ $t('button.import') }}
 							</button>
 						</div>
 					</div>
@@ -332,6 +335,12 @@
 				:uiLanguages="uiLanguages"
 				@closed="modal.tagset = false"
 			/>
+			<!-- modal: import data -->
+			<ImportData
+				v-if="modal.importdata"
+				:active="modal.importdata"
+				@closed="modal.importdata = false"
+			/>
 		</div>
 	</div>
 </template>
@@ -343,6 +352,7 @@ import UserDelete from '@/modals/UserDelete';
 import LanguageSet from '@/modals/LanguageSet';
 import LanguageDelete from '@/modals/LanguageDelete';
 import TagSet from '@/modals/TagSet';
+import ImportData from '@/modals/ImportData';
 
 export default {
 	name: 'settings',
@@ -352,6 +362,7 @@ export default {
 		LanguageSet,
 		LanguageDelete,
 		TagSet,
+		ImportData,
 	},
 	props: [
 		'user',
@@ -381,6 +392,7 @@ export default {
 				languageset: false,
 				languagedelete: false,
 				tagset: false,
+				importdata: false,
 			},
 			active: {
 				user: {},
@@ -435,7 +447,9 @@ export default {
 		uiLanguages () {
 			let uiLanguages = {};
 			Object.keys(this.$i18n.messages).forEach(key => {
-				uiLanguages[key] = this.languages[key].label;
+				if (this.languages[key]) {
+					uiLanguages[key] = this.languages[key].label; // TODO: check if key esists in this.languages
+				}
 			})
 			return uiLanguages;
 		},
