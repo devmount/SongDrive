@@ -418,7 +418,9 @@ export default {
 				'songs': this.songs,
 				'setlists': this.setlists,
 				'users': this.users,
-				'tags': this.tags
+				'registrations': this.registrations,
+				'tags': this.tags,
+				'languages': this.languages
 			};
 			this.download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json');
 			// toast success message
