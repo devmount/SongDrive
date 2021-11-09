@@ -34,6 +34,7 @@ This is how the SongDrive Dashboard currently looks like.
 - Hotkey support
 - General statistics, setlist and user specific stats
 - UI supports multiple languages (currently: EN, DE)
+- Export and Import of complete SongDrive data
 
 ## Installation
 
@@ -103,8 +104,7 @@ This is how the SongDrive Dashboard currently looks like.
     yarn build
     ```
 
-> **Note**  
->The setup process is still in development. An additional step with the possibility to add test data will be added in a future release.
+11. (optional) You can import demo content if you don't like to start from scratch. First download the [demo data file](https://raw.githubusercontent.com/devmount/SongDrive/main/demo.import.json) from the repository. Sign in to SongDrive with your admin user, go to Settings > Import, select the downloaded demo file and import it. You can now have a look at 8 public domain songs, one demo setlist, several song tags, English and German languages and an additional test user.
 
 ## Licence
 
