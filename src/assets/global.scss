@@ -360,6 +360,9 @@ code {
 ::-moz-selection {
 	background: $primary-color;
 }
+.d-invisible {
+	height: 0px;
+}
 
 // loading
 .loading {
@@ -1090,6 +1093,13 @@ a {
 				font-weight: 900;
 			}
 		}
+	}
+}
+
+// timeline
+.timeline {
+	.timeline-item:last-child::before {
+		display: none;
 	}
 }
 

@@ -1,0 +1,496 @@
+{
+  "languages": {
+    "de": {
+      "label": "Deutsch"
+    },
+    "en": {
+      "label": "English"
+    }
+  },
+  "registrations": {},
+  "setlists": {
+    "20220220-hope-service": {
+      "active": false,
+      "creator": "ABCXKI9aaiQbJljzxrFMWA4Mn9t1",
+      "date": "2022-02-20",
+      "id": "20220220-hope-service",
+      "position": 0,
+      "songs": [
+        {
+          "id": "amazing-grace-en",
+          "tuning": "G"
+        },
+        {
+          "id": "it-is-well-with-my-soul-en",
+          "tuning": "C"
+        },
+        {
+          "id": "gott-ist-gegenwaertig-de",
+          "tuning": "E"
+        },
+        {
+          "id": "lobe-den-herren-de",
+          "tuning": "F"
+        }
+      ],
+      "title": "Hope Service"
+    }
+  },
+  "songs": {
+    "amazing-grace-en": {
+      "authors": "Edwin Othello Excell | John Newton | John P. Rees | William W. Walker",
+      "ccli": 22025,
+      "content": "--v1\n  G       G7        C        G  \nAmazing grace how sweet the sound\n      G        G7         D  D7  \nThat saved a wretch like me\n  G         G7       C      G  \nI once was lost but now am found\n      Em       D     C  G  \nWas blind but now I see\n\n--v2\n        G         G7        C        G  \n'Twas grace that taught my heart to fear\n      G       G7      D    D7  \nAnd grace my fears relieved\n      G       G7        C      G  \nHow precious did that grace appear\n     Em     D       C    G  \nThe hour I first believed\n\n--v3\n     G         G7      C       G  \nThe Lord has promised good to me\n     G       G7     D   D7  \nHis Word my hope secures\n    G        G7        C       G  \nHe will my shield and portion be\n    Em      D      C   G  \nAs long as life endures\n\n--v4\n         G    G7      C          G  \nThrough many dangers toils and snares\n   G      G7    D  D7  \nI have already come\n       G          G7        C         G  \n'Tis grace hath brought me safe thus far\n      Em        D       C  G  \nAnd grace will lead me home\n\n--v5\n      G         G7       C           G  \nYea when this flesh and heart shall fail\n     G      G7         D   D7  \nAnd mortal life shall cease\n    G       G7      C       G  \nI shall possess within the veil\n   Em      D       C   G  \nA life of joy and peace\n\n--v6\n      G           G7        C       G  \nWhen we've been there ten thousand years\n         G     G7      D  D7  \nBright shining as the sun\n       G       G7      C           G  \nWe've no less days to sing God's praise\n       Em     D       C  G  \nThan when we first begun",
+      "customTuning": "G",
+      "customTuningDelta": 0,
+      "id": "amazing-grace-en",
+      "language": "en",
+      "note": "",
+      "publisher": "Public Domain",
+      "subtitle": "How sweet the sound",
+      "tags": [
+        "freedom",
+        "grace",
+        "love",
+        "salvation"
+      ],
+      "title": "Amazing Grace",
+      "translations": [],
+      "tuning": "G",
+      "year": "",
+      "youtube": "ogxLNlgKM8c"
+    },
+    "gott-ist-gegenwaertig-de": {
+      "authors": "Gerhard Tersteegen",
+      "ccli": 4817435,
+      "content": "--v1\n E             H       C#m          G#m  \nGott ist gegenwärtig. Lasset uns anbeten\nA      E                   H E  \nund in Ehrfurcht vor ihn treten.\n E               H      C#m              G#m  \nGott ist in der Mitten. Alles in uns schweige\nA        E                H  E  \nund sich innigst vor ihm beuge.\n E       A      H       E  \nWer ihn kennt, wer ihn nennt,\n    E      A      H  E    E        A         H  E  \nschlag die Augen nieder; kommt, ergebt euch wieder.\n\n--v2\nGott ist gegenwärtig, dem die Cherubinen\nTag und Nacht gebücket dienen.\nHeilig, heilig, heilig!, singen ihm zur Ehre\naller Engel hohe Chöre.\nHerr, vernimm unsre Stimm,\nda auch wir Geringen unsre Opfer bringen.\n\n--v3\nWir entsagen willig allen Eitelkeiten,\naller Erdenlust und Freuden;\nda liegt unser Wille, Seele, Leib und Leben\ndir zum Eigentum ergeben.\nDu allein sollst es sein,\nunser Gott und Herre, dir gebührt die Ehre.\n\n--v4\nMajestätisch Wesen, möcht ich recht dich preisen\nund im Geist dir Dienst erweisen.\nMöcht ich wie die Engel immer vor dir stehen\nund dich gegenwärtig sehen.\nLass mich dir für und für\ntrachten zu gefallen, liebster Gott, in allem.\n\n--v5\n E               H        C#m              G#m  \nLuft, die alles füllet, drin wir immer schweben,\nA      E               H E  \naller Dinge Grund und Leben,\n E                 H      C#m          G#m  \nMeer ohn Grund und Ende, Wunder aller Wunder:\nA         E              H  E  \nich senk mich in dich hinunter.\nE       A    H     E  \nIch in dir, du in mir,\n E         A          H  E    E        A        H  E  \nlass mich ganz verschwinden, dich nur sehn und finden.\n\n--v6\nDu durchdringest alles; lass dein schönstes Lichte,\nHerr, berühren mein Gesichte.\nWie die zarten Blumen willig sich entfalten\nund der Sonne stille halten,\nlass mich so still und froh\ndeine Strahlen fassen und dich wirken lassen.\n\n--v7\nMache mich einfältig, innig, abgeschieden,\nsanft und still in deinem Frieden;\nmach mich reines Herzens, dass ich deine Klarheit\nschauen mag in Geist und Wahrheit;\nlass mein Herz überwärts\nwie ein Adler schweben und in dir nur leben.\n\n--v8\nHerr, komm in mir wohnen, lass mein Geist auf Erden\ndir ein Heiligtum noch werden;\nkomm, du nahes Wesen, dich in mir verkläre,\ndass ich dich stets lieb und ehre.\nWo ich geh, sitz und steh,\nlass mich dich erblicken und vor dir mich bücken.\n",
+      "customTuning": "E",
+      "customTuningDelta": 0,
+      "id": "gott-ist-gegenwaertig-de",
+      "language": "de",
+      "note": "",
+      "publisher": "Public Domain",
+      "subtitle": "Lasset uns anbeten",
+      "tags": [
+        "worship"
+      ],
+      "title": "Gott ist gegenwärtig",
+      "translations": [],
+      "tuning": "E",
+      "year": "",
+      "youtube": ""
+    },
+    "grosser-gott-wir-loben-dich-de": {
+      "authors": "Franz Ignaz | Heinrich Bone",
+      "ccli": 4334482,
+      "content": "--v1\n  E               H     E                C#m    E/G#   H  \nGroßer Gott, wir loben dich; Herr, wir preisen deine Stärke.\n E                H     E          C#m     E/G#  H  \nVor dir neigt die Erde sich und bewundert deine Werke.\n H               E            A          E    C#m  E  \nWie du warst vor aller Zeit, so bleibst du in Ewigkeit.\n\n--v2\nE                 H      E          C#m     E/G# H  \nAlles, was dich preisen kann, Cherubim und Seraphinen\n  E                 H   E        C#m     E/G#    H  \nstimmen dir ein Loblied an; alle Engel, die dir dienen,\n H              E          A       E       C#m      E  \nrufen dir stets ohne Ruh »Heilig, heilig, heilig!« zu.\n\n--v3\n E                 H  E             C#m      E/G#   H  \nHeilig, Herr Gott Zebaoth! Heilig, Herr der Himmelsheere!\n  E            H       E           C#m    E/G#     H  \nStarker Helfer in der Not! Himmel, Erde, Luft und Meere\n H                E           A     E        C#m   E  \nsind erfüllt von deinem Ruhm; alles ist dein Eigentum.\n\n--v4\nE              H      E           C#m   E/G#   H  \nAuf dem ganzen Erdenkreis loben Große, loben Kleine\n E                 H        E              C#m  E/G# H  \ndich, Gott Vater. Dir zum Preis singt die heilige Gemeinde;\n H               E            A     E     C#m    E  \nsie verehrt auf seinem Thron deinen eingebornen Sohn.\n\n--v5\n E                  H    E              C#m    E/G#      H  \nSieh dein Volk in Gnaden an. Hilf uns, segne, Herr, dein Erbe;\n E                H       E              C#m       E/G#     H  \nleit uns auf der rechten Bahn, dass der Feind uns nicht verderbe.\n H               E           A       E      C#m  E  \nFühre uns durch diese Zeit, nimm uns auf in Ewigkeit.\n\n--v6\nE          H      E            C#m    E/G#   H  \nAlle Tage wollen wir dich und deinen Namen preisen\nE             H      E         C#m     E/G#   H  \nund zu allen Zeiten dir Ehre, Lob und Dank erweisen.\n H                E             A        E      C#m   E  \nRett aus Sünden, rett aus Tod, sei uns gnädig, Herre Gott.\n\n--v7\n E               H     E              C#m   E/G#   H  \nHerr, erbarm, erbarme dich. Lass uns deine Güte schauen;\n E           H     E             C#m      E/G#     H  \ndeine Treue zeige sich, wie wir fest auf dich vertrauen.\nH                E           A        E        C#m   E  \nAuf dich hoffen wir allein, lass uns nicht verloren sein.",
+      "id": "grosser-gott-wir-loben-dich-de",
+      "language": "de",
+      "note": "",
+      "publisher": "Public Domain",
+      "subtitle": "Herr, wir preisen deine Stärke",
+      "tags": [
+        "adoration",
+        "greatness",
+        "praise"
+      ],
+      "title": "Großer Gott wir loben dich",
+      "translations": [],
+      "tuning": "E",
+      "year": "",
+      "youtube": ""
+    },
+    "it-is-well-with-my-soul-en": {
+      "authors": "Horatio Gates Spafford | Philip Paul Bliss",
+      "ccli": 25376,
+      "content": "--v1\n      C                    G          C  \nWhen peace like a river attendeth my way\n      Am           C   D       G  \nWhen sorrows like sea billows roll\n    C        F             Dm           G  \nWhatever my lot Thou hast taught me to say\n       F          G            C  \nIt is well It is well with my soul\n\n--c\n       C            G  \nIt is well with my soul\n       F          G            C  \nIt is well It is well with my soul\n\n--v2\n      C                         G            C  \nTho' Satan should buffet tho' trials should come\n      Am          C D         G  \nLet this blest assurance control\n        C         F           Dm         G  \nThat Christ hath regarded my helpless estate\n           F            G           C  \nAnd hath shed His own blood for my soul\n\n--v3\n    C                        G        C  \nMy sin O the bliss of this glorious tho't\n    Am         C    D        G  \nMy sin not in part but the whole\n    C              F          Dm         G  \nIs nailed to the cross and I bear it no more\n            F               G         C  \nPraise the Lord Praise the Lord O my soul\n\n--v4\n     C                           G              C  \nAnd Lord haste the day when the faith shall be sight\n      Am              C   D       G  \nThe clouds be rolled back as a scroll\n     C           F               Dm            G  \nThe trump shall resound and the Lord shall descend\n      F        G            C  \nEven so it is well with my soul",
+      "customTuning": "C",
+      "customTuningDelta": 0,
+      "id": "it-is-well-with-my-soul-en",
+      "language": "en",
+      "note": "",
+      "publisher": "Public Domain",
+      "subtitle": "When peace like a river",
+      "tags": [],
+      "title": "It Is Well With My Soul",
+      "translations": [
+        "wenn-friede-mit-gott-de"
+      ],
+      "tuning": "C",
+      "year": "",
+      "youtube": ""
+    },
+    "lobe-den-herren-de": {
+      "authors": "Joachim Neander",
+      "ccli": 4334396,
+      "content": "--v1\n F    C   F       Dm  Am    F   B     Dm B C F  \nLobe den Herren, den mächtigen König der Ehren,\n F     C F    Dm Am     F  B         Dm B C F  \nmeine geliebete Seele, das ist mein Begehren.\n F        B      F                      C  \nKommet zuhauf, Psalter und Harfe, wacht auf,\n F  B   Gm  Dm C F    B C F  \nlasset den Lobgesang hören!\n\n--v2\nLobe den Herren, der alles so herrlich regieret,\nder dich auf Adelers Fittichen sicher geführet,\nder dich erhält, wie es dir selber gefällt;\nhast du nicht dieses verspüret?\n\n--v3\nLobe den Herren, der künstlich und fein dich bereitet,\nder dir Gesundheit verliehen, dich freundlich geleitet.\nIn wie viel Not hat nicht der gnädige Gott\nüber dir Flügel gebreitet!\n\n--v4\nLobe den Herren, der sichtbar dein Leben gesegnet,\nder aus dem Himmel mit Strömen der Liebe geregnet.\nDenke daran, was der Allmächtige kann,\nder dir mit Liebe begegnet!\n\n--v5\nLobe den Herren, was in mir ist, lobe den Namen.\nAlles, was Odem hat, lobe mit Abrahams Samen.\nEr ist dein Licht, Seele, vergiss es ja nicht.\nLob ihn in Ewigkeit! Amen.",
+      "customTuning": "F",
+      "customTuningDelta": 0,
+      "id": "lobe-den-herren-de",
+      "language": "de",
+      "note": "",
+      "publisher": "Public Domain",
+      "subtitle": "Den mächtigen König der Ehren",
+      "tags": [],
+      "title": "Lobe den Herren",
+      "translations": [],
+      "tuning": "F",
+      "year": "",
+      "youtube": ""
+    },
+    "macht-hoch-die-tuer-die-tor-macht-weit-de": {
+      "authors": "Georg Weissel | Johann Anastasius Freylinghausen",
+      "ccli": 5588206,
+      "content": "--v1\n       D                 Hm        A  \nMacht hoch die Tür, die Tor macht weit;\n    G         Hm       Em      D  \nes kommt der Herr der Herrlichkeit,\n     E    D      E    A  \nein König aller Königreich,\n     D             E    A  \nein Heiland aller Welt zugleich,\n     G                        Hm  \nder Heil und Leben mit sich bringt;\n    G                           D  \nderhalben jauchzt, mit Freuden singt:\n   G     Em       A            G      A        D  \nGelobet sei mein Gott, mein Schöpfer reich an Rat!\n\n--v2\nEr ist gerecht, ein Helfer wert;\nSanftmütigkeit ist sein Gefährt,\nsein Königskron ist Heiligkeit,\nsein Zepter ist Barmherzigkeit;\nall unsre Not zum End er bringt,\nderhalben jauchzt, mit Freuden singt:\nGelobet sei mein Gott, mein Heiland groß von Tat!\n\n--v3\nO wohl dem Land, o wohl der Stadt,\nso diesen König bei sich hat!\nWohl allen Herzen insgemein,\nda dieser König ziehet ein!\nEr ist die rechte Freudensonn,\nbringt mit sich lauter Freud und Wonn.\nGelobet sei mein Gott, mein Tröster früh und spat!\n\n--v4\n       D                 Hm        A  \nMacht hoch die Tür, die Tor macht weit!\n     G        Hm     Em  D  \nEur Herz zum Tempel zubereit'.\n      E        D       E    A  \nDie Zweiglein der Gottseligkeit\n       D                 E         A  \nsteckt auf mit Andacht, Lust und Freud;\n    G                      Hm  \nso kommt der König auch zu euch,\n     G                     D  \nja, Heil und Leben mit zugleich.\n   G     Em       A          G         A          D  \nGelobet sei mein Gott, voll Rat, voll Tat, voll Gnad!\n\n--v5\n      D               Hm     A  \nKomm, o mein Heiland Jesu Christ,\n       G       Hm     Em    D  \nmeins Herzens Tür dir offen ist.\n     E        D       E   A  \nAch zieh mit deiner Gnade ein;\n       D                 E        A  \ndein Freundlichkeit auch uns erschein.\n      G                          Hm  \nDein Heilger Geist uns führ und leit\n     G                  D  \nden Weg zur ewgen Seligkeit.\n     G     Em      A        G      A       D  \nDem Namen dein, o Herr, sei ewig Preis und Ehr!",
+      "id": "macht-hoch-die-tuer-die-tor-macht-weit-de",
+      "language": "de",
+      "note": "",
+      "publisher": "Public Domain",
+      "subtitle": "Gelobet sei mein Gott",
+      "tags": [
+        "christmas",
+        "praise"
+      ],
+      "title": "Macht hoch die Tür die Tor macht weit",
+      "translations": [],
+      "tuning": "D",
+      "year": "",
+      "youtube": ""
+    },
+    "wenn-friede-mit-gott-de": {
+      "authors": "Horatio Gates, Spafford Philip, Paul Bliss, Theodor Kübler",
+      "ccli": 4347778,
+      "content": "--v1\n     C                     G          C  \nWenn Friede mit Gott meine Seele durchdringt\n   Am          C  D       G  \nOb Stürme auch drohen von fern\n     C        F            Dm       G  \nMein Herze im Glauben doch allezeit singt\n        F             G           C  \nMir ist wohl, mir ist wohl in dem Herrn\n\n--c\n         C           G  \nMir ist wohl In dem Herrn!\n         F             G           C  \nMir ist wohl, mir ist wohl in dem Herrn\n\n--v2\n      C                        G         C  \nWenn Satan mir nachstellt und bange mir macht\n    Am            C    D        G  \nSo leuchtet dies Wort mir als Stern\n      C        F          Dm              G  \nMein Jesus hat alles für mich schon vollbracht\n         F               G          C  \nIch bin rein durch das Blut meines Herrn\n\n--v3\n     C                      G          C  \nDie Last meiner Sünde trug Jesus, das Lamm\n     Am            C   D      G  \nUnd warf sie weit weg in die Fern'\n     C           F             Dm       G  \nEr starb ja für mich auch am blutigen Stamm\n       F         G         C  \nMeine Seele lobpreise den Herrn\n\n--v4\n     C                        G        C  \nNun leb ich in Christo für Christum allein\n      Am            C  D       G  \nSein Wort ist mein leitender Stern\n   C             F          Dm         G  \nIn ihm hab ich Fried und Erlösung von Pein\n       F         G        C  \nMeine Seele ist selig im Herrn",
+      "id": "wenn-friede-mit-gott-de",
+      "language": "de",
+      "note": "",
+      "publisher": "Public Domain",
+      "subtitle": "Mir ist wohl",
+      "tags": [],
+      "title": "Wenn Friede Mit Gott",
+      "translations": [
+        "it-is-well-with-my-soul-en"
+      ],
+      "tuning": "C",
+      "year": 1880,
+      "youtube": ""
+    },
+    "wie-soll-ich-dich-empfangen-de": {
+      "authors": "Johann Crüger | Paul Gerhardt",
+      "ccli": 4339281,
+      "content": "--v1\n     D            G   D     Em   Hm    A        D  \nWie soll ich dich empfangen und wie begegn ich dir,\n  D           G  D      Em Hm     A      D  \no aller Welt Verlangen, o meiner Seelen Zier?\n   Hm F#m E       A Hm   A      D   G      A  \nO Jesu, Jesu, setze mir selbst die Fackel bei,\n F# Hm      A   D  G  D       G   D    A       D  \ndamit, was dich ergötze, mir kund und wissend sei.\n\n--v2\nDein Zion streut dir Palmen und grüne Zweige hin,\nund ich will dir in Psalmen ermuntern meinen Sinn.\nMein Herze soll dir grünen in stetem Lob und Preis\nund deinem Namen dienen, so gut es kann und weiß.\n\n--v3\nIch lag in schweren Banden, du kommst und machst mich los;\nich stand in Spott und Schanden, du kommst und machst mich groß\nund hebst mich hoch zu Ehren und schenkst mir großes Gut,\ndas sich nicht lässt verzehren, wie irdisch Reichtum tut.\n\n--v3\nWas hast du unterlassen zu meinem Trost und Freud,\nals Leib und Seele saßen in ihrem größten Leid?\nAls mir das Reich genommen, da Fried und Freude lacht,\nda bist du, mein Heil, kommen und hast mich froh gemacht.\n\n--v4\nIhr dürft euch nicht bemühen noch sorgen Tag und Nacht,\nwie ihr ihn wollet ziehen mit eures Armes Macht.\nEr kommt, er kommt mit Willen, ist voller Lieb und Lust,\nall Angst und Not zu stillen, die ihm an euch bewusst.\n\n--v5\nWie soll ich dich empfangen und wie begegn ich dir,\no aller Welt Verlangen, o meiner Seelen Zier?\nO Jesu, Jesu, setze mir selbst die Fackel bei,\ndamit, was dich ergötze, mir kund und wissend sei.\n",
+      "id": "wie-soll-ich-dich-empfangen-de",
+      "language": "de",
+      "note": "",
+      "publisher": "Public Domain",
+      "subtitle": "Schenk mir deine Gnade",
+      "tags": [
+        "christmas"
+      ],
+      "title": "Wie soll ich dich empfangen",
+      "translations": [],
+      "tuning": "D",
+      "year": 1653,
+      "youtube": null
+    }
+  },
+  "tags": {
+    "adoration": {
+      "de": "Verehrung",
+      "en": "Adoration",
+      "key": "adoration"
+    },
+    "assurance": {
+      "de": "Zuspruch",
+      "en": "Assurance",
+      "key": "assurance"
+    },
+    "beauty": {
+      "de": "Schönheit",
+      "en": "Beauty",
+      "key": "beauty"
+    },
+    "blessing": {
+      "de": "Segen",
+      "en": "Blessing",
+      "key": "blessing"
+    },
+    "celebration": {
+      "de": "Feiern",
+      "en": "Celebration",
+      "key": "celebration"
+    },
+    "children": {
+      "de": "Kinder",
+      "en": "Children",
+      "key": "children"
+    },
+    "christmas": {
+      "de": "Weihnachten",
+      "en": "Christmas",
+      "key": "christmas"
+    },
+    "comfort": {
+      "de": "Trost",
+      "en": "Comfort",
+      "key": "comfort"
+    },
+    "commitment": {
+      "de": "Hingabe",
+      "en": "Commitment",
+      "key": "commitment"
+    },
+    "communion": {
+      "de": "Abendmahl",
+      "en": "Communion",
+      "key": "communion"
+    },
+    "creation": {
+      "de": "Schöpfung",
+      "en": "Creation",
+      "key": "creation"
+    },
+    "cross": {
+      "de": "Kreuz",
+      "en": "Cross",
+      "key": "cross"
+    },
+    "declaration": {
+      "de": "Verkündigung",
+      "en": "Declaration",
+      "key": "declaration"
+    },
+    "desire": {
+      "de": "Verlangen",
+      "en": "Desire",
+      "key": "desire"
+    },
+    "easter": {
+      "de": "Ostern",
+      "en": "Easter",
+      "key": "easter"
+    },
+    "encouragement": {
+      "de": "Ermutigung",
+      "en": "Encouragement",
+      "key": "encouragement"
+    },
+    "evangelism": {
+      "de": "Evangelisation",
+      "en": "Evangelism",
+      "key": "evangelism"
+    },
+    "faith": {
+      "de": "Glaube",
+      "en": "Faith",
+      "key": "faith"
+    },
+    "faithfulness": {
+      "de": "Treue",
+      "en": "Faithfulness",
+      "key": "faithfulness"
+    },
+    "father": {
+      "de": "Vater",
+      "en": "Father",
+      "key": "father"
+    },
+    "forgiveness": {
+      "de": "Vergebung",
+      "en": "Forgiveness",
+      "key": "forgiveness"
+    },
+    "freedom": {
+      "de": "Freiheit",
+      "en": "Freedom",
+      "key": "freedom"
+    },
+    "glory": {
+      "de": "Herrlichkeit",
+      "en": "Glory",
+      "key": "glory"
+    },
+    "grace": {
+      "de": "Gnade",
+      "en": "Grace",
+      "key": "grace"
+    },
+    "greatness": {
+      "de": "Größe",
+      "en": "Greatness",
+      "key": "greatness"
+    },
+    "guidance": {
+      "de": "Weisung",
+      "en": "Guidance",
+      "key": "guidance"
+    },
+    "healing": {
+      "de": "Heilung",
+      "en": "Healing",
+      "key": "healing"
+    },
+    "holiness": {
+      "de": "Heiligkeit",
+      "en": "Holiness",
+      "key": "holiness"
+    },
+    "holyspirit": {
+      "de": "Heiliger Geist",
+      "en": "Holy Spirit",
+      "key": "holyspirit"
+    },
+    "hope": {
+      "de": "Hoffnung",
+      "en": "Hope",
+      "key": "hope"
+    },
+    "humility": {
+      "de": "Bescheidenheit",
+      "en": "Humility",
+      "key": "humility"
+    },
+    "jesus": {
+      "de": "Jesus",
+      "en": "Jesus",
+      "key": "jesus"
+    },
+    "joy": {
+      "de": "Freude",
+      "en": "Joy",
+      "key": "joy"
+    },
+    "kingship": {
+      "de": "Königtum",
+      "en": "Kingship",
+      "key": "kingship"
+    },
+    "life": {
+      "de": "Leben",
+      "en": "Life",
+      "key": "life"
+    },
+    "light": {
+      "de": "Licht",
+      "en": "Light",
+      "key": "light"
+    },
+    "longing": {
+      "de": "Sehnsucht",
+      "en": "Longing",
+      "key": "longing"
+    },
+    "love": {
+      "de": "Liebe",
+      "en": "Love",
+      "key": "love"
+    },
+    "obedience": {
+      "de": "Gehorsam",
+      "en": "Obedience",
+      "key": "obedience"
+    },
+    "peace": {
+      "de": "Frieden",
+      "en": "Peace",
+      "key": "peace"
+    },
+    "petition": {
+      "de": "Bitte",
+      "en": "Petition",
+      "key": "petition"
+    },
+    "power": {
+      "de": "Macht",
+      "en": "Power",
+      "key": "power"
+    },
+    "praise": {
+      "de": "Lob",
+      "en": "Praise",
+      "key": "praise"
+    },
+    "prayer": {
+      "de": "Gebet",
+      "en": "Prayer",
+      "key": "prayer"
+    },
+    "presence": {
+      "de": "Gegenwart",
+      "en": "Presence",
+      "key": "presence"
+    },
+    "rest": {
+      "de": "Ruhe",
+      "en": "Rest",
+      "key": "rest"
+    },
+    "resurrection": {
+      "de": "Auferstehung",
+      "en": "Resurrection",
+      "key": "resurrection"
+    },
+    "revival": {
+      "de": "Erweckung",
+      "en": "Revival",
+      "key": "revival"
+    },
+    "sacrifice": {
+      "de": "Opfer",
+      "en": "Sacrifice",
+      "key": "sacrifice"
+    },
+    "salvation": {
+      "de": "Rettung",
+      "en": "Salvation",
+      "key": "salvation"
+    },
+    "strength": {
+      "de": "Stärke",
+      "en": "Strength",
+      "key": "strength"
+    },
+    "surrender": {
+      "de": "Ergebung",
+      "en": "Surrender",
+      "key": "surrender"
+    },
+    "thankfulness": {
+      "de": "Dankbarkeit",
+      "en": "Thankfulness",
+      "key": "thankfulness"
+    },
+    "trust": {
+      "de": "Vertrauen",
+      "en": "Trust",
+      "key": "trust"
+    },
+    "truth": {
+      "de": "Wahrheit",
+      "en": "Truth",
+      "key": "truth"
+    },
+    "unity": {
+      "de": "Einheit",
+      "en": "Unity",
+      "key": "unity"
+    },
+    "victory": {
+      "de": "Sieg",
+      "en": "Victory",
+      "key": "victory"
+    },
+    "worship": {
+      "de": "Anbetung",
+      "en": "Worship",
+      "key": "worship"
+    }
+  },
+  "users": {
+    "ABCXKI9aaiQbJljzxrFMWA4Mn9t1": {
+      "email": "john.doe@songdrive.de",
+      "name": "John Doe",
+      "role": "admin"
+    }
+  }
+}
