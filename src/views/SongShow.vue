@@ -185,10 +185,22 @@
 						</div>
 					</div>
 					<div class="columns mt-4 pt-4">
-						<div v-if="ready.songs && song" class="column col-6 col-md-12">
+						<div v-if="ready.songs && song" class="column">
 							<footer class="text-small">
 								<p>{{ song.authors }}</p>
 								<p>
+									<a
+										v-if="song.youtube"
+										:href="'https://youtu.be/' + song.youtube"
+										class="mr-2"
+										target="_blank"
+									>
+										<span class="label px-2 py-1">
+											<ion-icon name="logo-youtube" class="icon-sm mr-1"></ion-icon>
+											{{ $t('field.youtube') }}
+											<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
+										</span>
+									</a>
 									<a
 										v-if="song.ccli"
 										:href="'https://songselect.ccli.com/Songs/' + song.ccli"
@@ -196,8 +208,8 @@
 										target="_blank"
 									>
 										<span class="label px-2 py-1">
-											<ion-icon name="open-outline" class="icon-sm mr-1"></ion-icon>
 											{{ $t('field.ccli') }}
+											<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
 										</span>
 									</a>
 									<router-link
@@ -214,13 +226,6 @@
 								</p>
 								<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
 							</footer>
-						</div>
-						<div v-if="ready.songs && song && song.youtube" class="column col-6 col-md-12">
-							<iframe
-								:src="'https://www.youtube-nocookie.com/embed/' + song.youtube"
-								frameborder="0"
-								allowfullscreen
-							></iframe>
 						</div>
 					</div>
 				</div>
