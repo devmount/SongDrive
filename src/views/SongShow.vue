@@ -58,16 +58,17 @@
 					<div class="divider text-center hide-lg" :data-content="$t('divider.language')"></div>
 					<div class="d-flex" v-if="ready.songs">
 						<div
-							v-for="(tsong, i) in showLanguages"
-							:key="i" class=" tooltip tooltip-right tooltip-lg"
-							:data-tooltip="$t('divider.language') + ': ' + (languages[tsong[1]] ? languages[tsong[1]].label : '')"
+							v-for="([songId, lang], i) in showLanguages"
+							:key="i"
+							class=" tooltip tooltip-right tooltip-lg"
+							:data-tooltip="$t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
 						>
 							<router-link
-								:to="{ name: 'song-show', params: { id: tsong[0] }}"
+								:to="{ name: 'song-show', params: { id: songId }}"
 								class="btn btn-secondary d-block text-uppercase mb-1"
-								:class="{ disabled: (songKey == tsong[0]) }"
+								:class="{ disabled: (!songId || songKey == songId) }"
 							>
-								{{ tsong[1] }}
+								{{ lang }}
 							</router-link>
 						</div>
 					</div>
@@ -185,10 +186,22 @@
 						</div>
 					</div>
 					<div class="columns mt-4 pt-4">
-						<div v-if="ready.songs && song" class="column col-6 col-md-12">
+						<div v-if="ready.songs && song && ready.tags" class="column">
 							<footer class="text-small">
 								<p>{{ song.authors }}</p>
 								<p>
+									<a
+										v-if="song.youtube"
+										:href="'https://youtu.be/' + song.youtube"
+										class="mr-2"
+										target="_blank"
+									>
+										<span class="label px-2 py-1">
+											<ion-icon name="logo-youtube" class="icon-sm mr-1"></ion-icon>
+											{{ $t('field.youtube') }}
+											<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
+										</span>
+									</a>
 									<a
 										v-if="song.ccli"
 										:href="'https://songselect.ccli.com/Songs/' + song.ccli"
@@ -196,8 +209,8 @@
 										target="_blank"
 									>
 										<span class="label px-2 py-1">
-											<ion-icon name="open-outline" class="icon-sm mr-1"></ion-icon>
 											{{ $t('field.ccli') }}
+											<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
 										</span>
 									</a>
 									<router-link
@@ -214,13 +227,6 @@
 								</p>
 								<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
 							</footer>
-						</div>
-						<div v-if="ready.songs && song && song.youtube" class="column col-6 col-md-12">
-							<iframe
-								:src="'https://www.youtube-nocookie.com/embed/' + song.youtube"
-								frameborder="0"
-								allowfullscreen
-							></iframe>
 						</div>
 					</div>
 				</div>
@@ -487,7 +493,7 @@ export default {
 					return a[1] > b[1] ? 1 : -1;
 				})
 			} else {
-				return [[this.song.id, this.song.language]];
+				return [[this.songKey, this.song.language]];
 			}
 		},
 		showTuning () {
