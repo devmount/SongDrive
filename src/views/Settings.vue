@@ -378,7 +378,6 @@ export default {
 		'languages'
 	],
 	data () {
-		console.log(this.tags);
 		return {
 			profile: {
 				displayName: this.userObject.displayName,
