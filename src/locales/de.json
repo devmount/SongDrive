@@ -231,7 +231,6 @@
     "noTagsSelected": "Keine Tags ausgewählt",
     "noTranslations": "Dieser Song hat bisher keine Übersetzungen.",
     "noUnconfirmedUsers": "Keine unbestätigten Benutzer",
-    "noUsersAvailable": "Es gibt bisher noch keine Benutzer. Bitte füge einen Administrator im Firebase Backend hinzu um die Registrierung zu aktivieren und SongDrive zu nutzen.",
     "pageNotAvailable": "Seite nicht verfügbar",
     "reallyDeleteLanguage": "Möchtest du wirklich die Sprache «{name}» löschen?",
     "reallyDeleteSetlist": "Möchtest du wirklich die Setlist «{title}» löschen?",

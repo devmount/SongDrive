@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<div class="off-canvas off-canvas-sidebar-show">
+		<div v-if="auth.user" class="off-canvas off-canvas-sidebar-show">
 			<!-- off-screen toggle button -->
 			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
 				<ion-icon name="menu" size="large"></ion-icon>
@@ -31,7 +31,7 @@
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="auth.user && users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 2"
+									v-if="users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 2"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="$t('tooltip.songAdd')"
 									@click="modal.addsong = true"
@@ -48,7 +48,7 @@
 								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="auth.user && users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 1"
+									v-if="users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 1"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="$t('tooltip.setlistAdd')"
 									@click="modal.addsetlist = true"
@@ -58,39 +58,7 @@
 							</div>
 						</li>
 						<li class="divider text-center" :data-content="$t('divider.account')"></li>
-						<li v-if="!auth.user && ready.users" class="menu-item pb-2">
-							<div class="form-group">
-								<input
-									v-if="!noUsers"
-									type="text"
-									v-model="auth.email"
-									class="form-input mb-1"
-									:placeholder="$t('field.email')"
-									@keydown.enter="signIn"
-								/>
-								<input
-									v-if="!noUsers"
-									type="password"
-									v-model="auth.password"
-									class="form-input mb-2"
-									:placeholder="$t('field.password')"
-									@keydown.enter="signIn"
-								/>
-								<button v-if="!noUsers" class="btn btn-primary d-block stretch mb-2" @click="signIn">
-									{{ $t('button.signIn') }} <ion-icon name="log-in-outline" class="icon-right"></ion-icon>
-								</button>
-								<div v-if="noUsers" class="text-normalcase text-center mb-2">{{ $t('text.noUsersAvailable') }}</div>
-								<button
-									v-if="!noUsers"
-									class="btn d-block stretch"
-									:class="{ 'btn-secondary': !noUsers, 'btn-primary': noUsers}"
-									@click="modal.signup = true"
-								>
-									{{ $t('button.signUp') }} <ion-icon name="person-add-outline" class="icon-right"></ion-icon>
-								</button>
-							</div>
-						</li>
-						<li v-if="auth.user && ready.users" class="menu-item pt-2 pb-2">
+						<li v-if="ready.users" class="menu-item pt-2 pb-2">
 							<router-link to="/profile" class="py-2" @click.native="open = false">
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
@@ -111,12 +79,12 @@
 								</div>
 							</router-link>
 						</li>
-						<li v-if="auth.user && users[auth.user]" class="menu-item">
+						<li v-if="users[auth.user]" class="menu-item">
 							<router-link to="/settings" class="py-2" @click.native="open = false">
 								<ion-icon name="options-outline" class="mr-2"></ion-icon> {{ $t('page.settings') }}
 							</router-link>
 						</li>
-						<li v-if="auth.user" class="menu-item">
+						<li class="menu-item">
 							<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
 								{{ $t('button.signOut') }} <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
 							</button>
@@ -183,50 +151,56 @@
 					:ready="ready"
 				></router-view>
 			</div>
-
-			<!-- modals -->
-			<SongSet
-				v-if="modal.addsong"
-				:active="modal.addsong"
-				:existing="false"
-				:initialSong="newSong"
-				songKey=""
-				:songs="songs"
-				:tags="tags"
-				:languages="languages"
-				:ready="ready"
-				@closed="modal.addsong = false"
-				@reset="resetSong"
-			/>
-			<SetlistSet
-				v-if="modal.addsetlist"
-				:active="modal.addsetlist"
-				:existing="false"
-				:initialSetlist="newSetlist"
-				setlistKey=""
-				:user="auth.user"
-				:songs="songs"
-				:setlists="setlists"
-				:tags="tags"
-				:languages="languages"
-				:ready="ready"
-				@closed="modal.addsetlist = false"
-				@reset="resetSetlist"
-			/>
-			<SignUp
-				v-if="modal.signup"
-				:active="modal.signup"
-				@closed="modal.signup = false"
-				@submitted="signUp"
+		</div>
+		<div v-else>
+			<Login
+				@signIn="signIn"
+				@signUp="modal.signup = true"
 			/>
 		</div>
+
+		<!-- modals -->
+		<SongSet
+			v-if="modal.addsong"
+			:active="modal.addsong"
+			:existing="false"
+			:initialSong="newSong"
+			songKey=""
+			:songs="songs"
+			:tags="tags"
+			:languages="languages"
+			:ready="ready"
+			@closed="modal.addsong = false"
+			@reset="resetSong"
+		/>
+		<SetlistSet
+			v-if="modal.addsetlist"
+			:active="modal.addsetlist"
+			:existing="false"
+			:initialSetlist="newSetlist"
+			setlistKey=""
+			:user="auth.user"
+			:songs="songs"
+			:setlists="setlists"
+			:tags="tags"
+			:languages="languages"
+			:ready="ready"
+			@closed="modal.addsetlist = false"
+			@reset="resetSetlist"
+		/>
+		<SignUp
+			v-if="modal.signup"
+			:active="modal.signup"
+			@closed="modal.signup = false"
+			@submitted="signUp"
+		/>
 
 		<!-- notifications -->
 		<notifications position="bottom right" :duration="5000" :width="400">
 			<template slot="body" slot-scope="props">
 				<div :class="'toast toast-' + props.item.type">
 					<ion-icon name="close" class="float-right c-hand icon-1-5x" @click="props.close"></ion-icon>
-					<h5>{{props.item.title}}</h5>
+					<h5>{{ props.item.title }}</h5>
 					<p v-html="props.item.text"></p>
 				</div>
 			</template>
@@ -236,9 +210,10 @@
 
 <script>
 // get components
+import Login from '@/partials/Login';
+import SignUp from '@/modals/SignUp';
 import SongSet from '@/modals/SongSet';
 import SetlistSet from '@/modals/SetlistSet';
-import SignUp from '@/modals/SignUp';
 // get database object authorized in config.js
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -248,9 +223,10 @@ import { collection, onSnapshot } from "firebase/firestore";
 export default {
 	name: 'app',
 	components: {
+		Login,
+		SignUp,
 		SongSet,
 		SetlistSet,
-		SignUp
 	},
 	data () {
 		return {
@@ -263,12 +239,21 @@ export default {
 			languages: {},
 			// loading indicators
 			ready: {
+				users: false,
+				registrations: false,
 				songs: false,
 				setlists: false,
 				tags: false,
-				users: false,
-				registrations: false,
 				languages: false,
+			},
+			// db table listeners
+			listener: {
+				users: null,
+				registrations: null,
+				songs: null,
+				setlists: null,
+				tags: null,
+				languages: null,
 			},
 			// modals
 			open: false,
@@ -300,28 +285,10 @@ export default {
 			},
 			// authentification
 			auth: {
-				email: '',
-				password: '',
 				user: firebase.auth().currentUser ? firebase.auth().currentUser.uid : '',
 				userObject: firebase.auth().currentUser ? firebase.auth().currentUser : {},
 			}
 		};
-	},
-	created () {
-		// add listeners for changes on each db table
-		["users", "registrations", "songs", "setlists", "tags", "languages"].forEach(table => {
-			onSnapshot(collection(this.$db, table), (snapshot) => {
-				snapshot.docChanges().forEach((change) => {
-					if (change.type === "added" || change.type === "modified") {
-						this.$set(this[table], change.doc.id, change.doc.data());
-					}
-					if (change.type === "removed") {
-						this.$delete(this[table], change.doc.id);
-					}
-				});
-				this.ready[table] = true;
-			});
-		});
 	},
 	mounted () {
 		// check initially if authenticated user exists
@@ -329,8 +296,28 @@ export default {
 			this.auth.user = user ? user.uid : '';
 			this.auth.userObject = user ? user : '';
 		});
+		// when logged in, add listeners for changes on each db table
+		if (this.auth.user) {
+			this.listen();
+		}
 	},
 	methods: {
+		// add listeners for changes on each db table
+		listen () {
+			Object.keys(this.listener).forEach(table => {
+				this.listener[table] = onSnapshot(collection(this.$db, table), (snapshot) => {
+					snapshot.docChanges().forEach((change) => {
+						if (change.type === "added" || change.type === "modified") {
+							this.$set(this[table], change.doc.id, change.doc.data());
+						}
+						if (change.type === "removed") {
+							this.$delete(this[table], change.doc.id);
+						}
+					});
+					this.ready[table] = true;
+				});
+			});
+		},
 		resetSong () {
 			this.newSong = {
 				authors: '',
@@ -354,13 +341,14 @@ export default {
 				songs: [],
 			};
 		},
-		signIn () {
-			firebase.auth().signInWithEmailAndPassword(this.auth.email, this.auth.password).then(() => {
-				// sign-in successful
+		signIn (email, password) {
+			firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+				// login successful
 				this.auth.user = firebase.auth().currentUser.uid;
 				this.auth.userObject = firebase.auth().currentUser;
-				this.auth.email = '';
-				this.auth.password = '';
+				// now add listeners for changes on each db table
+				this.listen();
+				// toast successful login
 				this.$notify({
 					title: this.$t('toast.signedIn'),
 					text: this.$t('toast.signedInText', { name: this.auth.userObject.displayName }),
@@ -372,6 +360,11 @@ export default {
 			firebase.auth().signOut().then(() => {
 				// sign-out successful
 				this.auth.user = '';
+				// detach listeners
+				Object.keys(this.listener).forEach(table => {
+					this.listener[table]();
+				});
+				// toast successfoul log out
 				this.$notify({
 					title: this.$t('toast.signedOut'),
 					text: this.$t('toast.signedOutText'),

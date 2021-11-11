@@ -52,6 +52,11 @@ $grid-spacing: ($layout-spacing / ($layout-spacing * 0 + 1)) * $html-font-size;
 @import "~spectre.css/src/spectre-exp";
 
 // general
+html, body {
+	padding: 0;
+	margin: 0;
+	height: 100vh;
+}
 a, a:visited {
 	color: $link-color;
 	cursor: pointer;
