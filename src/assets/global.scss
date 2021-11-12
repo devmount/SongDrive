@@ -368,6 +368,16 @@ code {
 .d-invisible {
 	height: 0px;
 }
+.full-viewport {
+	height: 100vh;
+	width: 100vw;
+}
+.justify-center {
+	justify-content: center;
+}
+.align-center {
+	align-items: center;
+}
 
 // loading
 .loading {

@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<div v-if="auth.user" class="off-canvas off-canvas-sidebar-show">
+		<div v-if=" auth.ready && auth.user" class="off-canvas off-canvas-sidebar-show">
 			<!-- off-screen toggle button -->
 			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
 				<ion-icon name="menu" size="large"></ion-icon>
@@ -152,11 +152,14 @@
 				></router-view>
 			</div>
 		</div>
-		<div v-else>
+		<div v-if="auth.ready && !auth.user">
 			<Login
 				@signIn="signIn"
 				@signUp="modal.signup = true"
 			/>
+		</div>
+		<div v-if="!auth.ready" class="full-viewport d-flex justify-center align-center">
+			<div class="loading loading-xl"></div>
 		</div>
 
 		<!-- modals -->
@@ -285,6 +288,7 @@ export default {
 			},
 			// authentification
 			auth: {
+				ready: false,
 				user: '',
 				userObject: null,
 			}
@@ -301,6 +305,7 @@ export default {
 				this.auth.user = '';
 				this.auth.userObject = null;
 			}
+			this.auth.ready = true;
 		});
 	},
 	methods: {
