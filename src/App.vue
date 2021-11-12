@@ -285,28 +285,30 @@ export default {
 			},
 			// authentification
 			auth: {
-				user: firebase.auth().currentUser ? firebase.auth().currentUser.uid : '',
-				userObject: firebase.auth().currentUser ? firebase.auth().currentUser : {},
+				user: '',
+				userObject: null,
 			}
 		};
 	},
 	mounted () {
 		// check initially if authenticated user exists
-		firebase.auth().onAuthStateChanged((user) => {
-			this.auth.user = user ? user.uid : '';
-			this.auth.userObject = user ? user : '';
+		firebase.auth().onAuthStateChanged(user => {
+			if (user) {
+				this.auth.user = user.uid;
+				this.auth.userObject = user;
+				this.listen();
+			} else {
+				this.auth.user = '';
+				this.auth.userObject = null;
+			}
 		});
-		// when logged in, add listeners for changes on each db table
-		if (this.auth.user) {
-			this.listen();
-		}
 	},
 	methods: {
 		// add listeners for changes on each db table
 		listen () {
-			Object.keys(this.listener).forEach(table => {
+			for (const table in this.listener) {
 				this.listener[table] = onSnapshot(collection(this.$db, table), (snapshot) => {
-					snapshot.docChanges().forEach((change) => {
+					snapshot.docChanges().forEach(change => {
 						if (change.type === "added" || change.type === "modified") {
 							this.$set(this[table], change.doc.id, change.doc.data());
 						}
@@ -316,7 +318,13 @@ export default {
 					});
 					this.ready[table] = true;
 				});
-			});
+			}
+		},
+		// remove listeners for changes on each db table
+		unlisten () {
+			for (const table in this.listener) {
+				this.listener[table]();
+			}
 		},
 		resetSong () {
 			this.newSong = {
@@ -359,11 +367,7 @@ export default {
 		signOut () {
 			firebase.auth().signOut().then(() => {
 				// sign-out successful
-				this.auth.user = '';
-				// detach listeners
-				Object.keys(this.listener).forEach(table => {
-					this.listener[table]();
-				});
+				this.unlisten();
 				// toast successfoul log out
 				this.$notify({
 					title: this.$t('toast.signedOut'),
