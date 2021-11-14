@@ -229,6 +229,7 @@
     "noSongsAvailableSignedOut": "Es sind aktuell keine Songs vorhanden. Bitte melde dich an, um Songs hinzuzufügen oder zu importieren.",
     "noSongsSelected": "Keine Songs ausgewählt",
     "noTagsSelected": "Keine Tags ausgewählt",
+    "notApprovedYet": "Dein Benutzerkonto wurde noch nicht bestätigt. Du wirst benachrichtig sobald ein Administrator dir Zugriffsrechte erteilt hat.",
     "noTranslations": "Dieser Song hat bisher keine Übersetzungen.",
     "noUnconfirmedUsers": "Keine unbestätigten Benutzer",
     "pageNotAvailable": "Seite nicht verfügbar",
@@ -242,7 +243,9 @@
     "selected": "ausgewählt",
     "selection": "Auswahl",
     "selectJsonFile": "Wähle eine Datei im JSON Format welche die SongDrive Datensammlung enthält",
-    "signInForAccess": "Bitte melde dich mit deinem Benutzerkonto an, um auf diese Seite zuzugreifen."
+    "signInForAccess": "Bitte melde dich mit deinem Benutzerkonto an, um auf diese Seite zuzugreifen.",
+    "unconfirmedMistake": "Wenn du denkst, dass hier ein Fehler vorliegt, <a href='{0}'>kontaktiere uns</a> bitte.",
+    "waitingForApproval": "Warten auf Freischaltung"
   },
   "title": {
     "lastPerformed": "Zuletzt aufgeführt",

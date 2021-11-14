@@ -229,6 +229,7 @@
     "noSongsAvailableSignedOut": "There are currently no songs available. Sign in to add songs or import data from backups or demo database.",
     "noSongsSelected": "No Songs selected",
     "noTagsSelected": "No Tags selected",
+    "notApprovedYet": "Your user account has not been approved yet. You will be notified as soon as you've been granted access to SongDrive by an administrator.",
     "noTranslations": "This song has no translation yet.",
     "noUnconfirmedUsers": "No unconfirmed users",
     "pageNotAvailable": "Page not available",
@@ -242,7 +243,9 @@
     "selected": "selected",
     "selection": "Selection",
     "selectJsonFile": "Select a file in JSON format containing SongDrive data collections",
-    "signInForAccess": "Please sign in with your user account to access this page."
+    "signInForAccess": "Please sign in with your user account to access this page.",
+    "unconfirmedMistake": "If you think this is a mistake, please <a href='{0}'>contact us</a>.",
+    "waitingForApproval": "Waiting for approval"
   },
   "title": {
     "lastPerformed": "Last performed",

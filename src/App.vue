@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<div v-if=" auth.ready && auth.user" class="off-canvas off-canvas-sidebar-show">
+		<div v-if="auth.ready && auth.user && ready.users && users[auth.user]" class="off-canvas off-canvas-sidebar-show">
 			<!-- off-screen toggle button -->
 			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
 				<ion-icon name="menu" size="large"></ion-icon>
@@ -31,7 +31,7 @@
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 2"
+									v-if="userRoles()[users[auth.user].role] > 2"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="$t('tooltip.songAdd')"
 									@click="modal.addsong = true"
@@ -48,7 +48,7 @@
 								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 1"
+									v-if="userRoles()[users[auth.user].role] > 1"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="$t('tooltip.setlistAdd')"
 									@click="modal.addsetlist = true"
@@ -58,7 +58,7 @@
 							</div>
 						</li>
 						<li class="divider text-center" :data-content="$t('divider.account')"></li>
-						<li v-if="ready.users" class="menu-item pt-2 pb-2">
+						<li class="menu-item pt-2 pb-2">
 							<router-link to="/profile" class="py-2" @click.native="open = false">
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
@@ -73,13 +73,13 @@
 									<div class="tile-content">
 										{{ userName }}
 										<div class="text-gray text-small">
-											{{ users[auth.user] ? $t('role.' + users[auth.user].role) : $t('role.unconfirmed') }}
+											{{ $t('role.' + users[auth.user].role) }}
 										</div>
 									</div>
 								</div>
 							</router-link>
 						</li>
-						<li v-if="users[auth.user]" class="menu-item">
+						<li class="menu-item">
 							<router-link to="/settings" class="py-2" @click.native="open = false">
 								<ion-icon name="options-outline" class="mr-2"></ion-icon> {{ $t('page.settings') }}
 							</router-link>
@@ -140,8 +140,8 @@
 					:key="$route.fullPath"
 					:user="auth.user"
 					:userObject="auth.userObject"
-					:role="auth.user && users[auth.user] && ready.users ? userRoles()[users[auth.user].role] : ''"
-					:roleName="auth.user && users[auth.user] && ready.users ? users[auth.user].role : ''"
+					:role="userRoles()[users[auth.user].role]"
+					:roleName="users[auth.user].role"
 					:songs="songs"
 					:setlists="setlists"
 					:tags="tags"
@@ -152,13 +152,19 @@
 				></router-view>
 			</div>
 		</div>
+		<!-- logged in but not confimed yet -->
+		<div v-if="auth.ready && auth.user && auth.confirmed === false">
+			<UserUnconfirmed @signOut="signOut" />
+		</div>
+		<!-- login screen -->
 		<div v-if="auth.ready && !auth.user">
 			<Login
 				@signIn="signIn"
 				@signUp="modal.signup = true"
 			/>
 		</div>
-		<div v-if="!auth.ready" class="full-viewport d-flex justify-center align-center">
+		<!-- loading screen -->
+		<div v-if="!auth.ready || auth.confirmed === null" class="full-viewport d-flex justify-center align-center">
 			<div class="loading loading-xl"></div>
 		</div>
 
@@ -215,6 +221,7 @@
 // get components
 import Login from '@/partials/Login';
 import SignUp from '@/modals/SignUp';
+import UserUnconfirmed from '@/partials/UserUnconfirmed';
 import SongSet from '@/modals/SongSet';
 import SetlistSet from '@/modals/SetlistSet';
 // get database object authorized in config.js
@@ -228,6 +235,7 @@ export default {
 	components: {
 		Login,
 		SignUp,
+		UserUnconfirmed,
 		SongSet,
 		SetlistSet,
 	},
@@ -288,6 +296,7 @@ export default {
 			},
 			// authentification
 			auth: {
+				confirmed: null,
 				ready: false,
 				user: '',
 				userObject: null,
@@ -300,7 +309,17 @@ export default {
 			if (user) {
 				this.auth.user = user.uid;
 				this.auth.userObject = user;
-				this.listen();
+				let userRef = this.$db.collection("users").doc(user.uid);
+				userRef.get().then((userEntry) => {
+					if (userEntry.exists) {
+						this.auth.confirmed = true;
+						this.listen();
+					} else {
+						this.auth.confirmed = false;
+					}
+				}).catch(() => {
+					this.auth.confirmed = false;
+				});
 			} else {
 				this.auth.user = '';
 				this.auth.userObject = null;
@@ -372,7 +391,9 @@ export default {
 		signOut () {
 			firebase.auth().signOut().then(() => {
 				// sign-out successful
-				this.unlisten();
+				if (this.auth.confirmed) {
+					this.unlisten();
+				}
 				// toast successfoul log out
 				this.$notify({
 					title: this.$t('toast.signedOut'),
