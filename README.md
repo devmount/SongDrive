@@ -67,8 +67,10 @@ This is how the SongDrive Dashboard currently looks like.
     service cloud.firestore {
       match /databases/{database}/documents {
         match /{document=**} {
-          allow read;
-          allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+          allow read: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "reader"
+                      || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer"
+                      || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
+          allow read, write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
         }
         match /setlists/{setlist} {
           allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer"
@@ -77,11 +79,13 @@ This is how the SongDrive Dashboard currently looks like.
                         || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer" && request.auth.uid == resource.data.creator;
         }
         match /songs/{song} {
-          allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
-          allow delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
+          allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
         }
         match /registrations/{user} {
           allow create: if request.auth.uid != '';
+        }
+        match /users/{user} {
+          allow read: if request.auth.uid != '' && user == request.auth.uid;
         }
       }
     }
