@@ -221,7 +221,7 @@
     "importResult": "Import result: {0} datasets imported",
     "manageConfirmedUsers": "Manage confirmed users",
     "manageLanguages": "Manage available song languages",
-    "manageTags": "Manage all song tags",
+    "manageTags": "Manage all song tags (click to edit)",
     "manageUnconfirmedUsers": "Manage unconfirmed users",
     "noSetlistsAvailableSignedIn": "There are currently no setlists available. Add setlists to see them here or import backup or demo data.",
     "noSetlistsAvailableSignedOut": "There are currently no setlists available. Sign in to add setlists or import data from backups or demo database.",
@@ -284,7 +284,7 @@
     "signedOut": "Signed out",
     "signedOutText": "Be blessed and have a nice day!",
     "signedUp": "Signed up",
-    "signedUpText": "Thank you for registering, {name}! You can now continue using SongDrive.",
+    "signedUpText": "Thank you for registering, {name}! You can start using SongDrive, as soon as you got approved by an admin.",
     "songAdded": "Song added",
     "songDeleted": "Song deleted",
     "songDeletedText": "The song was successfully removed.",
@@ -306,6 +306,7 @@
     "verficationSentText": "Please click the link that was sent to your email address to verify it."
   },
   "tooltip": {
+    "approveUser": "Approve User",
     "chordsHide": "Hide Chords",
     "chordsShow": "Show Chords",
     "clear": "Clear search and filter",

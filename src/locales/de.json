@@ -221,7 +221,7 @@
     "importResult": "Import Ergebnis: {0} Datensätze importiert",
     "manageConfirmedUsers": "Bestätigte Benutzer verwalten",
     "manageLanguages": "Verfügbare Sprachen für Songs verwalten",
-    "manageTags": "Alle Tags für Songs verwalten",
+    "manageTags": "Alle Tags für Songs verwalten (zum Bearbeiten anklicken)",
     "manageUnconfirmedUsers": "Unbestätigte Benutzer verwalten",
     "noSetlistsAvailableSignedIn": "Es sind aktuell keine Setlisten vorhanden. Füge Setlisten hinzu oder importiere Backup- oder Demo-Daten.",
     "noSetlistsAvailableSignedOut": "Es sind aktuell keine Setlisten vorhanden. Bitte melde dich an, um Setlisten hinzuzufügen oder zu importieren.",
@@ -284,7 +284,7 @@
     "signedOut": "Ausgeloggt",
     "signedOutText": "Sei gesegnet und einen schönen Tag noch!",
     "signedUp": "Registriert",
-    "signedUpText": "Vielen Dank für die Registrierung, {name}! Du kannst SongDrive nun weiter nutzen.",
+    "signedUpText": "Vielen Dank für die Registrierung, {name}! Du kannst SongDrive nutzen, sobald du von einem Administrator freigeschaltet wurdest.",
     "songAdded": "Song hizugefügt",
     "songDeleted": "Song gelöscht",
     "songDeletedText": "Der Song wurde erfolgreich entfernt.",
@@ -306,6 +306,7 @@
     "verficationSentText": "Bitte klicke auf den Link, der dir gesendet wurde, um deine E-Mail-Adresse zu bestätigen."
   },
   "tooltip": {
+    "approveUser": "Benutzer freischalten",
     "chordsHide": "Akkorde ausblenden",
     "chordsShow": "Akkorde zeigen",
     "clear": "Suche und Filter zurücksetzen",
