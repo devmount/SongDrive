@@ -124,6 +124,13 @@
 									<div class="tile-subtitle text-gray text-small">{{ u.email }}</div>
 								</div>
 								<div class="tile-action">
+									<a
+										:href="'mailto:' + u.email + '?' + confirmationMail"
+										class="btn btn-link btn-action tooltip"
+										:data-tooltip="$t('tooltip.sendConfirmationMail')"
+									>
+										<ion-icon name="mail-outline"></ion-icon>
+									</a>
 									<button
 										class="btn btn-link btn-action tooltip"
 										:data-tooltip="$t('modal.editUser')"
@@ -464,6 +471,10 @@ export default {
 		},
 		numberOfLanguages () {
 			return Object.keys(this.languages).length;
+		},
+		confirmationMail () {
+			return 'subject=' + encodeURIComponent(this.$t('text.confirmationSubject'))
+				+ '&body=' + encodeURIComponent(this.$t('text.confirmationBody', [this.userObject.displayName, 'https://songdrive.de']))
 		}
 	},
 	watch: {

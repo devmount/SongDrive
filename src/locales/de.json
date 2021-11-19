@@ -212,6 +212,8 @@
   },
   "text": {
     "cannotBeUndone": "Das kann nicht rückgängig gemacht werden.",
+    "confirmationSubject": "[SongDrive] Benutzerkonto aktiviert",
+    "confirmationBody": "Hallo {0},\n\ndu wurdest soeben für die Nutzung von SongDrive freigeschaltet. Du kannst dich nun einloggen unter {1}.\n\nKontaktiere uns gern, wenn du Fragen hast.\n\nDein SongDrive-Team",
     "createNewAccount": "Erstelle ein neues SongDrive Konto.",
     "customizeProfile": "Passe deine Profildaten an",
     "customizeUi": "Passe die Benutzeroberfläche an",
@@ -320,6 +322,7 @@
     "presentationStart": "Präsentation starten",
     "previousSlide": "Vorherige Folie",
     "search": "Suche aktivieren",
+    "sendConfirmationMail": "Bestätigungs-E-Mail senden",
     "setlistAdd": "Neue Setlist hinzufügen",
     "songAdd": "Neuen Song hinzufügen",
     "syncOff": "Synchronisierung aus",
