@@ -124,15 +124,24 @@
 									<div class="tile-subtitle text-gray text-small">{{ u.email }}</div>
 								</div>
 								<div class="tile-action">
+									<a
+										:href="'mailto:' + u.email + '?' + confirmationMail"
+										class="btn btn-link btn-action tooltip"
+										:data-tooltip="$t('tooltip.sendConfirmationMail')"
+									>
+										<ion-icon name="mail-outline"></ion-icon>
+									</a>
 									<button
-										class="btn btn-link btn-action"
+										class="btn btn-link btn-action tooltip"
+										:data-tooltip="$t('modal.editUser')"
 										@click.prevent="active.user=u; active.key=k; active.existing=true; modal.userset=true"
 									>
 										<ion-icon name="create-outline"></ion-icon>
 									</button>
 									<button
-										class="btn btn-link btn-action text-error"
-										@click.prevent="active.user=u; active.key=k; modal.userdelete=true"
+										class="btn btn-link btn-action tooltip text-error"
+										:data-tooltip="$t('modal.deleteUser')"
+										@click.prevent="active.user=u; active.key=k; active.approved=true; modal.userdelete=true"
 									>
 										<ion-icon name="person-remove-outline"></ion-icon>
 									</button>
@@ -167,10 +176,18 @@
 								</div>
 								<div class="tile-action">
 									<button
-										class="btn btn-link btn-action"
+										class="btn btn-link btn-action tooltip"
+										:data-tooltip="$t('tooltip.approveUser')"
 										@click.prevent="active.user=r; active.key=k; active.existing=false; modal.userset=true"
 									>
 										<ion-icon name="person-add-outline"></ion-icon>
+									</button>
+									<button
+										class="btn btn-link btn-action tooltip text-error"
+										:data-tooltip="$t('modal.deleteUser')"
+										@click.prevent="active.user=r; active.key=k; active.approved=false; modal.userdelete=true"
+									>
+										<ion-icon name="person-remove-outline"></ion-icon>
 									</button>
 								</div>
 							</div>
@@ -186,7 +203,8 @@
 							<div class="panel-subtitle text-gray">{{ $t('text.manageLanguages') }}</div>
 							<div class="pos-absolute-tr">
 								<button
-									class="btn btn-secondary px-3 m-3"
+									class="btn btn-secondary tooltip px-3 m-3"
+									:data-tooltip="$t('modal.addLanguage')"
 									@click="active.language={ label: '' }; active.key=''; active.existing=false; modal.languageset=true"
 								>
 									<ion-icon name="add-outline"></ion-icon>
@@ -210,13 +228,15 @@
 								</div>
 								<div class="tile-action">
 									<button
-										class="btn btn-link btn-action"
+										class="btn btn-link btn-action tooltip"
+										:data-tooltip="$t('modal.editLanguage')"
 										@click="active.language=l; active.key=key; active.existing=true; modal.languageset=true"
 									>
 										<ion-icon name="create-outline"></ion-icon>
 									</button>
 									<button
-										class="btn btn-link btn-action text-error"
+										class="btn btn-link btn-action tooltip text-error"
+										:data-tooltip="$t('modal.deleteLanguage')"
 										@click="active.language=l; active.key=key; modal.languagedelete=true;"
 									>
 										<ion-icon name="trash-outline"></ion-icon>
@@ -237,7 +257,8 @@
 							<div class="panel-subtitle text-gray">{{ $t('text.manageTags') }}</div>
 							<div class="pos-absolute-tr">
 								<button
-									class="btn btn-secondary px-3 m-3"
+									class="btn btn-secondary tooltip px-3 m-3"
+									:data-tooltip="$t('modal.addTag')"
 									@click="active.tag={ key: '' }; active.key=''; active.existing=false; modal.tagset=true"
 								>
 									<ion-icon name="add-outline"></ion-icon>
@@ -306,6 +327,7 @@
 				:active="modal.userdelete"
 				:userName="active.user.name"
 				:userKey="active.key"
+				:approved="active.approved"
 				@closed="modal.userdelete = false"
 			/>
 			<!-- modal: set language -->
@@ -378,7 +400,6 @@ export default {
 		'languages'
 	],
 	data () {
-		console.log(this.tags);
 		return {
 			profile: {
 				displayName: this.userObject.displayName,
@@ -400,6 +421,7 @@ export default {
 				tag: {},
 				key: '',
 				existing: true,
+				approved: true
 			}
 		};
 	},
@@ -458,6 +480,10 @@ export default {
 		},
 		numberOfLanguages () {
 			return Object.keys(this.languages).length;
+		},
+		confirmationMail () {
+			return 'subject=' + encodeURIComponent(this.$t('text.confirmationSubject'))
+				+ '&body=' + encodeURIComponent(this.$t('text.confirmationBody', [this.userObject.displayName, 'https://songdrive.de']))
 		}
 	},
 	watch: {

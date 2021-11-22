@@ -1,7 +1,7 @@
 # SongDrive
 
 [![Release](https://img.shields.io/github/v/tag/devmount/SongDrive.svg?label=release&color=88b544&style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsSAAALEgHS3X78AAAATklEQVQ4jWP8//8/AyWAiSLd1DCABZfEnnsVKH5zUepgpIkLKA5EnF7o3OaKYnK5125GbN4aJF7A5jRsXsAmNki8QKxzB6cXKHMBAwMDAFesMxVwNRpMAAAAAElFTkSuQmCC)](https://github.com/devmount/SongDrive/releases)
-[![Last Updated](https://img.shields.io/github/last-commit/devmount/SongDrive?label=updated&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/commits/master)
+[![Last Updated](https://img.shields.io/github/last-commit/devmount/SongDrive?label=updated&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/commits/main)
 [![CodeQL Analysis](https://img.shields.io/github/workflow/status/devmount/SongDrive/CodeQL?label=CodeQL&logo=github&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/actions/workflows/codeql-analysis.yml)
 [![License](https://img.shields.io/badge/license-MIT-88b544.svg?style=flat-square)](./LICENSE)
 [![Contribution Guidlines](https://img.shields.io/badge/contributions-welcome-88b544.svg?style=flat-square)](./.github/CONTRIBUTING.md)
@@ -67,8 +67,10 @@ This is how the SongDrive Dashboard currently looks like.
     service cloud.firestore {
       match /databases/{database}/documents {
         match /{document=**} {
-          allow read;
-          allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+          allow read: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "reader"
+                      || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer"
+                      || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
+          allow read, write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
         }
         match /setlists/{setlist} {
           allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer"
@@ -77,11 +79,13 @@ This is how the SongDrive Dashboard currently looks like.
                         || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "performer" && request.auth.uid == resource.data.creator;
         }
         match /songs/{song} {
-          allow create, update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
-          allow delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
+          allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "editor";
         }
         match /registrations/{user} {
           allow create: if request.auth.uid != '';
+        }
+        match /users/{user} {
+          allow read: if request.auth.uid != '' && user == request.auth.uid;
         }
       }
     }

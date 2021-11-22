@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<div class="off-canvas off-canvas-sidebar-show">
+		<div v-if="auth.ready && auth.user && ready.users && users[auth.user]" class="off-canvas off-canvas-sidebar-show">
 			<!-- off-screen toggle button -->
 			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
 				<ion-icon name="menu" size="large"></ion-icon>
@@ -31,7 +31,7 @@
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="auth.user && users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 2"
+									v-if="userRoles()[users[auth.user].role] > 2"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="$t('tooltip.songAdd')"
 									@click="modal.addsong = true"
@@ -48,7 +48,7 @@
 								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="auth.user && users[auth.user] && ready.users && userRoles()[users[auth.user].role] > 1"
+									v-if="userRoles()[users[auth.user].role] > 1"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="$t('tooltip.setlistAdd')"
 									@click="modal.addsetlist = true"
@@ -58,39 +58,7 @@
 							</div>
 						</li>
 						<li class="divider text-center" :data-content="$t('divider.account')"></li>
-						<li v-if="!auth.user && ready.users" class="menu-item pb-2">
-							<div class="form-group">
-								<input
-									v-if="!noUsers"
-									type="text"
-									v-model="auth.email"
-									class="form-input mb-1"
-									:placeholder="$t('field.email')"
-									@keydown.enter="signIn"
-								/>
-								<input
-									v-if="!noUsers"
-									type="password"
-									v-model="auth.password"
-									class="form-input mb-2"
-									:placeholder="$t('field.password')"
-									@keydown.enter="signIn"
-								/>
-								<button v-if="!noUsers" class="btn btn-primary d-block stretch mb-2" @click="signIn">
-									{{ $t('button.signIn') }} <ion-icon name="log-in-outline" class="icon-right"></ion-icon>
-								</button>
-								<div v-if="noUsers" class="text-normalcase text-center mb-2">{{ $t('text.noUsersAvailable') }}</div>
-								<button
-									v-if="!noUsers"
-									class="btn d-block stretch"
-									:class="{ 'btn-secondary': !noUsers, 'btn-primary': noUsers}"
-									@click="modal.signup = true"
-								>
-									{{ $t('button.signUp') }} <ion-icon name="person-add-outline" class="icon-right"></ion-icon>
-								</button>
-							</div>
-						</li>
-						<li v-if="auth.user && ready.users" class="menu-item pt-2 pb-2">
+						<li class="menu-item pt-2 pb-2">
 							<router-link to="/profile" class="py-2" @click.native="open = false">
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
@@ -105,18 +73,18 @@
 									<div class="tile-content">
 										{{ userName }}
 										<div class="text-gray text-small">
-											{{ users[auth.user] ? $t('role.' + users[auth.user].role) : $t('role.unconfirmed') }}
+											{{ $t('role.' + users[auth.user].role) }}
 										</div>
 									</div>
 								</div>
 							</router-link>
 						</li>
-						<li v-if="auth.user && users[auth.user]" class="menu-item">
+						<li class="menu-item">
 							<router-link to="/settings" class="py-2" @click.native="open = false">
 								<ion-icon name="options-outline" class="mr-2"></ion-icon> {{ $t('page.settings') }}
 							</router-link>
 						</li>
-						<li v-if="auth.user" class="menu-item">
+						<li class="menu-item">
 							<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
 								{{ $t('button.signOut') }} <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
 							</button>
@@ -157,7 +125,7 @@
 							<svg class="legal" viewBox="0 0 14 16">
 								<path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path>
 							</svg>
-							<a href="https://github.com/devmount/SongDrive/blob/master/LICENSE" target="_blank">
+							<a href="https://github.com/devmount/SongDrive/blob/main/LICENSE" target="_blank">
 								{{ $t('app.license') }}
 							</a>
 						</div>
@@ -172,8 +140,8 @@
 					:key="$route.fullPath"
 					:user="auth.user"
 					:userObject="auth.userObject"
-					:role="auth.user && users[auth.user] && ready.users ? userRoles()[users[auth.user].role] : ''"
-					:roleName="auth.user && users[auth.user] && ready.users ? users[auth.user].role : ''"
+					:role="userRoles()[users[auth.user].role]"
+					:roleName="users[auth.user].role"
 					:songs="songs"
 					:setlists="setlists"
 					:tags="tags"
@@ -183,50 +151,65 @@
 					:ready="ready"
 				></router-view>
 			</div>
-
-			<!-- modals -->
-			<SongSet
-				v-if="modal.addsong"
-				:active="modal.addsong"
-				:existing="false"
-				:initialSong="newSong"
-				songKey=""
-				:songs="songs"
-				:tags="tags"
-				:languages="languages"
-				:ready="ready"
-				@closed="modal.addsong = false"
-				@reset="resetSong"
-			/>
-			<SetlistSet
-				v-if="modal.addsetlist"
-				:active="modal.addsetlist"
-				:existing="false"
-				:initialSetlist="newSetlist"
-				setlistKey=""
-				:user="auth.user"
-				:songs="songs"
-				:setlists="setlists"
-				:tags="tags"
-				:languages="languages"
-				:ready="ready"
-				@closed="modal.addsetlist = false"
-				@reset="resetSetlist"
-			/>
-			<SignUp
-				v-if="modal.signup"
-				:active="modal.signup"
-				@closed="modal.signup = false"
-				@submitted="signUp"
+		</div>
+		<!-- logged in but not confimed yet -->
+		<div v-if="auth.ready && auth.user && auth.confirmed === false">
+			<UserUnconfirmed @signOut="signOut" />
+		</div>
+		<!-- login screen -->
+		<div v-if="auth.ready && !auth.user">
+			<Login
+				@signIn="signIn"
+				@signUp="modal.signup = true"
 			/>
 		</div>
+		<!-- loading screen -->
+		<div v-if="!auth.ready || auth.confirmed === null" class="full-viewport d-flex justify-center align-center">
+			<div class="loading loading-xl"></div>
+		</div>
+
+		<!-- modals -->
+		<SongSet
+			v-if="modal.addsong"
+			:active="modal.addsong"
+			:existing="false"
+			:initialSong="newSong"
+			songKey=""
+			:songs="songs"
+			:tags="tags"
+			:languages="languages"
+			:ready="ready"
+			@closed="modal.addsong = false"
+			@reset="resetSong"
+		/>
+		<SetlistSet
+			v-if="modal.addsetlist"
+			:active="modal.addsetlist"
+			:existing="false"
+			:initialSetlist="newSetlist"
+			setlistKey=""
+			:user="auth.user"
+			:songs="songs"
+			:setlists="setlists"
+			:tags="tags"
+			:languages="languages"
+			:ready="ready"
+			@closed="modal.addsetlist = false"
+			@reset="resetSetlist"
+		/>
+		<SignUp
+			v-if="modal.signup"
+			:active="modal.signup"
+			@closed="modal.signup = false"
+			@submitted="signUp"
+		/>
 
 		<!-- notifications -->
 		<notifications position="bottom right" :duration="5000" :width="400">
 			<template slot="body" slot-scope="props">
 				<div :class="'toast toast-' + props.item.type">
 					<ion-icon name="close" class="float-right c-hand icon-1-5x" @click="props.close"></ion-icon>
-					<h5>{{props.item.title}}</h5>
+					<h5>{{ props.item.title }}</h5>
 					<p v-html="props.item.text"></p>
 				</div>
 			</template>
@@ -236,9 +219,11 @@
 
 <script>
 // get components
+import Login from '@/partials/Login';
+import SignUp from '@/modals/SignUp';
+import UserUnconfirmed from '@/partials/UserUnconfirmed';
 import SongSet from '@/modals/SongSet';
 import SetlistSet from '@/modals/SetlistSet';
-import SignUp from '@/modals/SignUp';
 // get database object authorized in config.js
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -248,9 +233,11 @@ import { collection, onSnapshot } from "firebase/firestore";
 export default {
 	name: 'app',
 	components: {
+		Login,
+		SignUp,
+		UserUnconfirmed,
 		SongSet,
 		SetlistSet,
-		SignUp
 	},
 	data () {
 		return {
@@ -263,12 +250,21 @@ export default {
 			languages: {},
 			// loading indicators
 			ready: {
+				users: false,
+				registrations: false,
 				songs: false,
 				setlists: false,
 				tags: false,
-				users: false,
-				registrations: false,
 				languages: false,
+			},
+			// db table listeners
+			listener: {
+				users: null,
+				registrations: null,
+				songs: null,
+				setlists: null,
+				tags: null,
+				languages: null,
 			},
 			// modals
 			open: false,
@@ -300,37 +296,60 @@ export default {
 			},
 			// authentification
 			auth: {
-				email: '',
-				password: '',
-				user: firebase.auth().currentUser ? firebase.auth().currentUser.uid : '',
-				userObject: firebase.auth().currentUser ? firebase.auth().currentUser : {},
+				confirmed: null,
+				ready: false,
+				user: '',
+				userObject: null,
 			}
 		};
 	},
-	created () {
-		// add listeners for changes on each db table
-		["users", "registrations", "songs", "setlists", "tags", "languages"].forEach(table => {
-			onSnapshot(collection(this.$db, table), (snapshot) => {
-				snapshot.docChanges().forEach((change) => {
-					if (change.type === "added" || change.type === "modified") {
-						this.$set(this[table], change.doc.id, change.doc.data());
-					}
-					if (change.type === "removed") {
-						this.$delete(this[table], change.doc.id);
-					}
-				});
-				this.ready[table] = true;
-			});
-		});
-	},
 	mounted () {
 		// check initially if authenticated user exists
-		firebase.auth().onAuthStateChanged((user) => {
-			this.auth.user = user ? user.uid : '';
-			this.auth.userObject = user ? user : '';
+		firebase.auth().onAuthStateChanged(user => {
+			if (user) {
+				this.auth.user = user.uid;
+				this.auth.userObject = user;
+				let userRef = this.$db.collection("users").doc(user.uid);
+				userRef.get().then((userEntry) => {
+					if (userEntry.exists) {
+						this.auth.confirmed = true;
+						this.listen();
+					} else {
+						this.auth.confirmed = false;
+					}
+				}).catch(() => {
+					this.auth.confirmed = false;
+				});
+			} else {
+				this.auth.user = '';
+				this.auth.userObject = null;
+			}
+			this.auth.ready = true;
 		});
 	},
 	methods: {
+		// add listeners for changes on each db table
+		listen () {
+			for (const table in this.listener) {
+				this.listener[table] = onSnapshot(collection(this.$db, table), (snapshot) => {
+					snapshot.docChanges().forEach(change => {
+						if (change.type === "added" || change.type === "modified") {
+							this.$set(this[table], change.doc.id, change.doc.data());
+						}
+						if (change.type === "removed") {
+							this.$delete(this[table], change.doc.id);
+						}
+					});
+					this.ready[table] = true;
+				});
+			}
+		},
+		// remove listeners for changes on each db table
+		unlisten () {
+			for (const table in this.listener) {
+				this.listener[table]();
+			}
+		},
 		resetSong () {
 			this.newSong = {
 				authors: '',
@@ -354,13 +373,14 @@ export default {
 				songs: [],
 			};
 		},
-		signIn () {
-			firebase.auth().signInWithEmailAndPassword(this.auth.email, this.auth.password).then(() => {
-				// sign-in successful
+		signIn (email, password) {
+			firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+				// login successful
 				this.auth.user = firebase.auth().currentUser.uid;
 				this.auth.userObject = firebase.auth().currentUser;
-				this.auth.email = '';
-				this.auth.password = '';
+				// now add listeners for changes on each db table
+				this.listen();
+				// toast successful login
 				this.$notify({
 					title: this.$t('toast.signedIn'),
 					text: this.$t('toast.signedInText', { name: this.auth.userObject.displayName }),
@@ -371,7 +391,10 @@ export default {
 		signOut () {
 			firebase.auth().signOut().then(() => {
 				// sign-out successful
-				this.auth.user = '';
+				if (this.auth.confirmed) {
+					this.unlisten();
+				}
+				// toast successfoul log out
 				this.$notify({
 					title: this.$t('toast.signedOut'),
 					text: this.$t('toast.signedOutText'),

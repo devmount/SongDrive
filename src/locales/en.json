@@ -142,6 +142,7 @@
     "addTag": "Add Tag",
     "addUser": "Add User",
     "deleteLanguage": "Delete Language",
+    "deleteRegistration": "Delete Registration",
     "deleteSetlist": "Delete Setlist",
     "deleteSong": "Delete Song",
     "deleteUser": "Delete User",
@@ -212,6 +213,8 @@
   },
   "text": {
     "cannotBeUndone": "This cannot be undone.",
+    "confirmationSubject": "[SongDrive] Your account got activated",
+    "confirmationBody": "Hi {0},\n\nYou were approved to use SongDrive just now. You can now log in under {1}.\n\nIf you have any questions, please contact us!\n\nYour SongDrive-Team\n\n",
     "createNewAccount": "Create a new SongDrive account.",
     "customizeProfile": "Customize your profile data",
     "customizeUi": "Customize the user interface",
@@ -221,7 +224,7 @@
     "importResult": "Import result: {0} datasets imported",
     "manageConfirmedUsers": "Manage confirmed users",
     "manageLanguages": "Manage available song languages",
-    "manageTags": "Manage all song tags",
+    "manageTags": "Manage all song tags (click to edit)",
     "manageUnconfirmedUsers": "Manage unconfirmed users",
     "noSetlistsAvailableSignedIn": "There are currently no setlists available. Add setlists to see them here or import backup or demo data.",
     "noSetlistsAvailableSignedOut": "There are currently no setlists available. Sign in to add setlists or import data from backups or demo database.",
@@ -229,9 +232,9 @@
     "noSongsAvailableSignedOut": "There are currently no songs available. Sign in to add songs or import data from backups or demo database.",
     "noSongsSelected": "No Songs selected",
     "noTagsSelected": "No Tags selected",
+    "notApprovedYet": "Your user account has not been approved yet. You will be notified as soon as you've been granted access to SongDrive by an administrator.",
     "noTranslations": "This song has no translation yet.",
     "noUnconfirmedUsers": "No unconfirmed users",
-    "noUsersAvailable": "There are no users yet. Please create an admin user in the Firebase backend to enable registration and start using SongDrive.",
     "pageNotAvailable": "Page not available",
     "reallyDeleteLanguage": "Do you really want to delete the Language «{name}» ?",
     "reallyDeleteSetlist": "Do you really want to delete the Setlist «{title}» ?",
@@ -243,7 +246,9 @@
     "selected": "selected",
     "selection": "Selection",
     "selectJsonFile": "Select a file in JSON format containing SongDrive data collections",
-    "signInForAccess": "Please sign in with your user account to access this page."
+    "signInForAccess": "Please sign in with your user account to access this page.",
+    "unconfirmedMistake": "If you think this is a mistake, please <a href='{0}'>contact us</a>.",
+    "waitingForApproval": "Waiting for approval"
   },
   "title": {
     "lastPerformed": "Last performed",
@@ -282,7 +287,7 @@
     "signedOut": "Signed out",
     "signedOutText": "Be blessed and have a nice day!",
     "signedUp": "Signed up",
-    "signedUpText": "Thank you for registering, {name}! You can now continue using SongDrive.",
+    "signedUpText": "Thank you for registering, {name}! You can start using SongDrive, as soon as you got approved by an admin.",
     "songAdded": "Song added",
     "songDeleted": "Song deleted",
     "songDeletedText": "The song was successfully removed.",
@@ -304,6 +309,7 @@
     "verficationSentText": "Please click the link that was sent to your email address to verify it."
   },
   "tooltip": {
+    "approveUser": "Approve User",
     "chordsHide": "Hide Chords",
     "chordsShow": "Show Chords",
     "clear": "Clear search and filter",
@@ -317,6 +323,7 @@
     "presentationStart": "Start Presentation",
     "previousSlide": "Previous Slide",
     "search": "Activate Search",
+    "sendConfirmationMail": "Send confirmation mail",
     "setlistAdd": "Add new Setlist",
     "songAdd": "Add new Song",
     "syncOff": "Sync off",
