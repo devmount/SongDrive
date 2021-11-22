@@ -141,7 +141,7 @@
 									<button
 										class="btn btn-link btn-action tooltip text-error"
 										:data-tooltip="$t('modal.deleteUser')"
-										@click.prevent="active.user=u; active.key=k; modal.userdelete=true"
+										@click.prevent="active.user=u; active.key=k; active.approved=true; modal.userdelete=true"
 									>
 										<ion-icon name="person-remove-outline"></ion-icon>
 									</button>
@@ -181,6 +181,13 @@
 										@click.prevent="active.user=r; active.key=k; active.existing=false; modal.userset=true"
 									>
 										<ion-icon name="person-add-outline"></ion-icon>
+									</button>
+									<button
+										class="btn btn-link btn-action tooltip text-error"
+										:data-tooltip="$t('modal.deleteUser')"
+										@click.prevent="active.user=r; active.key=k; active.approved=false; modal.userdelete=true"
+									>
+										<ion-icon name="person-remove-outline"></ion-icon>
 									</button>
 								</div>
 							</div>
@@ -320,6 +327,7 @@
 				:active="modal.userdelete"
 				:userName="active.user.name"
 				:userKey="active.key"
+				:approved="active.approved"
 				@closed="modal.userdelete = false"
 			/>
 			<!-- modal: set language -->
@@ -413,6 +421,7 @@ export default {
 				tag: {},
 				key: '',
 				existing: true,
+				approved: true
 			}
 		};
 	},

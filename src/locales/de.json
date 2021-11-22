@@ -142,6 +142,7 @@
     "addTag": "Tag hinzufügen",
     "addUser": "Benutzer hinzufügen",
     "deleteLanguage": "Sprache Löschen",
+    "deleteRegistration": "Registrierung Löschen",
     "deleteSetlist": "Setlist Löschen",
     "deleteSong": "Song Löschen",
     "deleteUser": "Benutzer Löschen",
@@ -213,7 +214,7 @@
   "text": {
     "cannotBeUndone": "Das kann nicht rückgängig gemacht werden.",
     "confirmationSubject": "[SongDrive] Benutzerkonto aktiviert",
-    "confirmationBody": "Hallo {0},\n\ndu wurdest soeben für die Nutzung von SongDrive freigeschaltet. Du kannst dich nun einloggen unter {1}.\n\nKontaktiere uns gern, wenn du Fragen hast.\n\nDein SongDrive-Team",
+    "confirmationBody": "Hallo {0},\n\ndu wurdest soeben für die Nutzung von SongDrive freigeschaltet. Du kannst dich nun einloggen unter {1}.\n\nKontaktiere uns gern, wenn du Fragen hast.\n\nDein SongDrive-Team\n\n",
     "createNewAccount": "Erstelle ein neues SongDrive Konto.",
     "customizeProfile": "Passe deine Profildaten an",
     "customizeUi": "Passe die Benutzeroberfläche an",

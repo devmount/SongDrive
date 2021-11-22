@@ -4,7 +4,7 @@
 		<div class="modal-container">
 			<div class="modal-header">
 				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
-				<div class="modal-title h5">{{ $t('modal.deleteUser') }}</div>
+				<div class="modal-title h5">{{ $t(approved ? 'modal.deleteUser' : 'modal.deleteRegistration') }}</div>
 			</div>
 			<div class="modal-body">
 				<div class="content">
@@ -28,11 +28,13 @@ export default {
 	props: {
 		active: Boolean,
 		userName: String,
-		userKey: String
+		userKey: String,
+		approved: Boolean
 	},
 	methods: {
 		deleteUser () {
-			this.$db.collection('users').doc(this.userKey).delete().then(() => {
+			// delete approved user (living in users table) or unapproved user (living in registrations table)
+			this.$db.collection(this.approved ? 'users' : 'registrations').doc(this.userKey).delete().then(() => {
 				this.$emit('closed');
 				// toast success message
 				this.$notify({
