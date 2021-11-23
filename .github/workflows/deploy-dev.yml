@@ -1,11 +1,12 @@
-# This workflow will do a clean install of node dependencies, build the application and deploy it to production
+# This workflow will do a clean install of node dependencies,
+# build the application and deploy it as latest nightly
+# as soon as there are pushes to the main branch
 
-name: Build & Deploy
+name: Build & Deploy (Nightly)
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [ main ]
 
 jobs:
   build:
@@ -18,11 +19,11 @@ jobs:
         node-version: 14.x
     - name: Build app using Yarn
       run: |
-        printf "VUE_APP_FB_API_KEY=${{ secrets.VUE_APP_FB_API_KEY_PROD }}\nVUE_APP_FB_PROJECT_ID=${{ secrets.VUE_APP_FB_PROJECT_ID_PROD }}" >> .env.production.local
+        printf "VUE_APP_FB_API_KEY=${{ secrets.VUE_APP_FB_API_KEY_DEV }}\nVUE_APP_FB_PROJECT_ID=${{ secrets.VUE_APP_FB_PROJECT_ID_DEV }}" >> .env.production.local
         npm install -g yarn
         yarn install
         yarn build
-    - name: Push Build files to production
+    - name: Push Build files to dev environment
       uses: kostya-ten/ssh-server-deploy@v4
       with:
         host: ${{ secrets.DEPLOY_HOST }}
@@ -30,4 +31,4 @@ jobs:
         username: ${{ secrets.DEPLOY_USER }}
         password: ${{ secrets.DEPLOY_PASS }}
         scp_source: dist/*
-        scp_target: ${{ secrets.DEPLOY_PATH }}
+        scp_target: ${{ secrets.DEPLOY_PATH_DEV }}
