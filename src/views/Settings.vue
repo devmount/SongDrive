@@ -125,7 +125,7 @@
 								</div>
 								<div class="tile-action">
 									<a
-										:href="'mailto:' + u.email + '?' + confirmationMail"
+										:href="'mailto:' + u.email + '?' + confirmationMail(u.name)"
 										class="btn btn-link btn-action tooltip"
 										:data-tooltip="$t('tooltip.sendConfirmationMail')"
 									>
@@ -447,6 +447,10 @@ export default {
 				this.$notify({ title: error.code, text: error.message, type: 'error' });
 			});
 		},
+		confirmationMail (name) {
+			return 'subject=' + encodeURIComponent(this.$t('text.confirmationSubject'))
+				+ '&body=' + encodeURIComponent(this.$t('text.confirmationBody', [name, window.location.origin]))
+		},
 		exportDb () {
 			let data = {
 				'songs': this.songs,
@@ -481,10 +485,6 @@ export default {
 		numberOfLanguages () {
 			return Object.keys(this.languages).length;
 		},
-		confirmationMail () {
-			return 'subject=' + encodeURIComponent(this.$t('text.confirmationSubject'))
-				+ '&body=' + encodeURIComponent(this.$t('text.confirmationBody', [this.userObject.displayName, 'https://songdrive.de']))
-		}
 	},
 	watch: {
 		userObject () {
