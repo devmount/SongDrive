@@ -148,6 +148,7 @@
 					:users="users"
 					:registrations="registrations"
 					:languages="languages"
+					:config="config"
 					:ready="ready"
 				></router-view>
 			</div>
@@ -248,6 +249,7 @@ export default {
 			users: {},
 			registrations: {},
 			languages: {},
+			config: {},
 			// loading indicators
 			ready: {
 				users: false,
@@ -256,6 +258,7 @@ export default {
 				setlists: false,
 				tags: false,
 				languages: false,
+				config: false,
 			},
 			// db table listeners
 			listener: {
@@ -265,6 +268,7 @@ export default {
 				setlists: null,
 				tags: null,
 				languages: null,
+				config: null
 			},
 			// modals
 			open: false,

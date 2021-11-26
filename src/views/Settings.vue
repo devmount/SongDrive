@@ -72,8 +72,8 @@
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel" v-if="ready.languages">
 						<div class="panel-header text-center">
-							<ion-icon name="cog-outline" class="icon-2x"></ion-icon>
-							<div class="panel-title h5 mt-1">{{ $t('app.name') }}</div>
+							<ion-icon name="color-palette-outline" class="icon-2x"></ion-icon>
+							<div class="panel-title h5 mt-1">{{ $t('widget.appearance') }}</div>
 							<div class="panel-subtitle text-gray">{{ $t('text.customizeUi') }}</div>
 						</div>
 						<div class="panel-body">
@@ -125,7 +125,7 @@
 								</div>
 								<div class="tile-action">
 									<a
-										:href="'mailto:' + u.email + '?' + confirmationMail"
+										:href="'mailto:' + u.email + '?' + confirmationMail(u.name)"
 										class="btn btn-link btn-action tooltip"
 										:data-tooltip="$t('tooltip.sendConfirmationMail')"
 									>
@@ -281,6 +281,33 @@
 						</div>
 					</div>
 				</div>
+				<!-- configuration -->
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel">
+						<div class="panel-header text-center">
+							<ion-icon name="cog-outline" class="icon-2x"></ion-icon>
+							<div class="panel-title h5 mt-1">{{ $t('widget.configuration') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.configureApp') }}</div>
+						</div>
+						<div class="panel-body">
+							<div v-if="ready.config" class="form-group">
+								<label class="form-label" for="supportEmail">{{ $t('field.supportEmail') }}</label>
+								<input
+									v-model="configuration.contact.email"
+									class="form-input"
+									id="supportEmail"
+									type="text"
+									placeholder="support@domain.tld"
+								/>
+							</div>
+						</div>
+						<div class="panel-footer mt-5">
+							<button class="btn btn-primary btn-block text-uppercase" @click="updateConfig">
+								<ion-icon name="save-outline" class="icon-left"></ion-icon> {{ $t('button.saveConfig') }}
+							</button>
+						</div>
+					</div>
+				</div>
 				<!-- backup administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
@@ -293,7 +320,7 @@
 							<button class="btn btn-primary btn-block text-uppercase mb-2" @click="exportDb">
 								<ion-icon name="archive-outline" class="icon-left"></ion-icon> {{ $t('button.export') }}
 							</button>
-							<button class="btn btn-primary btn-block text-uppercase" @click="modal.importdata=true">
+							<button class="btn btn-error btn-block text-uppercase" @click="modal.importdata=true">
 								<ion-icon name="download-outline" class="icon-left"></ion-icon> {{ $t('button.import') }}
 							</button>
 						</div>
@@ -397,7 +424,8 @@ export default {
 		'tags',
 		'songs',
 		'setlists',
-		'languages'
+		'languages',
+		'config'
 	],
 	data () {
 		return {
@@ -406,6 +434,11 @@ export default {
 				role: this.roleName,
 				email: this.userObject.email,
 				photoURL: this.userObject.photoURL
+			},
+			configuration: {
+				contact: {
+					email: this.config?.contact?.email
+				}
 			},
 			modal: {
 				userset: false,
@@ -447,8 +480,28 @@ export default {
 				this.$notify({ title: error.code, text: error.message, type: 'error' });
 			});
 		},
+		updateConfig () {
+			this.$db.collection('config').doc('contact').update({
+				email: this.configuration.contact.email
+			}).then(() => {
+				// Config updated successfully!
+				this.$notify({
+					title: this.$t('toast.configUpdated'),
+					text: this.$t('toast.configUpdatedText'),
+					type: 'primary'
+				});
+			}).catch((error) => {
+				// An error happened.
+				this.$notify({ title: error.code, text: error.message, type: 'error' });
+			});
+		},
+		confirmationMail (name) {
+			return 'subject=' + encodeURIComponent(this.$t('text.confirmationSubject'))
+				+ '&body=' + encodeURIComponent(this.$t('text.confirmationBody', [name, window.location.origin]))
+		},
 		exportDb () {
 			let data = {
+				'config': this.configuration,
 				'songs': this.songs,
 				'setlists': this.setlists,
 				'users': this.users,
@@ -470,7 +523,7 @@ export default {
 			let uiLanguages = {};
 			Object.keys(this.$i18n.messages).forEach(key => {
 				if (this.languages[key]) {
-					uiLanguages[key] = this.languages[key].label; // TODO: check if key esists in this.languages
+					uiLanguages[key] = this.languages[key].label; // TODO: check if key exists in this.languages
 				}
 			})
 			return uiLanguages;
@@ -481,16 +534,15 @@ export default {
 		numberOfLanguages () {
 			return Object.keys(this.languages).length;
 		},
-		confirmationMail () {
-			return 'subject=' + encodeURIComponent(this.$t('text.confirmationSubject'))
-				+ '&body=' + encodeURIComponent(this.$t('text.confirmationBody', [this.userObject.displayName, 'https://songdrive.de']))
-		}
 	},
 	watch: {
 		userObject () {
 			this.profile.displayName = this.userObject.displayName;
 			this.profile.email = this.userObject.email;
 			this.profile.photoURL = this.userObject.photoURL;
+		},
+		config () {
+			this.configuration.contact.email = this.config.contact.email;
 		}
 	}
 }
