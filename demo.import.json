@@ -1,4 +1,9 @@
 {
+  "config": {
+    "contact": {
+      "email": "support@songdrive.com"
+    }
+  },
   "languages": {
     "de": {
       "label": "Deutsch"
@@ -488,7 +493,7 @@
   },
   "users": {
     "ABCXKI9aaiQbJljzxrFMWA4Mn9t1": {
-      "email": "john.doe@songdrive.de",
+      "email": "john.doe@songdrive.com",
       "name": "John Doe",
       "role": "admin"
     }

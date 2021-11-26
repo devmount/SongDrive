@@ -320,7 +320,7 @@
 							<button class="btn btn-primary btn-block text-uppercase mb-2" @click="exportDb">
 								<ion-icon name="archive-outline" class="icon-left"></ion-icon> {{ $t('button.export') }}
 							</button>
-							<button class="btn btn-danger btn-block text-uppercase" @click="modal.importdata=true">
+							<button class="btn btn-error btn-block text-uppercase" @click="modal.importdata=true">
 								<ion-icon name="download-outline" class="icon-left"></ion-icon> {{ $t('button.import') }}
 							</button>
 						</div>
@@ -501,6 +501,7 @@ export default {
 		},
 		exportDb () {
 			let data = {
+				'config': this.configuration,
 				'songs': this.songs,
 				'setlists': this.setlists,
 				'users': this.users,
