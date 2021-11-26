@@ -32,6 +32,7 @@
     "launch": "Starten",
     "present": "Präsentieren",
     "reset": "Zurücksetzen",
+    "saveConfig": "Konfiguration Speichern",
     "saveProfile": "Profil Speichern",
     "show": "Anzeigen",
     "shuffle": "Zufällig",
@@ -102,7 +103,7 @@
     "content": "Inhalt",
     "creator": "Ersteller",
     "date": "Datum der Veranstaltung",
-    "email": "Email",
+    "email": "E-Mail",
     "isocode": "ISO Code",
     "key": "Key",
     "label": "Bezeichnung",
@@ -115,6 +116,7 @@
     "role": "Rolle",
     "songs": "Songs",
     "subtitle": "Untertitel",
+    "supportEmail": "Support E-Mail Adresse",
     "tags": "Tags",
     "title": "Titel",
     "translations": "Übersetzungen",
@@ -213,6 +215,7 @@
   },
   "text": {
     "cannotBeUndone": "Das kann nicht rückgängig gemacht werden.",
+    "configureApp": "Allgemeine Anwendungsparameter verwalten",
     "confirmationSubject": "[SongDrive] Benutzerkonto aktiviert",
     "confirmationBody": "Hallo {0},\n\ndu wurdest soeben für die Nutzung von SongDrive freigeschaltet. Du kannst dich nun einloggen unter {1}\n\nKontaktiere uns gern, wenn du Fragen hast.\n\nDein SongDrive-Team\n\n",
     "createNewAccount": "Erstelle ein neues SongDrive Konto.",
@@ -259,6 +262,8 @@
     "songTuning": "Tonart"
   },
   "toast": {
+    "configUpdated": "Konfiguration aktualisiert",
+    "configUpdatedText": "Die Einstellungen wurden erfolgreich gespeichert.",
     "copiedToClipboard": "In die Zwischenablage kopiert",
     "databaseExported": "Datenbank exportiert",
     "databaseExportedText": "Die gesamte Datenbank wurde erfolgreich im JSON Format exportiert.",
@@ -332,7 +337,9 @@
     "transposeUp": "Einen Halbton hoch transponieren"
   },
   "widget": {
+    "appearance": "Ansicht",
     "backup": "Backup",
+    "configuration": "Konfiguration",
     "goToSetlists": "Alle Setlisten anzeigen",
     "goToSongs": "Alle Songs anzeigen",
     "keys": "Tonarten",

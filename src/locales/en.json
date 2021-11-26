@@ -32,6 +32,7 @@
     "launch": "Launch",
     "present": "Present",
     "reset": "Reset",
+    "saveConfig": "Save Configuration",
     "saveProfile": "Save Profile",
     "show": "Show",
     "shuffle": "Shuffle",
@@ -115,6 +116,7 @@
     "role": "Role",
     "songs": "Songs",
     "subtitle": "Subtitle",
+    "supportEmail": "Support email address",
     "tags": "Tags",
     "title": "Title",
     "translations": "Translations",
@@ -213,6 +215,7 @@
   },
   "text": {
     "cannotBeUndone": "This cannot be undone.",
+    "configureApp": "Manage general app parameters",
     "confirmationSubject": "[SongDrive] Your account got activated",
     "confirmationBody": "Hi {0},\n\nYou were approved to use SongDrive just now. You can now log in under {1}\n\nIf you have any questions, please contact us!\n\nYour SongDrive-Team\n\n",
     "createNewAccount": "Create a new SongDrive account.",
@@ -259,6 +262,8 @@
     "songTuning": "Song key"
   },
   "toast": {
+    "configUpdated": "Configuration updated",
+    "configUpdatedText": "Configuration data was successfully saved.",
     "copiedToClipboard": "Copied to clipboard",
     "databaseExported": "Database exported",
     "databaseExportedText": "The whole database was successfully exported in JSON format.",
@@ -332,7 +337,9 @@
     "transposeUp": "Transpose up a semitone"
   },
   "widget": {
+    "appearance": "Appearance",
     "backup": "Backup",
+    "configuration": "Configuration",
     "goToSetlists": "Go to Setlists",
     "goToSongs": "Go to Songs",
     "keys": "Keys",

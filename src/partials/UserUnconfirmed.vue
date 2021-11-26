@@ -9,7 +9,7 @@
 		<div class="message">
 			<h3>{{ $t('text.waitingForApproval') }}</h3>
 			<p>{{ $t('text.notApprovedYet') }}</p>
-			<p v-html="$t('text.unconfirmedMistake', ['yo@songdrive.de'])"></p>
+			<p v-if="ready.config && config.contact.email" v-html="$t('text.unconfirmedMistake', [config.contact.email])"></p>
 			<button class="btn btn-secondary d-block stretch mt-4" @click="$emit('signOut')">
 				{{ $t('button.signOut') }} <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
 			</button>
@@ -19,7 +19,8 @@
 
 <script>
 export default {
-	name: 'user-unconfirmed'
+	name: 'user-unconfirmed',
+	props: ['ready', 'config']
 }
 </script>
 
