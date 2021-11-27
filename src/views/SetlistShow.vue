@@ -172,7 +172,7 @@
 										<td v-if="user && role > 1" class="c-move text-center text-gray">
 											<ion-icon name="reorder-four-outline" class="icon-1-5x pl-2 handle"></ion-icon>
 										</td>
-										<td class="c-hand" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id }})">
+										<td class="c-hand" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})">
 											{{ songs[song.id].title }} <br class="show-xl hide-sm" />
 											<span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span>
 										</td>
