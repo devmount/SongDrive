@@ -202,7 +202,7 @@
 										<td class="text-right">
 											<button
 												class="btn btn-primary"
-												@click.prevent="$router.push({ name: 'song-show', params: { id: song.id }})"
+												@click.prevent="$router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})"
 											>
 												<ion-icon name="eye-outline"></ion-icon>
 												<span class="hide-lg ml-2">{{ $t('button.show') }}</span>

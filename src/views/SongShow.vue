@@ -310,8 +310,12 @@ export default {
 	},
 	mounted () {
 		this.$refs['song-show'].focus();
+		this.tuning = this.song ? this.urlKeyDiff() : 0;
 	},
 	methods: {
+		urlKeyDiff () {
+			return (12 + this.keyScale().indexOf(this.songKey) - this.keyScale().indexOf(this.song.tuning)) % 12;
+		},
 		exportTxt () {
 			// add header
 			var content = this.song.title
@@ -474,11 +478,14 @@ export default {
 		songId () {
 			return this.$route.params.id;
 		},
+		songKey () {
+			return this.$route.params.key;
+		},
 		song () {
 			if (this.ready.songs) {
 				return this.songs[this.songId];
 			}
-			return false;
+			return null;
 		},
 		showLanguages () {
 			if (this.ready.songs && this.song?.translations?.length > 0) {
@@ -504,7 +511,15 @@ export default {
 					next: this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning+1 % 12)) % 12],
 				};
 			} else {
-				return '-';
+				return {}
+			}
+		}
+	},
+	watch: {
+		song () {
+			// adjust song key if it's set by url parameter and song was loaded
+			if (this.songKey && this.song) {
+				this.tuning = this.urlKeyDiff();
 			}
 		}
 	}
