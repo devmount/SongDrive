@@ -311,6 +311,7 @@ export default {
 		// check initially if authenticated user exists
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
+				this.loadConfig();
 				this.auth.user = user.uid;
 				this.auth.userObject = user;
 				let userRef = this.$db.collection("users").doc(user.uid);
@@ -354,6 +355,16 @@ export default {
 				this.listener[table]();
 			}
 		},
+		// loads configuration without listener
+		loadConfig () {
+			let contactRef = this.$db.collection("config").doc("contact");
+			contactRef.get().then(doc => {
+				if (doc.exists) {
+					this.config.contact = doc.data();
+					this.ready.config = true;
+				}
+			}).catch(error => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+		},
 		resetSong () {
 			this.newSong = {
 				authors: '',
@@ -382,8 +393,12 @@ export default {
 				// login successful
 				this.auth.user = firebase.auth().currentUser.uid;
 				this.auth.userObject = firebase.auth().currentUser;
+				// load general app config
+				this.loadConfig();
 				// now add listeners for changes on each db table
-				this.listen();
+				if (this.auth.confirmed) {
+					this.listen();
+				}
 				// toast successful login
 				this.$notify({
 					title: this.$t('toast.signedIn'),
@@ -410,6 +425,8 @@ export default {
 			firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
 				// sign-up successful
 				this.auth.user = firebase.auth().currentUser.uid
+				// load general app config
+				this.loadConfig();
 				// create registration for admin approval
 				this.$db.collection('registrations').doc(this.auth.user).set({ email: user.email, name: user.name })
 					.then(() => {
