@@ -155,7 +155,7 @@
 		</div>
 		<!-- logged in but not confimed yet -->
 		<div v-if="auth.ready && auth.user && auth.confirmed === false">
-			<UserUnconfirmed @signOut="signOut" />
+			<UserUnconfirmed @signOut="signOut" :config="config" :ready="ready"/>
 		</div>
 		<!-- login screen -->
 		<div v-if="auth.ready && !auth.user">
