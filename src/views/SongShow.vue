@@ -58,15 +58,15 @@
 					<div class="divider text-center hide-lg" :data-content="$t('divider.language')"></div>
 					<div class="d-flex" v-if="ready.songs">
 						<div
-							v-for="([songId, lang], i) in showLanguages"
+							v-for="([id, lang], i) in showLanguages"
 							:key="i"
 							class=" tooltip tooltip-right tooltip-lg"
 							:data-tooltip="$t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
 						>
 							<router-link
-								:to="{ name: 'song-show', params: { id: songId }}"
+								:to="{ name: 'song-show', params: { id: id }}"
 								class="btn btn-secondary d-block text-uppercase mb-1"
-								:class="{ disabled: (!songId || songKey == songId) }"
+								:class="{ disabled: (!id || songId == id) }"
 							>
 								{{ lang }}
 							</router-link>
@@ -237,7 +237,7 @@
 				:active="modal.set"
 				:existing="existing"
 				:initialSong="song"
-				:songKey="songKey"
+				:id="songId"
 				:songs="songs"
 				:tags="tags"
 				:languages="languages"
@@ -248,7 +248,7 @@
 				v-if="modal.delete"
 				:active="modal.delete"
 				:title="song ? song.title : ''"
-				:id="songKey"
+				:id="songId"
 				@closed="modal.delete = false"
 			/>
 			<SongPresent
@@ -342,7 +342,7 @@ export default {
 			content += os.EOL + this.song.authors + os.EOL + os.EOL
 				+ '© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
 			// start download
-			this.download(content, this.songKey + '.txt');
+			this.download(content, this.songId + '.txt');
 			// toast success message
 			this.$notify({
 				title: this.$t('toast.exportedText'),
@@ -378,7 +378,7 @@ export default {
 				.replace(/--m/g, "mitro")
 				.replace(/--o/g, "outro");
 			// start download
-			this.download(content, this.songKey + '.sng');
+			this.download(content, this.songId + '.sng');
 			// toast success message
 			this.$notify({
 				title: this.$t('toast.exportedSng'),
@@ -471,29 +471,29 @@ export default {
 		}
 	},
 	computed: {
-		songKey () {
+		songId () {
 			return this.$route.params.id;
 		},
 		song () {
 			if (this.ready.songs) {
-				return this.songs[this.songKey];
+				return this.songs[this.songId];
 			}
 			return false;
 		},
 		showLanguages () {
 			if (this.ready.songs && this.song?.translations?.length > 0) {
 				var languages = [[this.$route.params.id, this.song.language]];
-				for (const key in this.song.translations) {
-					if (this.song.translations.hasOwnProperty(key)) {
-						const songKey = this.song.translations[key];
-						languages.push([songKey, this.songs[songKey].language]);
+				for (const id in this.song.translations) {
+					if (this.song.translations.hasOwnProperty(id)) {
+						const songId = this.song.translations[id];
+						languages.push([songId, this.songs[songId].language]);
 					}
 				}
 				return languages.sort((a, b) => { 
 					return a[1] > b[1] ? 1 : -1;
 				})
 			} else {
-				return [[this.songKey, this.song.language]];
+				return [[this.songId, this.song.language]];
 			}
 		},
 		showTuning () {
