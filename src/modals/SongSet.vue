@@ -384,7 +384,7 @@ export default {
 		active: Boolean,
 		existing: Boolean,
 		initialSong: Object,
-		songKey: String,
+		id: String,
 		songs: Object,
 		tags: Object,
 		languages: Object,
@@ -421,7 +421,7 @@ export default {
 			this.error.language = this.song.language == '';
 			this.error.content = this.song.content == '';
 			let slug = this.createSlug();
-			this.error.slug = this.existing && this.songKey == slug ? false : this.songs.hasOwnProperty(slug);
+			this.error.slug = this.existing && this.id == slug ? false : this.songs.hasOwnProperty(slug);
 			// no errors: start saving song data
 			if (!this.errors) {
 				var processedSong = {
@@ -467,9 +467,9 @@ export default {
 				// existing song should be updated
 				else {
 					// check if key remained (no title or language changes)
-					if (this.songKey == slug) {
+					if (this.id == slug) {
 						// just update the existing setlist
-						this.$db.collection('songs').doc(this.songKey).update(processedSong)
+						this.$db.collection('songs').doc(this.id).update(processedSong)
 							.then(() => {
 								this.$emit('closed');
 								this.$emit('reset');
@@ -492,7 +492,7 @@ export default {
 							});
 					} else {
 						// update key by adding a new song and removing the old one
-						this.$db.collection('songs').doc(this.songKey).delete();
+						this.$db.collection('songs').doc(this.id).delete();
 						this.$db.collection('songs').doc(slug).set(processedSong)
 							.then(() => {
 								this.$emit('closed');

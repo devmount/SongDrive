@@ -12,7 +12,7 @@ export default new Router({
 		// lazy load all other routes
 		{ path: '/songs',          name: 'songs',         component: () => import('./views/Songs')         },
 		{ path: '/songs/:tag',     name: 'songs-tag',     component: () => import('./views/Songs')         },
-		{ path: '/song/:id',       name: 'song-show',     component: () => import('./views/SongShow')      },
+		{ path: '/song/:id/:key?', name: 'song-show',     component: () => import('./views/SongShow')      },
 		{ path: '/setlists',       name: 'setlists',      component: () => import('./views/Setlists')      },
 		{ path: '/setlists/:year', name: 'setlists-year', component: () => import('./views/Setlists')      },
 		{ path: '/setlist/:id',    name: 'setlist-show',  component: () => import('./views/SetlistShow')   },

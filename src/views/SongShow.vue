@@ -58,15 +58,15 @@
 					<div class="divider text-center hide-lg" :data-content="$t('divider.language')"></div>
 					<div class="d-flex" v-if="ready.songs">
 						<div
-							v-for="([songId, lang], i) in showLanguages"
+							v-for="([id, lang], i) in showLanguages"
 							:key="i"
 							class=" tooltip tooltip-right tooltip-lg"
 							:data-tooltip="$t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
 						>
 							<router-link
-								:to="{ name: 'song-show', params: { id: songId }}"
+								:to="{ name: 'song-show', params: { id: id }}"
 								class="btn btn-secondary d-block text-uppercase mb-1"
-								:class="{ disabled: (!songId || songKey == songId) }"
+								:class="{ disabled: (!id || songId == id) }"
 							>
 								{{ lang }}
 							</router-link>
@@ -170,9 +170,11 @@
 					</button>
 				</div>
 			</div>
+
 			<!-- content -->
 			<div class="off-canvas-content">
 				<div class="container">
+					<!-- title and song content -->
 					<div class="columns pb-4">
 						<div v-if="ready.songs && song" class="column col-12">
 							<h2>{{ song.title }} <span class="label text-pre ml-2 px-3">{{ showTuning.current }}</span></h2>
@@ -185,11 +187,13 @@
 							/>
 						</div>
 					</div>
+					<!-- song footer with meta data -->
 					<div class="columns mt-4 pt-4">
 						<div v-if="ready.songs && song && ready.tags" class="column">
 							<footer class="text-small">
 								<p>{{ song.authors }}</p>
 								<p>
+									<!-- youtube -->
 									<a
 										v-if="song.youtube"
 										:href="'https://youtu.be/' + song.youtube"
@@ -202,6 +206,7 @@
 											<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
 										</span>
 									</a>
+									<!-- ccli -->
 									<a
 										v-if="song.ccli"
 										:href="'https://songselect.ccli.com/Songs/' + song.ccli"
@@ -213,6 +218,7 @@
 											<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
 										</span>
 									</a>
+									<!-- tags -->
 									<router-link
 										v-for="tag in song.tags"
 										:key="tag"
@@ -237,7 +243,7 @@
 				:active="modal.set"
 				:existing="existing"
 				:initialSong="song"
-				:songKey="songKey"
+				:id="songId"
 				:songs="songs"
 				:tags="tags"
 				:languages="languages"
@@ -248,7 +254,7 @@
 				v-if="modal.delete"
 				:active="modal.delete"
 				:title="song ? song.title : ''"
-				:id="songKey"
+				:id="songId"
 				@closed="modal.delete = false"
 			/>
 			<SongPresent
@@ -309,9 +315,17 @@ export default {
 		}
 	},
 	mounted () {
+		// focus component area for shortcuts
 		this.$refs['song-show'].focus();
+		// set custom tuning when loading this component without refresh
+		this.tuning = this.song ? this.urlKeyDiff() : 0;
 	},
 	methods: {
+		// calculates difference between song key and url key parameter and returns new key scale index
+		urlKeyDiff () {
+			return (12 + this.keyScale().indexOf(this.songKey) - this.keyScale().indexOf(this.song.tuning)) % 12;
+		},
+		// export song in text format
 		exportTxt () {
 			// add header
 			var content = this.song.title
@@ -342,7 +356,7 @@ export default {
 			content += os.EOL + this.song.authors + os.EOL + os.EOL
 				+ '© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
 			// start download
-			this.download(content, this.songKey + '.txt');
+			this.download(content, this.songId + '.txt');
 			// toast success message
 			this.$notify({
 				title: this.$t('toast.exportedText'),
@@ -350,6 +364,7 @@ export default {
 				type: 'primary'
 			});
 		},
+		// export song in SongBeamer or OpenLP format
 		exportSng () {
 			// add header
 			var content =
@@ -378,7 +393,7 @@ export default {
 				.replace(/--m/g, "mitro")
 				.replace(/--o/g, "outro");
 			// start download
-			this.download(content, this.songKey + '.sng');
+			this.download(content, this.songId + '.sng');
 			// toast success message
 			this.$notify({
 				title: this.$t('toast.exportedSng'),
@@ -386,6 +401,7 @@ export default {
 				type: 'primary'
 			});
 		},
+		// export song sheet as PDF
 		exportPdf () {
 			var content = this.getPdfSongContent();
 			// return page configuration with computed content
@@ -423,8 +439,9 @@ export default {
 				type: 'primary'
 			});
 		},
+		// prepare song content for PDF export
 		getPdfSongContent () {
-			// handle song content parts
+			// handle all song parts
 			var content = [], parts = this.parsedContent(this.song.content, this.tuning, this.chords, false);
 			parts.forEach((part) => {
 				if (part.type == 'v' && part.number != '0') {
@@ -452,7 +469,7 @@ export default {
 					});
 				}
 			});
-			// return array with song data
+			// return array with song data ready for pdfMake
 			return [
 				// song title [tuning] with a line beneath
 				{ text: this.song.title.toUpperCase() + (this.tuning ? '  [' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' : ''), style: 'header' },
@@ -471,31 +488,39 @@ export default {
 		}
 	},
 	computed: {
-		songKey () {
+		// get song id from url parameter :id (see router.js)
+		songId () {
 			return this.$route.params.id;
 		},
+		// get optional song key from url parameter :key (see router.js)
+		songKey () {
+			return this.$route.params.key;
+		},
+		// get song object from db as soon as songs have finished loading
 		song () {
 			if (this.ready.songs) {
-				return this.songs[this.songKey];
+				return this.songs[this.songId];
 			}
-			return false;
+			return null;
 		},
+		// array of tuples (song id, language) for all existing translations of this song
 		showLanguages () {
 			if (this.ready.songs && this.song?.translations?.length > 0) {
 				var languages = [[this.$route.params.id, this.song.language]];
-				for (const key in this.song.translations) {
-					if (this.song.translations.hasOwnProperty(key)) {
-						const songKey = this.song.translations[key];
-						languages.push([songKey, this.songs[songKey].language]);
+				for (const id in this.song.translations) {
+					if (this.song.translations.hasOwnProperty(id)) {
+						const songId = this.song.translations[id];
+						languages.push([songId, this.songs[songId].language]);
 					}
 				}
 				return languages.sort((a, b) => { 
 					return a[1] > b[1] ? 1 : -1;
 				})
 			} else {
-				return [[this.songKey, this.song.language]];
+				return [[this.songId, this.song.language]];
 			}
 		},
+		// show current key as well as previous and next key for transposing keys
 		showTuning () {
 			if (this.song) {
 				return {
@@ -504,7 +529,15 @@ export default {
 					next: this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning+1 % 12)) % 12],
 				};
 			} else {
-				return '-';
+				return {}
+			}
+		}
+	},
+	watch: {
+		song () {
+			// adjust song key if it's set by url parameter and song was loaded
+			if (this.songKey && this.song) {
+				this.tuning = this.urlKeyDiff();
 			}
 		}
 	}
