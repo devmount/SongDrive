@@ -9,7 +9,6 @@
 		<div class="message">
 			<h3>{{ $t('text.waitingForApproval') }}</h3>
 			<p>{{ $t('text.notApprovedYet') }}</p>
-			<!-- TODO: load config.contact.email for unconfirmed users -->
 			<p v-if="ready.config && config.contact.email" v-html="$t('text.unconfirmedMistake', [config.contact.email])"></p>
 			<button class="btn btn-secondary d-block stretch mt-4" @click="$emit('signOut')">
 				{{ $t('button.signOut') }} <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
