@@ -62,7 +62,7 @@
 							<router-link to="/profile" class="py-2" @click.native="open = false">
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
-										<img v-if="auth.userObject.photoURL" class="avatar" :src="auth.userObject.photoURL" alt="Avatar">
+										<img v-if="users[auth.user].photo" class="avatar" :src="users[auth.user].photo" alt="Avatar">
 										<figure
 											v-else-if="userName"
 											class="avatar"
@@ -458,9 +458,7 @@ export default {
 		},
 		// get user name either from user object or from users db table
 		userName () {
-			return this.auth.userObject.displayName
-				? this.auth.userObject.displayName
-				: this.users[this.auth.user]?.name ? this.users[this.auth.user].name : '';
+			return this.ready.users ? this.users[this.auth.user].name : '';
 		},
 	},
 }

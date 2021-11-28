@@ -9,12 +9,12 @@
 					</h2>
 				</div>
 			</div>
-			<div v-if="ready.users && user && userObject" class="columns">
+			<div v-if="ready.users && user" class="columns">
 				<div class="column col-4 col-xl-6 col-sm-12 mt-4">
 					<div class="panel">
 						<div class="panel-header text-center">
-							<figure v-if="userObject.photoURL" class="avatar avatar-xxl mb-2">
-								<img :src="userObject.photoURL" alt="Avatar" />
+							<figure v-if="users[user].photo" class="avatar avatar-xxl mb-2">
+								<img :src="users[user].photo" alt="Avatar" />
 							</figure>
 							<figure
 								v-else-if="userName"
@@ -25,19 +25,19 @@
 							<div v-if="roleName" class="panel-subtitle text-gray">{{ $t('role.' + roleName) }}</div>
 						</div>
 						<div class="panel-body">
-							<div v-if="userObject.email" class="tile tile-centered mb-2">
+							<div v-if="users[user].email" class="tile tile-centered mb-2">
 								<div class="tile-content">
 									<div class="tile-title text-bold">{{ $t('field.email') }}</div>
-									<div class="tile-subtitle text-gray">{{ userObject.email }}</div>
+									<div class="tile-subtitle text-gray">{{ users[user].email }}</div>
 								</div>
 								<div class="tile-icon text-gray">
 									<ion-icon name="mail-outline" class="icon-1-5x"></ion-icon>
 								</div>
 							</div>
-							<div v-if="userObject.photoURL" class="tile tile-centered mb-2">
+							<div v-if="users[user].photo" class="tile tile-centered mb-2">
 								<div class="tile-content">
 									<div class="tile-title text-bold">{{ $t('field.photo') }}</div>
-									<div class="tile-subtitle text-gray">{{ userObject.photoURL.substr(0,40) }}...</div>
+									<div class="tile-subtitle text-gray">{{ users[user].photo.substr(0,40) }}...</div>
 								</div>
 								<div class="tile-icon text-gray">
 									<ion-icon name="camera-outline" class="icon-1-5x"></ion-icon>
@@ -107,15 +107,13 @@
 <script>
 export default {
 	name: 'profile',
-	props: ['setlists', 'user', 'users', 'userObject', 'role', 'roleName', 'ready'],
+	props: ['setlists', 'user', 'users', 'role', 'roleName', 'ready'],
 	computed: {
 		userName () {
-			return this.userObject.displayName
-				? this.userObject.displayName
-				: this.users[this.user]?.name ? this.users[this.user].name : '';
+			return this.ready.users ? this.users[this.user].name : '';
 		},
 		setlistsFromUser () {
-			return Object.filter(this.setlists, s => s.creator == this.userObject.uid);
+			return Object.filter(this.setlists, s => s.creator == this.user);
 		},
 		songsFromUser () {
 			let list = this.setlistsFromUser;

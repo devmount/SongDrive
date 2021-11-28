@@ -9,7 +9,7 @@
 					</h2>
 				</div>
 			</div>
-			<div v-if="ready.users && user && userObject" class="columns">
+			<div v-if="ready.users && user" class="columns">
 				<!-- profile -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
@@ -22,7 +22,7 @@
 							<div class="form-group">
 								<label class="form-label" for="name">{{ $t('field.name') }}</label>
 								<input
-									v-model="profile.displayName"
+									v-model="profile.name"
 									class="form-input"
 									id="name"
 									type="text"
@@ -43,7 +43,7 @@
 							<div class="form-group mb-3">
 								<label class="form-label" for="photo">{{ $t('field.photo') }}</label>
 								<input
-									v-model="profile.photoURL"
+									v-model="profile.photo"
 									class="form-input"
 									id="photo"
 									type="text"
@@ -51,14 +51,14 @@
 								/>
 							</div>
 							<label for="preview" class="mr-4">{{ $t('label.preview') }}:</label>
-							<figure v-if="profile.photoURL" id="preview" class="avatar avatar-xxl mb-2">
-								<img :src="profile.photoURL" alt="Avatar" />
+							<figure v-if="profile.photo" id="preview" class="avatar avatar-xxl mb-2">
+								<img :src="profile.photo" alt="Avatar" />
 							</figure>
 							<figure
-								v-else-if="profile.displayName"
+								v-else-if="profile.name"
 								id="preview"
 								class="avatar avatar-xxl"
-								:data-initial="profile.displayName.substring(0,2).toUpperCase()"
+								:data-initial="profile.name.substring(0,2).toUpperCase()"
 							></figure>
 						</div>
 						<div class="panel-footer mt-5">
@@ -111,8 +111,8 @@
 								class="tile tile-centered tile-hover p-2"
 							>
 								<div class="tile-icon">
-									<figure v-if="u.photoURL" class="avatar mr-2">
-										<img :src="u.photoURL" alt="Avatar" />
+									<figure v-if="u.photo" class="avatar mr-2">
+										<img :src="u.photo" alt="Avatar" />
 									</figure>
 									<div v-else class="avatar text-center">
 										<ion-icon name="person" class="mt-1"></ion-icon>
@@ -430,10 +430,10 @@ export default {
 	data () {
 		return {
 			profile: {
-				displayName: this.userObject.displayName,
-				role: this.roleName,
-				email: this.userObject.email,
-				photoURL: this.userObject.photoURL
+				name: null,
+				role: null,
+				email: null,
+				photo: null
 			},
 			configuration: {
 				contact: {
@@ -458,13 +458,24 @@ export default {
 			}
 		};
 	},
+	mounted () {
+		this.loadProfile();
+	},
 	methods: {
+		loadProfile () {
+			if (this.ready.users && this.user) {
+				this.profile.name = this.users[this.user].name;
+				this.profile.email = this.users[this.user].email;
+				this.profile.photo = this.users[this.user].photo;
+				this.profile.role = this.users[this.user].role;
+			}
+		},
 		updateProfile () {
-			this.userObject.updateProfile(this.profile).then(() => {
-				this.$db.collection('users').doc(this.userObject.uid).update({
-					name: this.profile.displayName,
+			this.userObject.updateProfile({
+					displayName: this.profile.name,
 					email: this.profile.email
-				}).then(() => {
+			}).then(() => {
+				this.$db.collection('users').doc(this.user).update(this.profile).then(() => {
 					// Profile updated successfully!
 					this.$notify({
 						title: this.$t('toast.userUpdated'),
@@ -536,10 +547,8 @@ export default {
 		},
 	},
 	watch: {
-		userObject () {
-			this.profile.displayName = this.userObject.displayName;
-			this.profile.email = this.userObject.email;
-			this.profile.photoURL = this.userObject.photoURL;
+		user () {
+			this.loadProfile();
 		},
 		config () {
 			this.configuration.contact.email = this.config.contact.email;
