@@ -547,9 +547,6 @@ export default {
 		},
 	},
 	watch: {
-		user () {
-			this.loadProfile();
-		},
 		config () {
 			this.configuration.contact.email = this.config.contact.email;
 		}
