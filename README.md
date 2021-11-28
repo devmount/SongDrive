@@ -87,6 +87,9 @@ This is how the SongDrive Dashboard currently looks like.
         match /users/{user} {
           allow read: if request.auth.uid != '' && user == request.auth.uid;
         }
+        match /config/{category} {
+          allow read: if request.auth.uid != '';
+        }
       }
     }
     ```

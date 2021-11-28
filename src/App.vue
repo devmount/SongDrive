@@ -62,7 +62,7 @@
 							<router-link to="/profile" class="py-2" @click.native="open = false">
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
-										<img v-if="auth.userObject.photoURL" class="avatar" :src="auth.userObject.photoURL" alt="Avatar">
+										<img v-if="users[auth.user].photo" class="avatar" :src="users[auth.user].photo" alt="Avatar">
 										<figure
 											v-else-if="userName"
 											class="avatar"
@@ -155,7 +155,7 @@
 		</div>
 		<!-- logged in but not confimed yet -->
 		<div v-if="auth.ready && auth.user && auth.confirmed === false">
-			<UserUnconfirmed @signOut="signOut" />
+			<UserUnconfirmed @signOut="signOut" :config="config" :ready="ready"/>
 		</div>
 		<!-- login screen -->
 		<div v-if="auth.ready && !auth.user">
@@ -311,6 +311,7 @@ export default {
 		// check initially if authenticated user exists
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
+				this.loadConfig();
 				this.auth.user = user.uid;
 				this.auth.userObject = user;
 				let userRef = this.$db.collection("users").doc(user.uid);
@@ -354,6 +355,16 @@ export default {
 				this.listener[table]();
 			}
 		},
+		// loads configuration without listener
+		loadConfig () {
+			let contactRef = this.$db.collection("config").doc("contact");
+			contactRef.get().then(doc => {
+				if (doc.exists) {
+					this.config.contact = doc.data();
+					this.ready.config = true;
+				}
+			}).catch(error => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+		},
 		resetSong () {
 			this.newSong = {
 				authors: '',
@@ -382,8 +393,12 @@ export default {
 				// login successful
 				this.auth.user = firebase.auth().currentUser.uid;
 				this.auth.userObject = firebase.auth().currentUser;
+				// load general app config
+				this.loadConfig();
 				// now add listeners for changes on each db table
-				this.listen();
+				if (this.auth.confirmed) {
+					this.listen();
+				}
 				// toast successful login
 				this.$notify({
 					title: this.$t('toast.signedIn'),
@@ -410,6 +425,8 @@ export default {
 			firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
 				// sign-up successful
 				this.auth.user = firebase.auth().currentUser.uid
+				// load general app config
+				this.loadConfig();
 				// create registration for admin approval
 				this.$db.collection('registrations').doc(this.auth.user).set({ email: user.email, name: user.name })
 					.then(() => {
@@ -441,9 +458,7 @@ export default {
 		},
 		// get user name either from user object or from users db table
 		userName () {
-			return this.auth.userObject.displayName
-				? this.auth.userObject.displayName
-				: this.users[this.auth.user]?.name ? this.users[this.auth.user].name : '';
+			return this.ready.users ? this.users[this.auth.user].name : '';
 		},
 	},
 }
