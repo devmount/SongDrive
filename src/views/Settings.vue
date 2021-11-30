@@ -91,7 +91,7 @@
 					</div>
 				</div>
 			</div>
-			<div v-if="ready.users && user && userObject && role > 3" class="columns mt-4 pt-4">
+			<div v-if="ready.users && ready.permissions && user && userObject && role > 1" class="columns mt-4 pt-4">
 				<div class="column col-12">
 					<h2>
 						{{ $t('page.administration') }}
@@ -119,7 +119,7 @@
 									</div>
 								</div>
 								<div class="tile-content">
-									<span class="label float-right py-1 px-2">{{ $t('role.' + u.role) }}</span>
+									<span v-if="permissions[k]" class="label float-right py-1 px-2">{{ $t('role.' + permissions[k].role) }}</span>
 									<div class="tile-title">{{ u.name }}</div>
 									<div class="tile-subtitle text-gray text-small">{{ u.email }}</div>
 								</div>
@@ -134,7 +134,7 @@
 									<button
 										class="btn btn-link btn-action tooltip"
 										:data-tooltip="$t('modal.editUser')"
-										@click.prevent="active.user=u; active.key=k; active.existing=true; modal.userset=true"
+										@click.prevent="active.user=u; active.role=permissions[k].role; active.key=k; active.existing=true; modal.userset=true"
 									>
 										<ion-icon name="create-outline"></ion-icon>
 									</button>
@@ -178,7 +178,7 @@
 									<button
 										class="btn btn-link btn-action tooltip"
 										:data-tooltip="$t('tooltip.approveUser')"
-										@click.prevent="active.user=r; active.key=k; active.existing=false; modal.userset=true"
+										@click.prevent="active.user=r; active.role='reader'; active.key=k; active.existing=false; modal.userset=true"
 									>
 										<ion-icon name="person-add-outline"></ion-icon>
 									</button>
@@ -345,6 +345,7 @@
 				:active="modal.userset"
 				:existing="active.existing"
 				:initialUser="active.user"
+				:role="active.role"
 				:userKey="active.key"
 				@closed="modal.userset = false"
 			/>
@@ -419,21 +420,24 @@ export default {
 		'ready',
 		'roleName',
 		'role',
-		'users',
-		'registrations',
-		'tags',
-		'songs',
-		'setlists',
+		'config',
 		'languages',
-		'config'
+		'permissions',
+		'registrations',
+		'setlists',
+		'songs',
+		'tags',
+		'users',
 	],
 	data () {
 		return {
 			profile: {
 				name: null,
-				role: null,
 				email: null,
 				photo: null
+			},
+			permission: {
+				role: null,
 			},
 			configuration: {
 				contact: {
@@ -450,6 +454,7 @@ export default {
 			},
 			active: {
 				user: {},
+				role: '',
 				language: {},
 				tag: {},
 				key: '',
@@ -467,7 +472,7 @@ export default {
 				this.profile.name = this.users[this.user].name;
 				this.profile.email = this.users[this.user].email;
 				this.profile.photo = this.users[this.user].photo;
-				this.profile.role = this.users[this.user].role;
+				this.permission.role = this.permissions[this.user].role;
 			}
 		},
 		updateProfile () {
@@ -475,21 +480,19 @@ export default {
 					displayName: this.profile.name,
 					email: this.profile.email
 			}).then(() => {
+				// first update user object
 				this.$db.collection('users').doc(this.user).update(this.profile).then(() => {
-					// Profile updated successfully!
-					this.$notify({
-						title: this.$t('toast.userUpdated'),
-						text: this.$t('toast.userUpdatedText'),
-						type: 'primary'
-					});
-				}).catch((error) => {
-					// An error happened.
-					this.$notify({ title: error.code, text: error.message, type: 'error' });
-				});
-			}, (error) => {
-				// An error happened.
-				this.$notify({ title: error.code, text: error.message, type: 'error' });
-			});
+					// then update permissions for this user
+					this.$db.collection('permissions').doc(this.user).update(this.permission).then(() => {
+						// updated successfully
+						this.$notify({
+							title: this.$t('toast.userUpdated'),
+							text: this.$t('toast.userUpdatedText'),
+							type: 'primary'
+						});
+					}).catch((error) => this.throwError(error));
+				}).catch((error) => this.throwError(error));
+			}, (error) => this.throwError(error));
 		},
 		updateConfig () {
 			this.$db.collection('config').doc('contact').update({
@@ -501,10 +504,7 @@ export default {
 					text: this.$t('toast.configUpdatedText'),
 					type: 'primary'
 				});
-			}).catch((error) => {
-				// An error happened.
-				this.$notify({ title: error.code, text: error.message, type: 'error' });
-			});
+			}).catch((error) => this.throwError(error));
 		},
 		confirmationMail (name) {
 			return 'subject=' + encodeURIComponent(this.$t('text.confirmationSubject'))
@@ -528,6 +528,14 @@ export default {
 				type: 'primary'
 			});
 		},
+		// toast error message
+		throwError (error) {
+			this.$notify({
+				title: error.code,
+				text: error.message,
+				type: 'error'
+			});
+		}
 	},
 	computed: {
 		uiLanguages () {

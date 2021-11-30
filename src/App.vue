@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<div v-if="auth.ready && auth.user && ready.users && users[auth.user]" class="off-canvas off-canvas-sidebar-show">
+		<div v-if="auth.ready && auth.user && ready.users && users[auth.user] && ready.permissions && permissions[auth.user]" class="off-canvas off-canvas-sidebar-show">
 			<!-- off-screen toggle button -->
 			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
 				<ion-icon name="menu" size="large"></ion-icon>
@@ -31,7 +31,7 @@
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="userRoles()[users[auth.user].role] > 2"
+									v-if="userRoles()[permissions[auth.user].role] > 2"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="$t('tooltip.songAdd')"
 									@click="modal.addsong = true"
@@ -48,7 +48,7 @@
 								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="userRoles()[users[auth.user].role] > 1"
+									v-if="userRoles()[permissions[auth.user].role] > 1"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="$t('tooltip.setlistAdd')"
 									@click="modal.addsetlist = true"
@@ -73,7 +73,7 @@
 									<div class="tile-content">
 										{{ userName }}
 										<div class="text-gray text-small">
-											{{ $t('role.' + users[auth.user].role) }}
+											{{ $t('role.' + permissions[auth.user].role) }}
 										</div>
 									</div>
 								</div>
@@ -140,16 +140,17 @@
 					:key="$route.fullPath"
 					:user="auth.user"
 					:userObject="auth.userObject"
-					:role="userRoles()[users[auth.user].role]"
-					:roleName="users[auth.user].role"
-					:songs="songs"
+					:role="userRoles()[permissions[auth.user].role]"
+					:roleName="permissions[auth.user].role"
+					:ready="ready"
+					:config="config"
+					:languages="languages"
+					:permissions="permissions"
+					:registrations="registrations"
 					:setlists="setlists"
+					:songs="songs"
 					:tags="tags"
 					:users="users"
-					:registrations="registrations"
-					:languages="languages"
-					:config="config"
-					:ready="ready"
 				></router-view>
 			</div>
 		</div>
@@ -243,32 +244,35 @@ export default {
 	data () {
 		return {
 			// db tables
-			songs: {},
+			config: {},
+			languages: {},
+			permissions: {},
+			registrations: {},
 			setlists: {},
+			songs: {},
 			tags: {},
 			users: {},
-			registrations: {},
-			languages: {},
-			config: {},
 			// loading indicators
 			ready: {
-				users: false,
-				registrations: false,
-				songs: false,
-				setlists: false,
-				tags: false,
-				languages: false,
 				config: false,
+				languages: false,
+				permissions: false,
+				registrations: false,
+				setlists: false,
+				songs: false,
+				tags: false,
+				users: false,
 			},
 			// db table listeners
 			listener: {
-				users: null,
-				registrations: null,
-				songs: null,
-				setlists: null,
-				tags: null,
+				config: null,
 				languages: null,
-				config: null
+				permissions: null,
+				registrations: null,
+				setlists: null,
+				songs: null,
+				tags: null,
+				users: null,
 			},
 			// modals
 			open: false,
@@ -352,7 +356,8 @@ export default {
 		// remove listeners for changes on each db table
 		unlisten () {
 			for (const table in this.listener) {
-				this.listener[table]();
+				let unsubscribe = this.listener[table];
+				unsubscribe();
 			}
 		},
 		// loads configuration without listener
