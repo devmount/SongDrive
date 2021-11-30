@@ -493,8 +493,12 @@
   },
   "users": {
     "ABCXKI9aaiQbJljzxrFMWA4Mn9t1": {
-      "email": "john.doe@songdrive.com",
-      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "name": "John Doe"
+    }
+  },
+  "permissions": {
+    "ABCXKI9aaiQbJljzxrFMWA4Mn9t1": {
       "role": "admin"
     }
   }

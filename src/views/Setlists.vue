@@ -23,7 +23,7 @@
 			<div v-if="noSetlists" class="columns mt-2">
 				<!-- heading -->
 				<div class="column col-12">
-					<span v-if="user != '' && role != ''">{{ $t('text.noSetlistsAvailableSignedIn') }}</span>
+					<span v-if="user && role">{{ $t('text.noSetlistsAvailableSignedIn') }}</span>
 					<span v-else>{{ $t('text.noSetlistsAvailableSignedOut') }}</span>
 				</div>
 			</div>

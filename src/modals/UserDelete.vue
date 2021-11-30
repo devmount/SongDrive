@@ -35,6 +35,9 @@ export default {
 		deleteUser () {
 			// delete approved user (living in users table) or unapproved user (living in registrations table)
 			this.$db.collection(this.approved ? 'users' : 'registrations').doc(this.userKey).delete().then(() => {
+				if (this.approved) {
+					this.$db.collection('permissions').doc(this.userKey).delete();
+				}
 				this.$emit('closed');
 				// toast success message
 				this.$notify({

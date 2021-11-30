@@ -23,7 +23,7 @@
 			<div v-if="noSongs" class="columns mt-2">
 				<!-- heading -->
 				<div class="column col-12">
-					<span v-if="user != '' && role != ''">{{ $t('text.noSongsAvailableSignedIn') }}</span>
+					<span v-if="user && role">{{ $t('text.noSongsAvailableSignedIn') }}</span>
 					<span v-else>{{ $t('text.noSongsAvailableSignedOut') }}</span>
 				</div>
 			</div>

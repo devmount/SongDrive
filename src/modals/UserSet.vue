@@ -32,7 +32,7 @@
 					/>
 					<p v-if="error.email" class="form-input-hint">{{ $t('error.requiredEmail') }}</p>
 					<label class="form-label" for="role">{{ $t('field.role') }} <span class="text-error">*</span></label>
-					<select v-model="user.role" id="role" class="form-select filter" required>
+					<select v-model="permission.role" id="role" class="form-select filter" required>
 						<option value="" disabled selected>{{ $t('placeholder.select') }}</option>
 						<option v-for="(r, k) in userRoles()" :key="k" :value="k">{{ $t('role.' + k) }}</option>
 					</select>
@@ -57,12 +57,16 @@ export default {
 	props: {
 		active: Boolean,
 		initialUser: Object,
+		role: String,
 		existing: Boolean,
 		userKey: String,
 	},
 	data () {
 		return {
 			user: JSON.parse(JSON.stringify(this.initialUser)),
+			permission: {
+				role: this.role
+			},
 			error: {
 				name: false,
 				email: false,
@@ -71,33 +75,29 @@ export default {
 		}
 	},
 	methods: {
+		// save user object to database
 		setUser() {
 			// first check for form errors
 			this.error.name = this.user.name == '';
 			this.error.email = this.user.email == '';
-			this.error.role = this.user.role == '';
+			this.error.role = this.permission.role == '';
 			// no errors: send submitted user data and close modal
 			if (!this.errors) {
 				if (this.existing) {
-					this.$db.collection('users').doc(this.userKey).update({
-						name: this.user.name,
-						email: this.user.email,
-						role: this.user.role
-					}).then(() => {
-						// user updated successfully!
-						this.$notify({
-							title: this.$parent.$t('toast.userUpdated'),
-							text: this.$parent.$t('toast.userSavedText'),
-							type: 'primary'
-						});
-					}).catch((error) => {
-						// an error occured on updating user
-						this.$notify({
-							title: error.code,
-							text: error.message,
-							type: 'error'
-						});
-					});
+					// first set permissions
+					this.$db.collection('permissions').doc(this.userKey).update(this.permission).then(() => {
+						// permissions updated successfully, now update user
+						this.$db.collection('users').doc(this.userKey).update({
+							name: this.user.name,
+							email: this.user.email,
+						}).then(() => {
+							this.$notify({
+								title: this.$parent.$t('toast.userUpdated'),
+								text: this.$parent.$t('toast.userSavedText'),
+								type: 'primary'
+							});
+						}).catch((error) => this.throwError(error));
+					}).catch((error) => this.throwError(error));
 					this.$emit('closed');
 				}
 				// user is not yet confirmed
@@ -105,27 +105,29 @@ export default {
 					this.$db.collection('users').doc(this.userKey).set({
 						name: this.user.name,
 						email: this.user.email,
-						role: this.user.role
 					}).then(() => {
-						// user added successfully, now delete temporary registration
-						this.$db.collection('registrations').doc(this.userKey).delete().then(() => {
-							this.$notify({
-								title: this.$parent.$t('toast.userAdded'),
-								text: this.$parent.$t('toast.userSavedText'),
-								type: 'primary'
-							});
-						})
-					}).catch((error) => {
-						// an error occured on adding user
-						this.$notify({
-							title: error.code,
-							text: error.message,
-							type: 'error'
-						});
-					});
+						// user added successfully, now add permission and delete temporary registration
+						this.$db.collection('permissions').doc(this.userKey).set(this.permission).then(() => {
+							this.$db.collection('registrations').doc(this.userKey).delete().then(() => {
+								this.$notify({
+									title: this.$parent.$t('toast.userAdded'),
+									text: this.$parent.$t('toast.userSavedText'),
+									type: 'primary'
+								});
+							}).catch((error) => this.throwError(error));
+						}).catch((error) => this.throwError(error));
+					}).catch((error) => this.throwError(error));
 					this.$emit('closed');
 				}
 			}
+		},
+		// toast error message
+		throwError (error) {
+			this.$notify({
+				title: error.code,
+				text: error.message,
+				type: 'error'
+			});
 		}
 	},
 	computed: {
