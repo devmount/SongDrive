@@ -301,6 +301,12 @@ Vue.mixin({
 				}
 			});
 			return parsedCode.join('\n');
+		},
+		// calculate initials for given user name
+		initials: (userName) => {
+			return userName
+				? userName.trim().split(' ', 2).reduce((p, c) => p + c.charAt(0), '').toUpperCase()
+				: ''
 		}
   }
 })

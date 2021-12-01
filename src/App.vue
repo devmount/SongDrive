@@ -66,7 +66,7 @@
 										<figure
 											v-else-if="userName"
 											class="avatar"
-											:data-initial="userName.substring(0,2).toUpperCase()"
+											:data-initial="initials(userName)"
 											alt="Avatar"
 										></figure>
 										<span v-else class="avatar flex-center">

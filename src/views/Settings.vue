@@ -58,7 +58,7 @@
 								v-else-if="profile.name"
 								id="preview"
 								class="avatar avatar-xxl"
-								:data-initial="profile.name.substring(0,2).toUpperCase()"
+								:data-initial="initials(profile.name)"
 							></figure>
 							<span v-else class="avatar avatar-xxl flex-center">
 								<ion-icon class="icon-2x" name="person"></ion-icon>
@@ -120,7 +120,7 @@
 									<figure
 										v-else-if="u.name"
 										class="avatar"
-										:data-initial="u.name.substring(0,2).toUpperCase()"
+										:data-initial="initials(u.name)"
 									></figure>
 									<span v-else class="avatar flex-center">
 										<ion-icon name="person"></ion-icon>
@@ -173,8 +173,8 @@
 								class="tile tile-centered tile-hover p-2"
 							>
 								<div class="tile-icon">
-									<div class="avatar bg-dark text-center">
-										<ion-icon name="person-outline" class="mt-1"></ion-icon>
+									<div class="avatar bg-dark flex-center">
+										<ion-icon name="person-outline"></ion-icon>
 									</div>
 								</div>
 								<div class="tile-content">
