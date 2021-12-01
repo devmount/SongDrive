@@ -378,6 +378,11 @@ code {
 .align-center {
 	align-items: center;
 }
+.flex-center {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
 
 // loading
 .loading {

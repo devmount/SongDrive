@@ -51,15 +51,18 @@
 								/>
 							</div>
 							<label for="preview" class="mr-4">{{ $t('label.preview') }}:</label>
-							<figure v-if="profile.photo" id="preview" class="avatar avatar-xxl mb-2">
+							<figure v-if="profile.photo" id="preview" class="avatar avatar-xxl">
 								<img :src="profile.photo" alt="Avatar" />
 							</figure>
 							<figure
 								v-else-if="profile.name"
 								id="preview"
 								class="avatar avatar-xxl"
-								:data-initial="profile.name.substring(0,2).toUpperCase()"
+								:data-initial="initials(profile.name)"
 							></figure>
+							<span v-else class="avatar avatar-xxl flex-center">
+								<ion-icon class="icon-2x" name="person"></ion-icon>
+							</span>
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">
@@ -111,12 +114,17 @@
 								class="tile tile-centered tile-hover p-2"
 							>
 								<div class="tile-icon">
-									<figure v-if="u.photo" class="avatar mr-2">
+									<figure v-if="u.photo" class="avatar">
 										<img :src="u.photo" alt="Avatar" />
 									</figure>
-									<div v-else class="avatar text-center">
-										<ion-icon name="person" class="mt-1"></ion-icon>
-									</div>
+									<figure
+										v-else-if="u.name"
+										class="avatar"
+										:data-initial="initials(u.name)"
+									></figure>
+									<span v-else class="avatar flex-center">
+										<ion-icon name="person"></ion-icon>
+									</span>
 								</div>
 								<div class="tile-content">
 									<span v-if="permissions[k]" class="label float-right py-1 px-2">{{ $t('role.' + permissions[k].role) }}</span>
@@ -165,8 +173,8 @@
 								class="tile tile-centered tile-hover p-2"
 							>
 								<div class="tile-icon">
-									<div class="avatar bg-dark text-center">
-										<ion-icon name="person-outline" class="mt-1"></ion-icon>
+									<div class="avatar bg-dark flex-center">
+										<ion-icon name="person-outline"></ion-icon>
 									</div>
 								</div>
 								<div class="tile-content">
