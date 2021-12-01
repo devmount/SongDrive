@@ -111,7 +111,7 @@
 								class="tile tile-centered tile-hover p-2"
 							>
 								<div class="tile-icon">
-									<figure v-if="u.photo" class="avatar mr-2">
+									<figure v-if="u.photo" class="avatar">
 										<img :src="u.photo" alt="Avatar" />
 									</figure>
 									<div v-else class="avatar text-center">
