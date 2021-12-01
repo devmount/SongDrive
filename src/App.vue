@@ -69,6 +69,9 @@
 											:data-initial="userName.substring(0,2).toUpperCase()"
 											alt="Avatar"
 										></figure>
+										<span v-else class="avatar flex-center">
+											<ion-icon name="person"></ion-icon>
+										</span>
 									</div>
 									<div class="tile-content">
 										{{ userName }}
