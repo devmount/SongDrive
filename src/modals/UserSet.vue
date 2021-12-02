@@ -91,6 +91,7 @@ export default {
 							name: this.user.name,
 							email: this.user.email,
 						}).then(() => {
+							this.$emit('closed');
 							this.$notify({
 								title: this.$parent.$t('toast.userUpdated'),
 								text: this.$parent.$t('toast.userSavedText'),
@@ -98,7 +99,6 @@ export default {
 							});
 						}).catch((error) => this.throwError(error));
 					}).catch((error) => this.throwError(error));
-					this.$emit('closed');
 				}
 				// user is not yet confirmed
 				else {
@@ -109,6 +109,7 @@ export default {
 						// user added successfully, now add permission and delete temporary registration
 						this.$db.collection('permissions').doc(this.userKey).set(this.permission).then(() => {
 							this.$db.collection('registrations').doc(this.userKey).delete().then(() => {
+								this.$emit('closed');
 								this.$notify({
 									title: this.$parent.$t('toast.userAdded'),
 									text: this.$parent.$t('toast.userSavedText'),
@@ -117,7 +118,6 @@ export default {
 							}).catch((error) => this.throwError(error));
 						}).catch((error) => this.throwError(error));
 					}).catch((error) => this.throwError(error));
-					this.$emit('closed');
 				}
 			}
 		}

@@ -436,26 +436,24 @@ export default {
 				// load general app config
 				this.loadConfig();
 				// create registration for admin approval
-				this.$db.collection('registrations').doc(this.auth.user).set({ email: user.email, name: user.name })
-					.then(() => {
-						this.auth.userObject = firebase.auth().currentUser
-						this.auth.userObject.updateProfile({ displayName: user.name })
-						this.$notify({
-							title: this.$t('toast.signedUp'),
-							text: this.$t('toast.signedUpText', { name: user.name }),
-							type: 'primary'
-						});
-					}).catch((error) => this.throwError(error));
+				this.$db.collection('registrations').doc(this.auth.user).set({ email: user.email, name: user.name }).then(() => {
+					this.auth.userObject = firebase.auth().currentUser
+					this.auth.userObject.updateProfile({ displayName: user.name })
+					this.$notify({
+						title: this.$t('toast.signedUp'),
+						text: this.$t('toast.signedUpText', { name: user.name }),
+						type: 'primary'
+					});
+				}).catch((error) => this.throwError(error));
 				// send verification email
-				firebase.auth().currentUser.sendEmailVerification()
-					.then(() => {
-						// Verification email sent
-						this.$notify({
-							title:  this.$t('toast.verficationSent'),
-							text:  this.$t('toast.verficationSentText'),
-							type: 'primary'
-						});
-					}).catch((error) => this.throwError(error));
+				firebase.auth().currentUser.sendEmailVerification().then(() => {
+					// Verification email sent
+					this.$notify({
+						title:  this.$t('toast.verficationSent'),
+						text:  this.$t('toast.verficationSentText'),
+						type: 'primary'
+					});
+				}).catch((error) => this.throwError(error));
 			}).catch((error) => this.throwError(error));
 		},
 	},
