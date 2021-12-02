@@ -78,42 +78,28 @@ export default {
 					this.$db.collection('languages').doc(this.isocode).update({
 						label: this.language.label,
 					}).then(() => {
+						this.$emit('closed');
 						// language updated successfully!
 						this.$notify({
 							title: this.$parent.$t('toast.languageUpdated'),
 							text: this.$parent.$t('toast.languageSavedText'),
 							type: 'primary'
 						});
-					}).catch((error) => {
-						// an error occured on updating language
-						this.$notify({
-							title: error.code,
-							text: error.message,
-							type: 'error'
-						});
-					});
-					this.$emit('closed');
+					}).catch((error) => this.throwError(error));
 				}
 				// language doesn't exist yet
 				else {
 					this.$db.collection('languages').doc(this.isocode).set({
 						label: this.language.label,
 					}).then(() => {
+						this.$emit('closed');
 						// language added successfully
 						this.$notify({
 							title: this.$parent.$t('toast.languageAdded'),
 							text: this.$parent.$t('toast.languageSavedText'),
 							type: 'primary'
 						});
-					}).catch((error) => {
-						// an error occured on adding language
-						this.$notify({
-							title: error.code,
-							text: error.message,
-							type: 'error'
-						});
-					});
-					this.$emit('closed');
+					}).catch((error) => this.throwError(error));
 				}
 			}
 		}

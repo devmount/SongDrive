@@ -307,6 +307,14 @@ Vue.mixin({
 			return userName
 				? userName.trim().split(' ', 2).reduce((p, c) => p + c.charAt(0), '').toUpperCase()
 				: ''
+		},
+		// toast error message
+		throwError: (error) => {
+			this.$notify({
+				title: error.code,
+				text: error.message,
+				type: 'error'
+			});
 		}
   }
 })

@@ -483,13 +483,7 @@ export default {
 					text: this.$t('toast.setlistFormatCopiedText', {format: label}),
 					type: 'primary'
 				});
-			}, (error) => {
-				this.$notify({
-					title: this.$t('toast.failedToCopy'),
-					text: error,
-					type: 'error'
-				});
-			});
+			}, (error) => this.throwError(error));
 		},
 		exportPdf (mode) {
 			var content = mode == 'sheets' ? this.getPdfSongsheets() : this.getPdfSetlist();

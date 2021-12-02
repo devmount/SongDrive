@@ -453,16 +453,7 @@ export default {
 								text: this.$parent.$t('toast.songSavedText'),
 								type: 'primary'
 							});
-						})
-						.catch((error) => {
-							this.$emit('closed');
-							// toast error on creation message
-							this.$notify({
-								title: error.code,
-								text: error.message,
-								type: 'error'
-							});
-						});
+						}).catch((error) => this.throwError(error));
 				}
 				// existing song should be updated
 				else {
@@ -480,16 +471,7 @@ export default {
 									text: this.$parent.$t('toast.songSavedText'),
 									type: 'primary'
 								});
-							})
-							.catch((error) => {
-								this.$emit('closed');
-								// toast error on creation message
-								this.$notify({
-									title: error.code,
-									text: error.message,
-									type: 'error'
-								});
-							});
+							}).catch((error) => this.throwError(error));
 					} else {
 						// update key by adding a new song and removing the old one
 						this.$db.collection('songs').doc(this.id).delete();
@@ -505,16 +487,7 @@ export default {
 									text: this.$parent.$t('toast.songSavedText'),
 									type: 'primary'
 								});
-							})
-							.catch((error) => {
-								this.$emit('closed');
-								// toast error on creation message
-								this.$notify({
-									title: error.code,
-									text: error.message,
-									type: 'error'
-								});
-							});
+							}).catch((error) => this.throwError(error));
 					}
 				}
 			}

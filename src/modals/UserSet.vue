@@ -120,14 +120,6 @@ export default {
 					this.$emit('closed');
 				}
 			}
-		},
-		// toast error message
-		throwError (error) {
-			this.$notify({
-				title: error.code,
-				text: error.message,
-				type: 'error'
-			});
 		}
 	},
 	computed: {

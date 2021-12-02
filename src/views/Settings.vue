@@ -103,10 +103,19 @@
 				<!-- user administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
-						<div class="panel-header text-center">
+						<div class="panel-header text-center pos-relative">
 							<ion-icon name="people-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ Object.keys(users).length }} {{ $t('widget.users') }}</div>
 							<div class="panel-subtitle text-gray">{{ $t('text.manageConfirmedUsers') }}</div>
+							<div class="pos-absolute-tr">
+								<button
+									class="btn btn-secondary tooltip px-3 m-3"
+									:data-tooltip="$t('modal.addUser')"
+									@click="active.user={ name: '', email: '' }; active.role='reader'; active.key=''; active.existing=false; modal.userset=true"
+								>
+									<ion-icon name="add-outline"></ion-icon>
+								</button>
+							</div>
 						</div>
 						<div class="panel-body">
 							<div
@@ -536,14 +545,6 @@ export default {
 				type: 'primary'
 			});
 		},
-		// toast error message
-		throwError (error) {
-			this.$notify({
-				title: error.code,
-				text: error.message,
-				type: 'error'
-			});
-		}
 	},
 	computed: {
 		uiLanguages () {

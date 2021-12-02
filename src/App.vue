@@ -371,7 +371,7 @@ export default {
 					this.config.contact = doc.data();
 					this.ready.config = true;
 				}
-			}).catch(error => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+			}).catch((error) => this.throwError(error));
 		},
 		resetSong () {
 			this.newSong = {
@@ -413,7 +413,7 @@ export default {
 					text: this.$t('toast.signedInText', { name: this.auth.userObject.displayName }),
 					type: 'primary'
 				});
-			}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+			}).catch((error) => this.throwError(error));
 		},
 		signOut () {
 			firebase.auth().signOut().then(() => {
@@ -427,7 +427,7 @@ export default {
 					text: this.$t('toast.signedOutText'),
 					type: 'primary'
 				});
-			}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+			}).catch((error) => this.throwError(error));
 		},
 		signUp (user) {
 			firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
@@ -445,7 +445,7 @@ export default {
 							text: this.$t('toast.signedUpText', { name: user.name }),
 							type: 'primary'
 						});
-					}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+					}).catch((error) => this.throwError(error));
 				// send verification email
 				firebase.auth().currentUser.sendEmailVerification()
 					.then(() => {
@@ -455,8 +455,8 @@ export default {
 							text:  this.$t('toast.verficationSentText'),
 							type: 'primary'
 						});
-					}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
-			}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+					}).catch((error) => this.throwError(error));
+			}).catch((error) => this.throwError(error));
 		},
 	},
 	computed: {
