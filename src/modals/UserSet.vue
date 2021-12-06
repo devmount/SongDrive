@@ -56,10 +56,10 @@
 						<option v-for="(r, k) in userRoles()" :key="k" :value="k">{{ $t('role.' + k) }}</option>
 					</select>
 				</div>
-				<hr />
 				<!-- admin password confirmation -->
 				<div v-if="state=='new'">
-					<label class="form-label" for="adminpassword">Bitte gibt zur Bestätigung dein eigenes Passwort erneut ein: <span class="text-error">*</span></label>
+					<hr />
+					<label class="form-label" for="adminpassword">{{ $t('text.confirmWithAdminPassword') }} <span class="text-error">*</span></label>
 					<input
 						id="adminpassword"
 						type="password"

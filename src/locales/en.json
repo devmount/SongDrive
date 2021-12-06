@@ -218,6 +218,7 @@
     "configureApp": "Manage general app parameters",
     "confirmationSubject": "[SongDrive] Your account got activated",
     "confirmationBody": "Hi {0},\n\nYou were approved to use SongDrive just now. You can now log in under {1}\n\nIf you have any questions, please contact us!\n\nYour SongDrive-Team\n\n",
+    "confirmWithAdminPassword": "To confirm please enter your admin password again",
     "createNewAccount": "Create a new SongDrive account.",
     "customizeProfile": "Customize your profile data",
     "customizeUi": "Customize the user interface",
