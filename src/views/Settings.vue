@@ -111,7 +111,13 @@
 								<button
 									class="btn btn-secondary tooltip px-3 m-3"
 									:data-tooltip="$t('modal.addUser')"
-									@click="active.user={ name: '', email: '' }; active.role='reader'; active.key=''; active.existing=false; modal.userset=true"
+									@click="
+										active.userId = '';
+										active.user = { name: '', email: '', password: '' };
+										active.role = 'reader';
+										active.state = 'new';
+										modal.userset = true;
+									"
 								>
 									<ion-icon name="add-outline"></ion-icon>
 								</button>
@@ -151,7 +157,13 @@
 									<button
 										class="btn btn-link btn-action tooltip"
 										:data-tooltip="$t('modal.editUser')"
-										@click.prevent="active.user=u; active.role=permissions[k].role; active.key=k; active.existing=true; modal.userset=true"
+										@click.prevent="
+											active.userId = k;
+											active.user = u;
+											active.role = permissions[k].role;
+											active.state = 'confirmed';
+											modal.userset = true;
+										"
 									>
 										<ion-icon name="create-outline"></ion-icon>
 									</button>
@@ -195,7 +207,13 @@
 									<button
 										class="btn btn-link btn-action tooltip"
 										:data-tooltip="$t('tooltip.approveUser')"
-										@click.prevent="active.user=r; active.role='reader'; active.key=k; active.existing=false; modal.userset=true"
+										@click.prevent="
+											active.userId = k;
+											active.user = r;
+											active.role = 'reader';
+											active.state = 'registered';
+											modal.userset = true;
+										"
 									>
 										<ion-icon name="person-add-outline"></ion-icon>
 									</button>
@@ -360,10 +378,10 @@
 			<UserSet
 				v-if="modal.userset"
 				:active="modal.userset"
-				:existing="active.existing"
+				:userId="active.userId"
 				:initialUser="active.user"
 				:role="active.role"
-				:userKey="active.key"
+				:state="active.state"
 				@closed="modal.userset = false"
 			/>
 			<!-- modal: delete user -->
@@ -470,8 +488,10 @@ export default {
 				importdata: false,
 			},
 			active: {
+				userId: '',
 				user: {},
 				role: '',
+				state: '',
 				language: {},
 				tag: {},
 				key: '',

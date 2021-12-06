@@ -64,6 +64,12 @@ a, a:visited {
 a:focus, a:hover, a:active, a.active {
 	text-decoration: none;
 }
+hr {
+	border: 0;
+	height: 1px;
+	background: $border-color-dark;
+	margin: $unit-4 auto;
+}
 
 // icons
 .icon {
