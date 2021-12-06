@@ -35,7 +35,12 @@
 					<p v-if="error.email" class="form-input-hint">{{ $t('error.requiredEmail') }}</p>
 					<!-- password -->
 					<div v-if="state=='new'">
-						<label class="form-label" for="password">{{ $t('field.password') }} <span class="text-error">*</span></label>
+						<label class="form-label" for="password">
+							{{ $t('field.password') }} <span class="text-error">*</span>
+							<span class="float-right" :class="{ 'text-error': user.password.length < 8 }">
+								{{ user.password.length }}<span v-if="user.password.length < 8"> / 8</span>
+							</span>
+						</label>
 						<input
 							id="password"
 							type="password"
