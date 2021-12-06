@@ -42,7 +42,7 @@
 							v-model="user.password"
 							class="form-input mb-1"
 							:class="{ 'is-error': error.password.missing || error.password.tooshort }"
-							:placeholder="$t('placeholder.examplePassword', { p: Math.random().toString(36).substr(2, 10) })"
+							:placeholder="$t('placeholder.examplePassword', { p: example.password })"
 						/>
 						<p v-if="error.password.missing || error.password.tooshort" class="form-input-hint">
 							<span v-if="error.password.missing">{{ $t('error.requiredPassword') }}</span>
@@ -103,6 +103,9 @@ export default {
 			},
 			admin: {
 				password: ''
+			},
+			example: {
+				password: this.examplePassword(8)
 			},
 			error: {
 				name: false,
