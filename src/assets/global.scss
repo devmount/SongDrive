@@ -539,15 +539,18 @@ a:active,
 	}
 }
 .form-input,
+.form-input:not(:placeholder-shown),
 .form-select,
 .form-select:not([multiple]):not([size]) {
 	width: 100%;
 
   .has-error &,
-  &.is-error {
+  &.is-error,
+	&:invalid {
     background-color: darken($error-color, 40%);
     border-color: $error-color;
     &:focus {
+			background: darken($error-color, 40%);
       box-shadow: 0 0 0 .2rem rgba($error-color, .2);
     }
   }
