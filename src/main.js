@@ -310,7 +310,7 @@ Vue.mixin({
 		},
 		// toast error message
 		throwError: (error) => {
-			this.$notify({
+			Vue.notify({
 				title: error.code,
 				text: error.message,
 				type: 'error'
