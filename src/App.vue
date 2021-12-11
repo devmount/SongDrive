@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<div v-if="auth.ready && auth.user && ready.users && users[auth.user] && ready.permissions && permissions[auth.user]" class="off-canvas off-canvas-sidebar-show">
+		<div v-if="auth.ready && auth.user && ready.users && users[auth.user] && ready.permissions && permissions[auth.user] && !loading" class="off-canvas off-canvas-sidebar-show">
 			<!-- off-screen toggle button -->
 			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
 				<ion-icon name="menu" size="large"></ion-icon>
@@ -154,22 +154,23 @@
 					:songs="songs"
 					:tags="tags"
 					:users="users"
+					@started="loading=true"
 				></router-view>
 			</div>
 		</div>
 		<!-- logged in but not confimed yet -->
-		<div v-if="auth.ready && auth.user && auth.confirmed === false">
+		<div v-if="auth.ready && auth.user && auth.confirmed === false && !loading">
 			<UserUnconfirmed @signOut="signOut" :config="config" :ready="ready"/>
 		</div>
 		<!-- login screen -->
-		<div v-if="auth.ready && !auth.user">
+		<div v-if="auth.ready && !auth.user && !loading">
 			<Login
 				@signIn="signIn"
 				@signUp="modal.signup = true"
 			/>
 		</div>
 		<!-- loading screen -->
-		<div v-if="!auth.ready || auth.confirmed === null" class="full-viewport d-flex justify-center align-center">
+		<div v-if="!auth.ready || auth.confirmed === null || loading" class="full-viewport d-flex justify-center align-center">
 			<div class="loading loading-xl"></div>
 		</div>
 
@@ -255,7 +256,7 @@ export default {
 			songs: {},
 			tags: {},
 			users: {},
-			// loading indicators
+			// db table ready state
 			ready: {
 				config: false,
 				languages: false,
@@ -311,14 +312,20 @@ export default {
 				ready: false,
 				user: '',
 				userObject: null,
-			}
+			},
+			// explicit loading indication
+			// currently used for switching profiles on user creation
+			loading: false
 		};
 	},
 	mounted () {
-		// check initially if authenticated user exists
+		// add listener for authentification state
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
-				this.loadConfig();
+				// load app config on auth change only when not explicitly loading
+				if (!this.loading) {
+					this.loadConfig();
+				}
 				this.auth.user = user.uid;
 				this.auth.userObject = user;
 				let userRef = this.$db.collection("users").doc(user.uid);
@@ -329,10 +336,14 @@ export default {
 					} else {
 						this.auth.confirmed = false;
 					}
+					this.loading = false;
 				}).catch(() => {
 					this.auth.confirmed = false;
 				});
 			} else {
+				if (this.auth.confirmed) {
+					this.unlisten();
+				}
 				this.auth.user = '';
 				this.auth.userObject = null;
 			}

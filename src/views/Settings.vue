@@ -94,6 +94,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- administration area -->
 			<div v-if="ready.users && ready.permissions && user && userObject && role > 1" class="columns mt-4 pt-4">
 				<div class="column col-12">
 					<h2>
@@ -362,18 +363,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- not logged in -->
-			<div v-if="ready.users && !user" class="columns">
-				<div class="column col-">
-					<div class="empty">
-						<div class="empty-icon">
-							<ion-icon name="eye-off-outline" class="icon-4x"></ion-icon>
-						</div>
-						<p class="empty-title h5">{{ $t('text.pageNotAvailable') }}</p>
-						<p class="empty-subtitle">{{ $t('text.signInForAccess') }}</p>
-					</div>
-				</div>
-			</div>
 			<!-- modal: set user -->
 			<UserSet
 				v-if="modal.userset"
@@ -382,6 +371,7 @@
 				:initialUser="active.user"
 				:role="active.role"
 				:state="active.state"
+				@started="$emit('started')"
 				@closed="modal.userset = false"
 			/>
 			<!-- modal: delete user -->

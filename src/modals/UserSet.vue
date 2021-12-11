@@ -178,6 +178,7 @@ export default {
 				}
 				// user doesn't exist
 				if (this.state == 'new') {
+					this.$emit('started');
 					const email = firebase.auth().currentUser.email;
 					// create firebase user first
 					firebase.auth().createUserWithEmailAndPassword(this.user.email, this.user.password).then(() => {
