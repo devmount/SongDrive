@@ -306,6 +306,7 @@
     "tagSavedText": "Das Tag wurden erfolgreich gespeichert.",
     "tagUpdated": "Tag aktualisiert",
     "userAdded": "Benutzer hinzugefügt",
+    "userAddedText": "Der neue Benutzer wurde erfolgreich angelegt und eine E-Mail zur Bestätigung versandt.",
     "userDeleted": "Benutzer gelöscht",
     "userDeletedText": "Der Benutzer wurde erfolgreich entfernt.",
     "userSavedText": "Die Benutzerdaten wurden erfolgreich gespeichert.",

@@ -180,26 +180,31 @@ export default {
 				if (this.state == 'new') {
 					this.$emit('started');
 					const email = firebase.auth().currentUser.email;
-					// create firebase user first
+					// create firebase user first, this automatically signs in as the new user
 					firebase.auth().createUserWithEmailAndPassword(this.user.email, this.user.password).then(() => {
-						// get new user id
+						// get new user id as long as still logged in as the new user
 						const userId = firebase.auth().currentUser.uid;
-						// relogin with admin user
-						firebase.auth().signOut().then(() => {
-							firebase.auth().signInWithEmailAndPassword(email, this.admin.password).then(() => {
-								// now set permissions
-								this.$db.collection('permissions').doc(userId).set(this.permission).then(() => {
-									// permissions created successfully, now create user
-									this.$db.collection('users').doc(userId).set({
-										name: this.user.name,
-										email: this.user.email,
-									}).then(() => {
-										this.$emit('closed');
-										this.$notify({
-											title: this.$parent.$t('toast.userAdded'),
-											text: this.$parent.$t('toast.userSavedText'),
-											type: 'primary'
-										});
+						// send verification email to new user
+						firebase.auth().currentUser.sendEmailVerification().then(() => {
+							// now sign the new user out ...
+							firebase.auth().signOut().then(() => {
+								// ... and relogin with own admin user profile again
+								firebase.auth().signInWithEmailAndPassword(email, this.admin.password).then(() => {
+									// now save permissions for new user (which is only possible cause you're admin again)
+									this.$db.collection('permissions').doc(userId).set(this.permission).then(() => {
+										// permissions created successfully, now create user doc in users collection
+										this.$db.collection('users').doc(userId).set({
+											name: this.user.name,
+											email: this.user.email,
+										}).then(() => {
+											// finally finished! Close modal and toast success
+											this.$emit('closed');
+											this.$notify({
+												title: this.$parent.$t('toast.userAdded'),
+												text: this.$parent.$t('toast.userAddedText'),
+												type: 'primary'
+											});
+										}).catch((error) => this.throwError(error));
 									}).catch((error) => this.throwError(error));
 								}).catch((error) => this.throwError(error));
 							}).catch((error) => this.throwError(error));

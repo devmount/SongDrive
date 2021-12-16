@@ -306,6 +306,7 @@
     "tagSavedText": "Tag data was successfully saved.",
     "tagUpdated": "Tag updated",
     "userAdded": "User added",
+    "userAddedText": "The new user was successfully created and verification email was sent.",
     "userDeleted": "User deleted",
     "userDeletedText": "The user was successfully removed.",
     "userSavedText": "User data was successfully saved.",

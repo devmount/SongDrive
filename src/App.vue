@@ -333,10 +333,10 @@ export default {
 					if (userEntry.exists) {
 						this.auth.confirmed = true;
 						this.listen();
+						this.loading = false;
 					} else {
 						this.auth.confirmed = false;
 					}
-					this.loading = false;
 				}).catch(() => {
 					this.auth.confirmed = false;
 				});
