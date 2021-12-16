@@ -45,7 +45,7 @@
 						v-model="auth.password"
 						class="form-input mb-1"
 						:class="{ 'is-error': error.password.missing || error.password.mismatch || error.password.tooshort }"
-						:placeholder="$t('placeholder.examplePassword', { p: Math.random().toString(36).substr(2, 10) })"
+						:placeholder="$t('placeholder.examplePassword', { p: example.password })"
 					/>
 					<input
 						type="password"
@@ -87,6 +87,9 @@ export default {
 				email: '',
 				password: '',
 				repeat: '',
+			},
+			example: {
+				password: this.examplePassword(8)
 			},
 			error: {
 				name: false,

@@ -395,14 +395,16 @@ export default {
 		reorder ({oldIndex, newIndex}) {
 			const movedItem = this.setlist.songs.splice(oldIndex, 1)[0];
 			this.setlist.songs.splice(newIndex, 0, movedItem);
-			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: this.setlist.songs}, { merge: true })
-				.then(() => {
-					this.$notify({
-						title: this.$t('toast.songOrderUpdated'),
-						text: this.$t('toast.setlistSavedText'),
-						type: 'primary'
-					});
+			this.$db.collection('setlists').doc(this.$route.params.id).set(
+				{ songs: this.setlist.songs },
+				{ merge: true }
+			).then(() => {
+				this.$notify({
+					title: this.$t('toast.songOrderUpdated'),
+					text: this.$t('toast.setlistSavedText'),
+					type: 'primary'
 				});
+			}).catch((error) => this.throwError(error));;
 		},
 		tuneUp (song, songPosition) {
 			let songs = this.setlist.songs;
@@ -441,7 +443,7 @@ export default {
 					text: this.$t('toast.setlistStatusSavedText'),
 					type: 'primary'
 				});
-			});
+			}).catch((error) => this.throwError(error));;
 		},
 		updatePosition (position) {
 			// update setlist's position if sync enabled
@@ -483,13 +485,7 @@ export default {
 					text: this.$t('toast.setlistFormatCopiedText', {format: label}),
 					type: 'primary'
 				});
-			}, (error) => {
-				this.$notify({
-					title: this.$t('toast.failedToCopy'),
-					text: error,
-					type: 'error'
-				});
-			});
+			}, (error) => this.throwError(error));
 		},
 		exportPdf (mode) {
 			var content = mode == 'sheets' ? this.getPdfSongsheets() : this.getPdfSetlist();

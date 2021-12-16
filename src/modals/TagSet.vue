@@ -81,21 +81,14 @@ export default {
 						key: this.key,
 						...this.languages
 					}).then(() => {
+						this.$emit('closed');
 						// tag updated successfully!
 						this.$notify({
 							title: this.$parent.$t('toast.tagUpdated'),
 							text: this.$parent.$t('toast.tagSavedText'),
 							type: 'primary'
 						});
-					}).catch((error) => {
-						// an error occured on updating tag
-						this.$notify({
-							title: error.code,
-							text: error.message,
-							type: 'error'
-						});
-					});
-					this.$emit('closed');
+					}).catch((error) => this.throwError(error));
 				}
 				// tag doesn't exist yet
 				else {
@@ -103,21 +96,14 @@ export default {
 						key: this.key,
 						...this.languages
 					}).then(() => {
+						this.$emit('closed');
 						// tag added successfully
 						this.$notify({
 							title: this.$parent.$t('toast.tagAdded'),
 							text: this.$parent.$t('toast.tagSavedText'),
 							type: 'primary'
 						});
-					}).catch((error) => {
-						// an error occured on adding tag
-						this.$notify({
-							title: error.code,
-							text: error.message,
-							type: 'error'
-						});
-					});
-					this.$emit('closed');
+					}).catch((error) => this.throwError(error));
 				}
 			}
 		}

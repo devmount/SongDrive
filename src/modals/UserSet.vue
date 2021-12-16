@@ -5,15 +5,16 @@
 			<div class="modal-header">
 				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="$emit('closed')"></a>
 				<div class="modal-title h5">
-					<span v-if="!existing">{{ $t('modal.addUser') }}</span>
-					<span v-else>{{ $t('modal.editUser') }}</span>
+					<span v-if="state=='new' || state=='registered'">{{ $t('modal.addUser') }}</span>
+					<span v-if="state=='confirmed'">{{ $t('modal.editUser') }}</span>
 				</div>
 			</div>
 			<div class="modal-body">
 				<div class="content">
-					<label class="form-label" for="name">{{ $t('field.name') }} <span class="text-error">*</span></label>
+					<!-- name -->
+					<label class="form-label" for="user-name">{{ $t('field.name') }} <span class="text-error">*</span></label>
 					<input
-						id="name"
+						id="user-name"
 						type="text"
 						v-model="user.name"
 						class="form-input mb-1"
@@ -21,9 +22,10 @@
 						:placeholder="$t('placeholder.exampleUserName')"
 					/>
 					<p v-if="error.name" class="form-input-hint">{{ $t('error.requiredName') }}</p>
-					<label class="form-label" for="email">{{ $t('field.email') }} <span class="text-error">*</span></label>
+					<!-- email -->
+					<label class="form-label" for="user-email">{{ $t('field.email') }} <span class="text-error">*</span></label>
 					<input
-						id="email"
+						id="user-email"
 						type="email"
 						v-model="user.email"
 						class="form-input mb-1"
@@ -31,11 +33,46 @@
 						:placeholder="$t('placeholder.exampleUserEmail')"
 					/>
 					<p v-if="error.email" class="form-input-hint">{{ $t('error.requiredEmail') }}</p>
+					<!-- password -->
+					<div v-if="state=='new'">
+						<label class="form-label" for="password">
+							{{ $t('field.password') }} <span class="text-error">*</span>
+							<span class="float-right" :class="{ 'text-error': user.password.length < 8 }">
+								{{ user.password.length }}<span v-if="user.password.length < 8"> / 8</span>
+							</span>
+						</label>
+						<input
+							id="password"
+							type="password"
+							v-model="user.password"
+							class="form-input mb-1"
+							:class="{ 'is-error': error.password.missing || error.password.tooshort }"
+							:placeholder="$t('placeholder.examplePassword', { p: example.password })"
+						/>
+						<p v-if="error.password.missing || error.password.tooshort" class="form-input-hint">
+							<span v-if="error.password.missing">{{ $t('error.requiredPassword') }}</span>
+							<span v-if="error.password.tooshort"> {{ $t('error.passwordTooShort') }}</span>
+						</p>
+					</div>
+					<!-- role -->
 					<label class="form-label" for="role">{{ $t('field.role') }} <span class="text-error">*</span></label>
 					<select v-model="permission.role" id="role" class="form-select filter" required>
 						<option value="" disabled selected>{{ $t('placeholder.select') }}</option>
 						<option v-for="(r, k) in userRoles()" :key="k" :value="k">{{ $t('role.' + k) }}</option>
 					</select>
+				</div>
+				<!-- admin password confirmation -->
+				<div v-if="state=='new'">
+					<hr />
+					<label class="form-label" for="adminpassword">{{ $t('text.confirmWithAdminPassword') }} <span class="text-error">*</span></label>
+					<input
+						id="adminpassword"
+						type="password"
+						v-model="admin.password"
+						class="form-input mb-1"
+						:class="{ 'is-error': error.adminpassword }"
+					/>
+					<p v-if="error.adminpassword" class="form-input-hint">{{ $t('error.requiredPassword') }}</p>
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -43,8 +80,8 @@
 					{{ $t('button.cancel') }}
 				</a>
 				<button class="btn btn-primary ml-2" @click="setUser">
-					<span v-if="!existing">{{ $t('button.addUser') }}</span>
-					<span v-else>{{ $t('button.updateUser') }}</span>
+					<span v-if="state=='new' || state=='registered'">{{ $t('button.addUser') }}</span>
+					<span v-if="state=='confirmed'">{{ $t('button.updateUser') }}</span>
 				</button>
 			</div>
 		</div>
@@ -52,14 +89,16 @@
 </template>
 
 <script>
+import firebase from 'firebase/compat/app';
+
 export default {
 	name: 'user-set',
 	props: {
-		active: Boolean,
-		initialUser: Object,
-		role: String,
-		existing: Boolean,
-		userKey: String,
+		active: Boolean,     // state of modal display, true to show modal
+		userId: String,      // user id, if user or registration exists
+		initialUser: Object, // user object with name, email and password
+		role: String,        // user role for permission
+		state: String,       // user state: confirmed | registered | new
 	},
 	data () {
 		return {
@@ -67,10 +106,21 @@ export default {
 			permission: {
 				role: this.role
 			},
+			admin: {
+				password: ''
+			},
+			example: {
+				password: this.examplePassword(8)
+			},
 			error: {
 				name: false,
 				email: false,
+				password: {
+					missing: false,
+					tooshort: false,
+				},
 				role: false,
+				adminpassword: false
 			}
 		}
 	},
@@ -80,17 +130,23 @@ export default {
 			// first check for form errors
 			this.error.name = this.user.name == '';
 			this.error.email = this.user.email == '';
+			this.error.password.missing = this.state == 'new' && this.user.password == '';
+			this.error.password.tooshort = this.state == 'new' && this.user.password.length < 8;
 			this.error.role = this.permission.role == '';
+			this.error.adminpassword = this.state == 'new' && this.admin.password == '';
 			// no errors: send submitted user data and close modal
 			if (!this.errors) {
-				if (this.existing) {
+				// user exists and is confirmed
+				if (this.state == 'confirmed') {
+					console.log(this.userId);
 					// first set permissions
-					this.$db.collection('permissions').doc(this.userKey).update(this.permission).then(() => {
+					this.$db.collection('permissions').doc(this.userId).update(this.permission).then(() => {
 						// permissions updated successfully, now update user
-						this.$db.collection('users').doc(this.userKey).update({
+						this.$db.collection('users').doc(this.userId).update({
 							name: this.user.name,
 							email: this.user.email,
 						}).then(() => {
+							this.$emit('closed');
 							this.$notify({
 								title: this.$parent.$t('toast.userUpdated'),
 								text: this.$parent.$t('toast.userSavedText'),
@@ -98,17 +154,19 @@ export default {
 							});
 						}).catch((error) => this.throwError(error));
 					}).catch((error) => this.throwError(error));
-					this.$emit('closed');
 				}
 				// user is not yet confirmed
-				else {
-					this.$db.collection('users').doc(this.userKey).set({
-						name: this.user.name,
-						email: this.user.email,
-					}).then(() => {
-						// user added successfully, now add permission and delete temporary registration
-						this.$db.collection('permissions').doc(this.userKey).set(this.permission).then(() => {
-							this.$db.collection('registrations').doc(this.userKey).delete().then(() => {
+				if (this.state == 'registered') {
+					// first set permissions
+					this.$db.collection('permissions').doc(this.userId).set(this.permission).then(() => {
+						// permissions updated successfully, now create user
+						this.$db.collection('users').doc(this.userId).set({
+							name: this.user.name,
+							email: this.user.email,
+						}).then(() => {
+							// user created successfully, now delete registration
+							this.$db.collection('registrations').doc(this.userId).delete().then(() => {
+								this.$emit('closed');
 								this.$notify({
 									title: this.$parent.$t('toast.userAdded'),
 									text: this.$parent.$t('toast.userSavedText'),
@@ -117,23 +175,60 @@ export default {
 							}).catch((error) => this.throwError(error));
 						}).catch((error) => this.throwError(error));
 					}).catch((error) => this.throwError(error));
-					this.$emit('closed');
+				}
+				// user doesn't exist
+				if (this.state == 'new') {
+					this.$emit('started');
+					const admin = firebase.auth().currentUser;
+					const credential = firebase.auth.EmailAuthProvider.credential(admin.email, this.admin.password);
+					// first check if admin is authentic
+					admin.reauthenticateWithCredential(credential).then(() => {
+						// create firebase user, this automatically signs in as the new user
+						firebase.auth().createUserWithEmailAndPassword(this.user.email, this.user.password).then(() => {
+							// get new user id as long as still logged in as the new user
+							const userId = firebase.auth().currentUser.uid;
+							// send verification email to new user
+							firebase.auth().currentUser.sendEmailVerification().then(() => {
+								// now sign the new user out ...
+								firebase.auth().signOut().then(() => {
+									// ... and relogin with own admin user profile again
+									firebase.auth().signInWithEmailAndPassword(admin.email, this.admin.password).then(() => {
+										// now save permissions for new user (which is only possible cause you're admin again)
+										this.$db.collection('permissions').doc(userId).set(this.permission).then(() => {
+											// permissions created successfully, now create user doc in users collection
+											this.$db.collection('users').doc(userId).set({
+												name: this.user.name,
+												email: this.user.email,
+											}).then(() => {
+												// finally finished! Close modal and toast success
+												this.$emit('closed');
+												this.$notify({
+													title: this.$parent.$t('toast.userAdded'),
+													text: this.$parent.$t('toast.userAddedText'),
+													type: 'primary'
+												});
+											}).catch((error) => this.throwError(error));
+										}).catch((error) => this.throwError(error));
+									}).catch((error) => this.throwError(error));
+								}).catch((error) => this.throwError(error));
+							}).catch((error) => this.throwError(error));
+						}).catch((error) => this.throwError(error));
+					}).catch((error) => this.throwError(error));
 				}
 			}
-		},
-		// toast error message
-		throwError (error) {
-			this.$notify({
-				title: error.code,
-				text: error.message,
-				type: 'error'
-			});
 		}
 	},
 	computed: {
 		// calculate wether form errors occured
 		errors () {
-			return (this.error.name || this.error.email || this.error.role);
+			return (
+				this.error.name ||
+				this.error.email ||
+				this.error.password.missing ||
+				this.error.password.tooshort ||
+				this.error.role ||
+				this.error.adminpassword
+			);
 		}
 	}
 }

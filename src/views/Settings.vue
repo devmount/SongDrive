@@ -94,6 +94,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- administration area -->
 			<div v-if="ready.users && ready.permissions && user && userObject && role > 1" class="columns mt-4 pt-4">
 				<div class="column col-12">
 					<h2>
@@ -103,10 +104,25 @@
 				<!-- user administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
-						<div class="panel-header text-center">
+						<div class="panel-header text-center pos-relative">
 							<ion-icon name="people-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ Object.keys(users).length }} {{ $t('widget.users') }}</div>
 							<div class="panel-subtitle text-gray">{{ $t('text.manageConfirmedUsers') }}</div>
+							<div class="pos-absolute-tr">
+								<button
+									class="btn btn-secondary tooltip px-3 m-3"
+									:data-tooltip="$t('modal.addUser')"
+									@click="
+										active.userId = '';
+										active.user = { name: '', email: '', password: '' };
+										active.role = 'reader';
+										active.state = 'new';
+										modal.userset = true;
+									"
+								>
+									<ion-icon name="add-outline"></ion-icon>
+								</button>
+							</div>
 						</div>
 						<div class="panel-body">
 							<div
@@ -142,7 +158,13 @@
 									<button
 										class="btn btn-link btn-action tooltip"
 										:data-tooltip="$t('modal.editUser')"
-										@click.prevent="active.user=u; active.role=permissions[k].role; active.key=k; active.existing=true; modal.userset=true"
+										@click.prevent="
+											active.userId = k;
+											active.user = u;
+											active.role = permissions[k].role;
+											active.state = 'confirmed';
+											modal.userset = true;
+										"
 									>
 										<ion-icon name="create-outline"></ion-icon>
 									</button>
@@ -186,7 +208,13 @@
 									<button
 										class="btn btn-link btn-action tooltip"
 										:data-tooltip="$t('tooltip.approveUser')"
-										@click.prevent="active.user=r; active.role='reader'; active.key=k; active.existing=false; modal.userset=true"
+										@click.prevent="
+											active.userId = k;
+											active.user = r;
+											active.role = 'reader';
+											active.state = 'registered';
+											modal.userset = true;
+										"
 									>
 										<ion-icon name="person-add-outline"></ion-icon>
 									</button>
@@ -335,26 +363,15 @@
 					</div>
 				</div>
 			</div>
-			<!-- not logged in -->
-			<div v-if="ready.users && !user" class="columns">
-				<div class="column col-">
-					<div class="empty">
-						<div class="empty-icon">
-							<ion-icon name="eye-off-outline" class="icon-4x"></ion-icon>
-						</div>
-						<p class="empty-title h5">{{ $t('text.pageNotAvailable') }}</p>
-						<p class="empty-subtitle">{{ $t('text.signInForAccess') }}</p>
-					</div>
-				</div>
-			</div>
 			<!-- modal: set user -->
 			<UserSet
 				v-if="modal.userset"
 				:active="modal.userset"
-				:existing="active.existing"
+				:userId="active.userId"
 				:initialUser="active.user"
 				:role="active.role"
-				:userKey="active.key"
+				:state="active.state"
+				@started="$emit('started')"
 				@closed="modal.userset = false"
 			/>
 			<!-- modal: delete user -->
@@ -461,8 +478,10 @@ export default {
 				importdata: false,
 			},
 			active: {
+				userId: '',
 				user: {},
 				role: '',
+				state: '',
 				language: {},
 				tag: {},
 				key: '',
@@ -536,14 +555,6 @@ export default {
 				type: 'primary'
 			});
 		},
-		// toast error message
-		throwError (error) {
-			this.$notify({
-				title: error.code,
-				text: error.message,
-				type: 'error'
-			});
-		}
 	},
 	computed: {
 		uiLanguages () {

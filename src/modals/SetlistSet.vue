@@ -320,68 +320,50 @@ export default {
 				};
 				// new setlist should be created
 				if (!this.existing) {
-					this.$db.collection('setlists').doc(slug).set(processedSetlist)
-						.then(() => {
-							this.$emit('closed');
-							this.$emit('reset');
-							processedSetlist = {};
-							this.$router.push({ name: 'setlist-show', params: { id: slug }});
-							// toast success creation message
-							this.$notify({
-								title: this.$parent.$t('toast.setlistAdded'),
-								text: this.$parent.$t('toast.setlistSavedText'),
-								type: 'primary'
-							});
-						})
-						.catch((error) => {
-							this.$emit('closed');
-							// toast error on creation message
-							this.$notify({ title: error.code, text: error.message, type: 'error' });
-						})
+					this.$db.collection('setlists').doc(slug).set(processedSetlist).then(() => {
+						this.$emit('closed');
+						this.$emit('reset');
+						processedSetlist = {};
+						this.$router.push({ name: 'setlist-show', params: { id: slug }});
+						// toast success creation message
+						this.$notify({
+							title: this.$parent.$t('toast.setlistAdded'),
+							text: this.$parent.$t('toast.setlistSavedText'),
+							type: 'primary'
+						});
+					}).catch((error) => this.throwError(error));
 				}
 				// existing setlist should be updated
 				else {
 					// check if key remained (no title or date change)
 					if (this.setlistKey == slug) {
 						// just update the existing setlist
-						this.$db.collection('setlists').doc(this.setlistKey).update(processedSetlist)
-							.then(() => {
-								this.$emit('closed');
-								this.$emit('reset');
-								processedSetlist = {};
-								// toast success update message
-								this.$notify({
-									title: this.$parent.$t('toast.setlistUpdated'),
-									text: this.$parent.$t('toast.setlistSavedText'),
-									type: 'primary'
-								});
-							})
-							.catch((error) => {
-								this.$emit('closed');
-								// toast error on update message
-								this.$notify({ title: error.code, text: error.message, type: 'error' });
-							})
+						this.$db.collection('setlists').doc(this.setlistKey).update(processedSetlist).then(() => {
+							this.$emit('closed');
+							this.$emit('reset');
+							processedSetlist = {};
+							// toast success update message
+							this.$notify({
+								title: this.$parent.$t('toast.setlistUpdated'),
+								text: this.$parent.$t('toast.setlistSavedText'),
+								type: 'primary'
+							});
+						}).catch((error) => this.throwError(error));
 					} else {
 						// update key by adding a new setlist and removing the old one
 						this.$db.collection('setlists').doc(this.setlistKey).delete();
-						this.$db.collection('setlists').doc(slug).set(processedSetlist)
-							.then(() => {
-								this.$emit('closed');
-								this.$emit('reset');
-								processedSetlist = {};
-								this.$router.push({ name: 'setlist-show', params: { id: slug }});
-								// toast success update message
-								this.$notify({
-									title: this.$parent.$t('toast.setlistUpdated'),
-									text: this.$parent.$t('toast.setlistSavedText'),
-									type: 'primary'
-								});
-							})
-							.catch((error) => {
-								this.$emit('closed');
-								// toast error on update message
-								this.$notify({ title: error.code, text: error.message, type: 'error' });
-							})
+						this.$db.collection('setlists').doc(slug).set(processedSetlist).then(() => {
+							this.$emit('closed');
+							this.$emit('reset');
+							processedSetlist = {};
+							this.$router.push({ name: 'setlist-show', params: { id: slug }});
+							// toast success update message
+							this.$notify({
+								title: this.$parent.$t('toast.setlistUpdated'),
+								text: this.$parent.$t('toast.setlistSavedText'),
+								type: 'primary'
+							});
+						}).catch((error) => this.throwError(error));
 					}
 				}
 			}

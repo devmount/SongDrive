@@ -441,80 +441,50 @@ export default {
 				};
 				// new song should be created
 				if (!this.existing) {
-					this.$db.collection('songs').doc(slug).set(processedSong)
-						.then(() => {
-							this.$emit('closed');
-							this.$emit('reset');
-							processedSong = {};
-							this.$router.push({ name: 'song-show', params: { id: slug }});
-							// toast success creation message
-							this.$notify({
-								title: this.$parent.$t('toast.songAdded'),
-								text: this.$parent.$t('toast.songSavedText'),
-								type: 'primary'
-							});
-						})
-						.catch((error) => {
-							this.$emit('closed');
-							// toast error on creation message
-							this.$notify({
-								title: error.code,
-								text: error.message,
-								type: 'error'
-							});
+					this.$db.collection('songs').doc(slug).set(processedSong).then(() => {
+						this.$emit('closed');
+						this.$emit('reset');
+						processedSong = {};
+						this.$router.push({ name: 'song-show', params: { id: slug }});
+						// toast success creation message
+						this.$notify({
+							title: this.$parent.$t('toast.songAdded'),
+							text: this.$parent.$t('toast.songSavedText'),
+							type: 'primary'
 						});
+					}).catch((error) => this.throwError(error));
 				}
 				// existing song should be updated
 				else {
 					// check if key remained (no title or language changes)
 					if (this.id == slug) {
 						// just update the existing setlist
-						this.$db.collection('songs').doc(this.id).update(processedSong)
-							.then(() => {
-								this.$emit('closed');
-								this.$emit('reset');
-								processedSong = {};
-								// toast success update message
-								this.$notify({
-									title: this.$parent.$t('toast.songUpdated'),
-									text: this.$parent.$t('toast.songSavedText'),
-									type: 'primary'
-								});
-							})
-							.catch((error) => {
-								this.$emit('closed');
-								// toast error on creation message
-								this.$notify({
-									title: error.code,
-									text: error.message,
-									type: 'error'
-								});
+						this.$db.collection('songs').doc(this.id).update(processedSong).then(() => {
+							this.$emit('closed');
+							this.$emit('reset');
+							processedSong = {};
+							// toast success update message
+							this.$notify({
+								title: this.$parent.$t('toast.songUpdated'),
+								text: this.$parent.$t('toast.songSavedText'),
+								type: 'primary'
 							});
+						}).catch((error) => this.throwError(error));
 					} else {
 						// update key by adding a new song and removing the old one
 						this.$db.collection('songs').doc(this.id).delete();
-						this.$db.collection('songs').doc(slug).set(processedSong)
-							.then(() => {
-								this.$emit('closed');
-								this.$emit('reset');
-								processedSong = {};
-								this.$router.push({ name: 'song-show', params: { id: slug }});
-								// toast success update message
-								this.$notify({
-									title: this.$parent.$t('toast.songUpdated'),
-									text: this.$parent.$t('toast.songSavedText'),
-									type: 'primary'
-								});
-							})
-							.catch((error) => {
-								this.$emit('closed');
-								// toast error on creation message
-								this.$notify({
-									title: error.code,
-									text: error.message,
-									type: 'error'
-								});
+						this.$db.collection('songs').doc(slug).set(processedSong).then(() => {
+							this.$emit('closed');
+							this.$emit('reset');
+							processedSong = {};
+							this.$router.push({ name: 'song-show', params: { id: slug }});
+							// toast success update message
+							this.$notify({
+								title: this.$parent.$t('toast.songUpdated'),
+								text: this.$parent.$t('toast.songSavedText'),
+								type: 'primary'
 							});
+						}).catch((error) => this.throwError(error));
 					}
 				}
 			}

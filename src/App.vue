@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<div v-if="auth.ready && auth.user && ready.users && users[auth.user] && ready.permissions && permissions[auth.user]" class="off-canvas off-canvas-sidebar-show">
+		<div v-if="auth.ready && auth.user && ready.users && users[auth.user] && ready.permissions && permissions[auth.user] && !loading" class="off-canvas off-canvas-sidebar-show">
 			<!-- off-screen toggle button -->
 			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
 				<ion-icon name="menu" size="large"></ion-icon>
@@ -154,22 +154,23 @@
 					:songs="songs"
 					:tags="tags"
 					:users="users"
+					@started="loading=true"
 				></router-view>
 			</div>
 		</div>
 		<!-- logged in but not confimed yet -->
-		<div v-if="auth.ready && auth.user && auth.confirmed === false">
+		<div v-if="auth.ready && auth.user && auth.confirmed === false && !loading">
 			<UserUnconfirmed @signOut="signOut" :config="config" :ready="ready"/>
 		</div>
 		<!-- login screen -->
-		<div v-if="auth.ready && !auth.user">
+		<div v-if="auth.ready && !auth.user && !loading">
 			<Login
 				@signIn="signIn"
 				@signUp="modal.signup = true"
 			/>
 		</div>
 		<!-- loading screen -->
-		<div v-if="!auth.ready || auth.confirmed === null" class="full-viewport d-flex justify-center align-center">
+		<div v-if="!auth.ready || auth.confirmed === null || loading" class="full-viewport d-flex justify-center align-center">
 			<div class="loading loading-xl"></div>
 		</div>
 
@@ -255,7 +256,7 @@ export default {
 			songs: {},
 			tags: {},
 			users: {},
-			// loading indicators
+			// db table ready state
 			ready: {
 				config: false,
 				languages: false,
@@ -311,14 +312,20 @@ export default {
 				ready: false,
 				user: '',
 				userObject: null,
-			}
+			},
+			// explicit loading indication
+			// currently used for switching profiles on user creation
+			loading: false
 		};
 	},
 	mounted () {
-		// check initially if authenticated user exists
+		// add listener for authentification state
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
-				this.loadConfig();
+				// load app config on auth change only when not explicitly loading
+				if (!this.loading) {
+					this.loadConfig();
+				}
 				this.auth.user = user.uid;
 				this.auth.userObject = user;
 				let userRef = this.$db.collection("users").doc(user.uid);
@@ -326,6 +333,7 @@ export default {
 					if (userEntry.exists) {
 						this.auth.confirmed = true;
 						this.listen();
+						this.loading = false;
 					} else {
 						this.auth.confirmed = false;
 					}
@@ -333,6 +341,9 @@ export default {
 					this.auth.confirmed = false;
 				});
 			} else {
+				if (this.auth.confirmed) {
+					this.unlisten();
+				}
 				this.auth.user = '';
 				this.auth.userObject = null;
 			}
@@ -371,7 +382,7 @@ export default {
 					this.config.contact = doc.data();
 					this.ready.config = true;
 				}
-			}).catch(error => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+			}).catch((error) => this.throwError(error));
 		},
 		resetSong () {
 			this.newSong = {
@@ -413,7 +424,7 @@ export default {
 					text: this.$t('toast.signedInText', { name: this.auth.userObject.displayName }),
 					type: 'primary'
 				});
-			}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+			}).catch((error) => this.throwError(error));
 		},
 		signOut () {
 			firebase.auth().signOut().then(() => {
@@ -427,7 +438,7 @@ export default {
 					text: this.$t('toast.signedOutText'),
 					type: 'primary'
 				});
-			}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+			}).catch((error) => this.throwError(error));
 		},
 		signUp (user) {
 			firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
@@ -436,27 +447,25 @@ export default {
 				// load general app config
 				this.loadConfig();
 				// create registration for admin approval
-				this.$db.collection('registrations').doc(this.auth.user).set({ email: user.email, name: user.name })
-					.then(() => {
-						this.auth.userObject = firebase.auth().currentUser
-						this.auth.userObject.updateProfile({ displayName: user.name })
-						this.$notify({
-							title: this.$t('toast.signedUp'),
-							text: this.$t('toast.signedUpText', { name: user.name }),
-							type: 'primary'
-						});
-					}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+				this.$db.collection('registrations').doc(this.auth.user).set({ email: user.email, name: user.name }).then(() => {
+					this.auth.userObject = firebase.auth().currentUser
+					this.auth.userObject.updateProfile({ displayName: user.name })
+					this.$notify({
+						title: this.$t('toast.signedUp'),
+						text: this.$t('toast.signedUpText', { name: user.name }),
+						type: 'primary'
+					});
+				}).catch((error) => this.throwError(error));
 				// send verification email
-				firebase.auth().currentUser.sendEmailVerification()
-					.then(() => {
-						// Verification email sent
-						this.$notify({
-							title:  this.$t('toast.verficationSent'),
-							text:  this.$t('toast.verficationSentText'),
-							type: 'primary'
-						});
-					}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
-			}).catch((error) => this.$notify({ title: error.code, text: error.message, type: 'error' }));
+				firebase.auth().currentUser.sendEmailVerification().then(() => {
+					// Verification email sent
+					this.$notify({
+						title:  this.$t('toast.verficationSent'),
+						text:  this.$t('toast.verficationSentText'),
+						type: 'primary'
+					});
+				}).catch((error) => this.throwError(error));
+			}).catch((error) => this.throwError(error));
 		},
 	},
 	computed: {

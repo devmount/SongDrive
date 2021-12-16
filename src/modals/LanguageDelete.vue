@@ -40,15 +40,7 @@ export default {
 					text: this.$parent.$t('toast.languageDeletedText'),
 					type: 'primary'
 				});
-			}).catch((error) => {
-				this.$emit('closed');
-				// toast error message
-				this.$notify({
-					title: error.code,
-					text: error.message,
-					type: 'error'
-				});
-			});
+			}).catch((error) => this.throwError(error));
 		}
 	}
 }
