@@ -179,31 +179,35 @@ export default {
 				// user doesn't exist
 				if (this.state == 'new') {
 					this.$emit('started');
-					const email = firebase.auth().currentUser.email;
-					// create firebase user first, this automatically signs in as the new user
-					firebase.auth().createUserWithEmailAndPassword(this.user.email, this.user.password).then(() => {
-						// get new user id as long as still logged in as the new user
-						const userId = firebase.auth().currentUser.uid;
-						// send verification email to new user
-						firebase.auth().currentUser.sendEmailVerification().then(() => {
-							// now sign the new user out ...
-							firebase.auth().signOut().then(() => {
-								// ... and relogin with own admin user profile again
-								firebase.auth().signInWithEmailAndPassword(email, this.admin.password).then(() => {
-									// now save permissions for new user (which is only possible cause you're admin again)
-									this.$db.collection('permissions').doc(userId).set(this.permission).then(() => {
-										// permissions created successfully, now create user doc in users collection
-										this.$db.collection('users').doc(userId).set({
-											name: this.user.name,
-											email: this.user.email,
-										}).then(() => {
-											// finally finished! Close modal and toast success
-											this.$emit('closed');
-											this.$notify({
-												title: this.$parent.$t('toast.userAdded'),
-												text: this.$parent.$t('toast.userAddedText'),
-												type: 'primary'
-											});
+					const admin = firebase.auth().currentUser;
+					const credential = firebase.auth.EmailAuthProvider.credential(admin.email, this.admin.password);
+					// first check if admin is authentic
+					admin.reauthenticateWithCredential(credential).then(() => {
+						// create firebase user, this automatically signs in as the new user
+						firebase.auth().createUserWithEmailAndPassword(this.user.email, this.user.password).then(() => {
+							// get new user id as long as still logged in as the new user
+							const userId = firebase.auth().currentUser.uid;
+							// send verification email to new user
+							firebase.auth().currentUser.sendEmailVerification().then(() => {
+								// now sign the new user out ...
+								firebase.auth().signOut().then(() => {
+									// ... and relogin with own admin user profile again
+									firebase.auth().signInWithEmailAndPassword(admin.email, this.admin.password).then(() => {
+										// now save permissions for new user (which is only possible cause you're admin again)
+										this.$db.collection('permissions').doc(userId).set(this.permission).then(() => {
+											// permissions created successfully, now create user doc in users collection
+											this.$db.collection('users').doc(userId).set({
+												name: this.user.name,
+												email: this.user.email,
+											}).then(() => {
+												// finally finished! Close modal and toast success
+												this.$emit('closed');
+												this.$notify({
+													title: this.$parent.$t('toast.userAdded'),
+													text: this.$parent.$t('toast.userAddedText'),
+													type: 'primary'
+												});
+											}).catch((error) => this.throwError(error));
 										}).catch((error) => this.throwError(error));
 									}).catch((error) => this.throwError(error));
 								}).catch((error) => this.throwError(error));
