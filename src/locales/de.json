@@ -252,6 +252,8 @@
     "selectJsonFile": "Wähle eine Datei im JSON Format welche die SongDrive Datensammlung enthält",
     "signInForAccess": "Bitte melde dich mit deinem Benutzerkonto an, um auf diese Seite zuzugreifen.",
     "unconfirmedMistake": "Wenn du denkst, dass hier ein Fehler vorliegt, <a href='mailto:{0}'>kontaktiere uns</a> bitte.",
+    "unverified": "nicht verifiziert",
+    "verified": "verifiziert",
     "waitingForApproval": "Warten auf Freischaltung"
   },
   "title": {

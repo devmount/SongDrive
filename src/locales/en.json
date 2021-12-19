@@ -252,6 +252,8 @@
     "selectJsonFile": "Select a file in JSON format containing SongDrive data collections",
     "signInForAccess": "Please sign in with your user account to access this page.",
     "unconfirmedMistake": "If you think this is a mistake, please <a href='mailto:{0}'>contact us</a>.",
+    "unverified": "not verified",
+    "verified": "verified",
     "waitingForApproval": "Waiting for approval"
   },
   "title": {

@@ -30,7 +30,15 @@
 								/>
 							</div>
 							<div class="form-group">
-								<label class="form-label" for="email">{{ $t('field.email') }}</label>
+								<label class="form-label" for="email">
+									<span class="mr-4">{{ $t('field.email') }}</span>
+									<span v-if="userObject.emailVerified" class="text-success">
+										<ion-icon name="checkmark-outline"></ion-icon> {{ $t('text.verified') }}
+									</span>
+									<span v-else class="text-error">
+										<ion-icon name="close-outline"></ion-icon> {{ $t('text.unverified') }}
+									</span>
+								</label>
 								<input
 									v-model="profile.email"
 									class="form-input"
