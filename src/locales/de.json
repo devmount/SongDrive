@@ -136,9 +136,6 @@
     "ctrl": "STRG",
     "esc": "ESC"
   },
-  "label": {
-    "preview": "Vorschau"
-  },
   "modal": {
     "addLanguage": "Sprache hinzufügen",
     "addTag": "Tag hinzufügen",

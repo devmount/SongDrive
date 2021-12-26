@@ -136,9 +136,6 @@
     "ctrl": "CTRL",
     "esc": "ESC"
   },
-  "label": {
-    "preview": "Preview"
-  },
   "modal": {
     "addLanguage": "Add Language",
     "addTag": "Add Tag",

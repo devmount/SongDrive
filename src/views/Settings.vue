@@ -49,28 +49,33 @@
 								/>
 							</div>
 							<div class="form-group mb-3">
-								<label class="form-label" for="photo">{{ $t('field.photo') }}</label>
-								<input
-									v-model="profile.photo"
-									class="form-input"
-									id="photo"
-									type="text"
-									placeholder="https://your-photo.link/image.png"
-								/>
+								<div class="d-flex gap-4">
+									<div class="flex-grow">
+										<label class="form-label" for="photo">{{ $t('field.photo') }}</label>
+										<input
+											v-model="profile.photo"
+											class="form-input "
+											id="photo"
+											type="text"
+											placeholder="https://your-photo.link/image.png"
+										/>
+									</div>
+									<div>
+										<figure v-if="profile.photo" id="preview" class="avatar avatar-xxl">
+											<img :src="profile.photo" alt="Avatar" />
+										</figure>
+										<figure
+											v-else-if="profile.name"
+											id="preview"
+											class="avatar avatar-xxl"
+											:data-initial="initials(profile.name)"
+										></figure>
+										<span v-else class="avatar avatar-xxl flex-center">
+											<ion-icon class="icon-2x" name="person"></ion-icon>
+										</span>
+									</div>
+								</div>
 							</div>
-							<label for="preview" class="mr-4">{{ $t('label.preview') }}:</label>
-							<figure v-if="profile.photo" id="preview" class="avatar avatar-xxl">
-								<img :src="profile.photo" alt="Avatar" />
-							</figure>
-							<figure
-								v-else-if="profile.name"
-								id="preview"
-								class="avatar avatar-xxl"
-								:data-initial="initials(profile.name)"
-							></figure>
-							<span v-else class="avatar avatar-xxl flex-center">
-								<ion-icon class="icon-2x" name="person"></ion-icon>
-							</span>
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">

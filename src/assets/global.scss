@@ -163,6 +163,10 @@ ion-icon {
 .ls-1 { letter-spacing: 1px; }
 .ls-2 { letter-spacing: 2px; }
 
+.gap-4 {
+	gap: .8rem;
+}
+
 .pos-relative {
 	position: relative;
 }
@@ -388,6 +392,9 @@ code {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+}
+.flex-grow {
+	flex-grow: 10;
 }
 
 // loading
