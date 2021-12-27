@@ -328,6 +328,7 @@
     "presentationShow": "Show Presentation",
     "presentationStart": "Start Presentation",
     "previousSlide": "Previous Slide",
+    "resendVerification": "Resend verification email",
     "search": "Activate Search",
     "sendConfirmationMail": "Send confirmation mail",
     "setlistAdd": "Add new Setlist",
@@ -335,7 +336,8 @@
     "syncOff": "Sync off",
     "syncOn": "Sync on",
     "transposeDown": "Transpose down a semitone",
-    "transposeUp": "Transpose up a semitone"
+    "transposeUp": "Transpose up a semitone",
+    "verificationAlreadySent": "A verification email was already sent."
   },
   "widget": {
     "appearance": "Appearance",

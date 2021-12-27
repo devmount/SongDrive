@@ -39,14 +39,26 @@
 										<ion-icon name="close-outline"></ion-icon> {{ $t('text.unverified') }}
 									</span>
 								</label>
-								<input
-									v-model="profile.email"
-									class="form-input"
-									id="email"
-									type="text"
-									placeholder="john@doe.com"
-									disabled
-								/>
+								<div class="input-group">
+									<input
+										v-model="profile.email"
+										class="form-input"
+										id="email"
+										type="text"
+										placeholder="john@doe.com"
+										disabled
+									/>
+									<button
+										v-if="!userObject.emailVerified"
+										class="btn btn-primary input-group-btn tooltip"
+										:class="{ disabled: verificationResend }"
+										:data-tooltip="!verificationResend ? $t('tooltip.resendVerification') : $t('tooltip.verificationAlreadySent')"
+										@click="!verificationResend ? resendEmailVerification() : null"
+									>
+										<ion-icon v-if="!verificationResend" name="checkmark-outline"></ion-icon>
+										<ion-icon v-else name="checkmark-done-outline"></ion-icon>
+									</button>
+								</div>
 							</div>
 							<div class="form-group mb-3">
 								<div class="d-flex gap-4">
@@ -434,6 +446,8 @@
 </template>
 
 <script>
+import firebase from 'firebase/compat/app';
+
 // get components
 import UserSet from '@/modals/UserSet';
 import UserDelete from '@/modals/UserDelete';
@@ -469,6 +483,7 @@ export default {
 	],
 	data () {
 		return {
+			verificationResend: false,
 			profile: {
 				name: null,
 				email: null,
@@ -514,6 +529,17 @@ export default {
 				this.profile.photo = this.users[this.user].photo;
 				this.permission.role = this.permissions[this.user].role;
 			}
+		},
+		// resend email with verification link to currently logged in user
+		resendEmailVerification () {
+			firebase.auth().currentUser.sendEmailVerification().then(() => {
+				this.$notify({
+					title: this.$t('toast.verficationSent'),
+					text: this.$t('toast.verficationSentText'),
+					type: 'primary'
+				});
+				this.verificationResend = true;
+			}).catch((error) => this.throwError(error));
 		},
 		updateProfile () {
 			this.userObject.updateProfile({

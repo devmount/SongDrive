@@ -249,8 +249,8 @@
     "selectJsonFile": "Wähle eine Datei im JSON Format welche die SongDrive Datensammlung enthält",
     "signInForAccess": "Bitte melde dich mit deinem Benutzerkonto an, um auf diese Seite zuzugreifen.",
     "unconfirmedMistake": "Wenn du denkst, dass hier ein Fehler vorliegt, <a href='mailto:{0}'>kontaktiere uns</a> bitte.",
-    "unverified": "nicht verifiziert",
-    "verified": "verifiziert",
+    "unverified": "nicht bestätigt",
+    "verified": "bestätigt",
     "waitingForApproval": "Warten auf Freischaltung"
   },
   "title": {
@@ -328,6 +328,7 @@
     "presentationShow": "Präsentation zeigen",
     "presentationStart": "Präsentation starten",
     "previousSlide": "Vorherige Folie",
+    "resendVerification": "Bestätigungs-E-Mail erneut senden",
     "search": "Suche aktivieren",
     "sendConfirmationMail": "Bestätigungs-E-Mail senden",
     "setlistAdd": "Neue Setlist hinzufügen",
@@ -335,7 +336,8 @@
     "syncOff": "Synchronisierung aus",
     "syncOn": "Synchronisierung an",
     "transposeDown": "Einen Halbton runter transponieren",
-    "transposeUp": "Einen Halbton hoch transponieren"
+    "transposeUp": "Einen Halbton hoch transponieren",
+    "verificationAlreadySent": "Die Bestätigungs-E-Mail wurde bereits versendet."
   },
   "widget": {
     "appearance": "Ansicht",
