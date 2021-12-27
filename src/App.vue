@@ -1,6 +1,10 @@
 <template>
 	<div id="app">
-		<div v-if="auth.ready && auth.user && ready.users && users[auth.user] && ready.permissions && permissions[auth.user] && !loading" class="off-canvas off-canvas-sidebar-show">
+		<!-- logged in, confirmed and verified -->
+		<div
+			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && users[auth.user] && ready.permissions && permissions[auth.user] && !loading"
+			class="off-canvas off-canvas-sidebar-show"
+		>
 			<!-- off-screen toggle button -->
 			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
 				<ion-icon name="menu" size="large"></ion-icon>
@@ -160,7 +164,11 @@
 		</div>
 		<!-- logged in but not confimed yet -->
 		<div v-if="auth.ready && auth.user && auth.confirmed === false && !loading">
-			<UserUnconfirmed @signOut="signOut" :config="config" :ready="ready"/>
+			<UserUnconfirmed :config="config" :ready="ready" @signOut="signOut" />
+		</div>
+		<!-- logged in, confimed but not verified yet -->
+		<div v-if="auth.ready && auth.user && auth.confirmed && !auth.userObject.emailVerified && !loading">
+			<UserUnverified :config="config" :ready="ready" @signOut="signOut" @resendEmailVerification="resendEmailVerification()" />
 		</div>
 		<!-- login screen -->
 		<div v-if="auth.ready && !auth.user && !loading">
@@ -228,6 +236,7 @@
 import Login from '@/partials/Login';
 import SignUp from '@/modals/SignUp';
 import UserUnconfirmed from '@/partials/UserUnconfirmed';
+import UserUnverified from '@/partials/UserUnverified';
 import SongSet from '@/modals/SongSet';
 import SetlistSet from '@/modals/SetlistSet';
 // get database object authorized in config.js
@@ -242,6 +251,7 @@ export default {
 		Login,
 		SignUp,
 		UserUnconfirmed,
+		UserUnverified,
 		SongSet,
 		SetlistSet,
 	},
@@ -465,6 +475,16 @@ export default {
 						type: 'primary'
 					});
 				}).catch((error) => this.throwError(error));
+			}).catch((error) => this.throwError(error));
+		},
+		// resend email with verification link to currently logged in user
+		resendEmailVerification () {
+			firebase.auth().currentUser.sendEmailVerification().then(() => {
+				this.$notify({
+					title: this.$t('toast.verficationSent'),
+					text: this.$t('toast.verficationSentText'),
+					type: 'primary'
+				});
 			}).catch((error) => this.throwError(error));
 		},
 	},

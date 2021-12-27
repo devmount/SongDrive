@@ -235,6 +235,7 @@
     "noTagsSelected": "No Tags selected",
     "notApprovedYet": "Your user account has not been approved yet. You will be notified as soon as you've been granted access to SongDrive by an administrator.",
     "noTranslations": "This song has no translation yet.",
+    "notVerifiedYet": "Your email address has not been verified yet. Please click the link in the verification email that was sent to you when registering to get access to SongDrive.",
     "noUnconfirmedUsers": "No unconfirmed users",
     "pageNotAvailable": "Page not available",
     "reallyDeleteLanguage": "Do you really want to delete the Language «{name}» ?",
@@ -250,8 +251,10 @@
     "signInForAccess": "Please sign in with your user account to access this page.",
     "unconfirmedMistake": "If you think this is a mistake, please <a href='mailto:{0}'>contact us</a>.",
     "unverified": "not verified",
+    "unverifiedHelp": "If you need help to get access to SongDrive, please <a href='mailto:{0}'>contact us</a>.",
     "verified": "verified",
-    "waitingForApproval": "Waiting for approval"
+    "waitingForApproval": "Waiting for approval",
+    "waitingForVerification": "Waiting for verification"
   },
   "title": {
     "lastPerformed": "Last performed",

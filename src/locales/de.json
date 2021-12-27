@@ -235,6 +235,7 @@
     "noTagsSelected": "Keine Tags ausgewählt",
     "notApprovedYet": "Dein Benutzerkonto wurde noch nicht bestätigt. Du wirst benachrichtig sobald ein Administrator dir Zugriffsrechte erteilt hat.",
     "noTranslations": "Dieser Song hat bisher keine Übersetzungen.",
+    "notVerifiedYet": "Du hast deine E-Mail-Adresse noch nicht bestätigt. Bitte klicke den Link in der E-Mail, die du bei der Registrierung bekommen hast, um deine E-Mail-Adresse zu bestätigen und Zugang zu SongDrive zu erhalten.",
     "noUnconfirmedUsers": "Keine unbestätigten Benutzer",
     "pageNotAvailable": "Seite nicht verfügbar",
     "reallyDeleteLanguage": "Möchtest du wirklich die Sprache «{name}» löschen?",
@@ -250,8 +251,10 @@
     "signInForAccess": "Bitte melde dich mit deinem Benutzerkonto an, um auf diese Seite zuzugreifen.",
     "unconfirmedMistake": "Wenn du denkst, dass hier ein Fehler vorliegt, <a href='mailto:{0}'>kontaktiere uns</a> bitte.",
     "unverified": "nicht bestätigt",
+    "unverifiedHelp": "Wenn Du Hilfe brauchst, Zugang zu SongDrive zu erhalten, bitte <a href='mailto:{0}'>kontaktiere uns</a>.",
     "verified": "bestätigt",
-    "waitingForApproval": "Warten auf Freischaltung"
+    "waitingForApproval": "Warten auf Freischaltung",
+    "waitingForVerification": "Warten auf Bestätigung"
   },
   "title": {
     "lastPerformed": "Zuletzt aufgeführt",
