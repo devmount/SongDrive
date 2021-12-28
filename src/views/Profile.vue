@@ -13,15 +13,21 @@
 				<div class="column col-4 col-xl-6 col-sm-12 mt-4">
 					<div class="panel">
 						<div class="panel-header text-center">
-							<figure v-if="users[user].photo" class="avatar avatar-xxl mb-2">
-								<img :src="users[user].photo" alt="Avatar" />
-							</figure>
-							<figure
-								v-else-if="userName"
-								class="avatar avatar-xxl mb-2"
-								:data-initial="userName.substring(0,2).toUpperCase()"
-							></figure>
-							<div v-if="userName" class="panel-title h5">{{ userName }}</div>
+							<div class="mb-3">
+								<figure v-if="users[user].photo" id="preview" class="avatar avatar-xxl">
+									<img :src="users[user].photo" alt="Avatar" />
+								</figure>
+								<figure
+									v-else-if="users[user].name"
+									id="preview"
+									class="avatar avatar-xxl"
+									:data-initial="initials(users[user].name)"
+								></figure>
+								<span v-else class="avatar avatar-xxl flex-center">
+									<ion-icon class="icon-2x" name="person"></ion-icon>
+								</span>
+							</div>
+							<div v-if="users[user].name" class="panel-title h5">{{ users[user].name }}</div>
 							<div v-if="roleName" class="panel-subtitle text-gray">{{ $t('role.' + roleName) }}</div>
 						</div>
 						<div class="panel-body">
@@ -109,9 +115,6 @@ export default {
 	name: 'profile',
 	props: ['setlists', 'user', 'users', 'role', 'roleName', 'ready'],
 	computed: {
-		userName () {
-			return this.ready.users ? this.users[this.user].name : '';
-		},
 		setlistsFromUser () {
 			return Object.filter(this.setlists, s => s.creator == this.user);
 		},

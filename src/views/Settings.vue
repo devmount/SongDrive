@@ -30,39 +30,64 @@
 								/>
 							</div>
 							<div class="form-group">
-								<label class="form-label" for="email">{{ $t('field.email') }}</label>
-								<input
-									v-model="profile.email"
-									class="form-input"
-									id="email"
-									type="text"
-									placeholder="john@doe.com"
-									disabled
-								/>
+								<label class="form-label" for="email">
+									<span class="mr-4">{{ $t('field.email') }}</span>
+									<span v-if="userObject.emailVerified" class="text-success">
+										<ion-icon name="checkmark-outline"></ion-icon> {{ $t('text.verified') }}
+									</span>
+									<span v-else class="text-error">
+										<ion-icon name="close-outline"></ion-icon> {{ $t('text.unverified') }}
+									</span>
+								</label>
+								<div class="input-group">
+									<input
+										v-model="profile.email"
+										class="form-input"
+										id="email"
+										type="text"
+										placeholder="john@doe.com"
+										disabled
+									/>
+									<button
+										v-if="!userObject.emailVerified"
+										class="btn btn-primary input-group-btn tooltip"
+										:class="{ disabled: verificationResend }"
+										:data-tooltip="!verificationResend ? $t('tooltip.resendVerification') : $t('tooltip.verificationAlreadySent')"
+										@click="!verificationResend ? resendEmailVerification() : null"
+									>
+										<ion-icon v-if="!verificationResend" name="checkmark-outline"></ion-icon>
+										<ion-icon v-else name="checkmark-done-outline"></ion-icon>
+									</button>
+								</div>
 							</div>
 							<div class="form-group mb-3">
-								<label class="form-label" for="photo">{{ $t('field.photo') }}</label>
-								<input
-									v-model="profile.photo"
-									class="form-input"
-									id="photo"
-									type="text"
-									placeholder="https://your-photo.link/image.png"
-								/>
+								<div class="d-flex gap-4">
+									<div class="flex-grow">
+										<label class="form-label" for="photo">{{ $t('field.photo') }}</label>
+										<input
+											v-model="profile.photo"
+											class="form-input "
+											id="photo"
+											type="text"
+											placeholder="https://your-photo.link/image.png"
+										/>
+									</div>
+									<div>
+										<figure v-if="profile.photo" id="preview" class="avatar avatar-xxl">
+											<img :src="profile.photo" alt="Avatar" />
+										</figure>
+										<figure
+											v-else-if="profile.name"
+											id="preview"
+											class="avatar avatar-xxl"
+											:data-initial="initials(profile.name)"
+										></figure>
+										<span v-else class="avatar avatar-xxl flex-center">
+											<ion-icon class="icon-2x" name="person"></ion-icon>
+										</span>
+									</div>
+								</div>
 							</div>
-							<label for="preview" class="mr-4">{{ $t('label.preview') }}:</label>
-							<figure v-if="profile.photo" id="preview" class="avatar avatar-xxl">
-								<img :src="profile.photo" alt="Avatar" />
-							</figure>
-							<figure
-								v-else-if="profile.name"
-								id="preview"
-								class="avatar avatar-xxl"
-								:data-initial="initials(profile.name)"
-							></figure>
-							<span v-else class="avatar avatar-xxl flex-center">
-								<ion-icon class="icon-2x" name="person"></ion-icon>
-							</span>
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">
@@ -421,6 +446,8 @@
 </template>
 
 <script>
+import firebase from 'firebase/compat/app';
+
 // get components
 import UserSet from '@/modals/UserSet';
 import UserDelete from '@/modals/UserDelete';
@@ -456,6 +483,7 @@ export default {
 	],
 	data () {
 		return {
+			verificationResend: false,
 			profile: {
 				name: null,
 				email: null,
@@ -501,6 +529,17 @@ export default {
 				this.profile.photo = this.users[this.user].photo;
 				this.permission.role = this.permissions[this.user].role;
 			}
+		},
+		// resend email with verification link to currently logged in user
+		resendEmailVerification () {
+			firebase.auth().currentUser.sendEmailVerification().then(() => {
+				this.$notify({
+					title: this.$t('toast.verficationSent'),
+					text: this.$t('toast.verficationSentText'),
+					type: 'primary'
+				});
+				this.verificationResend = true;
+			}).catch((error) => this.throwError(error));
 		},
 		updateProfile () {
 			this.userObject.updateProfile({

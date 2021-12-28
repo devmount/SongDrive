@@ -111,7 +111,7 @@
     "name": "Name",
     "note": "Notiz",
     "password": "Passwort",
-    "photo": "Photo",
+    "photo": "Avatar",
     "publisher": "Herausgeber",
     "role": "Rolle",
     "songs": "Songs",
@@ -135,9 +135,6 @@
     "S": "S",
     "ctrl": "STRG",
     "esc": "ESC"
-  },
-  "label": {
-    "preview": "Vorschau"
   },
   "modal": {
     "addLanguage": "Sprache hinzufügen",
@@ -238,6 +235,7 @@
     "noTagsSelected": "Keine Tags ausgewählt",
     "notApprovedYet": "Dein Benutzerkonto wurde noch nicht bestätigt. Du wirst benachrichtig sobald ein Administrator dir Zugriffsrechte erteilt hat.",
     "noTranslations": "Dieser Song hat bisher keine Übersetzungen.",
+    "notVerifiedYet": "Du hast deine E-Mail-Adresse noch nicht bestätigt. Bitte klicke den Link in der E-Mail, die du bei der Registrierung bekommen hast, um deine E-Mail-Adresse zu bestätigen und Zugang zu SongDrive zu erhalten.",
     "noUnconfirmedUsers": "Keine unbestätigten Benutzer",
     "pageNotAvailable": "Seite nicht verfügbar",
     "reallyDeleteLanguage": "Möchtest du wirklich die Sprache «{name}» löschen?",
@@ -252,7 +250,11 @@
     "selectJsonFile": "Wähle eine Datei im JSON Format welche die SongDrive Datensammlung enthält",
     "signInForAccess": "Bitte melde dich mit deinem Benutzerkonto an, um auf diese Seite zuzugreifen.",
     "unconfirmedMistake": "Wenn du denkst, dass hier ein Fehler vorliegt, <a href='mailto:{0}'>kontaktiere uns</a> bitte.",
-    "waitingForApproval": "Warten auf Freischaltung"
+    "unverified": "nicht bestätigt",
+    "unverifiedHelp": "Wenn Du Hilfe brauchst, Zugang zu SongDrive zu erhalten, bitte <a href='mailto:{0}'>kontaktiere uns</a>.",
+    "verified": "bestätigt",
+    "waitingForApproval": "Warten auf Freischaltung",
+    "waitingForVerification": "Warten auf Bestätigung"
   },
   "title": {
     "lastPerformed": "Zuletzt aufgeführt",
@@ -329,6 +331,7 @@
     "presentationShow": "Präsentation zeigen",
     "presentationStart": "Präsentation starten",
     "previousSlide": "Vorherige Folie",
+    "resendVerification": "Bestätigungs-E-Mail erneut senden",
     "search": "Suche aktivieren",
     "sendConfirmationMail": "Bestätigungs-E-Mail senden",
     "setlistAdd": "Neue Setlist hinzufügen",
@@ -336,7 +339,8 @@
     "syncOff": "Synchronisierung aus",
     "syncOn": "Synchronisierung an",
     "transposeDown": "Einen Halbton runter transponieren",
-    "transposeUp": "Einen Halbton hoch transponieren"
+    "transposeUp": "Einen Halbton hoch transponieren",
+    "verificationAlreadySent": "Die Bestätigungs-E-Mail wurde bereits versendet."
   },
   "widget": {
     "appearance": "Ansicht",
