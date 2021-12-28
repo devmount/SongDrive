@@ -342,7 +342,9 @@ export default {
 				userRef.get().then((userEntry) => {
 					if (userEntry.exists) {
 						this.auth.confirmed = true;
-						this.listen();
+						if (user.emailVerified) {
+							this.listen();
+						}
 						this.loading = false;
 					} else {
 						this.auth.confirmed = false;
@@ -420,12 +422,13 @@ export default {
 		signIn (email, password) {
 			firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
 				// login successful
-				this.auth.user = firebase.auth().currentUser.uid;
-				this.auth.userObject = firebase.auth().currentUser;
+				const user = firebase.auth().currentUser;
+				this.auth.user = user.uid;
+				this.auth.userObject = user;
 				// load general app config
 				this.loadConfig();
 				// now add listeners for changes on each db table
-				if (this.auth.confirmed) {
+				if (this.auth.confirmed && user.emailVerified) {
 					this.listen();
 				}
 				// toast successful login
