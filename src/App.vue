@@ -14,10 +14,8 @@
 			<div id="sidebar-id" class="off-canvas-sidebar" :class="{ active: open }">
 				<div class="sidebar-wrapper">
 					<div class="brand text-center mt-2">
-						<router-link to="/" class="logo">
-							<img src="./assets/logo.svg" alt="SongDrive Song Management Tool" />
-							<h1>{{ $t('app.name') }}</h1>
-							<div class="text-gray text-small text-right mr-5 pr-1">v{{ $version }} BETA</div>
+						<router-link to="/">
+							<Logo />
 						</router-link>
 					</div>
 					<ul class="menu text-uppercase">
@@ -240,6 +238,7 @@
 
 <script>
 // get components
+import Logo from '@/partials/Logo';
 import Login from '@/partials/Login';
 import SignUp from '@/modals/SignUp';
 import PasswordReset from '@/modals/PasswordReset';
@@ -256,6 +255,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 export default {
 	name: 'app',
 	components: {
+		Logo,
 		Login,
 		SignUp,
 		PasswordReset,
