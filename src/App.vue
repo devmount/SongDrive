@@ -85,7 +85,7 @@
 							</router-link>
 						</li>
 						<li class="menu-item">
-							<router-link to="/settings" class="py-2" @click.native="open = false">
+							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles()[permissions[auth.user].role] > 3 }" @click.native="open = false">
 								<ion-icon name="options-outline" class="mr-2"></ion-icon> {{ $t('page.settings') }}
 							</router-link>
 						</li>
@@ -521,6 +521,10 @@ export default {
 		userName () {
 			return this.ready.users ? this.users[this.auth.user].name : '';
 		},
+		// check if at least one registration exists
+		registrationsExist () {
+			return Object.keys(this.registrations).length > 0;
+		}
 	},
 }
 </script>
