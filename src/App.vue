@@ -175,6 +175,7 @@
 			<Login
 				@signIn="signIn"
 				@signUp="modal.signup = true"
+				@resetPassword="modal.passwordreset = true"
 			/>
 		</div>
 		<!-- loading screen -->
@@ -217,6 +218,12 @@
 			@closed="modal.signup = false"
 			@submitted="signUp"
 		/>
+		<PasswordReset
+			v-if="modal.passwordreset"
+			:active="modal.passwordreset"
+			@closed="modal.passwordreset = false"
+			@submitted="sendPasswordReset"
+		/>
 
 		<!-- notifications -->
 		<notifications position="bottom right" :duration="5000" :width="400">
@@ -235,6 +242,7 @@
 // get components
 import Login from '@/partials/Login';
 import SignUp from '@/modals/SignUp';
+import PasswordReset from '@/modals/PasswordReset';
 import UserUnconfirmed from '@/partials/UserUnconfirmed';
 import UserUnverified from '@/partials/UserUnverified';
 import SongSet from '@/modals/SongSet';
@@ -250,6 +258,7 @@ export default {
 	components: {
 		Login,
 		SignUp,
+		PasswordReset,
 		UserUnconfirmed,
 		UserUnverified,
 		SongSet,
@@ -294,6 +303,7 @@ export default {
 				addsong: false,
 				addsetlist: false,
 				signup: false,
+				passwordreset: false,
 			},
 			// objects to save
 			newSong: {
@@ -490,6 +500,16 @@ export default {
 				});
 			}).catch((error) => this.throwError(error));
 		},
+		// send password reset email
+		sendPasswordReset (email) {
+			firebase.auth().sendPasswordResetEmail(email).then(() => {
+				this.$notify({
+					title: this.$t('toast.passwordResetSent'),
+					text: this.$t('toast.passwordResetSentText'),
+					type: 'primary'
+				});
+			}).catch((error) => this.throwError(error));
+		}
 	},
 	computed: {
 		// check if db is empty = no users or registrations yet

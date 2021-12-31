@@ -820,8 +820,9 @@ a {
 			height: calc(100vh - 90px);
 			z-index: 100;
 		}
-	}
 
+	}
+	
 	.fade-enter-active,
 	.fade-leave-active {
 		transition: opacity .5s;
@@ -829,6 +830,10 @@ a {
 	.fade-enter,
 	.fade-leave-to {
 		opacity: 0;
+	}
+	
+	&.modal-sm .modal-container {
+		max-width: 420px;
 	}
 }
 @media (min-width: $size-sm) {
