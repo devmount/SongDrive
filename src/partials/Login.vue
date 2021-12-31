@@ -1,9 +1,8 @@
 <template>
 	<div class="login">
 		<!-- heading -->
-		<div class="column col-12 text-center">
-			<img class="logo" src="@/assets/logo.svg" alt="SongDrive Song Management Tool" />
-			<h2 class="text-primary weight-normal mt-4">{{ $t('app.name') }}</h2>
+		<div class="column col-12">
+			<Logo class="featured hide-version" />
 		</div>
 		<!-- login -->
 		<div>
@@ -46,8 +45,14 @@
 </template>
 
 <script>
+// get components
+import Logo from '@/partials/Logo';
+
 export default {
 	name: 'login',
+	components: {
+		Logo
+	},
 	data () {
 		return {
 			email: '',
@@ -61,16 +66,10 @@ export default {
 .login {
 	display: flex;
 	flex-direction: column;
-	gap: 3rem;
+	gap: 2.5rem;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
-
-	.logo {
-		margin: 0 auto;
-		max-width: 150px;
-		width: 100%;
-	}
 
 	.panel {
 		height: auto;

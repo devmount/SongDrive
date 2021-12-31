@@ -1,9 +1,8 @@
 <template>
 	<div class="user-unverified">
 		<!-- heading -->
-		<div class="column col-12 text-center">
-			<img class="logo" src="@/assets/logo.svg" alt="SongDrive Song Management Tool" />
-			<h2 class="text-primary weight-normal mt-4">{{ $t('app.name') }}</h2>
+		<div class="column col-12">
+			<Logo class="featured hide-version" />
 		</div>
 		<!-- unverified message -->
 		<div class="message">
@@ -24,8 +23,14 @@
 </template>
 
 <script>
+// get components
+import Logo from '@/partials/Logo';
+
 export default {
 	name: 'user-unverified',
+	components: {
+		Logo
+	},
 	props: ['ready', 'config'],
 	data () {
 		return {
@@ -45,16 +50,11 @@ export default {
 .user-unverified {
 	display: flex;
 	flex-direction: column;
-	gap: 2rem;
+	gap: 2.5rem;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
 
-	.logo {
-		margin: 0 auto;
-		max-width: 150px;
-		width: 100%;
-	}
 	.message {
 		max-width: 400px;
 
