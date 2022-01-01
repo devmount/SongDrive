@@ -14,10 +14,8 @@
 			<div id="sidebar-id" class="off-canvas-sidebar" :class="{ active: open }">
 				<div class="sidebar-wrapper">
 					<div class="brand text-center mt-2">
-						<router-link to="/" class="logo">
-							<img src="./assets/logo.svg" alt="SongDrive Song Management Tool" />
-							<h1>{{ $t('app.name') }}</h1>
-							<div class="text-gray text-small text-right mr-5 pr-1">v{{ $version }} BETA</div>
+						<router-link to="/">
+							<Logo />
 						</router-link>
 					</div>
 					<ul class="menu text-uppercase">
@@ -87,7 +85,7 @@
 							</router-link>
 						</li>
 						<li class="menu-item">
-							<router-link to="/settings" class="py-2" @click.native="open = false">
+							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles()[permissions[auth.user].role] > 3 }" @click.native="open = false">
 								<ion-icon name="options-outline" class="mr-2"></ion-icon> {{ $t('page.settings') }}
 							</router-link>
 						</li>
@@ -240,6 +238,7 @@
 
 <script>
 // get components
+import Logo from '@/partials/Logo';
 import Login from '@/partials/Login';
 import SignUp from '@/modals/SignUp';
 import PasswordReset from '@/modals/PasswordReset';
@@ -256,6 +255,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 export default {
 	name: 'app',
 	components: {
+		Logo,
 		Login,
 		SignUp,
 		PasswordReset,
@@ -371,6 +371,7 @@ export default {
 			}
 			this.auth.ready = true;
 		});
+		this.auth.confirmed = false;
 	},
 	methods: {
 		// add listeners for changes on each db table
@@ -520,6 +521,10 @@ export default {
 		userName () {
 			return this.ready.users ? this.users[this.auth.user].name : '';
 		},
+		// check if at least one registration exists
+		registrationsExist () {
+			return Object.keys(this.registrations).length > 0;
+		}
 	},
 }
 </script>
