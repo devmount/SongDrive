@@ -1,15 +1,12 @@
-# SongDrive
+<img width="352" alt="songdrive_logo_word" src="https://user-images.githubusercontent.com/5441654/147848659-8cbc8ac6-d7d8-4c56-a36d-ce904da2bd5a.png">
 
-[![Release](https://img.shields.io/github/v/tag/devmount/SongDrive.svg?label=release&color=88b544&style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsSAAALEgHS3X78AAAATklEQVQ4jWP8//8/AyWAiSLd1DCABZfEnnsVKH5zUepgpIkLKA5EnF7o3OaKYnK5125GbN4aJF7A5jRsXsAmNki8QKxzB6cXKHMBAwMDAFesMxVwNRpMAAAAAElFTkSuQmCC)](https://github.com/devmount/SongDrive/releases)
+[![Release](https://img.shields.io/github/v/tag/devmount/SongDrive.svg?label=release&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/releases)
 [![Last Updated](https://img.shields.io/github/last-commit/devmount/SongDrive?label=updated&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/commits/main)
 [![CodeQL Analysis](https://img.shields.io/github/workflow/status/devmount/SongDrive/CodeQL?label=CodeQL&logo=github&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/actions/workflows/codeql-analysis.yml)
 [![License](https://img.shields.io/badge/license-MIT-88b544.svg?style=flat-square)](./LICENSE)
 [![Contribution Guidlines](https://img.shields.io/badge/contributions-welcome-88b544.svg?style=flat-square)](./.github/CONTRIBUTING.md)
 
-A song management web application to store, synchronize and present songs and setlists, based on [Vue.js](//vuejs.org/), [Firebase](//firebase.google.com/) and [Spectre.css](//github.com/picturepan2/spectre). Head over to the docs ([EN](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md), [DE](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md)) for more information how to get started with SongDrive.
-
-> **Note**  
-> SongDrive v1.x is currently in beta, if you are looking for SongDrive v0.x, you can download the final release v0.2.10 [here](https://github.com/devmount/SongDrive/releases/tag/v0.2.10).
+A song management web application to store, synchronize and present songs and setlists, based on [Vue.js](//vuejs.org/), [Firebase](//firebase.google.com/) and [Spectre.css](//github.com/picturepan2/spectre). Head over to the docs ([EN](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md), [DE](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md)) for more information about SongDrive and how to get started.
 
 ## Preview
 
