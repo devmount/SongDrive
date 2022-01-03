@@ -1,4 +1,4 @@
-<img width="352" alt="songdrive_logo_word" src="https://user-images.githubusercontent.com/5441654/147848659-8cbc8ac6-d7d8-4c56-a36d-ce904da2bd5a.png">
+# ![SongDrive Logo Title](https://user-images.githubusercontent.com/5441654/147848659-8cbc8ac6-d7d8-4c56-a36d-ce904da2bd5a.png)
 
 [![Release](https://img.shields.io/github/v/tag/devmount/SongDrive.svg?label=release&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/releases)
 [![Last Updated](https://img.shields.io/github/last-commit/devmount/SongDrive?label=updated&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/commits/main)
