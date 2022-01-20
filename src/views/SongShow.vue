@@ -279,7 +279,7 @@ import SongSet from '@/modals/SongSet';
 import SongDelete from '@/modals/SongDelete';
 import SongPresent from '@/modals/SongPresent';
 // pdf creation
-let os = require('os');
+const EOL = '\n';
 var pdfMake = require('pdfmake/build/pdfmake');
 var pdfFonts = require('@/assets/vfs_fonts');
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -331,7 +331,7 @@ export default {
 			var content = this.song.title
 				+ ' [' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']'
 				+ '\n\n';
-			var lines = this.song.content.split(os.EOL);
+			var lines = this.song.content.split(EOL);
 			// process lines
 			for (var i = 0; i < lines.length; i++) {
 				var line = lines[i];
@@ -351,9 +351,9 @@ export default {
 				// handle marker
 				if (line.trim().indexOf('--') >= 0) continue;
 				// keep line for export
-				content += line + os.EOL;
+				content += line + EOL;
 			}
-			content += os.EOL + this.song.authors + os.EOL + os.EOL
+			content += EOL + this.song.authors + EOL + EOL
 				+ '© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
 			// start download
 			this.download(content, this.songId + '.txt');
@@ -368,20 +368,20 @@ export default {
 		exportSng () {
 			// add header
 			var content =
-				'#LangCount=1' + os.EOL
-				+ '#Title=' + this.song.title + os.EOL
+				'#LangCount=1' + EOL
+				+ '#Title=' + this.song.title + EOL
 				+ '#Author=' + this.song.authors
 				+ '#Melody=' + this.song.authors
-				+ '#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + os.EOL
-				+ '#Key=' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + os.EOL
-				+ '#CCLI=' + this.song.ccli + os.EOL
-				+ '---' + os.EOL
-			var lines = this.song.content.split(os.EOL);
+				+ '#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + EOL
+				+ '#Key=' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + EOL
+				+ '#CCLI=' + this.song.ccli + EOL
+				+ '---' + EOL
+			var lines = this.song.content.split(EOL);
 			// remove chord lines
 			for (var i = 0; i < lines.length; i++) {
 				var line = lines[i];
 				if (this.isChordLine(line)) continue;
-				else content += line + os.EOL;
+				else content += line + EOL;
 			}
 			// replace marker
 			content = content
