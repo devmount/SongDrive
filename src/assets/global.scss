@@ -1182,18 +1182,32 @@ a {
 
 // zone
 .zone {
-	padding: .5rem .75rem;
+	padding: 1rem .75rem .5rem .75rem;
 	border-radius: 2px;
+	position: relative;
+	margin-top: 1.5rem;
 
-	&:not(:last-child) {
-		margin-bottom: 1rem;
+	&::before {
+		content: attr(data-title);
+		position: absolute;
+		top: 0;
+		left: .5rem;
+		transform: translateY(-60%);
+		text-transform: uppercase;
+		background-color: $bg-color-light;
+		padding: 0 .25rem;
 	}
-
 	&.zone-warning {
-		border: 2px dashed $warning-color;
+		border: 2px solid darken($warning-color, 30%);
+		&::before {
+			color: $warning-color;
+		}
 	}
 	&.zone-danger {
-		border: 2px solid $error-color;
+		border: 2px solid darken($error-color, 30%);
+		&::before {
+			color: $error-color;
+		}
 	}
 }
 

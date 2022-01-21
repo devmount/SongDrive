@@ -177,7 +177,7 @@
 			/>
 		</div>
 		<!-- loading screen -->
-		<div v-if="!auth.ready || auth.confirmed === null || loading" class="full-viewport d-flex justify-center align-center">
+		<div v-if="!auth.ready || !auth.user || auth.confirmed === null || loading" class="full-viewport d-flex justify-center align-center">
 			<div class="loading loading-xl"></div>
 		</div>
 
