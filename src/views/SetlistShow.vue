@@ -43,7 +43,7 @@
 					</template>
 					<button
 						v-if="user && role > 2"
-						class="btn btn-secondary btn-error d-block stretch text-uppercase tooltip tooltip-right tooltip-lg"
+						class="btn btn-error-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg"
 						:data-tooltip="$t('divider.manage') + ': ' + $t('button.delete')"
 						@click="modal.delete = true"
 					>

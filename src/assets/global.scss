@@ -186,6 +186,12 @@ ion-icon {
 .text-primary {
 	color: $primary-color !important;
 }
+.text-warning {
+	color: $warning-color !important;
+}
+.text-danger {
+	color: $error-color !important;
+}
 .weight-normal {
 	font-weight: 400;
 }
@@ -426,29 +432,91 @@ code {
 }
 
 // form and buttons
+a:focus,
+a:active,
+.btn:focus {
+  box-shadow: 0 0 0 .2rem rgba($bg-color-dark, .2);
+}
 .btn {
+	&.btn-primary {
+		&:focus,
+		&:active, &.active {
+			border-color: $primary-color;
+			box-shadow: 0 0 0 .2rem rgba($primary-color, .2);
+		}
+	}
 	&.btn-secondary {
 		background: $bg-color-dark;
 		border-color: $bg-color-medium;
 		color: $gray-color-700;
 		
-		&:focus:not(.btn-error) {
-			background: $bg-color-dark;
-			border-color: $bg-color-medium;
-			color: $gray-color;
-		}
-		&:hover:not(.btn-error) {
-			background: darken($primary-color-dark, 2%);
-			border-color: darken($primary-color-dark, 5%);
+		&:hover {
+			background: darken($primary-color-dark, 5%);
 			color: $light-color;
 		}
-		&:active:not(.btn-error),
-		&.active:not(.btn-error) {
-			background: darken($primary-color-dark, 4%);
+		&:focus,
+		&:active, &.active {
 			border-color: darken($primary-color-dark, 7%);
-			color: $light-color;
+			box-shadow: 0 0 0 .2rem rgba($primary-color-dark, .2);
 		}
 	}
+	&.btn-warning {
+		background: $warning-color;
+		border-color: $warning-color;
+		color: #fff;
+		&:hover, &.btn-secondary:hover {
+			background: darken($warning-color, 5%);
+			color: #fff;
+		}
+		&:focus,
+		&:active, &.active {
+			border-color: $warning-color;
+			box-shadow: 0 0 0 .2rem rgba($warning-color, .2);
+		}
+	}
+	&.btn-warning-secondary {
+		background: $bg-color-dark;
+		border-color: $bg-color-medium;
+		color: $warning-color;
+		&:hover, &.btn-secondary:hover {
+			background: darken($warning-color, 5%);
+			color: #fff;
+		}
+		&:focus,
+		&:active, &.active {
+			border-color: $warning-color;
+			box-shadow: 0 0 0 .2rem rgba($warning-color, .2);
+		}
+	}
+	&.btn-error {
+		background: $error-color;
+		border-color: $error-color;
+		color: #fff;
+		&:hover, &.btn-secondary:hover {
+			background: darken($error-color, 5%);
+			color: #fff;
+		}
+		&:focus,
+		&:active, &.active {
+			border-color: $error-color;
+			box-shadow: 0 0 0 .2rem rgba($error-color, .2);
+		}
+	}
+	&.btn-error-secondary {
+		background: $bg-color-dark;
+		border-color: $bg-color-medium;
+		color: $error-color;
+		&:hover, &.btn-secondary:hover {
+			background: darken($error-color, 5%);
+			color: #fff;
+		}
+		&:focus,
+		&:active, &.active {
+			border-color: $error-color;
+			box-shadow: 0 0 0 .2rem rgba($error-color, .2);
+		}
+	}
+
 	&.btn-sm {
 		&.btn-fw {
 			width: 1.4rem;
@@ -477,6 +545,9 @@ code {
 			color: $gray-color-600;
 		}
 	}
+	&:not(.d-block) .icon-left {
+		margin-right: .5rem;
+	}
 }
 .switch-lg {
 	padding-left: 2.4rem;
@@ -497,18 +568,11 @@ code {
 		left: 18px;
 	}
 }
-a:focus,
-a:active,
-.btn:focus {
-  box-shadow: 0 0 0 .2rem rgba($bg-color-dark, .2);
-}
 .form-checkbox,
 .form-radio,
 .form-switch {
 	margin: 0.2rem;
 }
-.btn.btn-primary:focus,
-.btn.btn-secondary:active:focus,
 .slider:focus,
 .form-input:focus,
 .form-input:focus-within,
@@ -520,15 +584,6 @@ a:active,
 .form-autocomplete .form-autocomplete-input.is-focused {
 	border-color: $primary-color;
   box-shadow: 0 0 0 .2rem rgba($primary-color, .2);
-}
-.btn.btn-secondary:focus {
-	border-color: $border-color;
-  box-shadow: 0 0 0 .2rem rgba($border-color, .5);
-}
-.btn.btn-error:focus,
-.btn.btn-error.btn-secondary:active:focus {
-	border-color: $error-color;
-  box-shadow: 0 0 0 .2rem rgba($error-color, .2);
 }
 .form-input,
 .form-checkbox .form-icon,
@@ -586,9 +641,6 @@ a:active,
 
 // filter select field
 .filter {
-	&:required:invalid {
-		color: $gray-color;
-	}
 	option[value=""][disabled] {
 		display: none;
 	}
@@ -1125,6 +1177,23 @@ a {
 .timeline {
 	.timeline-item:last-child::before {
 		display: none;
+	}
+}
+
+// zone
+.zone {
+	padding: .5rem .75rem;
+	border-radius: 2px;
+
+	&:not(:last-child) {
+		margin-bottom: 1rem;
+	}
+
+	&.zone-warning {
+		border: 2px dashed $warning-color;
+	}
+	&.zone-danger {
+		border: 2px solid $error-color;
 	}
 }
 
