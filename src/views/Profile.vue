@@ -52,7 +52,6 @@
 						</div>
 						<div v-if="role" class="panel-link mt-4">
 							<router-link to="/settings" class="btn btn-link btn-block">
-								<!-- <ion-icon name="options" class="mr-2"></ion-icon> -->
 								{{ $t('widget.goToSettings') }}
 								<ion-icon name="arrow-forward" class="ml-4"></ion-icon>
 							</router-link>
