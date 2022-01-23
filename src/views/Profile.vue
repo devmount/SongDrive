@@ -50,15 +50,11 @@
 								</div>
 							</div>
 						</div>
-						<div v-if="role" class="panel-footer">
-							<router-link
-								to="/settings"
-								class="btn btn-secondary btn-block text-uppercase mb-1"
-								@click.native="open = false"
-							>
-								<ion-icon name="options"></ion-icon>
-								{{ $t('page.settings')}}
-								<ion-icon name="create-outline" class="float-right ml-2"></ion-icon>
+						<div v-if="role" class="panel-link mt-4">
+							<router-link to="/settings" class="btn btn-link btn-block">
+								<!-- <ion-icon name="options" class="mr-2"></ion-icon> -->
+								{{ $t('widget.goToSettings') }}
+								<ion-icon name="arrow-forward" class="ml-4"></ion-icon>
 							</router-link>
 						</div>
 					</div>

@@ -724,6 +724,13 @@ a {
 		.btn {
 			text-transform: uppercase;
 			color: $gray-color-600;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			ion-icon {
+				margin-bottom: 0;
+			}
 
 			&:hover {
 			background: $border-color;
