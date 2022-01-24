@@ -34,6 +34,7 @@
     "import": "Import",
     "launch": "Launch",
     "present": "Present",
+    "recheck": "Check Again",
     "reset": "Reset",
     "saveConfig": "Save Configuration",
     "saveProfile": "Save Profile",
@@ -85,6 +86,8 @@
     ]
   },
   "error": {
+    "emailNotChanged": "You entered your current email address.",
+    "emailsDontMatch": "The email addresses don't match.",
     "passwordTooShort": "The password is too short.",
     "passwordsDontMatch": "The passwords don't match.",
     "requiredContent": "The song content is missing.",
@@ -99,7 +102,8 @@
     "requiredTagKey": "A tag key is required.",
     "requiredTitle": "A title is required.",
     "setlistAlreadyExists": "A setlist with this title already exists on this date. Please change either the title or the date.",
-    "songAlreadyExists": "A song with this title already exists in this language. Please change either the title or the language."
+    "songAlreadyExists": "A song with this title already exists in this language. Please change either the title or the language.",
+    "wrongPassword": "The password you provided is wrong. Typo?"
   },
   "field": {
     "authors": "Authors",
@@ -113,6 +117,7 @@
     "label": "Label",
     "language": "Language",
     "name": "Name",
+    "newEmail": "New Email Address",
     "newPassword": "New Password",
     "note": "Note",
     "password": "Password",
@@ -145,6 +150,7 @@
     "addLanguage": "Add Language",
     "addTag": "Add Tag",
     "addUser": "Add User",
+    "changeEmail": "Change Your Email",
     "changePassword": "Change Your Password",
     "deleteLanguage": "Delete Language",
     "deleteRegistration": "Delete Registration",
@@ -197,6 +203,7 @@
     "exampleUserEmail": "e.g. john@doe.com",
     "exampleUserName": "e.g. John Doe",
     "language": "Language ...",
+    "repeatEmail": "Repeat Email Address",
     "repeatPassword": "Repeat Password",
     "searchSetlistTitle": "Setlist title ...",
     "searchSongTitle": "Search for Song title, subtitle and full text",

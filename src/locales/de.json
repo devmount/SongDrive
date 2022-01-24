@@ -34,6 +34,7 @@
     "import": "Import",
     "launch": "Starten",
     "present": "Präsentieren",
+    "recheck": "Nochmal Prüfen",
     "reset": "Zurücksetzen",
     "saveConfig": "Konfiguration Speichern",
     "saveProfile": "Profil Speichern",
@@ -85,6 +86,8 @@
     ]
   },
   "error": {
+    "emailNotChanged": "Du hast deine aktuelle E-Mail-Adresse eingegeben.",
+    "emailsDontMatch": "Die E-Mail-Adressen stimmen nicht überein.",
     "passwordTooShort": "Das Passwort ist zu kurz.",
     "passwordsDontMatch": "Die Passwörter stimmen nicht überein.",
     "requiredContent": "Der Inhalt des Songs fehlt.",
@@ -99,7 +102,8 @@
     "requiredTagKey": "Ein Tag Key muss angegeben werden.",
     "requiredTitle": "Ein Titel muss angegeben werden.",
     "setlistAlreadyExists": "Eine Setlist mit diesem Titel existiert bereits an diesem Datum. Bitte entweder den Titel oder das Datum ändern.",
-    "songAlreadyExists": "Ein Song mit diesem Titel existiert bereits in dieser Sprache. Bitte entweder den Titel oder die Sprache ändern."
+    "songAlreadyExists": "Ein Song mit diesem Titel existiert bereits in dieser Sprache. Bitte entweder den Titel oder die Sprache ändern.",
+    "wrongPassword": "Dein Passwort stimmt nicht. Tippfehler?"
   },
   "field": {
     "authors": "Autoren",
@@ -113,6 +117,7 @@
     "label": "Bezeichnung",
     "language": "Sprache",
     "name": "Name",
+    "newEmail": "Neue E-Mail-Adresse",
     "newPassword": "Neues Passwort",
     "note": "Notiz",
     "password": "Passwort",
@@ -145,6 +150,7 @@
     "addLanguage": "Sprache hinzufügen",
     "addTag": "Tag hinzufügen",
     "addUser": "Benutzer hinzufügen",
+    "changeEmail": "Email-Adresse ändern",
     "changePassword": "Passwort ändern",
     "deleteLanguage": "Sprache Löschen",
     "deleteRegistration": "Registrierung Löschen",
@@ -197,6 +203,7 @@
     "exampleUserEmail": "z.B. max@muster.de",
     "exampleUserName": "z.B. Max Muster",
     "language": "Sprache ...",
+    "repeatEmail": "E-Mail-Adresse wiederholen",
     "repeatPassword": "Passwort wiederholen",
     "searchSetlistTitle": "Setlist Titel...",
     "searchSongTitle": "Suche nach Song Titel, Untertitel und Volltext",

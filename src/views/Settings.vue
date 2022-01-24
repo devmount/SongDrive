@@ -134,15 +134,13 @@
 									<ion-icon name="key-outline" class="icon-left"></ion-icon> {{ $t('button.changePassword') }}
 								</button>
 							</div>
-							<div class="mt-5">
+							<div class="zone zone-danger" :data-title="$t('text.dangerZone')">
 								<div>{{ $t('button.changeEmail') }}</div>
 								<div class="text-gray">{{ $t('text.changeToAnotherEmail') }}</div>
-								<button class="btn btn-secondary text-uppercase mt-2" @click="">
+								<button class="btn btn-error-secondary text-uppercase mt-2" @click="modal.emailchange = true">
 									<ion-icon name="key-outline" class="icon-left"></ion-icon> {{ $t('button.changeEmail') }}
 								</button>
-							</div>
-							<div class="zone zone-danger" :data-title="$t('text.dangerZone')">
-								<div>{{ $t('button.deleteAccount') }}</div>
+								<div class="mt-5">{{ $t('button.deleteAccount') }}</div>
 								<div class="text-gray">{{ $t('text.deleteYourAccount') }}</div>
 								<button class="btn btn-error-secondary text-uppercase mt-2" @click="">
 									<ion-icon name="trash-outline" class="icon-left"></ion-icon> {{ $t('button.deleteAccount') }}
@@ -434,8 +432,13 @@
 			<PasswordChange
 				v-if="modal.passwordchange"
 				:active="modal.passwordchange"
-				:userObject="userObject"
 				@closed="modal.passwordchange = false"
+			/>
+			<!-- modal: change email -->
+			<EmailChange
+				v-if="modal.emailchange"
+				:active="modal.emailchange"
+				@closed="modal.emailchange = false"
 			/>
 			<!-- modal: set user -->
 			<UserSet
@@ -499,6 +502,7 @@ import firebase from 'firebase/compat/app';
 
 // get components
 import PasswordChange from '@/modals/PasswordChange';
+import EmailChange from '@/modals/EmailChange';
 import UserSet from '@/modals/UserSet';
 import UserDelete from '@/modals/UserDelete';
 import LanguageSet from '@/modals/LanguageSet';
@@ -510,6 +514,7 @@ export default {
 	name: 'settings',
 	components: {
 		PasswordChange,
+		EmailChange,
 		UserSet,
 		UserDelete,
 		LanguageSet,
@@ -550,6 +555,7 @@ export default {
 			},
 			modal: {
 				passwordchange: false,
+				emailchange: false,
 				userset: false,
 				userdelete: false,
 				languageset: false,
