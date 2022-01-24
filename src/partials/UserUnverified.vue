@@ -15,9 +15,14 @@
 			<p v-else>
 				{{ $t('toast.verficationSentText') }}
 			</p>
-			<button class="btn btn-secondary d-block stretch mt-4" @click="$emit('signOut')">
-				{{ $t('button.signOut') }} <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
-			</button>
+			<div class="d-flex gap-4 mt-4">
+				<button class="btn btn-secondary d-block" @click="$router.go()">
+					{{ $t('button.recheck') }} <ion-icon name="refresh-outline" class="icon-right"></ion-icon>
+				</button>
+				<button class="btn btn-secondary d-block" @click="$emit('signOut')">
+					{{ $t('button.signOut') }} <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
+				</button>
+			</div>
 		</div>
 	</div>
 </template>
