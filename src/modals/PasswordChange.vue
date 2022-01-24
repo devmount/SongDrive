@@ -67,8 +67,7 @@ import firebase from 'firebase/compat/app';
 export default {
 	name: 'password-change',
 	props: {
-		active: Boolean,    // state of modal display, true to show modal
-		userObject: Object, // currently logged in user object
+		active: Boolean, // state of modal display, true to show modal
 	},
 	data () {
 		return {
@@ -112,7 +111,7 @@ export default {
 						this.$emit('closed');
 						this.$notify({
 							title: this.$parent.$t('toast.userUpdated'),
-							text: this.$parent.$t('toast.userSavedText'),
+							text: this.$parent.$t('toast.userUpdatedText'),
 							type: 'primary'
 						});
 					}).catch((error) => this.throwError(error));
