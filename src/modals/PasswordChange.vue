@@ -55,7 +55,7 @@
 				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
 					{{ $t('button.cancel') }}
 				</a>
-				<button class="btn btn-primary ml-2" @click="setUser">{{ $t('button.changePassword') }}</button>
+				<button class="btn btn-primary ml-2" @click="setPassword">{{ $t('button.changePassword') }}</button>
 			</div>
 		</div>
 	</div>
@@ -91,8 +91,8 @@ export default {
 		}
 	},
 	methods: {
-		// save user object to database
-		setUser() {
+		// save new password for current user
+		setPassword() {
 			// first check for form errors
 			this.error.password.missing = this.user.password == '';
 			this.error.password.mismatch = this.user.password != this.user.repeat;
