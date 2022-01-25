@@ -90,7 +90,7 @@
 							</div>
 						</div>
 						<div class="panel-footer mt-5">
-							<button class="btn btn-primary btn-block text-uppercase" @click="updateProfile">
+							<button class="btn btn-secondary text-uppercase" @click="updateProfile">
 								<ion-icon name="save-outline" class="icon-left"></ion-icon> {{ $t('button.saveProfile') }}
 							</button>
 						</div>
@@ -115,6 +115,37 @@
 							</div>
 						</div>
 						<div class="panel-footer mt-5">
+						</div>
+					</div>
+				</div>
+				<!-- account -->
+				<div class="column col-4 col-xl-6 col-md-12 mt-4">
+					<div class="panel pb-4">
+						<div class="panel-header text-center">
+							<ion-icon name="key-outline" class="icon-2x"></ion-icon>
+							<div class="panel-title h5 mt-1">{{ $t('divider.account') }}</div>
+							<div class="panel-subtitle text-gray">{{ $t('text.changeAccount') }}</div>
+						</div>
+						<div class="panel-body">
+							<div class="mt-2">
+								<div>{{ $t('button.changePassword') }}</div>
+								<div class="text-gray">{{ $t('text.renewYourPassword') }}</div>
+								<button class="btn btn-secondary text-uppercase mt-2" @click="modal.passwordchange = true">
+									<ion-icon name="key-outline" class="icon-left"></ion-icon> {{ $t('button.changePassword') }}
+								</button>
+							</div>
+							<div class="zone zone-danger" :data-title="$t('text.dangerZone')">
+								<div>{{ $t('button.changeEmail') }}</div>
+								<div class="text-gray">{{ $t('text.changeToAnotherEmail') }}</div>
+								<button class="btn btn-error-secondary text-uppercase mt-2" @click="modal.emailchange = true">
+									<ion-icon name="key-outline" class="icon-left"></ion-icon> {{ $t('button.changeEmail') }}
+								</button>
+								<div class="mt-5">{{ $t('button.deleteAccount') }}</div>
+								<div class="text-gray">{{ $t('text.deleteYourAccount') }}</div>
+								<button class="btn btn-error-secondary text-uppercase mt-2" @click="modal.accountdelete = true">
+									<ion-icon name="trash-outline" class="icon-left"></ion-icon> {{ $t('button.deleteAccount') }}
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -363,7 +394,7 @@
 							</div>
 						</div>
 						<div class="panel-footer mt-5">
-							<button class="btn btn-primary btn-block text-uppercase" @click="updateConfig">
+							<button class="btn btn-secondary text-uppercase" @click="updateConfig">
 								<ion-icon name="save-outline" class="icon-left"></ion-icon> {{ $t('button.saveConfig') }}
 							</button>
 						</div>
@@ -371,23 +402,50 @@
 				</div>
 				<!-- backup administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
-					<div class="panel">
+					<div class="panel mb-4">
 						<div class="panel-header text-center">
 							<ion-icon name="file-tray-outline" class="icon-2x"></ion-icon>
 							<div class="panel-title h5 mt-1">{{ $t('widget.backup') }}</div>
 							<div class="panel-subtitle text-gray">{{ $t('text.exportImportData') }}</div>
 						</div>
-						<div class="panel-footer mt-5">
-							<button class="btn btn-primary btn-block text-uppercase mb-2" @click="exportDb">
-								<ion-icon name="archive-outline" class="icon-left"></ion-icon> {{ $t('button.export') }}
-							</button>
-							<button class="btn btn-error btn-block text-uppercase" @click="modal.importdata=true">
-								<ion-icon name="download-outline" class="icon-left"></ion-icon> {{ $t('button.import') }}
-							</button>
+						<div class="panel-body">
+							<div class="mt-2">
+								<div>{{ $t('text.exportData') }}</div>
+								<div class="text-gray">{{ $t('text.saveAll')}}</div>
+								<button class="btn btn-secondary text-uppercase mt-2" @click="exportDb">
+									<ion-icon name="archive-outline" class="icon-left"></ion-icon> {{ $t('button.export') }}
+								</button>
+							</div>
+							<div class="zone zone-danger" data-title="Danger Zone">
+								<div>{{ $t('text.importData') }}</div>
+								<div class="text-gray">{{ $t('text.importAndOverwrite')}}</div>
+								<button class="btn btn-error-secondary text-uppercase mt-2" @click="modal.importdata=true">
+									<ion-icon name="download-outline" class="icon-left"></ion-icon> {{ $t('button.import') }}
+								</button>
+							</div>
+							
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- modal: change password -->
+			<PasswordChange
+				v-if="modal.passwordchange"
+				:active="modal.passwordchange"
+				@closed="modal.passwordchange = false"
+			/>
+			<!-- modal: change email -->
+			<EmailChange
+				v-if="modal.emailchange"
+				:active="modal.emailchange"
+				@closed="modal.emailchange = false"
+			/>
+			<!-- modal: delete own account -->
+			<AccountDelete
+				v-if="modal.accountdelete"
+				:active="modal.accountdelete"
+				@closed="modal.accountdelete = false"
+			/>
 			<!-- modal: set user -->
 			<UserSet
 				v-if="modal.userset"
@@ -449,6 +507,9 @@
 import firebase from 'firebase/compat/app';
 
 // get components
+import PasswordChange from '@/modals/PasswordChange';
+import EmailChange from '@/modals/EmailChange';
+import AccountDelete from '@/modals/AccountDelete';
 import UserSet from '@/modals/UserSet';
 import UserDelete from '@/modals/UserDelete';
 import LanguageSet from '@/modals/LanguageSet';
@@ -459,6 +520,9 @@ import ImportData from '@/modals/ImportData';
 export default {
 	name: 'settings',
 	components: {
+		PasswordChange,
+		EmailChange,
+		AccountDelete,
 		UserSet,
 		UserDelete,
 		LanguageSet,
@@ -498,6 +562,9 @@ export default {
 				}
 			},
 			modal: {
+				passwordchange: false,
+				emailchange: false,
+				accountdelete: false,
 				userset: false,
 				userdelete: false,
 				languageset: false,

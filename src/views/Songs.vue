@@ -86,7 +86,7 @@
 								<ul class="menu text-left">
 									<li class="menu-item">
 										<!-- filter tag -->
-										<select v-model="filter" class="form-select select-lg filter" required>
+										<select v-model="filter" class="form-select select-lg filter">
 											<option value="" disabled selected>{{ $t('placeholder.tag') }}</option>
 											<option v-for="tag in tags" :key="tag.key" :value="tag.key">
 												{{ tag[$i18n.locale] ? tag[$i18n.locale] : tag.key }}
@@ -95,14 +95,14 @@
 									</li>
 									<li class="menu-item">
 										<!-- filter key -->
-										<select v-model="tuning" class="form-select select-lg filter" required>
+										<select v-model="tuning" class="form-select select-lg filter">
 											<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
 											<option v-for="t in keyScale()" :key="t" :value="t">{{ t }}</option>
 										</select>
 									</li>
 									<li class="menu-item">
 										<!-- filter language -->
-										<select v-model="language" class="form-select select-lg filter" required>
+										<select v-model="language" class="form-select select-lg filter">
 											<option value="" disabled selected>{{ $t('placeholder.language') }}</option>
 											<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
 										</select>
@@ -110,7 +110,7 @@
 									<li class="menu-item">
 										<!-- reset filter -->
 										<button
-											class="btn input-group-btn btn-lg btn-secondary btn-error stretch"
+											class="btn input-group-btn btn-lg btn-error-secondary stretch"
 											@click="search=''; filter=''; tuning=''; language=''"
 										>
 											<ion-icon name="close"></ion-icon>

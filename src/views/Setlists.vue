@@ -86,7 +86,7 @@
 								<ul class="menu text-left">
 									<li class="menu-item">
 										<!-- filter year -->
-										<select v-model="filter" class="form-select select-lg filter" required>
+										<select v-model="filter" class="form-select select-lg filter">
 											<option value="" disabled selected>{{ $t('placeholder.year') }}.</option>
 											<option v-for="year in setlistYears" :key="year" :value="year">{{ year }}</option>
 										</select>
@@ -94,7 +94,7 @@
 									<li class="menu-item">
 										<!-- reset filter -->
 										<button
-											class="btn input-group-btn btn-lg btn-secondary btn-error stretch"
+											class="btn input-group-btn btn-lg btn-error-secondary stretch"
 											@click="search=''; filter=''"
 										>
 											<ion-icon name="close"></ion-icon>
@@ -270,8 +270,8 @@ export default {
 					propA = a.songs.length;
 					propB = b.songs.length;
 				} else if (this.order.field == 'creator') {
-					propA = this.users[a.creator] ? this.users[a.creator].name : '';
-					propB = this.users[b.creator] ? this.users[b.creator].name : '';
+					propA = this.users[a.creator]?.name ?? '';
+					propB = this.users[b.creator]?.name ?? '';
 				} else {
 					propA = String(a[this.order.field]).toLowerCase().trim();
 					propB = String(b[this.order.field]).toLowerCase().trim();

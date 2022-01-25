@@ -138,7 +138,6 @@ export default {
 			if (!this.errors) {
 				// user exists and is confirmed
 				if (this.state == 'confirmed') {
-					console.log(this.userId);
 					// first set permissions
 					this.$db.collection('permissions').doc(this.userId).update(this.permission).then(() => {
 						// permissions updated successfully, now update user

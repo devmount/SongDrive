@@ -110,59 +110,59 @@ ion-icon {
 }
 
 // positions and spacing
-.m-0 { margin: 0; }
-.p-0 { padding: 0; }
+.m-0   { margin: 0; }
+.p-0   { padding: 0; }
 
-.m-3 { margin: .6rem !important; }
-.mt-3 { margin-top: .6rem !important; }
-.mr-3 { margin-right: .6rem !important; }
-.mb-3 { margin-bottom: .6rem !important; }
-.ml-3 { margin-left: .6rem !important; }
-.mx-3 { margin-right: .6rem !important; margin-left: .6rem !important; }
-.my-3 { margin-top: .6rem !important; margin-bottom: .6rem !important; }
-.p-3 { padding: .6rem !important; }
-.pt-3 { padding-top: .6rem !important; }
-.pr-3 { padding-right: .6rem !important; }
-.pb-3 { padding-bottom: .6rem !important; }
-.pl-3 { padding-left: .6rem !important; }
-.px-3 { padding-right: .6rem !important; padding-left: .6rem !important; }
-.py-3 { padding-top: .6rem !important; padding-bottom: .6rem !important; }
+.m-3   { margin: .6rem !important; }
+.mt-3  { margin-top: .6rem !important; }
+.mr-3  { margin-right: .6rem !important; }
+.mb-3  { margin-bottom: .6rem !important; }
+.ml-3  { margin-left: .6rem !important; }
+.mx-3  { margin-right: .6rem !important; margin-left: .6rem !important; }
+.my-3  { margin-top: .6rem !important; margin-bottom: .6rem !important; }
+.p-3   { padding: .6rem !important; }
+.pt-3  { padding-top: .6rem !important; }
+.pr-3  { padding-right: .6rem !important; }
+.pb-3  { padding-bottom: .6rem !important; }
+.pl-3  { padding-left: .6rem !important; }
+.px-3  { padding-right: .6rem !important; padding-left: .6rem !important; }
+.py-3  { padding-top: .6rem !important; padding-bottom: .6rem !important; }
 
-.m-4 { margin: .8rem !important; }
-.mt-4 { margin-top: .8rem !important; }
-.mr-4 { margin-right: .8rem !important; }
-.mb-4 { margin-bottom: .8rem !important; }
-.ml-4 { margin-left: .8rem !important; }
-.mx-4 { margin-right: .8rem !important; margin-left: .8rem !important; }
-.my-4 { margin-top: .8rem !important; margin-bottom: .8rem !important; }
-.p-4 { padding: .8rem !important; }
-.pt-4 { padding-top: .8rem !important; }
-.pr-4 { padding-right: .8rem !important; }
-.pb-4 { padding-bottom: .8rem !important; }
-.pl-4 { padding-left: .8rem !important; }
-.px-4 { padding-right: .8rem !important; padding-left: .8rem !important; }
-.py-4 { padding-top: .8rem !important; padding-bottom: .8rem !important; }
+.m-4   { margin: .8rem !important; }
+.mt-4  { margin-top: .8rem !important; }
+.mr-4  { margin-right: .8rem !important; }
+.mb-4  { margin-bottom: .8rem !important; }
+.ml-4  { margin-left: .8rem !important; }
+.mx-4  { margin-right: .8rem !important; margin-left: .8rem !important; }
+.my-4  { margin-top: .8rem !important; margin-bottom: .8rem !important; }
+.p-4   { padding: .8rem !important; }
+.pt-4  { padding-top: .8rem !important; }
+.pr-4  { padding-right: .8rem !important; }
+.pb-4  { padding-bottom: .8rem !important; }
+.pl-4  { padding-left: .8rem !important; }
+.px-4  { padding-right: .8rem !important; padding-left: .8rem !important; }
+.py-4  { padding-top: .8rem !important; padding-bottom: .8rem !important; }
 
-.m-5 { margin: 1rem !important; }
-.mt-5 { margin-top: 1rem !important; }
-.mr-5 { margin-right: 1rem !important; }
-.mb-5 { margin-bottom: 1rem !important; }
-.ml-5 { margin-left: 1rem !important; }
-.mx-5 { margin-right: 1rem !important; margin-left: 1rem !important; }
-.my-5 { margin-top: 1rem !important; margin-bottom: 1rem !important; }
-.p-5 { padding: 1rem !important; }
-.pt-5 { padding-top: 1rem !important; }
-.pr-5 { padding-right: 1rem !important; }
-.pb-5 { padding-bottom: 1rem !important; }
-.pl-5 { padding-left: 1rem !important; }
-.px-5 { padding-right: 1rem !important; padding-left: 1rem !important; }
-.py-5 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+.m-5   { margin: 1rem !important; }
+.mt-5  { margin-top: 1rem !important; }
+.mr-5  { margin-right: 1rem !important; }
+.mb-5  { margin-bottom: 1rem !important; }
+.ml-5  { margin-left: 1rem !important; }
+.mx-5  { margin-right: 1rem !important; margin-left: 1rem !important; }
+.my-5  { margin-top: 1rem !important; margin-bottom: 1rem !important; }
+.p-5   { padding: 1rem !important; }
+.pt-5  { padding-top: 1rem !important; }
+.pr-5  { padding-right: 1rem !important; }
+.pb-5  { padding-bottom: 1rem !important; }
+.pl-5  { padding-left: 1rem !important; }
+.px-5  { padding-right: 1rem !important; padding-left: 1rem !important; }
+.py-5  { padding-top: 1rem !important; padding-bottom: 1rem !important; }
 
 .mb-15 { margin-bottom: 3rem; }
 
-.ls-1 { letter-spacing: 1px; }
-.ls-2 { letter-spacing: 2px; }
-
+.ls-1  { letter-spacing: 1px; }
+.ls-2  { letter-spacing: 2px; }
+ 
 .gap-4 {
 	gap: .8rem;
 }
@@ -185,6 +185,12 @@ ion-icon {
 }
 .text-primary {
 	color: $primary-color !important;
+}
+.text-warning {
+	color: $warning-color !important;
+}
+.text-danger {
+	color: $error-color !important;
 }
 .weight-normal {
 	font-weight: 400;
@@ -426,29 +432,91 @@ code {
 }
 
 // form and buttons
+a:focus,
+a:active,
+.btn:focus {
+  box-shadow: 0 0 0 .2rem rgba($bg-color-dark, .2);
+}
 .btn {
+	&.btn-primary {
+		&:focus,
+		&:active, &.active {
+			border-color: $primary-color;
+			box-shadow: 0 0 0 .2rem rgba($primary-color, .2);
+		}
+	}
 	&.btn-secondary {
 		background: $bg-color-dark;
 		border-color: $bg-color-medium;
 		color: $gray-color-700;
 		
-		&:focus:not(.btn-error) {
-			background: $bg-color-dark;
-			border-color: $bg-color-medium;
-			color: $gray-color;
-		}
-		&:hover:not(.btn-error) {
-			background: darken($primary-color-dark, 2%);
-			border-color: darken($primary-color-dark, 5%);
+		&:hover {
+			background: darken($primary-color-dark, 5%);
 			color: $light-color;
 		}
-		&:active:not(.btn-error),
-		&.active:not(.btn-error) {
-			background: darken($primary-color-dark, 4%);
+		&:focus,
+		&:active, &.active {
 			border-color: darken($primary-color-dark, 7%);
-			color: $light-color;
+			box-shadow: 0 0 0 .2rem rgba($primary-color-dark, .2);
 		}
 	}
+	&.btn-warning {
+		background: $warning-color;
+		border-color: $warning-color;
+		color: #fff;
+		&:hover, &.btn-secondary:hover {
+			background: darken($warning-color, 5%);
+			color: #fff;
+		}
+		&:focus,
+		&:active, &.active {
+			border-color: $warning-color;
+			box-shadow: 0 0 0 .2rem rgba($warning-color, .2);
+		}
+	}
+	&.btn-warning-secondary {
+		background: $bg-color-dark;
+		border-color: $bg-color-medium;
+		color: $warning-color;
+		&:hover, &.btn-secondary:hover {
+			background: darken($warning-color, 5%);
+			color: #fff;
+		}
+		&:focus,
+		&:active, &.active {
+			border-color: $warning-color;
+			box-shadow: 0 0 0 .2rem rgba($warning-color, .2);
+		}
+	}
+	&.btn-error {
+		background: $error-color;
+		border-color: $error-color;
+		color: #fff;
+		&:hover, &.btn-secondary:hover {
+			background: darken($error-color, 5%);
+			color: #fff;
+		}
+		&:focus,
+		&:active, &.active {
+			border-color: $error-color;
+			box-shadow: 0 0 0 .2rem rgba($error-color, .2);
+		}
+	}
+	&.btn-error-secondary {
+		background: $bg-color-dark;
+		border-color: $bg-color-medium;
+		color: $error-color;
+		&:hover, &.btn-secondary:hover {
+			background: darken($error-color, 5%);
+			color: #fff;
+		}
+		&:focus,
+		&:active, &.active {
+			border-color: $error-color;
+			box-shadow: 0 0 0 .2rem rgba($error-color, .2);
+		}
+	}
+
 	&.btn-sm {
 		&.btn-fw {
 			width: 1.4rem;
@@ -477,6 +545,9 @@ code {
 			color: $gray-color-600;
 		}
 	}
+	&:not(.d-block) .icon-left {
+		margin-right: .5rem;
+	}
 }
 .switch-lg {
 	padding-left: 2.4rem;
@@ -497,18 +568,11 @@ code {
 		left: 18px;
 	}
 }
-a:focus,
-a:active,
-.btn:focus {
-  box-shadow: 0 0 0 .2rem rgba($bg-color-dark, .2);
-}
 .form-checkbox,
 .form-radio,
 .form-switch {
 	margin: 0.2rem;
 }
-.btn.btn-primary:focus,
-.btn.btn-secondary:active:focus,
 .slider:focus,
 .form-input:focus,
 .form-input:focus-within,
@@ -520,15 +584,6 @@ a:active,
 .form-autocomplete .form-autocomplete-input.is-focused {
 	border-color: $primary-color;
   box-shadow: 0 0 0 .2rem rgba($primary-color, .2);
-}
-.btn.btn-secondary:focus {
-	border-color: $border-color;
-  box-shadow: 0 0 0 .2rem rgba($border-color, .5);
-}
-.btn.btn-error:focus,
-.btn.btn-error.btn-secondary:active:focus {
-	border-color: $error-color;
-  box-shadow: 0 0 0 .2rem rgba($error-color, .2);
 }
 .form-input,
 .form-checkbox .form-icon,
@@ -586,9 +641,6 @@ a:active,
 
 // filter select field
 .filter {
-	&:required:invalid {
-		color: $gray-color;
-	}
 	option[value=""][disabled] {
 		display: none;
 	}
@@ -672,6 +724,13 @@ a {
 		.btn {
 			text-transform: uppercase;
 			color: $gray-color-600;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			ion-icon {
+				margin-bottom: 0;
+			}
 
 			&:hover {
 			background: $border-color;
@@ -1125,6 +1184,37 @@ a {
 .timeline {
 	.timeline-item:last-child::before {
 		display: none;
+	}
+}
+
+// zone
+.zone {
+	padding: 1rem .75rem .5rem .75rem;
+	border-radius: 2px;
+	position: relative;
+	margin-top: 1.5rem;
+
+	&::before {
+		content: attr(data-title);
+		position: absolute;
+		top: 0;
+		left: .5rem;
+		transform: translateY(-60%);
+		text-transform: uppercase;
+		background-color: $bg-color-light;
+		padding: 0 .25rem;
+	}
+	&.zone-warning {
+		border: 2px solid darken($warning-color, 30%);
+		&::before {
+			color: $warning-color;
+		}
+	}
+	&.zone-danger {
+		border: 2px solid darken($error-color, 30%);
+		&::before {
+			color: $error-color;
+		}
 	}
 }
 
