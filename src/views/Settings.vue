@@ -142,7 +142,7 @@
 								</button>
 								<div class="mt-5">{{ $t('button.deleteAccount') }}</div>
 								<div class="text-gray">{{ $t('text.deleteYourAccount') }}</div>
-								<button class="btn btn-error-secondary text-uppercase mt-2" @click="">
+								<button class="btn btn-error-secondary text-uppercase mt-2" @click="modal.accountdelete = true">
 									<ion-icon name="trash-outline" class="icon-left"></ion-icon> {{ $t('button.deleteAccount') }}
 								</button>
 							</div>
@@ -440,6 +440,12 @@
 				:active="modal.emailchange"
 				@closed="modal.emailchange = false"
 			/>
+			<!-- modal: delete own account -->
+			<AccountDelete
+				v-if="modal.accountdelete"
+				:active="modal.accountdelete"
+				@closed="modal.accountdelete = false"
+			/>
 			<!-- modal: set user -->
 			<UserSet
 				v-if="modal.userset"
@@ -503,6 +509,7 @@ import firebase from 'firebase/compat/app';
 // get components
 import PasswordChange from '@/modals/PasswordChange';
 import EmailChange from '@/modals/EmailChange';
+import AccountDelete from '@/modals/AccountDelete';
 import UserSet from '@/modals/UserSet';
 import UserDelete from '@/modals/UserDelete';
 import LanguageSet from '@/modals/LanguageSet';
@@ -515,6 +522,7 @@ export default {
 	components: {
 		PasswordChange,
 		EmailChange,
+		AccountDelete,
 		UserSet,
 		UserDelete,
 		LanguageSet,
@@ -556,6 +564,7 @@ export default {
 			modal: {
 				passwordchange: false,
 				emailchange: false,
+				accountdelete: false,
 				userset: false,
 				userdelete: false,
 				languageset: false,

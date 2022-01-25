@@ -152,6 +152,7 @@
     "addUser": "Add User",
     "changeEmail": "Change Your Email",
     "changePassword": "Change Your Password",
+    "deleteAccount": "Delete Account",
     "deleteLanguage": "Delete Language",
     "deleteRegistration": "Delete Registration",
     "deleteSetlist": "Delete Setlist",
@@ -263,6 +264,7 @@
     "notVerifiedYet": "Your email address has not been verified yet. Please click the link in the verification email that was sent to you when registering to get access to SongDrive.",
     "noUnconfirmedUsers": "No unconfirmed users",
     "pageNotAvailable": "Page not available",
+    "reallyDeleteAccount": "Are you sure you want to delete your user account? All your personal data will be gone. The songs and setlists you created, will be kept.",
     "reallyDeleteLanguage": "Do you really want to delete the Language «{name}» ?",
     "reallyDeleteSetlist": "Do you really want to delete the Setlist «{title}» ?",
     "reallyDeleteSong": "Do you really want to delete the Song «{title}» ?",
@@ -284,7 +286,8 @@
     "unverifiedHelp": "If you need help to get access to SongDrive, please <a href='mailto:{0}'>contact us</a>.",
     "verified": "verified",
     "waitingForApproval": "Waiting for approval",
-    "waitingForVerification": "Waiting for verification"
+    "waitingForVerification": "Waiting for verification",
+    "yesIUnderstand": "Yes, I understand."
   },
   "title": {
     "lastPerformed": "Last performed",
@@ -295,6 +298,8 @@
     "songTuning": "Song key"
   },
   "toast": {
+    "accountDeleted": "Account deleted",
+    "accountDeletedText": "Your data was successfully deleted.",
     "configUpdated": "Configuration updated",
     "configUpdatedText": "Configuration data was successfully saved.",
     "copiedToClipboard": "Copied to clipboard",

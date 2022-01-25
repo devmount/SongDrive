@@ -150,8 +150,9 @@
     "addLanguage": "Sprache hinzufügen",
     "addTag": "Tag hinzufügen",
     "addUser": "Benutzer hinzufügen",
-    "changeEmail": "Email-Adresse ändern",
+    "changeEmail": "E-Mail-Adresse ändern",
     "changePassword": "Passwort ändern",
+    "deleteAccount": "Konto Löschen",
     "deleteLanguage": "Sprache Löschen",
     "deleteRegistration": "Registrierung Löschen",
     "deleteSetlist": "Setlist Löschen",
@@ -263,6 +264,7 @@
     "notVerifiedYet": "Du hast deine E-Mail-Adresse noch nicht bestätigt. Bitte klicke den Link in der E-Mail, die du bei der Registrierung bekommen hast, um deine E-Mail-Adresse zu bestätigen und Zugang zu SongDrive zu erhalten.",
     "noUnconfirmedUsers": "Keine unbestätigten Benutzer",
     "pageNotAvailable": "Seite nicht verfügbar",
+    "reallyDeleteAccount": "Bist du sicher, dass du dein Benutzerkonto löschen möchtest? Deine persönlichen Daten werden komplett entfernt. Von dir erstellte Lieder und Setlisten bleiben bestehen.",
     "reallyDeleteLanguage": "Möchtest du wirklich die Sprache «{name}» löschen?",
     "reallyDeleteSetlist": "Möchtest du wirklich die Setlist «{title}» löschen?",
     "reallyDeleteSong": "Möchtest du wirklich den Song «{title}» löschen?",
@@ -284,7 +286,8 @@
     "unverifiedHelp": "Wenn Du Hilfe brauchst, Zugang zu SongDrive zu erhalten, bitte <a href='mailto:{0}'>kontaktiere uns</a>.",
     "verified": "bestätigt",
     "waitingForApproval": "Warten auf Freischaltung",
-    "waitingForVerification": "Warten auf Bestätigung"
+    "waitingForVerification": "Warten auf Bestätigung",
+    "yesIUnderstand": "Ja, ich habe verstanden."
   },
   "title": {
     "lastPerformed": "Zuletzt aufgeführt",
@@ -295,6 +298,8 @@
     "songTuning": "Tonart"
   },
   "toast": {
+    "accountDeleted": "Benutzerkonto gelöscht",
+    "accountDeletedText": "Deine Daten wurden erfolgreich vernichtet.",
     "configUpdated": "Konfiguration aktualisiert",
     "configUpdatedText": "Die Einstellungen wurden erfolgreich gespeichert.",
     "copiedToClipboard": "In die Zwischenablage kopiert",

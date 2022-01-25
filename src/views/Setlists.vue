@@ -270,8 +270,8 @@ export default {
 					propA = a.songs.length;
 					propB = b.songs.length;
 				} else if (this.order.field == 'creator') {
-					propA = this.users[a.creator] ? this.users[a.creator].name : '';
-					propB = this.users[b.creator] ? this.users[b.creator].name : '';
+					propA = this.users[a.creator]?.name ?? '';
+					propB = this.users[b.creator]?.name ?? '';
 				} else {
 					propA = String(a[this.order.field]).toLowerCase().trim();
 					propB = String(b[this.order.field]).toLowerCase().trim();
