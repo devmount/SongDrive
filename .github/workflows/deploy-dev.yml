@@ -13,22 +13,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
+    - name: Use Node.js 17
       uses: actions/setup-node@v1
       with:
-        node-version: 14.x
+        node-version: 17.x
     - name: Build app using Yarn
       run: |
         printf "VUE_APP_FB_API_KEY=${{ secrets.VUE_APP_FB_API_KEY_DEV }}\nVUE_APP_FB_PROJECT_ID=${{ secrets.VUE_APP_FB_PROJECT_ID_DEV }}" >> .env.production.local
         npm install -g yarn
         yarn install
         yarn build
-    - name: Push Build files to dev environment
-      uses: kostya-ten/ssh-server-deploy@v4
+    - name: Push Build files to testing environment
+      uses: burnett01/rsync-deployments@5.2
       with:
-        host: ${{ secrets.DEPLOY_HOST }}
-        port: ${{ secrets.DEPLOY_PORT }}
-        username: ${{ secrets.DEPLOY_USER }}
-        password: ${{ secrets.DEPLOY_PASS }}
-        scp_source: dist/*
-        scp_target: ${{ secrets.DEPLOY_PATH_DEV }}
+        switches: -avzr --delete
+        path: dist/
+        remote_path: ${{ secrets.DEPLOY_PATH_DEV }}
+        remote_host: ${{ secrets.DEPLOY_HOST }}
+        remote_port: ${{ secrets.DEPLOY_PORT }}
+        remote_user: ${{ secrets.DEPLOY_USER }}
+        remote_key: ${{ secrets.DEPLOY_SSH_KEY }}
+        remote_key_pass: ${{ secrets.DEPLOY_SSH_PHRASE }}
