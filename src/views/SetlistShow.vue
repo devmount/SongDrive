@@ -300,14 +300,12 @@ import DoughnutChart from '@/charts/DoughnutChart';
 
 // pdf creation
 var pdfMake = require('pdfmake/build/pdfmake');
-var pdfFonts = require('@/assets/vfs_fonts');
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.fonts = {
 	FiraMono: {
-		normal: 'FiraMono-Regular.ttf',
+		normal: window.location.origin + '/fonts/FiraMono-Regular.ttf',
 	},
 	FiraSans: {
-		normal: 'FiraSans-Light.ttf',
+		normal: window.location.origin + '/fonts/FiraSans-Light.ttf',
 	}
 };
 
@@ -519,7 +517,7 @@ export default {
 					},
 					code: {
 						font: this.chords ? 'FiraMono' : 'FiraSans',
-						fontSize: this.chords ? 12 : 16,
+						fontSize: this.chords ? 11 : 16,
 						margin: [ 0, 15, 0, 0 ]
 					},
 					footer: {
