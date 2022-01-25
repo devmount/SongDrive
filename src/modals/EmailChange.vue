@@ -105,10 +105,10 @@ export default {
 				);
 				user.reauthenticateWithCredential(credential).then(() => {
 					// successfully reauthenticated, now update email address ...
-					user.updateEmail(this.user.email).then(() => {
-						this.$db.collection('users').doc(user.uid).update({
-							email: this.user.email,
-						}).then(() => {
+					this.$db.collection('users').doc(user.uid).update({
+						email: this.user.email,
+					}).then(() => {
+						user.updateEmail(this.user.email).then(() => {
 							// ... and send verification email
 							user.sendEmailVerification().then(() => {
 								this.$emit('closed');
