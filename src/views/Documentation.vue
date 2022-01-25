@@ -82,7 +82,7 @@
 
 <script>
 // markdown parser
-const marked = require("marked");
+const { marked } = require('marked');
 const hljs = require('highlight.js');
 import 'highlight.js/styles/github-dark.css';
 
@@ -107,7 +107,7 @@ export default {
 			return marked.lexer(docs[this.$i18n.locale]).filter(t => t.type === 'heading' && t.depth === 2);
 		},
 		content () {
-			return marked(
+			return marked.parse(
 				docs[this.$i18n.locale],
 				{
 					renderer: new marked.Renderer(),

@@ -16,7 +16,7 @@
 
 <script>
 // markdown parser
-const marked = require("marked");
+const { marked } = require('marked');
 const hljs = require('highlight.js');
 import 'highlight.js/styles/github-dark.css';
 
@@ -33,7 +33,7 @@ export default {
 	},
 	computed: {
 		content () {
-			return marked(
+			return marked.parse(
 				cheatsheets[this.$i18n.locale],
 				{
 					renderer: new marked.Renderer(),
