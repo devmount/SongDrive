@@ -371,7 +371,6 @@ export default {
 			}
 			this.auth.ready = true;
 		});
-		this.auth.confirmed = false;
 	},
 	methods: {
 		// add listeners for changes on each db table
