@@ -429,7 +429,7 @@ export default {
 					}
 				}
 			};
-			pdfMake.createPdf(doc).download();
+			pdfMake.createPdf(doc).download(this.$route.params.id + '.pdf');
 			// toast success message
 			this.$notify({
 				title: this.$t('toast.exportedPdf'),

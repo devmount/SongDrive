@@ -527,7 +527,12 @@ export default {
 					}
 				}
 			};
-			pdfMake.createPdf(doc).download();
+			pdfMake.createPdf(doc).download(
+				this.$route.params.id
+				+ '-'
+				+ (mode == 'sheets' ? this.$t('button.exportSetlistSheets'): this.$t('button.exportSetlistList')).toLowerCase()
+				+ '.pdf'
+			);
 			// toast success message
 			this.$notify({
 				title: this.$t('toast.exportedPdf'),
