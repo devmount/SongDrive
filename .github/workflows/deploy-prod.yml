@@ -24,7 +24,7 @@ jobs:
         npm install -g yarn
         yarn install
         yarn build
-    - name: Push Build files to production
+    - name: Push Build files to production environment
       uses: burnett01/rsync-deployments@5.2
       with:
         switches: -avzr --delete
