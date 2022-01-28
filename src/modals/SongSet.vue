@@ -203,6 +203,7 @@
 										class="form-input text-pre"
 										v-model="song.content"
 										:highlight="highlighter"
+										:placeholder="$t('placeholder.exampleSongContent')"
 									></prism-editor>
 									<!-- :placeholder="$t('placeholder.exampleSongContent')" -->
 									<p v-if="error.content" class="form-input-hint">{{ $t('error.requiredContent') }}</p>
