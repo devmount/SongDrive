@@ -2,7 +2,7 @@
 	<div class="logo">
 		<img src="../assets/logo.svg" alt="SongDrive Song Management Tool" />
 		<h1>{{ $t('app.name') }}</h1>
-		<div class="version text-gray text-small text-right mr-5">v{{ $version }} BETA</div>
+		<div class="version text-gray text-small text-right mr-5">v{{ $version }}</div>
 	</div>
 </template>
 
