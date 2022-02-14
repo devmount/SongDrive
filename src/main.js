@@ -211,6 +211,9 @@ Vue.mixin({
 			// if multiple parts: rejoin lines of every part
 			if (parsed.length > 1) {
 				for (var p = 1; p < parsed.length; p++) {
+					// skip parts that don't exist (e.g. chords only parts with chords disabled)
+					if (!parsed[p]) continue;
+					// add song part
 					newContent.push({
 						type: types[p-1],
 						number: numbers[p-1],
