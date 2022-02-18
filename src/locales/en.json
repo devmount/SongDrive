@@ -79,7 +79,7 @@
         "title": "Ready for stage"
       },
       {
-        "description": "Transpose songs with a single click, create PDF songsheets, export songs and setlists in multiple formats, hotkey support and more.",
+        "description": "Transpose songs with a single click, create PDF song sheets, export songs and setlists in multiple formats, hotkey support and more.",
         "icon": "construct-outline",
         "title": "Tools for artists"
       }
@@ -193,7 +193,7 @@
     "exampleSetlistTitle": "e.g. Sunday Service",
     "exampleSongAuthors": "e.g.  Edwin Othello Excell | John Newton ",
     "exampleSongCcli": "e.g. 22025",
-    "exampleSongContent": "songtext with chords and markers, e.g.:\n\n--v\n  G          C  \nThis is the verse text\n D        G  \nJust an example text\n\n--c\n  D           C  \nThis is the chorus text\n D        C      G  \nJust an example text\n\n--b\n  Em  \nThis is the bridge text\n C        D  \nJust an example text",
+    "exampleSongContent": "song text with chords and markers, e.g.:\n\n--v\n  G          C  \nThis is the verse text\n D        G  \nJust an example text\n\n--c\n  D           C  \nThis is the chorus text\n D        C      G  \nJust an example text\n\n--b\n  Em  \nThis is the bridge text\n C        D  \nJust an example text",
     "exampleSongNote": "general notes, e.g. capo 3",
     "exampleSongPublisher": "e.g. Public Domain",
     "exampleSongSubtitle": "e.g. How sweet the sound",
@@ -293,7 +293,7 @@
     "lastPerformed": "Last performed",
     "noYear": "No year available for this song",
     "setlistContains": "This setlist contains {num} songs",
-    "songOccuredOn": "This song occured on {num} setlists",
+    "songOccuredOn": "This song occurred on {num} setlists",
     "songPublishedIn": "This song was published in {year}",
     "songTuning": "Song key"
   },
