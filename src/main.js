@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import './registerServiceWorker';
 
 // set firebase db config
 import firebase from 'firebase/compat/app';

@@ -40,7 +40,6 @@
 		"ionicons": "^6.0.1",
 		"marked": "^4.0.10",
 		"pdfmake": "^0.2.2",
-		"register-service-worker": "^1.6.2",
 		"sortablejs": "^1.9.0",
 		"spectre.css": "^0.5.8",
 		"vue": "^2.6.11",
