@@ -7,8 +7,8 @@ module.exports = {
 			maxAssetSize: 2097152       // 2 MiB
 		},
 		output: {
-			filename: "js/[name].js",
-			chunkFilename: "js/[name].bundle.js",
+			filename: "js/[contenthash]-[name].js",
+			chunkFilename: "js/[chunkhash]-[name].bundle.js",
 		},
 	},
 	productionSourceMap: false,
