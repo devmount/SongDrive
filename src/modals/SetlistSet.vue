@@ -132,7 +132,7 @@
 											<input v-model="setlistSongs" :value="key" type="checkbox">
 											<i class="form-icon"></i> {{ fsong.title }} <label class="label px-2">{{ fsong.tuning }}</label>
 											<div class="text-gray text-small">
-												{{ fsong.subtitle }} | <span :title="$t('title.lastPerformed')">{{ performedSongs[key] }}</span>
+												{{ fsong.subtitle }} <span v-if="performedSongs[key]" class="text-dark" :title="$t('title.lastPerformed')">&nbsp;{{ performedSongs[key] }}</span>
 											</div>
 										</label>
 									</div>
