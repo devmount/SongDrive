@@ -315,8 +315,8 @@ export default {
 	mounted () {
 		// focus component area for shortcuts
 		this.$refs['song-show'].focus();
-		// set custom tuning when loading this component without refresh
-		this.tuning = this.song ? this.urlKeyDiff() : 0;
+		// set custom tuning when loading this component and songKey is given
+		this.tuning = this.song && this.songKey ? this.urlKeyDiff() : 0;
 	},
 	methods: {
 		// calculates difference between song key and url key parameter and returns new key scale index
