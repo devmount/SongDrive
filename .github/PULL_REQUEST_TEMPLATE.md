@@ -1,9 +1,7 @@
-# Custom Title
-
-## Requirements
-
+<!--
 * Filling out this template is required.
 * All new code must have been tested to ensure against regressions
+-->
 
 ## Description of the Change
 
