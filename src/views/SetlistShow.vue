@@ -628,6 +628,16 @@ export default {
 			}
 			return sheets;
 		}
+	},
+	watch: {
+		'modal.present': (newValue) => {
+			// remove scroll bar when in presentation moden
+			if (newValue) {
+				document.body.classList.add('o-hidden');
+			} else {
+				document.body.classList.remove('o-hidden');
+			}
+		}
 	}
 }
 </script>
