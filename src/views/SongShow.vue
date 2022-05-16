@@ -245,6 +245,7 @@
 				:initialSong="song"
 				:id="songId"
 				:songs="songs"
+				:setlists="setlists"
 				:tags="tags"
 				:languages="languages"
 				:ready="ready"
@@ -292,7 +293,7 @@ pdfMake.fonts = {
 
 export default {
 	name: 'song-show',
-	props: ['songs', 'tags', 'languages', 'user', 'role', 'ready'],
+	props: ['songs', 'setlists', 'tags', 'languages', 'user', 'role', 'ready'],
 	components: {
 		SongContent,
 		SongSet,
