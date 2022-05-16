@@ -1261,11 +1261,10 @@ a {
 		display: inline-block;
 
 		&:first-child {
-			margin-top: 20px;
+			margin-top: 10px;
 		}
 	}
 	.verse {
-		// border-left: 2px solid $bg-color-dark;
 		position: relative;
 		padding-left: 1em;
 		margin-left: .6em;

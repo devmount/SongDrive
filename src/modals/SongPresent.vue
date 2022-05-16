@@ -9,7 +9,7 @@
 		@keydown.esc.exact="$emit('closed')"
 	>
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
-		<div class="modal-container">
+		<div class="modal-container p-0">
 			<div class="modal-header">
 				<div class="modal-title h5 text-center">
 					{{ title }}
