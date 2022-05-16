@@ -189,6 +189,7 @@
 			:initialSong="newSong"
 			songKey=""
 			:songs="songs"
+			:setlists="setlists"
 			:tags="tags"
 			:languages="languages"
 			:ready="ready"

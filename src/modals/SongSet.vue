@@ -205,7 +205,6 @@
 										:highlight="highlighter"
 										:placeholder="$t('placeholder.exampleSongContent')"
 									></prism-editor>
-									<!-- :placeholder="$t('placeholder.exampleSongContent')" -->
 									<p v-if="error.content" class="form-input-hint">{{ $t('error.requiredContent') }}</p>
 								</div>
 							</div>
@@ -387,6 +386,7 @@ export default {
 		initialSong: Object,
 		id: String,
 		songs: Object,
+		setlists: Object,
 		tags: Object,
 		languages: Object,
 		ready: Object,
@@ -425,7 +425,7 @@ export default {
 			this.error.slug = this.existing && this.id == slug ? false : this.songs.hasOwnProperty(slug);
 			// no errors: start saving song data
 			if (!this.errors) {
-				var processedSong = {
+				let processedSong = {
 					authors: this.song.authors,
 					ccli: this.song.ccli ? parseInt(this.song.ccli) : '',
 					content: this.song.content,
@@ -472,12 +472,38 @@ export default {
 							});
 						}).catch((error) => this.throwError(error));
 					} else {
-						// update key by adding a new song and removing the old one
-						this.$db.collection('songs').doc(this.id).delete();
+						// update key by adding a new song, removing the old one and update references in other fields
 						this.$db.collection('songs').doc(slug).set(processedSong).then(() => {
+							this.$db.collection('songs').doc(this.id).delete();
 							this.$emit('closed');
 							this.$emit('reset');
 							processedSong = {};
+							// check existing setlists for this song id and update to new slug
+							for (const setlistId in this.setlists) {
+								const setlist = this.setlists[setlistId];
+								let existingSongKey = null;
+								setlist.songs.forEach((song, key) => {
+									if (song.id == this.id) existingSongKey = key;
+								});
+								if (existingSongKey !== null) {
+									let updatedSongList = setlist.songs;
+									updatedSongList[existingSongKey].id = slug;
+									this.$db.collection('setlists').doc(setlistId).update({ songs: updatedSongList });
+								}
+							}
+							// check existing song translations for this song id and update to new slug
+							for (const songId in this.songs) {
+								const song = this.songs[songId];
+								let existingSongKey = null;
+								song.translations.forEach((translation, key) => {
+									if (translation == this.id) existingSongKey = key;
+								});
+								if (existingSongKey !== null) {
+									let updatedTranslationsList = song.translations;
+									updatedTranslationsList[existingSongKey] = slug;
+									this.$db.collection('songs').doc(songId).update({ translations: updatedTranslationsList });
+								}
+							}
 							this.$router.push({ name: 'song-show', params: { id: slug }});
 							// toast success update message
 							this.$notify({
@@ -515,12 +541,12 @@ export default {
 	computed: {
 		// filter song list by search query
 		filteredTags () {
-			var tags = {};
+			let tags = {};
 			if (this.search.tags != '') {
 				for (const key in this.tags) {
 					if (this.tags.hasOwnProperty(key)) {
 						const tag = this.tags[key];
-						var search = this.search.tags.toLowerCase();
+						let search = this.search.tags.toLowerCase();
 						// search in tag labels
 						let label = tag[this.$i18n.locale] ? tag[this.$i18n.locale] : key;
 						if (label.toLowerCase().indexOf(search) !== -1) {
@@ -535,12 +561,12 @@ export default {
 		},
 		// filter song list by search query
 		filteredSongs () {
-			var songs = {};
+			let songs = {};
 			if (this.search.translations != '') {
 				for (const key in this.songs) {
 					if (this.songs.hasOwnProperty(key)) {
 						const song = this.songs[key];
-						var search = this.search.translations.toLowerCase();
+						let search = this.search.translations.toLowerCase();
 						// search in title and subtitle
 						if (
 							song.title.toLowerCase().indexOf(search) !== -1 ||
