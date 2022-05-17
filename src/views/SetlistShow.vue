@@ -481,23 +481,25 @@ export default {
 		copyList (format) {
 			// build text list
 			let list = [], label = '';
+			// only export existing songs
+			let songs = this.setlist.songs.filter(s => s.id in this.songs);
 			switch (format) {
 				case 'plain':
-					list = this.setlist.songs.map(
+					list = songs.map(
 						(s, i) => (i+1) + '. ' + this.songs[s.id].title + ' (' + this.songs[s.id].subtitle + ')'
 						+ ' [' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + ']'
 					);
 					label = 'plain text';
 					break;
 				case 'markdown':
-					list = this.setlist.songs.map(
+					list = songs.map(
 						(s, i) => (i+1) + '. **' + this.songs[s.id].title + '** – _' + this.songs[s.id].subtitle + '_'
 						+ ' [**`' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + '`**]'
 					);
 					label = 'markdown';
 					break;
 				case 'slack':
-					list = this.setlist.songs.map(
+					list = songs.map(
 						(s, i) => (i+1) + '. *' + this.songs[s.id].title + '* – _' + this.songs[s.id].subtitle + '_'
 						+ ' `' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + '`'
 					);
