@@ -202,7 +202,7 @@
 											</td>
 										</template>
 										<template v-else>
-											<td colspan="2"><span class="text-error">This song was deleted</span> <br class="show-xl hide-sm" />
+											<td colspan="2"><span class="text-error mr-1">{{ $t('toast.songDeleted') }}</span> <br class="show-xl hide-sm" />
 												<span class="text-gray text-pre text-tiny hide-sm">{{ song.id }}</span>
 											</td>
 											<td class="hide-xl"></td>
