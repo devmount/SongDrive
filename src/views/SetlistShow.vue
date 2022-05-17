@@ -574,7 +574,7 @@ export default {
 		getPdfSetlist () {
 			let songs = [];
 			for (const key in this.setlist.songs) {
-				if (this.setlist.songs.hasOwnProperty(key)) {
+				if (this.setlist.songs.hasOwnProperty(key) && this.setlist.songs[key].id in this.songs) {
 					const song = this.songs[this.setlist.songs[key].id];
 					songs.push(' ‒ ' + song.title + ' [' + (song.customTuning ? song.customTuning : song.tuning) + ']');
 				}
@@ -594,7 +594,7 @@ export default {
 		getPdfSongsheets () {
 			var sheets = [];
 			for (const key in this.setlist.songs) {
-				if (this.setlist.songs.hasOwnProperty(key)) {
+				if (this.setlist.songs.hasOwnProperty(key) && this.setlist.songs[key].id in this.songs) {
 					const song = this.songs[this.setlist.songs[key].id];
 					// handle song content parts
 					var content = [];
