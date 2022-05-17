@@ -338,6 +338,7 @@
     "songAdded": "Song hinzugefügt",
     "songDeleted": "Song gelöscht",
     "songDeletedText": "Der Song wurde erfolgreich entfernt.",
+    "songDeletedFromSetlist": "Der Song wurde von der Setlist entfernt.",
     "songOrderUpdated": "Songreihenfolge aktualisiert",
     "songSavedText": "Der Song wurde erfolgreich gespeichert.",
     "songUpdated": "Song aktualisiert",

@@ -450,8 +450,16 @@ export default {
 			songs[songPosition].tuning = tone;
 			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true });
 		},
-		removeSong () {
-			console.log('removed');
+		removeSong (songId) {
+			let songs = this.setlist.songs.filter(s => s.id != songId);
+			this.$db.collection('setlists').doc(this.$route.params.id).update({songs: songs}).then(() => {
+				// toast success update message
+				this.$notify({
+					title: this.$parent.$t('toast.setlistUpdated'),
+					text: this.$parent.$t('toast.songDeletedFromSetlist'),
+					type: 'primary'
+				});
+			});
 		},
 		updateActive () {
 			// update setlist's active flag to enable sync
