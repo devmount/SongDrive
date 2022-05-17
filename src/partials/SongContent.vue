@@ -26,7 +26,6 @@ export default {
 	},
 	methods: {
 		maximizeFontsize() {
-			console.log('recalculated');
 			// config
 			const WIDTH_MARGIN = 40;
 			const HEIGHT_MARGIN = 40;

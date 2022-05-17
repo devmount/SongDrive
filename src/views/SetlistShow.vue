@@ -172,40 +172,56 @@
 										<td v-if="user && role > 1" class="c-move text-center text-gray">
 											<ion-icon name="reorder-four-outline" class="icon-1-5x pl-2 handle"></ion-icon>
 										</td>
-										<td class="c-hand" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})">
-											{{ songs[song.id].title }} <br class="show-xl hide-sm" />
-											<span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span>
-										</td>
-										<td class="hide-xl text-uppercase">{{ songs[song.id].language }}</td>
-										<td class="tuning">
-											<button
-												v-if="user && role > 1"
-												class="btn btn-secondary btn-sm btn-fw"
-												@click.prevent="tuneDown(songs[song.id], i)"
-											>
-												<ion-icon name="arrow-back" class="icon-sm"></ion-icon>
-											</button>
-											<code>{{ song.tuning ? song.tuning : songs[song.id].tuning }}</code>
-											<button
-												v-if="user && role > 1"
-												class="btn btn-secondary btn-sm btn-fw"
-												@click.prevent="tuneUp(songs[song.id], i)"
-											>
-												<ion-icon name="arrow-forward" class="icon-sm"></ion-icon>
-											</button>
-										</td>
-										<td class="hide-xl">
-											<a :href="'https://songselect.ccli.com/Songs/' + songs[song.id].ccli" target="_blank">
-												{{ songs[song.id].ccli }}
-											</a>
-										</td>
+										<template v-if="songs[song.id]">
+											<td class="c-hand" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})">
+												{{ songs[song.id].title }} <br class="show-xl hide-sm" />
+												<span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span>
+											</td>
+											<td class="hide-xl text-uppercase">{{ songs[song.id].language }}</td>
+											<td class="tuning">
+												<button
+													v-if="user && role > 1"
+													class="btn btn-secondary btn-sm btn-fw"
+													@click.prevent="tuneDown(songs[song.id], i)"
+												>
+													<ion-icon name="arrow-back" class="icon-sm"></ion-icon>
+												</button>
+												<code>{{ song.tuning ? song.tuning : songs[song.id].tuning }}</code>
+												<button
+													v-if="user && role > 1"
+													class="btn btn-secondary btn-sm btn-fw"
+													@click.prevent="tuneUp(songs[song.id], i)"
+												>
+													<ion-icon name="arrow-forward" class="icon-sm"></ion-icon>
+												</button>
+											</td>
+											<td class="hide-xl">
+												<a :href="'https://songselect.ccli.com/Songs/' + songs[song.id].ccli" target="_blank">
+													{{ songs[song.id].ccli }}
+												</a>
+											</td>
+										</template>
+										<template v-else>
+											<td colspan="2"><span class="text-error mr-1">{{ $t('toast.songDeleted') }}</span> <br class="show-xl hide-sm" />
+												<span class="text-gray text-pre text-tiny hide-sm">{{ song.id }}</span>
+											</td>
+											<td class="hide-xl"></td>
+											<td class="hide-xl"></td>
+										</template>
 										<td class="text-right">
 											<button
+												v-if="songs[song.id]"
 												class="btn btn-primary"
 												@click.prevent="$router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})"
 											>
 												<ion-icon name="eye-outline"></ion-icon>
-												<span class="hide-lg ml-2">{{ $t('button.show') }}</span>
+											</button>
+											<button
+												v-else
+												class="btn btn-error"
+												@click.prevent="removeSong(song.id)"
+											>
+												<ion-icon name="trash-outline"></ion-icon>
 											</button>
 										</td>
 									</tr>
@@ -280,7 +296,7 @@
 			<SetlistPresent
 				v-if="modal.present"
 				:active="modal.present"
-				:songs="getSetlistSongs"
+				:songs="setlistSongs"
 				:position="setlist.position"
 				:chords="chords"
 				@chords="chords = !chords"
@@ -339,12 +355,14 @@ export default {
 			}
 			return false;
 		},
-		getSetlistSongs () {
+		setlistSongs () {
 			if (this.ready.songs && this.ready.setlists && this.setlist?.songs?.length > 0) {
 				let songs = [];
 				for (const key in this.setlist.songs) {
-					if (this.setlist.songs.hasOwnProperty(key)) {
-						let song = this.songs[this.setlist.songs[key].id], setlistTuning = this.setlist.songs[key].tuning;
+					if (this.setlist.songs.hasOwnProperty(key) && this.songs.hasOwnProperty(this.setlist.songs[key].id)) {
+						// only if song exists (not deleted), retrieve it from db and handle tuning
+						let song = this.songs[this.setlist.songs[key].id];
+						let setlistTuning = this.setlist.songs[key].tuning;
 						song['customTuningDelta'] = setlistTuning != 0
 							? this.keyScale().indexOf(setlistTuning) - this.keyScale().indexOf(song.tuning)
 							: 0;
@@ -358,8 +376,8 @@ export default {
 		},
 		setlistLanguages () {
 			let languages = {};
-			for (let i = 0; i < this.getSetlistSongs.length; i++) {
-				const song = this.getSetlistSongs[i];
+			for (let i = 0; i < this.setlistSongs.length; i++) {
+				const song = this.setlistSongs[i];
 				if (!languages.hasOwnProperty(song.language)) {
 					languages[song.language] = 0;
 				}
@@ -374,8 +392,8 @@ export default {
 		},
 		setlistKeys () {
 			let keys = {};
-			for (let i = 0; i < this.getSetlistSongs.length; i++) {
-				const song = this.getSetlistSongs[i];
+			for (let i = 0; i < this.setlistSongs.length; i++) {
+				const song = this.setlistSongs[i];
 				if (!keys.hasOwnProperty(song.customTuning)) {
 					keys[song.customTuning] = 0;
 				}
@@ -432,6 +450,17 @@ export default {
 			songs[songPosition].tuning = tone;
 			this.$db.collection('setlists').doc(this.$route.params.id).set({songs: songs}, { merge: true });
 		},
+		removeSong (songId) {
+			let songs = this.setlist.songs.filter(s => s.id != songId);
+			this.$db.collection('setlists').doc(this.$route.params.id).update({songs: songs}).then(() => {
+				// toast success update message
+				this.$notify({
+					title: this.$parent.$t('toast.setlistUpdated'),
+					text: this.$parent.$t('toast.songDeletedFromSetlist'),
+					type: 'primary'
+				});
+			});
+		},
 		updateActive () {
 			// update setlist's active flag to enable sync
 			var sync = !this.setlist.active;
@@ -452,23 +481,25 @@ export default {
 		copyList (format) {
 			// build text list
 			let list = [], label = '';
+			// only export existing songs
+			let songs = this.setlist.songs.filter(s => s.id in this.songs);
 			switch (format) {
 				case 'plain':
-					list = this.setlist.songs.map(
+					list = songs.map(
 						(s, i) => (i+1) + '. ' + this.songs[s.id].title + ' (' + this.songs[s.id].subtitle + ')'
 						+ ' [' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + ']'
 					);
 					label = 'plain text';
 					break;
 				case 'markdown':
-					list = this.setlist.songs.map(
+					list = songs.map(
 						(s, i) => (i+1) + '. **' + this.songs[s.id].title + '** – _' + this.songs[s.id].subtitle + '_'
 						+ ' [**`' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + '`**]'
 					);
 					label = 'markdown';
 					break;
 				case 'slack':
-					list = this.setlist.songs.map(
+					list = songs.map(
 						(s, i) => (i+1) + '. *' + this.songs[s.id].title + '* – _' + this.songs[s.id].subtitle + '_'
 						+ ' `' + (this.songs[s.id].customTuning ? this.songs[s.id].customTuning : this.songs[s.id].tuning) + '`'
 					);
@@ -543,7 +574,7 @@ export default {
 		getPdfSetlist () {
 			let songs = [];
 			for (const key in this.setlist.songs) {
-				if (this.setlist.songs.hasOwnProperty(key)) {
+				if (this.setlist.songs.hasOwnProperty(key) && this.setlist.songs[key].id in this.songs) {
 					const song = this.songs[this.setlist.songs[key].id];
 					songs.push(' ‒ ' + song.title + ' [' + (song.customTuning ? song.customTuning : song.tuning) + ']');
 				}
@@ -563,7 +594,7 @@ export default {
 		getPdfSongsheets () {
 			var sheets = [];
 			for (const key in this.setlist.songs) {
-				if (this.setlist.songs.hasOwnProperty(key)) {
+				if (this.setlist.songs.hasOwnProperty(key) && this.setlist.songs[key].id in this.songs) {
 					const song = this.songs[this.setlist.songs[key].id];
 					// handle song content parts
 					var content = [];

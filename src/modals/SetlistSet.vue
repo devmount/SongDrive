@@ -221,9 +221,11 @@ export default {
 		ready: Object,
 	},
 	data () {
+		let sl = JSON.parse(JSON.stringify(this.initialSetlist));
+		sl.songs = sl.songs.filter(s => s.id in this.songs);
 		return {
-			setlist: JSON.parse(JSON.stringify(this.initialSetlist)),
-			setlistSongs: JSON.parse(JSON.stringify(this.initialSetlist)).songs.map(s => s.id),
+			setlist: sl,
+			setlistSongs: sl.songs.map(s => s.id),
 			search: '',
 			filter: '',
 			tuning: '',
@@ -244,14 +246,14 @@ export default {
 			// song was added
 			if (newList.length > oldList.length) {
 				let songAdded = newList.filter(x => !oldList.includes(x))[0];
-				this.setlist.songs.push({ id: songAdded, tuning: this.songs[songAdded].tuning });
+				this.setlist.songs.push({ id: songAdded, tuning: this.songs[songAdded]?.tuning });
 			}
 			// song was removed
 			else {
 				let songRemoved = oldList.filter(x => !newList.includes(x))[0], newSongs = [];
 				for (var i in this.setlist.songs) {
 					if (this.setlist.songs[i].id != songRemoved) {
-						newSongs.push({ id: this.setlist.songs[i].id, tuning: this.setlist.songs[i].tuning });
+						newSongs.push({ id: this.setlist.songs[i].id, tuning: this.setlist.songs[i]?.tuning });
 					}
 				}
 				this.setlist.songs = newSongs;

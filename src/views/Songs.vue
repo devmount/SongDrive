@@ -227,6 +227,7 @@
 				:active="modal.delete"
 				:title="active.title"
 				:id="active.key"
+				:songs="songs"
 				@closed="modal.delete = false"
 			/>
 		</div>
