@@ -28,12 +28,26 @@ export default {
 	props: {
 		active: Boolean,
 		title: String,
-		id: String
+		id: String,
+		songs: Object
 	},
 	methods: {
 		deleteSong () {
 			this.$db.collection('songs').doc(this.id).delete().then(() => {
 				this.$emit('closed');
+				// check existing song translations for this song id and delete corresponding references
+				for (const songId in this.songs) {
+					const song = this.songs[songId];
+					let existingSongKey = null;
+					song.translations.forEach((translation, key) => {
+						if (translation == this.id) existingSongKey = key;
+					});
+					if (existingSongKey !== null) {
+						let updatedTranslationsList = song.translations.filter(t => t != this.id);
+						this.$db.collection('songs').doc(songId).update({ translations: updatedTranslationsList });
+					}
+				}
+				// go back to songs list if not already there
 				if (this.$route.name != 'songs') {
 					this.$router.push({ name: 'songs' });
 				}

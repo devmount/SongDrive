@@ -256,6 +256,7 @@
 				:active="modal.delete"
 				:title="song ? song.title : ''"
 				:id="songId"
+				:songs="songs"
 				@closed="modal.delete = false"
 			/>
 			<SongPresent
@@ -516,7 +517,7 @@ export default {
 					return a[1] > b[1] ? 1 : -1;
 				})
 			} else {
-				return [[this.songId, this.song.language]];
+				return [[this.songId, this.song?.language]];
 			}
 		},
 		// show current key as well as previous and next key for transposing keys
