@@ -28,7 +28,8 @@ export default {
 	props: {
 		active: Boolean,
 		languageName: String,
-		languageKey: String
+		languageKey: String,
+		songs: Object
 	},
 	methods: {
 		deleteLanguage () {
@@ -41,6 +42,16 @@ export default {
 					type: 'primary'
 				});
 			}).catch((error) => this.throwError(error));
+		}
+	},
+	computed: {
+		languageInUse () {
+			for (const id in this.songs) {
+				if (Object.hasOwnProperty.call(this.songs, id)) {
+					const element = this.songs[id];
+					
+				}
+			}
 		}
 	}
 }
