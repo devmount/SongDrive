@@ -328,6 +328,26 @@ Vue.mixin({
 			 pass += String.fromCharCode(rdm62 + (rdm62 < 10 ? 48 : rdm62 < 36 ? 55 : 61)) 
 			}
 			return pass;
+		},
+		// make a given string url friendly
+		urlify: (s) => {
+			return s.trim().toLowerCase()
+				.replace(/\s/g, '-')
+				.replace(/\//g, '-')
+				.replace(/\_/g, '-')
+				.replace(/'/g, '')
+				.replace(/"/g, '')
+				.replace(/,/g, '')
+				.replace(/;/g, '')
+				.replace(/\./g, '')
+				.replace(/:/g, '')
+				.replace(/#/g, '')
+				.replace(/ä/g, 'ae')
+				.replace(/ö/g, 'oe')
+				.replace(/ü/g, 'ue')
+				.replace(/ß/g, 'ss')
+				.replace(/²/g, '2')
+				.replace(/³/g, '3');
 		}
   }
 })

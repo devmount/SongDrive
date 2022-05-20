@@ -518,25 +518,8 @@ export default {
 		},
 		// create a human readable record key of format YYYYMMDD-the-setlist-title
 		createSlug () {
-			return this.slug(this.song.title) + '-' + this.song.language;
+			return this.urlify(this.song.title) + '-' + this.song.language;
 		},
-		slug (s) {
-			return s
-				.trim()
-				.toLowerCase()
-				.replace(/\s/g, '-')
-				.replace(/\//g, '-')
-				.replace(/'/g, '')
-				.replace(/"/g, '')
-				.replace(/,/g, '')
-				.replace(/;/g, '')
-				.replace(/\./g, '')
-				.replace(/:/g, '')
-				.replace(/ä/g, 'ae')
-				.replace(/ö/g, 'oe')
-				.replace(/ü/g, 'ue')
-				.replace(/ß/g, 'ss');
-		}
 	},
 	computed: {
 		// filter song list by search query
