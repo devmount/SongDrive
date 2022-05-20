@@ -481,6 +481,7 @@
 				:active="modal.languagedelete"
 				:languageName="active.language.label"
 				:languageKey="active.key"
+				:songs="songs"
 				@closed="modal.languagedelete = false"
 			/>
 			<!-- modal: set tag -->
