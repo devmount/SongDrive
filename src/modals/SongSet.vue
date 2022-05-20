@@ -443,6 +443,7 @@ export default {
 				// new song should be created
 				if (!this.existing) {
 					this.$db.collection('songs').doc(slug).set(processedSong).then(() => {
+						// TODO: add translation references
 						this.$emit('closed');
 						this.$emit('reset');
 						processedSong = {};
@@ -459,8 +460,9 @@ export default {
 				else {
 					// check if key remained (no title or language changes)
 					if (this.id == slug) {
-						// just update the existing setlist
+						// just update the existing song
 						this.$db.collection('songs').doc(this.id).update(processedSong).then(() => {
+							// TODO: update translation references
 							this.$emit('closed');
 							this.$emit('reset');
 							processedSong = {};
@@ -504,6 +506,7 @@ export default {
 									this.$db.collection('songs').doc(songId).update({ translations: updatedTranslationsList });
 								}
 							}
+							// TODO: update translation references
 							this.$router.push({ name: 'song-show', params: { id: slug }});
 							// toast success update message
 							this.$notify({
@@ -548,9 +551,11 @@ export default {
 			if (this.search.translations != '') {
 				for (const key in this.songs) {
 					if (this.songs.hasOwnProperty(key)) {
+						// exclude self assignment
+						if (this.existing && this.id == key) continue;
+						// search in title and subtitle
 						const song = this.songs[key];
 						let search = this.search.translations.toLowerCase();
-						// search in title and subtitle
 						if (
 							song.title.toLowerCase().indexOf(search) !== -1 ||
 							song.subtitle.toLowerCase().indexOf(search) !== -1 ||
@@ -562,7 +567,9 @@ export default {
 				}
 				return songs;
 			} else {
-				return this.songs;
+				let songs = JSON.parse(JSON.stringify(this.songs));
+				if (this.existing) delete songs[this.id];
+				return songs;
 			}
 		},
 		// calculate wether form errors occured
