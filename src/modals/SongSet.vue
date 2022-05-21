@@ -443,7 +443,17 @@ export default {
 				// new song should be created
 				if (!this.existing) {
 					this.$db.collection('songs').doc(slug).set(processedSong).then(() => {
-						// TODO: add translation references
+						// persist translation references
+						if (processedSong.translations.length > 0) {
+							processedSong.translations.forEach(t => {
+								if (t in this.songs) {
+									let tsong = this.songs[t];
+									if (!tsong.translations.includes(slug)) {
+										this.$db.collection('songs').doc(t).update({ translations: tsong.translations.concat([slug]) });
+									}
+								}
+							});
+						}
 						this.$emit('closed');
 						this.$emit('reset');
 						processedSong = {};
@@ -461,8 +471,18 @@ export default {
 					// check if key remained (no title or language changes)
 					if (this.id == slug) {
 						// just update the existing song
-						this.$db.collection('songs').doc(this.id).update(processedSong).then(() => {
-							// TODO: update translation references
+						this.$db.collection('songs').doc(slug).update(processedSong).then(() => {
+							// persist translation references
+							if (processedSong.translations.length > 0) {
+								processedSong.translations.forEach(t => {
+									if (t in this.songs) {
+										let tsong = this.songs[t];
+										if (!tsong.translations.includes(slug)) {
+											this.$db.collection('songs').doc(t).update({ translations: tsong.translations.concat([slug]) });
+										}
+									}
+								});
+							}
 							this.$emit('closed');
 							this.$emit('reset');
 							processedSong = {};
@@ -477,9 +497,6 @@ export default {
 						// update key by adding a new song, removing the old one and update references in other fields
 						this.$db.collection('songs').doc(slug).set(processedSong).then(() => {
 							this.$db.collection('songs').doc(this.id).delete();
-							this.$emit('closed');
-							this.$emit('reset');
-							processedSong = {};
 							// check existing setlists for this song id and update to new slug
 							for (const setlistId in this.setlists) {
 								const setlist = this.setlists[setlistId];
@@ -506,7 +523,20 @@ export default {
 									this.$db.collection('songs').doc(songId).update({ translations: updatedTranslationsList });
 								}
 							}
-							// TODO: update translation references
+							// persist translation references
+							if (processedSong.translations.length > 0) {
+								processedSong.translations.forEach(t => {
+									if (t in this.songs) {
+										let tsong = this.songs[t];
+										if (!tsong.translations.includes(slug)) {
+											this.$db.collection('songs').doc(t).update({ translations: tsong.translations.concat([slug]) });
+										}
+									}
+								});
+							}
+							this.$emit('closed');
+							this.$emit('reset');
+							processedSong = {};
 							this.$router.push({ name: 'song-show', params: { id: slug }});
 							// toast success update message
 							this.$notify({
