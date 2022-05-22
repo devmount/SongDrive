@@ -10,13 +10,19 @@
 				<div class="content">
 					<p>{{ $t('text.reallyDeleteUser', { name: userName }) }}</p>
 					<p>{{ $t('text.cannotBeUndone') }}</p>
+					<p>{{ $t('text.selectUserForTransfer', { name: userName }) }}</p>
+					<select v-model="transferUser" class="form-select">
+						<option v-for="(user, key) in assignableUsers" :value="key">
+							{{ user.name }}
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="$emit('closed')">
 					{{ $t('button.cancel') }}
 				</a>
-				<button class="btn btn-error ml-2" @click="deleteUser">{{ $t('button.delete') }}</button>
+				<button class="btn btn-error ml-2" :class="{ disabled: !transferUser }" @click="deleteUser">{{ $t('button.delete') }}</button>
 			</div>
 		</div>
 	</div>
@@ -29,7 +35,13 @@ export default {
 		active: Boolean,
 		userName: String,
 		userKey: String,
-		approved: Boolean
+		approved: Boolean,
+		users: Object
+	},
+	data () {
+		return {
+			transferUser: null
+		}
 	},
 	methods: {
 		deleteUser () {
@@ -46,6 +58,13 @@ export default {
 					type: 'primary'
 				});
 			}).catch((error) => this.throwError(error));
+		}
+	},
+	computed: {
+		assignableUsers () {
+			let users = JSON.parse(JSON.stringify(this.users));
+			delete users[this.userKey];
+			return users;
 		}
 	}
 }

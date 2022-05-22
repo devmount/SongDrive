@@ -279,6 +279,7 @@
     "selected": "ausgewählt",
     "selection": "Auswahl",
     "selectJsonFile": "Wähle eine Datei im JSON Format welche die SongDrive Datensammlung enthält",
+    "selectUserForTransfer": "Bitte wähle einen Benutzer, der die erstellten Inhalte von {name} übernehmen soll.",
     "sendPasswordResetEmail": "Gib die verifizierte E-Mail-Adresse deines Benutzerkontos ein und erhalte einen Link zum Zurücksetzen des Passworts.",
     "signInForAccess": "Bitte melde dich mit deinem Benutzerkonto an, um auf diese Seite zuzugreifen.",
     "signInToSongDrive": "Melde Dich bei SongDrive an",
