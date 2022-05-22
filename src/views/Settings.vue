@@ -225,6 +225,7 @@
 										<ion-icon name="create-outline"></ion-icon>
 									</button>
 									<button
+										v-if="numberOfUsers > 1"
 										class="btn btn-link btn-action tooltip text-error"
 										:data-tooltip="$t('modal.deleteUser')"
 										@click.prevent="active.user=u; active.key=k; active.approved=true; modal.userdelete=true"
@@ -464,6 +465,8 @@
 				:userName="active.user.name"
 				:userKey="active.key"
 				:approved="active.approved"
+				:users="users"
+				:setlists="setlists"
 				@closed="modal.userdelete = false"
 			/>
 			<!-- modal: set language -->
@@ -678,6 +681,9 @@ export default {
 		},
 		numberOfLanguages () {
 			return Object.keys(this.languages).length;
+		},
+		numberOfUsers () {
+			return Object.keys(this.users).length;
 		},
 	},
 	watch: {
