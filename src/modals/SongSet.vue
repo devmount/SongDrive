@@ -468,11 +468,18 @@ export default {
 				}
 				// existing song should be updated
 				else {
+					let initialSong = this.initialSong; // remember initial song data before update
 					// check if key remained (no title or language changes)
 					if (this.id == slug) {
 						// just update the existing song
 						this.$db.collection('songs').doc(slug).update(processedSong).then(() => {
-							// persist translation references
+							// persist translation references by removing and adding them
+							let translationDiff = initialSong.translations.filter(t => !processedSong.translations.includes(t));
+							if (translationDiff.length > 0) {
+								translationDiff.forEach(s => {
+									this.$db.collection('songs').doc(s).update({ translations: this.songs[s].translations.filter(t => t != slug) });
+								});
+							}
 							if (processedSong.translations.length > 0) {
 								processedSong.translations.forEach(t => {
 									if (t in this.songs) {
@@ -523,7 +530,13 @@ export default {
 									this.$db.collection('songs').doc(songId).update({ translations: updatedTranslationsList });
 								}
 							}
-							// persist translation references
+							// persist translation references by removing and adding them
+							let translationDiff = initialSong.translations.filter(t => !processedSong.translations.includes(t));
+							if (translationDiff.length > 0) {
+								translationDiff.forEach(s => {
+									this.$db.collection('songs').doc(s).update({ translations: this.songs[s].translations.filter(t => t != slug) });
+								});
+							}
 							if (processedSong.translations.length > 0) {
 								processedSong.translations.forEach(t => {
 									if (t in this.songs) {
