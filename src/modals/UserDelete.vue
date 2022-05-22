@@ -36,7 +36,8 @@ export default {
 		userName: String,
 		userKey: String,
 		approved: Boolean,
-		users: Object
+		users: Object,
+		setlists: Object,
 	},
 	data () {
 		return {
@@ -49,6 +50,15 @@ export default {
 			this.$db.collection(this.approved ? 'users' : 'registrations').doc(this.userKey).delete().then(() => {
 				if (this.approved) {
 					this.$db.collection('permissions').doc(this.userKey).delete();
+				}
+				// transfer content to selected user
+				for (const setlistKey in this.setlists) {
+					if (Object.hasOwnProperty.call(this.setlists, setlistKey)) {
+						const setlist = this.setlists[setlistKey];
+						if (setlist.creator == this.userKey) {
+							this.$db.collection('setlists').doc(setlistKey).update({ creator: this.transferUser });
+						}
+					}
 				}
 				this.$emit('closed');
 				// toast success message

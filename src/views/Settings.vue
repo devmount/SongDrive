@@ -465,6 +465,7 @@
 				:userKey="active.key"
 				:approved="active.approved"
 				:users="users"
+				:setlists="setlists"
 				@closed="modal.userdelete = false"
 			/>
 			<!-- modal: set language -->
