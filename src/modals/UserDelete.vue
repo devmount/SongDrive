@@ -46,36 +46,41 @@ export default {
 	},
 	methods: {
 		deleteUser () {
-			// delete approved user (living in users table) or unapproved user (living in registrations table)
-			this.$db.collection(this.approved ? 'users' : 'registrations').doc(this.userKey).delete().then(() => {
-				if (this.approved) {
-					this.$db.collection('permissions').doc(this.userKey).delete();
-				}
-				// transfer content to selected user
-				for (const setlistKey in this.setlists) {
-					if (Object.hasOwnProperty.call(this.setlists, setlistKey)) {
-						const setlist = this.setlists[setlistKey];
-						if (setlist.creator == this.userKey) {
-							this.$db.collection('setlists').doc(setlistKey).update({ creator: this.transferUser });
+			if (this.numberOfUsers > 1) {
+				// delete approved user (living in users table) or unapproved user (living in registrations table)
+				this.$db.collection(this.approved ? 'users' : 'registrations').doc(this.userKey).delete().then(() => {
+					if (this.approved) {
+						this.$db.collection('permissions').doc(this.userKey).delete();
+					}
+					// transfer content to selected user
+					for (const setlistKey in this.setlists) {
+						if (Object.hasOwnProperty.call(this.setlists, setlistKey)) {
+							const setlist = this.setlists[setlistKey];
+							if (setlist.creator == this.userKey) {
+								this.$db.collection('setlists').doc(setlistKey).update({ creator: this.transferUser });
+							}
 						}
 					}
-				}
-				this.$emit('closed');
-				// toast success message
-				this.$notify({
-					title: this.$parent.$t('toast.userDeleted'),
-					text: this.$parent.$t('toast.userDeletedText'),
-					type: 'primary'
-				});
-			}).catch((error) => this.throwError(error));
-		}
+					this.$emit('closed');
+					// toast success message
+					this.$notify({
+						title: this.$parent.$t('toast.userDeleted'),
+						text: this.$parent.$t('toast.userDeletedText'),
+						type: 'primary'
+					});
+				}).catch((error) => this.throwError(error));
+			}
+			}
 	},
 	computed: {
 		assignableUsers () {
 			let users = JSON.parse(JSON.stringify(this.users));
 			delete users[this.userKey];
 			return users;
-		}
+		},
+		numberOfUsers () {
+			return Object.keys(this.users).length;
+		},
 	}
 }
 </script>
