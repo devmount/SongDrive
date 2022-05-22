@@ -33,9 +33,9 @@ This is how the SongDrive Dashboard currently looks like.
 - UI supports multiple languages (currently: EN, DE)
 - Export and Import of complete SongDrive data
 
-## Installation
+## Installation for developers
 
-1. Get all files
+1. Get all files from repository
 
     ```bash
     git clone https://github.com/devmount/SongDrive

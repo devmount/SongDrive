@@ -443,6 +443,17 @@ export default {
 				// new song should be created
 				if (!this.existing) {
 					this.$db.collection('songs').doc(slug).set(processedSong).then(() => {
+						// persist translation references
+						if (processedSong.translations.length > 0) {
+							processedSong.translations.forEach(t => {
+								if (t in this.songs) {
+									let tsong = this.songs[t];
+									if (!tsong.translations.includes(slug)) {
+										this.$db.collection('songs').doc(t).update({ translations: tsong.translations.concat([slug]) });
+									}
+								}
+							});
+						}
 						this.$emit('closed');
 						this.$emit('reset');
 						processedSong = {};
@@ -457,10 +468,28 @@ export default {
 				}
 				// existing song should be updated
 				else {
+					let initialSong = this.initialSong; // remember initial song data before update
 					// check if key remained (no title or language changes)
 					if (this.id == slug) {
-						// just update the existing setlist
-						this.$db.collection('songs').doc(this.id).update(processedSong).then(() => {
+						// just update the existing song
+						this.$db.collection('songs').doc(slug).update(processedSong).then(() => {
+							// persist translation references by removing and adding them
+							let translationDiff = initialSong.translations.filter(t => !processedSong.translations.includes(t));
+							if (translationDiff.length > 0) {
+								translationDiff.forEach(s => {
+									this.$db.collection('songs').doc(s).update({ translations: this.songs[s].translations.filter(t => t != slug) });
+								});
+							}
+							if (processedSong.translations.length > 0) {
+								processedSong.translations.forEach(t => {
+									if (t in this.songs) {
+										let tsong = this.songs[t];
+										if (!tsong.translations.includes(slug)) {
+											this.$db.collection('songs').doc(t).update({ translations: tsong.translations.concat([slug]) });
+										}
+									}
+								});
+							}
 							this.$emit('closed');
 							this.$emit('reset');
 							processedSong = {};
@@ -475,9 +504,6 @@ export default {
 						// update key by adding a new song, removing the old one and update references in other fields
 						this.$db.collection('songs').doc(slug).set(processedSong).then(() => {
 							this.$db.collection('songs').doc(this.id).delete();
-							this.$emit('closed');
-							this.$emit('reset');
-							processedSong = {};
 							// check existing setlists for this song id and update to new slug
 							for (const setlistId in this.setlists) {
 								const setlist = this.setlists[setlistId];
@@ -504,6 +530,26 @@ export default {
 									this.$db.collection('songs').doc(songId).update({ translations: updatedTranslationsList });
 								}
 							}
+							// persist translation references by removing and adding them
+							let translationDiff = initialSong.translations.filter(t => !processedSong.translations.includes(t));
+							if (translationDiff.length > 0) {
+								translationDiff.forEach(s => {
+									this.$db.collection('songs').doc(s).update({ translations: this.songs[s].translations.filter(t => t != slug) });
+								});
+							}
+							if (processedSong.translations.length > 0) {
+								processedSong.translations.forEach(t => {
+									if (t in this.songs) {
+										let tsong = this.songs[t];
+										if (!tsong.translations.includes(slug)) {
+											this.$db.collection('songs').doc(t).update({ translations: tsong.translations.concat([slug]) });
+										}
+									}
+								});
+							}
+							this.$emit('closed');
+							this.$emit('reset');
+							processedSong = {};
 							this.$router.push({ name: 'song-show', params: { id: slug }});
 							// toast success update message
 							this.$notify({
@@ -518,25 +564,8 @@ export default {
 		},
 		// create a human readable record key of format YYYYMMDD-the-setlist-title
 		createSlug () {
-			return this.slug(this.song.title) + '-' + this.song.language;
+			return this.urlify(this.song.title) + '-' + this.song.language;
 		},
-		slug (s) {
-			return s
-				.trim()
-				.toLowerCase()
-				.replace(/\s/g, '-')
-				.replace(/\//g, '-')
-				.replace(/'/g, '')
-				.replace(/"/g, '')
-				.replace(/,/g, '')
-				.replace(/;/g, '')
-				.replace(/\./g, '')
-				.replace(/:/g, '')
-				.replace(/ä/g, 'ae')
-				.replace(/ö/g, 'oe')
-				.replace(/ü/g, 'ue')
-				.replace(/ß/g, 'ss');
-		}
 	},
 	computed: {
 		// filter song list by search query
@@ -565,9 +594,11 @@ export default {
 			if (this.search.translations != '') {
 				for (const key in this.songs) {
 					if (this.songs.hasOwnProperty(key)) {
+						// exclude self assignment
+						if (this.existing && this.id == key) continue;
+						// search in title and subtitle
 						const song = this.songs[key];
 						let search = this.search.translations.toLowerCase();
-						// search in title and subtitle
 						if (
 							song.title.toLowerCase().indexOf(search) !== -1 ||
 							song.subtitle.toLowerCase().indexOf(search) !== -1 ||
@@ -579,7 +610,9 @@ export default {
 				}
 				return songs;
 			} else {
-				return this.songs;
+				let songs = JSON.parse(JSON.stringify(this.songs));
+				if (this.existing) delete songs[this.id];
+				return songs;
 			}
 		},
 		// calculate wether form errors occured

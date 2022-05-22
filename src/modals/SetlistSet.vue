@@ -372,24 +372,7 @@ export default {
 		},
 		// create a human readable record key of format YYYYMMDD-the-setlist-title
 		createSlug () {
-			return this.setlist.date.replace(/-/g, '') + '-' + this.slug(this.setlist.title);
-		},
-		slug (s) {
-			return s
-				.trim()
-				.toLowerCase()
-				.replace(/\s/g, '-')
-				.replace(/\//g, '-')
-				.replace(/'/g, '')
-				.replace(/"/g, '')
-				.replace(/,/g, '')
-				.replace(/;/g, '')
-				.replace(/\./g, '')
-				.replace(/:/g, '')
-				.replace(/ä/g, 'ae')
-				.replace(/ö/g, 'oe')
-				.replace(/ü/g, 'ue')
-				.replace(/ß/g, 'ss');
+			return this.setlist.date.replace(/-/g, '') + '-' + this.urlify(this.setlist.title);
 		},
 		cancel () {
 			this.$emit('closed');
