@@ -133,7 +133,8 @@
     "tuning": "Key",
     "year": "Year",
     "youtube": "YouTube",
-    "youtubeId": "YouTube ID"
+    "youtubeId": "YouTube ID",
+    "visibility": "Visibility"
   },
   "key": {
     "B": "B",
@@ -174,6 +175,10 @@
   },
   "object": {
     "song": "No Songs | One Song | {n} Songs"
+  },
+  "option": {
+    "public": "Pubilc",
+    "private": "Private"
   },
   "page": {
     "administration": "Administration",

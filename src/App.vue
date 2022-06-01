@@ -324,6 +324,7 @@ export default {
 			},
 			newSetlist: {
 				title: '',
+				private: false,
 				date: '',
 				songs: [],
 			},

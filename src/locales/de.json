@@ -133,7 +133,8 @@
     "tuning": "Tonart",
     "year": "Jahr",
     "youtube": "YouTube",
-    "youtubeId": "YouTube ID"
+    "youtubeId": "YouTube ID",
+    "visibility": "Sichtbarkeit"
   },
   "key": {
     "B": "B",
@@ -174,6 +175,10 @@
   },
   "object": {
     "song": "Keine Lieder | Ein Lied | {n} Lieder"
+  },
+  "option": {
+    "public": "Öffentlich",
+    "private": "Privat"
   },
   "page": {
     "administration": "Administration",
