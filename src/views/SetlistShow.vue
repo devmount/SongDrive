@@ -143,14 +143,24 @@
 				<div class="container">
 					<div class="columns">
 						<div v-if="ready.setlists && setlist" class="column col-12">
-							<h2>{{ setlist.title }}</h2>
-							<h3>
-								<ion-icon name="list" class="icon-sm"></ion-icon>
-								{{ $tc('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
-								<ion-icon name="calendar-outline" class="icon-sm ml-3"></ion-icon>
-								{{ humanDate(setlist.date, $i18n.locale) }}
-								<span v-if="ready.users && users[setlist.creator]">
-									<ion-icon name="person-outline" class="icon-sm ml-3"></ion-icon>
+							<h2>
+								{{ setlist.title }}
+							</h2>
+							<h3 class="flex flex-wrap gx-5 gy-2">
+								<span v-if="setlist.private" class="text-primary flex align-center gap-2">
+									<ion-icon name="lock-closed-outline" class="icon-sm"></ion-icon>
+									{{ $t('option.private') }}
+								</span>
+								<span class="flex align-center gap-2">
+									<ion-icon name="list" class="icon-sm"></ion-icon>
+									{{ $tc('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
+								</span>
+								<span class="flex align-center gap-2">
+									<ion-icon name="calendar-outline" class="icon-sm"></ion-icon>
+									{{ humanDate(setlist.date, $i18n.locale) }}
+								</span>
+								<span v-if="ready.users && users[setlist.creator]" class="flex align-center gap-2">
+									<ion-icon name="person-outline" class="icon-sm"></ion-icon>
 									{{ users[setlist.creator].name }}
 								</span>
 							</h3>

@@ -163,9 +163,10 @@ ion-icon {
 .ls-1  { letter-spacing: 1px; }
 .ls-2  { letter-spacing: 2px; }
  
-.gap-4 {
-	gap: .8rem;
-}
+.gx-5  { column-gap: 1rem; }
+.gy-2  { row-gap: .4rem; }
+.gap-2 { gap: .4rem; }
+.gap-4 { gap: .8rem; }
 
 .pos-relative {
 	position: relative;
@@ -367,6 +368,9 @@ code {
 }
 
 // display
+.flex {
+	display: flex;
+}
 .d-flex > * {
 	flex: auto;
 	flex-basis: 0;
@@ -408,6 +412,9 @@ code {
 }
 .flex-grow {
 	flex-grow: 10;
+}
+.flex-wrap {
+	flex-wrap: wrap;
 }
 
 // loading

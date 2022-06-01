@@ -131,14 +131,25 @@
 				</thead>
 				<tbody>
 					<tr v-for="(setlist, i) in pagedSetlists" :key="i">
-						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
-							<div class="s-circle s-circle-state ml-3" :class="{ active: setlist.active }"></div>
+						<td>
+							<div
+								class="s-circle s-circle-state ml-2 tooltip-right"
+								:data-tooltip="$t('tooltip.syncActive')"
+								:class="{ active: setlist.active, tooltip: setlist.active }"
+							></div>
 						</td>
 						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ humanDate(setlist.date, $i18n.locale) }}
 						</td>
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ setlist.title }}
+							<div
+								v-if="setlist.private"
+								class="text-primary d-inline-block ml-2 tooltip tooltip-bottom"
+								:data-tooltip="$t('tooltip.setlistPrivate')"
+							>
+								<ion-icon name="lock-closed-outline"></ion-icon>
+							</div>
 						</td>
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ users[setlist.creator] ? users[setlist.creator].name : '' }}
