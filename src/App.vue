@@ -47,7 +47,7 @@
 								<ion-icon name="list" class="mr-2"></ion-icon> {{ $t('page.setlists') }}
 							</router-link>
 							<div class="menu-badge">
-								<label v-if="ready.setlists" class="label py-1">{{ Object.keys(setlists).length }}</label>
+								<label v-if="ready.setlists" class="label py-1">{{ setlistCount }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
 									v-if="userRoles()[permissions[auth.user].role] > 1"
@@ -525,6 +525,10 @@ export default {
 		// check if at least one registration exists
 		registrationsExist () {
 			return Object.keys(this.registrations).length > 0;
+		},
+		// number of setlists visible for user
+		setlistCount () {
+			return Object.values(this.setlists).filter(s => !s.private || s.private && s.creator==this.auth.user).length;
 		}
 	},
 }

@@ -299,18 +299,18 @@ export default {
 			return setlists;
 		},
 		filteredSetlists() {
-			var setlists = this.setlistsArray;
+			var setlists = this.setlistsArray.filter(s => !s.private || s.private && s.creator==this.user);
 			if (this.search != '') {
-				setlists = setlists.filter(setlist => {
+				setlists = setlists.filter(s => {
 					// filter fields: title, date
 					var key = this.search.toLowerCase();
-					return setlist.title.toLowerCase().indexOf(key) !== -1 || setlist.date.toLowerCase().indexOf(key) !== -1;
+					return s.title.toLowerCase().indexOf(key) !== -1 || s.date.toLowerCase().indexOf(key) !== -1;
 				})
 			}
 			if (this.filter != '') {
-				setlists = setlists.filter(setlist => {
+				setlists = setlists.filter(s => {
 					// filter field: date(Y)
-					return setlist.date.substring(0,4).indexOf(this.filter) !== -1;
+					return s.date.substring(0,4).indexOf(this.filter) !== -1;
 				})
 			}
 			return setlists;

@@ -32,7 +32,7 @@
 				<div class="column col-3 col-xl-6 mt-4">
 					<div class="panel">
 						<div class="panel-body text-center pb-3 featured">
-							<div class="featured-number">{{ Object.keys(setlists).length }}</div>
+							<div class="featured-number">{{ setlistCount }}</div>
 							<div class="panel-title h5 featured-description">
 								<ion-icon name="list" class="mr-2"></ion-icon>
 								{{ $t('widget.setlistsStored') }}
@@ -186,7 +186,12 @@
 									></figure>
 								</div>
 								<div class="tile-content">
-									<div class="tile-title">{{ setlist.title }}</div>
+									<div class="tile-title">
+										{{ setlist.title }}
+										<span v-if="setlist.private" class="text-primary">
+											<ion-icon name="lock-closed-outline" class="icon-sm"></ion-icon>
+										</span>
+									</div>
 									<div class="tile-subtitle text-gray text-small">{{ setlist.date }}</div>
 								</div>
 							</div>
@@ -312,7 +317,7 @@ import BarChart from '@/charts/BarChart';
 
 export default {
 	name: 'dashboard',
-	props: ['songs', 'setlists', 'ready'],
+	props: ['songs', 'setlists', 'ready', 'user'],
 	components: {
 		LineChart,
 		BarChart,
@@ -430,7 +435,10 @@ export default {
 				let setlist = this.setlists[key];
 				setlist['id'] = key;
 				return setlist;
-			});
+			}).filter(s => !s.private || s.private && s.creator==this.user);
+		},
+		setlistCount () {
+			return this.setlistsArray.length;
 		},
 		noSetlists () {
 			return this.ready.setlists && this.setlistsArray.length == 0;
