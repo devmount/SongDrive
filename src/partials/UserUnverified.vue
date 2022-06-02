@@ -15,7 +15,7 @@
 			<p v-else>
 				{{ $t('toast.verficationSentText') }}
 			</p>
-			<div class="d-flex gap-4 mt-4">
+			<div class="d-flex g-4 mt-4">
 				<button class="btn btn-secondary d-block" @click="$router.go()">
 					{{ $t('button.recheck') }} <ion-icon name="refresh-outline" class="icon-right"></ion-icon>
 				</button>

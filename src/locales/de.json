@@ -133,7 +133,8 @@
     "tuning": "Tonart",
     "year": "Jahr",
     "youtube": "YouTube",
-    "youtubeId": "YouTube ID"
+    "youtubeId": "YouTube ID",
+    "visibility": "Sichtbarkeit"
   },
   "key": {
     "B": "B",
@@ -174,6 +175,10 @@
   },
   "object": {
     "song": "Keine Lieder | Ein Lied | {n} Lieder"
+  },
+  "option": {
+    "public": "Öffentlich",
+    "private": "Privat"
   },
   "page": {
     "administration": "Administration",
@@ -265,6 +270,7 @@
     "notVerifiedYet": "Du hast deine E-Mail-Adresse noch nicht bestätigt. Bitte klicke den Link in der E-Mail, die du bei der Registrierung bekommen hast, um deine E-Mail-Adresse zu bestätigen und Zugang zu SongDrive zu erhalten.",
     "noUnconfirmedUsers": "Keine unbestätigten Benutzer",
     "pageNotAvailable": "Seite nicht verfügbar",
+    "privateSetlist": "Private Setlist",
     "reallyDeleteAccount": "Bist du sicher, dass du dein Benutzerkonto löschen möchtest? Deine persönlichen Daten werden komplett entfernt. Von dir erstellte Lieder und Setlisten bleiben bestehen.",
     "reallyDeleteLanguage": "Möchtest du die Sprache «{name}» wirklich löschen?",
     "reallyDeleteSetlist": "Möchtest du die Setlist «{title}» wirklich löschen?",
@@ -281,12 +287,15 @@
     "selectJsonFile": "Wähle eine Datei im JSON Format welche die SongDrive Datensammlung enthält",
     "selectUserForTransfer": "Bitte wähle einen Benutzer, der die erstellten Inhalte von {name} übernehmen soll.",
     "sendPasswordResetEmail": "Gib die verifizierte E-Mail-Adresse deines Benutzerkontos ein und erhalte einen Link zum Zurücksetzen des Passworts.",
+    "setlistVisibleForCreator": "Diese Setlist ist nur für ihre Erstellerin / ihren Ersteller sichtbar.",
     "signInForAccess": "Bitte melde dich mit deinem Benutzerkonto an, um auf diese Seite zuzugreifen.",
     "signInToSongDrive": "Melde Dich bei SongDrive an",
     "unconfirmedMistake": "Wenn du denkst, dass hier ein Fehler vorliegt, <a href='mailto:{0}'>kontaktiere uns</a> bitte.",
     "unverified": "nicht bestätigt",
     "unverifiedHelp": "Wenn Du Hilfe brauchst, Zugang zu SongDrive zu erhalten, bitte <a href='mailto:{0}'>kontaktiere uns</a>.",
     "verified": "bestätigt",
+    "visibleForAll": "Für alle Benutzer sichtbar",
+    "visibleForYou": "Nur für Dich sichtbar",
     "waitingForApproval": "Warten auf Freischaltung",
     "waitingForVerification": "Warten auf Bestätigung",
     "yesIUnderstand": "Ja, ich habe verstanden."
@@ -378,7 +387,9 @@
     "search": "Suche aktivieren",
     "sendConfirmationMail": "Bestätigungs-E-Mail senden",
     "setlistAdd": "Neue Setlist hinzufügen",
+    "setlistPrivate": "Diese Setlist ist nur für dich sichtbar",
     "songAdd": "Neuen Song hinzufügen",
+    "syncActive": "Synchronisierung ist aktiviert",
     "syncOff": "Synchronisierung aus",
     "syncOn": "Synchronisierung an",
     "transposeDown": "Einen Halbton runter transponieren",

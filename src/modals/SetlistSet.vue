@@ -18,27 +18,45 @@
 					<div class="columns">
 						<div class="column col-4 col-md-12">
 							<div class="columns">
-								<!-- title -->
+								<!-- title and visibility -->
 								<div class="column col-12 col-md-6">
-									<div class="form-group mb-2" :class="{ 'has-error': error.title || error.slug }">
-										<label class="form-label" for="title">
-											{{ $t('field.title') }} <span class="text-error">*</span>
-										</label>
-										<input
-											v-model="setlist.title"
-											class="form-input" id="title"
-											type="text"
-											:placeholder="$t('placeholder.exampleSetlistTitle')"
-										>
-										<p v-if="error.title" class="form-input-hint">{{ $t('error.requiredTitle') }}</p>
-										<p v-if="error.slug" class="form-input-hint">{{ $t('error.setlistAlreadyExists') }}</p>
+									<div class="columns">
+										<div class="column col-8 col-xl-12">
+											<div class="form-group mb-2" :class="{ 'has-error': error.title || error.slug }">
+												<label class="form-label" for="title">
+													{{ $t('field.title') }} <span class="text-error">*</span>
+												</label>
+												<input
+													v-model="setlist.title"
+													id="title"
+													class="form-input"
+													type="text"
+													:placeholder="$t('placeholder.exampleSetlistTitle')"
+												>
+												<p v-if="error.title" class="form-input-hint">{{ $t('error.requiredTitle') }}</p>
+												<p v-if="error.slug" class="form-input-hint">{{ $t('error.setlistAlreadyExists') }}</p>
+											</div>
+										</div>
+										<div class="column col-4 col-xl-12">
+											<div class="form-group mb-2">
+												<label class="form-label" for="visibility">
+													{{ $t('field.visibility') }} <span class="text-error">*</span>
+												</label>
+												<select v-model="setlist.private" class="form-select" id="visibility" required>
+													<option value="0">{{ $t('option.public') }}</option>
+													<option value="1">{{ $t('option.private') }}</option>
+												</select>
+												<p v-if="setlist.private=='1'" class="form-input-hint">{{ $t('text.visibleForYou') }}</p>
+												<p v-if="setlist.private=='0'" class="form-input-hint">{{ $t('text.visibleForAll') }}</p>
+											</div>
+										</div>
 									</div>
 								</div>
 								<!-- date -->
 								<div class="column col-12 col-md-6">
 									<div class="form-group mb-2">
 										<label class="form-label" for="date">
-											{{ $t('field.date') }}<br />
+											{{ $t('field.date') }} <span class="text-error">*</span><br />
 											<span class="text-gray">{{ humanDate(setlist.date, $i18n.locale) }}</span>
 										</label>
 										<datepicker
@@ -222,7 +240,8 @@ export default {
 	},
 	data () {
 		let sl = JSON.parse(JSON.stringify(this.initialSetlist));
-		sl.songs = sl.songs.filter(s => s.id in this.songs);
+		sl.songs = sl.songs.filter(s => s.id in this.songs); // only show undeleted songs
+		sl.private = sl.private ? 1 : 0;                     // init visibility state if not existing
 		return {
 			setlist: sl,
 			setlistSongs: sl.songs.map(s => s.id),
@@ -317,6 +336,7 @@ export default {
 					creator: !this.existing ? this.user : this.setlist.creator,
 					position: 0,
 					title: this.setlist.title,
+					private: this.setlist.private == 1,
 					date: this.setlist.date,
 					songs: this.setlist.songs,
 				};
