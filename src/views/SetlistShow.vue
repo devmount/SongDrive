@@ -1,5 +1,6 @@
 <template>
 	<div
+		v-if="setlistAccess"
 		class="setlist-show"
 		ref="setlist-show"
 		tabindex="0"
@@ -315,6 +316,13 @@
 			/>
 		</div>
 	</div>
+	<div v-else class="empty">
+		<div class="empty-icon">
+			<ion-icon name="lock-closed-outline" class="icon-4x"></ion-icon>
+		</div>
+		<p class="empty-title h5">{{ $t('text.privateSetlist') }}</p>
+		<p class="empty-subtitle">{{ $t('text.setlistVisibleForCreator') }}</p>
+	</div>
 </template>
 
 <script>
@@ -416,6 +424,10 @@ export default {
 				labels: Object.keys(keys).map(e => ' ' + e)
 			};
 		},
+		// Bool indicating if this setlist is accessible for current user or not
+		setlistAccess () {
+			return !this.setlist.private || this.setlist.private && this.setlist.creator==this.user;
+		}
 	},
 	methods: {
 		reorder ({oldIndex, newIndex}) {
