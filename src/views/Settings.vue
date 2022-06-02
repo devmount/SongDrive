@@ -61,7 +61,7 @@
 								</div>
 							</div>
 							<div class="form-group mb-3">
-								<div class="d-flex gap-4">
+								<div class="d-flex g-4">
 									<div class="flex-grow">
 										<label class="form-label" for="photo">{{ $t('field.photo') }}</label>
 										<input
