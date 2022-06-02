@@ -294,6 +294,8 @@
     "unverified": "nicht bestätigt",
     "unverifiedHelp": "Wenn Du Hilfe brauchst, Zugang zu SongDrive zu erhalten, bitte <a href='mailto:{0}'>kontaktiere uns</a>.",
     "verified": "bestätigt",
+    "visibleForAll": "Für alle Benutzer sichtbar",
+    "visibleForYou": "Nur für Dich sichtbar",
     "waitingForApproval": "Warten auf Freischaltung",
     "waitingForVerification": "Warten auf Bestätigung",
     "yesIUnderstand": "Ja, ich habe verstanden."

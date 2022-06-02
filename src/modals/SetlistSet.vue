@@ -46,6 +46,8 @@
 													<option value="0">{{ $t('option.public') }}</option>
 													<option value="1">{{ $t('option.private') }}</option>
 												</select>
+												<p v-if="setlist.private=='1'" class="form-input-hint">{{ $t('text.visibleForYou') }}</p>
+												<p v-if="setlist.private=='0'" class="form-input-hint">{{ $t('text.visibleForAll') }}</p>
 											</div>
 										</div>
 									</div>
