@@ -148,7 +148,11 @@
 								{{ setlist.title }}
 							</h2>
 							<h3 class="flex flex-wrap gx-5 gy-2">
-								<span v-if="setlist.private" class="text-primary flex align-center gap-2">
+								<span
+									v-if="setlist.private"
+									class="text-primary flex align-center gap-2 tooltip tooltip-bottom"
+									:data-tooltip="$t('tooltip.setlistPrivate')"
+								>
 									<ion-icon name="lock-closed-outline" class="icon-sm"></ion-icon>
 									{{ $t('option.private') }}
 								</span>
