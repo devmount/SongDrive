@@ -142,6 +142,7 @@
 			<!-- content -->
 			<div class="off-canvas-content">
 				<div class="container">
+					<!-- setlist data -->
 					<div class="columns">
 						<div v-if="ready.setlists && setlist" class="column col-12">
 							<h2>
@@ -170,7 +171,7 @@
 								</span>
 							</h3>
 						</div>
-						<div v-if="ready.songs && ready.setlists && setlist" class="column col-12">
+						<div v-if="ready.songs && ready.setlists && setlist && setlist.songs.length > 0" class="column col-12">
 							<table class="table table-striped table-hover">
 								<thead>
 									<tr>
@@ -243,8 +244,16 @@
 								</tbody>
 							</table>
 						</div>
+						<div v-if="ready.songs && ready.setlists && setlist && setlist.songs.length == 0" class="column col-12 empty">
+							<div class="empty-icon">
+								<ion-icon name="musical-notes-outline" class="icon-4x"></ion-icon>
+							</div>
+							<p class="empty-title h5">{{ $t('text.emptySetlist') }}</p>
+							<p class="empty-subtitle">{{ $t('text.editSetlistAddSongs') }}</p>
+						</div>
 					</div>
-					<div class="columns">
+					<!-- stats -->
+					<div v-if="ready.setlists && setlist && setlist.songs.length > 0" class="columns">
 						<div class="column col-12 mt-4">
 							<h2>{{ $t('widget.stats') }}</h2>
 						</div>

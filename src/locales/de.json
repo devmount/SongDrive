@@ -246,6 +246,8 @@
     "dangerZone": "Gefahrenbereich",
     "deleteYourAccount": "Das Löschen deines Kontos kann nicht rückgängig gemacht werden. Bitte sei dir sicher.",
     "doTheImport": "Führe den Import aus zur Verarbeitung aller Datensätze der gewählten Datei",
+    "editSetlistAddSongs": "Bearbeite diese Setlist und füge Songs hinzu",
+    "emptySetlist": "Leere Setlist",
     "exportData": "Daten Export",
     "exportImportData": "Export und Import der SongDrive Daten",
     "forgotPassword": "Passwort vergessen?",
