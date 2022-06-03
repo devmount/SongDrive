@@ -27,28 +27,31 @@
 			</div>
 			<div class="modal-footer">
 				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle ml-1"
+					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
 					:class="{ 'btn-secondary': dark, 'btn-primary': !dark }"
 					href="#"
 					aria-label="Light mode"
 					@click.prevent="dark = !dark"
+					:data-tooltip="$t('tooltip.lightModeOnOff') + '\n' + $t('key.ctrl') + ' + ' + $t('key.L')"
 				>
 					<ion-icon name="contrast-outline" class="icon-1-5x"></ion-icon>
 				</a>
 				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle ml-1"
+					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
 					:class="{ 'btn-secondary': !chords, 'btn-primary': chords }"
 					href="#"
 					aria-label="Chords"
 					@click.prevent="$emit('chords')"
+					:data-tooltip="$t('tooltip.chords' + (!chords ? 'Show' : 'Hide')) + '\n' + $t('key.ctrl') + ' + ' + $t('key.K')"
 				>
 					<ion-icon name="musical-notes" class="icon-1-5x"></ion-icon>
 				</a>
 				<a
-					class="btn btn-secondary btn-xl btn-fw btn-gray ml-1"
+					class="btn btn-secondary btn-xl btn-fw btn-gray tooltip ml-1"
 					href="#"
 					aria-label="Cancel"
 					@click.prevent="$emit('closed')"
+					:data-tooltip="$t('tooltip.presentationClose') + '\n' + $t('key.esc')"
 				>
 					<ion-icon name="close" class="icon-1-5x"></ion-icon>
 				</a>
