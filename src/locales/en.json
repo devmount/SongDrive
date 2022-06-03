@@ -246,6 +246,8 @@
     "dangerZone": "Danger Zone",
     "deleteYourAccount": "Once you delete your account, there is no going back. Please be certain.",
     "doTheImport": "Do the import by processing all datasets in selected file",
+    "editSetlistAddSongs": "Edit this Setlist to add some songs",
+    "emptySetlist": "Empty Setlist",
     "exportData": "Export Data",
     "exportImportData": "Export and import SongDrive data",
     "forgotPassword": "Forgot Password?",
