@@ -120,6 +120,11 @@
 				>
 					<ion-icon name="close" class="icon-1-5x"></ion-icon>
 				</a>
+				<div v-if="!autoSync" class="remote-control">
+					<button @click="$emit('updateHide', !remoteHide)">Hide</button>
+					<button @click="$emit('updateDark', !remoteDark)">Light</button>
+					<button @click="$emit('updateChords', !remoteChords)">Chords</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -145,6 +150,9 @@ export default {
 		songs: Array,
 		position: Number,
 		chords: Boolean,
+		remoteChords: Boolean,
+		remoteDark: Boolean,
+		remoteHide: Boolean,
 	},
 	data () {
 		return {
@@ -197,6 +205,12 @@ export default {
 				});
 			}
 		},
+		autoSync() {
+			// update local position if autoSync was turned on
+			if (this.autoSync) {
+				this.$refs.presentation.slideTo(this.position);
+			}
+		},
 		chords() {
 			// maximize fontsize again when chords are toggled
 			this.maximizeFontsize();
@@ -207,10 +221,22 @@ export default {
 				this.$refs.presentation.slideTo(this.position);
 			}
 		},
-		autoSync() {
-			// update local position if autoSync was turned on
+		remoteChords () {
+			// update local chord display if autoSync is on and remote chords were updated
 			if (this.autoSync) {
-				this.$refs.presentation.slideTo(this.position);
+				this.$emit('chords');
+			}
+		},
+		remoteDark () {
+			// toggle local theme mode if autoSync is on and remote theme mode was updated
+			if (this.autoSync) {
+				this.dark = !this.dark;
+			}
+		},
+		remoteHide () {
+			// toggle local content display if autoSync is on and remote content display was updated
+			if (this.autoSync) {
+				this.hide = !this.hide;
 			}
 		},
 	}
