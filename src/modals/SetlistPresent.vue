@@ -120,6 +120,36 @@
 				>
 					<ion-icon name="close" class="icon-1-5x"></ion-icon>
 				</a>
+				<div v-if="sync && !autoSync" class="remote-control">
+					<span class="text-uppercase mr-2">{{ $t('text.remoteControl') }}</span>
+					<a
+						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+						:class="{ 'btn-secondary': !remoteHide, 'btn-primary': remoteHide }"
+						href="#"
+						:data-tooltip="$t('text.syncedDevices') + '\n' + $t('tooltip.presentation' + (remoteHide ? 'Show' : 'Hide'))"
+						@click.prevent="$emit('updateHide', !remoteHide)"
+					>
+						<ion-icon name="eye-off-outline" class="icon-1-5x"></ion-icon>
+					</a>
+					<a
+						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+						:class="{ 'btn-secondary': !remoteLight, 'btn-primary': remoteLight }"
+						href="#"
+						:data-tooltip="$t('text.syncedDevices') + '\n' + $t('tooltip.lightModeOnOff')"
+						@click.prevent="$emit('updateDark', !remoteLight)"
+					>
+						<ion-icon name="contrast-outline" class="icon-1-5x"></ion-icon>
+					</a>
+					<a
+						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+						:class="{ 'btn-secondary': remoteText, 'btn-primary': !remoteText }"
+						href="#"
+						:data-tooltip="$t('text.syncedDevices') + '\n' + $t('tooltip.chords' + (remoteText ? 'Show' : 'Hide'))"
+						@click.prevent="$emit('updateChords', !remoteText)"
+					>
+						<ion-icon name="musical-notes" class="icon-1-5x"></ion-icon>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -143,8 +173,12 @@ export default {
 	props: {
 		active: Boolean,
 		songs: Array,
+		sync: Boolean,
 		position: Number,
 		chords: Boolean,
+		remoteHide: Boolean,
+		remoteLight: Boolean,
+		remoteText: Boolean,
 	},
 	data () {
 		return {
@@ -197,6 +231,14 @@ export default {
 				});
 			}
 		},
+		autoSync() {
+			// update local position, content display and theme if autoSync was turned on
+			if (this.autoSync) {
+				this.$refs.presentation.slideTo(this.position);
+				this.hide = this.remoteHide;
+				this.dark = !this.remoteLight;
+			}
+		},
 		chords() {
 			// maximize fontsize again when chords are toggled
 			this.maximizeFontsize();
@@ -207,10 +249,22 @@ export default {
 				this.$refs.presentation.slideTo(this.position);
 			}
 		},
-		autoSync() {
-			// update local position if autoSync was turned on
+		remoteText () {
+			// update local chord display if autoSync is on and remote chords were updated
 			if (this.autoSync) {
-				this.$refs.presentation.slideTo(this.position);
+				this.$emit('chords');
+			}
+		},
+		remoteLight () {
+			// toggle local theme mode if autoSync is on and remote theme mode was updated
+			if (this.autoSync) {
+				this.dark = !this.dark;
+			}
+		},
+		remoteHide (val) {
+			// toggle local content display if autoSync is on and remote content display was updated
+			if (this.autoSync) {
+				this.hide = val;
 			}
 		},
 	}

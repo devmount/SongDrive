@@ -321,11 +321,18 @@
 				v-if="modal.present"
 				:active="modal.present"
 				:songs="setlistSongs"
+				:sync="setlist.active"
 				:position="setlist.position"
 				:chords="chords"
+				:remoteHide="setlist.remoteHide"
+				:remoteLight="setlist.remoteLight"
+				:remoteText="setlist.remoteText"
 				@chords="chords = !chords"
 				@closed="modal.present = false"
 				@updatePosition="updatePosition"
+				@updateHide="updateHide"
+				@updateDark="updateDark"
+				@updateChords="updateChords"
 			/>
 		</div>
 	</div>
@@ -344,6 +351,7 @@ import SetlistSet from '@/modals/SetlistSet';
 import SetlistDelete from '@/modals/SetlistDelete';
 import SetlistPresent from '@/modals/SetlistPresent';
 import DoughnutChart from '@/charts/DoughnutChart';
+import firebase from 'firebase/compat/app';
 
 // pdf creation
 var pdfMake = require('pdfmake/build/pdfmake');
@@ -497,7 +505,7 @@ export default {
 			});
 		},
 		updateActive () {
-			// update setlist's active flag to enable sync
+			// update setlist's active flag to enable or disable sync
 			var sync = !this.setlist.active;
 			this.$db.collection('setlists').doc(this.$route.params.id).set({active: sync}, { merge: true }).then(() => {
 				this.$notify({
@@ -505,12 +513,42 @@ export default {
 					text: this.$t('toast.setlistStatusSavedText'),
 					type: 'primary'
 				});
-			}).catch((error) => this.throwError(error));;
+			}).catch((error) => this.throwError(error));
+			// remove remote props when sync is disabled
+			if (!sync) {
+				if (this.setlist.hasOwnProperty('remoteText')) {
+					this.$db.collection('setlists').doc(this.$route.params.id).update({remoteText: firebase.firestore.FieldValue.delete()});
+				}
+				if (this.setlist.hasOwnProperty('remoteLight')) {
+					this.$db.collection('setlists').doc(this.$route.params.id).update({remoteLight: firebase.firestore.FieldValue.delete()});
+				}
+				if (this.setlist.hasOwnProperty('remoteHide')) {
+					this.$db.collection('setlists').doc(this.$route.params.id).update({remoteHide: firebase.firestore.FieldValue.delete()});
+				}
+			}
 		},
-		updatePosition (position) {
+		updatePosition (val) {
 			// update setlist's position if sync enabled
 			if (this.setlist.active) {
-				this.$db.collection('setlists').doc(this.$route.params.id).set({position: position}, { merge: true });
+				this.$db.collection('setlists').doc(this.$route.params.id).set({position: val}, { merge: true });
+			}
+		},
+		updateChords (val) {
+			// update setlist's display of chords if sync enabled
+			if (this.setlist.active) {
+				this.$db.collection('setlists').doc(this.$route.params.id).set({remoteText: val}, { merge: true });
+			}
+		},
+		updateDark (val) {
+			// update setlist's theme mode if sync enabled
+			if (this.setlist.active) {
+				this.$db.collection('setlists').doc(this.$route.params.id).set({remoteLight: val}, { merge: true });
+			}
+		},
+		updateHide (val) {
+			// update setlist's display of content if sync enabled
+			if (this.setlist.active) {
+				this.$db.collection('setlists').doc(this.$route.params.id).set({remoteHide: val}, { merge: true });
 			}
 		},
 		copyList (format) {
