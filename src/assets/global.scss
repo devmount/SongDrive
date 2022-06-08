@@ -811,7 +811,15 @@ a {
 					right: 0;
 
 					.remote-control {
+						opacity: 0;
 						position: absolute;
+						top: -1rem;
+						right: 3.5rem;
+						transition: top .2s, opacity .2s;
+					}
+					&:hover .remote-control {
+						top: -2rem;
+						opacity: 1;
 					}
 				}
 			}

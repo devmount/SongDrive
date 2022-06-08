@@ -121,9 +121,34 @@
 					<ion-icon name="close" class="icon-1-5x"></ion-icon>
 				</a>
 				<div v-if="!autoSync" class="remote-control">
-					<button @click="$emit('updateHide', !remoteHide)">Hide</button>
-					<button @click="$emit('updateDark', !remoteDark)">Light</button>
-					<button @click="$emit('updateChords', !remoteChords)">Chords</button>
+					<span class="text-uppercase mr-2">{{ $t('text.remoteControl') }}</span>
+					<a
+						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+						:class="{ 'btn-secondary': !remoteHide, 'btn-primary': remoteHide }"
+						href="#"
+						:data-tooltip="$t('text.syncedDevices') + '\n' + $t('tooltip.presentation' + (remoteHide ? 'Show' : 'Hide'))"
+						@click.prevent="$emit('updateHide', !remoteHide)"
+					>
+						<ion-icon name="eye-off-outline" class="icon-1-5x"></ion-icon>
+					</a>
+					<a
+						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+						:class="{ 'btn-secondary': !remoteLight, 'btn-primary': remoteLight }"
+						href="#"
+						:data-tooltip="$t('text.syncedDevices') + '\n' + $t('tooltip.lightModeOnOff')"
+						@click.prevent="$emit('updateDark', !remoteLight)"
+					>
+						<ion-icon name="contrast-outline" class="icon-1-5x"></ion-icon>
+					</a>
+					<a
+						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+						:class="{ 'btn-secondary': remoteText, 'btn-primary': !remoteText }"
+						href="#"
+						:data-tooltip="$t('text.syncedDevices') + '\n' + $t('tooltip.chords' + (remoteText ? 'Show' : 'Hide'))"
+						@click.prevent="$emit('updateChords', !remoteText)"
+					>
+						<ion-icon name="musical-notes" class="icon-1-5x"></ion-icon>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -150,9 +175,9 @@ export default {
 		songs: Array,
 		position: Number,
 		chords: Boolean,
-		remoteChords: Boolean,
-		remoteDark: Boolean,
 		remoteHide: Boolean,
+		remoteLight: Boolean,
+		remoteText: Boolean,
 	},
 	data () {
 		return {
@@ -206,9 +231,11 @@ export default {
 			}
 		},
 		autoSync() {
-			// update local position if autoSync was turned on
+			// update local position, content display and theme if autoSync was turned on
 			if (this.autoSync) {
 				this.$refs.presentation.slideTo(this.position);
+				this.hide = this.remoteHide;
+				this.dark = !this.remoteLight;
 			}
 		},
 		chords() {
@@ -221,22 +248,22 @@ export default {
 				this.$refs.presentation.slideTo(this.position);
 			}
 		},
-		remoteChords () {
+		remoteText () {
 			// update local chord display if autoSync is on and remote chords were updated
 			if (this.autoSync) {
 				this.$emit('chords');
 			}
 		},
-		remoteDark () {
+		remoteLight () {
 			// toggle local theme mode if autoSync is on and remote theme mode was updated
 			if (this.autoSync) {
 				this.dark = !this.dark;
 			}
 		},
-		remoteHide () {
+		remoteHide (val) {
 			// toggle local content display if autoSync is on and remote content display was updated
 			if (this.autoSync) {
-				this.hide = !this.hide;
+				this.hide = val;
 			}
 		},
 	}
