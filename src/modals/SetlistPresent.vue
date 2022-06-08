@@ -120,7 +120,7 @@
 				>
 					<ion-icon name="close" class="icon-1-5x"></ion-icon>
 				</a>
-				<div v-if="!autoSync" class="remote-control">
+				<div v-if="sync && !autoSync" class="remote-control">
 					<span class="text-uppercase mr-2">{{ $t('text.remoteControl') }}</span>
 					<a
 						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
@@ -173,6 +173,7 @@ export default {
 	props: {
 		active: Boolean,
 		songs: Array,
+		sync: Boolean,
 		position: Number,
 		chords: Boolean,
 		remoteHide: Boolean,

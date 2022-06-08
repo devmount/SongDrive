@@ -321,6 +321,7 @@
 				v-if="modal.present"
 				:active="modal.present"
 				:songs="setlistSongs"
+				:sync="setlist.active"
 				:position="setlist.position"
 				:chords="chords"
 				:remoteHide="setlist.remoteHide"
