@@ -184,8 +184,8 @@ Per Klick auf eine Setlist öffnet die Setlistvorschau, die die aktuelle Liste d
 - *Sync*: Aktiviert die Synchronisation der Setlist-Präsentation. Wenn aktiv, kann die Präsentationsansicht in anderen Browser-Tabs auf diesem oder anderen Geräten mit der aktuellen Präsentation synchronisiert werden (automatische Songnavigation).
 - *Präsentieren*: Öffnet die Setlist im Präsentationsmodus, der für den Viewport optimiert ist. Dabei wird die Schriftgröße soweit maximiert, dass immer ein ganzer Song pro Folie angezeigt wird, um zu verhindern, dass beim Aufführen der Setlist vertikal gescrollt werden muss.
 - *Plain*: Exportiert die Liste in reinem Textformat.
-- *Markdown*: Exportiert die Liste in [Markdown] (https://daringfireball.net/projects/markdown/).
-- *Slack*: Exportiert die Liste im [Slack]-Format (https://get.slack.help/hc/en-us/articles/202288908-Format-your-messages).
+- *Markdown*: Exportiert die Liste in [Markdown](https://daringfireball.net/projects/markdown/).
+- *Slack*: Exportiert die Liste im [Slack-Format](https://get.slack.help/hc/en-us/articles/202288908-Format-your-messages).
 - *Liste*: Exportiert die Liste als PDF.
 - *Sheets*: Exportiert die Liedblätter, also alle in der Setlist enthaltenen Songs, als einzelnes PDF mit einem Song pro Seite.
 
