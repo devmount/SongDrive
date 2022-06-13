@@ -716,6 +716,7 @@ export default {
 						// footer with ccli#, author names and (c) year publisher
 						{
 							text: [
+								song.note ? this.$t('field.note') + ':\n' + song.note + '\n\n' : '',
 								song.ccli ? 'CCLI Song Nr.: ' + song.ccli + '\n' : '',
 								song.authors ? song.authors + '\n' : '',
 								'\u00A9 ' + (song.year ? song.year + ' ' : '') + song.publisher

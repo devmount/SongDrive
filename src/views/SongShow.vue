@@ -189,7 +189,7 @@
 					</div>
 					<!-- song footer with meta data -->
 					<footer class="columns mt-4 pt-4">
-						<div v-if="ready.songs && song && ready.tags" class="column col-6 text-small">
+						<div v-if="ready.songs && song && ready.tags" class="column col-6 col-md-12 text-small">
 							<p>{{ song.authors }}</p>
 							<p>
 								<!-- youtube -->
@@ -232,7 +232,7 @@
 							</p>
 							<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
 						</div>
-						<div v-if="ready.songs && song && song.note" class="column col-6">
+						<div v-if="ready.songs && song && song.note" class="column col-6 col-md-12">
 							<h3>{{ $t('field.note') }}</h3>
 							<p v-html="song.note.replace(/\n/gi, '<br>')"></p>
 						</div>
@@ -481,6 +481,7 @@ export default {
 				{
 					style: 'copyright',
 					text: [
+						this.song.note ? this.$t('field.note') + ':\n' + this.song.note + '\n\n' : '',
 						this.song.ccli ? 'CCLI Song Nr.: ' + this.song.ccli + '\n' : '',
 						this.song.authors ? this.song.authors + '\n' : '',
 						'\u00A9 ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher
