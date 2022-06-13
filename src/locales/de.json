@@ -199,7 +199,7 @@
     "exampleSongAuthors": "z.B.  Edwin Othello Excell | John Newton",
     "exampleSongCcli": "z.B. 22025",
     "exampleSongContent": "Songtext mit Akkorden und Markern, z.B.:\n\n--v\n G             C  \nDas ist die Strophe\nD            G  \nEinfach ein Beispieltext\n\n--c\nD            C  \nDas ist der Refrain\nD            C      G  \nEinfach ein Beispieltext\n\n--b\n Em  \nDas ist die Bridge\nC            D  \nEinfach ein Beispieltext",
-    "exampleSongNote": "Allgemeine Notizen, z.B. Capo 3",
+    "exampleSongNote": "Allgemeine Notizen, z.B. Capo 3 oder Bewegungen für Kinder",
     "exampleSongPublisher": "z.B. Public Domain",
     "exampleSongSubtitle": "z.B. Wie süß der Klang",
     "exampleSongTitle": "z.B. Erstaunliche Gnade",

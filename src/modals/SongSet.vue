@@ -116,7 +116,8 @@
 												v-model="song.publisher"
 												class="form-input"
 												id="publisher"
-												:placeholder="$t('placeholder.exampleSongPublisher')" rows="2"
+												:placeholder="$t('placeholder.exampleSongPublisher')"
+												rows="2"
 											></textarea>
 										</div>
 									</div>
@@ -135,13 +136,14 @@
 									<div class="column col-8 col-md-12">
 										<div class="form-group">
 											<label class="form-label" for="note">{{ $t('field.note') }}</label>
-											<input
+											<textarea
 												v-model="song.note"
 												class="form-input"
 												id="note"
 												type="text"
 												:placeholder="$t('placeholder.exampleSongNote')"
-											>
+												rows="2"
+											></textarea>
 										</div>
 									</div>
 									<div class="column col-4 col-md-12">
