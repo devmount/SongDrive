@@ -139,6 +139,7 @@
   "key": {
     "B": "B",
     "F": "F",
+    "I": "I",
     "K": "K",
     "L": "L",
     "P": "P",
@@ -169,6 +170,7 @@
     "newSong": "Neuer Song",
     "resetPassword": "Passwort zurücksetzen",
     "signUp": "Registrieren",
+    "songInfo": "Song Informationen",
     "songSyntaxCheatsheet": "Song-Syntax Spickzettel",
     "tags": "Tags",
     "translations": "Übersetzungen"
@@ -378,6 +380,7 @@
     "chordsHide": "Akkorde ausblenden",
     "chordsShow": "Akkorde zeigen",
     "clear": "Suche und Filter zurücksetzen",
+    "infoSongData": "Song Informationen anzeigen",
     "keyReset": "Auf Original-Tonart zurücksetzen",
     "lightModeOnOff": "Hell-Modus an / aus",
     "nextSlide": "Nächste Folie",

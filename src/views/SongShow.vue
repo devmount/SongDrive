@@ -187,7 +187,7 @@
 							/>
 						</div>
 					</div>
-					<!-- song footer with meta data -->
+					<!-- song footer with info and data about the song -->
 					<footer class="columns mt-4 pt-4">
 						<div v-if="ready.songs && song && ready.tags" class="column col-6 col-md-12 text-small">
 							<p>{{ song.authors }}</p>
@@ -233,7 +233,6 @@
 							<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
 						</div>
 						<div v-if="ready.songs && song && song.note" class="column col-6 col-md-12">
-							<h3>{{ $t('field.note') }}</h3>
 							<p v-html="song.note.replace(/\n/gi, '<br>')"></p>
 						</div>
 					</footer>
@@ -264,9 +263,7 @@
 			<SongPresent
 				v-if="modal.present"
 				:active="modal.present"
-				:title="song.title"
-				:subtitle="song.subtitle"
-				:content="song.content"
+				:song="song"
 				:chords="chords"
 				:tuning="tuning"
 				@chords="chords = !chords"

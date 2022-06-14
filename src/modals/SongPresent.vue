@@ -4,6 +4,7 @@
 		:class="{ active: active, light: !dark }"
 		ref="container"
 		tabindex="0"
+		@keydown.ctrl.73.prevent="modal.infosongdata = !modal.infosongdata"
 		@keydown.ctrl.76.prevent="dark = !dark"
 		@keydown.ctrl.75.prevent="chords = !chords"
 		@keydown.esc.exact="$emit('closed')"
@@ -12,13 +13,13 @@
 		<div class="modal-container p-0">
 			<div class="modal-header">
 				<div class="modal-title h5 text-center">
-					{{ title }}
-					<span class="modal-subtitle h6 text-gray ml-3">{{ subtitle }}</span>
+					{{ song.title }}
+					<span class="modal-subtitle h6 text-gray ml-3">{{ song.subtitle }}</span>
 				</div>
 			</div>
-			<div v-if="content" class="modal-body">
+			<div v-if="song.content" class="modal-body">
 				<SongContent
-					:content="content"
+					:content="song.content"
 					:chords="chords"
 					:tuning="tuning"
 					:presentation="true"
@@ -26,6 +27,16 @@
 				/>
 			</div>
 			<div class="modal-footer">
+				<a
+					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+					:class="{ 'btn-secondary': !modal.infosongdata, 'btn-primary': modal.infosongdata }"
+					href="#"
+					aria-label="Song Data"
+					@click="modal.infosongdata = true"
+					:data-tooltip="$t('tooltip.infoSongData') + '\n' + $t('key.ctrl') + ' + ' + $t('key.I')"
+				>
+					<ion-icon name="information-outline" class="icon-1-5x"></ion-icon>
+				</a>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
 					:class="{ 'btn-secondary': dark, 'btn-primary': !dark }"
@@ -57,29 +68,39 @@
 				</a>
 			</div>
 		</div>
+		<!-- modal: info song note -->
+		<InfoSongData
+			v-if="modal.infosongdata"
+			:active="modal.infosongdata"
+			:song="song"
+			@closed="modal.infosongdata = false"
+		/>
 	</div>
 </template>
 
 <script>
 // get components
 import SongContent from '@/partials/SongContent';
+import InfoSongData from '@/modals/InfoSongData';
 
 export default {
 	name: 'song-present',
 	components: {
-		SongContent
+		SongContent,
+		InfoSongData,
 	},
 	props: {
 		active: Boolean,
-		title: String,
-		subtitle: String,
-		content: String,
+		song: Object,
 		chords: Boolean,
 		tuning: Number,
 	},
 	data () {
 		return {
 			dark: true,
+			modal: {
+				infosongdata: false
+			}
 		};
 	},
 	methods: {
