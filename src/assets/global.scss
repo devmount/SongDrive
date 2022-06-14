@@ -794,7 +794,9 @@ a {
 		.modal-container {
 			max-height: 100vh;
 		}
-
+		&.modal-wide .modal-container {
+			max-width: 100vw;
+		}
 		&.modal-full {
 			padding: 0;
 

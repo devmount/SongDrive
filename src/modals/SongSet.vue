@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<!-- main modal: set song -->
-		<div class="modal modal-lg" :class="{ active: active }">
+		<div class="modal modal-lg modal-wide" :class="{ active: active }">
 			<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
 			<div v-if="song && ready.songs" class="modal-container">
 				<div class="modal-header">
