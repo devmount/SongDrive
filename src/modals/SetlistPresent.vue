@@ -8,6 +8,7 @@
 		@keydown.left.exact="$refs.presentation.slidePrev()"
 		@keydown.down.exact="$refs.presentation.slideNext()"
 		@keydown.right.exact="$refs.presentation.slideNext()"
+		@keydown.ctrl.73.prevent="modal.infosongdata = !modal.infosongdata"
 		@keydown.ctrl.83.prevent="autoSync = !autoSync"
 		@keydown.ctrl.66.prevent="hide = !hide"
 		@keydown.ctrl.76.prevent="dark = !dark"
@@ -73,6 +74,16 @@
 				<span class="clock px-4">{{ timeonly }}</span>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-4"
+					:class="{ 'btn-secondary': !modal.infosongdata, 'btn-primary': modal.infosongdata }"
+					href="#"
+					aria-label="Song Data"
+					@click="modal.infosongdata = true"
+					:data-tooltip="$t('tooltip.infoSongData') + '\n' + $t('key.ctrl') + ' + ' + $t('key.I')"
+				>
+					<ion-icon name="information-outline" class="icon-1-5x"></ion-icon>
+				</a>
+				<a
+					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
 					:class="{ 'btn-secondary': !autoSync, 'btn-primary': autoSync }"
 					href="#"
 					aria-label="AutoSync"
@@ -152,6 +163,13 @@
 				</div>
 			</div>
 		</div>
+		<!-- modal: info song note -->
+		<InfoSongData
+			v-if="modal.infosongdata"
+			:active="modal.infosongdata"
+			:song="songs[currentPosition]"
+			@closed="modal.infosongdata = false"
+		/>
 	</div>
 </template>
 
@@ -161,6 +179,7 @@ import { Hooper, Slide, Pagination as HooperPagination } from 'hooper';
 import 'hooper/dist/hooper.css';
 // get internal components
 import SongContent from '@/partials/SongContent';
+import InfoSongData from '@/modals/InfoSongData';
 
 export default {
 	name: 'setlist-present',
@@ -168,7 +187,8 @@ export default {
 		Hooper,
 		Slide,
 		HooperPagination,
-		SongContent
+		SongContent,
+		InfoSongData,
 	},
 	props: {
 		active: Boolean,
@@ -185,6 +205,9 @@ export default {
 			settings: {
 				infiniteScroll: false,
 				keysControl: true,
+			},
+			modal: {
+				infosongdata: false
 			},
 			currentPosition: 0,
 			autoSync: false,

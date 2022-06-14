@@ -790,20 +790,23 @@ a {
 		background: rgba($dark-color, .75);
 	}
 	&.modal-lg {
+
 		.modal-container {
-			max-width: 100vw;
 			max-height: 100vh;
 		}
-
+		&.modal-wide .modal-container {
+			max-width: 100vw;
+		}
 		&.modal-full {
 			padding: 0;
 
-			.modal-overlay {
+			> .modal-overlay {
 				background: $black-color;
 			}
-			.modal-container {
+			> .modal-container {
 				background: $black-color;
 				height: 100vh;
+				max-width: 100vw;
 
 				.modal-footer {
 					position: absolute;

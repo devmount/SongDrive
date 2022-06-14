@@ -1,5 +1,5 @@
 <template>
-	<div class="modal modal-lg" :class="{ active: active }">
+	<div class="modal modal-lg modal-wide" :class="{ active: active }">
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="cancel"></a>
 		<div v-if="setlist && ready.songs" class="modal-container">
 			<div class="modal-header">

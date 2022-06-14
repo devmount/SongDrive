@@ -57,7 +57,7 @@
 											<kbd><ion-icon name="arrow-forward"></ion-icon></kbd> /
 											<kbd><ion-icon name="arrow-up"></ion-icon></kbd>
 										</td>
-										<td><ion-icon name="musical-note"></ion-icon></td>
+										<td></td>
 										<td>{{ $t('tooltip.transposeUp') }}</td>
 									</tr>
 									<tr>
@@ -65,7 +65,7 @@
 											<kbd><ion-icon name="arrow-back"></ion-icon></kbd> /
 											<kbd><ion-icon name="arrow-down"></ion-icon></kbd>
 										</td>
-										<td><ion-icon name="musical-note"></ion-icon></td>
+										<td></td>
 										<td>{{ $t('tooltip.transposeDown') }}</td>
 									</tr>
 									<tr>
@@ -77,6 +77,11 @@
 										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.P') }}</kbd></td>
 										<td><ion-icon name="videocam-outline"></ion-icon></td>
 										<td>{{ $t('tooltip.presentationStart') }}</td>
+									</tr>
+									<tr>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.I') }}</kbd></td>
+										<td><ion-icon name="information-outline"></ion-icon></td>
+										<td>{{ $t('tooltip.infoSongData') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.L') }}</kbd></td>
@@ -136,6 +141,16 @@
 										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.B') }}</kbd></td>
 										<td><ion-icon name="eye-off-outline"></ion-icon></td>
 										<td>{{ $t('tooltip.presentationShow') }} / {{ $t('tooltip.presentationHide') }}</td>
+									</tr>
+									<tr>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.I') }}</kbd></td>
+										<td><ion-icon name="information-outline"></ion-icon></td>
+										<td>{{ $t('tooltip.infoSongData') }}</td>
+									</tr>
+									<tr>
+										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.L') }}</kbd></td>
+										<td><ion-icon name="contrast-outline"></ion-icon></td>
+										<td>{{ $t('tooltip.lightModeOnOff') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ $t('key.esc') }}</kbd></td>

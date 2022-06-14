@@ -187,54 +187,55 @@
 							/>
 						</div>
 					</div>
-					<!-- song footer with meta data -->
-					<div class="columns mt-4 pt-4">
-						<div v-if="ready.songs && song && ready.tags" class="column">
-							<footer class="text-small">
-								<p>{{ song.authors }}</p>
-								<p>
-									<!-- youtube -->
-									<a
-										v-if="song.youtube"
-										:href="'https://youtu.be/' + song.youtube"
-										class="mr-2"
-										target="_blank"
-									>
-										<span class="label px-2 py-1">
-											<ion-icon name="logo-youtube" class="icon-sm mr-1"></ion-icon>
-											{{ $t('field.youtube') }}
-											<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
-										</span>
-									</a>
-									<!-- ccli -->
-									<a
-										v-if="song.ccli"
-										:href="'https://songselect.ccli.com/Songs/' + song.ccli"
-										class="mr-4"
-										target="_blank"
-									>
-										<span class="label px-2 py-1">
-											{{ $t('field.ccli') }}
-											<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
-										</span>
-									</a>
-									<!-- tags -->
-									<router-link
-										v-for="tag in song.tags"
-										:key="tag"
-										:to="{ name: 'songs-tag', params: { tag: tag }}"
-										class="mr-2"
-									>
-										<span class="label px-2 py-1">
-											<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
-											{{ tags[tag][$i18n.locale] ? tags[tag][$i18n.locale] : tag }}
-										</span>
-									</router-link>
-								</p>
-								<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
-							</footer>
+					<!-- song footer with info and data about the song -->
+					<footer class="columns mt-4 pt-4">
+						<div v-if="ready.songs && song && ready.tags" class="column col-6 col-md-12 text-small">
+							<p>{{ song.authors }}</p>
+							<p>
+								<!-- youtube -->
+								<a
+									v-if="song.youtube"
+									:href="'https://youtu.be/' + song.youtube"
+									class="mr-2"
+									target="_blank"
+								>
+									<span class="label px-2 py-1">
+										<ion-icon name="logo-youtube" class="icon-sm mr-1"></ion-icon>
+										{{ $t('field.youtube') }}
+										<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
+									</span>
+								</a>
+								<!-- ccli -->
+								<a
+									v-if="song.ccli"
+									:href="'https://songselect.ccli.com/Songs/' + song.ccli"
+									class="mr-4"
+									target="_blank"
+								>
+									<span class="label px-2 py-1">
+										{{ $t('field.ccli') }}
+										<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
+									</span>
+								</a>
+								<!-- tags -->
+								<router-link
+									v-for="tag in song.tags"
+									:key="tag"
+									:to="{ name: 'songs-tag', params: { tag: tag }}"
+									class="mr-2"
+								>
+									<span class="label px-2 py-1">
+										<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
+										{{ tags[tag][$i18n.locale] ? tags[tag][$i18n.locale] : tag }}
+									</span>
+								</router-link>
+							</p>
+							<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
 						</div>
-					</div>
+						<div v-if="ready.songs && song && song.note" class="column col-6 col-md-12">
+							<p v-html="song.note.replace(/\n/gi, '<br>')"></p>
+						</div>
+					</footer>
 				</div>
 			</div>
 			<!-- modals -->
@@ -262,9 +263,7 @@
 			<SongPresent
 				v-if="modal.present"
 				:active="modal.present"
-				:title="song.title"
-				:subtitle="song.subtitle"
-				:content="song.content"
+				:song="song"
 				:chords="chords"
 				:tuning="tuning"
 				@chords="chords = !chords"
@@ -479,6 +478,7 @@ export default {
 				{
 					style: 'copyright',
 					text: [
+						this.song.note ? this.$t('field.note') + ':\n' + this.song.note + '\n\n' : '',
 						this.song.ccli ? 'CCLI Song Nr.: ' + this.song.ccli + '\n' : '',
 						this.song.authors ? this.song.authors + '\n' : '',
 						'\u00A9 ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher
