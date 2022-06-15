@@ -446,7 +446,8 @@ export default {
 		// prepare song content for PDF export
 		getPdfSongContent () {
 			// handle all song parts
-			var content = [], parts = this.parsedContent(this.song.content, this.tuning, this.chords, false);
+			let content = [];
+			let parts = this.parsedContent(this.song.content, this.tuning, this.chords, false);
 			parts.forEach((part) => {
 				if (part.type == 'v' && part.number != '0') {
 					content.push({
@@ -473,37 +474,36 @@ export default {
 					});
 				}
 			});
+			// create footer
+			let footer = [{
+				// imprint with ccli#, author names and (c) year publisher
+				width: '*',
+				style: 'copyright',
+				text: [
+					this.song.note ? this.$t('field.note') + ':\n' + this.song.note + '\n\n' : '',
+					this.song.ccli ? 'CCLI Song Nr.: ' + this.song.ccli + '\n' : '',
+					this.song.authors ? this.song.authors + '\n' : '',
+					'\u00A9 ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher
+				]
+			}];
+			if (this.song.youtube) {
+				footer.push({
+					// QR code for YouTube link
+					width: '140',
+					margin: [ 0, 20, 0, 0 ],
+					stack: [
+						{ text: 'https://youtu.be/' + this.song.youtube, style: 'qr' },
+						{ qr: 'https://youtu.be/' + this.song.youtube, fit: '90', style: 'qr', margin: [ 0, 5, 0, 0 ] }
+					]
+				});
+			}
 			// return array with song data ready for pdfMake
 			return [
 				// song title [tuning] with a line beneath
 				{ text: this.song.title.toUpperCase() + (this.tuning ? '  [' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' : ''), style: 'header' },
 				{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
 				content,
-				{
-					columnGap: 8,
-					columns: [
-						{
-							// imprint with ccli#, author names and (c) year publisher
-							width: '*',
-							style: 'copyright',
-							text: [
-								this.song.note ? this.$t('field.note') + ':\n' + this.song.note + '\n\n' : '',
-								this.song.ccli ? 'CCLI Song Nr.: ' + this.song.ccli + '\n' : '',
-								this.song.authors ? this.song.authors + '\n' : '',
-								'\u00A9 ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher
-							]
-						},
-						{
-							// QR code for YouTube link
-							width: '140',
-							margin: [ 0, 20, 0, 0 ],
-							stack: [
-								{ text: 'https://youtu.be/' + this.song.youtube, style: 'qr' },
-								{ qr: 'https://youtu.be/' + this.song.youtube, fit: '90', style: 'qr', margin: [ 0, 5, 0, 0 ] }
-							]
-						}
-					]
-				}
+				{ columnGap: 8, columns: footer }
 			];
 		}
 	},
