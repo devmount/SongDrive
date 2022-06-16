@@ -627,7 +627,12 @@ export default {
 					footer: {
 						font: 'FiraSans',
 						fontSize: 8,
-						margin: [ 0, 30, 0, 0 ]
+						margin: [ 0, 20, 0, 0 ]
+					},
+					qr: {
+						font: 'FiraMono',
+						fontSize: 8,
+						alignment: 'right'
 					}
 				}
 			};
@@ -665,12 +670,12 @@ export default {
 			];
 		},
 		getPdfSongsheets () {
-			var sheets = [];
+			let sheets = [];
 			for (const key in this.setlist.songs) {
 				if (this.setlist.songs.hasOwnProperty(key) && this.setlist.songs[key].id in this.songs) {
 					const song = this.songs[this.setlist.songs[key].id];
 					// handle song content parts
-					var content = [];
+					let content = [];
 					let parts = this.parsedContent(
 						song.content,
 						song.customTuning ? song.customTuningDelta : 0,
@@ -702,7 +707,31 @@ export default {
 							});
 						}
 					});
-					var meta = [
+					// create footer
+					let footer = [{
+						// imprint with ccli#, author names and (c) year publisher
+						width: '*',
+						style: 'footer',
+						text: [
+							song.note ? this.$t('field.note') + ':\n' + song.note + '\n\n' : '',
+							song.ccli ? 'CCLI Song Nr.: ' + song.ccli + '\n' : '',
+							song.authors ? song.authors + '\n' : '',
+							'\u00A9 ' + (song.year ? song.year + ' ' : '') + song.publisher
+						]
+					}];
+					if (song.youtube) {
+						footer.push({
+							// QR code for YouTube link
+							width: '140',
+							margin: [ 0, 20, 0, 0 ],
+							stack: [
+								{ text: 'https://youtu.be/' + song.youtube, style: 'qr' },
+								{ qr: 'https://youtu.be/' + song.youtube, fit: '90', style: 'qr', margin: [ 0, 5, 0, 0 ] }
+							]
+						});
+					}
+					// put songsheet together
+					let songsheet = [
 						// song title [tuning] with a line beneath
 						{ text: song.title.toUpperCase(), style: 'header' },
 						{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
@@ -713,22 +742,13 @@ export default {
 							margin: [ 0, 4, 0, 0 ]
 						},
 						content,
-						// footer with ccli#, author names and (c) year publisher
-						{
-							text: [
-								song.note ? this.$t('field.note') + ':\n' + song.note + '\n\n' : '',
-								song.ccli ? 'CCLI Song Nr.: ' + song.ccli + '\n' : '',
-								song.authors ? song.authors + '\n' : '',
-								'\u00A9 ' + (song.year ? song.year + ' ' : '') + song.publisher
-							],
-							style: 'footer'
-						}
+						{ columnGap: 8, columns: footer }
 					];
 					// add page break after every song exept for the last
 					if (this.setlist.songs.length > 0 && key < this.setlist.songs.length-1) {
-						meta.push({ text: '', pageBreak: 'after', style: 'code' });
+						songsheet.push({ text: '', pageBreak: 'after', style: 'code' });
 					}
-					sheets = sheets.concat(meta);
+					sheets = sheets.concat(songsheet);
 				}
 			}
 			return sheets;
