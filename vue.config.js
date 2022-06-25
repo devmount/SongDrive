@@ -7,12 +7,12 @@ module.exports = {
 			maxAssetSize: 2097152       // 2 MiB
 		},
 		output: {
-			filename: "js/[contenthash]-[name].js",
-			chunkFilename: "js/[chunkhash]-[name].bundle.js",
+			filename: 'js/[contenthash]-[name].js',
+			chunkFilename: 'js/[chunkhash]-[name].bundle.js',
 		},
 	},
 	productionSourceMap: false,
-	publicPath: "/",
+	publicPath: '/',
 	chainWebpack: config => {
 		config.module
 			.rule('raw')
