@@ -335,7 +335,7 @@ export default {
 			for (var i = 0; i < lines.length; i++) {
 				var line = lines[i];
 				// handle chord line
-				if (this.isChordLine(line)) continue;
+				if (!this.chords && this.isChordLine(line)) continue;
 				// handle verse marker
 				if (line.trim().toLowerCase().indexOf('--v') >= 0 && !isNaN(parseInt(line.trim().charAt(3)))) {
 					// if next line is chord line, prepend number to the line after
