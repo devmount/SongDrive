@@ -336,7 +336,7 @@ export default {
 				var line = lines[i];
 				// handle chord line
 				if (!this.chords && this.isChordLine(line)) continue;
-				// handle verse marker
+				// handle verse marker indentation
 				if (line.trim().toLowerCase().indexOf('--v') >= 0 && !isNaN(parseInt(line.trim().charAt(3)))) {
 					// if next line is chord line, prepend number to the line after
 					if (this.isChordLine(lines[i+1])) {
