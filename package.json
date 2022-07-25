@@ -13,8 +13,6 @@
 	},
 	"homepage": "https://github.com/devmount/SongDrive",
 	"keywords": [
-		"vuejs2",
-		"vuefire",
 		"firebase",
 		"firestore",
 		"music",
@@ -22,7 +20,6 @@
 		"vue",
 		"songs",
 		"setlists",
-		"spectre-css",
 		"presentation"
 	],
 	"bugs": "https://github.com/devmount/SongDrive/issues",

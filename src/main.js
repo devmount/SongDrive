@@ -1,33 +1,39 @@
-import Vue from 'vue';
-import App from './App';
-import router from './router';
+// init app
+import { createApp } from 'vue';
+import App from '@/App.vue';
+const app = createApp(App);
+
+// init router
+import router from './router'
+app.use(router);
 
 // set firebase db config
 import firebase from 'firebase/compat/app';
 const conf = {
-	apiKey: String(process.env.VUE_APP_FB_API_KEY),
-	authDomain: process.env.VUE_APP_FB_PROJECT_ID + ".firebaseapp.com",
-	databaseURL: "https://" + process.env.VUE_APP_FB_PROJECT_ID + ".firebaseio.com",
-	projectId: String(process.env.VUE_APP_FB_PROJECT_ID),
+	apiKey:        String(process.env.VUE_APP_FB_API_KEY),
+	authDomain:    process.env.VUE_APP_FB_PROJECT_ID + ".firebaseapp.com",
+	databaseURL:   "https://" + process.env.VUE_APP_FB_PROJECT_ID + ".firebaseio.com",
+	projectId:     String(process.env.VUE_APP_FB_PROJECT_ID),
 	storageBucket: process.env.VUE_APP_FB_PROJECT_ID + ".appspot.com"
 };
 let firebaseApp = firebase.initializeApp(conf);
 
-// vue global properties
-Vue.prototype.$db = firebaseApp.firestore();
-Vue.prototype.$version = process.env.VUE_APP_VERSION;
+// set global properties
+app.config.globalProperties.$db = firebaseApp.firestore();
+app.config.globalProperties.$version = process.env.VUE_APP_VERSION;
 
 // vue local config
-Vue.config.productionTip = false;
-Vue.config.ignoredElements = [/^ion-/];
+app.config.compilerOptions.isCustomElement = (tag) => {
+  return tag.startsWith('ion-')
+}
 
 // vue-notification
 import Notifications from 'vue-notification';
-Vue.use(Notifications);
+app.use(Notifications);
 
 // vue-sortable
 import Sortable from 'sortablejs';
-Vue.directive('sortable', {
+app.directive('sortable', {
 	inserted (el, binding) {
 		new Sortable(el, binding.value || {});
 	}
@@ -35,20 +41,20 @@ Vue.directive('sortable', {
 
 // vue-clipboard2
 import VueClipboard from 'vue-clipboard2';
-Vue.use(VueClipboard);
+app.use(VueClipboard);
 
 // vue-i18n
-import VueI18n from 'vue-i18n';
-Vue.use(VueI18n);
+import { createI18n } from 'vue-i18n';
 const messages = {
 	"de": require("./locales/de.json"), // German
 	"en": require("./locales/en.json"), // English
 };
-const i18n = new VueI18n({
-	locale: navigator.language.slice(0, 2), // set locale based on browser locale
-	fallbackLocale: "en", // default to English
+const i18n = createI18n({
+	locale: messenger.i18n.getUILanguage(),
+	fallbackLocale: "en",
   messages
 });
+app.use(i18n);
 
 // global mixins
 let isChordLine = (line) => {
@@ -57,7 +63,7 @@ let isChordLine = (line) => {
 };
 let keyScale = () => ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'];
 
-Vue.mixin({
+app.mixin({
   methods: {
 		// scale to use for song tuning and transponation
 		keyScale: keyScale,
@@ -358,8 +364,5 @@ Object.filter = (obj, predicate) =>
 		.filter(key => predicate(obj[key]))
 		.reduce((res, key) => (res[key] = obj[key], res), {});
 
-new Vue({
-	router,
-	i18n,
-	render: h => h(App)
-}).$mount('#app');
+// ready? let's go!
+app.mount('#app');
