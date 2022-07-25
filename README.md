@@ -29,6 +29,7 @@ This is how the SongDrive Dashboard currently looks like.
 - Use Hotkeys for almost anything (hotkey cheatsheet included)
 - Analyze general, setlist and user specific stats
 - UI supports multiple languages (currently: EN, DE)
+- Users can [manage their own profile](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md#account), change email and password or delete their account.
 - Many admin functions including export and Import of complete SongDrive data and managing users with [different roles](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md#user-roles)
 
 ## Installation for developers
