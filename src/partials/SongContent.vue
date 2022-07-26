@@ -16,7 +16,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
 	name: 'song-content',
 	props: {
 		content: String,
@@ -76,5 +78,5 @@ export default {
 			}
 		}
 	}
-}
+});
 </script>

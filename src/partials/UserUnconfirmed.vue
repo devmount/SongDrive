@@ -17,16 +17,18 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // get components
 import Logo from '@/partials/Logo';
 
-export default {
+export default defineComponent({
 	name: 'user-unconfirmed',
 	components: {
 		Logo
 	},
 	props: ['ready', 'config']
-}
+});
 </script>
 
 <style lang="scss">

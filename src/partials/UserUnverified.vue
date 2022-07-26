@@ -28,10 +28,12 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // get components
 import Logo from '@/partials/Logo';
 
-export default {
+export default defineComponent({
 	name: 'user-unverified',
 	components: {
 		Logo
@@ -48,7 +50,7 @@ export default {
 			this.$emit('resendEmailVerification');
 		}
 	}
-}
+});
 </script>
 
 <style lang="scss">

@@ -45,10 +45,12 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // get components
 import Logo from '@/partials/Logo';
 
-export default {
+export default defineComponent({
 	name: 'login',
 	components: {
 		Logo
@@ -59,7 +61,7 @@ export default {
 			password: ''
 		};
 	}
-}
+});
 </script>
 
 <style lang="scss">
