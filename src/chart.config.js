@@ -45,10 +45,8 @@ Chart.defaults.hover.mode = "index";
 // provide transparent gradient coloring based on given color for line chart backgrounds
 const transparentGradientLine = (ctx, chartArea, hexColor) => {
 	const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-	const fromColor = hexColor.slice(0, 7) + '00';
-	const toColor = hexColor.length === 9 ? hexColor : hexColor.slice(0, 7) + '77';
-	gradient.addColorStop(0, fromColor);
-	gradient.addColorStop(1, toColor);
+	gradient.addColorStop(0, hexColor.slice(0, 7) + '00');
+	gradient.addColorStop(1, hexColor.length === 9 ? hexColor : hexColor.slice(0, 7) + '77');
 	return gradient;
 }
 

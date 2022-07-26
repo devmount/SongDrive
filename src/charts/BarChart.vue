@@ -9,9 +9,10 @@
 </template>
 
 <script>
-import { Chart, transparentGradientBar } from '../chart.config';
+import { defineComponent } from 'vue';
+import { Chart, transparentGradientBar } from '../chart.config'
 
-export default {
+export default defineComponent({
 	props: {
 		title: String,
 		description: String,
@@ -22,11 +23,11 @@ export default {
 	},
 	data () {
 		return {
-			id: Math.random().toString(36).substring(7),
-			chart: null
-		};
+			id: Math.random().toString(36).substring(7)
+		}
 	},
 	mounted () {
+		this.chart = null;
 		if (this.labels && this.datasets) {
 			this.draw();
 		}
@@ -61,11 +62,29 @@ export default {
 					indexAxis: this.horizontal ? 'y' : 'x',
 					responsive: true,
 					maintainAspectRatio: false,
+					maxBarThickness: 50,
 					datasets: {
 						bar: {
-							borderWidth: this.horizontal ? { right: 2} : { top: 2 },
+							borderWidth: this.horizontal ? { right: 2 } : { top: 2 },
 							barPercentage: 1,
 							categoryPercentage: .6,
+						}
+					},
+					plugins: {
+						tooltip: {
+							displayColors: true,
+							intersect: true,
+							position: 'nearest',
+							callbacks: {
+								label: context => ' ' + context.formattedValue + ' ' + context.dataset.label,
+								labelColor: context => {
+									return {
+										borderWidth: 2,
+										borderColor: context.dataset.borderColor,
+										backgroundColor: context.dataset.borderColor + '33',
+									};
+								}
+							}
 						}
 					},
 					scales: {
@@ -77,7 +96,7 @@ export default {
 							},
 							ticks: {
 								maxRotation: 0,
-								autoSkipPadding: 10,
+								padding: this.horizontal ? 0 : 10,
 							},
 							beginAtZero: true
 						},
@@ -88,13 +107,11 @@ export default {
 								display: false,
 								drawBorder: false,
 							},
+							ticks: {
+								maxRotation: 0,
+								padding: this.horizontal ? 0 : 10,
+							},
 							beginAtZero: true
-						}
-					},
-					plugins: {
-						tooltip: {
-							intersect: true,
-							position: 'nearest'
 						}
 					}
 				}
@@ -114,7 +131,7 @@ export default {
 			this.chart.update();
 		}
 	}
-}
+});
 </script>
 
 <style lang="scss">

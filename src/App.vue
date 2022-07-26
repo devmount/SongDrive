@@ -238,6 +238,8 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // get components
 import Logo from '@/partials/Logo';
 import Login from '@/partials/Login';
@@ -253,7 +255,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { collection, onSnapshot } from "firebase/firestore";
 
-export default {
+export default defineComponent({
 	name: 'app',
 	components: {
 		Logo,
@@ -531,7 +533,7 @@ export default {
 			return Object.values(this.setlists).filter(s => !s.private || s.private && s.creator==this.auth.user).length;
 		}
 	},
-}
+});
 </script>
 
 <style lang="scss">
