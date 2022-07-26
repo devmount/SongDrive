@@ -174,6 +174,8 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // get slider component
 import { Hooper, Slide, Pagination as HooperPagination } from 'hooper';
 import 'hooper/dist/hooper.css';
@@ -181,7 +183,7 @@ import 'hooper/dist/hooper.css';
 import SongContent from '@/partials/SongContent';
 import InfoSongData from '@/modals/InfoSongData';
 
-export default {
+export default defineComponent({
 	name: 'setlist-present',
 	components: {
 		Hooper,
@@ -291,5 +293,5 @@ export default {
 			}
 		},
 	}
-}
+});
 </script>

@@ -47,7 +47,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
 	name: 'tag-set',
 	props: {
 		active: Boolean,
@@ -114,5 +116,5 @@ export default {
 			return this.error.key == true;
 		}
 	}
-}
+});
 </script>

@@ -217,11 +217,13 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // init datepicker component
 import Datepicker from 'vuejs-datepicker';
 import { en, de } from 'vuejs-datepicker/dist/locale';
 
-export default {
+export default defineComponent({
 	name: 'setlist-set',
 	components: {
 		Datepicker
@@ -436,5 +438,5 @@ export default {
 			return songs;
 		}
 	}
-}
+});
 </script>

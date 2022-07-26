@@ -79,11 +79,13 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // get components
 import SongContent from '@/partials/SongContent';
 import InfoSongData from '@/modals/InfoSongData';
 
-export default {
+export default defineComponent({
 	name: 'song-present',
 	components: {
 		SongContent,
@@ -122,5 +124,5 @@ export default {
 			this.maximizeFontsize();
 		}
 	}
-}
+});
 </script>

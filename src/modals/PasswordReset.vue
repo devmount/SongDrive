@@ -33,7 +33,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
 	name: 'password-reset',
 	props: {
 		active: Boolean,
@@ -59,5 +61,5 @@ export default {
 			}
 		}
 	}
-}
+});
 </script>

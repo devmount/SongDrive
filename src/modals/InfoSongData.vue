@@ -18,11 +18,13 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
 	name: 'info-song-data',
 	props: {
 		active: Boolean,
 		song: Object
 	},
-}
+});
 </script>

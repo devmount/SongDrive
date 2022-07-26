@@ -23,7 +23,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
 	name: 'setlist-delete',
 	props: {
 		active: Boolean,
@@ -46,5 +48,5 @@ export default {
 			}).catch((error) => this.throwError(error));
 		},
 	}
-}
+});
 </script>

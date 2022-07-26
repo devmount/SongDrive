@@ -89,9 +89,10 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import firebase from 'firebase/compat/app';
 
-export default {
+export default defineComponent({
 	name: 'user-set',
 	props: {
 		active: Boolean,     // state of modal display, true to show modal
@@ -230,5 +231,5 @@ export default {
 			);
 		}
 	}
-}
+});
 </script>

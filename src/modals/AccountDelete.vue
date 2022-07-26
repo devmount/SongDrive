@@ -41,9 +41,10 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import firebase from 'firebase/compat/app';
 
-export default {
+export default defineComponent({
 	name: 'account-delete',
 	props: {
 		active: Boolean,
@@ -108,5 +109,5 @@ export default {
 			);
 		}
 	}
-}
+});
 </script>

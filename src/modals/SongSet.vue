@@ -376,11 +376,12 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import InfoSongSyntax from '@/modals/InfoSongSyntax';
 import { PrismEditor } from 'vue-prism-editor';
 import 'vue-prism-editor/dist/prismeditor.min.css';
 
-export default {
+export default defineComponent({
 	name: 'song-set',
 	props: {
 		active: Boolean,
@@ -622,7 +623,7 @@ export default {
 			return (this.error.title || this.error.language || this.error.content || this.error.slug);
 		}
 	}
-}
+});
 </script>
 
 <style lang="scss">

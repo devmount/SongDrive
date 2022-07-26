@@ -93,7 +93,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
 	name: 'import-data',
 	props: {
 		active: Boolean,
@@ -173,5 +175,5 @@ export default {
 			return this.progress.total > 0 ? this.progress.imported*100/this.progress.total : 0;
 		}
 	}
-}
+});
 </script>

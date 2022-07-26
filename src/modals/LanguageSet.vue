@@ -48,7 +48,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
 	name: 'language-set',
 	props: {
 		active: Boolean,
@@ -110,5 +112,5 @@ export default {
 			return this.error.label || this.error.isocode;
 		}
 	}
-}
+});
 </script>

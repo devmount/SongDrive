@@ -60,9 +60,10 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import firebase from 'firebase/compat/app';
 
-export default {
+export default defineComponent({
 	name: 'email-change',
 	props: {
 		active: Boolean, // state of modal display, true to show modal
@@ -142,5 +143,5 @@ export default {
 			);
 		}
 	}
-}
+});
 </script>

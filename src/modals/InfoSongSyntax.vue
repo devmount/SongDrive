@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // markdown parser
 const { marked } = require('marked');
 const hljs = require('highlight.js');
@@ -26,7 +28,7 @@ const cheatsheets = {
 	en: require("@/docs/syntax-cheatsheet.en.md").default,
 };
 
-export default {
+export default defineComponent({
 	name: 'info-song-syntax',
 	props: {
 		active: Boolean
@@ -57,5 +59,5 @@ export default {
 			);
 		}
 	}
-}
+});
 </script>

@@ -28,7 +28,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
 	name: 'language-delete',
 	props: {
 		active: Boolean,
@@ -68,5 +70,5 @@ export default {
 			return false;
 		}
 	}
-}
+});
 </script>

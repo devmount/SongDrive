@@ -29,7 +29,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
 	name: 'user-delete',
 	props: {
 		active: Boolean,
@@ -82,5 +84,5 @@ export default {
 			return Object.keys(this.users).length;
 		},
 	}
-}
+});
 </script>
