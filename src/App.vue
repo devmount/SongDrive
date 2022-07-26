@@ -7,7 +7,7 @@
 		>
 			<!-- off-screen toggle button -->
 			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
-				<ion-icon name="menu" size="large"></ion-icon>
+				<ion-icon :icon="menu" size="large"></ion-icon>
 			</a>
 
 			<!-- off-screen sidebar -->
@@ -22,12 +22,12 @@
 						<li class="divider text-center" :data-content="$t('divider.start')"></li>
 						<li class="menu-item">
 							<router-link to="/" class="py-2" @click.native="open = false">
-								<ion-icon name="apps-sharp" class="mr-2"></ion-icon> {{ $t('page.dashboard') }}
+								<ion-icon :icon="appsSharp" class="mr-2"></ion-icon> {{ $t('page.dashboard') }}
 							</router-link>
 						</li>
 						<li class="menu-item">
 							<router-link to="/songs" class="py-2" @click.native="open = false">
-								<ion-icon name="musical-notes-sharp" class="mr-2"></ion-icon> {{ $t('page.songs') }}
+								<ion-icon :icon="musicalNotesSharp" class="mr-2"></ion-icon> {{ $t('page.songs') }}
 							</router-link>
 							<div class="menu-badge">
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
@@ -38,13 +38,13 @@
 									:data-tooltip="$t('tooltip.songAdd')"
 									@click="modal.addsong = true"
 								>
-									<ion-icon name="add-sharp"></ion-icon>
+									<ion-icon :icon="addSharp"></ion-icon>
 								</button>
 							</div>
 						</li>
 						<li class="menu-item">
 							<router-link to="/setlists" class="py-2" @click.native="open = false">
-								<ion-icon name="list" class="mr-2"></ion-icon> {{ $t('page.setlists') }}
+								<ion-icon :icon="list" class="mr-2"></ion-icon> {{ $t('page.setlists') }}
 							</router-link>
 							<div class="menu-badge">
 								<label v-if="ready.setlists" class="label py-1">{{ setlistCount }}</label>
@@ -55,7 +55,7 @@
 									:data-tooltip="$t('tooltip.setlistAdd')"
 									@click="modal.addsetlist = true"
 								>
-									<ion-icon name="add-sharp"></ion-icon>
+									<ion-icon :icon="addSharp"></ion-icon>
 								</button>
 							</div>
 						</li>
@@ -72,7 +72,7 @@
 											alt="Avatar"
 										></figure>
 										<span v-else class="avatar flex-center">
-											<ion-icon name="person"></ion-icon>
+											<ion-icon :icon="person"></ion-icon>
 										</span>
 									</div>
 									<div class="tile-content">
@@ -86,12 +86,12 @@
 						</li>
 						<li class="menu-item">
 							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles()[permissions[auth.user].role] > 3 }" @click.native="open = false">
-								<ion-icon name="options-outline" class="mr-2"></ion-icon> {{ $t('page.settings') }}
+								<ion-icon :icon="optionsOutline" class="mr-2"></ion-icon> {{ $t('page.settings') }}
 							</router-link>
 						</li>
 						<li class="menu-item">
 							<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
-								{{ $t('button.signOut') }} <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
+								{{ $t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
 							</button>
 						</li>
 					</ul>
@@ -99,25 +99,29 @@
 						<li class="divider text-center" :data-content="$t('divider.info')"></li>
 						<li class="menu-item">
 							<router-link to="/shortcuts" class="py-2" @click.native="open = false">
-								<ion-icon name="bulb-outline" class="mr-2"></ion-icon> {{ $t('page.shortcuts') }}
+								<ion-icon :icon="bulbOutline" class="mr-2"></ion-icon> {{ $t('page.shortcuts') }}
 							</router-link>
 						</li>
 						<li class="menu-item">
 							<router-link to="/documentation" class="py-2" @click.native="open = false">
-								<ion-icon name="book-outline" class="mr-2"></ion-icon> {{ $t('page.docu') }}
+								<ion-icon :icon="bookOutline" class="mr-2"></ion-icon> {{ $t('page.docu') }}
 							</router-link>
 						</li>
 						<li class="menu-item">
 							<a href="https://github.com/devmount/SongDrive" class="py-2" target="_blank">
-								<ion-icon name="logo-github" class="mr-2"></ion-icon>
+								<ion-icon :icon="logoGithub" class="mr-2"></ion-icon>
 								{{ $t('page.github') }}
-								<ion-icon name="open-outline" class="icon-right"></ion-icon>
+								<ion-icon :icon="openOutline" class="icon-right"></ion-icon>
 							</a>
 						</li>
 					</ul>
 					<footer>
 						<div class="text-center text-small text-gray">
-							<span v-html="$t('app.created')"></span>
+							<span>
+								{{ $t('app.created.0') }}
+								<ion-icon :icon='heartOutline'></ion-icon>
+								{{ $t('app.created.1') }}
+							</span>
 							<a href="https://devmount.de" target="_blank">
 								<svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
 									<path class="st0" d="M6.9,140.6L87.1,40.2l78.2,77.6"/>
@@ -228,7 +232,7 @@
 		<notifications position="bottom right" :duration="5000" :width="400">
 			<template #body="props">
 				<div :class="'toast toast-' + props.item.type">
-					<ion-icon name="close" class="float-right c-hand icon-1-5x" @click="props.close"></ion-icon>
+					<ion-icon :icon="close" class="float-right c-hand icon-1-5x" @click="props.close"></ion-icon>
 					<h5>{{ props.item.title }}</h5>
 					<p v-html="props.item.text"></p>
 				</div>
@@ -236,6 +240,26 @@
 		</notifications>
 	</div>
 </template>
+
+<script setup>
+// get icons
+import {
+	appsSharp,
+	addSharp,
+	bookOutline,
+	bulbOutline,
+	close,
+	heartOutline,
+	list,
+	logoGithub,
+	logOutOutline,
+	menu,
+	musicalNotesSharp,
+	openOutline,
+	optionsOutline,
+	person
+} from 'ionicons/icons';
+</script>
 
 <script>
 import { defineComponent } from 'vue';

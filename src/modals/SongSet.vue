@@ -82,7 +82,7 @@
 										<div class="form-group">
 											<label class="form-label" for="tags">{{ $t('field.tags') }}</label>
 											<div v-for="tag in song.tags" :key="tag" class="chip s-rounded">
-												<ion-icon name="pricetag-outline" class="icon-sm mr-2"></ion-icon>
+												<ion-icon :icon="pricetagOutline" class="icon-sm mr-2"></ion-icon>
 												{{ tags[tag][$i18n.locale] ? tags[tag][$i18n.locale] : tag }}
 												<a
 													href="#"
@@ -93,7 +93,7 @@
 												></a>
 											</div>
 											<button class="btn btn-secondary btn-sm" @click="modal.tags = true">
-												<ion-icon name="add"></ion-icon>
+												<ion-icon :icon="add"></ion-icon>
 											</button>
 										</div>
 									</div>
@@ -161,7 +161,7 @@
 									<div class="column col-12">
 										<label class="form-label">{{ $t('field.translations') }}</label>
 										<div v-if="song.translations && song.translations.length == 0" class="text-gray">
-											<ion-icon name="information-circle-outline"></ion-icon> {{ $t('text.noTranslations') }}
+											<ion-icon :icon="informationCircleOutline"></ion-icon> {{ $t('text.noTranslations') }}
 										</div>
 										<div v-else>
 											<div v-for="tsong in song.translations" :key="tsong" class="tile tile-centered mb-1">
@@ -177,13 +177,13 @@
 														class="btn btn-link btn-action"
 														@click="song.translations = song.translations.filter(k => k !== tsong)"
 													>
-														<ion-icon name="close"></ion-icon>
+														<ion-icon :icon="close"></ion-icon>
 													</button>
 												</div>
 											</div>
 										</div>
 										<button class="btn btn-secondary btn-sm mt-1" @click="modal.translations = true">
-											<ion-icon name="add"></ion-icon>
+											<ion-icon :icon="add"></ion-icon>
 										</button>
 									</div>
 								</div>
@@ -197,7 +197,7 @@
 											:data-tooltip="$t('modal.songSyntaxCheatsheet')"
 											@click="modal.infosongsyntax = true"
 										>
-											<ion-icon name="information-outline"></ion-icon>
+											<ion-icon :icon="informationOutline"></ion-icon>
 										</button>
 									</label>
 									<prism-editor
@@ -237,7 +237,7 @@
 						<div class="columns">
 							<div class="column col-6">
 								<div class="input-group filter">
-									<span class="input-group-addon"><ion-icon name="search-outline"></ion-icon></span>
+									<span class="input-group-addon"><ion-icon :icon="searchOutline"></ion-icon></span>
 									<input
 										v-model="search.tags"
 										type="search"
@@ -256,7 +256,7 @@
 							<div class="column col-6">
 								<div v-if="song.tags && song.tags.length == 0" class="empty">
 									<div class="empty-icon">
-										<ion-icon name="pricetags-outline" class="icon-4x"></ion-icon>
+										<ion-icon :icon="pricetagsOutline" class="icon-4x"></ion-icon>
 									</div>
 									<p class="empty-title h5">{{ $t('text.noTagsSelected') }}</p>
 									<p class="empty-subtitle">{{ $t('text.selectSomeTags') }}</p>
@@ -266,7 +266,7 @@
 									<div v-for="tag in song.tags" :key="tag" class="tile tile-centered">
 										<div class="tile-content">
 											<div class="tile-title">
-												<ion-icon name="pricetag-outline" class="mr-2"></ion-icon>
+												<ion-icon :icon="pricetagOutline" class="mr-2"></ion-icon>
 												{{ tags[tag][$i18n.locale] ? tags[tag][$i18n.locale] : tag }}
 											</div>
 										</div>
@@ -275,7 +275,7 @@
 												class="btn btn-link btn-action"
 												@click="song.tags = song.tags.filter(k => k !== tag)"
 											>
-												<ion-icon name="close"></ion-icon>
+												<ion-icon :icon="close"></ion-icon>
 											</button>
 										</div>
 									</div>
@@ -309,7 +309,7 @@
 						<div class="columns">
 							<div class="column col-6">
 								<div class="input-group filter">
-									<span class="input-group-addon"><ion-icon name="search-outline"></ion-icon></span>
+									<span class="input-group-addon"><ion-icon :icon="searchOutline"></ion-icon></span>
 									<input
 										v-model="search.translations"
 										type="search"
@@ -330,7 +330,7 @@
 							<div class="column col-6">
 								<div v-if="song.translations && song.translations.length == 0" class="empty">
 									<div class="empty-icon">
-										<ion-icon name="book-outline" class="icon-4x"></ion-icon>
+										<ion-icon :icon="bookOutline" class="icon-4x"></ion-icon>
 									</div>
 									<p class="empty-title h5">{{ $t('text.noSongsSelected') }}</p>
 									<p class="empty-subtitle">{{ $t('text.selectSomeTranslations') }}</p>
@@ -350,7 +350,7 @@
 												class="btn btn-link btn-action"
 												@click="song.translations = song.translations.filter(k => k !== tsong)"
 											>
-												<ion-icon name="close"></ion-icon>
+												<ion-icon :icon="close"></ion-icon>
 											</button>
 										</div>
 									</div>
@@ -374,6 +374,20 @@
 		/>
 	</div>
 </template>
+
+<script setup>
+// get icons
+import {
+	add,
+	bookOutline,
+	close,
+	informationCircleOutline,
+	informationOutline,
+	pricetagOutline,
+	pricetagsOutline,
+	searchOutline
+} from 'ionicons/icons';
+</script>
 
 <script>
 import { defineComponent } from 'vue';

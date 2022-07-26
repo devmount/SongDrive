@@ -35,7 +35,7 @@
 					@click="modal.infosongdata = true"
 					:data-tooltip="$t('tooltip.infoSongData') + '\n' + $t('key.ctrl') + ' + ' + $t('key.I')"
 				>
-					<ion-icon name="information-outline" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="informationOutline" class="icon-1-5x"></ion-icon>
 				</a>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
@@ -45,7 +45,7 @@
 					@click.prevent="dark = !dark"
 					:data-tooltip="$t('tooltip.lightModeOnOff') + '\n' + $t('key.ctrl') + ' + ' + $t('key.L')"
 				>
-					<ion-icon name="contrast-outline" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="contrastOutline" class="icon-1-5x"></ion-icon>
 				</a>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
@@ -55,7 +55,7 @@
 					@click.prevent="$emit('chords')"
 					:data-tooltip="$t('tooltip.chords' + (!chords ? 'Show' : 'Hide')) + '\n' + $t('key.ctrl') + ' + ' + $t('key.K')"
 				>
-					<ion-icon name="musical-notes" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
 				</a>
 				<a
 					class="btn btn-secondary btn-xl btn-fw btn-gray tooltip ml-1"
@@ -64,7 +64,7 @@
 					@click.prevent="$emit('closed')"
 					:data-tooltip="$t('tooltip.presentationClose') + '\n' + $t('key.esc')"
 				>
-					<ion-icon name="close" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="close" class="icon-1-5x"></ion-icon>
 				</a>
 			</div>
 		</div>
@@ -77,6 +77,16 @@
 		/>
 	</div>
 </template>
+
+<script setup>
+// get icons
+import {
+	close,
+	contrastOutline,
+	informationOutline,
+	musicalNotes
+} from 'ionicons/icons';
+</script>
 
 <script>
 import { defineComponent } from 'vue';

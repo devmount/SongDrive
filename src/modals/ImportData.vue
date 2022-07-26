@@ -13,7 +13,7 @@
 						<div class="timeline-item" id="timeline-example-1">
 							<div class="timeline-left">
 								<span class="timeline-icon" :class="{ 'icon-lg': fileSelected }">
-									<ion-icon v-if="fileSelected" name="checkmark-outline"></ion-icon>
+									<ion-icon :icon="checkmarkOutline" v-if="fileSelected"></ion-icon>
 								</span>
 							</div>
 							<div class="timeline-content">
@@ -39,7 +39,7 @@
 						<div class="timeline-item" id="timeline-example-2">
 							<div class="timeline-left">
 								<span class="timeline-icon" :class="{ 'icon-lg': progress.started }">
-									<ion-icon v-if="progress.started" name="checkmark-outline"></ion-icon>
+									<ion-icon :icon="checkmarkOutline" v-if="progress.started"></ion-icon>
 								</span>
 							</div>
 							<div class="timeline-content">
@@ -59,7 +59,7 @@
 						<div class="timeline-item" id="timeline-example-3">
 							<div class="timeline-left">
 								<span class="timeline-icon" :class="{ 'icon-lg': progress.finished && progress.total > 0 }">
-									<ion-icon v-if="progress.finished && progress.total > 0" name="checkmark-outline"></ion-icon>
+									<ion-icon :icon="checkmarkOutline" v-if="progress.finished && progress.total > 0"></ion-icon>
 								</span>
 							</div>
 							<div class="timeline-content">
@@ -91,6 +91,11 @@
 		</div>
 	</div>
 </template>
+
+<script setup>
+// get icons
+import { checkmarkOutline } from 'ionicons/icons';
+</script>
 
 <script>
 import { defineComponent } from 'vue';

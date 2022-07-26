@@ -30,6 +30,7 @@
 		"build": "vue-cli-service build"
 	},
 	"dependencies": {
+		"@ionic/vue": "^6.1.15",
 		"@kyvg/vue3-notification": "^2.3.4",
 		"@vuepic/vue-datepicker": "^3.2.2",
 		"chart.js": "^3.5.1",
@@ -37,6 +38,7 @@
 		"firebase": "^9.0.0",
 		"highlight.js": "^11.3.1",
 		"hooper-vue3": "^0.3.4",
+		"ionicons": "^6.0.2",
 		"marked": "^4.0.10",
 		"pdfmake": "^0.2.2",
 		"sortablejs": "^1.9.0",

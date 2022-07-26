@@ -22,6 +22,10 @@ let firebaseApp = firebase.initializeApp(conf);
 app.config.globalProperties.$db = firebaseApp.firestore();
 app.config.globalProperties.$version = process.env.VUE_APP_VERSION;
 
+// ionicons
+import { IonIcon } from '@ionic/vue';
+app.component('ion-icon', IonIcon);
+
 // vue-notification
 import Notifications from '@kyvg/vue3-notification';
 app.use(Notifications);
@@ -61,6 +65,9 @@ let keyScale = () => ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B',
 
 app.mixin({
   methods: {
+		// icon (name) {
+		// 	return allIcons[name];
+		// },
 		// scale to use for song tuning and transponation
 		keyScale: keyScale,
 		/*

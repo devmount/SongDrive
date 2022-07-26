@@ -28,7 +28,7 @@
 				</div>
 				<div class="panel-footer mt-3">
 					<button class="btn btn-primary btn-block" @click="$emit('signIn', email, password)">
-						{{ $t('button.signIn') }} <ion-icon name="log-in-outline" class="icon-right"></ion-icon>
+						{{ $t('button.signIn') }} <ion-icon :icon="logInOutline" class="icon-right"></ion-icon>
 					</button>
 				</div>
 			</div>

@@ -34,7 +34,7 @@
 					<ul class="pagination">
 						<li class="page-item" :class="{ disabled: isFirstPage }">
 							<a class="btn btn-secondary" @click="!isFirstPage ? page-- : null">
-								<ion-icon name="arrow-back"></ion-icon>
+								<ion-icon :icon="arrowBack"></ion-icon>
 							</a>
 						</li>
 						<li
@@ -56,7 +56,7 @@
 						</li>
 						<li class="page-item" :class="{ disabled: isLastPage }">
 							<a class="btn btn-secondary" @click="!isLastPage ? page++ : null">
-								<ion-icon name="arrow-forward"></ion-icon>
+								<ion-icon :icon="arrowForward"></ion-icon>
 							</a>
 						</li>
 					</ul>
@@ -66,7 +66,7 @@
 				<div class="column col-8 col-xl-12">
 					<div class="input-group filter">
 						<!-- search title, subtitles -->
-						<span class="input-group-addon addon-lg"><ion-icon name="search"></ion-icon></span>
+						<span class="input-group-addon addon-lg"><ion-icon :icon="searchIcon"></ion-icon></span>
 						<input
 							type="search"
 							ref="search"
@@ -81,7 +81,7 @@
 									:class="{ 'badge': filter!='' }"
 									tabindex="0"
 								>
-									<ion-icon name="filter-sharp"></ion-icon>
+									<ion-icon :icon="filterSharp"></ion-icon>
 								</a>
 								<ul class="menu text-left">
 									<li class="menu-item">
@@ -97,7 +97,7 @@
 											class="btn input-group-btn btn-lg btn-error-secondary stretch"
 											@click="search=''; filter=''"
 										>
-											<ion-icon name="close"></ion-icon>
+											<ion-icon :icon="close"></ion-icon>
 											{{ $t('button.reset') }}
 										</button>
 									</li>
@@ -123,8 +123,8 @@
 							@click="sortList(col)"
 						>
 							{{ $t('field.' + col) }}
-							<ion-icon v-if="order.field == col && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == col && order.ascending" class="icon-right" name="caret-up"></ion-icon>
+							<ion-icon :icon="caretDown" v-if="order.field == col && !order.ascending" class="icon-right"></ion-icon>
+							<ion-icon :icon="caretUp" v-if="order.field == col && order.ascending" class="icon-right"></ion-icon>
 						</th>
 						<th></th>
 					</tr>
@@ -148,7 +148,7 @@
 								class="text-primary d-inline-block ml-2 tooltip tooltip-bottom"
 								:data-tooltip="$t('tooltip.setlistPrivate')"
 							>
-								<ion-icon name="lock-closed-outline"></ion-icon>
+								<ion-icon :icon="lockClosedOutline"></ion-icon>
 							</div>
 						</td>
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
@@ -161,12 +161,12 @@
 							<div class="dropdown dropdown-right">
 								<div class="btn-group">
 									<a class="btn btn-primary dropdown-toggle" tabindex="0">
-										<ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+										<ion-icon :icon="ellipsisHorizontalOutline"></ion-icon>
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
 											<router-link :to="{ name: 'setlist-show', params: { id: setlist.id }}" class="py-3 px-3">
-												<ion-icon name="eye-outline" class="mr-2"></ion-icon> {{ $t('button.show') }}
+												<ion-icon :icon="eyeOutline" class="mr-2"></ion-icon> {{ $t('button.show') }}
 											</router-link>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
@@ -175,7 +175,7 @@
 												class="py-3 px-3"
 												@click.prevent="editDialog(setlist, true)"
 											>
-												<ion-icon name="create-outline" class="mr-2"></ion-icon> {{ $t('button.edit') }}
+												<ion-icon :icon="createOutline" class="mr-2"></ion-icon> {{ $t('button.edit') }}
 											</a>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
@@ -184,7 +184,7 @@
 												class="py-3 px-3"
 												@click.prevent="editDialog(setlist, false)"
 											>
-												<ion-icon name="copy-outline" class="mr-2"></ion-icon> {{ $t('button.duplicate') }}
+												<ion-icon :icon="copyOutline" class="mr-2"></ion-icon> {{ $t('button.duplicate') }}
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
@@ -193,7 +193,7 @@
 												class="py-3 px-3 text-error"
 												@click.prevent="deleteDialog(setlist)"
 											>
-												<ion-icon name="trash-outline" class="mr-2"></ion-icon> {{ $t('button.delete') }}
+												<ion-icon :icon="trashOutline" class="mr-2"></ion-icon> {{ $t('button.delete') }}
 											</a>
 										</li>
 									</ul>
@@ -230,6 +230,25 @@
 		</div>
 	</div>
 </template>
+
+<script setup>
+// get icons
+import { 
+	arrowBack,
+	arrowForward,
+	caretDown,
+	caretUp,
+	close,
+	copyOutline,
+	createOutline,
+	ellipsisHorizontalOutline,
+	eyeOutline,
+	filterSharp,
+	lockClosedOutline,
+	search as searchIcon,
+	trashOutline
+} from 'ionicons/icons';
+</script>
 
 <script>
 import { defineComponent } from 'vue';

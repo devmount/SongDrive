@@ -18,7 +18,7 @@
 						:data-tooltip="$t('button.back')"
 						@click="$router.go(-1)"
 					>
-						<ion-icon name="arrow-back-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="arrowBackOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ $t('button.back') }}</span>
 					</button>
 					<!-- sidebar: manage -->
@@ -30,7 +30,7 @@
 							:data-tooltip="$t('divider.manage') + ': ' + $t('button.edit')"
 							@click="existing=true; modal.set=true"
 						>
-							<ion-icon name="create-outline" class="icon-left"></ion-icon>
+							<ion-icon :icon="createOutline" class="icon-left"></ion-icon>
 							<span class="hide-lg">{{ $t('button.edit') }}</span>
 						</button>
 						<button
@@ -38,7 +38,7 @@
 							:data-tooltip="$t('divider.manage') + ': ' + $t('button.duplicate')"
 							@click="existing=false; modal.set=true"
 						>
-							<ion-icon name="copy-outline" class="icon-left"></ion-icon>
+							<ion-icon :icon="copyOutline" class="icon-left"></ion-icon>
 							<span class="hide-lg">{{ $t('button.duplicate') }}</span>
 						</button>
 					</template>
@@ -48,7 +48,7 @@
 						:data-tooltip="$t('divider.manage') + ': ' + $t('button.delete')"
 						@click="modal.delete = true"
 					>
-						<ion-icon name="trash-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="trashOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ $t('button.delete') }}</span>
 					</button>
 					<!-- sidebar: view -->
@@ -79,7 +79,7 @@
 						:data-tooltip="$t('divider.view') + ': ' + $t('button.present')"
 						@click="modal.present=true"
 					>
-						<ion-icon name="videocam-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="videocamOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ $t('button.present') }}</span>
 					</button>
 					<router-link
@@ -88,7 +88,7 @@
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg"
 						:data-tooltip="$t('divider.view') + ': ' + $t('button.launch')"
 					>
-						<ion-icon name="open-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="openOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ $t('button.launch') }}</span>
 					</router-link>
 					<!-- sidebar: export -->
@@ -99,7 +99,7 @@
 						:data-tooltip="$t('divider.copy') + ': ' + $t('button.formatPlain')"
 						@click="copyList('plain')"
 					>
-						<ion-icon name="list" class="icon-left"></ion-icon>
+						<ion-icon :icon="list" class="icon-left"></ion-icon>
 						<span class="hide-lg text-pre">{{ $t('button.formatPlain') }}</span>
 					</button>
 					<button
@@ -107,7 +107,7 @@
 						:data-tooltip="$t('divider.copy') + ': ' + $t('button.formatMarkdown')"
 						@click="copyList('markdown')"
 					>
-						<ion-icon name="logo-markdown" class="icon-left"></ion-icon>
+						<ion-icon :icon="logoMarkdown" class="icon-left"></ion-icon>
 						<span class="hide-lg text-pre">{{ $t('button.formatMarkdown') }}</span>
 					</button>
 					<button
@@ -115,7 +115,7 @@
 						:data-tooltip="$t('divider.copy') + ': ' + $t('button.formatSlack')"
 						@click="copyList('slack')"
 					>
-						<ion-icon name="logo-slack" class="icon-left"></ion-icon>
+						<ion-icon :icon="logoSlack" class="icon-left"></ion-icon>
 						<span class="hide-lg text-pre">{{ $t('button.formatSlack') }}</span>
 					</button>
 					<!-- sidebar: export -->
@@ -126,7 +126,7 @@
 						:data-tooltip="$t('divider.export') + ': ' + $t('button.exportSetlistList')"
 						@click="exportPdf('list')"
 					>
-						<ion-icon name="download-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="downloadOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg text-pre">{{ $t('button.exportSetlistList') }}</span>
 					</button>
 					<button
@@ -134,7 +134,7 @@
 						:data-tooltip="$t('divider.export') + ': ' + $t('button.exportSetlistSheets')"
 						@click="exportPdf('sheets')"
 					>
-						<ion-icon name="download-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="downloadOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg text-pre">{{ $t('button.exportSetlistSheets') }}</span>
 					</button>
 				</div>
@@ -154,19 +154,19 @@
 									class="text-primary flex align-center g-2 tooltip tooltip-bottom"
 									:data-tooltip="$t('tooltip.setlistPrivate')"
 								>
-									<ion-icon name="lock-closed-outline" class="icon-sm"></ion-icon>
+									<ion-icon :icon="lockClosedOutline" class="icon-sm"></ion-icon>
 									{{ $t('option.private') }}
 								</span>
 								<span class="flex align-center g-2">
-									<ion-icon name="list" class="icon-sm"></ion-icon>
+									<ion-icon :icon="list" class="icon-sm"></ion-icon>
 									{{ $tc('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
 								</span>
 								<span class="flex align-center g-2">
-									<ion-icon name="calendar-outline" class="icon-sm"></ion-icon>
+									<ion-icon :icon="calendarOutline" class="icon-sm"></ion-icon>
 									{{ humanDate(setlist.date, $i18n.locale) }}
 								</span>
 								<span v-if="ready.users && users[setlist.creator]" class="flex align-center g-2">
-									<ion-icon name="person-outline" class="icon-sm"></ion-icon>
+									<ion-icon :icon="personOutline" class="icon-sm"></ion-icon>
 									{{ users[setlist.creator].name }}
 								</span>
 							</h3>
@@ -186,7 +186,7 @@
 								<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
 									<tr v-for="(song, i) in setlist.songs" :key="song.id">
 										<td v-if="user && role > 1" class="c-move text-center text-gray">
-											<ion-icon name="reorder-four-outline" class="icon-1-5x pl-2 handle"></ion-icon>
+											<ion-icon :icon="reorderFourOutline" class="icon-1-5x pl-2 handle"></ion-icon>
 										</td>
 										<template v-if="songs[song.id]">
 											<td class="c-hand" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})">
@@ -200,7 +200,7 @@
 													class="btn btn-secondary btn-sm btn-fw"
 													@click.prevent="tuneDown(songs[song.id], i)"
 												>
-													<ion-icon name="arrow-back" class="icon-sm"></ion-icon>
+													<ion-icon :icon="arrowBack" class="icon-sm"></ion-icon>
 												</button>
 												<code>{{ song.tuning ? song.tuning : songs[song.id].tuning }}</code>
 												<button
@@ -208,7 +208,7 @@
 													class="btn btn-secondary btn-sm btn-fw"
 													@click.prevent="tuneUp(songs[song.id], i)"
 												>
-													<ion-icon name="arrow-forward" class="icon-sm"></ion-icon>
+													<ion-icon :icon="arrowForward" class="icon-sm"></ion-icon>
 												</button>
 											</td>
 											<td class="hide-xl">
@@ -230,14 +230,14 @@
 												class="btn btn-primary"
 												@click.prevent="$router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})"
 											>
-												<ion-icon name="eye-outline"></ion-icon>
+												<ion-icon :icon="eyeOutline"></ion-icon>
 											</button>
 											<button
 												v-else
 												class="btn btn-error"
 												@click.prevent="removeSong(song.id)"
 											>
-												<ion-icon name="trash-outline"></ion-icon>
+												<ion-icon :icon="trashOutline"></ion-icon>
 											</button>
 										</td>
 									</tr>
@@ -246,7 +246,7 @@
 						</div>
 						<div v-if="ready.songs && ready.setlists && setlist && setlist.songs.length == 0" class="column col-12 empty">
 							<div class="empty-icon">
-								<ion-icon name="musical-notes-outline" class="icon-4x"></ion-icon>
+								<ion-icon :icon="musicalNotesOutline" class="icon-4x"></ion-icon>
 							</div>
 							<p class="empty-title h5">{{ $t('text.emptySetlist') }}</p>
 							<p class="empty-subtitle">{{ $t('text.editSetlistAddSongs') }}</p>
@@ -261,7 +261,7 @@
 							<div class="panel pb-4">
 								<div class="panel-header">
 									<div class="panel-title h5 text-center">
-										<ion-icon name="globe-outline"></ion-icon> {{ $tc('widget.languages', 2) }}
+										<ion-icon :icon="globeOutline"></ion-icon> {{ $tc('widget.languages', 2) }}
 									</div>
 								</div>
 								<div class="panel-body">
@@ -280,7 +280,7 @@
 							<div class="panel pb-4">
 								<div class="panel-header">
 									<div class="panel-title h5 text-center">
-										<ion-icon name="musical-note"></ion-icon> {{ $t('widget.keys') }}
+										<ion-icon :icon="musicalNote"></ion-icon> {{ $t('widget.keys') }}
 									</div>
 								</div>
 								<div class="panel-body">
@@ -338,12 +338,38 @@
 	</div>
 	<div v-else class="empty">
 		<div class="empty-icon">
-			<ion-icon name="lock-closed-outline" class="icon-4x"></ion-icon>
+			<ion-icon :icon="lockClosedOutline" class="icon-4x"></ion-icon>
 		</div>
 		<p class="empty-title h5">{{ $t('text.privateSetlist') }}</p>
 		<p class="empty-subtitle">{{ $t('text.setlistVisibleForCreator') }}</p>
 	</div>
 </template>
+
+<script setup>
+// get icons
+import {
+	arrowBack,
+	arrowBackOutline,
+	arrowForward,
+	calendarOutline,
+	copyOutline,
+	createOutline,
+	downloadOutline,
+	eyeOutline,
+	globeOutline,
+	list,
+	lockClosedOutline,
+	logoMarkdown,
+	logoSlack,
+	musicalNote,
+	musicalNotesOutline,
+	openOutline,
+	personOutline,
+	reorderFourOutline,
+	trashOutline,
+	videocamOutline
+} from 'ionicons/icons';
+</script>
 
 <script>
 import { defineComponent } from 'vue';

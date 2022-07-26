@@ -1,6 +1,6 @@
 {
   "app": {
-    "created": "created with <ion-icon name='heart-outline'></ion-icon> by",
+    "created": ["created with", "by"],
     "license": "MIT license",
     "name": "SongDrive",
     "summary": "Store, manage, synchronize and present songs and setlists"
@@ -70,17 +70,14 @@
     "features": [
       {
         "description": "Build your song collection using a simple song syntax and create setlists with realtime search and filters.",
-        "icon": "flash-outline",
         "title": "Minimal effort"
       },
       {
         "description": "Perform the songs of your setlist using your tablet or laptop on stage as well as presenting them to the audience at the same time.",
-        "icon": "mic-outline",
         "title": "Ready for stage"
       },
       {
         "description": "Transpose songs with a single click, create PDF song sheets, export songs and setlists in multiple formats, hotkey support and more.",
-        "icon": "construct-outline",
         "title": "Tools for artists"
       }
     ]

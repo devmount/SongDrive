@@ -22,7 +22,7 @@
 						<div class="panel-body text-center pb-3 featured">
 							<div class="featured-number">{{ Object.keys(songs).length }}</div>
 							<div class="panel-title h5 featured-description">
-								<ion-icon name="musical-notes" class="mr-2"></ion-icon>
+								<ion-icon :icon="musicalNotes" class="mr-2"></ion-icon>
 								{{ $t('widget.songsStored') }}
 							</div>
 						</div>
@@ -34,7 +34,7 @@
 						<div class="panel-body text-center pb-3 featured">
 							<div class="featured-number">{{ setlistCount }}</div>
 							<div class="panel-title h5 featured-description">
-								<ion-icon name="list" class="mr-2"></ion-icon>
+								<ion-icon :icon="list" class="mr-2"></ion-icon>
 								{{ $t('widget.setlistsStored') }}
 							</div>
 						</div>
@@ -46,7 +46,7 @@
 						<div class="panel-body text-center pb-3 featured">
 							<div class="featured-number"><span class="text-gray">~</span>{{ songsPerformed }}</div>
 							<div class="panel-title h5 featured-description">
-								<ion-icon name="mic-outline" class="mr-2"></ion-icon>
+								<ion-icon :icon="micOutline" class="mr-2"></ion-icon>
 								{{ $t('widget.songsPerformed') }}
 							</div>
 						</div>
@@ -58,7 +58,7 @@
 						<div class="panel-body text-center pb-3 featured">
 							<div class="featured-number">{{ languagesUsed }}</div>
 							<div class="panel-title h5 featured-description">
-								<ion-icon name="globe-outline" class="mr-2"></ion-icon>
+								<ion-icon :icon="globeOutline" class="mr-2"></ion-icon>
 								{{ $tc('widget.languages', languagesUsed) }}
 							</div>
 						</div>
@@ -79,14 +79,14 @@
 										:class="{ disabled: isFirstSongPage }"
 										@click="!isFirstSongPage ? songsPage-- : null"
 									>
-										<ion-icon name="arrow-back"></ion-icon>
+										<ion-icon :icon="arrowBack"></ion-icon>
 									</button>
 									<button
 										class="btn btn-secondary px-3"
 										:class="{ disabled: isLastSongPage }"
 										@click="!isLastSongPage ? songsPage++ : null"
 									>
-										<ion-icon name="arrow-forward"></ion-icon>
+										<ion-icon :icon="arrowForward"></ion-icon>
 									</button>
 								</div>
 							</div>
@@ -122,28 +122,28 @@
 						<div class="panel-footer">
 							<div class="btn-group">
 								<button class="btn btn-secondary" @click="shuffleSongs">
-									<ion-icon name="shuffle" class="mr-2"></ion-icon>
+									<ion-icon :icon="shuffle" class="mr-2"></ion-icon>
 									{{ $t('button.shuffle') }}
 								</button>
 								<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs">
-									<ion-icon name="arrow-up" class="mr-2"></ion-icon>
+									<ion-icon :icon="arrowUp" class="mr-2"></ion-icon>
 									{{ $t('widget.newest') }}
 								</button>
 								<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs">
-									<ion-icon name="arrow-down" class="mr-2"></ion-icon>
+									<ion-icon :icon="arrowDown" class="mr-2"></ion-icon>
 									{{ $t('widget.oldest') }}
 								</button>
 								<button v-if="!noSetlists" class="btn btn-secondary" @click="popularSongs">
-									<ion-icon name="trending-up" class="mr-2"></ion-icon>
+									<ion-icon :icon="trendingUp" class="mr-2"></ion-icon>
 									{{ $t('widget.popular') }}
 								</button>
 							</div>
 						</div>
 						<div class="panel-link">
-							<router-link to="/songs" class="btn btn-link btn-block">
+							<RouterLink to="/songs" class="btn btn-link btn-block">
 								{{ $t('widget.goToSongs') }}
-								<ion-icon name="arrow-forward" class="ml-1"></ion-icon>
-							</router-link>
+								<ion-icon :icon="arrowForward" class="ml-1"></ion-icon>
+							</RouterLink>
 						</div>
 					</div>
 				</div>
@@ -159,14 +159,14 @@
 										:class="{ disabled: isFirstSetlistPage }"
 										@click="!isFirstSetlistPage ? setlistsPage-- : null"
 									>
-										<ion-icon name="arrow-back"></ion-icon>
+										<ion-icon :icon="arrowBack"></ion-icon>
 									</button>
 									<button
 										class="btn btn-secondary float-right px-3"
 										:class="{ disabled: isLastSetlistPage }"
 										@click="!isLastSetlistPage ? setlistsPage++ : null"
 									>
-										<ion-icon name="arrow-forward"></ion-icon>
+										<ion-icon :icon="arrowForward"></ion-icon>
 									</button>
 								</div>
 							</div>
@@ -189,7 +189,7 @@
 									<div class="tile-title">
 										{{ setlist.title }}
 										<span v-if="setlist.private" class="text-primary">
-											<ion-icon name="lock-closed-outline" class="icon-sm"></ion-icon>
+											<ion-icon :icon="lockClosedOutline" class="icon-sm"></ion-icon>
 										</span>
 									</div>
 									<div class="tile-subtitle text-gray text-small">{{ setlist.date }}</div>
@@ -199,20 +199,20 @@
 						<div class="panel-footer">
 							<div class="btn-group">
 								<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary" @click="newestSetlists">
-									<ion-icon name="arrow-up" class="mr-2"></ion-icon>
+									<ion-icon :icon="arrowUp" class="mr-2"></ion-icon>
 									{{ $t('widget.newest') }}
 								</button>
 								<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary" @click="oldestSetlists">
-									<ion-icon name="arrow-down" class="mr-2"></ion-icon>
+									<ion-icon :icon="arrowDown" class="mr-2"></ion-icon>
 									{{ $t('widget.oldest') }}
 								</button>
 							</div>
 						</div>
 						<div class="panel-link">
-							<router-link to="/setlists" class="btn btn-link btn-block">
+							<RouterLink to="/setlists" class="btn btn-link btn-block">
 								{{ $t('widget.goToSetlists') }}
-								<ion-icon name="arrow-forward" class="ml-1"></ion-icon>
-							</router-link>
+								<ion-icon :icon="arrowForward" class="ml-1"></ion-icon>
+							</RouterLink>
 						</div>
 					</div>
 				</div>
@@ -246,10 +246,10 @@
 							</div>
 						</div>
 						<div class="panel-link">
-							<router-link to="/songs" class="btn btn-link btn-block">
+							<RouterLink to="/songs" class="btn btn-link btn-block">
 								{{ $t('widget.goToSongs') }}
-								<ion-icon name="arrow-forward" class="ml-1"></ion-icon>
-							</router-link>
+								<ion-icon :icon="arrowForward" class="ml-1"></ion-icon>
+							</RouterLink>
 						</div>
 					</div>
 				</div>
@@ -309,6 +309,23 @@
 		</div>
 	</div>
 </template>
+
+<script setup>
+// get icons
+import {
+	arrowBack,
+	arrowDown,
+	arrowForward,
+	arrowUp,
+	globeOutline,
+	list,
+	lockClosedOutline,
+	micOutline,
+	musicalNotes,
+	shuffle,
+	trendingUp,
+} from 'ionicons/icons';
+</script>
 
 <script>
 import { defineComponent } from 'vue';

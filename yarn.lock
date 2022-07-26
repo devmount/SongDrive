@@ -1477,6 +1477,23 @@
     "@intlify/runtime" "9.1.10"
     "@intlify/shared" "9.1.10"
 
+"@ionic/core@^6.1.15":
+  version "6.1.15"
+  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-6.1.15.tgz#7ecd34c2ac92599d01ec9c25f31888605e570667"
+  integrity sha512-NvBlHR7O4kfp9KYz6oLsghFzGZImA7hM4qS4tFRUI62R+Q5iCJEY4OmXE5bif5K+SQkMhQY+x1l2Nq20waLzLg==
+  dependencies:
+    "@stencil/core" "^2.16.0"
+    ionicons "^6.0.2"
+    tslib "^2.1.0"
+
+"@ionic/vue@^6.1.15":
+  version "6.1.15"
+  resolved "https://registry.yarnpkg.com/@ionic/vue/-/vue-6.1.15.tgz#ba61040e8abc1896c2d492f913635cde680ac41c"
+  integrity sha512-rw4QuojW0MQc9qajMmaQ/nsTRrLkkpII27omJHB2ZobcdS9tsSdKMHnNQJGKnucwwyFU5gAuqOYkoxUcQROp0Q==
+  dependencies:
+    "@ionic/core" "^6.1.15"
+    ionicons "^6.0.2"
+
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz#e5d2e450306a9491e3bd77e323e38d7aff315996"
@@ -1705,6 +1722,16 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@soda/get-current-script/-/get-current-script-1.0.2.tgz#a53515db25d8038374381b73af20bb4f2e508d87"
   integrity sha512-T7VNNlYVM1SgQ+VsMYhnDkcGmWhQdL0bDyGm5TlQ3GBXnJscEClUUOKduWTmm2zCnvNLC1hc3JpuXjs/nFOc5w==
+
+"@stencil/core@^2.16.0":
+  version "2.17.1"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.17.1.tgz#c0fd74d2991c2ea9d7e382017726bfd01009a05c"
+  integrity sha512-ErjQsNALgZQ9SYeBHhqwL1UO+Zbptwl3kwrRJC2tGlc3G/T6UvPuaKr+PGsqI+CZGia+0+R5EELQvFu74mYeIg==
+
+"@stencil/core@~2.16.0":
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.16.1.tgz#f6752026af72a10356d5b1f27e2db6b1ee0c730f"
+  integrity sha512-s/UJp9qxExL3DyQPT70kiuWeb3AdjbUZM+5lEIXn30I2DLcLYPOPXfsoWJODieQywq+3vPiLZeIdkoqjf6jcSw==
 
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
@@ -4924,6 +4951,13 @@ internal-slot@^1.0.3:
     get-intrinsic "^1.1.0"
     has "^1.0.3"
     side-channel "^1.0.4"
+
+ionicons@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/ionicons/-/ionicons-6.0.2.tgz#82c01bb7021cb84b28fa46591fde142d078b6d05"
+  integrity sha512-AyKfFaUKVoBz4eB8XkU7H1R5HFnVsgq5ijqSdbXC0lES9PDK/J6LUQz6XUJq0mVVQF5k9kczSPOLMW3mszG0mQ==
+  dependencies:
+    "@stencil/core" "~2.16.0"
 
 ip@^2.0.0:
   version "2.0.0"

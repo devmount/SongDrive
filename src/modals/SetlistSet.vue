@@ -89,7 +89,7 @@
 									<label class="form-label" for="search">Songs</label>
 									<div class="input-group filter">
 										<!-- search title, subtitles -->
-										<span class="input-group-addon"><ion-icon name="search-outline"></ion-icon></span>
+										<span class="input-group-addon"><ion-icon :icon="searchOutline"></ion-icon></span>
 										<input
 											type="search"
 											id="search"
@@ -104,7 +104,7 @@
 													:class="{ 'badge': filter!=''||tuning!=''||language!=''}"
 													tabindex="0"
 												>
-													<ion-icon name="filter-sharp"></ion-icon>
+													<ion-icon :icon="filterSharp"></ion-icon>
 												</a>
 												<ul class="menu text-left">
 													<li class="menu-item">
@@ -136,7 +136,7 @@
 															class="btn input-group-btn btn-lg btn-error-secondary stretch"
 															@click="search=''; filter=''; tuning=''; language=''"
 														>
-															<ion-icon name="close"></ion-icon>
+															<ion-icon :icon="close"></ion-icon>
 															{{ $t('button.reset') }}
 														</button>
 													</li>
@@ -157,7 +157,7 @@
 								<div class="column col-6 col-sm-12">
 									<div v-if="setlist.songs && setlist.songs.length == 0" class="empty">
 										<div class="empty-icon">
-											<ion-icon name="musical-notes-outline" class="icon-4x"></ion-icon>
+											<ion-icon :icon="musicalNotesOutline" class="icon-4x"></ion-icon>
 										</div>
 										<p class="empty-title h5">{{ $t('text.noSongsSelected') }}</p>
 										<p class="empty-subtitle">{{ $t('text.selectSomeSongs') }}</p>
@@ -167,10 +167,10 @@
 										<div v-sortable="{ onEnd: reorder, handle: '.handle' }">
 											<div v-for="(song, i) in setlist.songs" :key="song.id" class="tile tile-centered mb-2">
 												<span class="c-move text-center text-gray">
-													<ion-icon name="reorder-four" class="px-2 mx-2 handle"></ion-icon>
+													<ion-icon :icon="reorderFour" class="px-2 mx-2 handle"></ion-icon>
 												</span>
 												<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneDown(i)">
-													<ion-icon name="arrow-back" class="icon-sm"></ion-icon>
+													<ion-icon :icon="arrowBack" class="icon-sm"></ion-icon>
 												</button>
 												<div class="tile-icon">
 													<figure
@@ -179,7 +179,7 @@
 													></figure>
 												</div>
 												<button class="btn btn-secondary btn-sm btn-fw" @click.prevent="tuneUp(i)">
-													<ion-icon name="arrow-forward" class="icon-sm"></ion-icon>
+													<ion-icon :icon="arrowForward" class="icon-sm"></ion-icon>
 												</button>
 												<div class="tile-content">
 													<div class="tile-title">{{ songs[song.id].title }}</div>
@@ -190,7 +190,7 @@
 														class="btn btn-link btn-action"
 														@click="setlistSongs = setlistSongs.filter(k => k !== song.id)"
 													>
-														<ion-icon name="close"></ion-icon>
+														<ion-icon :icon="close"></ion-icon>
 													</button>
 												</div>
 											</div>
@@ -214,6 +214,19 @@
 		</div>
 	</div>
 </template>
+
+<script setup>
+// get icons
+import {
+	arrowBack,
+	arrowForward,
+	close,
+	filterSharp,
+	musicalNotesOutline,
+	reorderFour,
+	searchOutline
+} from 'ionicons/icons';
+</script>
 
 <script>
 import { defineComponent } from 'vue';

@@ -22,16 +22,16 @@ module.exports = {
 				.loader('raw-loader')
 				.end();
 		// ionicons
-		config.module
-			.rule('vue')
-				.use('vue-loader')
-				.loader('vue-loader')
-				.tap(options => {
-					options.compilerOptions = {
-						...(options.compilerOptions || {}),
-						isCustomElement: tag => /^ion-/.test(tag)
-					};
-					return options;
-				});
+		// config.module
+		// 	.rule('vue')
+		// 		.use('vue-loader')
+		// 		.loader('vue-loader')
+		// 		.tap(options => {
+		// 			options.compilerOptions = {
+		// 				...(options.compilerOptions || {}),
+		// 				isCustomElement: tag => /^ion-/.test(tag)
+		// 			};
+		// 			return options;
+		// 		});
 	},
 };

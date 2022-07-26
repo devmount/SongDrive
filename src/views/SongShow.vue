@@ -21,7 +21,7 @@
 						:data-tooltip="$t('button.back')"
 						@click="$router.go(-1)"
 					>
-						<ion-icon name="arrow-back-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="arrowBackOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ $t('button.back') }}</span>
 					</button>
 					<!-- sidebar: manage -->
@@ -33,7 +33,7 @@
 							:data-tooltip="$t('divider.manage') + ': ' + $t('button.edit')"
 							@click="existing=true; modal.set=true"
 						>
-							<ion-icon name="create-outline" class="icon-left"></ion-icon>
+							<ion-icon :icon="createOutline" class="icon-left"></ion-icon>
 							<span class="hide-lg">{{ $t('button.edit') }}</span>
 						</button>
 						<button
@@ -41,7 +41,7 @@
 							:data-tooltip="$t('divider.manage') + ': ' + $t('button.duplicate')"
 							@click="existing=false; modal.set=true"
 						>
-							<ion-icon name="copy-outline" class="icon-left"></ion-icon>
+							<ion-icon :icon="copyOutline" class="icon-left"></ion-icon>
 							<span class="hide-lg">{{ $t('button.duplicate') }}</span>
 						</button>
 						<button
@@ -49,7 +49,7 @@
 							:data-tooltip="$t('divider.manage') + ': ' + $t('button.delete')"
 							@click="modal.delete = true"
 						>
-							<ion-icon name="trash-outline" class="icon-left"></ion-icon>
+							<ion-icon :icon="trashOutline" class="icon-left"></ion-icon>
 							<span class="hide-lg">{{ $t('button.delete') }}</span>
 						</button>
 					</template>
@@ -90,7 +90,7 @@
 						:data-tooltip="$t('divider.view') + ': ' + $t('button.present')"
 						@click="modal.present=true"
 					>
-						<ion-icon name="videocam-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="videocamOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ $t('button.present') }}</span>
 					</button>
 					<!-- sidebar: tuning -->
@@ -107,7 +107,7 @@
 							:class="{ disabled: !chords }"
 							@click="tuning--"
 						>
-							<ion-icon name="arrow-back"></ion-icon>
+							<ion-icon :icon="arrowBack"></ion-icon>
 						</button>
 						<button
 							class="btn btn-secondary tooltip tooltip-right tooltip-lg mb-1 show-lg"
@@ -115,7 +115,7 @@
 							:data-tooltip="$t('tooltip.transposeUp')"
 							@click="tuning++"
 						>
-							<ion-icon name="arrow-up"></ion-icon>
+							<ion-icon :icon="arrowUp"></ion-icon>
 						</button>
 						<button
 							class="btn btn-secondary tooltip tooltip-right tooltip-lg mb-1"
@@ -123,14 +123,14 @@
 							:data-tooltip="$t('tooltip.keyReset')"
 							@click="tuning = 0"
 						>
-							<ion-icon name="refresh"></ion-icon>
+							<ion-icon :icon="refresh"></ion-icon>
 						</button>
 						<button
 							class="btn btn-secondary mb-1 hide-lg"
 							:class="{ disabled: !chords }"
 							@click="tuning++"
 						>
-							<ion-icon name="arrow-forward"></ion-icon>
+							<ion-icon :icon="arrowForward"></ion-icon>
 						</button>
 						<button
 							class="btn btn-secondary tooltip tooltip-right tooltip-lg mb-1 show-lg"
@@ -138,7 +138,7 @@
 							:data-tooltip="$t('tooltip.transposeDown')"
 							@click="tuning--"
 						>
-							<ion-icon name="arrow-down"></ion-icon>
+							<ion-icon :icon="arrowDown"></ion-icon>
 						</button>
 					</div>
 					<!-- sidebar: export -->
@@ -149,7 +149,7 @@
 						:data-tooltip="$t('divider.export') + ': ' + $t('button.filetypeTxt')"
 						@click="exportTxt"
 					>
-						<ion-icon name="download-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="downloadOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg text-pre">{{ $t('button.filetypeTxt') }}</span>
 					</button>
 					<button
@@ -157,7 +157,7 @@
 						:data-tooltip="$t('divider.export') + ': ' + $t('button.filetypeSng')"
 						@click="exportSng"
 					>
-						<ion-icon name="download-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="downloadOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg text-pre">{{ $t('button.filetypeSng') }}</span>
 					</button>
 					<button
@@ -165,7 +165,7 @@
 						:data-tooltip="$t('divider.export') + ': ' + $t('button.filetypePdf')"
 						@click="exportPdf"
 					>
-						<ion-icon name="download-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="downloadOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg text-pre">{{ $t('button.filetypePdf') }}</span>
 					</button>
 				</div>
@@ -200,9 +200,9 @@
 									target="_blank"
 								>
 									<span class="label px-2 py-1">
-										<ion-icon name="logo-youtube" class="icon-sm mr-1"></ion-icon>
+										<ion-icon :icon="logoYoutube" class="icon-sm mr-1"></ion-icon>
 										{{ $t('field.youtube') }}
-										<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
+										<ion-icon :icon="openOutline" class="icon-sm ml-1"></ion-icon>
 									</span>
 								</a>
 								<!-- ccli -->
@@ -214,7 +214,7 @@
 								>
 									<span class="label px-2 py-1">
 										{{ $t('field.ccli') }}
-										<ion-icon name="open-outline" class="icon-sm ml-1"></ion-icon>
+										<ion-icon :icon="openOutline" class="icon-sm ml-1"></ion-icon>
 									</span>
 								</a>
 								<!-- tags -->
@@ -225,7 +225,7 @@
 									class="mr-2"
 								>
 									<span class="label px-2 py-1">
-										<ion-icon name="pricetag-outline" class="icon-sm mr-1"></ion-icon>
+										<ion-icon :icon="pricetagOutline" class="icon-sm mr-1"></ion-icon>
 										{{ tags[tag][$i18n.locale] ? tags[tag][$i18n.locale] : tag }}
 									</span>
 								</router-link>
@@ -272,6 +272,26 @@
 		</div>
 	</div>
 </template>
+
+<script setup>
+// get icons
+import {
+	arrowBack,
+	arrowBackOutline,
+	arrowDown,
+	arrowForward,
+	arrowUp,
+	copyOutline,
+	createOutline,
+	downloadOutline,
+	logoYoutube,
+	openOutline,
+	pricetagOutline,
+	refresh,
+	trashOutline,
+	videocamOutline
+} from 'ionicons/icons';
+</script>
 
 <script>
 import { defineComponent } from 'vue';

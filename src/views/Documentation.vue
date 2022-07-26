@@ -10,7 +10,7 @@
 						:data-tooltip="$t('button.top')"
 						@click="scrollTo('start')"
 					>
-						<ion-icon name="arrow-up-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="arrowUpOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ $t('button.top') }}</span>
 					</button>
 					<!-- table of contents -->
@@ -22,7 +22,7 @@
 						:data-tooltip="t.text"
 						@click="scrollTo(dashCase(t.text))"
 					>
-						<ion-icon name="bookmark-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="bookmarkOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ t.text }}</span>
 					</button>
 					<!-- edit documentation -->
@@ -34,9 +34,9 @@
 						:data-tooltip="$t('button.source')"
 						target="_blank"
 					>
-						<ion-icon name="code-slash-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="codeSlashOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ $t('button.source') }}</span>
-						<ion-icon name="open-outline" class="icon-right hide-lg"></ion-icon>
+						<ion-icon :icon="openOutline" class="icon-right hide-lg"></ion-icon>
 					</a>
 					<a
 						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + $i18n.locale + '.md'"
@@ -44,9 +44,9 @@
 						:data-tooltip="$t('button.edit')"
 						target="_blank"
 					>
-						<ion-icon name="create-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="createOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ $t('button.edit') }}</span>
-						<ion-icon name="open-outline" class="icon-right hide-lg"></ion-icon>
+						<ion-icon :icon="openOutline" class="icon-right hide-lg"></ion-icon>
 					</a>
 				</div>
 			</div>
@@ -63,10 +63,20 @@
 						</div>
 						<!-- features -->
 						<div class="columns col-8 col-xl-12 col-mx-auto mb-15">
-							<div v-for="i in 3" class="column col-4 col-xl-6 col-sm-12">
-								<ion-icon :name="$t('docu.features')[i-1].icon" class="icon-3x icon-thin mb-3"></ion-icon>
-								<h3>{{ $t('docu.features')[i-1].title }}</h3>
-								<div>{{ $t('docu.features')[i-1].description }}</div>
+							<div class="column col-4 col-xl-6 col-sm-12">
+								<ion-icon :icon="flashOutline" class="icon-3x icon-thin mb-3"></ion-icon>
+								<h3>{{ $t('docu.features.0.title') }}</h3>
+								<div>{{ $t('docu.features.0.description') }}</div>
+							</div>
+							<div class="column col-4 col-xl-6 col-sm-12">
+								<ion-icon :icon="micOutline" class="icon-3x icon-thin mb-3"></ion-icon>
+								<h3>{{ $t('docu.features.1.title') }}</h3>
+								<div>{{ $t('docu.features.1.description') }}</div>
+							</div>
+							<div class="column col-4 col-xl-6 col-sm-12">
+								<ion-icon :icon="constructOutline" class="icon-3x icon-thin mb-3"></ion-icon>
+								<h3>{{ $t('docu.features.2.title') }}</h3>
+								<div>{{ $t('docu.features.2.description') }}</div>
 							</div>
 						</div>
 					</div>
@@ -79,6 +89,20 @@
 		</div>
 	</div>
 </template>
+
+<script setup>
+// get icons
+import {
+	arrowUpOutline,
+	bookmarkOutline,
+	codeSlashOutline,
+	constructOutline,
+	createOutline,
+	flashOutline,
+	micOutline,
+	openOutline
+} from 'ionicons/icons';
+</script>
 
 <script>
 import { defineComponent } from 'vue';
