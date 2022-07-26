@@ -66,10 +66,11 @@
 											inputClassName="form-input"
 											calendarClassName="calendar"
 											textInput
-											inlineWithInput
+											inline
 											autoApply 
-											:locale="calendarLanguage[$i18n.locale]"
-											:format-locale="calendarLanguage[$i18n.locale]"
+											:enableTimePicker="false"
+											:locale="$i18n.locale"
+											:formatLocale="calendarLanguage[$i18n.locale]"
 											@update:modelValue="updateDate"
 										/>
 										<input
@@ -233,6 +234,7 @@ import { defineComponent } from 'vue';
 
 // init datepicker component
 import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 import { enGB, de } from 'date-fns/locale';
 
 export default defineComponent({

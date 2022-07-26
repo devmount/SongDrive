@@ -44,6 +44,11 @@
 	</div>
 </template>
 
+<script setup>
+// get icons
+import { logInOutline } from 'ionicons/icons';
+</script>
+
 <script>
 import { defineComponent } from 'vue';
 
