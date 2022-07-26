@@ -13,7 +13,7 @@
 					<!-- agree and enable further form elements -->
 					<label class="form-checkbox mt-2">
 						<input v-model="user.agreed" :value="true" type="checkbox">
-						<i class="form-icon"></i> {{ $t('text.yesIUnderstand') }}</label>
+						<i class="form-icon"></i> {{ $t('text.yesIUnderstand') }}
 					</label>
 				</div>
 				<!-- user password reauthentification -->

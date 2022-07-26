@@ -177,8 +177,8 @@
 import { defineComponent } from 'vue';
 
 // get slider component
-import { Hooper, Slide, Pagination as HooperPagination } from 'hooper';
-import 'hooper/dist/hooper.css';
+import { Hooper, Slide, Pagination as HooperPagination } from 'hooper-vue3';
+import 'hooper-vue3/dist/hooper.css';
 // get internal components
 import SongContent from '@/partials/SongContent';
 import InfoSongData from '@/modals/InfoSongData';

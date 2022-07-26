@@ -14,11 +14,24 @@ module.exports = {
 	productionSourceMap: false,
 	publicPath: '/',
 	chainWebpack: config => {
+		// read markdown files
 		config.module
 			.rule('raw')
-			.test(/\.md$/)
-			.use('raw-loader')
-			.loader('raw-loader')
-			.end()
+				.test(/\.md$/)
+				.use('raw-loader')
+				.loader('raw-loader')
+				.end();
+		// ionicons
+		config.module
+			.rule('vue')
+				.use('vue-loader')
+				.loader('vue-loader')
+				.tap(options => {
+					options.compilerOptions = {
+						...(options.compilerOptions || {}),
+						isCustomElement: tag => /^ion-/.test(tag)
+					};
+					return options;
+				});
 	},
 };

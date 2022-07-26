@@ -226,7 +226,7 @@
 
 		<!-- notifications -->
 		<notifications position="bottom right" :duration="5000" :width="400">
-			<template slot="body" slot-scope="props">
+			<template #body="props">
 				<div :class="'toast toast-' + props.item.type">
 					<ion-icon name="close" class="float-right c-hand icon-1-5x" @click="props.close"></ion-icon>
 					<h5>{{ props.item.title }}</h5>
@@ -383,10 +383,10 @@ export default defineComponent({
 				this.listener[table] = onSnapshot(collection(this.$db, table), (snapshot) => {
 					snapshot.docChanges().forEach(change => {
 						if (change.type === "added" || change.type === "modified") {
-							this.$set(this[table], change.doc.id, change.doc.data());
+							this[table][change.doc.id] = change.doc.data();
 						}
 						if (change.type === "removed") {
-							this.$delete(this[table], change.doc.id);
+							delete this[table][change.doc.id];
 						}
 					});
 					this.ready[table] = true;

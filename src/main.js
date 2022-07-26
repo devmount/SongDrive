@@ -22,13 +22,8 @@ let firebaseApp = firebase.initializeApp(conf);
 app.config.globalProperties.$db = firebaseApp.firestore();
 app.config.globalProperties.$version = process.env.VUE_APP_VERSION;
 
-// vue local config
-app.config.compilerOptions.isCustomElement = (tag) => {
-  return tag.startsWith('ion-')
-}
-
 // vue-notification
-import Notifications from 'vue-notification';
+import Notifications from '@kyvg/vue3-notification';
 app.use(Notifications);
 
 // vue-sortable
@@ -44,13 +39,14 @@ import VueClipboard from 'vue-clipboard2';
 app.use(VueClipboard);
 
 // vue-i18n
-import { createI18n } from 'vue-i18n';
+import { createI18n } from 'vue-i18n/index';
 const messages = {
 	"de": require("./locales/de.json"), // German
 	"en": require("./locales/en.json"), // English
 };
+const loc = navigator.language || navigator.userLanguage;
 const i18n = createI18n({
-	locale: messenger.i18n.getUILanguage(),
+	locale: loc,
 	fallbackLocale: "en",
   messages
 });
@@ -318,7 +314,7 @@ app.mixin({
 		},
 		// toast error message
 		throwError: (error) => {
-			Vue.notify({
+			Notifications.notify({
 				title: error.code,
 				text: error.message,
 				type: 'error'

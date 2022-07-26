@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Dashboard from './views/Dashboard';
 
 export default createRouter({
-	mode: createWebHistory(process.env.BASE_URL),
+	history: createWebHistory(process.env.BASE_URL),
 	routes: [
 		{ path: '/',               name: 'dashboard',     component: Dashboard },
 		// lazy load all other routes

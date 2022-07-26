@@ -59,20 +59,19 @@
 											{{ $t('field.date') }} <span class="text-error">*</span><br />
 											<span class="text-gray">{{ humanDate(setlist.date, $i18n.locale) }}</span>
 										</label>
-										<datepicker
-											:value="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
+										<Datepicker
+											:modelValue="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 											format="yyyy-MM-dd"
-											wrapper-class="calendar-wrapper hide-lg"
-											input-class="form-input"
-											calendar-class="calendar"
-											:typeable="true"
-											:inline="true"
-											:monday-first="true"
-											:open-date="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
-											:language="calendarLanguage[$i18n.locale]"
-											name="setlistdate"
-											@selected="updateDate"
-										></datepicker>
+											class="calendar-wrapper hide-lg"
+											inputClassName="form-input"
+											calendarClassName="calendar"
+											textInput
+											inlineWithInput
+											autoApply 
+											:locale="calendarLanguage[$i18n.locale]"
+											:format-locale="calendarLanguage[$i18n.locale]"
+											@update:modelValue="updateDate"
+										/>
 										<input
 											class="form-input show-lg"
 											type="date"
@@ -220,8 +219,8 @@
 import { defineComponent } from 'vue';
 
 // init datepicker component
-import Datepicker from 'vuejs-datepicker';
-import { en, de } from 'vuejs-datepicker/dist/locale';
+import Datepicker from '@vuepic/vue-datepicker';
+import { enGB, de } from 'date-fns/locale';
 
 export default defineComponent({
 	name: 'setlist-set',
@@ -256,7 +255,7 @@ export default defineComponent({
 				slug: false,
 			},
 			calendarLanguage: {
-				en: en,
+				en: enGB,
 				de: de
 			}
 		};
