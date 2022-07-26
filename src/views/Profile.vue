@@ -106,7 +106,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
 	name: 'profile',
 	props: ['setlists', 'user', 'users', 'role', 'roleName', 'ready'],
 	computed: {
@@ -118,5 +120,5 @@ export default {
 			return Object.keys(list).reduce((previous, key) => previous + list[key].songs.length, 0);
 		}
 	}
-}
+});
 </script>

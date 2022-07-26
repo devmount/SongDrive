@@ -166,9 +166,3 @@
 		</div>
 	</div>
 </template>
-
-<script>
-export default {
-	name: 'shortcuts',
-}
-</script>

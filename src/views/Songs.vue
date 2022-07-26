@@ -235,11 +235,13 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // get components
 import SongSet from '@/modals/SongSet';
 import SongDelete from '@/modals/SongDelete';
 
-export default {
+export default defineComponent({
 	name: 'songs',
 	props: ['songs', 'setlists', 'tags', 'languages', 'user', 'role', 'ready'],
 	components: {
@@ -405,5 +407,5 @@ export default {
 			this.page = 0;
 		},
 	}
-}
+});
 </script>

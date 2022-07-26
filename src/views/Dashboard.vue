@@ -311,11 +311,13 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // get components
 import LineChart from '@/charts/LineChart';
 import BarChart from '@/charts/BarChart';
 
-export default {
+export default defineComponent({
 	name: 'dashboard',
 	props: ['songs', 'setlists', 'ready', 'user'],
 	components: {
@@ -552,7 +554,7 @@ export default {
 			return this.setlistlist.length < this.listLength;
 		}
 	}
-}
+});
 </script>
 
 <style lang="scss">

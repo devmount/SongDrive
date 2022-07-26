@@ -346,6 +346,8 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // get components
 import SetlistSet from '@/modals/SetlistSet';
 import SetlistDelete from '@/modals/SetlistDelete';
@@ -364,7 +366,7 @@ pdfMake.fonts = {
 	}
 };
 
-export default {
+export default defineComponent({
 	name: 'setlist-show',
 	props: ['songs', 'setlists', 'users', 'tags', 'languages', 'user', 'role', 'ready'],
 	components: {
@@ -764,7 +766,7 @@ export default {
 			}
 		}
 	}
-}
+});
 </script>
 
 <style lang="scss">

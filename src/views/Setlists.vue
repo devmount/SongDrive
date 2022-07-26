@@ -232,11 +232,13 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // get components
 import SetlistSet from '@/modals/SetlistSet';
 import SetlistDelete from '@/modals/SetlistDelete';
 
-export default {
+export default defineComponent({
 	name: 'setlists',
 	props: ['songs', 'setlists', 'tags', 'languages', 'users', 'user', 'role', 'ready'],
 	components: {
@@ -398,5 +400,5 @@ export default {
 			this.page = 0;
 		}
 	}
-}
+});
 </script>

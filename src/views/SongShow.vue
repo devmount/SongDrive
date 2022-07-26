@@ -274,6 +274,8 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // get components
 import SongContent from '@/partials/SongContent';
 import SongSet from '@/modals/SongSet';
@@ -291,7 +293,7 @@ pdfMake.fonts = {
 	}
 };
 
-export default {
+export default defineComponent({
 	name: 'song-show',
 	props: ['songs', 'setlists', 'tags', 'languages', 'user', 'role', 'ready'],
 	components: {
@@ -569,5 +571,5 @@ export default {
 			}
 		}
 	}
-}
+});
 </script>

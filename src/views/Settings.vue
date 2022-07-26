@@ -508,6 +508,7 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import firebase from 'firebase/compat/app';
 
 // get components
@@ -521,7 +522,7 @@ import LanguageDelete from '@/modals/LanguageDelete';
 import TagSet from '@/modals/TagSet';
 import ImportData from '@/modals/ImportData';
 
-export default {
+export default defineComponent({
 	name: 'settings',
 	components: {
 		PasswordChange,
@@ -691,5 +692,5 @@ export default {
 			this.configuration.contact.email = this.config.contact.email;
 		}
 	}
-}
+});
 </script>

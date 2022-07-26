@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 // markdown parser
 const { marked } = require('marked');
 const hljs = require('highlight.js');
@@ -92,7 +94,7 @@ const docs = {
 	en: require("@/docs/docs.en.md").default,
 };
 
-export default {
+export default defineComponent({
 	name: 'documentation',
 	methods: {
 		dashCase (text) {
@@ -131,7 +133,7 @@ export default {
 			);
 		}
 	}
-}
+});
 </script>
 
 <style lang="scss">
