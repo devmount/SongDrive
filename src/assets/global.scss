@@ -1160,7 +1160,35 @@ a {
 }
 
 // calendar
-.calendar-wrapper {
+.dp__theme_dark {
+	--dp-background-color: #{$bg-color-light};
+	--dp-text-color: #{$body-font-color};
+	--dp-hover-color: #{$gray-color-dark};
+	--dp-hover-text-color: #{$light-color};
+	--dp-hover-icon-color: #{$light-color};
+	--dp-primary-color: #{$primary-color};
+	--dp-primary-text-color: #{$light-color};
+	--dp-secondary-color: #{$gray-color-dark};
+	--dp-border-color: #2d2d2d;
+	--dp-menu-border-color: #2d2d2d;
+	--dp-border-color-hover: #aaaeb7;
+	--dp-disabled-color: #737373;
+	--dp-scroll-bar-background: #{$bg-color-light};
+	--dp-scroll-bar-color: #{$gray-color-dark};
+	--dp-success-color: #00701a;
+	--dp-success-color-disabled: #428f59;
+	--dp-icon-color: #{$body-font-color};
+	--dp-danger-color: #e53935;
+
+	.dp__menu {
+		border: 2px solid $border-color;
+		border-radius: 0;
+		box-shadow: 0 5px 20px -10px $black-color;
+	}
+	.dp__cell_inner {
+		border-radius: 0;
+	}
+
 	.calendar {
 		width: 100%;
 		background: transparent;

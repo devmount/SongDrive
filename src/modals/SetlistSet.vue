@@ -62,12 +62,13 @@
 										<Datepicker
 											:modelValue="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 											format="yyyy-MM-dd"
-											class="calendar-wrapper hide-lg"
+											class="hide-lg"
 											inputClassName="form-input"
 											calendarClassName="calendar"
 											textInput
 											inline
-											autoApply 
+											autoApply
+											dark
 											:enableTimePicker="false"
 											:locale="$i18n.locale"
 											:formatLocale="calendarLanguage[$i18n.locale]"
