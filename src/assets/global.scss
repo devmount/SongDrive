@@ -1180,60 +1180,40 @@ a {
 	--dp-icon-color: #{$body-font-color};
 	--dp-danger-color: #e53935;
 
+	.dp__calendar_wrap {
+		border: 0;
+	}
 	.dp__menu {
 		border: 2px solid $border-color;
 		border-radius: 0;
 		box-shadow: 0 5px 20px -10px $black-color;
+		width: 100%;
 	}
-	.dp__cell_inner {
+	.dp__calendar_item,
+	.dp__calendar_header_item {
+		flex: 1 1 0;
+	}
+	.dp__calendar_row {
+		gap: 5px;
+	}
+	.dp__cell_inner,
+	.dp__calendar_header_item {
+		height: 40px;
+		width: auto;
+	}
+	.dp__cell_inner,
+	.dp__inner_nav,
+	.dp__month_year_select,
+	.dp__overlay_cell,
+	.dp__overlay_cell_active {
 		border-radius: 0;
 	}
-
-	.calendar {
-		width: 100%;
-		background: transparent;
-		border: none;
-
-		header {
-			.prev:after {
-				border-right-color: $body-font-color;
-			}
-			.next:after {
-				border-left-color: $body-font-color;
-			}
-
-			.prev:not(.disabled):hover, 
-			.next:not(.disabled):hover, 
-			.up:not(.disabled):hover {
-				background: $bg-color-dark;
-				color: $primary-color;
-			}
-
-			.prev:not(.disabled):hover:after {
-				border-right-color: $primary-color;
-			}
-			.next:not(.disabled):hover:after {
-				border-left-color: $primary-color;
-			}
-		}
-
-		.cell {
-			height: 60px;
-			line-height: 60px;
-			border-radius: 0.1rem;
-
-			&:not(.blank):not(.disabled).day:hover,
-			&:not(.blank):not(.disabled).month:hover,
-			&:not(.blank):not(.disabled).year:hover {
-				border: 1px solid $primary-color;
-			}
-
-			&.selected,
-			&.selected:hover {
-				background: $primary-color;
-				font-weight: 900;
-			}
-		}
+	.dp__inner_header {
+		font-weight: normal;
+    text-transform: uppercase;
+	}
+	.dp__inner_nav {
+		height: 35px;
 	}
 }
 

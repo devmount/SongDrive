@@ -73,7 +73,17 @@
 											:locale="$i18n.locale"
 											:formatLocale="calendarLanguage[$i18n.locale]"
 											@update:modelValue="updateDate"
-										/>
+										>
+											<template #arrow-left>
+												<ion-icon class="slot-icon" :icon="arrowBack"></ion-icon>
+											</template>
+											<template #arrow-right>
+												<ion-icon class="slot-icon" :icon="arrowForward"></ion-icon>
+											</template>
+											<template #calendar-icon>
+												<ion-icon class="slot-icon" :icon="calendarClearOutline"></ion-icon>
+											</template>
+										</Datepicker>
 										<input
 											class="form-input show-lg"
 											type="date"
@@ -226,7 +236,8 @@ import {
 	filterSharp,
 	musicalNotesOutline,
 	reorderFour,
-	searchOutline
+	searchOutline,
+	calendarClearOutline
 } from 'ionicons/icons';
 </script>
 
