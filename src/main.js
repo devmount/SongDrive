@@ -32,10 +32,8 @@ app.use(Notifications);
 
 // vue-sortable
 import Sortable from 'sortablejs';
-app.directive('sortable', {
-	inserted (el, binding) {
-		new Sortable(el, binding.value || {});
-	}
+app.directive('sortable', (el, binding) => {
+	new Sortable(el, binding.value || {});
 });
 
 // vue-clipboard2
