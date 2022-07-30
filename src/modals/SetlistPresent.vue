@@ -236,10 +236,16 @@ export default defineComponent({
 		};
 	},
 	created () {
+		// alternate colon visibility of clock each second
 		setInterval(() => {
 			this.now = new Date;
 			this.blink = !this.blink;
 		}, 1000);
+		// handle viewport resizes
+    window.addEventListener('resize', this.resizeHandler);
+	},
+	destroyed()  {
+		window.removeEventListener('resize', this.resizeHandler);
 	},
 	mounted () {
 		this.$refs.container.focus();
@@ -260,6 +266,9 @@ export default defineComponent({
 				}
 			});
 		},
+		resizeHandler () {
+			console.log('resized');
+		}
 	},
 	watch: {
 		currentPosition(newPosition) {
