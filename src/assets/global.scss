@@ -14,6 +14,7 @@ $light-color: #fff;
 $black-color: #000;
 $gray-color: #5e6769;
 $gray-color-dark: #4a5052;
+$gray-color-300: darken($gray-color-dark, 10%);
 $gray-color-600: lighten($gray-color, 10%);
 $gray-color-700: lighten($gray-color, 20%);
 $gray-color-800: lighten($gray-color, 40%);
@@ -867,6 +868,7 @@ a {
 
 			.modal-footer {
 				width: 100%;
+				z-index: 10;
 
 				.navigation-prev {
 					position: absolute;
@@ -1353,43 +1355,47 @@ a {
 }
 
 // slide presentation
-.hooper.presentation {
+.carousel.presentation {
 	width: 100%;
-	height: 98vh;
+	height: calc(100vh - 0.8rem - 82px);
+	text-align: left;
+	overflow: visible;
+	background: transparent;
+	z-index: 20;
 
-	&:focus {
-		outline: none;
+	.carousel__slide {
+		align-items: flex-start;
 	}
 
-	.hooper-slide,
-	.hooper-slide:focus,
-	.hooper-slide:active {
-		outline: none;
-	}
-	
-	.hooper-pagination {
+	.carousel__pagination {
+		position: absolute;
 		padding: .8rem;
+		margin: 0;
 		left: 0;
-		right: initial;
-		transform: none;
-		z-index: 20;
+		bottom: -3.5rem;
 
-		.hooper-indicator {
-			margin: 0 7px;
-			width: 1.7em;
-			height: 1.7em;
-			border-radius: 50%;
-			padding: 0;
-			background-color: $gray-color-dark;
+		.carousel__pagination-item {
+			margin-top: 0;
 
-			&.is-active {
-				background-color: $primary-color;
-			}
-
-			&:focus {
-				outline: none;
+			.carousel__pagination-button {
+				display: block;
+				margin: 0 7px;
+				width: 1.5rem;
+				height: 1.5rem;
+				border-radius: 50%;
+				padding: 0;
+				background-color: $gray-color-300;
+	
+				&.carousel__pagination-button--active {
+					background-color: $primary-color;
+				}
 			}
 		}
+
+	}
+
+	.song-content {
+		width: 100%;
 	}
 }
 

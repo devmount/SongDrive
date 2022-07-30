@@ -4,10 +4,10 @@
 		:class="{ active: active, light: !dark }"
 		ref="container"
 		tabindex="0"
-		@keydown.up.exact="$refs.presentation.slidePrev()"
-		@keydown.left.exact="$refs.presentation.slidePrev()"
-		@keydown.down.exact="$refs.presentation.slideNext()"
-		@keydown.right.exact="$refs.presentation.slideNext()"
+		@keydown.up.exact="$refs.presentation.prev()"
+		@keydown.left.exact="$refs.presentation.prev()"
+		@keydown.down.exact="$refs.presentation.next()"
+		@keydown.right.exact="$refs.presentation.next()"
 		@keydown.ctrl.73.prevent="modal.infosongdata = !modal.infosongdata"
 		@keydown.ctrl.83.prevent="autoSync = !autoSync"
 		@keydown.ctrl.66.prevent="hide = !hide"
@@ -20,15 +20,15 @@
 		</transition>
 		<div class="modal-container">
 			<div v-if="songs && songs.length > 0" class="modal-body">
-				<hooper
+				<Carousel
 					:settings="settings"
 					ref="presentation"
 					class="presentation"
 					id="presentation"
+					v-model="currentPosition"
 					@updated="maximizeFontsize"
-					@slide="updatePosition"
 				>
-					<slide v-for="(song, i) in songs" :key="i" :index="i">
+					<Slide v-for="(song, i) in songs" :key="i" :index="i">
 						<SongContent
 							:content="song.content"
 							:chords="chords"
@@ -36,9 +36,11 @@
 							:presentation="true"
 							:ref="'songcontent' + i"
 						/>
-					</slide>
-					<hooper-pagination slot="hooper-addons"></hooper-pagination>
-				</hooper>
+					</Slide>
+					<template #addons>
+						<Pagination />
+					</template>
+				</Carousel>
 			</div>
 			<div class="modal-footer" :class="{ 'hidden': !chords}">
 				<div class="navigation-prev">
@@ -47,7 +49,7 @@
 						:class="{ disabled: currentPosition == 0 }"
 						href="#"
 						aria-label="Previous Song"
-						@click.prevent="$refs.presentation.slidePrev()"
+						@click.prevent="$refs.presentation.prev()"
 					>
 						<ion-icon :icon="arrowBack" class="icon-1-5x"></ion-icon>
 						<span v-if="currentPosition > 0" class="ml-2">
@@ -62,7 +64,7 @@
 						:class="{ disabled: currentPosition == songs.length-1 }"
 						href="#"
 						aria-label="Next Song"
-						@click.prevent="$refs.presentation.slideNext()"
+						@click.prevent="$refs.presentation.next()"
 					>
 						<span v-if="currentPosition < songs.length-1" class="mr-3">
 							{{ songs[currentPosition+1].title }}
@@ -190,9 +192,9 @@ import {
 <script>
 import { defineComponent } from 'vue';
 
-// get slider component
-import { Hooper, Slide, Pagination as HooperPagination } from 'hooper-vue3';
-import 'hooper-vue3/dist/hooper.css';
+// get carousel component
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Pagination } from 'vue3-carousel';
 // get internal components
 import SongContent from '@/partials/SongContent';
 import InfoSongData from '@/modals/InfoSongData';
@@ -200,9 +202,9 @@ import InfoSongData from '@/modals/InfoSongData';
 export default defineComponent({
 	name: 'setlist-present',
 	components: {
-		Hooper,
+		Carousel,
 		Slide,
-		HooperPagination,
+		Pagination,
 		SongContent,
 		InfoSongData,
 	},
@@ -234,7 +236,10 @@ export default defineComponent({
 		};
 	},
 	created () {
-		setInterval(() => { this.now = new Date; this.blink = !this.blink }, 1000);
+		setInterval(() => {
+			this.now = new Date;
+			this.blink = !this.blink;
+		}, 1000);
 	},
 	mounted () {
 		this.$refs.container.focus();
@@ -255,18 +260,21 @@ export default defineComponent({
 				}
 			});
 		},
-		updatePosition(payload) {
-			this.currentPosition = payload.currentSlide;
-			this.$emit('updatePosition', payload.currentSlide);
-		},
 	},
 	watch: {
+		currentPosition(newPosition) {
+			// update remote position if autoSync is on
+			if (this.sync) {
+				this.$emit('updatePosition', newPosition);
+			}
+		},
 		active() {
 			// maximize fontsize when presentation view is opened
 			if (this.active) {
 				// wait for all compontents to be mounted
 				this.$nextTick(() => {
-					this.$refs.presentation.restart();
+					this.$refs.presentation.restartCarousel();
+					this.maximizeFontsize();
 				});
 			}
 		},

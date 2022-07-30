@@ -37,7 +37,6 @@
 		"date-fns": "^2.29.1",
 		"firebase": "^9.0.0",
 		"highlight.js": "^11.3.1",
-		"hooper-vue3": "^0.3.4",
 		"ionicons": "^6.0.2",
 		"marked": "^4.0.10",
 		"pdfmake": "^0.2.2",
@@ -47,7 +46,8 @@
 		"vue-clipboard2": "^0.3.0",
 		"vue-i18n": "^9.1.10",
 		"vue-prism-editor": "^2.0.0-alpha.2",
-		"vue-router": "^4.0.16"
+		"vue-router": "^4.0.16",
+		"vue3-carousel": "^0.1.40"
 	},
 	"devDependencies": {
 		"@vue/cli-plugin-babel": "^5.0.0-rc.2",
