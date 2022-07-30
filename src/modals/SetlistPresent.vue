@@ -21,7 +21,6 @@
 		<div class="modal-container">
 			<div v-if="songs && songs.length > 0" class="modal-body">
 				<Carousel
-					:settings="settings"
 					ref="presentation"
 					class="presentation"
 					id="presentation"
@@ -220,10 +219,6 @@ export default defineComponent({
 	},
 	data () {
 		return {
-			settings: {
-				infiniteScroll: false,
-				keysControl: true,
-			},
 			modal: {
 				infosongdata: false
 			},
@@ -233,6 +228,7 @@ export default defineComponent({
 			dark: true,
 			now: new Date,
 			blink: true,
+			resizeTimeout: null
 		};
 	},
 	created () {
@@ -242,7 +238,9 @@ export default defineComponent({
 			this.blink = !this.blink;
 		}, 1000);
 		// handle viewport resizes
-    window.addEventListener('resize', this.resizeHandler);
+		window.addEventListener('resize', this.resizeHandler);
+		// initially fit presentation into viewport
+		this.maximizeFontsize();
 	},
 	destroyed()  {
 		window.removeEventListener('resize', this.resizeHandler);
@@ -257,6 +255,7 @@ export default defineComponent({
 		}
 	},
 	methods: {
+		// adapt presentation content to viewport
 		maximizeFontsize() {
 			// wait for dom to be ready
 			this.$nextTick(() => {
@@ -266,8 +265,12 @@ export default defineComponent({
 				}
 			});
 		},
+		// handle viewport resize
 		resizeHandler () {
-			console.log('resized');
+			clearTimeout(this.resizeTimeout);
+			this.resizeTimeout = setTimeout(() => {
+				this.maximizeFontsize();
+			}, 500);
 		}
 	},
 	watch: {
