@@ -66,8 +66,8 @@ export default defineComponent({
 					this.$emit('closed');
 					// toast success message
 					this.$notify({
-						title: this.$parent.$t('toast.userDeleted'),
-						text: this.$parent.$t('toast.userDeletedText'),
+						title: this.$t('toast.userDeleted'),
+						text: this.$t('toast.userDeletedText'),
 						type: 'primary'
 					});
 				}).catch((error) => this.throwError(error));

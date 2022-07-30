@@ -41,8 +41,8 @@ export default defineComponent({
 				}
 				// toast success message
 				this.$notify({
-					title: this.$parent.$t('toast.setlistDeleted'),
-					text: this.$parent.$t('toast.setlistDeletedText'),
+					title: this.$t('toast.setlistDeleted'),
+					text: this.$t('toast.setlistDeletedText'),
 					type: 'primary'
 				});
 			}).catch((error) => this.throwError(error));

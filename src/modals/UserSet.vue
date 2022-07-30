@@ -148,8 +148,8 @@ export default defineComponent({
 						}).then(() => {
 							this.$emit('closed');
 							this.$notify({
-								title: this.$parent.$t('toast.userUpdated'),
-								text: this.$parent.$t('toast.userSavedText'),
+								title: this.$t('toast.userUpdated'),
+								text: this.$t('toast.userSavedText'),
 								type: 'primary'
 							});
 						}).catch((error) => this.throwError(error));
@@ -168,8 +168,8 @@ export default defineComponent({
 							this.$db.collection('registrations').doc(this.userId).delete().then(() => {
 								this.$emit('closed');
 								this.$notify({
-									title: this.$parent.$t('toast.userAdded'),
-									text: this.$parent.$t('toast.userSavedText'),
+									title: this.$t('toast.userAdded'),
+									text: this.$t('toast.userSavedText'),
 									type: 'primary'
 								});
 							}).catch((error) => this.throwError(error));
@@ -203,8 +203,8 @@ export default defineComponent({
 												// finally finished! Close modal and toast success
 												this.$emit('closed');
 												this.$notify({
-													title: this.$parent.$t('toast.userAdded'),
-													text: this.$parent.$t('toast.userAddedText'),
+													title: this.$t('toast.userAdded'),
+													text: this.$t('toast.userAddedText'),
 													type: 'primary'
 												});
 											}).catch((error) => this.throwError(error));

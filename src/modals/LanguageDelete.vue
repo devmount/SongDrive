@@ -45,15 +45,15 @@ export default defineComponent({
 					this.$emit('closed');
 					// toast success message
 					this.$notify({
-						title: this.$parent.$t('toast.languageDeleted'),
-						text: this.$parent.$t('toast.languageDeletedText'),
+						title: this.$t('toast.languageDeleted'),
+						text: this.$t('toast.languageDeletedText'),
 						type: 'primary'
 					});
 				}).catch((error) => this.throwError(error));
 			} else {
 				this.throwError({
-					code: this.$parent.$t('toast.languageInUse'),
-					message: this.$parent.$t('text.languageInUse')
+					code: this.$t('toast.languageInUse'),
+					message: this.$t('text.languageInUse')
 				});
 			}
 		}

@@ -377,8 +377,8 @@ export default defineComponent({
 						this.$router.push({ name: 'setlist-show', params: { id: slug }});
 						// toast success creation message
 						this.$notify({
-							title: this.$parent.$t('toast.setlistAdded'),
-							text: this.$parent.$t('toast.setlistSavedText'),
+							title: this.$t('toast.setlistAdded'),
+							text: this.$t('toast.setlistSavedText'),
 							type: 'primary'
 						});
 					}).catch((error) => this.throwError(error));
@@ -394,8 +394,8 @@ export default defineComponent({
 							processedSetlist = {};
 							// toast success update message
 							this.$notify({
-								title: this.$parent.$t('toast.setlistUpdated'),
-								text: this.$parent.$t('toast.setlistSavedText'),
+								title: this.$t('toast.setlistUpdated'),
+								text: this.$t('toast.setlistSavedText'),
 								type: 'primary'
 							});
 						}).catch((error) => this.throwError(error));
@@ -409,8 +409,8 @@ export default defineComponent({
 							this.$router.push({ name: 'setlist-show', params: { id: slug }});
 							// toast success update message
 							this.$notify({
-								title: this.$parent.$t('toast.setlistUpdated'),
-								text: this.$parent.$t('toast.setlistSavedText'),
+								title: this.$t('toast.setlistUpdated'),
+								text: this.$t('toast.setlistSavedText'),
 								type: 'primary'
 							});
 						}).catch((error) => this.throwError(error));

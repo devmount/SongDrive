@@ -27,7 +27,7 @@ import { IonIcon } from '@ionic/vue';
 app.component('ion-icon', IonIcon);
 
 // vue-notification
-import Notifications from '@kyvg/vue3-notification';
+import Notifications, { notify } from '@kyvg/vue3-notification';
 app.use(Notifications);
 
 // vue-sortable
@@ -65,9 +65,6 @@ let keyScale = () => ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B',
 
 app.mixin({
   methods: {
-		// icon (name) {
-		// 	return allIcons[name];
-		// },
 		// scale to use for song tuning and transponation
 		keyScale: keyScale,
 		/*
@@ -321,7 +318,7 @@ app.mixin({
 		},
 		// toast error message
 		throwError: (error) => {
-			Notifications.notify({
+			notify({
 				title: error.code,
 				text: error.message,
 				type: 'error'

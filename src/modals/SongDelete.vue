@@ -55,8 +55,8 @@ export default defineComponent({
 				}
 				// toast success message
 				this.$notify({
-					title: this.$parent.$t('toast.songDeleted'),
-					text: this.$parent.$t('toast.songDeletedText'),
+					title: this.$t('toast.songDeleted'),
+					text: this.$t('toast.songDeletedText'),
 					type: 'primary'
 				});
 			}).catch((error) => this.throwError(error));

@@ -114,8 +114,8 @@ export default defineComponent({
 							user.sendEmailVerification().then(() => {
 								this.$emit('closed');
 								this.$notify({
-									title: this.$parent.$t('toast.verficationSent'),
-									text: this.$parent.$t('toast.verficationSentText'),
+									title: this.$t('toast.verficationSent'),
+									text: this.$t('toast.verficationSentText'),
 									type: 'primary'
 								});
 							}).catch((error) => this.throwError(error));
@@ -124,8 +124,8 @@ export default defineComponent({
 				}).catch(() => {
 					this.error.currentpassword.wrong = true;
 					this.$notify({
-						title: this.$parent.$t('toast.passwordWrong'),
-						text: this.$parent.$t('toast.passwordWrongText'),
+						title: this.$t('toast.passwordWrong'),
+						text: this.$t('toast.passwordWrongText'),
 						type: 'error'
 					});
 				});

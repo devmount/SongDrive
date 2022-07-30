@@ -111,15 +111,15 @@ export default defineComponent({
 					user.updatePassword(this.user.password).then(() => {
 						this.$emit('closed');
 						this.$notify({
-							title: this.$parent.$t('toast.userUpdated'),
-							text: this.$parent.$t('toast.userUpdatedText'),
+							title: this.$t('toast.userUpdated'),
+							text: this.$t('toast.userUpdatedText'),
 							type: 'primary'
 						});
 					}).catch((error) => this.throwError(error));
 				}).catch(() => {
 					this.$notify({
-						title: this.$parent.$t('toast.passwordWrong'),
-						text: this.$parent.$t('toast.passwordWrongText'),
+						title: this.$t('toast.passwordWrong'),
+						text: this.$t('toast.passwordWrongText'),
 						type: 'error'
 					});
 				});

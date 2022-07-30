@@ -86,8 +86,8 @@ export default defineComponent({
 						this.$emit('closed');
 						// tag updated successfully!
 						this.$notify({
-							title: this.$parent.$t('toast.tagUpdated'),
-							text: this.$parent.$t('toast.tagSavedText'),
+							title: this.$t('toast.tagUpdated'),
+							text: this.$t('toast.tagSavedText'),
 							type: 'primary'
 						});
 					}).catch((error) => this.throwError(error));
@@ -101,8 +101,8 @@ export default defineComponent({
 						this.$emit('closed');
 						// tag added successfully
 						this.$notify({
-							title: this.$parent.$t('toast.tagAdded'),
-							text: this.$parent.$t('toast.tagSavedText'),
+							title: this.$t('toast.tagAdded'),
+							text: this.$t('toast.tagSavedText'),
 							type: 'primary'
 						});
 					}).catch((error) => this.throwError(error));

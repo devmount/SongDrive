@@ -84,8 +84,8 @@ export default defineComponent({
 							this.$emit('closed');
 							// toast success message
 							this.$notify({
-								title: this.$parent.$t('toast.accountDeleted'),
-								text: this.$parent.$t('toast.accountDeletedText'),
+								title: this.$t('toast.accountDeleted'),
+								text: this.$t('toast.accountDeletedText'),
 								type: 'primary'
 							});
 						}).catch((error) => this.throwError(error));
@@ -93,8 +93,8 @@ export default defineComponent({
 				}).catch(() => {
 					this.error.currentpassword.wrong = true;
 					this.$notify({
-						title: this.$parent.$t('toast.passwordWrong'),
-						text: this.$parent.$t('toast.passwordWrongText'),
+						title: this.$t('toast.passwordWrong'),
+						text: this.$t('toast.passwordWrongText'),
 						type: 'error'
 					});
 				});

@@ -477,8 +477,8 @@ export default defineComponent({
 						this.$router.push({ name: 'song-show', params: { id: slug }});
 						// toast success creation message
 						this.$notify({
-							title: this.$parent.$t('toast.songAdded'),
-							text: this.$parent.$t('toast.songSavedText'),
+							title: this.$t('toast.songAdded'),
+							text: this.$t('toast.songSavedText'),
 							type: 'primary'
 						});
 					}).catch((error) => this.throwError(error));
@@ -512,8 +512,8 @@ export default defineComponent({
 							processedSong = {};
 							// toast success update message
 							this.$notify({
-								title: this.$parent.$t('toast.songUpdated'),
-								text: this.$parent.$t('toast.songSavedText'),
+								title: this.$t('toast.songUpdated'),
+								text: this.$t('toast.songSavedText'),
 								type: 'primary'
 							});
 						}).catch((error) => this.throwError(error));
@@ -570,8 +570,8 @@ export default defineComponent({
 							this.$router.push({ name: 'song-show', params: { id: slug }});
 							// toast success update message
 							this.$notify({
-								title: this.$parent.$t('toast.songUpdated'),
-								text: this.$parent.$t('toast.songSavedText'),
+								title: this.$t('toast.songUpdated'),
+								text: this.$t('toast.songSavedText'),
 								type: 'primary'
 							});
 						}).catch((error) => this.throwError(error));

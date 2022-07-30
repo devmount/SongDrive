@@ -526,8 +526,8 @@ export default defineComponent({
 			this.$db.collection('setlists').doc(this.$route.params.id).update({songs: songs}).then(() => {
 				// toast success update message
 				this.$notify({
-					title: this.$parent.$t('toast.setlistUpdated'),
-					text: this.$parent.$t('toast.songDeletedFromSetlist'),
+					title: this.$t('toast.setlistUpdated'),
+					text: this.$t('toast.songDeletedFromSetlist'),
 					type: 'primary'
 				});
 			});

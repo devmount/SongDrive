@@ -83,8 +83,8 @@ export default defineComponent({
 						this.$emit('closed');
 						// language updated successfully!
 						this.$notify({
-							title: this.$parent.$t('toast.languageUpdated'),
-							text: this.$parent.$t('toast.languageSavedText'),
+							title: this.$t('toast.languageUpdated'),
+							text: this.$t('toast.languageSavedText'),
 							type: 'primary'
 						});
 					}).catch((error) => this.throwError(error));
@@ -97,8 +97,8 @@ export default defineComponent({
 						this.$emit('closed');
 						// language added successfully
 						this.$notify({
-							title: this.$parent.$t('toast.languageAdded'),
-							text: this.$parent.$t('toast.languageSavedText'),
+							title: this.$t('toast.languageAdded'),
+							text: this.$t('toast.languageSavedText'),
 							type: 'primary'
 						});
 					}).catch((error) => this.throwError(error));
