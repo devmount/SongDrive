@@ -261,7 +261,7 @@ export default defineComponent({
 			this.$nextTick(() => {
 				// maximize content of each song/slide
 				for (let i = 0; i < this.songs.length; i++) {
-					this.$refs['songcontent' + i][0].maximizeFontsize();
+					this.$refs['songcontent' + i][0]?.maximizeFontsize();
 				}
 			});
 		},
@@ -278,16 +278,6 @@ export default defineComponent({
 			// update remote position if autoSync is on
 			if (this.sync) {
 				this.$emit('updatePosition', newPosition);
-			}
-		},
-		active() {
-			// maximize fontsize when presentation view is opened
-			if (this.active) {
-				// wait for all compontents to be mounted
-				this.$nextTick(() => {
-					this.$refs.presentation.restartCarousel();
-					this.maximizeFontsize();
-				});
 			}
 		},
 		autoSync() {
