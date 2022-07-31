@@ -109,24 +109,40 @@ export default defineComponent({
 	},
 	data () {
 		return {
-			dark: true,
 			modal: {
 				infosongdata: false
-			}
+			},
+			dark: true,
+			resizeTimeout: null
 		};
+	},
+	created () {
+		// handle viewport resizes
+		window.addEventListener('resize', this.resizeHandler);
+		// initially fit presentation into viewport
+		this.maximizeFontsize();
+	},
+	destroyed()  {
+		window.removeEventListener('resize', this.resizeHandler);
+	},
+	mounted () {
+		this.$refs.container.focus();
 	},
 	methods: {
 		maximizeFontsize() {
 			// wait for dom to be ready
 			this.$nextTick(() => {
 				// maximize content of each song/slide
-				this.$refs.songcontent.maximizeFontsize();
+				this.$refs.songcontent?.maximizeFontsize();
 			});
+		},
+		// handle viewport resize
+		resizeHandler () {
+			clearTimeout(this.resizeTimeout);
+			this.resizeTimeout = setTimeout(() => {
+				this.maximizeFontsize();
+			}, 500);
 		}
-	},
-	mounted () {
-		this.maximizeFontsize();
-		this.$refs.container.focus();
 	},
 	watch: {
 		chords() {
