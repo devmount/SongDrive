@@ -8,7 +8,7 @@
 		@keydown.left.exact="$refs.presentation.prev()"
 		@keydown.down.exact="$refs.presentation.next()"
 		@keydown.right.exact="$refs.presentation.next()"
-		@keydown.ctrl.73.prevent="modal.infosongdata = !modal.infosongdata"
+		@keydown.ctrl.73.prevent="songs[currentPosition].note ? modal.infosongdata = !modal.infosongdata : null"
 		@keydown.ctrl.83.prevent="autoSync = !autoSync"
 		@keydown.ctrl.66.prevent="hide = !hide"
 		@keydown.ctrl.76.prevent="dark = !dark"
@@ -75,11 +75,15 @@
 				<span class="clock px-4">{{ timeonly }}</span>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-4"
-					:class="{ 'btn-secondary': !modal.infosongdata, 'btn-primary': modal.infosongdata }"
+					:class="{
+						'btn-secondary': !modal.infosongdata,
+						'btn-primary': modal.infosongdata,
+						'disabled': !songs[currentPosition].note
+					}"
 					href="#"
 					aria-label="Song Data"
-					@click="modal.infosongdata = true"
-					:data-tooltip="$t('tooltip.infoSongData') + '\n' + $t('key.ctrl') + ' + ' + $t('key.I')"
+					@click="songs[currentPosition].note ? modal.infosongdata = true : null"
+					:data-tooltip="tooltip('info')"
 				>
 					<ion-icon :icon="informationOutline" class="icon-1-5x"></ion-icon>
 				</a>
@@ -89,37 +93,37 @@
 					href="#"
 					aria-label="AutoSync"
 					@click.prevent="autoSync = !autoSync"
-					:data-tooltip="$t('tooltip.sync' + (!autoSync ? 'On' : 'Off')) + '\n' + $t('key.ctrl') + ' + ' + $t('key.S')"
+					:data-tooltip="tooltip('sync')"
 				>
 					<ion-icon :icon="sync" class="icon-1-5x"></ion-icon>
 				</a>
 				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip tooltip-left ml-1"
 					:class="{ 'btn-secondary': !hide, 'btn-primary': hide }"
 					href="#"
 					aria-label="Hide"
 					@click.prevent="hide = !hide"
-					:data-tooltip="$t('tooltip.presentation' + (hide ? 'Show' : 'Hide')) + '\n' + $t('key.ctrl') + ' + ' + $t('key.B')"
+					:data-tooltip="tooltip('display')"
 				>
 					<ion-icon :icon="eyeOffOutline" class="icon-1-5x"></ion-icon>
 				</a>
 				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip tooltip-left ml-1"
 					:class="{ 'btn-secondary': dark, 'btn-primary': !dark }"
 					href="#"
 					aria-label="Light mode"
 					@click.prevent="dark = !dark"
-					:data-tooltip="$t('tooltip.lightModeOnOff') + '\n' + $t('key.ctrl') + ' + ' + $t('key.L')"
+					:data-tooltip="tooltip('invert')"
 				>
 					<ion-icon :icon="contrastOutline" class="icon-1-5x"></ion-icon>
 				</a>
 				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
+					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip tooltip-left ml-1"
 					:class="{ 'btn-secondary': !chords, 'btn-primary': chords }"
 					href="#"
 					aria-label="Chords"
 					@click.prevent="$emit('chords')"
-					:data-tooltip="$t('tooltip.chords' + (!chords ? 'Show' : 'Hide')) + '\n' + $t('key.ctrl') + ' + ' + $t('key.K')"
+					:data-tooltip="tooltip('chords')"
 				>
 					<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
 				</a>
@@ -128,7 +132,7 @@
 					href="#"
 					aria-label="Cancel"
 					@click.prevent="$emit('closed')"
-					:data-tooltip="$t('tooltip.presentationClose') + '\n' + $t('key.esc')"
+					:data-tooltip="tooltip('close')"
 				>
 					<ion-icon :icon="close" class="icon-1-5x"></ion-icon>
 				</a>
@@ -138,7 +142,7 @@
 						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
 						:class="{ 'btn-secondary': !remoteHide, 'btn-primary': remoteHide }"
 						href="#"
-						:data-tooltip="$t('text.syncedDevices') + '\n' + $t('tooltip.presentation' + (remoteHide ? 'Show' : 'Hide'))"
+						:data-tooltip="tooltip('remoteDisplay')"
 						@click.prevent="$emit('updateHide', !remoteHide)"
 					>
 						<ion-icon :icon="eyeOffOutline" class="icon-1-5x"></ion-icon>
@@ -147,7 +151,7 @@
 						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
 						:class="{ 'btn-secondary': !remoteLight, 'btn-primary': remoteLight }"
 						href="#"
-						:data-tooltip="$t('text.syncedDevices') + '\n' + $t('tooltip.lightModeOnOff')"
+						:data-tooltip="tooltip('remoteInvert')"
 						@click.prevent="$emit('updateDark', !remoteLight)"
 					>
 						<ion-icon :icon="contrastOutline" class="icon-1-5x"></ion-icon>
@@ -156,7 +160,7 @@
 						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
 						:class="{ 'btn-secondary': remoteText, 'btn-primary': !remoteText }"
 						href="#"
-						:data-tooltip="$t('text.syncedDevices') + '\n' + $t('tooltip.chords' + (remoteText ? 'Show' : 'Hide'))"
+						:data-tooltip="tooltip('remoteChords')"
 						@click.prevent="$emit('updateChords', !remoteText)"
 					>
 						<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
@@ -271,6 +275,32 @@ export default defineComponent({
 			this.resizeTimeout = setTimeout(() => {
 				this.maximizeFontsize();
 			}, 500);
+		},
+		// handle tooltips
+		tooltip(target) {
+			switch (target) {
+				case 'info': return this.songs[this.currentPosition].note
+					? this.$t('tooltip.infoSongData') + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.I')
+					: this.$t('tooltip.noSongInfo');
+				case 'sync':
+					return this.$t('tooltip.sync' + (!this.autoSync ? 'On' : 'Off')) + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.S');
+				case 'display':
+					return this.$t('tooltip.presentation' + (this.hide ? 'Show' : 'Hide')) + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.B');
+				case 'invert':
+					return this.$t('tooltip.invertColors') + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.L');
+				case 'chords':
+					return this.$t('tooltip.chords' + (!this.chords ? 'Show' : 'Hide')) + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.K');
+				case 'close':
+					return this.$t('tooltip.presentationClose') + '\n' + this.$t('key.esc');
+				case 'remoteDisplay':
+					return this.$t('text.syncedDevices') + '\n' + this.$t('tooltip.presentation' + (this.remoteHide ? 'Show' : 'Hide'));
+				case 'remoteInvert':
+					return this.$t('text.syncedDevices') + '\n' + this.$t('tooltip.invertColors');
+				case 'remoteChords':
+					return this.$t('text.syncedDevices') + '\n' + this.$t('tooltip.chords' + (this.remoteText ? 'Show' : 'Hide'));
+				default:
+					break;
+			}
 		}
 	},
 	watch: {

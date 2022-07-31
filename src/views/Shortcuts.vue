@@ -86,7 +86,7 @@
 									<tr>
 										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.L') }}</kbd></td>
 										<td><ion-icon :icon="contrastOutline"></ion-icon></td>
-										<td>{{ $t('tooltip.lightModeOnOff') }}</td>
+										<td>{{ $t('tooltip.invertColors') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ $t('key.esc') }}</kbd></td>
@@ -150,7 +150,7 @@
 									<tr>
 										<td><kbd>{{ $t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ $t('key.L') }}</kbd></td>
 										<td><ion-icon :icon="contrastOutline"></ion-icon></td>
-										<td>{{ $t('tooltip.lightModeOnOff') }}</td>
+										<td>{{ $t('tooltip.invertColors') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ $t('key.esc') }}</kbd></td>
