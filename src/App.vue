@@ -421,7 +421,7 @@ export default defineComponent({
 		unlisten () {
 			for (const table in this.listener) {
 				let unsubscribe = this.listener[table];
-				unsubscribe();
+				if (typeof unsubscribe === "function") unsubscribe();
 			}
 		},
 		// loads configuration without listener
