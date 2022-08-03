@@ -45,28 +45,16 @@
 </template>
 
 <script setup>
-// get icons
-import { logInOutline } from 'ionicons/icons';
-</script>
-
-<script>
-import { defineComponent } from 'vue';
+import { ref } from 'vue';
 
 // get components
 import Logo from '@/partials/Logo';
+// get icons
+import { logInOutline } from 'ionicons/icons';
 
-export default defineComponent({
-	name: 'login',
-	components: {
-		Logo
-	},
-	data () {
-		return {
-			email: '',
-			password: ''
-		};
-	}
-});
+// reactive data
+const email    = ref('');
+const password = ref('');
 </script>
 
 <style lang="scss">
@@ -80,7 +68,6 @@ export default defineComponent({
 
 	.panel {
 		height: auto;
-
 	}
 
 	.btn-link {
