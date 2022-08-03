@@ -27,30 +27,25 @@
 	</div>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
-
-// get components
+<script setup>
+import { ref, defineProps, defineEmits } from 'vue';
 import Logo from '@/partials/Logo';
+import { sendOutline, refreshOutline, logOutOutline } from 'ionicons/icons';
 
-export default defineComponent({
-	name: 'user-unverified',
-	components: {
-		Logo
-	},
-	props: ['ready', 'config'],
-	data () {
-		return {
-			resend: false
-		}
-	},
-	methods: {
-		resendVerification () {
-			this.resend = true;
-			this.$emit('resendEmailVerification');
-		}
-	}
+const props = defineProps({
+  ready: Object,
+  config: Object,
 });
+const emit = defineEmits();
+
+// reactive data
+const resend = ref(false);
+
+// methods
+const resendVerification = () => {
+	resend.value = true;
+	emit('resendEmailVerification');
+}
 </script>
 
 <style lang="scss">
