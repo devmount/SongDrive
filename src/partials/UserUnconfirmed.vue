@@ -16,18 +16,14 @@
 	</div>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
-
-// get components
+<script setup>
+import { defineProps } from 'vue';
 import Logo from '@/partials/Logo';
+import { logOutOutline } from 'ionicons/icons';
 
-export default defineComponent({
-	name: 'user-unconfirmed',
-	components: {
-		Logo
-	},
-	props: ['ready', 'config']
+const props = defineProps({
+  ready: Object,
+  config: Object,
 });
 </script>
 

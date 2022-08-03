@@ -46,10 +46,7 @@
 
 <script setup>
 import { ref } from 'vue';
-
-// get components
 import Logo from '@/partials/Logo';
-// get icons
 import { logInOutline } from 'ionicons/icons';
 
 // reactive data
