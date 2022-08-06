@@ -18,6 +18,7 @@
 					<div class="divider text-center hide-lg" :data-content="$t('divider.toc')"></div>
 					<button
 						v-for="t in toc"
+						:key="t"
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						:data-tooltip="t.text"
 						@click="scrollTo(dashCase(t.text))"

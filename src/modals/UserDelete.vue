@@ -12,7 +12,7 @@
 					<p>{{ $t('text.cannotBeUndone') }}</p>
 					<p>{{ $t('text.selectUserForTransfer', { name: userName }) }}</p>
 					<select v-model="transferUser" class="form-select">
-						<option v-for="(user, key) in assignableUsers" :value="key">
+						<option v-for="(user, key) in assignableUsers" :key="key" :value="key">
 							{{ user.name }}
 						</option>
 					</select>

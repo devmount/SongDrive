@@ -108,7 +108,7 @@
 							<div class="form-group mb-1">
 								<label class="form-label" for="language">{{ $t('field.language') }}</label>
 								<select v-model="$i18n.locale" class="form-select" id="language">
-									<option v-for="(label, key) in uiLanguages" :value="key">
+									<option v-for="(label, key) in uiLanguages" :key="key" :value="key">
 										{{ label }}
 									</option>
 								</select>
@@ -307,6 +307,7 @@
 						<div class="panel-body">
 							<div
 								v-for="(l, key) in languages"
+								:key="key"
 								class="tile tile-centered tile-hover p-2"
 							>
 								<div class="tile-icon">
@@ -361,6 +362,7 @@
 						<div class="panel-body">
 							<a
 								v-for="tag in tags"
+								:key="tag.key"
 								class="mr-2"
 								@click="active.tag=tag; active.key=tag.key; active.existing=true; modal.tagset=true"
 							>

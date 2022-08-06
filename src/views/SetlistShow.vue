@@ -4,9 +4,9 @@
 		class="setlist-show"
 		ref="setlist-show"
 		tabindex="0"
-		@keydown.ctrl.83.prevent="!modal.present ? updateActive() : null"
-		@keydown.ctrl.75.prevent="chords = !chords"
-		@keydown.ctrl.80.prevent="modal.present=true"
+		@keydown.ctrl.s.prevent="!modal.present ? updateActive() : null"
+		@keydown.ctrl.k.prevent="chords = !chords"
+		@keydown.ctrl.p.prevent="modal.present=true"
 		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; $refs['setlist-show'].focus()"
 	>
 		<div class="off-canvas off-canvas-secondary">

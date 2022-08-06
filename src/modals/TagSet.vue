@@ -22,7 +22,7 @@
 						:disabled="existing"
 					/>
 					<p v-if="error.key" class="form-input-hint">{{ $t('error.requiredTagKey') }}</p>
-					<template v-for="(label, key) in uiLanguages">
+					<template v-for="(label, key) in uiLanguages" :key="key">
 						<label class="form-label" for="key">{{ label }}</label>
 						<input
 							:id="key"

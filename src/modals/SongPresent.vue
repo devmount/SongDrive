@@ -4,9 +4,8 @@
 		:class="{ active: active, light: !dark }"
 		ref="container"
 		tabindex="0"
-		@keydown.ctrl.73.prevent="song.note ? modal.infosongdata = !modal.infosongdata : null"
-		@keydown.ctrl.76.prevent="dark = !dark"
-		@keydown.ctrl.75.prevent="chords = !chords"
+		@keydown.ctrl.i.prevent="song.note ? modal.infosongdata = !modal.infosongdata : null"
+		@keydown.ctrl.l.prevent="dark = !dark"
 		@keydown.esc.exact="$emit('closed')"
 	>
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>

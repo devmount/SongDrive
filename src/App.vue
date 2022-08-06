@@ -21,12 +21,12 @@
 					<ul class="menu text-uppercase">
 						<li class="divider text-center" :data-content="$t('divider.start')"></li>
 						<li class="menu-item">
-							<router-link to="/" class="py-2" @click.native="open = false">
+							<router-link to="/" class="py-2" @click="open = false">
 								<ion-icon :icon="appsSharp" class="mr-2"></ion-icon> {{ $t('page.dashboard') }}
 							</router-link>
 						</li>
 						<li class="menu-item">
-							<router-link to="/songs" class="py-2" @click.native="open = false">
+							<router-link to="/songs" class="py-2" @click="open = false">
 								<ion-icon :icon="musicalNotesSharp" class="mr-2"></ion-icon> {{ $t('page.songs') }}
 							</router-link>
 							<div class="menu-badge">
@@ -43,7 +43,7 @@
 							</div>
 						</li>
 						<li class="menu-item">
-							<router-link to="/setlists" class="py-2" @click.native="open = false">
+							<router-link to="/setlists" class="py-2" @click="open = false">
 								<ion-icon :icon="list" class="mr-2"></ion-icon> {{ $t('page.setlists') }}
 							</router-link>
 							<div class="menu-badge">
@@ -61,7 +61,7 @@
 						</li>
 						<li class="divider text-center" :data-content="$t('divider.account')"></li>
 						<li class="menu-item pt-2 pb-2">
-							<router-link to="/profile" class="py-2" @click.native="open = false">
+							<router-link to="/profile" class="py-2" @click="open = false">
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
 										<img v-if="users[auth.user].photo" class="avatar" :src="users[auth.user].photo" alt="Avatar">
@@ -85,7 +85,7 @@
 							</router-link>
 						</li>
 						<li class="menu-item">
-							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles()[permissions[auth.user].role] > 3 }" @click.native="open = false">
+							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles()[permissions[auth.user].role] > 3 }" @click="open = false">
 								<ion-icon :icon="optionsOutline" class="mr-2"></ion-icon> {{ $t('page.settings') }}
 							</router-link>
 						</li>
@@ -98,12 +98,12 @@
 					<ul class="menu text-uppercase">
 						<li class="divider text-center" :data-content="$t('divider.info')"></li>
 						<li class="menu-item">
-							<router-link to="/shortcuts" class="py-2" @click.native="open = false">
+							<router-link to="/shortcuts" class="py-2" @click="open = false">
 								<ion-icon :icon="bulbOutline" class="mr-2"></ion-icon> {{ $t('page.shortcuts') }}
 							</router-link>
 						</li>
 						<li class="menu-item">
-							<router-link to="/documentation" class="py-2" @click.native="open = false">
+							<router-link to="/documentation" class="py-2" @click="open = false">
 								<ion-icon :icon="bookOutline" class="mr-2"></ion-icon> {{ $t('page.docu') }}
 							</router-link>
 						</li>

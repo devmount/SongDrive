@@ -6,7 +6,7 @@
 			tabindex="0"
 			@keydown.left.exact="!isFirstPage && !noSetlists ? page-- : null"
 			@keydown.right.exact="!isLastPage && !noSetlists ? page++ : null"
-			@keydown.ctrl.70.prevent="!noSetlists ? $refs.search.focus() : null"
+			@keydown.ctrl.f.prevent="!noSetlists ? $refs.search.focus() : null"
 			@keydown.esc.exact="search=''; filter='';"
 		>
 			<div class="columns">
@@ -115,6 +115,7 @@
 						<th></th>
 						<th
 							v-for="col in ['date', 'title', 'creator', 'songs']"
+							:key="col"
 							class="c-hand"
 							:class="{
 								'bg-primary-dark': order.field == col,

@@ -7,9 +7,9 @@
 		@keydown.left.exact="chords ? tuning-- : null"
 		@keydown.down.exact="chords ? tuning++ : null"
 		@keydown.right.exact="chords ? tuning++ : null"
-		@keydown.ctrl.75.prevent="chords = !chords"
-		@keydown.ctrl.82.prevent="chords ? tuning=0 : null"
-		@keydown.ctrl.80.prevent="modal.present=true"
+		@keydown.ctrl.k.prevent="chords = !chords"
+		@keydown.ctrl.r.prevent="chords ? tuning=0 : null"
+		@keydown.ctrl.p.prevent="modal.present=true"
 		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; $refs['song-show'].focus()"
 	>
 		<div class="off-canvas off-canvas-secondary">

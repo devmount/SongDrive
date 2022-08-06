@@ -8,10 +8,10 @@
 		@keydown.left.exact="$refs.presentation.prev()"
 		@keydown.down.exact="$refs.presentation.next()"
 		@keydown.right.exact="$refs.presentation.next()"
-		@keydown.ctrl.73.prevent="songs[currentPosition].note ? modal.infosongdata = !modal.infosongdata : null"
-		@keydown.ctrl.83.prevent="autoSync = !autoSync"
-		@keydown.ctrl.66.prevent="hide = !hide"
-		@keydown.ctrl.76.prevent="dark = !dark"
+		@keydown.ctrl.i.prevent="songs[currentPosition].note ? modal.infosongdata = !modal.infosongdata : null"
+		@keydown.ctrl.s.prevent="autoSync = !autoSync"
+		@keydown.ctrl.b.prevent="hide = !hide"
+		@keydown.ctrl.l.prevent="dark = !dark"
 		@keydown.esc.exact="$emit('closed')"
 	>
 		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
