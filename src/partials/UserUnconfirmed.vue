@@ -17,7 +17,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
 import Logo from '@/partials/Logo';
 import { logOutOutline } from 'ionicons/icons';
 

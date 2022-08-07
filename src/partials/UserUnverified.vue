@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref } from 'vue';
 import Logo from '@/partials/Logo';
 import { sendOutline, refreshOutline, logOutOutline } from 'ionicons/icons';
 
