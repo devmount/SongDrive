@@ -6,6 +6,8 @@
 	</div>
 </template>
 
+<script setup></script>
+
 <style lang="scss">
 .logo {
 	padding: .3em 0;
