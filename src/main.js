@@ -41,13 +41,15 @@ import VueClipboard from 'vue-clipboard2';
 app.use(VueClipboard);
 
 // vue-i18n
-import { createI18n } from 'vue-i18n/index';
+import { createI18n } from 'vue-i18n';
 const messages = {
 	"de": require("./locales/de.json"), // German
 	"en": require("./locales/en.json"), // English
 };
 const loc = navigator.language || navigator.userLanguage;
 const i18n = createI18n({
+	legacy: false,
+	globalInjection: true,
 	locale: loc,
 	fallbackLocale: "en",
   messages

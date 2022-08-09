@@ -19,15 +19,15 @@
 						</router-link>
 					</div>
 					<ul class="menu text-uppercase">
-						<li class="divider text-center" :data-content="$t('divider.start')"></li>
+						<li class="divider text-center" :data-content="t('divider.start')"></li>
 						<li class="menu-item">
 							<router-link to="/" class="py-2" @click="open = false">
-								<ion-icon :icon="appsSharp" class="mr-2"></ion-icon> {{ $t('page.dashboard') }}
+								<ion-icon :icon="appsSharp" class="mr-2"></ion-icon> {{ t('page.dashboard') }}
 							</router-link>
 						</li>
 						<li class="menu-item">
 							<router-link to="/songs" class="py-2" @click="open = false">
-								<ion-icon :icon="musicalNotesSharp" class="mr-2"></ion-icon> {{ $t('page.songs') }}
+								<ion-icon :icon="musicalNotesSharp" class="mr-2"></ion-icon> {{ t('page.songs') }}
 							</router-link>
 							<div class="menu-badge">
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
@@ -35,7 +35,7 @@
 								<button
 									v-if="userRoles()[permissions[auth.user].role] > 2"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
-									:data-tooltip="$t('tooltip.songAdd')"
+									:data-tooltip="t('tooltip.songAdd')"
 									@click="modal.addsong = true"
 								>
 									<ion-icon :icon="addSharp"></ion-icon>
@@ -44,7 +44,7 @@
 						</li>
 						<li class="menu-item">
 							<router-link to="/setlists" class="py-2" @click="open = false">
-								<ion-icon :icon="list" class="mr-2"></ion-icon> {{ $t('page.setlists') }}
+								<ion-icon :icon="list" class="mr-2"></ion-icon> {{ t('page.setlists') }}
 							</router-link>
 							<div class="menu-badge">
 								<label v-if="ready.setlists" class="label py-1">{{ setlistCount }}</label>
@@ -52,14 +52,14 @@
 								<button
 									v-if="userRoles()[permissions[auth.user].role] > 1"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
-									:data-tooltip="$t('tooltip.setlistAdd')"
+									:data-tooltip="t('tooltip.setlistAdd')"
 									@click="modal.addsetlist = true"
 								>
 									<ion-icon :icon="addSharp"></ion-icon>
 								</button>
 							</div>
 						</li>
-						<li class="divider text-center" :data-content="$t('divider.account')"></li>
+						<li class="divider text-center" :data-content="t('divider.account')"></li>
 						<li class="menu-item pt-2 pb-2">
 							<router-link to="/profile" class="py-2" @click="open = false">
 								<div class="tile tile-centered">
@@ -78,7 +78,7 @@
 									<div class="tile-content">
 										{{ userName }}
 										<div class="text-gray text-small">
-											{{ $t('role.' + permissions[auth.user].role) }}
+											{{ t('role.' + permissions[auth.user].role) }}
 										</div>
 									</div>
 								</div>
@@ -86,31 +86,31 @@
 						</li>
 						<li class="menu-item">
 							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles()[permissions[auth.user].role] > 3 }" @click="open = false">
-								<ion-icon :icon="optionsOutline" class="mr-2"></ion-icon> {{ $t('page.settings') }}
+								<ion-icon :icon="optionsOutline" class="mr-2"></ion-icon> {{ t('page.settings') }}
 							</router-link>
 						</li>
 						<li class="menu-item">
 							<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
-								{{ $t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
+								{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
 							</button>
 						</li>
 					</ul>
 					<ul class="menu text-uppercase">
-						<li class="divider text-center" :data-content="$t('divider.info')"></li>
+						<li class="divider text-center" :data-content="t('divider.info')"></li>
 						<li class="menu-item">
 							<router-link to="/shortcuts" class="py-2" @click="open = false">
-								<ion-icon :icon="bulbOutline" class="mr-2"></ion-icon> {{ $t('page.shortcuts') }}
+								<ion-icon :icon="bulbOutline" class="mr-2"></ion-icon> {{ t('page.shortcuts') }}
 							</router-link>
 						</li>
 						<li class="menu-item">
 							<router-link to="/documentation" class="py-2" @click="open = false">
-								<ion-icon :icon="bookOutline" class="mr-2"></ion-icon> {{ $t('page.docu') }}
+								<ion-icon :icon="bookOutline" class="mr-2"></ion-icon> {{ t('page.docu') }}
 							</router-link>
 						</li>
 						<li class="menu-item">
 							<a href="https://github.com/devmount/SongDrive" class="py-2" target="_blank">
 								<ion-icon :icon="logoGithub" class="mr-2"></ion-icon>
-								{{ $t('page.github') }}
+								{{ t('page.github') }}
 								<ion-icon :icon="openOutline" class="icon-right"></ion-icon>
 							</a>
 						</li>
@@ -118,9 +118,9 @@
 					<footer>
 						<div class="text-center text-small text-gray">
 							<span>
-								{{ $t('app.created.0') }}
+								{{ t('app.created.0') }}
 								<ion-icon :icon='heartOutline'></ion-icon>
-								{{ $t('app.created.1') }}
+								{{ t('app.created.1') }}
 							</span>
 							<a href="https://devmount.de" target="_blank">
 								<svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
@@ -135,7 +135,7 @@
 								<path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path>
 							</svg>
 							<a href="https://github.com/devmount/SongDrive/blob/main/LICENSE" target="_blank">
-								{{ $t('app.license') }}
+								{{ t('app.license') }}
 							</a>
 						</div>
 					</footer>
@@ -242,6 +242,9 @@
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
 // get icons
 import {
 	appsSharp,
@@ -471,8 +474,8 @@ export default defineComponent({
 				}
 				// toast successful login
 				this.$notify({
-					title: this.$t('toast.signedIn'),
-					text: this.$t('toast.signedInText', { name: this.auth.userObject.displayName }),
+					title: this.t('toast.signedIn'),
+					text: this.t('toast.signedInText', { name: this.auth.userObject.displayName }),
 					type: 'primary'
 				});
 			}).catch((error) => this.throwError(error));
@@ -485,8 +488,8 @@ export default defineComponent({
 				}
 				// toast successfoul log out
 				this.$notify({
-					title: this.$t('toast.signedOut'),
-					text: this.$t('toast.signedOutText'),
+					title: this.t('toast.signedOut'),
+					text: this.t('toast.signedOutText'),
 					type: 'primary'
 				});
 			}).catch((error) => this.throwError(error));
@@ -502,8 +505,8 @@ export default defineComponent({
 					this.auth.userObject = firebase.auth().currentUser
 					this.auth.userObject.updateProfile({ displayName: user.name })
 					this.$notify({
-						title: this.$t('toast.signedUp'),
-						text: this.$t('toast.signedUpText', { name: user.name }),
+						title: this.t('toast.signedUp'),
+						text: this.t('toast.signedUpText', { name: user.name }),
 						type: 'primary'
 					});
 				}).catch((error) => this.throwError(error));
@@ -511,8 +514,8 @@ export default defineComponent({
 				firebase.auth().currentUser.sendEmailVerification().then(() => {
 					// Verification email sent
 					this.$notify({
-						title:  this.$t('toast.verficationSent'),
-						text:  this.$t('toast.verficationSentText'),
+						title:  this.t('toast.verficationSent'),
+						text:  this.t('toast.verficationSentText'),
 						type: 'primary'
 					});
 				}).catch((error) => this.throwError(error));
@@ -522,8 +525,8 @@ export default defineComponent({
 		resendEmailVerification () {
 			firebase.auth().currentUser.sendEmailVerification().then(() => {
 				this.$notify({
-					title: this.$t('toast.verficationSent'),
-					text: this.$t('toast.verficationSentText'),
+					title: this.t('toast.verficationSent'),
+					text: this.t('toast.verficationSentText'),
 					type: 'primary'
 				});
 			}).catch((error) => this.throwError(error));
@@ -532,8 +535,8 @@ export default defineComponent({
 		sendPasswordReset (email) {
 			firebase.auth().sendPasswordResetEmail(email).then(() => {
 				this.$notify({
-					title: this.$t('toast.passwordResetSent'),
-					text: this.$t('toast.passwordResetSentText'),
+					title: this.t('toast.passwordResetSent'),
+					text: this.t('toast.passwordResetSentText'),
 					type: 'primary'
 				});
 			}).catch((error) => this.throwError(error));
