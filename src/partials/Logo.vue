@@ -1,12 +1,15 @@
 <template>
 	<div class="logo">
 		<img src="../assets/logo.svg" alt="SongDrive Song Management Tool" />
-		<h1>{{ $t('app.name') }}</h1>
+		<h1>{{ t('app.name') }}</h1>
 		<div class="version text-gray text-small text-right mr-5">v{{ $version }}</div>
 	</div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+</script>
 
 <style lang="scss">
 .logo {
