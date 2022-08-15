@@ -5,7 +5,7 @@
 				<!-- heading -->
 				<div class="column">
 					<h2 class="view-title">
-						{{ $t('page.profile') }}
+						{{ t('page.profile') }}
 					</h2>
 				</div>
 			</div>
@@ -28,12 +28,12 @@
 								</span>
 							</div>
 							<div v-if="users[user].name" class="panel-title h5">{{ users[user].name }}</div>
-							<div v-if="roleName" class="panel-subtitle text-gray">{{ $t('role.' + roleName) }}</div>
+							<div v-if="roleName" class="panel-subtitle text-gray">{{ t('role.' + roleName) }}</div>
 						</div>
 						<div class="panel-body">
 							<div v-if="users[user].email" class="tile tile-centered mb-2">
 								<div class="tile-content">
-									<div class="tile-title text-bold">{{ $t('field.email') }}</div>
+									<div class="tile-title text-bold">{{ t('field.email') }}</div>
 									<div class="tile-subtitle text-gray">{{ users[user].email }}</div>
 								</div>
 								<div class="tile-icon text-gray">
@@ -42,7 +42,7 @@
 							</div>
 							<div v-if="users[user].photo" class="tile tile-centered mb-2">
 								<div class="tile-content">
-									<div class="tile-title text-bold">{{ $t('field.photo') }}</div>
+									<div class="tile-title text-bold">{{ t('field.photo') }}</div>
 									<div class="tile-subtitle text-gray">{{ users[user].photo.substr(0,40) }}...</div>
 								</div>
 								<div class="tile-icon text-gray">
@@ -52,7 +52,7 @@
 						</div>
 						<div v-if="role" class="panel-link mt-4">
 							<router-link to="/settings" class="btn btn-link btn-block">
-								{{ $t('widget.goToSettings') }}
+								{{ t('widget.goToSettings') }}
 								<ion-icon :icon="arrowForward" class="ml-4"></ion-icon>
 							</router-link>
 						</div>
@@ -67,7 +67,7 @@
 									<div v-else class="text-huge">{{ Object.keys(setlistsFromUser).length }}</div>
 									<div class="panel-title h5">
 										<ion-icon :icon="list" class="mr-2"></ion-icon>
-										{{ $t('widget.setlistsCreated')}}
+										{{ t('widget.setlistsCreated')}}
 									</div>
 								</div>
 							</div>
@@ -81,7 +81,7 @@
 									</div>
 									<div class="panel-title h5">
 										<ion-icon :icon="musicalNotes" class="mr-2"></ion-icon>
-										{{ $t('widget.songsPerformed') }}
+										{{ t('widget.songsPerformed') }}
 									</div>
 								</div>
 							</div>
@@ -96,8 +96,8 @@
 						<div class="empty-icon">
 							<ion-icon :icon="eyeOffOutline" class="icon-4x"></ion-icon>
 						</div>
-						<p class="empty-title h5">{{ $t('text.pageNotAvailable') }}</p>
-						<p class="empty-subtitle">{{ $t('text.signInForAccess') }}</p>
+						<p class="empty-title h5">{{ t('text.pageNotAvailable') }}</p>
+						<p class="empty-subtitle">{{ t('text.signInForAccess') }}</p>
 					</div>
 				</div>
 			</div>
@@ -106,6 +106,10 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
 // get icons
 import { 
 	arrowForward,
@@ -116,22 +120,21 @@ import {
 	musicalNotes,
 	person
 } from 'ionicons/icons';
-</script>
 
-<script>
-import { defineComponent } from 'vue';
+// inherited properties
+const props = defineProps({
+  setlists: Object,
+  user:     String,
+  users:    Object,
+  role:     Number,
+  roleName: String,
+  ready:    Object,
+});
 
-export default defineComponent({
-	name: 'profile',
-	props: ['setlists', 'user', 'users', 'role', 'roleName', 'ready'],
-	computed: {
-		setlistsFromUser () {
-			return Object.filter(this.setlists, s => s.creator == this.user);
-		},
-		songsFromUser () {
-			let list = this.setlistsFromUser;
-			return Object.keys(list).reduce((previous, key) => previous + list[key].songs.length, 0);
-		}
-	}
+// computed
+const setlistsFromUser = computed(() => Object.filter(props.setlists, s => s.creator == props.user));
+const songsFromUser = computed(() => {
+	let list = setlistsFromUser.value;
+	return Object.keys(list).reduce((previous, key) => previous + list[key].songs.length, 0);
 });
 </script>

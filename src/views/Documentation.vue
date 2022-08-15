@@ -124,7 +124,7 @@ const dashCase = (text) => {
 	return text.toLowerCase().replace(' ', '-');
 };
 const scrollTo = (id) => {
-	document.getElementById(id).scrollIntoView({behavior: "smooth" });
+	document.getElementById(id).scrollIntoView({ behavior: "smooth" });
 };
 
 // computed
