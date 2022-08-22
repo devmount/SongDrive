@@ -43,6 +43,7 @@
 <script>
 import { defineComponent } from 'vue';
 import firebase from 'firebase/compat/app';
+import { throwError } from '@/utils.js';
 
 export default defineComponent({
 	name: 'account-delete',
@@ -88,8 +89,8 @@ export default defineComponent({
 								text: this.$t('toast.accountDeletedText'),
 								type: 'primary'
 							});
-						}).catch((error) => this.throwError(error));
-					}).catch((error) => this.throwError(error));
+						}).catch((error) => throwError(error));
+					}).catch((error) => throwError(error));
 				}).catch(() => {
 					this.error.currentpassword.wrong = true;
 					this.$notify({

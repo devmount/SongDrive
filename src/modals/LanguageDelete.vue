@@ -29,6 +29,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { throwError } from '@/utils.js';
 
 export default defineComponent({
 	name: 'language-delete',
@@ -49,9 +50,9 @@ export default defineComponent({
 						text: this.$t('toast.languageDeletedText'),
 						type: 'primary'
 					});
-				}).catch((error) => this.throwError(error));
+				}).catch((error) => throwError(error));
 			} else {
-				this.throwError({
+				throwError({
 					code: this.$t('toast.languageInUse'),
 					message: this.$t('text.languageInUse')
 				});

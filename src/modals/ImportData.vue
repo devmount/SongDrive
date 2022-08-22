@@ -93,6 +93,8 @@
 </template>
 
 <script setup>
+import { humanFileSize } from '@/utils.js';
+
 // get icons
 import { checkmarkOutline } from 'ionicons/icons';
 </script>

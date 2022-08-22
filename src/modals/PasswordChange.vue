@@ -64,6 +64,7 @@
 <script>
 import { defineComponent } from 'vue';
 import firebase from 'firebase/compat/app';
+import { throwError, randomString } from '@/utils.js';
 
 export default defineComponent({
 	name: 'password-change',
@@ -78,7 +79,7 @@ export default defineComponent({
 				currentpassword: ''
 			},
 			example: {
-				password: this.examplePassword(8)
+				password: randomString(8)
 			},
 			error: {
 				password: {
@@ -115,7 +116,7 @@ export default defineComponent({
 							text: this.$t('toast.userUpdatedText'),
 							type: 'primary'
 						});
-					}).catch((error) => this.throwError(error));
+					}).catch((error) => throwError(error));
 				}).catch(() => {
 					this.$notify({
 						title: this.$t('toast.passwordWrong'),

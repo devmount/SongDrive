@@ -238,6 +238,7 @@ import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n();
 import { useRoute } from 'vue-router'
 const route = useRoute()
+import { humanDate } from '@/utils.js';
 
 // get components
 import SetlistSet from '@/modals/SetlistSet';

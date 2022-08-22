@@ -58,7 +58,7 @@
 					<label class="form-label" for="role">{{ $t('field.role') }} <span class="text-error">*</span></label>
 					<select v-model="permission.role" id="role" class="form-select filter" required>
 						<option value="" disabled selected>{{ $t('placeholder.select') }}</option>
-						<option v-for="(r, k) in userRoles()" :key="k" :value="k">{{ $t('role.' + k) }}</option>
+						<option v-for="(r, k) in userRoles" :key="k" :value="k">{{ $t('role.' + k) }}</option>
 					</select>
 				</div>
 				<!-- admin password confirmation -->
@@ -91,6 +91,7 @@
 <script>
 import { defineComponent } from 'vue';
 import firebase from 'firebase/compat/app';
+import { keyScale, throwError, randomString } from '@/utils.js';
 
 export default defineComponent({
 	name: 'user-set',
@@ -111,7 +112,7 @@ export default defineComponent({
 				password: ''
 			},
 			example: {
-				password: this.examplePassword(8)
+				password: randomString(8)
 			},
 			error: {
 				name: false,
@@ -152,8 +153,8 @@ export default defineComponent({
 								text: this.$t('toast.userSavedText'),
 								type: 'primary'
 							});
-						}).catch((error) => this.throwError(error));
-					}).catch((error) => this.throwError(error));
+						}).catch((error) => throwError(error));
+					}).catch((error) => throwError(error));
 				}
 				// user is not yet confirmed
 				if (this.state == 'registered') {
@@ -172,9 +173,9 @@ export default defineComponent({
 									text: this.$t('toast.userSavedText'),
 									type: 'primary'
 								});
-							}).catch((error) => this.throwError(error));
-						}).catch((error) => this.throwError(error));
-					}).catch((error) => this.throwError(error));
+							}).catch((error) => throwError(error));
+						}).catch((error) => throwError(error));
+					}).catch((error) => throwError(error));
 				}
 				// user doesn't exist
 				if (this.state == 'new') {
@@ -207,13 +208,13 @@ export default defineComponent({
 													text: this.$t('toast.userAddedText'),
 													type: 'primary'
 												});
-											}).catch((error) => this.throwError(error));
-										}).catch((error) => this.throwError(error));
-									}).catch((error) => this.throwError(error));
-								}).catch((error) => this.throwError(error));
-							}).catch((error) => this.throwError(error));
-						}).catch((error) => this.throwError(error));
-					}).catch((error) => this.throwError(error));
+											}).catch((error) => throwError(error));
+										}).catch((error) => throwError(error));
+									}).catch((error) => throwError(error));
+								}).catch((error) => throwError(error));
+							}).catch((error) => throwError(error));
+						}).catch((error) => throwError(error));
+					}).catch((error) => throwError(error));
 				}
 			}
 		}

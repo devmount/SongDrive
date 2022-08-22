@@ -16,6 +16,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { sdHighlight } from '@/utils.js';
 
 // markdown parser
 const { marked } = require('marked');
@@ -41,7 +42,7 @@ export default defineComponent({
 					renderer: new marked.Renderer(),
 					highlight: (code, lang) => {
 						if (lang == 'songdrive') {
-							return this.sdHighlight(code);
+							return sdHighlight(code);
 						} else {
 							const language = hljs.getLanguage(lang) ? lang : 'plaintext';
 							return hljs.highlight(code, { language }).value;

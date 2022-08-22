@@ -97,7 +97,7 @@
 										<!-- filter key -->
 										<select v-model="tuning" class="form-select select-lg filter">
 											<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
-											<option v-for="t in keyScale()" :key="t" :value="t">{{ t }}</option>
+											<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
 										</select>
 									</li>
 									<li class="menu-item">
@@ -236,6 +236,8 @@
 </template>
 
 <script setup>
+import { keyScale } from '@/utils.js';
+
 // get icons
 import {
 	arrowBack,

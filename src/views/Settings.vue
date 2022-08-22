@@ -510,6 +510,8 @@
 </template>
 
 <script setup>
+import { download, initials, throwError } from '@/utils.js';
+
 // get icons
 import {
 	addOutline,
@@ -642,7 +644,7 @@ export default defineComponent({
 					type: 'primary'
 				});
 				this.verificationResend = true;
-			}).catch((error) => this.throwError(error));
+			}).catch((error) => throwError(error));
 		},
 		updateProfile () {
 			this.userObject.updateProfile({
@@ -659,9 +661,9 @@ export default defineComponent({
 							text: this.$t('toast.userUpdatedText'),
 							type: 'primary'
 						});
-					}).catch((error) => this.throwError(error));
-				}).catch((error) => this.throwError(error));
-			}, (error) => this.throwError(error));
+					}).catch((error) => throwError(error));
+				}).catch((error) => throwError(error));
+			}, (error) => throwError(error));
 		},
 		updateConfig () {
 			this.$db.collection('config').doc('contact').update({
@@ -673,7 +675,7 @@ export default defineComponent({
 					text: this.$t('toast.configUpdatedText'),
 					type: 'primary'
 				});
-			}).catch((error) => this.throwError(error));
+			}).catch((error) => throwError(error));
 		},
 		confirmationMail (name) {
 			return 'subject=' + encodeURIComponent(this.$t('text.confirmationSubject'))
@@ -689,7 +691,7 @@ export default defineComponent({
 				'tags': this.tags,
 				'languages': this.languages
 			};
-			this.download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json');
+			download(JSON.stringify(data), (new Date().toJSON().slice(0,10).replace(/-/g, '')) + '_songdrive.json');
 			// toast success message
 			this.$notify({
 				title: this.$t('toast.databaseExported'),

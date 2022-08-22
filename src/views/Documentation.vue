@@ -95,6 +95,7 @@
 import { computed } from 'vue';
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n();
+import { sdHighlight } from '@/utils.js';
 
 // get icons
 import {
@@ -138,7 +139,7 @@ const content = computed(
 			renderer: new marked.Renderer(),
 			highlight: (code, lang) => {
 				if (lang == 'songdrive') {
-					return this.sdHighlight(code);
+					return sdHighlight(code);
 				} else {
 					const language = hljs.getLanguage(lang) ? lang : 'plaintext';
 					return hljs.highlight(code, { language }).value;

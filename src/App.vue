@@ -33,7 +33,7 @@
 								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="userRoles()[permissions[auth.user].role] > 2"
+									v-if="userRoles[permissions[auth.user].role] > 2"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="t('tooltip.songAdd')"
 									@click="modal.addsong = true"
@@ -50,7 +50,7 @@
 								<label v-if="ready.setlists" class="label py-1">{{ setlistCount }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="userRoles()[permissions[auth.user].role] > 1"
+									v-if="userRoles[permissions[auth.user].role] > 1"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="t('tooltip.setlistAdd')"
 									@click="modal.addsetlist = true"
@@ -85,7 +85,7 @@
 							</router-link>
 						</li>
 						<li class="menu-item">
-							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles()[permissions[auth.user].role] > 3 }" @click="open = false">
+							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles[permissions[auth.user].role] > 3 }" @click="open = false">
 								<ion-icon :icon="optionsOutline" class="mr-2"></ion-icon> {{ t('page.settings') }}
 							</router-link>
 						</li>
@@ -149,7 +149,7 @@
 					:key="$route.fullPath"
 					:user="auth.user"
 					:userObject="auth.userObject"
-					:role="userRoles()[permissions[auth.user].role]"
+					:role="userRoles[permissions[auth.user].role]"
 					:roleName="permissions[auth.user].role"
 					:ready="ready"
 					:config="config"
@@ -244,6 +244,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
+import { userRoles, initials, throwError } from '@/utils.js';
 
 // get icons
 import {
@@ -435,7 +436,7 @@ export default defineComponent({
 					this.config.contact = doc.data();
 					this.ready.config = true;
 				}
-			}).catch((error) => this.throwError(error));
+			}).catch((error) => throwError(error));
 		},
 		resetSong () {
 			this.newSong = {
@@ -478,7 +479,7 @@ export default defineComponent({
 					text: this.t('toast.signedInText', { name: this.auth.userObject.displayName }),
 					type: 'primary'
 				});
-			}).catch((error) => this.throwError(error));
+			}).catch((error) => throwError(error));
 		},
 		signOut () {
 			firebase.auth().signOut().then(() => {
@@ -492,7 +493,7 @@ export default defineComponent({
 					text: this.t('toast.signedOutText'),
 					type: 'primary'
 				});
-			}).catch((error) => this.throwError(error));
+			}).catch((error) => throwError(error));
 		},
 		signUp (user) {
 			firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
@@ -509,7 +510,7 @@ export default defineComponent({
 						text: this.t('toast.signedUpText', { name: user.name }),
 						type: 'primary'
 					});
-				}).catch((error) => this.throwError(error));
+				}).catch((error) => throwError(error));
 				// send verification email
 				firebase.auth().currentUser.sendEmailVerification().then(() => {
 					// Verification email sent
@@ -518,8 +519,8 @@ export default defineComponent({
 						text:  this.t('toast.verficationSentText'),
 						type: 'primary'
 					});
-				}).catch((error) => this.throwError(error));
-			}).catch((error) => this.throwError(error));
+				}).catch((error) => throwError(error));
+			}).catch((error) => throwError(error));
 		},
 		// resend email with verification link to currently logged in user
 		resendEmailVerification () {
@@ -529,7 +530,7 @@ export default defineComponent({
 					text: this.t('toast.verficationSentText'),
 					type: 'primary'
 				});
-			}).catch((error) => this.throwError(error));
+			}).catch((error) => throwError(error));
 		},
 		// send password reset email
 		sendPasswordReset (email) {
@@ -539,7 +540,7 @@ export default defineComponent({
 					text: this.t('toast.passwordResetSentText'),
 					type: 'primary'
 				});
-			}).catch((error) => this.throwError(error));
+			}).catch((error) => throwError(error));
 		}
 	},
 	computed: {

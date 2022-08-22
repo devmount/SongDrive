@@ -16,6 +16,8 @@
 </template>
 
 <script setup>
+import { isChordLine, parsedContent } from '@/utils.js';
+
 const props = defineProps({
 	content: String,
 	chords: Boolean,

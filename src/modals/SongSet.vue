@@ -74,7 +74,7 @@
 											<label class="form-label" for="tuning">{{ $t('field.tuning') }}</label>
 											<select v-model="song.tuning" class="form-select" id="tuning">
 												<option value="">{{ $t('placeholder.select') }}</option>
-												<option v-for="tune in keyScale()" :key="tune">{{ tune }}</option>
+												<option v-for="tune in keyScale" :key="tune">{{ tune }}</option>
 											</select>
 										</div>
 									</div>
@@ -376,6 +376,8 @@
 </template>
 
 <script setup>
+import { keyScale, sdHighlight, throwError, urlify } from '@/utils.js';
+
 // get icons
 import {
 	add,
@@ -431,7 +433,7 @@ export default defineComponent({
 	},
 	methods: {
 		highlighter (code) {
-			return this.sdHighlight(code);
+			return sdHighlight(code);
 		},
 		set () {
 			// first check for form errors
@@ -481,7 +483,7 @@ export default defineComponent({
 							text: this.$t('toast.songSavedText'),
 							type: 'primary'
 						});
-					}).catch((error) => this.throwError(error));
+					}).catch((error) => throwError(error));
 				}
 				// existing song should be updated
 				else {
@@ -516,7 +518,7 @@ export default defineComponent({
 								text: this.$t('toast.songSavedText'),
 								type: 'primary'
 							});
-						}).catch((error) => this.throwError(error));
+						}).catch((error) => throwError(error));
 					} else {
 						// update key by adding a new song, removing the old one and update references in other fields
 						this.$db.collection('songs').doc(slug).set(processedSong).then(() => {
@@ -574,14 +576,14 @@ export default defineComponent({
 								text: this.$t('toast.songSavedText'),
 								type: 'primary'
 							});
-						}).catch((error) => this.throwError(error));
+						}).catch((error) => throwError(error));
 					}
 				}
 			}
 		},
 		// create a human readable record key of format YYYYMMDD-the-setlist-title
 		createSlug () {
-			return this.urlify(this.song.title) + '-' + this.song.language;
+			return urlify(this.song.title) + '-' + this.song.language;
 		},
 	},
 	computed: {

@@ -132,7 +132,7 @@
 														<!-- filter key -->
 														<select v-model="tuning" class="form-select select-lg filter">
 															<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
-															<option v-for="t in keyScale()" :key="t" :value="t">{{ t }}</option>
+															<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
 														</select>
 													</li>
 													<li class="menu-item">
@@ -228,6 +228,8 @@
 </template>
 
 <script setup>
+import { keyScale, humanDate, throwError, urlify } from '@/utils.js';
+
 // get icons
 import {
 	arrowBack,
@@ -328,11 +330,11 @@ export default defineComponent({
 			let songs = this.setlist.songs;
 			// update tuning
 			let tone = songs[position].tuning ? songs[position].tuning : this.songs[songs[position].id].tuning;
-			let i = this.keyScale().indexOf(tone);
-			if (i>=this.keyScale().length-1) {
-				tone = this.keyScale()[0];
+			let i = keyScale.indexOf(tone);
+			if (i>=keyScale.length-1) {
+				tone = keyScale[0];
 			} else {
-				tone = this.keyScale()[++i];
+				tone = keyScale[++i];
 			}
 			// save tuning in setlist
 			this.setlist.songs[position].tuning = tone;
@@ -342,11 +344,11 @@ export default defineComponent({
 			let songs = this.setlist.songs;
 			// update tuning
 			let tone = songs[position].tuning ? songs[position].tuning : this.songs[songs[position].id].tuning;
-			let i = this.keyScale().indexOf(tone);
+			let i = keyScale.indexOf(tone);
 			if (i<=0) {
-				tone = this.keyScale()[this.keyScale().length-1];
+				tone = keyScale[keyScale.length-1];
 			} else {
-				tone = this.keyScale()[--i];
+				tone = keyScale[--i];
 			}
 			// save tuning in setlist
 			this.setlist.songs[position].tuning = tone;
@@ -381,7 +383,7 @@ export default defineComponent({
 							text: this.$t('toast.setlistSavedText'),
 							type: 'primary'
 						});
-					}).catch((error) => this.throwError(error));
+					}).catch((error) => throwError(error));
 				}
 				// existing setlist should be updated
 				else {
@@ -398,7 +400,7 @@ export default defineComponent({
 								text: this.$t('toast.setlistSavedText'),
 								type: 'primary'
 							});
-						}).catch((error) => this.throwError(error));
+						}).catch((error) => throwError(error));
 					} else {
 						// update key by adding a new setlist and removing the old one
 						this.$db.collection('setlists').doc(this.setlistKey).delete();
@@ -413,14 +415,14 @@ export default defineComponent({
 								text: this.$t('toast.setlistSavedText'),
 								type: 'primary'
 							});
-						}).catch((error) => this.throwError(error));
+						}).catch((error) => throwError(error));
 					}
 				}
 			}
 		},
 		// create a human readable record key of format YYYYMMDD-the-setlist-title
 		createSlug () {
-			return this.setlist.date.replace(/-/g, '') + '-' + this.urlify(this.setlist.title);
+			return this.setlist.date.replace(/-/g, '') + '-' + urlify(this.setlist.title);
 		},
 		cancel () {
 			this.$emit('closed');
@@ -457,7 +459,7 @@ export default defineComponent({
 			setlists.forEach(setlist => {
 				setlist.songs.forEach(song => {
 					if (!(song.id in songs)) {
-						songs[song.id] = this.humanDate(setlist.date, this.$i18n.locale, false);
+						songs[song.id] = humanDate(setlist.date, this.$i18n.locale, false);
 					}
 				});
 			});

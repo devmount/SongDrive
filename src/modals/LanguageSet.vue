@@ -49,6 +49,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { throwError } from '@/utils.js';
 
 export default defineComponent({
 	name: 'language-set',
@@ -87,7 +88,7 @@ export default defineComponent({
 							text: this.$t('toast.languageSavedText'),
 							type: 'primary'
 						});
-					}).catch((error) => this.throwError(error));
+					}).catch((error) => throwError(error));
 				}
 				// language doesn't exist yet
 				else {
@@ -101,7 +102,7 @@ export default defineComponent({
 							text: this.$t('toast.languageSavedText'),
 							type: 'primary'
 						});
-					}).catch((error) => this.throwError(error));
+					}).catch((error) => throwError(error));
 				}
 			}
 		}

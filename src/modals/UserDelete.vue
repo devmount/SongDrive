@@ -30,6 +30,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { throwError } from '@/utils.js';
 
 export default defineComponent({
 	name: 'user-delete',
@@ -70,7 +71,7 @@ export default defineComponent({
 						text: this.$t('toast.userDeletedText'),
 						type: 'primary'
 					});
-				}).catch((error) => this.throwError(error));
+				}).catch((error) => throwError(error));
 			}
 			}
 	},

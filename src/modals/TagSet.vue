@@ -48,6 +48,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { throwError } from '@/utils.js';
 
 export default defineComponent({
 	name: 'tag-set',
@@ -90,7 +91,7 @@ export default defineComponent({
 							text: this.$t('toast.tagSavedText'),
 							type: 'primary'
 						});
-					}).catch((error) => this.throwError(error));
+					}).catch((error) => throwError(error));
 				}
 				// tag doesn't exist yet
 				else {
@@ -105,7 +106,7 @@ export default defineComponent({
 							text: this.$t('toast.tagSavedText'),
 							type: 'primary'
 						});
-					}).catch((error) => this.throwError(error));
+					}).catch((error) => throwError(error));
 				}
 			}
 		}

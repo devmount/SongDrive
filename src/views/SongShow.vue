@@ -274,6 +274,8 @@
 </template>
 
 <script setup>
+import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
+
 // get icons
 import {
 	arrowBack,
@@ -344,24 +346,24 @@ export default defineComponent({
 	methods: {
 		// calculates difference between song key and url key parameter and returns new key scale index
 		urlKeyDiff () {
-			return (12 + this.keyScale().indexOf(this.songKey) - this.keyScale().indexOf(this.song.tuning)) % 12;
+			return (12 + keyScale.indexOf(this.songKey) - keyScale.indexOf(this.song.tuning)) % 12;
 		},
 		// export song in text format
 		exportTxt () {
 			// add header
 			var content = this.song.title
-				+ ' [' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']'
+				+ ' [' + keyScale[(12 + keyScale.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']'
 				+ '\n\n';
 			var lines = this.song.content.split(EOL);
 			// process lines
 			for (var i = 0; i < lines.length; i++) {
 				var line = lines[i];
 				// handle chord line
-				if (this.isChordLine(line)) continue;
+				if (isChordLine(line)) continue;
 				// handle verse marker
 				if (line.trim().toLowerCase().indexOf('--v') >= 0 && !isNaN(parseInt(line.trim().charAt(3)))) {
 					// if next line is chord line, prepend number to the line after
-					if (this.isChordLine(lines[i+1])) {
+					if (isChordLine(lines[i+1])) {
 						lines[i+2] = line.trim().charAt(3) + '. ' + lines[i+2];
 						// add 3 spaces to next line to sync chords with text again
 						lines[i+1] = '   ' + lines[i+1];
@@ -377,7 +379,7 @@ export default defineComponent({
 			content += EOL + this.song.authors + EOL + EOL
 				+ '© ' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
 			// start download
-			this.download(content, this.songId + '.txt');
+			download(content, this.songId + '.txt');
 			// toast success message
 			this.$notify({
 				title: this.$t('toast.exportedText'),
@@ -394,14 +396,14 @@ export default defineComponent({
 				+ '#Author=' + this.song.authors
 				+ '#Melody=' + this.song.authors
 				+ '#(c)=' + (this.song.year ? this.song.year + ' ' : '') + this.song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + EOL
-				+ '#Key=' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + EOL
+				+ '#Key=' + keyScale[(12 + keyScale.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + EOL
 				+ '#CCLI=' + this.song.ccli + EOL
 				+ '---' + EOL
 			var lines = this.song.content.split(EOL);
 			// remove chord lines
 			for (var i = 0; i < lines.length; i++) {
 				var line = lines[i];
-				if (this.isChordLine(line)) continue;
+				if (isChordLine(line)) continue;
 				else content += line + EOL;
 			}
 			// replace marker
@@ -414,7 +416,7 @@ export default defineComponent({
 				.replace(/--m/g, "mitro")
 				.replace(/--o/g, "outro");
 			// start download
-			this.download(content, this.songId + '.sng');
+			download(content, this.songId + '.sng');
 			// toast success message
 			this.$notify({
 				title: this.$t('toast.exportedSng'),
@@ -469,7 +471,7 @@ export default defineComponent({
 		getPdfSongContent () {
 			// handle all song parts
 			let content = [];
-			let parts = this.parsedContent(this.song.content, this.tuning, this.chords, false);
+			let parts = parsedContent(this.song.content, this.tuning, this.chords, false);
 			parts.forEach((part) => {
 				if (part.type == 'v' && part.number != '0') {
 					content.push({
@@ -522,7 +524,7 @@ export default defineComponent({
 			// return array with song data ready for pdfMake
 			return [
 				// song title [tuning] with a line beneath
-				{ text: this.song.title.toUpperCase() + (this.tuning ? '  [' + this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' : ''), style: 'header' },
+				{ text: this.song.title.toUpperCase() + (this.tuning ? '  [' + keyScale[(12 + keyScale.indexOf(this.song.tuning) + (this.tuning % 12)) % 12] + ']' : ''), style: 'header' },
 				{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
 				content,
 				{ columnGap: 8, columns: footer }
@@ -566,9 +568,9 @@ export default defineComponent({
 		showTuning () {
 			if (this.song) {
 				return {
-					previous: this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning-1 % 12)) % 12],
-					current: this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning % 12)) % 12],
-					next: this.keyScale()[(12 + this.keyScale().indexOf(this.song.tuning) + (this.tuning+1 % 12)) % 12],
+					previous: keyScale[(12 + keyScale.indexOf(this.song.tuning) + (this.tuning-1 % 12)) % 12],
+					current: keyScale[(12 + keyScale.indexOf(this.song.tuning) + (this.tuning % 12)) % 12],
+					next: keyScale[(12 + keyScale.indexOf(this.song.tuning) + (this.tuning+1 % 12)) % 12],
 				};
 			} else {
 				return {}

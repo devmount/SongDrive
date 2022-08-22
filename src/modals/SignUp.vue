@@ -76,6 +76,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { randomString } from '@/utils.js';
 
 export default defineComponent({
 	name: 'sing-up',
@@ -91,7 +92,7 @@ export default defineComponent({
 				repeat: '',
 			},
 			example: {
-				password: this.examplePassword(8)
+				password: randomString(8)
 			},
 			error: {
 				name: false,
