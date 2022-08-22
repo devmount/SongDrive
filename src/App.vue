@@ -242,7 +242,7 @@
 </template>
 
 <script setup>
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 import { userRoles, initials, throwError } from '@/utils.js';
 
@@ -295,6 +295,7 @@ export default defineComponent({
 		SongSet,
 		SetlistSet,
 	},
+	inject: ['db'],
 	data () {
 		return {
 			// db tables
@@ -380,7 +381,7 @@ export default defineComponent({
 				}
 				this.auth.user = user.uid;
 				this.auth.userObject = user;
-				let userRef = this.$db.collection("users").doc(user.uid);
+				let userRef = this.db.collection("users").doc(user.uid);
 				userRef.get().then((userEntry) => {
 					if (userEntry.exists) {
 						this.auth.confirmed = true;
@@ -408,7 +409,7 @@ export default defineComponent({
 		// add listeners for changes on each db table
 		listen () {
 			for (const table in this.listener) {
-				this.listener[table] = onSnapshot(collection(this.$db, table), (snapshot) => {
+				this.listener[table] = onSnapshot(collection(this.db, table), (snapshot) => {
 					snapshot.docChanges().forEach(change => {
 						if (change.type === "added" || change.type === "modified") {
 							this[table][change.doc.id] = change.doc.data();
@@ -430,7 +431,7 @@ export default defineComponent({
 		},
 		// loads configuration without listener
 		loadConfig () {
-			let contactRef = this.$db.collection("config").doc("contact");
+			let contactRef = this.db.collection("config").doc("contact");
 			contactRef.get().then(doc => {
 				if (doc.exists) {
 					this.config.contact = doc.data();
@@ -502,7 +503,7 @@ export default defineComponent({
 				// load general app config
 				this.loadConfig();
 				// create registration for admin approval
-				this.$db.collection('registrations').doc(this.auth.user).set({ email: user.email, name: user.name }).then(() => {
+				this.db.collection('registrations').doc(this.auth.user).set({ email: user.email, name: user.name }).then(() => {
 					this.auth.userObject = firebase.auth().currentUser
 					this.auth.userObject.updateProfile({ displayName: user.name })
 					this.$notify({

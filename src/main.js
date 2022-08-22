@@ -19,8 +19,8 @@ const conf = {
 let firebaseApp = firebase.initializeApp(conf);
 
 // set global properties
-app.config.globalProperties.$db = firebaseApp.firestore();
-app.config.globalProperties.$version = process.env.VUE_APP_VERSION;
+app.provide('db', firebaseApp.firestore());
+app.provide('version', process.env.VUE_APP_VERSION);
 
 // ionicons
 import { IonIcon } from '@ionic/vue';
