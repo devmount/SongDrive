@@ -4,7 +4,7 @@ import App from '@/App.vue';
 const app = createApp(App);
 
 // init router
-import router from './router'
+import router from '@/router'
 app.use(router);
 
 // set firebase db config
@@ -35,10 +35,6 @@ import Sortable from 'sortablejs';
 app.directive('sortable', (el, binding) => {
 	new Sortable(el, binding.value || {});
 });
-
-// vue-clipboard2
-import VueClipboard from 'vue-clipboard2';
-app.use(VueClipboard);
 
 // vue-i18n
 import { createI18n } from 'vue-i18n';
