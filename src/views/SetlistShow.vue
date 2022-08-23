@@ -674,7 +674,7 @@ const exportPdf = (mode) => {
 	pdfMake.createPdf(doc).download(
 		route.params.id
 		+ '-'
-		+ (mode == 'sheets' ? t('button.exportSetlistSheets'): t('button.exportSetlistList')).toLowerCase()
+		+ (mode == 'sheets' ? t('button.exportSetlistSheets') : t('button.exportSetlistList')).toLowerCase()
 		+ '.pdf'
 	);
 	// toast success message
