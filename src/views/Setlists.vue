@@ -140,7 +140,7 @@
 							></div>
 						</td>
 						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
-							{{ humanDate(setlist.date, $i18n.locale) }}
+							{{ humanDate(setlist.date, locale) }}
 						</td>
 						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ setlist.title }}

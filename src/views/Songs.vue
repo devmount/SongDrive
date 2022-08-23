@@ -6,7 +6,7 @@
 			tabindex="0"
 			@keydown.left.exact="!isFirstPage && !noSongs ? page-- : null"
 			@keydown.right.exact="!isLastPage && !noSongs ? page++ : null"
-			@keydown.ctrl.f.prevent="!noSongs ? $refs.search.focus() : null"
+			@keydown.ctrl.f.prevent="!noSongs ? $refs.searchInput.focus() : null"
 			@keydown.esc.exact="search=''; filter=''; tuning=''"
 		>
 			<div class="columns">
@@ -15,7 +15,7 @@
 					<h2 class="view-title">
 						<span v-if="ready.songs" class="text-bold">{{ Object.keys(filteredSongs).length }}</span>
 						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
-						{{ $t('page.songs') }}
+						{{ t('page.songs') }}
 					</h2>
 				</div>
 			</div>
@@ -23,8 +23,8 @@
 			<div v-if="noSongs" class="columns mt-2">
 				<!-- heading -->
 				<div class="column col-12">
-					<span v-if="user && role">{{ $t('text.noSongsAvailableSignedIn') }}</span>
-					<span v-else>{{ $t('text.noSongsAvailableSignedOut') }}</span>
+					<span v-if="user && role">{{ t('text.noSongsAvailableSignedIn') }}</span>
+					<span v-else>{{ t('text.noSongsAvailableSignedOut') }}</span>
 				</div>
 			</div>
 
@@ -69,10 +69,10 @@
 						<span class="input-group-addon addon-lg"><ion-icon :icon="searchIcon"></ion-icon></span>
 						<input
 							type="search"
-							ref="search"
+							ref="searchInput"
 							v-model="search"
 							class="form-input input-lg"
-							:placeholder="$t('placeholder.searchSongTitle')"
+							:placeholder="t('placeholder.searchSongTitle')"
 						/>
 						<div class="dropdown dropdown-right">
 							<div class="btn-group">
@@ -87,23 +87,23 @@
 									<li class="menu-item">
 										<!-- filter tag -->
 										<select v-model="filter" class="form-select select-lg filter">
-											<option value="" disabled selected>{{ $t('placeholder.tag') }}</option>
+											<option value="" disabled selected>{{ t('placeholder.tag') }}</option>
 											<option v-for="tag in tags" :key="tag.key" :value="tag.key">
-												{{ tag[$i18n.locale] ? tag[$i18n.locale] : tag.key }}
+												{{ tag[locale] ? tag[locale] : tag.key }}
 											</option>
 										</select>
 									</li>
 									<li class="menu-item">
 										<!-- filter key -->
 										<select v-model="tuning" class="form-select select-lg filter">
-											<option value="" disabled selected>{{ $t('placeholder.tuning') }}</option>
+											<option value="" disabled selected>{{ t('placeholder.tuning') }}</option>
 											<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
 										</select>
 									</li>
 									<li class="menu-item">
 										<!-- filter language -->
 										<select v-model="language" class="form-select select-lg filter">
-											<option value="" disabled selected>{{ $t('placeholder.language') }}</option>
+											<option value="" disabled selected>{{ t('placeholder.language') }}</option>
 											<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
 										</select>
 									</li>
@@ -114,7 +114,7 @@
 											@click="search=''; filter=''; tuning=''; language=''"
 										>
 											<ion-icon :icon="close"></ion-icon>
-											{{ $t('button.reset') }}
+											{{ t('button.reset') }}
 										</button>
 									</li>
 								</ul>
@@ -139,7 +139,7 @@
 							}"
 							@click="sortList(col)"
 						>
-							{{ $t('field.' + col) }}
+							{{ t('field.' + col) }}
 							<ion-icon :icon="caretDown" v-if="order.field == col && !order.ascending" class="icon-right"></ion-icon>
 							<ion-icon :icon="caretUp" v-if="order.field == col && order.ascending" class="icon-right"></ion-icon>
 						</th>
@@ -172,7 +172,7 @@
 									<ul class="menu text-left">
 										<li class="menu-item">
 											<router-link :to="{ name: 'song-show', params: { id: song.id }}" class="py-3 px-3">
-												<ion-icon :icon="eyeOutline" class="mr-2"></ion-icon> {{ $t('button.show') }}
+												<ion-icon :icon="eyeOutline" class="mr-2"></ion-icon> {{ t('button.show') }}
 											</router-link>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
@@ -181,7 +181,7 @@
 												class="py-3 px-3"
 												@click.prevent="editDialog(song, true)"
 											>
-												<ion-icon :icon="createOutline" class="mr-2"></ion-icon> {{ $t('button.edit') }}
+												<ion-icon :icon="createOutline" class="mr-2"></ion-icon> {{ t('button.edit') }}
 											</a>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
@@ -190,7 +190,7 @@
 												class="py-3 px-3"
 												@click.prevent="editDialog(song, false)"
 											>
-												<ion-icon :icon="copyOutline" class="mr-2"></ion-icon> {{ $t('button.duplicate') }}
+												<ion-icon :icon="copyOutline" class="mr-2"></ion-icon> {{ t('button.duplicate') }}
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
@@ -199,7 +199,7 @@
 												class="py-3 px-3 text-error"
 												@click.prevent="deleteDialog(song)"
 											>
-												<ion-icon :icon="trashOutline" class="mr-2"></ion-icon> {{ $t('button.delete') }}
+												<ion-icon :icon="trashOutline" class="mr-2"></ion-icon> {{ t('button.delete') }}
 											</a>
 										</li>
 									</ul>
@@ -236,7 +236,16 @@
 </template>
 
 <script setup>
+import { ref, reactive, onMounted, computed, watch } from 'vue';
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n();
+import { useRoute } from 'vue-router'
+const route = useRoute()
 import { keyScale } from '@/utils.js';
+
+// get components
+import SongSet from '@/modals/SongSet';
+import SongDelete from '@/modals/SongDelete';
 
 // get icons
 import {
@@ -253,180 +262,166 @@ import {
 	search as searchIcon,
 	trashOutline
 } from 'ionicons/icons';
-</script>
 
-<script>
-import { defineComponent } from 'vue';
-
-// get components
-import SongSet from '@/modals/SongSet';
-import SongDelete from '@/modals/SongDelete';
-
-export default defineComponent({
-	name: 'songs',
-	props: ['songs', 'setlists', 'tags', 'languages', 'user', 'role', 'ready'],
-	components: {
-		SongSet,
-		SongDelete,
-	},
-	data () {
-		return {
-			search: '',
-			filter: this.$route.params.tag ? this.$route.params.tag : '',
-			tuning: '',
-			language: '',
-			page: 0,
-			listLength: 12,
-			order: { 
-				field: 'title',
-				ascending: true
-			},
-			modal: {
-				set: false,
-				delete: false,
-			},
-			active: {
-				title: '',
-				key: '',
-				song: {},
-				existing: true
-			}
-		}
-	},
-	mounted () {
-		this.$refs.container.focus();
-	},
-	computed: {
-		songsArray () {
-			let songs = Object.keys(this.songs).map((key) => {
-				let song = this.songs[key];
-				song['id'] = key;
-				return song;
-			})
-			songs.sort((a, b) => {
-				var propA = String(a[this.order.field]).toLowerCase().trim();
-				var propB = String(b[this.order.field]).toLowerCase().trim();
-				if (this.order.ascending) {
-					if (propA < propB) { return -1 };
-					if (propA > propB) { return 1 };
-				} else {
-					if (propA < propB) { return 1 };
-					if (propA > propB) { return -1 };
-				}
-				return 0;
-			})
-			return songs;
-		},
-		filteredSongs () {
-			var songs = this.songsArray;
-			if (this.search != '') {
-				songs = songs.filter(song => {
-					// filter fields: title, subtitle
-					var key = this.search.toLowerCase();
-					return song.title.toLowerCase().indexOf(key) !== -1
-						|| song.subtitle.toLowerCase().indexOf(key) !== -1
-						|| song.content.toLowerCase().indexOf(key) !== -1
-				});
-			}
-			if (this.filter != '') {
-				songs = songs.filter(song => {
-					// filter field: tags
-					return song.tags.indexOf(this.filter) !== -1;
-				});
-			}
-			if (this.tuning != '') {
-				songs = songs.filter(song => {
-					// filter field: tuning
-					return song.tuning.indexOf(this.tuning) !== -1;
-				});
-			}
-			if (this.language != '') {
-				songs = songs.filter(song => {
-					// filter field: language
-					return song.language.indexOf(this.language) !== -1;
-				});
-			}
-			return songs
-		},
-		noSongs () {
-			return this.ready.songs && this.songsArray.length == 0;
-		},
-		pagedSongs () {
-			return this.filteredSongs.slice(this.page*this.listLength, (this.page+1)*this.listLength);
-		},
-		isFirstPage () {
-			return this.page == 0;
-		},
-		isLastPage () {
-			return this.page == this.pageCount-1;
-		},
-		pageCount () {
-			return Math.ceil(this.filteredSongs.length/this.listLength);
-		}
-	},
-	methods: {
-		sortList (field) {
-			if (this.order.field == field) {
-				this.order.ascending = !this.order.ascending;
-			} else {
-				this.order.ascending = true;
-			}
-			this.order.field = field;
-		},
-		showPageItem (p) {
-			return this.pageCount < 6 || (
-				p == 1 || p == 2
-				|| (this.page == 0 && p == 3)
-				|| ((this.page == 0 || this.page == 1) && p == 4)
-				|| (p > this.page-1 && p < this.page+3)
-				|| ((this.page == this.pageCount-1||this.page == this.pageCount-2) && p == this.pageCount-3)
-				|| (this.page == this.pageCount-1 && p == this.pageCount-2)
-				|| p == this.pageCount-1 || p == this.pageCount
-			);
-		},
-		showFirstEllipsis (p) {
-			return this.pageCount >= 6 && this.page > 2 && p == 2;
-		},
-		showPageItemLink (p) {
-			return this.pageCount < 6 || (
-				p == 1
-				|| (this.page == 0 && p == 3)
-				|| ((this.page == 0 || this.page == 1) && p == 4)
-				|| (p > this.page-1 && p < this.page+3)
-				|| ((this.page == this.pageCount-1 || this.page == this.pageCount-2) && p == this.pageCount-3)
-				|| (this.page == this.pageCount-1 && p == this.pageCount-2)
-				|| p == this.pageCount
-			);
-		},
-		showLastEllipsis (p) {
-			return this.pageCount >= 6 && this.page < this.pageCount-3 && p == this.pageCount-1;
-		},
-		editDialog (song, existing) {
-			this.active.title = song.title;
-			this.active.song = song;
-			this.active.key = song.id;
-			this.active.existing = existing;
-			this.modal.set = true;
-		},
-		deleteDialog (song) {
-			this.active.title = song.title;
-			this.active.key = song.id;
-			this.modal.delete = true;
-		}
-	},
-	watch: {
-		search () {
-			this.page = 0;
-		},
-		filter () {
-			this.page = 0;
-		},
-		tuning () {
-			this.page = 0;
-		},
-		language () {
-			this.page = 0;
-		},
-	}
+// inherited properties
+const props = defineProps({
+  songs:     Object,
+  setlists:  Object,
+  tags:      Object,
+  languages: Object,
+  user:      String,
+  role:      Number,
+  ready:     Object,
 });
+
+// template references
+const container  = ref(null);
+
+// reactive data
+const search     = ref('');
+const filter     = ref(route.params.tag ? route.params.tag : '');
+const tuning     = ref('');
+const language   = ref('');
+const page       = ref(0);
+const listLength = ref(12);
+const order = reactive({ 
+	field: 'date',
+	ascending: true
+});
+const modal = reactive({
+	set: false,
+	delete: false,
+});
+const active = reactive({
+	title: '',
+	key: '',
+	song: {},
+	existing: true
+});
+
+// mounted
+onMounted(() => {
+	container.value.focus();
+});
+
+// computed
+const songsArray = computed(() => {
+	let songs = Object.keys(props.songs).map((key) => {
+		let song = props.songs[key];
+		song['id'] = key;
+		return song;
+	})
+	songs.sort((a, b) => {
+		var propA = String(a[order.field]).toLowerCase().trim();
+		var propB = String(b[order.field]).toLowerCase().trim();
+		if (order.ascending) {
+			if (propA < propB) { return -1 };
+			if (propA > propB) { return 1 };
+		} else {
+			if (propA < propB) { return 1 };
+			if (propA > propB) { return -1 };
+		}
+		return 0;
+	})
+	return songs;
+});
+const filteredSongs = computed(() => {
+	var songs = songsArray.value;
+	if (search.value != '') {
+		songs = songs.filter(song => {
+			// filter fields: title, subtitle
+			var key = search.value;
+			return song.title.toLowerCase().indexOf(key) !== -1
+				|| song.subtitle.toLowerCase().indexOf(key) !== -1
+				|| song.content.toLowerCase().indexOf(key) !== -1
+		});
+	}
+	if (filter.value != '') {
+		songs = songs.filter(song => {
+			// filter field: tags
+			return song.tags.indexOf(filter.value) !== -1;
+		});
+	}
+	if (tuning.value != '') {
+		songs = songs.filter(song => {
+			// filter field: tuning
+			return song.tuning.indexOf(tuning.value) !== -1;
+		});
+	}
+	if (language.value != '') {
+		songs = songs.filter(song => {
+			// filter field: language
+			return song.language.indexOf(language.value) !== -1;
+		});
+	}
+	return songs
+});
+const noSongs = computed(() => {
+	return props.ready.songs && songsArray.value.length == 0;
+});
+const pagedSongs = computed(() => {
+	return filteredSongs.value.slice(page.value*listLength.value, (page.value+1)*listLength.value);
+});
+const isFirstPage = computed(() => {
+	return page.value == 0;
+});
+const isLastPage = computed(() => {
+	return page.value == pageCount.value-1;
+});
+const pageCount = computed(() => {
+	return Math.ceil(filteredSongs.value.length/listLength.value);
+});
+
+// methods
+const sortList = (field) => {
+	if (order.field == field) {
+		order.ascending = !order.ascending;
+	} else {
+		order.ascending = true;
+	}
+	order.field = field;
+};
+const showPageItem = (p) => {
+	return pageCount.value < 6 || (
+		p == 1 || p == 2
+		|| (page.value == 0 && p == 3)
+		|| ((page.value == 0 || page.value == 1) && p == 4)
+		|| (p > page.value-1 && p < page.value+3)
+		|| ((page.value == pageCount.value-1||page.value == pageCount.value-2) && p == pageCount.value-3)
+		|| (page.value == pageCount.value-1 && p == pageCount.value-2)
+		|| p == pageCount.value-1 || p == pageCount.value
+	);
+};
+const showFirstEllipsis = (p) => {
+	return pageCount.value >= 6 && page.value > 2 && p == 2;
+};
+const showPageItemLink = (p) => {
+	return pageCount.value < 6 || (
+		p == 1
+		|| (page.value == 0 && p == 3)
+		|| ((page.value == 0 || page.value == 1) && p == 4)
+		|| (p > page.value-1 && p < page.value+3)
+		|| ((page.value == pageCount.value-1 || page.value == pageCount.value-2) && p == pageCount.value-3)
+		|| (page.value == pageCount.value-1 && p == pageCount.value-2)
+		|| p == pageCount.value
+	);
+};
+const showLastEllipsis = (p) => {
+	return pageCount.value >= 6 && page.value < pageCount.value-3 && p == pageCount.value-1;
+};
+const editDialog = (song, existing) => {
+	active.title = song.title;
+	active.song = song;
+	active.key = song.id;
+	active.existing = existing;
+	modal.set = true;
+};
+const deleteDialog = (song) => {
+	active.title = song.title;
+	active.key = song.id;
+	modal.delete = true;
+};
+
+// watcher
+watch ([search, filter, tuning, language], () => { page.value = 0 });
 </script>

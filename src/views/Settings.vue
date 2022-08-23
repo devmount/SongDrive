@@ -635,7 +635,7 @@ const resendEmailVerification = () => {
 			text: t('toast.verficationSentText'),
 			type: 'primary'
 		});
-		verificationResend = true;
+		verificationResend.value = true;
 	}).catch((error) => throwError(error));
 };
 const updateProfile = () => {
