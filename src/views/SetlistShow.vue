@@ -2,12 +2,12 @@
 	<div
 		v-if="setlistAccess"
 		class="setlist-show"
-		ref="setlist-show"
+		ref="setlistshow"
 		tabindex="0"
 		@keydown.ctrl.s.prevent="!modal.present ? updateActive() : null"
 		@keydown.ctrl.k.prevent="chords = !chords"
 		@keydown.ctrl.p.prevent="modal.present=true"
-		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; $refs['setlist-show'].focus()"
+		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; setlistshow.focus()"
 	>
 		<div class="off-canvas off-canvas-secondary">
 			<!-- secondary sidebar -->
@@ -163,7 +163,7 @@
 								</span>
 								<span class="flex align-center g-2">
 									<ion-icon :icon="calendarOutline" class="icon-sm"></ion-icon>
-									{{ humanDate(setlist.date, $i18n.locale) }}
+									{{ humanDate(setlist.date, locale) }}
 								</span>
 								<span v-if="ready.users && users[setlist.creator]" class="flex align-center g-2">
 									<ion-icon :icon="personOutline" class="icon-sm"></ion-icon>
@@ -346,9 +346,9 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch, inject } from 'vue';
+import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
+const { t, locale } = useI18n();
 import { useRoute } from 'vue-router';
 const route = useRoute();
 import { notify } from '@kyvg/vue3-notification';
@@ -423,6 +423,15 @@ const modal = reactive({
 	present: false,
 });
 
+// template references
+const setlistshow = ref(null);
+
+// mounted
+onMounted(() => {
+	// focus component area for shortcuts
+	setlistshow.value.focus();
+});
+
 // computed
 const setlist = computed(() => {
 	if (props.ready.setlists) {
@@ -483,7 +492,7 @@ const setlistKeys = computed(() => {
 });
 // Bool indicating if this setlist is accessible for current user or not
 const setlistAccess = computed(() => {
-	return !setlist.value.private || setlist.value.private && setlist.value.creator==this.user;
+	return !setlist.value.private || setlist.value.private && setlist.value.creator==props.user;
 });
 
 // methods
