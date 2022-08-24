@@ -6,7 +6,7 @@
 			tabindex="0"
 			@keydown.left.exact="!isFirstPage && !noSetlists ? page-- : null"
 			@keydown.right.exact="!isLastPage && !noSetlists ? page++ : null"
-			@keydown.ctrl.f.prevent="!noSetlists ? $refs.searchInput.focus() : null"
+			@keydown.ctrl.f.prevent="!noSetlists ? searchInput.focus() : null"
 			@keydown.esc.exact="search=''; filter='';"
 		>
 			<div class="columns">
@@ -139,10 +139,10 @@
 								:class="{ active: setlist.active, tooltip: setlist.active }"
 							></div>
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
+						<td class="hide-xl c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ humanDate(setlist.date, locale) }}
 						</td>
-						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
+						<td class="c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ setlist.title }}
 							<div
 								v-if="setlist.private"
@@ -152,10 +152,10 @@
 								<ion-icon :icon="lockClosedOutline"></ion-icon>
 							</div>
 						</td>
-						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
+						<td class="c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ users[setlist.creator] ? users[setlist.creator].name : '' }}
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
+						<td class="hide-xl c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ setlist.songs.length }}
 						</td>
 						<td class="text-right">
@@ -234,6 +234,8 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n();
 import { useRoute } from 'vue-router'
@@ -274,7 +276,8 @@ const props = defineProps({
 });
 
 // template references
-const container  = ref(null);
+const container   = ref(null);
+const searchInput = ref(null);
 
 // reactive data
 const search     = ref('');

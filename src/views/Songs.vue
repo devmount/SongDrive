@@ -6,7 +6,7 @@
 			tabindex="0"
 			@keydown.left.exact="!isFirstPage && !noSongs ? page-- : null"
 			@keydown.right.exact="!isLastPage && !noSongs ? page++ : null"
-			@keydown.ctrl.f.prevent="!noSongs ? $refs.searchInput.focus() : null"
+			@keydown.ctrl.f.prevent="!noSongs ? searchInput.focus() : null"
 			@keydown.esc.exact="search=''; filter=''; tuning=''"
 		>
 			<div class="columns">
@@ -275,7 +275,8 @@ const props = defineProps({
 });
 
 // template references
-const container  = ref(null);
+const container   = ref(null);
+const searchInput = ref(null);
 
 // reactive data
 const search     = ref('');

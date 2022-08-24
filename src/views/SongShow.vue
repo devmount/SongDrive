@@ -19,7 +19,7 @@
 					<button
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						:data-tooltip="t('button.back')"
-						@click="$router.go(-1)"
+						@click="router.go(-1)"
 					>
 						<ion-icon :icon="arrowBackOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ t('button.back') }}</span>
@@ -277,8 +277,9 @@
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n();
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
+const router = useRouter();
 import { notify } from '@kyvg/vue3-notification';
 import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
 

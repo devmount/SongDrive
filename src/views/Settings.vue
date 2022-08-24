@@ -457,7 +457,7 @@
 				:initialUser="active.user"
 				:role="active.role"
 				:state="active.state"
-				@started="$emit('started')"
+				@started="emit('started')"
 				@closed="modal.userset = false"
 			/>
 			<!-- modal: delete user -->
@@ -612,6 +612,9 @@ const active = reactive({
 	existing: true,
 	approved: true
 });
+
+// emits
+const emit = defineEmits(['started'])
 
 // mounted
 onMounted(() => {

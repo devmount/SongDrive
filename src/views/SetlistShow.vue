@@ -16,7 +16,7 @@
 					<button
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						:data-tooltip="t('button.back')"
-						@click="$router.go(-1)"
+						@click="router.go(-1)"
 					>
 						<ion-icon :icon="arrowBackOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ t('button.back') }}</span>
@@ -189,7 +189,7 @@
 											<ion-icon :icon="reorderFourOutline" class="icon-1-5x pl-2 handle"></ion-icon>
 										</td>
 										<template v-if="songs[song.id]">
-											<td class="c-hand" @click.prevent="$router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})">
+											<td class="c-hand" @click.prevent="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})">
 												{{ songs[song.id].title }} <br class="show-xl hide-sm" />
 												<span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span>
 											</td>
@@ -228,7 +228,7 @@
 											<button
 												v-if="songs[song.id]"
 												class="btn btn-primary"
-												@click.prevent="$router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})"
+												@click.prevent="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})"
 											>
 												<ion-icon :icon="eyeOutline"></ion-icon>
 											</button>
@@ -349,8 +349,9 @@
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n();
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
+const router = useRouter();
 import { notify } from '@kyvg/vue3-notification';
 import { keyScale, parsedContent, humanDate, throwError } from '@/utils.js';
 

@@ -96,7 +96,7 @@
 								v-for="(song, i) in songlist"
 								:key="i"
 								class="tile tile-centered tile-hover c-hand p-2"
-								@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+								@click="router.push({ name: 'song-show', params: { id: song.id }})"
 							>
 								<div class="tile-icon">
 									<figure class="avatar s-rounded" :data-initial="song.tuning" :title="t('title.songTuning')"></figure>
@@ -176,7 +176,7 @@
 								v-for="(setlist, i) in setlistlist"
 								:key="i"
 								class="tile tile-centered tile-hover c-hand p-2"
-								@click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})"
+								@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
 							>
 								<div class="tile-icon">
 									<figure
@@ -229,7 +229,7 @@
 								v-for="(song, year) in songOfYear"
 								:key="year"
 								class="tile tile-centered tile-hover c-hand p-2"
-								@click="$router.push({ name: 'song-show', params: { id: song.id}})"
+								@click="router.push({ name: 'song-show', params: { id: song.id}})"
 							>
 								<div class="tile-icon">
 									<figure class="avatar avatar-secondary bg-primary s-rounded" :data-initial="year"></figure>
@@ -312,6 +312,8 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n();
 

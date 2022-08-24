@@ -30,7 +30,7 @@
 					<div class="divider text-center show-lg" :data-content="t('divider.docs').charAt(0)"></div>
 					<div class="divider text-center hide-lg" :data-content="t('divider.docs')"></div>
 					<a
-						:href="'https://github.com/devmount/SongDrive/blob/main/src/docs/docs.' + $i18n.locale + '.md'"
+						:href="'https://github.com/devmount/SongDrive/blob/main/src/docs/docs.' + locale + '.md'"
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						:data-tooltip="t('button.source')"
 						target="_blank"
@@ -40,7 +40,7 @@
 						<ion-icon :icon="openOutline" class="icon-right hide-lg"></ion-icon>
 					</a>
 					<a
-						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + $i18n.locale + '.md'"
+						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						:data-tooltip="t('button.edit')"
 						target="_blank"
