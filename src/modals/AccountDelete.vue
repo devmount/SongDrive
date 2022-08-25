@@ -53,7 +53,7 @@ const db = inject('db');
 
 // inherited properties
 const props = defineProps({
-	active: Boolean
+	active: Boolean // state of modal display, true to show modal
 });
 
 // reactive data
