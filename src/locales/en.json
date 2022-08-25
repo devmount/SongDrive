@@ -205,7 +205,7 @@
     "exampleSongYear": "e.g. 2016",
     "exampleSongYoutubeId": "e.g. cF0S3uKdVJA",
     "exampleTagKey": "e.g. worship",
-    "exampleUserEmail": "e.g. john@doe.com",
+    "exampleUserEmail": "e.g. john{'@'}doe.com",
     "exampleUserName": "e.g. John Doe",
     "language": "Language ...",
     "repeatEmail": "Repeat Email Address",

@@ -205,7 +205,7 @@
     "exampleSongYear": "z.B. 2016",
     "exampleSongYoutubeId": "z.B. cF0S3uKdVJA",
     "exampleTagKey": "z.B. worship",
-    "exampleUserEmail": "z.B. max@muster.de",
+    "exampleUserEmail": "z.B. max{'@'}muster.de",
     "exampleUserName": "z.B. Max Muster",
     "language": "Sprache ...",
     "repeatEmail": "E-Mail-Adresse wiederholen",
