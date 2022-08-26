@@ -94,7 +94,7 @@ const error = reactive({
 });
 
 // emits
-const emit = defineEmits(['closed'])
+const emit = defineEmits(['closed']);
 
 // computed
 // calculate wether form errors occured
