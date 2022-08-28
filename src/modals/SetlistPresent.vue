@@ -4,17 +4,17 @@
 		:class="{ active: active, light: !dark }"
 		ref="container"
 		tabindex="0"
-		@keydown.up.exact="$refs.presentation.prev()"
-		@keydown.left.exact="$refs.presentation.prev()"
-		@keydown.down.exact="$refs.presentation.next()"
-		@keydown.right.exact="$refs.presentation.next()"
+		@keydown.up.exact="presentation.prev()"
+		@keydown.left.exact="presentation.prev()"
+		@keydown.down.exact="presentation.next()"
+		@keydown.right.exact="presentation.next()"
 		@keydown.ctrl.i.prevent="songs[currentPosition].note ? modal.infosongdata = !modal.infosongdata : null"
 		@keydown.ctrl.s.prevent="autoSync = !autoSync"
 		@keydown.ctrl.b.prevent="hide = !hide"
 		@keydown.ctrl.l.prevent="dark = !dark"
-		@keydown.esc.exact="$emit('closed')"
+		@keydown.esc.exact="emit('closed')"
 	>
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
+		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
 		<transition name="fade">
 			<div v-if="hide" class="hide"></div>
 		</transition>
@@ -33,7 +33,7 @@
 							:chords="chords"
 							:tuning="song.customTuningDelta"
 							:presentation="true"
-							:ref="'songcontent' + i"
+							ref="slides"
 						/>
 					</Slide>
 					<template #addons>
@@ -48,7 +48,7 @@
 						:class="{ disabled: currentPosition == 0 }"
 						href="#"
 						aria-label="Previous Song"
-						@click.prevent="$refs.presentation.prev()"
+						@click.prevent="presentation.prev()"
 					>
 						<ion-icon :icon="arrowBack" class="icon-1-5x"></ion-icon>
 						<span v-if="currentPosition > 0" class="ml-2">
@@ -63,7 +63,7 @@
 						:class="{ disabled: currentPosition == songs.length-1 }"
 						href="#"
 						aria-label="Next Song"
-						@click.prevent="$refs.presentation.next()"
+						@click.prevent="presentation.next()"
 					>
 						<span v-if="currentPosition < songs.length-1" class="mr-3">
 							{{ songs[currentPosition+1].title }}
@@ -122,7 +122,7 @@
 					:class="{ 'btn-secondary': !chords, 'btn-primary': chords }"
 					href="#"
 					aria-label="Chords"
-					@click.prevent="$emit('chords')"
+					@click.prevent="emit('chords')"
 					:data-tooltip="tooltip('chords')"
 				>
 					<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
@@ -131,19 +131,19 @@
 					class="btn btn-secondary btn-xl btn-fw btn-gray tooltip ml-1"
 					href="#"
 					aria-label="Cancel"
-					@click.prevent="$emit('closed')"
+					@click.prevent="emit('closed')"
 					:data-tooltip="tooltip('close')"
 				>
 					<ion-icon :icon="close" class="icon-1-5x"></ion-icon>
 				</a>
 				<div v-if="sync && !autoSync" class="remote-control">
-					<span class="text-uppercase mr-2">{{ $t('text.remoteControl') }}</span>
+					<span class="text-uppercase mr-2">{{ t('text.remoteControl') }}</span>
 					<a
 						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
 						:class="{ 'btn-secondary': !remoteHide, 'btn-primary': remoteHide }"
 						href="#"
 						:data-tooltip="tooltip('remoteDisplay')"
-						@click.prevent="$emit('updateHide', !remoteHide)"
+						@click.prevent="emit('updateHide', !remoteHide)"
 					>
 						<ion-icon :icon="eyeOffOutline" class="icon-1-5x"></ion-icon>
 					</a>
@@ -152,7 +152,7 @@
 						:class="{ 'btn-secondary': !remoteLight, 'btn-primary': remoteLight }"
 						href="#"
 						:data-tooltip="tooltip('remoteInvert')"
-						@click.prevent="$emit('updateDark', !remoteLight)"
+						@click.prevent="emit('updateDark', !remoteLight)"
 					>
 						<ion-icon :icon="contrastOutline" class="icon-1-5x"></ion-icon>
 					</a>
@@ -161,7 +161,7 @@
 						:class="{ 'btn-secondary': remoteText, 'btn-primary': !remoteText }"
 						href="#"
 						:data-tooltip="tooltip('remoteChords')"
-						@click.prevent="$emit('updateChords', !remoteText)"
+						@click.prevent="emit('updateChords', !remoteText)"
 					>
 						<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
 					</a>
@@ -179,6 +179,17 @@
 </template>
 
 <script setup>
+import { reactive, ref, computed, inject, watch, onMounted, onUnmounted, nextTick } from 'vue';
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
+// get carousel component
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Pagination } from 'vue3-carousel';
+// get internal components
+import SongContent from '@/partials/SongContent';
+import InfoSongData from '@/modals/InfoSongData';
+
 // get icons
 import {
 	arrowBack,
@@ -190,162 +201,145 @@ import {
 	musicalNotes,
 	sync
 } from 'ionicons/icons';
-</script>
 
-<script>
-import { defineComponent } from 'vue';
+// global properties
+const db = inject('db');
 
-// get carousel component
-import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide, Pagination } from 'vue3-carousel';
-// get internal components
-import SongContent from '@/partials/SongContent';
-import InfoSongData from '@/modals/InfoSongData';
+// inherited properties
+const props = defineProps({
+	active: Boolean,      // state of modal display, true to show modal
+	songs: Array,         // list of songs to present
+	sync: Boolean,        // true if setlist should send sync signals
+	position: Number,     // list position of current song in the presentation
+	chords: Boolean,      // true if chords shall be rendered
+	remoteHide: Boolean,  // true if synced presentation should fade ouot
+	remoteLight: Boolean, // true if synced presentation should show up in light mde
+	remoteText: Boolean,  // true if synced presentation should be rendered without chords
+});
 
-export default defineComponent({
-	name: 'setlist-present',
-	components: {
-		Carousel,
-		Slide,
-		Pagination,
-		SongContent,
-		InfoSongData,
-	},
-	props: {
-		active: Boolean,
-		songs: Array,
-		sync: Boolean,
-		position: Number,
-		chords: Boolean,
-		remoteHide: Boolean,
-		remoteLight: Boolean,
-		remoteText: Boolean,
-	},
-	data () {
-		return {
-			modal: {
-				infosongdata: false
-			},
-			currentPosition: 0,
-			autoSync: false,
-			hide: false,
-			dark: true,
-			now: new Date,
-			blink: true,
-			resizeTimeout: null
-		};
-	},
-	created () {
-		// alternate colon visibility of clock each second
-		setInterval(() => {
-			this.now = new Date;
-			this.blink = !this.blink;
-		}, 1000);
-		// handle viewport resizes
-		window.addEventListener('resize', this.resizeHandler);
-		// initially fit presentation into viewport
-		this.maximizeFontsize();
-	},
-	destroyed()  {
-		window.removeEventListener('resize', this.resizeHandler);
-	},
-	mounted () {
-		this.$refs.container.focus();
-	},
-	computed: {
-		timeonly() {
-			let timestring = String(this.now).slice(16, 21);
-			return this.blink ? timestring : timestring.replace(':', ' ');
+// reactive data
+const modal = reactive({
+	infosongdata: false
+});
+const container = ref(null);
+const presentation = ref(null);
+const slides = ref(null);
+const currentPosition = ref(0);
+const autoSync = ref(false);
+const hide = ref(false);
+const dark = ref(true);
+const now = ref(new Date);
+const blink = ref(true);
+const resizeTimeout = ref(null);
+
+// emits
+const emit = defineEmits(['updatePosition', 'chords', 'updateHide', 'updateDark', 'updateChords', 'closed']);
+
+// computed properties
+const timeonly = computed(() => {
+	const timestring = String(now.value).slice(16, 21);
+	return blink.value ? timestring : timestring.replace(':', ' ');
+});
+
+// adapt presentation content to viewport
+const maximizeFontsize = () => {
+	// wait for dom to be ready
+	nextTick(() => {
+		// maximize content of each song/slide
+		for (let i = 0; i < slides.value.length; i++) {
+			slides.value[i]?.maximizeFontsize();
 		}
-	},
-	methods: {
-		// adapt presentation content to viewport
-		maximizeFontsize() {
-			// wait for dom to be ready
-			this.$nextTick(() => {
-				// maximize content of each song/slide
-				for (let i = 0; i < this.songs.length; i++) {
-					this.$refs['songcontent' + i][0]?.maximizeFontsize();
-				}
-			});
-		},
-		// handle viewport resize
-		resizeHandler () {
-			clearTimeout(this.resizeTimeout);
-			this.resizeTimeout = setTimeout(() => {
-				this.maximizeFontsize();
-			}, 500);
-		},
-		// handle tooltips
-		tooltip(target) {
-			switch (target) {
-				case 'info': return this.songs[this.currentPosition].note
-					? this.$t('tooltip.infoSongData') + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.I')
-					: this.$t('tooltip.noSongInfo');
-				case 'sync':
-					return this.$t('tooltip.sync' + (!this.autoSync ? 'On' : 'Off')) + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.S');
-				case 'display':
-					return this.$t('tooltip.presentation' + (this.hide ? 'Show' : 'Hide')) + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.B');
-				case 'invert':
-					return this.$t('tooltip.invertColors') + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.L');
-				case 'chords':
-					return this.$t('tooltip.chords' + (!this.chords ? 'Show' : 'Hide')) + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.K');
-				case 'close':
-					return this.$t('tooltip.presentationClose') + '\n' + this.$t('key.esc');
-				case 'remoteDisplay':
-					return this.$t('text.syncedDevices') + '\n' + this.$t('tooltip.presentation' + (this.remoteHide ? 'Show' : 'Hide'));
-				case 'remoteInvert':
-					return this.$t('text.syncedDevices') + '\n' + this.$t('tooltip.invertColors');
-				case 'remoteChords':
-					return this.$t('text.syncedDevices') + '\n' + this.$t('tooltip.chords' + (this.remoteText ? 'Show' : 'Hide'));
-				default:
-					break;
-			}
-		}
-	},
-	watch: {
-		currentPosition(newPosition) {
-			// update remote position if autoSync is on
-			if (this.sync) {
-				this.$emit('updatePosition', newPosition);
-			}
-		},
-		autoSync() {
-			// update local position, content display and theme if autoSync was turned on
-			if (this.autoSync) {
-				this.$refs.presentation.slideTo(this.position);
-				this.hide = this.remoteHide;
-				this.dark = !this.remoteLight;
-			}
-		},
-		chords() {
-			// maximize fontsize again when chords are toggled
-			this.maximizeFontsize();
-		},
-		position() {
-			// update local position if autoSync is on and remote position was updated
-			if (this.autoSync) {
-				this.$refs.presentation.slideTo(this.position);
-			}
-		},
-		remoteText () {
-			// update local chord display if autoSync is on and remote chords were updated
-			if (this.autoSync) {
-				this.$emit('chords');
-			}
-		},
-		remoteLight () {
-			// toggle local theme mode if autoSync is on and remote theme mode was updated
-			if (this.autoSync) {
-				this.dark = !this.dark;
-			}
-		},
-		remoteHide (val) {
-			// toggle local content display if autoSync is on and remote content display was updated
-			if (this.autoSync) {
-				this.hide = val;
-			}
-		},
+	});
+};
+// handle viewport resize
+const resizeHandler = () => {
+	clearTimeout(resizeTimeout.value);
+	resizeTimeout.value = setTimeout(() => {
+		maximizeFontsize();
+	}, 500);
+};
+// handle tooltips
+const tooltip = (target) => {
+	switch (target) {
+		case 'info': return props.songs[currentPosition.value].note
+			? t('tooltip.infoSongData') + '\n' + t('key.ctrl') + ' + ' + t('key.I')
+			: t('tooltip.noSongInfo');
+		case 'sync':
+			return t('tooltip.sync' + (!autoSync.value ? 'On' : 'Off')) + '\n' + t('key.ctrl') + ' + ' + t('key.S');
+		case 'display':
+			return t('tooltip.presentation' + (hide.value ? 'Show' : 'Hide')) + '\n' + t('key.ctrl') + ' + ' + t('key.B');
+		case 'invert':
+			return t('tooltip.invertColors') + '\n' + t('key.ctrl') + ' + ' + t('key.L');
+		case 'chords':
+			return t('tooltip.chords' + (!props.chords ? 'Show' : 'Hide')) + '\n' + t('key.ctrl') + ' + ' + t('key.K');
+		case 'close':
+			return t('tooltip.presentationClose') + '\n' + t('key.esc');
+		case 'remoteDisplay':
+			return t('text.syncedDevices') + '\n' + t('tooltip.presentation' + (props.remoteHide ? 'Show' : 'Hide'));
+		case 'remoteInvert':
+			return t('text.syncedDevices') + '\n' + t('tooltip.invertColors');
+		case 'remoteChords':
+			return t('text.syncedDevices') + '\n' + t('tooltip.chords' + (props.remoteText ? 'Show' : 'Hide'));
+		default:
+			break;
 	}
+};
+
+// watcher: update remote position if autoSync is on
+watch (currentPosition, (newPosition) => {
+	if (props.sync) {
+		emit('updatePosition', newPosition);
+	}
+});
+// watcher: update local position, content display and theme if autoSync was turned on
+watch (autoSync, () => {
+	if (autoSync.value) {
+		presentation.value.slideTo(props.position);
+		hide.value = props.remoteHide;
+		dark.value = !props.remoteLight;
+	}
+});
+// watcher: maximize fontsize again when chords are toggled
+watch (() => props.chords, () => maximizeFontsize());
+// watcher: update local position if autoSync is on and remote position was updated
+watch (() => props.position, () => {
+	if (autoSync.value) {
+		presentation.value.slideTo(props.position);
+	}
+});
+// update local chord display if autoSync is on and remote chords were updated
+watch (() => props.remoteText, () => {
+	if (autoSync.value) {
+		emit('chords');
+	}
+});
+// toggle local theme mode if autoSync is on and remote theme mode was updated
+watch (() => props.remoteLight, () => {
+	if (autoSync.value) {
+		dark.value = !dark.value;
+	}
+});
+// toggle local content display if autoSync is on and remote content display was updated
+watch (() => props.remoteHide, (val) => {
+	if (autoSync.value) {
+		hide.value = val;
+	}
+});
+
+// handle mount / unmount hooks
+onMounted(() => {
+	// alternate colon visibility of clock each second
+	setInterval(() => {
+		now.value = new Date;
+		blink.value = !blink.value;
+	}, 1000);
+	// handle viewport resizes
+	window.addEventListener('resize', resizeHandler);
+	// initially fit presentation into viewport
+	maximizeFontsize();
+	container.value.focus();
+});
+onUnmounted(() => {
+	window.removeEventListener('resize', resizeHandler);
 });
 </script>
