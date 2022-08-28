@@ -493,7 +493,7 @@ const setlistKeys = computed(() => {
 });
 // Bool indicating if this setlist is accessible for current user or not
 const setlistAccess = computed(() => {
-	return !setlist.value.private || setlist.value.private && setlist.value.creator==props.user;
+	return setlist.value && (!setlist.value.private || setlist.value.private && setlist.value.creator==props.user);
 });
 
 // methods
