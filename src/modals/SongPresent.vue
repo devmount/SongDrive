@@ -6,9 +6,9 @@
 		tabindex="0"
 		@keydown.ctrl.i.prevent="song.note ? modal.infosongdata = !modal.infosongdata : null"
 		@keydown.ctrl.l.prevent="dark = !dark"
-		@keydown.esc.exact="$emit('closed')"
+		@keydown.esc.exact="emit('closed')"
 	>
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="$emit('closed')"></a>
+		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
 		<div class="modal-container p-0">
 			<div class="modal-header">
 				<div class="modal-title h5 text-center">
@@ -55,7 +55,7 @@
 					:class="{ 'btn-secondary': !chords, 'btn-primary': chords }"
 					href="#"
 					aria-label="Chords"
-					@click.prevent="$emit('chords')"
+					@click.prevent="emit('chords')"
 					:data-tooltip="tooltip('chords')"
 				>
 					<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
@@ -64,7 +64,7 @@
 					class="btn btn-secondary btn-xl btn-fw btn-gray tooltip ml-1"
 					href="#"
 					aria-label="Cancel"
-					@click.prevent="$emit('closed')"
+					@click.prevent="emit('closed')"
 					:data-tooltip="tooltip('close')"
 				>
 					<ion-icon :icon="close" class="icon-1-5x"></ion-icon>
@@ -82,6 +82,14 @@
 </template>
 
 <script setup>
+import { reactive, ref, computed, inject, watch, onMounted, onUnmounted, nextTick } from 'vue';
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
+// get internal components
+import SongContent from '@/partials/SongContent';
+import InfoSongData from '@/modals/InfoSongData';
+
 // get icons
 import {
 	close,
@@ -89,87 +97,75 @@ import {
 	informationOutline,
 	musicalNotes
 } from 'ionicons/icons';
-</script>
 
-<script>
-import { defineComponent } from 'vue';
+// global properties
+const db = inject('db');
 
-// get components
-import SongContent from '@/partials/SongContent';
-import InfoSongData from '@/modals/InfoSongData';
+// inherited properties
+const props = defineProps({
+	active: Boolean,  // state of modal display, true to show modal
+	song: Object,     // single song to present
+	chords: Boolean,  // true if chords shall be rendered
+	tuning: Number,   // key to present song in
+});
 
-export default defineComponent({
-	name: 'song-present',
-	components: {
-		SongContent,
-		InfoSongData,
-	},
-	props: {
-		active: Boolean,
-		song: Object,
-		chords: Boolean,
-		tuning: Number,
-	},
-	data () {
-		return {
-			modal: {
-				infosongdata: false
-			},
-			dark: true,
-			resizeTimeout: null
-		};
-	},
-	created () {
-		// handle viewport resizes
-		window.addEventListener('resize', this.resizeHandler);
-		// initially fit presentation into viewport
-		this.maximizeFontsize();
-	},
-	destroyed()  {
-		window.removeEventListener('resize', this.resizeHandler);
-	},
-	mounted () {
-		this.$refs.container.focus();
-	},
-	methods: {
-		// adapt song content to viewport size
-		maximizeFontsize() {
-			// wait for dom to be ready
-			this.$nextTick(() => {
-				// maximize content of each song/slide
-				this.$refs.songcontent?.maximizeFontsize();
-			});
-		},
-		// handle viewport resize
-		resizeHandler() {
-			clearTimeout(this.resizeTimeout);
-			this.resizeTimeout = setTimeout(() => {
-				this.maximizeFontsize();
-			}, 500);
-		},
-		// handle tooltips
-		tooltip(target) {
-			switch (target) {
-				case 'info':
-					return this.song.note
-						? this.$t('tooltip.infoSongData') + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.I')
-						: this.$t('tooltip.noSongInfo');
-				case 'lightMode':
-					return this.$t('tooltip.invertColors') + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.L');
-				case 'chords':
-					return this.$t('tooltip.chords' + (!this.chords ? 'Show' : 'Hide')) + '\n' + this.$t('key.ctrl') + ' + ' + this.$t('key.K');
-				case 'close':
-					return this.$t('tooltip.presentationClose') + '\n' + this.$t('key.esc');
-				default:
-					break;
-			}
-		}
-	},
-	watch: {
-		chords() {
-			// maximize fontsize when presentation view is opened
-			this.maximizeFontsize();
-		}
+// reactive data
+const modal = reactive({
+	infosongdata: false
+});
+const container = ref(null);
+const songcontent = ref(null);
+const dark = ref(true);
+const resizeTimeout = ref(null);
+
+// emits
+const emit = defineEmits(['chords', 'closed']);
+
+// adapt presentation content to viewport
+const maximizeFontsize = () => {
+	// wait for dom to be ready
+	nextTick(() => {
+		// maximize content of presented song
+		songcontent.value?.maximizeFontsize();
+	});
+};
+// handle viewport resize
+const resizeHandler = () => {
+	clearTimeout(resizeTimeout.value);
+	resizeTimeout.value = setTimeout(() => {
+		maximizeFontsize();
+	}, 500);
+};
+// handle tooltips
+const tooltip = (target) => {
+	switch (target) {
+		case 'info':
+			return props.song.note
+				? t('tooltip.infoSongData') + '\n' + t('key.ctrl') + ' + ' + t('key.I')
+				: t('tooltip.noSongInfo');
+		case 'lightMode':
+			return t('tooltip.invertColors') + '\n' + t('key.ctrl') + ' + ' + t('key.L');
+		case 'chords':
+			return t('tooltip.chords' + (!props.chords ? 'Show' : 'Hide')) + '\n' + t('key.ctrl') + ' + ' + t('key.K');
+		case 'close':
+			return t('tooltip.presentationClose') + '\n' + t('key.esc');
+		default:
+			break;
 	}
+};
+
+// watcher: maximize fontsize again when chords are toggled
+watch (() => props.chords, () => maximizeFontsize());
+
+// handle mount / unmount hooks
+onMounted(() => {
+	// handle viewport resizes
+	window.addEventListener('resize', resizeHandler);
+	// initially fit presentation into viewport
+	maximizeFontsize();
+	container.value.focus();
+});
+onUnmounted(() => {
+	window.removeEventListener('resize', resizeHandler);
 });
 </script>
