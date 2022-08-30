@@ -82,7 +82,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed, inject, watch, onMounted, onUnmounted, nextTick } from 'vue';
+import { reactive, ref, inject, watch, onMounted, onUnmounted, nextTick } from 'vue';
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 

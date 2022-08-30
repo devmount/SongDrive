@@ -371,12 +371,6 @@ const createSlug = () => {
 	return setlist.value.date.replace(/-/g, '') + '-' + urlify(setlist.value.title);
 };
 // add or save edits of setlist to db 
-		// add or save edits of setlist to db 
-// add or save edits of setlist to db 
-		// add or save edits of setlist to db 
-// add or save edits of setlist to db 
-		// add or save edits of setlist to db 
-// add or save edits of setlist to db 
 const set = () => {
 	// first check for form errors
 	error.title = setlist.value.title == '';
