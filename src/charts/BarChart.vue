@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, inject, watch, onMounted } from 'vue';
+import { computed, watch, onMounted } from 'vue';
 import { Chart, transparentGradientBar } from '@/chart.config';
 
 // inherited properties
