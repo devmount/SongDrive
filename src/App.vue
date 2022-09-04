@@ -2,7 +2,7 @@
 	<div id="app">
 		<!-- logged in, confirmed and verified -->
 		<div
-			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && users[auth.user] && ready.permissions && permissions[auth.user] && !loading"
+			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && c.users[auth.user] && ready.permissions && c.permissions[auth.user] && !loading"
 			class="off-canvas off-canvas-sidebar-show"
 		>
 			<!-- off-screen toggle button -->
@@ -30,10 +30,10 @@
 								<ion-icon :icon="musicalNotesSharp" class="mr-2"></ion-icon> {{ t('page.songs') }}
 							</router-link>
 							<div class="menu-badge">
-								<label v-if="ready.songs" class="label py-1">{{ Object.keys(songs).length }}</label>
+								<label v-if="ready.songs" class="label py-1">{{ Object.keys(c.songs).length }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="userRoles[permissions[auth.user].role] > 2"
+									v-if="userRoles[c.permissions[auth.user].role] > 2"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="t('tooltip.songAdd')"
 									@click="modal.addsong = true"
@@ -50,7 +50,7 @@
 								<label v-if="ready.setlists" class="label py-1">{{ setlistCount }}</label>
 								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
 								<button
-									v-if="userRoles[permissions[auth.user].role] > 1"
+									v-if="userRoles[c.permissions[auth.user].role] > 1"
 									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
 									:data-tooltip="t('tooltip.setlistAdd')"
 									@click="modal.addsetlist = true"
@@ -64,7 +64,7 @@
 							<router-link to="/profile" class="py-2" @click="open = false">
 								<div class="tile tile-centered">
 									<div class="tile-icon mr-2 ml-1">
-										<img v-if="users[auth.user].photo" class="avatar" :src="users[auth.user].photo" alt="Avatar">
+										<img v-if="c.users[auth.user].photo" class="avatar" :src="c.users[auth.user].photo" alt="Avatar">
 										<figure
 											v-else-if="userName"
 											class="avatar"
@@ -78,14 +78,14 @@
 									<div class="tile-content">
 										{{ userName }}
 										<div class="text-gray text-small">
-											{{ t('role.' + permissions[auth.user].role) }}
+											{{ t('role.' + c.permissions[auth.user].role) }}
 										</div>
 									</div>
 								</div>
 							</router-link>
 						</li>
 						<li class="menu-item">
-							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles[permissions[auth.user].role] > 3 }" @click="open = false">
+							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles[c.permissions[auth.user].role] > 3 }" @click="open = false">
 								<ion-icon :icon="optionsOutline" class="mr-2"></ion-icon> {{ t('page.settings') }}
 							</router-link>
 						</li>
@@ -146,31 +146,31 @@
 			<!-- off-screen content -->
 			<div class="off-canvas-content">
 				<router-view
-					:key="$route.fullPath"
+					:key="route.fullPath"
 					:user="auth.user"
 					:userObject="auth.userObject"
-					:role="userRoles[permissions[auth.user].role]"
-					:roleName="permissions[auth.user].role"
+					:role="userRoles[c.permissions[auth.user].role]"
+					:roleName="c.permissions[auth.user].role"
 					:ready="ready"
-					:config="config"
-					:languages="languages"
-					:permissions="permissions"
-					:registrations="registrations"
-					:setlists="setlists"
-					:songs="songs"
-					:tags="tags"
-					:users="users"
+					:config="c.config"
+					:languages="c.languages"
+					:permissions="c.permissions"
+					:registrations="c.registrations"
+					:setlists="c.setlists"
+					:songs="c.songs"
+					:tags="c.tags"
+					:users="c.users"
 					@started="loading=true"
 				></router-view>
 			</div>
 		</div>
 		<!-- logged in but not confimed yet -->
 		<div v-if="auth.ready && auth.user && auth.confirmed === false && !loading">
-			<UserUnconfirmed :config="config" :ready="ready" @signOut="signOut" />
+			<UserUnconfirmed :config="c.config" :ready="ready" @signOut="signOut" />
 		</div>
 		<!-- logged in, confimed but not verified yet -->
 		<div v-if="auth.ready && auth.user && auth.confirmed && !auth.userObject.emailVerified && !loading">
-			<UserUnverified :config="config" :ready="ready" @signOut="signOut" @resendEmailVerification="resendEmailVerification()" />
+			<UserUnverified :config="c.config" :ready="ready" @signOut="signOut" @resendEmailVerification="resendEmailVerification()" />
 		</div>
 		<!-- login screen -->
 		<div v-if="auth.ready && !auth.user && !loading">
@@ -192,10 +192,10 @@
 			:existing="false"
 			:initialSong="newSong"
 			songKey=""
-			:songs="songs"
-			:setlists="setlists"
-			:tags="tags"
-			:languages="languages"
+			:songs="c.songs"
+			:setlists="c.setlists"
+			:tags="c.tags"
+			:languages="c.languages"
 			:ready="ready"
 			@closed="modal.addsong = false"
 			@reset="resetSong"
@@ -207,10 +207,10 @@
 			:initialSetlist="newSetlist"
 			setlistKey=""
 			:user="auth.user"
-			:songs="songs"
-			:setlists="setlists"
-			:tags="tags"
-			:languages="languages"
+			:songs="c.songs"
+			:setlists="c.setlists"
+			:tags="c.tags"
+			:languages="c.languages"
 			:ready="ready"
 			@closed="modal.addsetlist = false"
 			@reset="resetSetlist"
@@ -242,9 +242,30 @@
 </template>
 
 <script setup>
-import { useI18n } from 'vue-i18n';
+import { ref, reactive, computed, inject, onMounted } from 'vue';
+import { useI18n } from "vue-i18n";
 const { t } = useI18n();
+import { useRoute, useRouter } from 'vue-router';
+const route = useRoute();
+const router = useRouter();
+import { notify } from '@kyvg/vue3-notification';
 import { userRoles, initials, throwError } from '@/utils.js';
+
+// get components
+import Logo from '@/partials/Logo';
+import Login from '@/partials/Login';
+import SignUp from '@/modals/SignUp';
+import PasswordReset from '@/modals/PasswordReset';
+import UserUnconfirmed from '@/partials/UserUnconfirmed';
+import UserUnverified from '@/partials/UserUnverified';
+import SongSet from '@/modals/SongSet';
+import SetlistSet from '@/modals/SetlistSet';
+
+// get database object authorized in config.js
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import { collection, onSnapshot } from "firebase/firestore";
 
 // get icons
 import {
@@ -263,305 +284,274 @@ import {
 	optionsOutline,
 	person
 } from 'ionicons/icons';
-</script>
 
-<script>
-import { defineComponent } from 'vue';
+// global properties
+const db = inject('db');
 
-// get components
-import Logo from '@/partials/Logo';
-import Login from '@/partials/Login';
-import SignUp from '@/modals/SignUp';
-import PasswordReset from '@/modals/PasswordReset';
-import UserUnconfirmed from '@/partials/UserUnconfirmed';
-import UserUnverified from '@/partials/UserUnverified';
-import SongSet from '@/modals/SongSet';
-import SetlistSet from '@/modals/SetlistSet';
-// get database object authorized in config.js
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import { collection, onSnapshot } from "firebase/firestore";
+// reactive data: db tables / collections
+const c = reactive({
+	config: {},
+	languages: {},
+	permissions: {},
+	registrations: {},
+	setlists: {},
+	songs: {},
+	tags: {},
+	users: {},
+});
+// db table ready state
+const ready = reactive({
+	config: false,
+	languages: false,
+	permissions: false,
+	registrations: false,
+	setlists: false,
+	songs: false,
+	tags: false,
+	users: false,
+});
+// db table listeners
+const listener = reactive({
+	config: null,
+	languages: null,
+	permissions: null,
+	registrations: null,
+	setlists: null,
+	songs: null,
+	tags: null,
+	users: null,
+});
+// modals
+const open = ref(false);
+const modal = reactive({
+	addsong: false,
+	addsetlist: false,
+	signup: false,
+	passwordreset: false,
+});
+// objects to save
+const newSong = reactive({
+	authors: '',
+	ccli: '',
+	content: '',
+	language: '',
+	note: '',
+	publisher: '',
+	subtitle: '',
+	tags: [],
+	title: '',
+	translations: [],
+	tuning: '',
+	year: '',
+	youtube: '',
+});
+const newSetlist = reactive({
+	title: '',
+	private: false,
+	date: '',
+	songs: [],
+});
+// authentification
+const auth = reactive({
+	confirmed: null,
+	ready: false,
+	user: '',
+	userObject: null,
+});
+// explicit loading indication
+// currently used for switching profiles on user creation
+const loading = ref(false);
 
-export default defineComponent({
-	name: 'app',
-	components: {
-		Logo,
-		Login,
-		SignUp,
-		PasswordReset,
-		UserUnconfirmed,
-		UserUnverified,
-		SongSet,
-		SetlistSet,
-	},
-	inject: ['db'],
-	data () {
-		return {
-			// db tables
-			config: {},
-			languages: {},
-			permissions: {},
-			registrations: {},
-			setlists: {},
-			songs: {},
-			tags: {},
-			users: {},
-			// db table ready state
-			ready: {
-				config: false,
-				languages: false,
-				permissions: false,
-				registrations: false,
-				setlists: false,
-				songs: false,
-				tags: false,
-				users: false,
-			},
-			// db table listeners
-			listener: {
-				config: null,
-				languages: null,
-				permissions: null,
-				registrations: null,
-				setlists: null,
-				songs: null,
-				tags: null,
-				users: null,
-			},
-			// modals
-			open: false,
-			modal: {
-				addsong: false,
-				addsetlist: false,
-				signup: false,
-				passwordreset: false,
-			},
-			// objects to save
-			newSong: {
-				authors: '',
-				ccli: '',
-				content: '',
-				language: '',
-				note: '',
-				publisher: '',
-				subtitle: '',
-				tags: [],
-				title: '',
-				translations: [],
-				tuning: '',
-				year: '',
-				youtube: '',
-			},
-			newSetlist: {
-				title: '',
-				private: false,
-				date: '',
-				songs: [],
-			},
-			// authentification
-			auth: {
-				confirmed: null,
-				ready: false,
-				user: '',
-				userObject: null,
-			},
-			// explicit loading indication
-			// currently used for switching profiles on user creation
-			loading: false
-		};
-	},
-	mounted () {
-		// add listener for authentification state
-		firebase.auth().onAuthStateChanged(user => {
-			if (user) {
-				// load app config on auth change only when not explicitly loading
-				if (!this.loading) {
-					this.loadConfig();
+// computed: check if db is empty = no users or registrations yet
+const noUsers = computed(() => {
+	return Object.keys(c.users).length === 0 && Object.keys(c.registrations).length === 0;
+});
+// computed: get user name either from user object or from users db collection
+const userName = computed(() => {
+	return ready.users ? c.users[auth.user].name : '';
+});
+// computed: check if at least one registration exists
+const registrationsExist = computed(() => {
+	return Object.keys(c.registrations).length > 0;
+});
+// computed: number of setlists visible for user
+const setlistCount = computed(() => {
+	return Object.values(c.setlists).filter(s => !s.private || s.private && s.creator==auth.user).length;
+});
+
+// add listeners for changes on each db collection
+const listen = () => {
+	for (const table in listener) {
+		listener[table] = onSnapshot(collection(db, table), (snapshot) => {
+			snapshot.docChanges().forEach(change => {
+				if (change.type === "added" || change.type === "modified") {
+					c[table][change.doc.id] = change.doc.data();
 				}
-				this.auth.user = user.uid;
-				this.auth.userObject = user;
-				let userRef = this.db.collection("users").doc(user.uid);
-				userRef.get().then((userEntry) => {
-					if (userEntry.exists) {
-						this.auth.confirmed = true;
-						if (user.emailVerified) {
-							this.listen();
-						}
-						this.loading = false;
-					} else {
-						this.auth.confirmed = false;
-					}
-				}).catch(() => {
-					this.auth.confirmed = false;
-				});
-			} else {
-				if (this.auth.confirmed) {
-					this.unlisten();
+				if (change.type === "removed") {
+					delete c[table][change.doc.id];
 				}
-				this.auth.user = '';
-				this.auth.userObject = null;
-			}
-			this.auth.ready = true;
+			});
+			ready[table] = true;
 		});
-	},
-	methods: {
-		// add listeners for changes on each db table
-		listen () {
-			for (const table in this.listener) {
-				this.listener[table] = onSnapshot(collection(this.db, table), (snapshot) => {
-					snapshot.docChanges().forEach(change => {
-						if (change.type === "added" || change.type === "modified") {
-							this[table][change.doc.id] = change.doc.data();
-						}
-						if (change.type === "removed") {
-							delete this[table][change.doc.id];
-						}
-					});
-					this.ready[table] = true;
-				});
-			}
-		},
-		// remove listeners for changes on each db table
-		unlisten () {
-			for (const table in this.listener) {
-				let unsubscribe = this.listener[table];
-				if (typeof unsubscribe === "function") unsubscribe();
-			}
-		},
-		// loads configuration without listener
-		loadConfig () {
-			let contactRef = this.db.collection("config").doc("contact");
-			contactRef.get().then(doc => {
-				if (doc.exists) {
-					this.config.contact = doc.data();
-					this.ready.config = true;
-				}
-			}).catch((error) => throwError(error));
-		},
-		resetSong () {
-			this.newSong = {
-				authors: '',
-				ccli: '',
-				content: '',
-				language: '',
-				note: '',
-				publisher: '',
-				subtitle: '',
-				tags: [],
-				title: '',
-				translations: [],
-				tuning: '',
-				year: ''
-			};
-		},
-		resetSetlist () {
-			this.newSetlist = {
-				title: '',
-				date: '',
-				songs: [],
-			};
-		},
-		signIn (email, password) {
-			firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-				// login successful
-				const user = firebase.auth().currentUser;
-				this.auth.user = user.uid;
-				this.auth.userObject = user;
-				// load general app config
-				this.loadConfig();
-				// now add listeners for changes on each db table
-				if (this.auth.confirmed && user.emailVerified) {
-					this.listen();
-				}
-				// toast successful login
-				this.$notify({
-					title: this.t('toast.signedIn'),
-					text: this.t('toast.signedInText', { name: this.auth.userObject.displayName }),
-					type: 'primary'
-				});
-			}).catch((error) => throwError(error));
-		},
-		signOut () {
-			firebase.auth().signOut().then(() => {
-				// sign-out successful
-				if (this.auth.confirmed) {
-					this.unlisten();
-				}
-				// toast successfoul log out
-				this.$notify({
-					title: this.t('toast.signedOut'),
-					text: this.t('toast.signedOutText'),
-					type: 'primary'
-				});
-			}).catch((error) => throwError(error));
-		},
-		signUp (user) {
-			firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
-				// sign-up successful
-				this.auth.user = firebase.auth().currentUser.uid
-				// load general app config
-				this.loadConfig();
-				// create registration for admin approval
-				this.db.collection('registrations').doc(this.auth.user).set({ email: user.email, name: user.name }).then(() => {
-					this.auth.userObject = firebase.auth().currentUser
-					this.auth.userObject.updateProfile({ displayName: user.name })
-					this.$notify({
-						title: this.t('toast.signedUp'),
-						text: this.t('toast.signedUpText', { name: user.name }),
-						type: 'primary'
-					});
-				}).catch((error) => throwError(error));
-				// send verification email
-				firebase.auth().currentUser.sendEmailVerification().then(() => {
-					// Verification email sent
-					this.$notify({
-						title:  this.t('toast.verficationSent'),
-						text:  this.t('toast.verficationSentText'),
-						type: 'primary'
-					});
-				}).catch((error) => throwError(error));
-			}).catch((error) => throwError(error));
-		},
-		// resend email with verification link to currently logged in user
-		resendEmailVerification () {
-			firebase.auth().currentUser.sendEmailVerification().then(() => {
-				this.$notify({
-					title: this.t('toast.verficationSent'),
-					text: this.t('toast.verficationSentText'),
-					type: 'primary'
-				});
-			}).catch((error) => throwError(error));
-		},
-		// send password reset email
-		sendPasswordReset (email) {
-			firebase.auth().sendPasswordResetEmail(email).then(() => {
-				this.$notify({
-					title: this.t('toast.passwordResetSent'),
-					text: this.t('toast.passwordResetSentText'),
-					type: 'primary'
-				});
-			}).catch((error) => throwError(error));
+	}
+};
+// remove listeners for changes on each db table
+const unlisten = () => {
+	for (const table in listener) {
+		let unsubscribe = listener[table];
+		if (typeof unsubscribe === "function") unsubscribe();
+	}
+};
+// loads configuration without listener
+const loadConfig = () => {
+	let contactRef = db.collection("config").doc("contact");
+	contactRef.get().then(doc => {
+		if (doc.exists) {
+			c.config.contact = doc.data();
+			ready.config = true;
 		}
-	},
-	computed: {
-		// check if db is empty = no users or registrations yet
-		noUsers() {
-			return Object.keys(this.users).length === 0 && Object.keys(this.registrations).length === 0;
-		},
-		// get user name either from user object or from users db table
-		userName () {
-			return this.ready.users ? this.users[this.auth.user].name : '';
-		},
-		// check if at least one registration exists
-		registrationsExist () {
-			return Object.keys(this.registrations).length > 0;
-		},
-		// number of setlists visible for user
-		setlistCount () {
-			return Object.values(this.setlists).filter(s => !s.private || s.private && s.creator==this.auth.user).length;
+	}).catch((error) => throwError(error));
+};
+// set all newSong values to default
+const resetSong = () => {
+	newSong.authors = '';
+	newSong.ccli = '';
+	newSong.content = '';
+	newSong.language = '';
+	newSong.note = '';
+	newSong.publisher = '';
+	newSong.subtitle = '';
+	newSong.tags = [];
+	newSong.title = '';
+	newSong.translations = [];
+	newSong.tuning = '';
+	newSong.year = '';
+};
+// set all newSetlist values to default
+const resetSetlist = () => {
+	newSetlist.title = '';
+	newSetlist.date = '';
+	newSetlist.songs = [];
+};
+// execute sign in on Firebase backend
+const signIn = (email, password) => {
+	firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+		// login successful
+		const user = firebase.auth().currentUser;
+		auth.user = user.uid;
+		auth.userObject = user;
+		// load general app config
+		loadConfig();
+		// now add listeners for changes on each db table
+		if (auth.confirmed && user.emailVerified) {
+			listen();
 		}
-	},
+		// toast successful login
+		notify({
+			title: t('toast.signedIn'),
+			text: t('toast.signedInText', { name: auth.userObject.displayName }),
+			type: 'primary'
+		});
+	}).catch((error) => throwError(error));
+};
+// execute sign out on firebase backend
+const signOut = () => {
+	firebase.auth().signOut().then(() => {
+		// sign-out successful
+		if (auth.confirmed) {
+			unlisten();
+		}
+		// toast successfoul log out
+		notify({
+			title: t('toast.signedOut'),
+			text: t('toast.signedOutText'),
+			type: 'primary'
+		});
+	}).catch((error) => throwError(error));
+};
+// execute user creation on firebase backend
+const signUp = (user) => {
+	firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
+		// sign-up successful
+		auth.user = firebase.auth().currentUser.uid
+		// load general app config
+		loadConfig();
+		// create registration for admin approval
+		db.collection('registrations').doc(auth.user).set({ email: user.email, name: user.name }).then(() => {
+			auth.userObject = firebase.auth().currentUser
+			auth.userObject.updateProfile({ displayName: user.name })
+			notify({
+				title: t('toast.signedUp'),
+				text: t('toast.signedUpText', { name: user.name }),
+				type: 'primary'
+			});
+		}).catch((error) => throwError(error));
+		// send verification email
+		firebase.auth().currentUser.sendEmailVerification().then(() => {
+			// Verification email sent
+			notify({
+				title:  t('toast.verficationSent'),
+				text:  t('toast.verficationSentText'),
+				type: 'primary'
+			});
+		}).catch((error) => throwError(error));
+	}).catch((error) => throwError(error));
+};
+// resend email with verification link to currently logged in user
+const resendEmailVerification = () => {
+	firebase.auth().currentUser.sendEmailVerification().then(() => {
+		notify({
+			title: t('toast.verficationSent'),
+			text: t('toast.verficationSentText'),
+			type: 'primary'
+		});
+	}).catch((error) => throwError(error));
+};
+// send password reset email
+const sendPasswordReset = (email) => {
+	firebase.auth().sendPasswordResetEmail(email).then(() => {
+		notify({
+			title: t('toast.passwordResetSent'),
+			text: t('toast.passwordResetSentText'),
+			type: 'primary'
+		});
+	}).catch((error) => throwError(error));
+};
+
+// handle mount hooks
+onMounted(() => {
+	// add listener for authentification state
+	firebase.auth().onAuthStateChanged(user => {
+		if (user) {
+			// load app config on auth change only when not explicitly loading
+			if (!loading.value) {
+				loadConfig();
+			}
+			auth.user = user.uid;
+			auth.userObject = user;
+			let userRef = db.collection("users").doc(user.uid);
+			userRef.get().then((userEntry) => {
+				if (userEntry.exists) {
+					auth.confirmed = true;
+					if (user.emailVerified) {
+						listen();
+					}
+					loading.value = false;
+				} else {
+					auth.confirmed = false;
+				}
+			}).catch(() => {
+				auth.confirmed = false;
+			});
+		} else {
+			if (auth.confirmed) {
+				unlisten();
+			}
+			auth.user = '';
+			auth.userObject = null;
+		}
+		auth.ready = true;
+	});
 });
 </script>
 
