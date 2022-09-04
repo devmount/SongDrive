@@ -413,8 +413,8 @@ const exportTxt = () => {
 	for (var i = 0; i < lines.length; i++) {
 		var line = lines[i];
 		// handle chord line
-		if (isChordLine(line)) continue;
-		// handle verse marker
+		if (!chords.value && isChordLine(line)) continue;
+		// handle verse marker indentation
 		if (line.trim().toLowerCase().indexOf('--v') >= 0 && !isNaN(parseInt(line.trim().charAt(3)))) {
 			// if next line is chord line, prepend number to the line after
 			if (isChordLine(lines[i+1])) {
