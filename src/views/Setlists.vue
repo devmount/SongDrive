@@ -6,7 +6,7 @@
 			tabindex="0"
 			@keydown.left.exact="!isFirstPage && !noSetlists ? page-- : null"
 			@keydown.right.exact="!isLastPage && !noSetlists ? page++ : null"
-			@keydown.ctrl.70.prevent="!noSetlists ? $refs.search.focus() : null"
+			@keydown.ctrl.f.prevent="!noSetlists ? searchInput.focus() : null"
 			@keydown.esc.exact="search=''; filter='';"
 		>
 			<div class="columns">
@@ -15,7 +15,7 @@
 					<h2 class="view-title">
 						<span v-if="ready.setlists" class="text-bold">{{ Object.keys(filteredSetlists).length }}</span>
 						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
-						{{ $t('page.setlists') }}
+						{{ t('page.setlists') }}
 					</h2>
 				</div>
 			</div>
@@ -23,8 +23,8 @@
 			<div v-if="noSetlists" class="columns mt-2">
 				<!-- heading -->
 				<div class="column col-12">
-					<span v-if="user && role">{{ $t('text.noSetlistsAvailableSignedIn') }}</span>
-					<span v-else>{{ $t('text.noSetlistsAvailableSignedOut') }}</span>
+					<span v-if="user && role">{{ t('text.noSetlistsAvailableSignedIn') }}</span>
+					<span v-else>{{ t('text.noSetlistsAvailableSignedOut') }}</span>
 				</div>
 			</div>
 
@@ -34,7 +34,7 @@
 					<ul class="pagination">
 						<li class="page-item" :class="{ disabled: isFirstPage }">
 							<a class="btn btn-secondary" @click="!isFirstPage ? page-- : null">
-								<ion-icon name="arrow-back"></ion-icon>
+								<ion-icon :icon="arrowBack"></ion-icon>
 							</a>
 						</li>
 						<li
@@ -56,7 +56,7 @@
 						</li>
 						<li class="page-item" :class="{ disabled: isLastPage }">
 							<a class="btn btn-secondary" @click="!isLastPage ? page++ : null">
-								<ion-icon name="arrow-forward"></ion-icon>
+								<ion-icon :icon="arrowForward"></ion-icon>
 							</a>
 						</li>
 					</ul>
@@ -66,13 +66,13 @@
 				<div class="column col-8 col-xl-12">
 					<div class="input-group filter">
 						<!-- search title, subtitles -->
-						<span class="input-group-addon addon-lg"><ion-icon name="search"></ion-icon></span>
+						<span class="input-group-addon addon-lg"><ion-icon :icon="searchIcon"></ion-icon></span>
 						<input
 							type="search"
-							ref="search"
+							ref="searchInput"
 							v-model="search"
 							class="form-input input-lg"
-							:placeholder="$t('placeholder.searchSetlistTitle')"
+							:placeholder="t('placeholder.searchSetlistTitle')"
 						/>
 						<div class="dropdown dropdown-right">
 							<div class="btn-group">
@@ -81,13 +81,13 @@
 									:class="{ 'badge': filter!='' }"
 									tabindex="0"
 								>
-									<ion-icon name="filter-sharp"></ion-icon>
+									<ion-icon :icon="filterSharp"></ion-icon>
 								</a>
 								<ul class="menu text-left">
 									<li class="menu-item">
 										<!-- filter year -->
 										<select v-model="filter" class="form-select select-lg filter">
-											<option value="" disabled selected>{{ $t('placeholder.year') }}.</option>
+											<option value="" disabled selected>{{ t('placeholder.year') }}.</option>
 											<option v-for="year in setlistYears" :key="year" :value="year">{{ year }}</option>
 										</select>
 									</li>
@@ -97,8 +97,8 @@
 											class="btn input-group-btn btn-lg btn-error-secondary stretch"
 											@click="search=''; filter=''"
 										>
-											<ion-icon name="close"></ion-icon>
-											{{ $t('button.reset') }}
+											<ion-icon :icon="close"></ion-icon>
+											{{ t('button.reset') }}
 										</button>
 									</li>
 								</ul>
@@ -115,6 +115,7 @@
 						<th></th>
 						<th
 							v-for="col in ['date', 'title', 'creator', 'songs']"
+							:key="col"
 							class="c-hand"
 							:class="{
 								'bg-primary-dark': order.field == col,
@@ -122,9 +123,9 @@
 							}"
 							@click="sortList(col)"
 						>
-							{{ $t('field.' + col) }}
-							<ion-icon v-if="order.field == col && !order.ascending" class="icon-right" name="caret-down"></ion-icon>
-							<ion-icon v-if="order.field == col && order.ascending" class="icon-right" name="caret-up"></ion-icon>
+							{{ t('field.' + col) }}
+							<ion-icon :icon="caretDown" v-if="order.field == col && !order.ascending" class="icon-right"></ion-icon>
+							<ion-icon :icon="caretUp" v-if="order.field == col && order.ascending" class="icon-right"></ion-icon>
 						</th>
 						<th></th>
 					</tr>
@@ -134,39 +135,39 @@
 						<td>
 							<div
 								class="s-circle s-circle-state ml-2 tooltip-right"
-								:data-tooltip="$t('tooltip.syncActive')"
+								:data-tooltip="t('tooltip.syncActive')"
 								:class="{ active: setlist.active, tooltip: setlist.active }"
 							></div>
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
-							{{ humanDate(setlist.date, $i18n.locale) }}
+						<td class="hide-xl c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
+							{{ humanDate(setlist.date, locale) }}
 						</td>
-						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
+						<td class="c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ setlist.title }}
 							<div
 								v-if="setlist.private"
 								class="text-primary d-inline-block ml-2 tooltip tooltip-bottom"
-								:data-tooltip="$t('tooltip.setlistPrivate')"
+								:data-tooltip="t('tooltip.setlistPrivate')"
 							>
-								<ion-icon name="lock-closed-outline"></ion-icon>
+								<ion-icon :icon="lockClosedOutline"></ion-icon>
 							</div>
 						</td>
-						<td class="c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
+						<td class="c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ users[setlist.creator] ? users[setlist.creator].name : '' }}
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'setlist-show', params: { id: setlist.id }})">
+						<td class="hide-xl c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
 							{{ setlist.songs.length }}
 						</td>
 						<td class="text-right">
 							<div class="dropdown dropdown-right">
 								<div class="btn-group">
 									<a class="btn btn-primary dropdown-toggle" tabindex="0">
-										<ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+										<ion-icon :icon="ellipsisHorizontalOutline"></ion-icon>
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
 											<router-link :to="{ name: 'setlist-show', params: { id: setlist.id }}" class="py-3 px-3">
-												<ion-icon name="eye-outline" class="mr-2"></ion-icon> {{ $t('button.show') }}
+												<ion-icon :icon="eyeOutline" class="mr-2"></ion-icon> {{ t('button.show') }}
 											</router-link>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
@@ -175,7 +176,7 @@
 												class="py-3 px-3"
 												@click.prevent="editDialog(setlist, true)"
 											>
-												<ion-icon name="create-outline" class="mr-2"></ion-icon> {{ $t('button.edit') }}
+												<ion-icon :icon="createOutline" class="mr-2"></ion-icon> {{ t('button.edit') }}
 											</a>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
@@ -184,7 +185,7 @@
 												class="py-3 px-3"
 												@click.prevent="editDialog(setlist, false)"
 											>
-												<ion-icon name="copy-outline" class="mr-2"></ion-icon> {{ $t('button.duplicate') }}
+												<ion-icon :icon="copyOutline" class="mr-2"></ion-icon> {{ t('button.duplicate') }}
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
@@ -193,7 +194,7 @@
 												class="py-3 px-3 text-error"
 												@click.prevent="deleteDialog(setlist)"
 											>
-												<ion-icon name="trash-outline" class="mr-2"></ion-icon> {{ $t('button.delete') }}
+												<ion-icon :icon="trashOutline" class="mr-2"></ion-icon> {{ t('button.delete') }}
 											</a>
 										</li>
 									</ul>
@@ -231,172 +232,200 @@
 	</div>
 </template>
 
-<script>
+<script setup>
+import { ref, reactive, onMounted, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n();
+import { useRoute } from 'vue-router'
+const route = useRoute()
+import { humanDate } from '@/utils.js';
+
 // get components
 import SetlistSet from '@/modals/SetlistSet';
 import SetlistDelete from '@/modals/SetlistDelete';
 
-export default {
-	name: 'setlists',
-	props: ['songs', 'setlists', 'tags', 'languages', 'users', 'user', 'role', 'ready'],
-	components: {
-		SetlistSet,
-		SetlistDelete,
-	},
-	data () {
-		return {
-			search: '',
-			filter: this.$route.params.year ? this.$route.params.year : '',
-			page: 0,
-			listLength: 12,
-			order: { 
-				field: 'date',
-				ascending: false
-			},
-			modal: {
-				set: false,
-				delete: false,
-			},
-			active: {
-				title: '',
-				key: '',
-				setlist: {},
-				existing: true
-			}
+// get icons
+import { 
+	arrowBack,
+	arrowForward,
+	caretDown,
+	caretUp,
+	close,
+	copyOutline,
+	createOutline,
+	ellipsisHorizontalOutline,
+	eyeOutline,
+	filterSharp,
+	lockClosedOutline,
+	search as searchIcon,
+	trashOutline
+} from 'ionicons/icons';
+
+// inherited properties
+const props = defineProps({
+  songs:     Object,
+  setlists:  Object,
+  tags:      Object,
+  languages: Object,
+  users:     Object,
+  user:      String,
+  role:      Number,
+  ready:     Object,
+});
+
+// template references
+const container   = ref(null);
+const searchInput = ref(null);
+
+// reactive data
+const search     = ref('');
+const filter     = ref(route.params.year ? route.params.year : '');
+const page       = ref(0);
+const listLength = ref(12);
+const order = reactive({ 
+	field: 'date',
+	ascending: false
+});
+const modal = reactive({
+	set: false,
+	delete: false,
+});
+const active = reactive({
+	title: '',
+	key: '',
+	setlist: {},
+	existing: true
+});
+
+// mounted
+onMounted(() => {
+	container.value.focus();
+});
+
+// computed
+const setlistsArray = computed(() => {
+	let setlists = Object.keys(props.setlists).map((key) => {
+		let setlist = props.setlists[key];
+		setlist['id'] = key;
+		return setlist;
+	});
+	setlists.sort((a, b) => {
+		let propA, propB;
+		if (order.field == 'songs') {
+			propA = a.songs.length;
+			propB = b.songs.length;
+		} else if (order.field == 'creator') {
+			propA = props.users[a.creator]?.name ?? '';
+			propB = props.users[b.creator]?.name ?? '';
+		} else {
+			propA = String(a[order.field]).toLowerCase().trim();
+			propB = String(b[order.field]).toLowerCase().trim();
 		}
-	},
-	mounted () {
-		this.$refs.container.focus();
-	},
-	computed: {
-		setlistsArray () {
-			let setlists = Object.keys(this.setlists).map((key) => {
-				let setlist = this.setlists[key];
-				setlist['id'] = key;
-				return setlist;
-			});
-			setlists.sort((a, b) => {
-				let propA, propB;
-				if (this.order.field == 'songs') {
-					propA = a.songs.length;
-					propB = b.songs.length;
-				} else if (this.order.field == 'creator') {
-					propA = this.users[a.creator]?.name ?? '';
-					propB = this.users[b.creator]?.name ?? '';
-				} else {
-					propA = String(a[this.order.field]).toLowerCase().trim();
-					propB = String(b[this.order.field]).toLowerCase().trim();
-				}
-				if (this.order.ascending) {
-					if (propA < propB) { return -1 };
-					if (propA > propB) { return 1 };
-				} else {
-					if (propA < propB) { return 1 };
-					if (propA > propB) { return -1 };
-				}
-				return 0;
-			})
-			return setlists;
-		},
-		filteredSetlists() {
-			var setlists = this.setlistsArray.filter(s => !s.private || s.private && s.creator==this.user);
-			if (this.search != '') {
-				setlists = setlists.filter(s => {
-					// filter fields: title, date
-					var key = this.search.toLowerCase();
-					return s.title.toLowerCase().indexOf(key) !== -1 || s.date.toLowerCase().indexOf(key) !== -1;
-				})
-			}
-			if (this.filter != '') {
-				setlists = setlists.filter(s => {
-					// filter field: date(Y)
-					return s.date.substring(0,4).indexOf(this.filter) !== -1;
-				})
-			}
-			return setlists;
-		},
-		noSetlists () {
-			return this.ready.setlists && this.setlistsArray.length == 0;
-		},
-		setlistYears() {
-			if (this.ready.setlists && !this.noSetlists) {
-				let start = parseInt(Object.keys(this.setlists).sort()[0].substring(0, 4));
-				let end = parseInt(Object.keys(this.setlists).sort().slice(-1)[0].substring(0, 4));
-				return Array.from(Array(end-start+1).keys(), x => x + start).reverse();
-			} else {
-				return [];
-			}
-		},
-		pagedSetlists () {
-			return this.filteredSetlists.slice(this.page*this.listLength, (this.page+1)*this.listLength);
-		},
-		isFirstPage () {
-			return this.page == 0;
-		},
-		isLastPage () {
-			return this.page == this.pageCount-1;
-		},
-		pageCount () {
-			return Math.ceil(this.filteredSetlists.length/this.listLength);
+		if (order.ascending) {
+			if (propA < propB) { return -1 };
+			if (propA > propB) { return 1 };
+		} else {
+			if (propA < propB) { return 1 };
+			if (propA > propB) { return -1 };
 		}
-	},
-	methods: {
-		sortList (field) {
-			if (this.order.field == field) {
-				this.order.ascending = !this.order.ascending;
-			} else {
-				this.order.ascending = true;
-			}
-			this.order.field = field;
-		},
-		showPageItem (p) {
-			return this.pageCount < 6 || (
-				p == 1 || p == 2
-				|| (this.page == 0 && p == 3)
-				|| ((this.page == 0 || this.page == 1) && p == 4)
-				|| (p > this.page-1 && p < this.page+3)
-				|| ((this.page == this.pageCount-1||this.page == this.pageCount-2) && p == this.pageCount-3)
-				|| (this.page == this.pageCount-1 && p == this.pageCount-2)
-				|| p == this.pageCount-1 || p == this.pageCount
-			);
-		},
-		showFirstEllipsis (p) {
-			return this.pageCount >= 6 && this.page > 2 && p == 2;
-		},
-		showPageItemLink (p) {
-			return this.pageCount < 6 || (
-				p == 1
-				|| (this.page == 0 && p == 3)
-				|| ((this.page == 0 || this.page == 1) && p == 4)
-				|| (p > this.page-1 && p < this.page+3)
-				|| ((this.page == this.pageCount-1 || this.page == this.pageCount-2) && p == this.pageCount-3)
-				|| (this.page == this.pageCount-1 && p == this.pageCount-2)
-				|| p == this.pageCount
-			);
-		},
-		showLastEllipsis (p) {
-			return this.pageCount >= 6 && this.page < this.pageCount-3 && p == this.pageCount-1;
-		},
-		editDialog (setlist, existing) {
-			this.active.title = setlist.title;
-			this.active.setlist = setlist;
-			this.active.key = setlist.id;
-			this.active.existing = existing;
-			this.modal.set = true;
-		},
-		deleteDialog (setlist) {
-			this.active.title = setlist.title;
-			this.active.key = setlist.id;
-			this.modal.delete = true;
-		}
-	},
-	watch: {
-		search () {
-			this.page = 0;
-		},
-		filter () {
-			this.page = 0;
-		}
+		return 0;
+	})
+	return setlists;
+});
+const filteredSetlists = computed(() => {
+	var setlists = setlistsArray.value.filter(s => !s.private || s.private && s.creator==props.user);
+	if (search.value != '') {
+		setlists = setlists.filter(s => {
+			// filter fields: title, date
+			var key = search.value;
+			return s.title.toLowerCase().indexOf(key) !== -1 || s.date.toLowerCase().indexOf(key) !== -1;
+		})
 	}
-}
+	if (filter.value != '') {
+		setlists = setlists.filter(s => {
+			// filter field: date(Y)
+			return s.date.substring(0,4).indexOf(filter.value) !== -1;
+		})
+	}
+	return setlists;
+});
+const noSetlists = computed(() => {
+	return props.ready.setlists && setlistsArray.value.length == 0;
+});
+const setlistYears = computed(() => {
+	if (props.ready.setlists && !noSetlists.value) {
+		let start = parseInt(Object.keys(props.setlists).sort()[0].substring(0, 4));
+		let end = parseInt(Object.keys(props.setlists).sort().slice(-1)[0].substring(0, 4));
+		return Array.from(Array(end-start+1).keys(), x => x + start).reverse();
+	} else {
+		return [];
+	}
+});
+const pagedSetlists = computed(() => {
+	return filteredSetlists.value.slice(page.value*listLength.value, (page.value+1)*listLength.value);
+});
+const isFirstPage = computed(() => {
+	return page.value == 0;
+});
+const isLastPage = computed(() => {
+	return page.value == pageCount.value-1;
+});
+const pageCount = computed(() => {
+	return Math.ceil(filteredSetlists.value.length/listLength.value);
+});
+
+// methods
+const sortList = (field) => {
+	if (order.field == field) {
+		order.ascending = !order.ascending;
+	} else {
+		order.ascending = true;
+	}
+	order.field = field;
+};
+const showPageItem = (p) => {
+	return pageCount.value < 6 || (
+		p == 1 || p == 2
+		|| (page.value == 0 && p == 3)
+		|| ((page.value == 0 || page.value == 1) && p == 4)
+		|| (p > page.value-1 && p < page.value+3)
+		|| ((page.value == pageCount.value-1||page.value == pageCount.value-2) && p == pageCount.value-3)
+		|| (page.value == pageCount.value-1 && p == pageCount.value-2)
+		|| p == pageCount.value-1 || p == pageCount.value
+	);
+};
+const showFirstEllipsis = (p) => {
+	return pageCount.value >= 6 && page.value > 2 && p == 2;
+};
+const showPageItemLink = (p) => {
+	return pageCount.value < 6 || (
+		p == 1
+		|| (page.value == 0 && p == 3)
+		|| ((page.value == 0 || page.value == 1) && p == 4)
+		|| (p > page.value-1 && p < page.value+3)
+		|| ((page.value == pageCount.value-1 || page.value == pageCount.value-2) && p == pageCount.value-3)
+		|| (page.value == pageCount.value-1 && p == pageCount.value-2)
+		|| p == pageCount.value
+	);
+};
+const showLastEllipsis = (p) => {
+	return pageCount.value >= 6 && page.value < pageCount.value-3 && p == pageCount.value-1;
+};
+const editDialog = (setlist, existing) => {
+	active.title = setlist.title;
+	active.setlist = setlist;
+	active.key = setlist.id;
+	active.existing = existing;
+	modal.set = true;
+};
+const deleteDialog = (setlist) => {
+	active.title = setlist.title;
+	active.key = setlist.id;
+	modal.delete = true;
+};
+
+// watcher
+watch ([search, filter], () => { page.value = 0 });
 </script>

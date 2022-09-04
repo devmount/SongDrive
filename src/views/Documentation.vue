@@ -7,46 +7,47 @@
 					<!-- scroll to top -->
 					<button
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="$t('button.top')"
+						:data-tooltip="t('button.top')"
 						@click="scrollTo('start')"
 					>
-						<ion-icon name="arrow-up-outline" class="icon-left"></ion-icon>
-						<span class="hide-lg">{{ $t('button.top') }}</span>
+						<ion-icon :icon="arrowUpOutline" class="icon-left"></ion-icon>
+						<span class="hide-lg">{{ t('button.top') }}</span>
 					</button>
 					<!-- table of contents -->
-					<div class="divider text-center show-lg" :data-content="$t('divider.toc').charAt(0)"></div>
-					<div class="divider text-center hide-lg" :data-content="$t('divider.toc')"></div>
+					<div class="divider text-center show-lg" :data-content="t('divider.toc').charAt(0)"></div>
+					<div class="divider text-center hide-lg" :data-content="t('divider.toc')"></div>
 					<button
 						v-for="t in toc"
+						:key="t"
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						:data-tooltip="t.text"
 						@click="scrollTo(dashCase(t.text))"
 					>
-						<ion-icon name="bookmark-outline" class="icon-left"></ion-icon>
+						<ion-icon :icon="bookmarkOutline" class="icon-left"></ion-icon>
 						<span class="hide-lg">{{ t.text }}</span>
 					</button>
 					<!-- edit documentation -->
-					<div class="divider text-center show-lg" :data-content="$t('divider.docs').charAt(0)"></div>
-					<div class="divider text-center hide-lg" :data-content="$t('divider.docs')"></div>
+					<div class="divider text-center show-lg" :data-content="t('divider.docs').charAt(0)"></div>
+					<div class="divider text-center hide-lg" :data-content="t('divider.docs')"></div>
 					<a
-						:href="'https://github.com/devmount/SongDrive/blob/main/src/docs/docs.' + $i18n.locale + '.md'"
+						:href="'https://github.com/devmount/SongDrive/blob/main/src/docs/docs.' + locale + '.md'"
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="$t('button.source')"
+						:data-tooltip="t('button.source')"
 						target="_blank"
 					>
-						<ion-icon name="code-slash-outline" class="icon-left"></ion-icon>
-						<span class="hide-lg">{{ $t('button.source') }}</span>
-						<ion-icon name="open-outline" class="icon-right hide-lg"></ion-icon>
+						<ion-icon :icon="codeSlashOutline" class="icon-left"></ion-icon>
+						<span class="hide-lg">{{ t('button.source') }}</span>
+						<ion-icon :icon="openOutline" class="icon-right hide-lg"></ion-icon>
 					</a>
 					<a
-						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + $i18n.locale + '.md'"
+						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="$t('button.edit')"
+						:data-tooltip="t('button.edit')"
 						target="_blank"
 					>
-						<ion-icon name="create-outline" class="icon-left"></ion-icon>
-						<span class="hide-lg">{{ $t('button.edit') }}</span>
-						<ion-icon name="open-outline" class="icon-right hide-lg"></ion-icon>
+						<ion-icon :icon="createOutline" class="icon-left"></ion-icon>
+						<span class="hide-lg">{{ t('button.edit') }}</span>
+						<ion-icon :icon="openOutline" class="icon-right hide-lg"></ion-icon>
 					</a>
 				</div>
 			</div>
@@ -58,15 +59,25 @@
 						<!-- heading -->
 						<div class="column col-12 mb-15">
 							<img class="logo" src="@/assets/logo.svg" alt="SongDrive Song Management Tool" />
-							<h2 class="text-primary weight-normal mt-5 mb-3">{{ $t('app.name') }}</h2>
-							<div class="text-big">{{ $t('app.summary') }}</div>
+							<h2 class="text-primary weight-normal mt-5 mb-3">{{ t('app.name') }}</h2>
+							<div class="text-big">{{ t('app.summary') }}</div>
 						</div>
 						<!-- features -->
 						<div class="columns col-8 col-xl-12 col-mx-auto mb-15">
-							<div v-for="i in 3" class="column col-4 col-xl-6 col-sm-12">
-								<ion-icon :name="$t('docu.features')[i-1].icon" class="icon-3x icon-thin mb-3"></ion-icon>
-								<h3>{{ $t('docu.features')[i-1].title }}</h3>
-								<div>{{ $t('docu.features')[i-1].description }}</div>
+							<div class="column col-4 col-xl-6 col-sm-12">
+								<ion-icon :icon="flashOutline" class="icon-3x icon-thin mb-3"></ion-icon>
+								<h3>{{ t('docu.features.0.title') }}</h3>
+								<div>{{ t('docu.features.0.description') }}</div>
+							</div>
+							<div class="column col-4 col-xl-6 col-sm-12">
+								<ion-icon :icon="micOutline" class="icon-3x icon-thin mb-3"></ion-icon>
+								<h3>{{ t('docu.features.1.title') }}</h3>
+								<div>{{ t('docu.features.1.description') }}</div>
+							</div>
+							<div class="column col-4 col-xl-6 col-sm-12">
+								<ion-icon :icon="constructOutline" class="icon-3x icon-thin mb-3"></ion-icon>
+								<h3>{{ t('docu.features.2.title') }}</h3>
+								<div>{{ t('docu.features.2.description') }}</div>
 							</div>
 						</div>
 					</div>
@@ -80,7 +91,24 @@
 	</div>
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue';
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n();
+import { sdHighlight } from '@/utils.js';
+
+// get icons
+import {
+	arrowUpOutline,
+	bookmarkOutline,
+	codeSlashOutline,
+	constructOutline,
+	createOutline,
+	flashOutline,
+	micOutline,
+	openOutline
+} from 'ionicons/icons';
+
 // markdown parser
 const { marked } = require('marked');
 const hljs = require('highlight.js');
@@ -92,46 +120,42 @@ const docs = {
 	en: require("@/docs/docs.en.md").default,
 };
 
-export default {
-	name: 'documentation',
-	methods: {
-		dashCase (text) {
-			return text.toLowerCase().replace(' ', '-');
-		},
-		scrollTo (id) {
-			document.getElementById(id).scrollIntoView({behavior: "smooth" });
-		}
-	},
-	computed: {
-		toc () {
-			return marked.lexer(docs[this.$i18n.locale]).filter(t => t.type === 'heading' && t.depth === 2);
-		},
-		content () {
-			return marked.parse(
-				docs[this.$i18n.locale],
-				{
-					renderer: new marked.Renderer(),
-					highlight: (code, lang) => {
-						if (lang == 'songdrive') {
-							return this.sdHighlight(code);
-						} else {
-							const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-							return hljs.highlight(code, { language }).value;
-						}
-					},
-					langPrefix: 'hljs language-',
-					pedantic: false,
-					gfm: true,
-					breaks: true,
-					sanitize: false,
-					smartLists: true,
-					smartypants: false,
-					xhtml: false
+// methods
+const dashCase = (text) => {
+	return text.toLowerCase().replace(' ', '-');
+};
+const scrollTo = (id) => {
+	document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+};
+
+// computed
+const toc = computed(
+	() => marked.lexer(docs[locale.value]).filter(t => t.type === 'heading' && t.depth === 2)
+);
+const content = computed(
+	() => marked.parse(
+		docs[locale.value],
+		{
+			renderer: new marked.Renderer(),
+			highlight: (code, lang) => {
+				if (lang == 'songdrive') {
+					return sdHighlight(code);
+				} else {
+					const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+					return hljs.highlight(code, { language }).value;
 				}
-			);
+			},
+			langPrefix: 'hljs language-',
+			pedantic: false,
+			gfm: true,
+			breaks: true,
+			sanitize: false,
+			smartLists: true,
+			smartypants: false,
+			xhtml: false
 		}
-	}
-}
+	)
+);
 </script>
 
 <style lang="scss">

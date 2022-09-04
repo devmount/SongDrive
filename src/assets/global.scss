@@ -14,6 +14,7 @@ $light-color: #fff;
 $black-color: #000;
 $gray-color: #5e6769;
 $gray-color-dark: #4a5052;
+$gray-color-300: darken($gray-color-dark, 10%);
 $gray-color-600: lighten($gray-color, 10%);
 $gray-color-700: lighten($gray-color, 20%);
 $gray-color-800: lighten($gray-color, 40%);
@@ -812,18 +813,6 @@ a {
 					position: absolute;
 					bottom: 0;
 					right: 0;
-
-					.remote-control {
-						opacity: 0;
-						position: absolute;
-						top: -1rem;
-						right: 3.5rem;
-						transition: top .2s, opacity .2s;
-					}
-					&:hover .remote-control {
-						top: -2rem;
-						opacity: 1;
-					}
 				}
 			}
 		}
@@ -867,6 +856,7 @@ a {
 
 			.modal-footer {
 				width: 100%;
+				z-index: 30;
 
 				.navigation-prev {
 					position: absolute;
@@ -896,6 +886,18 @@ a {
 					&:hover {
 						opacity: 1;
 					}
+				}
+				
+				.remote-control {
+					opacity: 0;
+					position: absolute;
+					top: -1rem;
+					right: 3.5rem;
+					transition: top .2s, opacity .2s;
+				}
+				&:hover .remote-control {
+					top: -2rem;
+					opacity: 1;
 				}
 			}
 		}
@@ -1160,52 +1162,60 @@ a {
 }
 
 // calendar
-.calendar-wrapper {
-	.calendar {
+.dp__theme_dark {
+	--dp-background-color: #{$bg-color-light};
+	--dp-text-color: #{$body-font-color};
+	--dp-hover-color: #{$gray-color-dark};
+	--dp-hover-text-color: #{$light-color};
+	--dp-hover-icon-color: #{$light-color};
+	--dp-primary-color: #{$primary-color};
+	--dp-primary-text-color: #{$light-color};
+	--dp-secondary-color: #{$gray-color-dark};
+	--dp-border-color: #2d2d2d;
+	--dp-menu-border-color: #2d2d2d;
+	--dp-border-color-hover: #aaaeb7;
+	--dp-disabled-color: #737373;
+	--dp-scroll-bar-background: #{$bg-color-light};
+	--dp-scroll-bar-color: #{$gray-color-dark};
+	--dp-success-color: #00701a;
+	--dp-success-color-disabled: #428f59;
+	--dp-icon-color: #{$body-font-color};
+	--dp-danger-color: #e53935;
+
+	.dp__calendar_wrap {
+		border: 0;
+	}
+	.dp__menu {
+		border: 2px solid $border-color;
+		border-radius: 0;
+		box-shadow: 0 5px 20px -10px $black-color;
 		width: 100%;
-		background: transparent;
-		border: none;
-
-		header {
-			.prev:after {
-				border-right-color: $body-font-color;
-			}
-			.next:after {
-				border-left-color: $body-font-color;
-			}
-
-			.prev:not(.disabled):hover, 
-			.next:not(.disabled):hover, 
-			.up:not(.disabled):hover {
-				background: $bg-color-dark;
-				color: $primary-color;
-			}
-
-			.prev:not(.disabled):hover:after {
-				border-right-color: $primary-color;
-			}
-			.next:not(.disabled):hover:after {
-				border-left-color: $primary-color;
-			}
-		}
-
-		.cell {
-			height: 60px;
-			line-height: 60px;
-			border-radius: 0.1rem;
-
-			&:not(.blank):not(.disabled).day:hover,
-			&:not(.blank):not(.disabled).month:hover,
-			&:not(.blank):not(.disabled).year:hover {
-				border: 1px solid $primary-color;
-			}
-
-			&.selected,
-			&.selected:hover {
-				background: $primary-color;
-				font-weight: 900;
-			}
-		}
+	}
+	.dp__calendar_item,
+	.dp__calendar_header_item {
+		flex: 1 1 0;
+	}
+	.dp__calendar_row {
+		gap: 5px;
+	}
+	.dp__cell_inner,
+	.dp__calendar_header_item {
+		height: 40px;
+		width: auto;
+	}
+	.dp__cell_inner,
+	.dp__inner_nav,
+	.dp__month_year_select,
+	.dp__overlay_cell,
+	.dp__overlay_cell_active {
+		border-radius: 0;
+	}
+	.dp__inner_header {
+		font-weight: normal;
+    text-transform: uppercase;
+	}
+	.dp__inner_nav {
+		height: 35px;
 	}
 }
 
@@ -1345,43 +1355,47 @@ a {
 }
 
 // slide presentation
-.hooper.presentation {
+.carousel.presentation {
 	width: 100%;
-	height: 98vh;
+	height: calc(100vh - 0.8rem - 82px);
+	text-align: left;
+	overflow: visible;
+	background: transparent;
+	z-index: 20;
 
-	&:focus {
-		outline: none;
+	.carousel__slide {
+		align-items: flex-start;
 	}
 
-	.hooper-slide,
-	.hooper-slide:focus,
-	.hooper-slide:active {
-		outline: none;
-	}
-	
-	.hooper-pagination {
+	.carousel__pagination {
+		position: absolute;
 		padding: .8rem;
+		margin: 0;
 		left: 0;
-		right: initial;
-		transform: none;
-		z-index: 20;
+		bottom: -3.5rem;
 
-		.hooper-indicator {
-			margin: 0 7px;
-			width: 1.7em;
-			height: 1.7em;
-			border-radius: 50%;
-			padding: 0;
-			background-color: $gray-color-dark;
+		.carousel__pagination-item {
+			margin-top: 0;
 
-			&.is-active {
-				background-color: $primary-color;
-			}
+			.carousel__pagination-button {
+				display: block;
+				margin: 0 7px;
+				width: 1.5rem;
+				height: 1.5rem;
+				border-radius: 50%;
+				padding: 0;
+				background-color: $gray-color-300;
 
-			&:focus {
-				outline: none;
+				&.carousel__pagination-button--active {
+					background-color: $primary-color;
+				}
 			}
 		}
+
+	}
+
+	.song-content {
+		width: 100%;
 	}
 }
 

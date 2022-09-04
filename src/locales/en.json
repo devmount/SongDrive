@@ -1,6 +1,6 @@
 {
   "app": {
-    "created": "created with <ion-icon name='heart-outline'></ion-icon> by",
+    "created": ["created with", "by"],
     "license": "MIT license",
     "name": "SongDrive",
     "summary": "Store, manage, synchronize and present songs and setlists"
@@ -70,17 +70,14 @@
     "features": [
       {
         "description": "Build your song collection using a simple song syntax and create setlists with realtime search and filters.",
-        "icon": "flash-outline",
         "title": "Minimal effort"
       },
       {
         "description": "Perform the songs of your setlist using your tablet or laptop on stage as well as presenting them to the audience at the same time.",
-        "icon": "mic-outline",
         "title": "Ready for stage"
       },
       {
         "description": "Transpose songs with a single click, create PDF song sheets, export songs and setlists in multiple formats, hotkey support and more.",
-        "icon": "construct-outline",
         "title": "Tools for artists"
       }
     ]
@@ -208,7 +205,7 @@
     "exampleSongYear": "e.g. 2016",
     "exampleSongYoutubeId": "e.g. cF0S3uKdVJA",
     "exampleTagKey": "e.g. worship",
-    "exampleUserEmail": "e.g. john@doe.com",
+    "exampleUserEmail": "e.g. john{'@'}doe.com",
     "exampleUserName": "e.g. John Doe",
     "language": "Language ...",
     "repeatEmail": "Repeat Email Address",
@@ -381,9 +378,10 @@
     "chordsShow": "Show Chords",
     "clear": "Clear search and filter",
     "infoSongData": "Show Song Information",
+    "invertColors": "Invert Colors",
     "keyReset": "Reset to original key",
-    "lightModeOnOff": "Light Mode on / off",
     "nextSlide": "Next Slide",
+    "noSongInfo": "No Song Information available",
     "pagination": "List navigation",
     "presentationClose": "Close Presentation",
     "presentationHide": "Hide Presentation",

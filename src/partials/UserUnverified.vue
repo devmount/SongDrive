@@ -10,44 +10,41 @@
 			<p>{{ $t('text.notVerifiedYet') }}</p>
 			<p v-if="ready.config && config.contact.email" v-html="$t('text.unverifiedHelp', [config.contact.email])"></p>
 			<button v-if="!resend" class="btn btn-primary d-block stretch mt-4" @click="resendVerification()">
-				{{ $t('tooltip.resendVerification') }} <ion-icon name="send-outline" class="icon-right"></ion-icon>
+				{{ $t('tooltip.resendVerification') }} <ion-icon :icon="sendOutline" class="icon-right"></ion-icon>
 			</button>
 			<p v-else>
 				{{ $t('toast.verficationSentText') }}
 			</p>
 			<div class="d-flex g-4 mt-4">
 				<button class="btn btn-secondary d-block" @click="$router.go()">
-					{{ $t('button.recheck') }} <ion-icon name="refresh-outline" class="icon-right"></ion-icon>
+					{{ $t('button.recheck') }} <ion-icon :icon="refreshOutline" class="icon-right"></ion-icon>
 				</button>
 				<button class="btn btn-secondary d-block" @click="$emit('signOut')">
-					{{ $t('button.signOut') }} <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
+					{{ $t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
 				</button>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-// get components
+<script setup>
+import { ref } from 'vue';
 import Logo from '@/partials/Logo';
+import { sendOutline, refreshOutline, logOutOutline } from 'ionicons/icons';
 
-export default {
-	name: 'user-unverified',
-	components: {
-		Logo
-	},
-	props: ['ready', 'config'],
-	data () {
-		return {
-			resend: false
-		}
-	},
-	methods: {
-		resendVerification () {
-			this.resend = true;
-			this.$emit('resendEmailVerification');
-		}
-	}
+const props = defineProps({
+  ready: Object,
+  config: Object,
+});
+const emit = defineEmits();
+
+// reactive data
+const resend = ref(false);
+
+// methods
+const resendVerification = () => {
+	resend.value = true;
+	emit('resendEmailVerification');
 }
 </script>
 

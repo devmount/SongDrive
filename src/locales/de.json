@@ -1,6 +1,6 @@
 {
   "app": {
-    "created": "mit <ion-icon name='heart-outline'></ion-icon> erstellt von",
+    "created": ["mit", "erstellt von"],
     "license": "MIT Lizenz",
     "name": "SongDrive",
     "summary": "Speichern, Synchronisieren und Präsentieren von Liedern und Setlisten"
@@ -70,17 +70,14 @@
     "features": [
       {
         "description": "Baue dir deine eigene Liedersammlung mithilfe einer einfachen Syntax auf und erstelle Setlisten durch Echtzeitsuche und -filter.",
-        "icon": "flash-outline",
         "title": "Für mehr Effizienz"
       },
       {
         "description": "Führe die Lieder deiner Setliste mit deinem Tablet oder Laptop auf der Bühne auf und präsentiere deinem Publikum gleichzeitig die Texte.",
-        "icon": "mic-outline",
         "title": "Für die Bühne"
       },
       {
         "description": "Transponiere Lieder, erstelle PDF-Liedzettel, exportiere Lieder und Setlisten in unterschiedlichen Formaten, nutze Tastenkombinationen und vieles mehr.",
-        "icon": "construct-outline",
         "title": "Für Künstler"
       }
     ]
@@ -208,7 +205,7 @@
     "exampleSongYear": "z.B. 2016",
     "exampleSongYoutubeId": "z.B. cF0S3uKdVJA",
     "exampleTagKey": "z.B. worship",
-    "exampleUserEmail": "z.B. max@muster.de",
+    "exampleUserEmail": "z.B. max{'@'}muster.de",
     "exampleUserName": "z.B. Max Muster",
     "language": "Sprache ...",
     "repeatEmail": "E-Mail-Adresse wiederholen",
@@ -381,9 +378,10 @@
     "chordsShow": "Akkorde zeigen",
     "clear": "Suche und Filter zurücksetzen",
     "infoSongData": "Song Informationen anzeigen",
+    "invertColors": "Farben umkehren",
     "keyReset": "Auf Original-Tonart zurücksetzen",
-    "lightModeOnOff": "Hell-Modus an / aus",
     "nextSlide": "Nächste Folie",
+    "noSongInfo": "Keine Song Infos verfügbar",
     "pagination": "Seiten-Navigation",
     "presentationClose": "Präsentation beenden",
     "presentationHide": "Präsentation ausblenden",

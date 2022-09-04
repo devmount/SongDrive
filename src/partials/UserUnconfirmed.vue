@@ -10,23 +10,20 @@
 			<p>{{ $t('text.notApprovedYet') }}</p>
 			<p v-if="ready.config && config.contact.email" v-html="$t('text.unconfirmedMistake', [config.contact.email])"></p>
 			<button class="btn btn-secondary d-block stretch mt-4" @click="$emit('signOut')">
-				{{ $t('button.signOut') }} <ion-icon name="log-out-outline" class="icon-right"></ion-icon>
+				{{ $t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
 			</button>
 		</div>
 	</div>
 </template>
 
-<script>
-// get components
+<script setup>
 import Logo from '@/partials/Logo';
+import { logOutOutline } from 'ionicons/icons';
 
-export default {
-	name: 'user-unconfirmed',
-	components: {
-		Logo
-	},
-	props: ['ready', 'config']
-}
+const props = defineProps({
+  ready: Object,
+  config: Object,
+});
 </script>
 
 <style lang="scss">

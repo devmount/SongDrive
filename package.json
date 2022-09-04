@@ -13,8 +13,6 @@
 	},
 	"homepage": "https://github.com/devmount/SongDrive",
 	"keywords": [
-		"vuejs2",
-		"vuefire",
 		"firebase",
 		"firestore",
 		"music",
@@ -22,7 +20,6 @@
 		"vue",
 		"songs",
 		"setlists",
-		"spectre-css",
 		"presentation"
 	],
 	"bugs": "https://github.com/devmount/SongDrive/issues",
@@ -33,21 +30,23 @@
 		"build": "vue-cli-service build"
 	},
 	"dependencies": {
+		"@ionic/vue": "^6.1.15",
+		"@kyvg/vue3-notification": "^2.3.4",
+		"@vuepic/vue-datepicker": "^3.2.2",
 		"chart.js": "^3.5.1",
+		"date-fns": "^2.29.1",
 		"firebase": "^9.0.0",
 		"highlight.js": "^11.3.1",
-		"hooper": "^0.3.4",
+		"ionicons": "^6.0.2",
 		"marked": "^4.0.10",
 		"pdfmake": "^0.2.2",
 		"sortablejs": "^1.9.0",
 		"spectre.css": "^0.5.8",
-		"vue": "^2.6.11",
-		"vue-clipboard2": "^0.3.0",
-		"vue-i18n": "^8.15.3",
-		"vue-notification": "^1.3.16",
-		"vue-prism-editor": "^1.3.0",
-		"vue-router": "^3.0.7",
-		"vuejs-datepicker": "^1.6.2"
+		"vue": "^3.2.37",
+		"vue-i18n": "^9.1.10",
+		"vue-prism-editor": "^2.0.0-alpha.2",
+		"vue-router": "^4.0.16",
+		"vue3-carousel": "^0.1.40"
 	},
 	"devDependencies": {
 		"@vue/cli-plugin-babel": "^5.0.0-rc.2",

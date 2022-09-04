@@ -28,7 +28,7 @@
 				</div>
 				<div class="panel-footer mt-3">
 					<button class="btn btn-primary btn-block" @click="$emit('signIn', email, password)">
-						{{ $t('button.signIn') }} <ion-icon name="log-in-outline" class="icon-right"></ion-icon>
+						{{ $t('button.signIn') }} <ion-icon :icon="logInOutline" class="icon-right"></ion-icon>
 					</button>
 				</div>
 			</div>
@@ -44,22 +44,14 @@
 	</div>
 </template>
 
-<script>
-// get components
+<script setup>
+import { ref } from 'vue';
 import Logo from '@/partials/Logo';
+import { logInOutline } from 'ionicons/icons';
 
-export default {
-	name: 'login',
-	components: {
-		Logo
-	},
-	data () {
-		return {
-			email: '',
-			password: ''
-		};
-	}
-}
+// reactive data
+const email    = ref('');
+const password = ref('');
 </script>
 
 <style lang="scss">
@@ -73,7 +65,6 @@ export default {
 
 	.panel {
 		height: auto;
-
 	}
 
 	.btn-link {

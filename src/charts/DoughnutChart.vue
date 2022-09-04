@@ -12,82 +12,93 @@
 </div>
 </template>
 
-<script>
-import { Chart } from '../chart.config';
+<script setup>
+import { computed, watch, onMounted } from 'vue';
+import { Chart } from '../chart.config'
 
-export default {
-	props: {
-		title: String,
-		description: String,
-		info: Object,
-		labels: Array,
-		datasets: Array,
-	},
-	data () {
-		return {
-			id: Math.random().toString(36).substring(7),
-			chart: null
-		};
-	},
-	mounted () {
-		if (this.labels && this.datasets) {
-			this.draw();
-		}
-	},
-	methods: {
-		draw () {
-			this.chart = new Chart(this.id, {
-				type: "doughnut",
-				data: {
-					datasets: this.colorize(this.datasets),
-					labels: this.labels,
-				},
-				options: {
-					responsive: true,
-					maintainAspectRatio: false,
-					borderWidth: 0,
-					cutout: '60%',
-					circumference: 180,
-					rotation: -90,
-					plugins: {
-						tooltip: {
-							intersect: true,
-							position: 'nearest'
+// inherited properties
+const props = defineProps({
+	title:       String,  // chart title to print as heading if set
+	description: String,  // chart descriptional text to print between heading and chart if set
+	info:        Object,  // chart info holding a featured number and corresponding label to show inside doughnut
+	labels:      Array,   // chart data labels (mandatory)
+	datasets:    Array,   // chart datasets (mandatory)
+});
+
+// non-reactive data
+const id = Math.random().toString(36).substring(7);
+let chart = null;
+
+// update chart if new data arrives
+watch (() => props.datasets, (newDatasets) => {
+	chart.data.labels = props.labels;
+	chart.data.datasets = colorize(newDatasets);
+	chart.update();
+});
+
+// handle mount hooks
+onMounted(() => {
+	// draw chart when component is ready
+	if (props.labels && props.datasets) {
+		draw();
+	}
+});
+
+// create chart
+const draw = () => {
+	chart = new Chart(id, {
+		type: "doughnut",
+		data: {
+			datasets: colorize(props.datasets),
+			labels: props.labels,
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			borderWidth: 0,
+			cutout: '60%',
+			circumference: 180,
+			rotation: -90,
+			plugins: {
+				tooltip: {
+					intersect: true,
+					position: 'nearest',
+					callbacks: {
+						title: context => context[0].label,
+						label: context => ' ' + context.formattedValue + ' ' + context.dataset.label,
+						labelColor: context => {
+							return {
+								borderWidth: 2,
+								borderColor: context.dataset.borderColor,
+								backgroundColor: context.dataset.borderColor + '33',
+							};
 						}
 					}
 				}
-			});
-		},
-		// paint every segment depending on its data
-		colorize (datasets) {
-			datasets.map(d => {
-				d.backgroundColor = this.dataColors(d.data, d.color);
-				d.borderColor = d.color;
-			});
-			return datasets;
-		},
-		// calculate list of background colors for each data arc
-		dataColors (data, color) {
-			const colors = [];
-			const max = Math.max(...data);
-			data.forEach(d => colors.push(color + this.opacity(d, max)));
-			return colors;
-		},
-		// calculate opacity as two digit hex for given value based on max value
-		opacity (value, max) {
-			if (max == 0) return '00';
-			return Math.round(255*value/max).toString(16).padStart(2, "0");
+			}
 		}
-	},
-	watch: {
-		// update chart if data changes in an animatable way
-		datasets (newDatasets) {
-			this.chart.data.labels = this.labels;
-			this.chart.data.datasets = this.colorize(newDatasets);
-			this.chart.update();
-		}
-	}
-}
+	});
+};
+// paint every segment depending on its data
+const colorize = (datasets) => {
+	datasets.map(d => {
+		d.backgroundColor = dataColors(d.data, d.color);
+		d.borderColor = d.color;
+	});
+	return datasets;
+};
+// calculate list of background colors for each data arc
+const dataColors = (data, color) => {
+	const colors = [];
+	const max = Math.max(...data);
+	data.forEach(d => colors.push(color + opacity(d, max)));
+	return colors;
+};
+// calculate opacity as two digit hex for given value based on max value
+const opacity = (value, max) => {
+	if (max == 0) return '00';
+	return Math.round(255*value/max).toString(16).padStart(2, "0");
+};
 </script>
 
 <style lang="scss">

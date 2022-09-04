@@ -7,18 +7,19 @@ module.exports = {
 			maxAssetSize: 2097152       // 2 MiB
 		},
 		output: {
-			filename: "js/[contenthash]-[name].js",
-			chunkFilename: "js/[chunkhash]-[name].bundle.js",
+			filename: 'js/[contenthash]-[name].js',
+			chunkFilename: 'js/[chunkhash]-[name].bundle.js',
 		},
 	},
 	productionSourceMap: false,
-	publicPath: "/",
+	publicPath: '/',
 	chainWebpack: config => {
+		// read markdown files
 		config.module
 			.rule('raw')
-			.test(/\.md$/)
-			.use('raw-loader')
-			.loader('raw-loader')
-			.end()
+				.test(/\.md$/)
+				.use('raw-loader')
+				.loader('raw-loader')
+				.end();
 	},
 };
