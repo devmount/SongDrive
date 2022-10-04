@@ -1361,7 +1361,7 @@ a {
 	text-align: left;
 	overflow: visible;
 	background: transparent;
-	z-index: 20;
+	z-index: 40;
 
 	.carousel__slide {
 		align-items: flex-start;
@@ -1385,6 +1385,10 @@ a {
 				border-radius: 50%;
 				padding: 0;
 				background-color: $gray-color-300;
+
+				&::after {
+					display: none;
+				}
 
 				&.carousel__pagination-button--active {
 					background-color: $primary-color;
