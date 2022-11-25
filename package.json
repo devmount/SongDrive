@@ -33,7 +33,7 @@
 		"@ionic/vue": "^6.1.15",
 		"@kyvg/vue3-notification": "^2.3.4",
 		"@vuepic/vue-datepicker": "^3.2.2",
-		"chart.js": "^3.5.1",
+		"chart.js": "^4.0.1",
 		"date-fns": "^2.29.1",
 		"firebase": "^9.0.0",
 		"highlight.js": "^11.3.1",
@@ -52,7 +52,7 @@
 		"@vue/cli-plugin-babel": "^5.0.0-rc.2",
 		"@vue/cli-plugin-pwa": "^5.0.0-rc.2",
 		"@vue/cli-service": "^5.0.0-rc.2",
-		"node-sass": "^7.0.1",
+		"node-sass": "^8.0.0",
 		"raw-loader": "^4.0.2",
 		"sass-loader": "^13.0.0",
 		"vue-template-compiler": "^2.6.10"

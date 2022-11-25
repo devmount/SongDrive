@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { computed, watch, onMounted } from 'vue';
+import { watch, onMounted } from 'vue';
 import { Chart } from '../chart.config'
 
 // inherited properties

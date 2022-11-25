@@ -470,9 +470,9 @@ const setlistLanguages = computed(() => {
 	}
 	return {
 		datasets: [
-			{ data: Object.values(languages), color: '#88b544' },
+			{ label: t('page.songs'), data: Object.values(languages), color: '#88b544' },
 		],
-		labels: Object.keys(languages).map(e => ' ' + props.languages[e]?.label)
+		labels: Object.keys(languages).map(e => props.languages[e]?.label)
 	};
 });
 const setlistKeys = computed(() => {
@@ -486,9 +486,9 @@ const setlistKeys = computed(() => {
 	}
 	return {
 		datasets: [
-			{ data: Object.values(keys), color: '#88b544' },
+			{ label: t('page.songs'), data: Object.values(keys), color: '#88b544' },
 		],
-		labels: Object.keys(keys).map(e => ' ' + e)
+		labels: Object.keys(keys)
 	};
 });
 // Bool indicating if this setlist is accessible for current user or not
