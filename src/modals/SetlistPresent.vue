@@ -299,8 +299,9 @@ watch (autoSync, () => {
 		dark.value = !props.remoteLight;
 	}
 });
-// watcher: maximize fontsize again when chords are toggled
+// watcher: maximize fontsize again when chords are toggled or songs change
 watch (() => props.chords, () => maximizeFontsize());
+watch (() => props.songs, () => maximizeFontsize());
 // watcher: update local position if autoSync is on and remote position was updated
 watch (() => props.position, () => {
 	if (autoSync.value) {
