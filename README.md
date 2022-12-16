@@ -2,7 +2,7 @@
 
 [![Release](https://img.shields.io/github/v/tag/devmount/SongDrive.svg?label=release&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/releases)
 [![Last Updated](https://img.shields.io/github/last-commit/devmount/SongDrive?label=updated&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/commits/main)
-[![CodeQL Analysis](https://img.shields.io/github/workflow/status/devmount/SongDrive/CodeQL?label=CodeQL&logo=github&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/actions/workflows/codeql-analysis.yml)
+[![CodeQL Analysis](https://img.shields.io/github/actions/workflow/status/devmount/SongDrive/codeql-analysis.yml?branch=main&label=CodeQL&logo=github&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/actions/workflows/codeql-analysis.yml)
 [![License](https://img.shields.io/badge/license-MIT-88b544.svg?style=flat-square)](./LICENSE)
 [![Contribution Guidlines](https://img.shields.io/badge/contributions-welcome-88b544.svg?style=flat-square)](./.github/CONTRIBUTING.md)
 
