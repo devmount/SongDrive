@@ -230,18 +230,12 @@
 <script setup>
 import { ref, reactive, computed, inject, watch, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t, locale } = useI18n();
 import { useRouter } from 'vue-router';
-const router = useRouter();
 import { notify } from '@kyvg/vue3-notification';
 import { keyScale, humanDate, throwError, urlify } from '@/utils.js';
-
-// init datepicker component
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { enGB, de } from 'date-fns/locale';
-
-// get icons
 import {
 	arrowBack,
 	arrowForward,
@@ -252,6 +246,8 @@ import {
 	searchOutline,
 	calendarClearOutline
 } from 'ionicons/icons';
+const { t, locale } = useI18n();
+const router = useRouter();
 
 // global properties
 const db = inject('db');

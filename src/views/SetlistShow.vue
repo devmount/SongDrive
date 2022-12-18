@@ -346,23 +346,16 @@
 </template>
 
 <script setup>
+import firebase from 'firebase/compat/app';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t, locale } = useI18n();
 import { useRoute, useRouter } from 'vue-router';
-const route = useRoute();
-const router = useRouter();
 import { notify } from '@kyvg/vue3-notification';
 import { keyScale, parsedContent, humanDate, throwError } from '@/utils.js';
-
-// get components
 import SetlistSet from '@/modals/SetlistSet';
 import SetlistDelete from '@/modals/SetlistDelete';
 import SetlistPresent from '@/modals/SetlistPresent';
 import DoughnutChart from '@/charts/DoughnutChart';
-import firebase from 'firebase/compat/app';
-
-// get icons
 import {
 	arrowBack,
 	arrowBackOutline,
@@ -385,6 +378,9 @@ import {
 	trashOutline,
 	videocamOutline
 } from 'ionicons/icons';
+const { t, locale } = useI18n();
+const route = useRoute();
+const router = useRouter();
 
 // pdf creation
 var pdfMake = require('pdfmake/build/pdfmake');

@@ -244,14 +244,9 @@
 <script setup>
 import { ref, reactive, computed, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
-import { useRoute, useRouter } from 'vue-router';
-const route = useRoute();
-const router = useRouter();
+import { useRoute } from 'vue-router';
 import { notify } from '@kyvg/vue3-notification';
 import { userRoles, initials, throwError } from '@/utils.js';
-
-// get components
 import Logo from '@/partials/Logo';
 import Login from '@/partials/Login';
 import SignUp from '@/modals/SignUp';
@@ -260,14 +255,10 @@ import UserUnconfirmed from '@/partials/UserUnconfirmed';
 import UserUnverified from '@/partials/UserUnverified';
 import SongSet from '@/modals/SongSet';
 import SetlistSet from '@/modals/SetlistSet';
-
-// get database object authorized in config.js
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { collection, onSnapshot } from "firebase/firestore";
-
-// get icons
 import {
 	appsSharp,
 	addSharp,
@@ -284,6 +275,8 @@ import {
 	optionsOutline,
 	person
 } from 'ionicons/icons';
+const { t } = useI18n();
+const route = useRoute();
 
 // global properties
 const db = inject('db');

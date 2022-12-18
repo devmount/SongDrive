@@ -235,18 +235,11 @@
 <script setup>
 import { ref, reactive, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
-const router = useRouter();
 import { useI18n } from "vue-i18n";
-const { t, locale } = useI18n();
 import { useRoute } from 'vue-router'
-const route = useRoute()
 import { humanDate } from '@/utils.js';
-
-// get components
 import SetlistSet from '@/modals/SetlistSet';
 import SetlistDelete from '@/modals/SetlistDelete';
-
-// get icons
 import { 
 	arrowBack,
 	arrowForward,
@@ -262,6 +255,9 @@ import {
 	search as searchIcon,
 	trashOutline
 } from 'ionicons/icons';
+const { t, locale } = useI18n();
+const router = useRouter();
+const route = useRoute()
 
 // inherited properties
 const props = defineProps({

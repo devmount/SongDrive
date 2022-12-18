@@ -95,11 +95,10 @@
 <script setup>
 import { ref, reactive, computed, inject } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
 import { humanFileSize } from '@/utils.js';
-
-// get icons
 import { checkmarkOutline } from 'ionicons/icons';
+const { t } = useI18n();
+
 
 // global properties
 const db = inject('db');

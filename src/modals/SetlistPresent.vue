@@ -181,16 +181,10 @@
 <script setup>
 import { reactive, ref, computed, inject, watch, onMounted, onUnmounted, nextTick } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
-
-// get carousel component
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
-// get internal components
 import SongContent from '@/partials/SongContent';
 import InfoSongData from '@/modals/InfoSongData';
-
-// get icons
 import {
 	arrowBack,
 	arrowForward,
@@ -201,6 +195,7 @@ import {
 	musicalNotes,
 	sync
 } from 'ionicons/icons';
+const { t } = useI18n();
 
 // global properties
 const db = inject('db');

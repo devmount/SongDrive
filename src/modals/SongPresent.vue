@@ -84,22 +84,15 @@
 <script setup>
 import { reactive, ref, inject, watch, onMounted, onUnmounted, nextTick } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
-
-// get internal components
 import SongContent from '@/partials/SongContent';
 import InfoSongData from '@/modals/InfoSongData';
-
-// get icons
 import {
 	close,
 	contrastOutline,
 	informationOutline,
 	musicalNotes
 } from 'ionicons/icons';
-
-// global properties
-const db = inject('db');
+const { t } = useI18n();
 
 // inherited properties
 const props = defineProps({

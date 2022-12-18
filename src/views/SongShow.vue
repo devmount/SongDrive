@@ -276,20 +276,13 @@
 <script setup>
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t, locale } = useI18n();
 import { useRoute, useRouter } from 'vue-router';
-const route = useRoute();
-const router = useRouter();
 import { notify } from '@kyvg/vue3-notification';
 import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
-
-// get components
 import SongContent from '@/partials/SongContent';
 import SongSet from '@/modals/SongSet';
 import SongDelete from '@/modals/SongDelete';
 import SongPresent from '@/modals/SongPresent';
-
-// get icons
 import {
 	arrowBack,
 	arrowBackOutline,
@@ -306,6 +299,9 @@ import {
 	trashOutline,
 	videocamOutline
 } from 'ionicons/icons';
+const { t, locale } = useI18n();
+const route = useRoute();
+const router = useRouter();
 
 // pdf creation
 const EOL = '\n';

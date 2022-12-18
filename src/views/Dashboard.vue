@@ -313,15 +313,9 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-const router = useRouter();
 import { useI18n } from "vue-i18n";
-const { t, locale } = useI18n();
-
-// get components
 import LineChart from '@/charts/LineChart';
 import BarChart  from '@/charts/BarChart';
-
-// get icons
 import {
 	arrowBack,
 	arrowDown,
@@ -335,6 +329,8 @@ import {
 	shuffle,
 	trendingUp,
 } from 'ionicons/icons';
+const router = useRouter();
+const { t, locale } = useI18n();
 
 // inherited properties
 const props = defineProps({

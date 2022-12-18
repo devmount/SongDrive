@@ -17,13 +17,13 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t, locale } = useI18n();
 import { sdHighlight } from '@/utils.js';
+import { marked } from 'marked';
+import 'highlight.js/styles/github-dark.css';
+const { t, locale } = useI18n();
 
 // markdown parser
-import { marked } from 'marked';
 const hljs = require('highlight.js');
-import 'highlight.js/styles/github-dark.css';
 
 // cheatsheet contents
 const cheatsheets = {

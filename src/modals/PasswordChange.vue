@@ -64,10 +64,10 @@
 <script setup>
 import { reactive, computed } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
 import { notify } from '@kyvg/vue3-notification';
 import firebase from 'firebase/compat/app';
 import { throwError, randomString } from '@/utils.js';
+const { t } = useI18n();
 
 // inherited properties
 const props = defineProps({

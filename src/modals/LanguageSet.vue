@@ -50,9 +50,9 @@
 <script setup>
 import { ref, reactive, computed, inject } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
 import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
+const { t } = useI18n();
 
 // global properties
 const db = inject('db');

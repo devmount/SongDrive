@@ -25,10 +25,10 @@
 <script setup>
 import { inject } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
 import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
 import { useRoute, useRouter } from 'vue-router'
+const { t } = useI18n();
 const route = useRoute()
 const router = useRouter()
 

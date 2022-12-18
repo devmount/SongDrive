@@ -512,11 +512,8 @@
 <script setup>
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t, locale, availableLocales } = useI18n({ useScope: 'global' });
 import { notify } from '@kyvg/vue3-notification';
 import { download, initials, throwError } from '@/utils.js';
-
-// get components
 import PasswordChange from '@/modals/PasswordChange';
 import EmailChange from '@/modals/EmailChange';
 import AccountDelete from '@/modals/AccountDelete';
@@ -527,8 +524,6 @@ import LanguageDelete from '@/modals/LanguageDelete';
 import TagSet from '@/modals/TagSet';
 import ImportData from '@/modals/ImportData';
 import firebase from 'firebase/compat/app';
-
-// get icons
 import {
 	addOutline,
 	archiveOutline,
@@ -554,6 +549,7 @@ import {
 	saveOutline,
 	trashOutline
 } from 'ionicons/icons';
+const { t, locale, availableLocales } = useI18n({ useScope: 'global' });
 
 // global properties
 const db = inject('db');

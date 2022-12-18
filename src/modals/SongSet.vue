@@ -378,17 +378,12 @@
 <script setup>
 import { ref, reactive, computed, inject } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t, locale } = useI18n();
 import { useRouter } from 'vue-router';
-const router = useRouter();
 import { notify } from '@kyvg/vue3-notification';
 import { keyScale, sdHighlight, throwError, urlify } from '@/utils.js';
-
 import InfoSongSyntax from '@/modals/InfoSongSyntax';
 import { PrismEditor } from 'vue-prism-editor';
 import 'vue-prism-editor/dist/prismeditor.min.css';
-
-// get icons
 import {
 	add,
 	bookOutline,
@@ -399,6 +394,8 @@ import {
 	pricetagsOutline,
 	searchOutline
 } from 'ionicons/icons';
+const { t, locale } = useI18n();
+const router = useRouter();
 
 // global properties
 const db = inject('db');

@@ -94,10 +94,6 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t, locale } = useI18n();
-import { sdHighlight } from '@/utils.js';
-
-// get icons
 import {
 	arrowUpOutline,
 	bookmarkOutline,
@@ -108,11 +104,13 @@ import {
 	micOutline,
 	openOutline
 } from 'ionicons/icons';
+import { sdHighlight } from '@/utils.js';
+import 'highlight.js/styles/github-dark.css';
+const { t, locale } = useI18n();
+const { marked } = require('marked');
 
 // markdown parser
-const { marked } = require('marked');
 const hljs = require('highlight.js');
-import 'highlight.js/styles/github-dark.css';
 
 // documentation contents
 const docs = {

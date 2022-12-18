@@ -238,16 +238,10 @@
 <script setup>
 import { ref, reactive, onMounted, computed, watch } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t, locale } = useI18n();
 import { useRoute } from 'vue-router'
-const route = useRoute()
 import { keyScale } from '@/utils.js';
-
-// get components
 import SongSet from '@/modals/SongSet';
 import SongDelete from '@/modals/SongDelete';
-
-// get icons
 import {
 	arrowBack,
 	arrowForward,
@@ -262,6 +256,8 @@ import {
 	search as searchIcon,
 	trashOutline
 } from 'ionicons/icons';
+const { t, locale } = useI18n();
+const route = useRoute()
 
 // inherited properties
 const props = defineProps({

@@ -108,10 +108,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
 import { initials } from '@/utils.js';
-
-// get icons
 import { 
 	arrowForward,
 	cameraOutline,
@@ -121,6 +118,7 @@ import {
 	musicalNotes,
 	person
 } from 'ionicons/icons';
+const { t } = useI18n();
 
 // inherited properties
 const props = defineProps({

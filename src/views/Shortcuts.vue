@@ -169,9 +169,6 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
-
-// get icons
 import {
 	arrowBack,
 	arrowDown,
@@ -188,4 +185,5 @@ import {
 	sync,
 	videocamOutline
 } from 'ionicons/icons';
+const { t } = useI18n();
 </script>
