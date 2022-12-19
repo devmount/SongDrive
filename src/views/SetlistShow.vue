@@ -10,144 +10,14 @@
 		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; setlistshow.focus()"
 	>
 		<div class="off-canvas off-canvas-secondary">
-			<!-- secondary sidebar -->
-			<div class="off-canvas-sidebar active">
-				<div class="sidebar-wrapper">
-					<button
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t('button.back')"
-						@click="router.go(-1)"
-					>
-						<ion-icon :icon="arrowBackOutline" class="icon-left"></ion-icon>
-						<span class="hide-lg">{{ t('button.back') }}</span>
-					</button>
-					<!-- sidebar: manage -->
-					<template v-if="user && role > 1">
-						<div class="divider text-center show-lg" :data-content="t('divider.manage').charAt(0)"></div>
-						<div class="divider text-center hide-lg" :data-content="t('divider.manage')"></div>
-						<button
-							class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-							:data-tooltip="t('divider.manage') + ': ' + t('button.edit')"
-							@click="existing=true; modal.set=true"
-						>
-							<ion-icon :icon="createOutline" class="icon-left"></ion-icon>
-							<span class="hide-lg">{{ t('button.edit') }}</span>
-						</button>
-						<button
-							class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-							:data-tooltip="t('divider.manage') + ': ' + t('button.duplicate')"
-							@click="existing=false; modal.set=true"
-						>
-							<ion-icon :icon="copyOutline" class="icon-left"></ion-icon>
-							<span class="hide-lg">{{ t('button.duplicate') }}</span>
-						</button>
-					</template>
-					<button
-						v-if="user && role > 2"
-						class="btn btn-error-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg"
-						:data-tooltip="t('divider.manage') + ': ' + t('button.delete')"
-						@click="modal.delete = true"
-					>
-						<ion-icon :icon="trashOutline" class="icon-left"></ion-icon>
-						<span class="hide-lg">{{ t('button.delete') }}</span>
-					</button>
-					<!-- sidebar: view -->
-					<div class="divider text-center show-lg" :data-content="t('divider.view').charAt(0)"></div>
-					<div class="divider text-center hide-lg" :data-content="t('divider.view')"></div>
-					<div v-if="setlist && user && role > 1" class="form-group">
-						<label
-							class="form-switch switch-lg text-uppercase c-hand tooltip tooltip-right tooltip-lg"
-							:data-tooltip="t('divider.view') + ': ' + t('switch.sync')"
-						>
-							<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
-							<i class="form-icon"></i>
-							<span class="hide-lg">{{ t('switch.sync') }}</span>
-						</label>
-					</div>
-					<div class="form-group">
-						<label
-							class="form-switch switch-lg text-uppercase c-hand tooltip tooltip-right tooltip-lg"
-							:data-tooltip="t('divider.view') + ': ' + t('switch.chords')"
-						>
-							<input type="checkbox" v-model="chords">
-							<i class="form-icon"></i>
-							<span class="hide-lg">{{ t('switch.chords') }}</span>
-						</label>
-					</div>
-					<button
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t('divider.view') + ': ' + t('button.present')"
-						@click="modal.present=true"
-					>
-						<ion-icon :icon="videocamOutline" class="icon-left"></ion-icon>
-						<span class="hide-lg">{{ t('button.present') }}</span>
-					</button>
-					<router-link
-						:to="{ name: 'setlist-show', params: { id: setlistKey }}"
-						target="_blank"
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg"
-						:data-tooltip="t('divider.view') + ': ' + t('button.launch')"
-					>
-						<ion-icon :icon="openOutline" class="icon-left"></ion-icon>
-						<span class="hide-lg">{{ t('button.launch') }}</span>
-					</router-link>
-					<!-- sidebar: export -->
-					<div class="divider text-center show-lg" :data-content="t('divider.copy').charAt(0)"></div>
-					<div class="divider text-center hide-lg" :data-content="t('divider.copy')"></div>
-					<button
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t('divider.copy') + ': ' + t('button.formatPlain')"
-						@click="copyList('plain')"
-					>
-						<ion-icon :icon="list" class="icon-left"></ion-icon>
-						<span class="hide-lg text-pre">{{ t('button.formatPlain') }}</span>
-					</button>
-					<button
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t('divider.copy') + ': ' + t('button.formatMarkdown')"
-						@click="copyList('markdown')"
-					>
-						<ion-icon :icon="logoMarkdown" class="icon-left"></ion-icon>
-						<span class="hide-lg text-pre">{{ t('button.formatMarkdown') }}</span>
-					</button>
-					<button
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t('divider.copy') + ': ' + t('button.formatSlack')"
-						@click="copyList('slack')"
-					>
-						<ion-icon :icon="logoSlack" class="icon-left"></ion-icon>
-						<span class="hide-lg text-pre">{{ t('button.formatSlack') }}</span>
-					</button>
-					<!-- sidebar: export -->
-					<div class="divider text-center show-lg" :data-content="t('divider.export').charAt(0)"></div>
-					<div class="divider text-center hide-lg" :data-content="t('divider.export')"></div>
-					<button
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t('divider.export') + ': ' + t('button.exportSetlistList')"
-						@click="exportPdf('list')"
-					>
-						<ion-icon :icon="downloadOutline" class="icon-left"></ion-icon>
-						<span class="hide-lg text-pre">{{ t('button.exportSetlistList') }}</span>
-					</button>
-					<button
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg"
-						:data-tooltip="t('divider.export') + ': ' + t('button.exportSetlistSheets')"
-						@click="exportPdf('sheets')"
-					>
-						<ion-icon :icon="downloadOutline" class="icon-left"></ion-icon>
-						<span class="hide-lg text-pre">{{ t('button.exportSetlistSheets') }}</span>
-					</button>
-				</div>
-			</div>
 			<!-- content -->
 			<div class="off-canvas-content">
 				<div class="container">
 					<!-- setlist data -->
 					<div class="columns">
+						<!-- title and information bar -->
 						<div v-if="ready.setlists && setlist" class="column col-12">
-							<h2>
-								{{ setlist.title }}
-							</h2>
+							<h2>{{ setlist.title }}</h2>
 							<h3 class="flex flex-wrap gx-5 gy-2">
 								<span
 									v-if="setlist.private"
@@ -171,6 +41,119 @@
 								</span>
 							</h3>
 						</div>
+						<!-- toolbar -->
+						<div class="flex">
+							<div v-if="setlist && user && role > 1" class="form-group">
+								<label
+									class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center"
+									:data-tooltip="t('divider.view') + ': ' + t('switch.sync')"
+								>
+									<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
+									<i class="form-icon"></i>
+									<ion-icon :icon="sync"></ion-icon>
+								</label>
+							</div>
+							<div class="form-group">
+								<label
+									class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center"
+									:data-tooltip="t('divider.view') + ': ' + t('switch.chords')"
+								>
+									<input type="checkbox" v-model="chords">
+									<i class="form-icon"></i>
+									<ion-icon :icon="musicalNotesOutline"></ion-icon>
+								</label>
+							</div>
+							<button
+								class="btn btn-secondary flex align-center tooltip tooltip-bottom"
+								:data-tooltip="t('divider.view') + ': ' + t('button.present')"
+								@click="modal.present=true"
+							>
+								<ion-icon :icon="videocamOutline"></ion-icon>
+							</button>
+							<router-link
+								:to="{ name: 'setlist-show', params: { id: setlistKey }}"
+								target="_blank"
+								class="btn btn-secondary flex align-center tooltip tooltip-bottom"
+								:data-tooltip="t('divider.view') + ': ' + t('button.launch')"
+							>
+								<ion-icon :icon="openOutline"></ion-icon>
+							</router-link>
+							<div class="divider-vert"></div>
+							<div class="dropdown dropdown-right">
+								<div class="btn-group">
+									<a class="btn btn-secondary dropdown-toggle tooltip tooltip-top" :data-tooltip="t('divider.copy')" tabindex="0">
+										<ion-icon :icon="clipboardOutline"></ion-icon>
+									</a>
+									<ul class="menu text-left">
+										<li class="menu-item">
+											<a href="#" class="py-3 px-3" @click="copyList('plain')">
+												<ion-icon :icon="list" class="mr-2"></ion-icon>
+												{{ t('button.formatPlain') }}
+											</a>
+										</li>
+										<li class="menu-item">
+											<a href="#" class="py-3 px-3" @click="copyList('markdown')">
+												<ion-icon :icon="logoMarkdown" class="mr-2"></ion-icon>
+												{{ t('button.formatMarkdown') }}
+											</a>
+										</li>
+										<li class="menu-item">
+											<a href="#" class="py-3 px-3" @click="copyList('slack')">
+												<ion-icon :icon="logoSlack" class="mr-2"></ion-icon>
+												{{ t('button.formatSlack') }}
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="dropdown dropdown-right">
+								<div class="btn-group">
+									<a class="btn btn-secondary dropdown-toggle tooltip tooltip-top" :data-tooltip="t('divider.export')" tabindex="0">
+										<ion-icon :icon="downloadOutline"></ion-icon>
+									</a>
+									<ul class="menu text-left">
+										<li class="menu-item">
+											<a href="#" class="py-3 px-3" @click="exportPdf('list')">
+												<ion-icon :icon="list" class="mr-2"></ion-icon>
+												{{ t('button.exportSetlistList') }}
+											</a>
+										</li>
+										<li class="menu-item">
+											<a href="#" class="py-3 px-3" @click="exportPdf('sheets')">
+												<ion-icon :icon="logoMarkdown" class="mr-2"></ion-icon>
+												{{ t('button.exportSetlistSheets') }}
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="divider-vert"></div>
+							<button
+								v-if="user && role > 1"
+								class="btn btn-secondary flex align-center tooltip tooltip-bottom"
+								:data-tooltip="t('divider.manage') + ': ' + t('button.edit')"
+								@click="existing=true; modal.set=true"
+							>
+								<ion-icon :icon="createOutline"></ion-icon>
+							</button>
+							<button
+								v-if="user && role > 1"
+								class="btn btn-secondary flex align-center tooltip tooltip-bottom"
+								:data-tooltip="t('divider.manage') + ': ' + t('button.duplicate')"
+								@click="existing=false; modal.set=true"
+							>
+								<ion-icon :icon="copyOutline"></ion-icon>
+							</button>
+							<button
+								v-if="user && role > 2"
+								class="btn btn-error-secondary flex align-center tooltip tooltip-bottom"
+								:data-tooltip="t('divider.manage') + ': ' + t('button.delete')"
+								@click="modal.delete = true"
+							>
+								<ion-icon :icon="trashOutline"></ion-icon>
+							</button>
+						</div>
+						<!-- song list -->
 						<div v-if="ready.songs && ready.setlists && setlist && setlist.songs.length > 0" class="column col-12">
 							<table class="table table-striped table-hover">
 								<thead>
@@ -361,6 +344,7 @@ import {
 	arrowBackOutline,
 	arrowForward,
 	calendarOutline,
+	clipboardOutline,
 	copyOutline,
 	createOutline,
 	downloadOutline,
@@ -375,6 +359,7 @@ import {
 	openOutline,
 	personOutline,
 	reorderFourOutline,
+	sync,
 	trashOutline,
 	videocamOutline
 } from 'ionicons/icons';
