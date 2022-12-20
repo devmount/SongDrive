@@ -42,7 +42,7 @@
 							</h3>
 						</div>
 						<!-- toolbar -->
-						<div class="flex">
+						<div class="flex justify-end g-1 w-full">
 							<div v-if="setlist && user && role > 1" class="form-group">
 								<label
 									class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center"
@@ -83,6 +83,7 @@
 								<div class="btn-group">
 									<a class="btn btn-secondary dropdown-toggle tooltip tooltip-top" :data-tooltip="t('divider.copy')" tabindex="0">
 										<ion-icon :icon="clipboardOutline"></ion-icon>
+										<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
@@ -110,48 +111,52 @@
 								<div class="btn-group">
 									<a class="btn btn-secondary dropdown-toggle tooltip tooltip-top" :data-tooltip="t('divider.export')" tabindex="0">
 										<ion-icon :icon="downloadOutline"></ion-icon>
+										<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
 											<a href="#" class="py-3 px-3" @click="exportPdf('list')">
-												<ion-icon :icon="list" class="mr-2"></ion-icon>
+												<ion-icon :icon="documentTextOutline" class="mr-2"></ion-icon>
 												{{ t('button.exportSetlistList') }}
 											</a>
 										</li>
 										<li class="menu-item">
 											<a href="#" class="py-3 px-3" @click="exportPdf('sheets')">
-												<ion-icon :icon="logoMarkdown" class="mr-2"></ion-icon>
+												<ion-icon :icon="documentsOutline" class="mr-2"></ion-icon>
 												{{ t('button.exportSetlistSheets') }}
 											</a>
 										</li>
 									</ul>
 								</div>
 							</div>
-							<div class="divider-vert"></div>
-							<button
-								v-if="user && role > 1"
-								class="btn btn-secondary flex align-center tooltip tooltip-bottom"
-								:data-tooltip="t('divider.manage') + ': ' + t('button.edit')"
-								@click="existing=true; modal.set=true"
-							>
-								<ion-icon :icon="createOutline"></ion-icon>
-							</button>
-							<button
-								v-if="user && role > 1"
-								class="btn btn-secondary flex align-center tooltip tooltip-bottom"
-								:data-tooltip="t('divider.manage') + ': ' + t('button.duplicate')"
-								@click="existing=false; modal.set=true"
-							>
-								<ion-icon :icon="copyOutline"></ion-icon>
-							</button>
-							<button
-								v-if="user && role > 2"
-								class="btn btn-error-secondary flex align-center tooltip tooltip-bottom"
-								:data-tooltip="t('divider.manage') + ': ' + t('button.delete')"
-								@click="modal.delete = true"
-							>
-								<ion-icon :icon="trashOutline"></ion-icon>
-							</button>
+							<div class="dropdown dropdown-right">
+								<div class="btn-group">
+									<a class="btn btn-secondary dropdown-toggle tooltip tooltip-top" :data-tooltip="t('divider.export')" tabindex="0">
+										<ion-icon :icon="menuOutline"></ion-icon>
+										<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
+									</a>
+									<ul class="menu text-left">
+										<li v-if="user && role > 1" class="menu-item">
+											<a href="#" class="py-3 px-3" @click="existing=true; modal.set=true">
+												<ion-icon :icon="createOutline" class="mr-2"></ion-icon>
+												{{ t('button.edit') }}
+											</a>
+										</li>
+										<li v-if="user && role > 1" class="menu-item">
+											<a href="#" class="py-3 px-3" @click="existing=false; modal.set=true">
+												<ion-icon :icon="copyOutline" class="mr-2"></ion-icon>
+												{{ t('button.duplicate') }}
+											</a>
+										</li>
+										<li v-if="user && role > 2" class="menu-item">
+											<a href="#" class="py-3 px-3 text-error" @click="modal.delete = true">
+												<ion-icon :icon="trashOutline" class="mr-2"></ion-icon>
+												{{ t('button.delete') }}
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
 						</div>
 						<!-- song list -->
 						<div v-if="ready.songs && ready.setlists && setlist && setlist.songs.length > 0" class="column col-12">
@@ -344,9 +349,12 @@ import {
 	arrowBackOutline,
 	arrowForward,
 	calendarOutline,
+	chevronDownOutline,
 	clipboardOutline,
 	copyOutline,
 	createOutline,
+	documentsOutline,
+	documentTextOutline,
 	downloadOutline,
 	eyeOutline,
 	globeOutline,
@@ -354,6 +362,7 @@ import {
 	lockClosedOutline,
 	logoMarkdown,
 	logoSlack,
+	menuOutline,
 	musicalNote,
 	musicalNotesOutline,
 	openOutline,

@@ -166,8 +166,11 @@ ion-icon {
  
 .gx-5  { column-gap: 1rem; }
 .gy-2  { row-gap: .4rem; }
+.g-1   { gap: .2rem; }
 .g-2   { gap: .4rem; }
 .g-4   { gap: .8rem; }
+
+.w-full { width: 100%; }
 
 .pos-relative {
 	position: relative;
@@ -402,6 +405,9 @@ code {
 }
 .justify-center {
 	justify-content: center;
+}
+.justify-end {
+	justify-content: end;
 }
 .align-center {
 	align-items: center;
