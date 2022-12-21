@@ -33,6 +33,7 @@
     "formatSlack": "Slack",
     "import": "Import",
     "launch": "Starten",
+    "open": "Öffnen",
     "present": "Präsentieren",
     "recheck": "Nochmal Prüfen",
     "reset": "Zurücksetzen",
@@ -45,6 +46,7 @@
     "signOut": "Logout",
     "signUp": "Registrieren",
     "source": "Quelle",
+    "start": "Starten",
     "startImport": "Import starten",
     "top": "Nach oben",
     "updateLanguage": "Sprache Aktualisieren",
@@ -227,7 +229,7 @@
   },
   "switch": {
     "chords": "Akkorde",
-    "sync": "Sync"
+    "sync": "Synchronisieren"
   },
   "text": {
     "cannotBeUndone": "Das kann nicht rückgängig gemacht werden.",
@@ -382,6 +384,7 @@
     "keyReset": "Auf Original-Tonart zurücksetzen",
     "nextSlide": "Nächste Folie",
     "noSongInfo": "Keine Song Infos verfügbar",
+    "openInNewTab": "Öffnet die Setlist in einem neuen Tab",
     "pagination": "Seiten-Navigation",
     "presentationClose": "Präsentation beenden",
     "presentationHide": "Präsentation ausblenden",
@@ -394,6 +397,8 @@
     "setlistAdd": "Neue Setlist hinzufügen",
     "setlistPrivate": "Diese Setlist ist nur für dich sichtbar",
     "songAdd": "Neuen Song hinzufügen",
+    "startPresentation": "Setlist Präsentation starten",
+    "sync": "Setlist mit verbundenen Geräten synchronisieren",
     "syncActive": "Synchronisierung ist aktiviert",
     "syncOff": "Synchronisierung aus",
     "syncOn": "Synchronisierung an",
@@ -425,7 +430,6 @@
     "songsPerformed": "Songs aufgeführt",
     "songsPerformedPerYear": "Songs aufgeführt pro Jahr",
     "songsStored": "Songs gespeichert",
-    "stats": "Statistik",
     "tags": "Keine Tags | 1 Tag | {0} Tags",
     "users": "Benutzer"
   }

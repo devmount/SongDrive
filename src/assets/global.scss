@@ -406,8 +406,8 @@ code {
 .justify-center {
 	justify-content: center;
 }
-.justify-end {
-	justify-content: end;
+.justify-between {
+	justify-content: space-between;
 }
 .align-center {
 	align-items: center;
@@ -1131,6 +1131,16 @@ a {
 			}
 		}
 	}
+}
+
+// toolbar
+.toolbar {
+	display: flex;
+	justify-content: space-between;
+	width: calc(100% + 1.2rem);
+	margin: 0 -0.6rem;
+	padding: .5rem 1.5rem;
+	background-color: $bg-color-medium;
 }
 
 // pagination
