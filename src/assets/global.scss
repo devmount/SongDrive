@@ -163,7 +163,7 @@ ion-icon {
 
 .ls-1  { letter-spacing: 1px; }
 .ls-2  { letter-spacing: 2px; }
- 
+
 .gx-5  { column-gap: 1rem; }
 .gy-2  { row-gap: .4rem; }
 .g-1   { gap: .2rem; }
@@ -469,7 +469,7 @@ code {
 a:focus,
 a:active,
 .btn:focus {
-  box-shadow: 0 0 0 .2rem rgba($bg-color-dark, .2);
+	box-shadow: 0 0 0 .2rem rgba($bg-color-dark, .2);
 }
 .btn {
 	&.btn-primary {
@@ -617,7 +617,7 @@ a:active,
 .form-select:not([multiple]):not([size]):focus,
 .form-autocomplete .form-autocomplete-input.is-focused {
 	border-color: $primary-color;
-  box-shadow: 0 0 0 .2rem rgba($primary-color, .2);
+	box-shadow: 0 0 0 .2rem rgba($primary-color, .2);
 }
 .form-input,
 .form-checkbox .form-icon,
@@ -640,16 +640,16 @@ a:active,
 .form-select:not([multiple]):not([size]) {
 	width: 100%;
 
-  .has-error &,
-  &.is-error,
+	.has-error &,
+	&.is-error,
 	&:invalid {
-    background-color: darken($error-color, 40%);
-    border-color: $error-color;
-    &:focus {
+		background-color: darken($error-color, 40%);
+		border-color: $error-color;
+		&:focus {
 			background: darken($error-color, 40%);
-      box-shadow: 0 0 0 .2rem rgba($error-color, .2);
-    }
-  }
+			box-shadow: 0 0 0 .2rem rgba($error-color, .2);
+		}
+	}
 }
 .input-group {
 	.input-group-addon {
@@ -669,8 +669,8 @@ a:active,
 	}
 }
 ::placeholder {
-  color: $gray-color-600 !important;
-  opacity: 1;
+	color: $gray-color-600 !important;
+	opacity: 1;
 }
 
 // filter select field
@@ -1166,15 +1166,13 @@ a {
 }
 @media (max-width: $size-sm) {
 	.toolbar {
-		flex-direction: column;
 		row-gap: .2rem;
 		padding: .2rem .5rem;
+		flex-wrap: wrap;
 
-		& > div:first-child() {
-			justify-content: start;
-		}
-		& > div:nth-child(2) {
-			justify-content: end;
+		& > div:last-child() {
+			justify-content: center;
+			width: 100%;
 		}
 	}
 }
@@ -1264,7 +1262,7 @@ a {
 	}
 	.dp__inner_header {
 		font-weight: normal;
-    text-transform: uppercase;
+		text-transform: uppercase;
 	}
 	.dp__inner_nav {
 		height: 35px;

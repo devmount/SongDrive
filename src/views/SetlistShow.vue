@@ -44,6 +44,16 @@
 						<!-- toolbar -->
 						<div class="toolbar">
 							<div class="flex align-center g-1">
+								<button
+									class="btn btn-secondary flex align-center"
+									:data-tooltip="t('button.back')"
+									@click="router.go(-1)"
+								>
+									<ion-icon :icon="arrowBackOutline"></ion-icon>
+									<span class="hide-xl ml-2">{{ t('button.back') }}</span>
+								</button>
+							</div>
+							<div class="flex align-center g-1">
 								<label
 									v-if="setlist && user && role > 1"
 									class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center mr-1"
@@ -172,8 +182,8 @@
 										<th class="w-70" v-if="user && role > 1"></th>
 										<th class="w-50p">{{ t('field.title') }}</th>
 										<th class="w-40p hide-xl">{{ t('field.authors') }}</th>
-										<th class="w-90 hide-xl">{{ t('field.language') }}</th>
 										<th class="w-120">{{ t('field.tuning') }}</th>
+										<th class="w-90 hide-xl">{{ t('field.language') }}</th>
 										<th class="w-120 hide-md">{{ t('field.ccli') }}</th>
 										<th class="w-50"></th>
 									</tr>
@@ -189,7 +199,6 @@
 												<div class="text-gray o-ellipsis">{{ songs[song.id].subtitle }}</div>
 											</td>
 											<td class="hide-xl max-w-0 o-ellipsis">{{ songs[song.id].authors }}</td>
-											<td class="hide-xl text-uppercase">{{ songs[song.id].language }}</td>
 											<td class="tuning">
 												<button
 													v-if="user && role > 1"
@@ -207,6 +216,7 @@
 													<ion-icon :icon="arrowForward" class="icon-sm"></ion-icon>
 												</button>
 											</td>
+											<td class="hide-xl text-uppercase text-center">{{ songs[song.id].language }}</td>
 											<td class="hide-md">
 												<a :href="'https://songselect.ccli.com/Songs/' + songs[song.id].ccli" target="_blank">
 													{{ songs[song.id].ccli }}
