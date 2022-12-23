@@ -1139,8 +1139,22 @@ a {
 	justify-content: space-between;
 	width: calc(100% + 1.2rem);
 	margin: 0 -0.6rem;
-	padding: .5rem 1.5rem;
+	padding: .2rem 1.5rem;
 	background-color: $bg-color-medium;
+}
+@media (max-width: $size-sm) {
+	.toolbar {
+		flex-direction: column;
+		row-gap: .2rem;
+		padding: .2rem .5rem;
+
+		& > div:first-child() {
+			justify-content: start;
+		}
+		& > div:nth-child(2) {
+			justify-content: end;
+		}
+	}
 }
 
 // pagination

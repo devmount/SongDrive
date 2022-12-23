@@ -18,7 +18,7 @@
 						<!-- title and information bar -->
 						<div v-if="ready.setlists && setlist" class="column col-12">
 							<h2>{{ setlist.title }}</h2>
-							<h3 class="flex flex-wrap gx-5 gy-2">
+							<div class="flex flex-wrap gx-5 gy-2 my-2">
 								<span
 									v-if="setlist.private"
 									class="text-primary flex align-center g-2 tooltip tooltip-bottom"
@@ -39,133 +39,127 @@
 									<ion-icon :icon="personOutline" class="icon-sm"></ion-icon>
 									{{ users[setlist.creator].name }}
 								</span>
-							</h3>
+							</div>
 						</div>
 						<!-- toolbar -->
 						<div class="toolbar">
-							<div>
-								<div class="text-uppercase text-gray">{{ t('button.present') }}</div>
-								<div class="flex g-1">
-									<label
-										v-if="setlist && user && role > 1"
-										class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center mr-1"
-										:data-tooltip="t('tooltip.sync')"
-									>
-										<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
-										<i class="form-icon"></i>
-										<ion-icon :icon="sync" class="show-xl"></ion-icon>
-										<span class="hide-xl">{{ t('switch.sync') }}</span>
-									</label>
-									<label
-										class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center"
-										:data-tooltip="t('tooltip.chordsShow')"
-									>
-										<input type="checkbox" v-model="chords">
-										<i class="form-icon"></i>
-										<ion-icon :icon="musicalNotesOutline" class="show-xl"></ion-icon>
-										<span class="hide-xl">{{ t('switch.chords') }}</span>
-									</label>
-									<button
-										class="btn btn-secondary flex align-center tooltip tooltip-bottom"
-										:data-tooltip="t('tooltip.startPresentation')"
-										@click="modal.present=true"
-									>
-										<ion-icon :icon="videocamOutline"></ion-icon>
-										<span class="hide-xl ml-2">{{ t('button.start') }}</span>
-									</button>
-									<router-link
-										:to="{ name: 'setlist-show', params: { id: setlistKey }}"
-										target="_blank"
-										class="btn btn-secondary flex align-center tooltip tooltip-bottom"
-										:data-tooltip="t('tooltip.openInNewTab')"
-									>
-										<ion-icon :icon="openOutline"></ion-icon>
-										<span class="hide-xl ml-2">{{ t('button.open') }}</span>
-									</router-link>
-								</div>
+							<div class="flex align-center g-1">
+								<label
+									v-if="setlist && user && role > 1"
+									class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center mr-1"
+									:data-tooltip="t('tooltip.sync')"
+								>
+									<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
+									<i class="form-icon"></i>
+									<ion-icon :icon="sync" class="show-xl mt-1"></ion-icon>
+									<span class="hide-xl">{{ t('switch.sync') }}</span>
+								</label>
+								<label
+									class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center"
+									:data-tooltip="t('tooltip.chordsShow')"
+								>
+									<input type="checkbox" v-model="chords">
+									<i class="form-icon"></i>
+									<ion-icon :icon="musicalNotesOutline" class="show-xl mt-1"></ion-icon>
+									<span class="hide-xl">{{ t('switch.chords') }}</span>
+								</label>
+								<button
+									class="btn btn-secondary flex align-center tooltip tooltip-bottom"
+									:data-tooltip="t('tooltip.startPresentation')"
+									@click="modal.present=true"
+								>
+									<ion-icon :icon="videocamOutline"></ion-icon>
+									<span class="hide-xl ml-2">{{ t('button.present') }}</span>
+								</button>
+								<router-link
+									:to="{ name: 'setlist-show', params: { id: setlistKey }}"
+									target="_blank"
+									class="btn btn-secondary flex align-center tooltip tooltip-bottom"
+									:data-tooltip="t('tooltip.openInNewTab')"
+								>
+									<ion-icon :icon="openOutline"></ion-icon>
+									<span class="hide-xl ml-2">{{ t('button.open') }}</span>
+								</router-link>
 							</div>
-							<div>
-								<div class="text-uppercase text-gray">{{ t('divider.manage') }}</div>
-								<div class="flex g-1">
-									<div class="dropdown dropdown-right">
-										<div class="btn-group">
-											<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('divider.copy')" tabindex="0">
-												<ion-icon :icon="clipboardOutline" class="show-xl"></ion-icon>
-												<span class="hide-xl">Kopieren</span>
-												<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
-											</a>
-											<ul class="menu text-left">
-												<li class="menu-item">
-													<a href="#" class="py-3 px-3" @click="copyList('plain')">
-														<ion-icon :icon="list" class="mr-2"></ion-icon>
-														{{ t('button.formatPlain') }}
-													</a>
-												</li>
-												<li class="menu-item">
-													<a href="#" class="py-3 px-3" @click="copyList('markdown')">
-														<ion-icon :icon="logoMarkdown" class="mr-2"></ion-icon>
-														{{ t('button.formatMarkdown') }}
-													</a>
-												</li>
-												<li class="menu-item">
-													<a href="#" class="py-3 px-3" @click="copyList('slack')">
-														<ion-icon :icon="logoSlack" class="mr-2"></ion-icon>
-														{{ t('button.formatSlack') }}
-													</a>
-												</li>
-											</ul>
-										</div>
+							<div class="flex align-center g-1">
+								<div class="dropdown dropdown-right">
+									<div class="btn-group">
+										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('divider.copy')" tabindex="0">
+											<ion-icon :icon="clipboardOutline" class="mr-2"></ion-icon>
+											<span class="hide-xl">Kopieren</span>
+											<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
+										</a>
+										<ul class="menu text-left">
+											<li class="menu-item">
+												<a href="#" class="py-3 px-3" @click="copyList('plain')">
+													<ion-icon :icon="list" class="mr-2"></ion-icon>
+													{{ t('button.formatPlain') }}
+												</a>
+											</li>
+											<li class="menu-item">
+												<a href="#" class="py-3 px-3" @click="copyList('markdown')">
+													<ion-icon :icon="logoMarkdown" class="mr-2"></ion-icon>
+													{{ t('button.formatMarkdown') }}
+												</a>
+											</li>
+											<li class="menu-item">
+												<a href="#" class="py-3 px-3" @click="copyList('slack')">
+													<ion-icon :icon="logoSlack" class="mr-2"></ion-icon>
+													{{ t('button.formatSlack') }}
+												</a>
+											</li>
+										</ul>
 									</div>
-									<div class="dropdown dropdown-right">
-										<div class="btn-group">
-											<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('divider.export')" tabindex="0">
-												<ion-icon :icon="downloadOutline" class="show-xl"></ion-icon>
-												<span class="hide-xl">Exportieren</span>
-												<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
-											</a>
-											<ul class="menu text-left">
-												<li class="menu-item">
-													<a href="#" class="py-3 px-3" @click="exportPdf('list')">
-														<ion-icon :icon="documentTextOutline" class="mr-2"></ion-icon>
-														{{ t('button.exportSetlistList') }}
-													</a>
-												</li>
-												<li class="menu-item">
-													<a href="#" class="py-3 px-3" @click="exportPdf('sheets')">
-														<ion-icon :icon="documentsOutline" class="mr-2"></ion-icon>
-														{{ t('button.exportSetlistSheets') }}
-													</a>
-												</li>
-											</ul>
-										</div>
+								</div>
+								<div class="dropdown dropdown-right">
+									<div class="btn-group">
+										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('divider.export')" tabindex="0">
+											<ion-icon :icon="downloadOutline" class="mr-2"></ion-icon>
+											<span class="hide-xl">Exportieren</span>
+											<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
+										</a>
+										<ul class="menu text-left">
+											<li class="menu-item">
+												<a href="#" class="py-3 px-3" @click="exportPdf('list')">
+													<ion-icon :icon="documentTextOutline" class="mr-2"></ion-icon>
+													{{ t('button.exportSetlistList') }}
+												</a>
+											</li>
+											<li class="menu-item">
+												<a href="#" class="py-3 px-3" @click="exportPdf('sheets')">
+													<ion-icon :icon="documentsOutline" class="mr-2"></ion-icon>
+													{{ t('button.exportSetlistSheets') }}
+												</a>
+											</li>
+										</ul>
 									</div>
-									<div class="dropdown dropdown-right">
-										<div class="btn-group">
-											<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('divider.export')" tabindex="0">
-												<ion-icon :icon="menuOutline"></ion-icon>
-												<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
-											</a>
-											<ul class="menu text-left">
-												<li v-if="user && role > 1" class="menu-item">
-													<a href="#" class="py-3 px-3" @click="existing=true; modal.set=true">
-														<ion-icon :icon="createOutline" class="mr-2"></ion-icon>
-														{{ t('button.edit') }}
-													</a>
-												</li>
-												<li v-if="user && role > 1" class="menu-item">
-													<a href="#" class="py-3 px-3" @click="existing=false; modal.set=true">
-														<ion-icon :icon="copyOutline" class="mr-2"></ion-icon>
-														{{ t('button.duplicate') }}
-													</a>
-												</li>
-												<li v-if="user && role > 2" class="menu-item">
-													<a href="#" class="py-3 px-3 text-error" @click="modal.delete = true">
-														<ion-icon :icon="trashOutline" class="mr-2"></ion-icon>
-														{{ t('button.delete') }}
-													</a>
-												</li>
-											</ul>
-										</div>
+								</div>
+								<div v-if="user && role > 1" class="dropdown dropdown-right">
+									<div class="btn-group">
+										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('divider.export')" tabindex="0">
+											<ion-icon :icon="menuOutline"></ion-icon>
+											<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
+										</a>
+										<ul class="menu text-left">
+											<li class="menu-item">
+												<a href="#" class="py-3 px-3" @click="existing=true; modal.set=true">
+													<ion-icon :icon="createOutline" class="mr-2"></ion-icon>
+													{{ t('button.edit') }}
+												</a>
+											</li>
+											<li class="menu-item">
+												<a href="#" class="py-3 px-3" @click="existing=false; modal.set=true">
+													<ion-icon :icon="copyOutline" class="mr-2"></ion-icon>
+													{{ t('button.duplicate') }}
+												</a>
+											</li>
+											<li v-if="role > 2" class="menu-item">
+												<a href="#" class="py-3 px-3 text-error" @click="modal.delete = true">
+													<ion-icon :icon="trashOutline" class="mr-2"></ion-icon>
+													{{ t('button.delete') }}
+												</a>
+											</li>
+										</ul>
 									</div>
 								</div>
 							</div>
@@ -254,7 +248,7 @@
 					</div>
 					<!-- stats -->
 					<div v-if="ready.setlists && setlist && setlist.songs.length > 0" class="columns mt-4">
-						<div class="column col-4 col-xl-6 col-md-12 mt-4">
+						<div class="column col-4 col-lg-6 mt-4">
 							<div class="panel pb-4">
 								<div class="panel-header">
 									<div class="panel-title h5 text-center">
@@ -273,7 +267,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="column col-4 col-xl-6 col-md-12 mt-4">
+						<div class="column col-4 col-lg-6 mt-4">
 							<div class="panel pb-4">
 								<div class="panel-header">
 									<div class="panel-title h5 text-center">
