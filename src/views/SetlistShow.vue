@@ -84,9 +84,9 @@
 							<div class="flex align-center g-1">
 								<div class="dropdown dropdown-right">
 									<div class="btn-group">
-										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('divider.copy')" tabindex="0">
+										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('tooltip.copySetlist')" tabindex="0">
 											<ion-icon :icon="clipboardOutline" class="mr-2"></ion-icon>
-											<span class="hide-xl">Kopieren</span>
+											<span class="hide-xl">{{ t('button.copy') }}</span>
 											<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
 										</a>
 										<ul class="menu text-left">
@@ -113,9 +113,9 @@
 								</div>
 								<div class="dropdown dropdown-right">
 									<div class="btn-group">
-										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('divider.export')" tabindex="0">
+										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('tooltip.downloadSetlist')" tabindex="0">
 											<ion-icon :icon="downloadOutline" class="mr-2"></ion-icon>
-											<span class="hide-xl">Exportieren</span>
+											<span class="hide-xl">{{ t('button.download') }}</span>
 											<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
 										</a>
 										<ul class="menu text-left">
@@ -136,7 +136,7 @@
 								</div>
 								<div v-if="user && role > 1" class="dropdown dropdown-right">
 									<div class="btn-group">
-										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('divider.export')" tabindex="0">
+										<a class="btn btn-secondary dropdown-toggle flex align-center" tabindex="0">
 											<ion-icon :icon="menuOutline"></ion-icon>
 											<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
 										</a>
@@ -169,12 +169,13 @@
 							<table class="table table-striped table-hover">
 								<thead>
 									<tr>
-										<th v-if="user && role > 1"></th>
-										<th>{{ t('field.title') }}</th>
-										<th class="hide-xl">{{ t('field.language') }}</th>
-										<th>{{ t('field.tuning') }}</th>
-										<th class="hide-xl">{{ t('field.ccli') }}</th>
-										<th></th>
+										<th class="w-70" v-if="user && role > 1"></th>
+										<th class="w-50p">{{ t('field.title') }}</th>
+										<th class="w-30p hide-xl">{{ t('field.authors') }}</th>
+										<th class="w-90 hide-xl">{{ t('field.language') }}</th>
+										<th class="w-120">{{ t('field.tuning') }}</th>
+										<th class="w-120 hide-md">{{ t('field.ccli') }}</th>
+										<th class="w-50"></th>
 									</tr>
 								</thead>
 								<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
@@ -183,10 +184,11 @@
 											<ion-icon :icon="reorderFourOutline" class="icon-1-5x pl-2 handle"></ion-icon>
 										</td>
 										<template v-if="songs[song.id]">
-											<td class="c-hand" @click.prevent="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})">
-												{{ songs[song.id].title }} <br class="show-xl hide-sm" />
-												<span class="text-gray hide-sm">({{ songs[song.id].subtitle }})</span>
+											<td class="c-hand max-w-0" @click.prevent="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})">
+												<div class="o-ellipsis">{{ songs[song.id].title }}</div>
+												<div class="text-gray o-ellipsis">{{ songs[song.id].subtitle }}</div>
 											</td>
+											<td class="hide-xl max-w-0 o-ellipsis">{{ songs[song.id].authors }}</td>
 											<td class="hide-xl text-uppercase">{{ songs[song.id].language }}</td>
 											<td class="tuning">
 												<button
@@ -205,7 +207,7 @@
 													<ion-icon :icon="arrowForward" class="icon-sm"></ion-icon>
 												</button>
 											</td>
-											<td class="hide-xl">
+											<td class="hide-md">
 												<a :href="'https://songselect.ccli.com/Songs/' + songs[song.id].ccli" target="_blank">
 													{{ songs[song.id].ccli }}
 												</a>

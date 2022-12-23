@@ -170,7 +170,14 @@ ion-icon {
 .g-2   { gap: .4rem; }
 .g-4   { gap: .8rem; }
 
-.w-full { width: 100%; }
+.w-full  { width: 100%; }
+.w-30p   { width: 30%; }
+.w-50p   { width: 50%; }
+.w-50    { width: 50px; }
+.w-70    { width: 70px; }
+.w-90    { width: 90px; }
+.w-120   { width: 120px; }
+.max-w-0 { max-width: 0; }
 
 .pos-relative {
 	position: relative;
@@ -183,6 +190,11 @@ ion-icon {
 
 .o-hidden {
 	overflow: hidden;
+}
+.o-ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 // colors and text
@@ -770,6 +782,10 @@ a {
 	line-height: 1.1rem;
 	text-transform: none;
 }
+.tooltip:focus::after {
+	opacity: 0;
+	transform: translate(-50%, 0.4rem);
+}
 
 // empty
 .empty {
@@ -1131,6 +1147,11 @@ a {
 			}
 		}
 	}
+}
+
+// droptdown
+.dropdown .menu .menu-item {
+	white-space: nowrap;
 }
 
 // toolbar
