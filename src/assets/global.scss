@@ -171,7 +171,7 @@ ion-icon {
 .g-4   { gap: .8rem; }
 
 .w-full  { width: 100%; }
-.w-30p   { width: 30%; }
+.w-40p   { width: 40%; }
 .w-50p   { width: 50%; }
 .w-50    { width: 50px; }
 .w-70    { width: 70px; }
@@ -330,9 +330,10 @@ h6, .h6 {
 	letter-spacing: 1px;
 }
 @media (max-width: $size-xl) {
-	h2, h3,
-	.h2, .h3 {
+	h2, h3, .h2, .h3,
+	.heading {
 		text-align: center;
+		justify-content: center;
 	}
 }
 code {

@@ -18,7 +18,7 @@
 						<!-- title and information bar -->
 						<div v-if="ready.setlists && setlist" class="column col-12">
 							<h2>{{ setlist.title }}</h2>
-							<div class="flex flex-wrap gx-5 gy-2 my-2">
+							<div class="heading flex flex-wrap gx-5 gy-2 my-2">
 								<span
 									v-if="setlist.private"
 									class="text-primary flex align-center g-2 tooltip tooltip-bottom"
@@ -171,7 +171,7 @@
 									<tr>
 										<th class="w-70" v-if="user && role > 1"></th>
 										<th class="w-50p">{{ t('field.title') }}</th>
-										<th class="w-30p hide-xl">{{ t('field.authors') }}</th>
+										<th class="w-40p hide-xl">{{ t('field.authors') }}</th>
 										<th class="w-90 hide-xl">{{ t('field.language') }}</th>
 										<th class="w-120">{{ t('field.tuning') }}</th>
 										<th class="w-120 hide-md">{{ t('field.ccli') }}</th>
