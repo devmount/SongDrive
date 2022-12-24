@@ -188,54 +188,12 @@
 						</div>
 					</div>
 					<!-- song footer with info and data about the song -->
-					<footer class="columns mt-4 pt-4">
-						<div v-if="ready.songs && song && ready.tags" class="column col-6 col-md-12 text-small">
-							<p>{{ song.authors }}</p>
-							<p>
-								<!-- youtube -->
-								<a
-									v-if="song.youtube"
-									:href="'https://youtu.be/' + song.youtube"
-									class="mr-2"
-									target="_blank"
-								>
-									<span class="label px-2 py-1">
-										<ion-icon :icon="logoYoutube" class="icon-sm mr-1"></ion-icon>
-										{{ t('field.youtube') }}
-										<ion-icon :icon="openOutline" class="icon-sm ml-1"></ion-icon>
-									</span>
-								</a>
-								<!-- ccli -->
-								<a
-									v-if="song.ccli"
-									:href="'https://songselect.ccli.com/Songs/' + song.ccli"
-									class="mr-4"
-									target="_blank"
-								>
-									<span class="label px-2 py-1">
-										{{ t('field.ccli') }}
-										<ion-icon :icon="openOutline" class="icon-sm ml-1"></ion-icon>
-									</span>
-								</a>
-								<!-- tags -->
-								<router-link
-									v-for="tag in song.tags"
-									:key="tag"
-									:to="{ name: 'songs-tag', params: { tag: tag }}"
-									class="mr-2"
-								>
-									<span class="label px-2 py-1">
-										<ion-icon :icon="pricetagOutline" class="icon-sm mr-1"></ion-icon>
-										{{ tags[tag][locale] ? tags[tag][locale] : tag }}
-									</span>
-								</router-link>
-							</p>
-							<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
-						</div>
-						<div v-if="ready.songs && song && song.note" class="column col-6 col-md-12">
-							<p v-html="song.note.replace(/\n/gi, '<br>')"></p>
-						</div>
-					</footer>
+					<SongFooter
+						v-if="ready.songs && song && ready.tags"
+						class="columns mt-4 pt-4"
+						:song="song"
+						:tags="tags"
+					/>
 				</div>
 			</div>
 			<!-- modals -->
@@ -280,6 +238,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { notify } from '@kyvg/vue3-notification';
 import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
 import SongContent from '@/partials/SongContent';
+import SongFooter from '../partials/SongFooter.vue';
 import SongSet from '@/modals/SongSet';
 import SongDelete from '@/modals/SongDelete';
 import SongPresent from '@/modals/SongPresent';
@@ -292,14 +251,11 @@ import {
 	copyOutline,
 	createOutline,
 	downloadOutline,
-	logoYoutube,
-	openOutline,
-	pricetagOutline,
 	refresh,
 	trashOutline,
 	videocamOutline
 } from 'ionicons/icons';
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
