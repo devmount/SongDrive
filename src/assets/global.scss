@@ -1177,6 +1177,26 @@ a {
 	}
 }
 
+.key-preview {
+	&:hover .preview-pane {
+		visibility: visible;
+	}
+	.preview-pane {
+		visibility: hidden;
+		width: 160px;
+		top: 2rem;
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: $bg-color-medium;
+		border-radius: 3rem;
+
+		&>* {
+			flex: auto;
+			flex-basis: 0;
+		}
+	}
+}
+
 // pagination
 .pagination {
 	margin: 0;
