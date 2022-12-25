@@ -216,10 +216,9 @@
 			@reset="resetSetlist"
 		/>
 		<sign-up
-			v-if="modal.signup"
 			:active="modal.signup"
 			@closed="modal.signup = false"
-			@submitted="signUp"
+			@submitted="doSignUp"
 		/>
 		<password-reset
 			:active="modal.passwordreset"
@@ -462,7 +461,7 @@ const signOut = () => {
 	}).catch((error) => throwError(error));
 };
 // execute user creation on firebase backend
-const signUp = (user) => {
+const doSignUp = (user) => {
 	firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
 		// sign-up successful
 		auth.user = firebase.auth().currentUser.uid

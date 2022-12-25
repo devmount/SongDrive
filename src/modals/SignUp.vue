@@ -1,74 +1,75 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.signUp') }}</div>
+	<div
+		class="transition-all fixed top-0 z-10 w-screen h-screen bg-zinc-700/50"
+		:class="{ 'hidden': !active }"
+		@click.prevent="emit('closed')"
+	>
+		<div class="fixed z-20 position-center rounded-sm w-full max-w-sm bg-zinc-100 p-4 flex flex-col gap-4" @click.stop="null">
+			<div class="flex justify-between">
+				<div class="text-lg uppercase font-medium">{{ t('modal.signUp') }}</div>
+				<button aria-label="Close" @click="emit('closed')">
+					<ion-icon :icon="closeOutline" class="w-6 h-6"></ion-icon>
+				</button>
 			</div>
-			<div class="modal-body">
-				<div class="content">
-					<p>{{ t('text.createNewAccount') }}</p>
-					<label class="form-label" for="name">
-						{{ t('field.name') }} <span class="text-error">*</span>
-					</label>
+			<div>{{ t('text.createNewAccount') }}</div>
+			<div class="flex flex-col gap-2">
+				<label class="flex flex-col gap-1">
+					<span>{{ t('field.name') }} <span class="text-red-600">*</span></span>
 					<input
-						id="name"
 						type="text"
 						v-model="auth.name"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.name }"
+						:class="{ '!border-red-600': error.name }"
 						:placeholder="t('placeholder.exampleUserName')"
 					/>
-					<p v-if="error.name" class="form-input-hint">{{ t('error.requiredName') }}</p>
-					<label class="form-label" for="email">
-						{{ t('field.email') }} <span class="text-error">*</span>
-					</label>
+				</label>
+				<div v-if="error.name" class="text-red-600">{{ t('error.requiredName') }}</div>
+				<label class="flex flex-col gap-1">
+					<span>{{ t('field.email') }} <span class="text-red-600">*</span></span>
 					<input
-						id="email"
 						type="email"
 						v-model="auth.email"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.email }"
+						:class="{ '!border-red-600': error.email }"
 						:placeholder="t('placeholder.exampleUserEmail')"
 					/>
-					<p v-if="error.email" class="form-input-hint">{{ t('error.requiredEmail') }}</p>
-					<label class="form-label" for="password">
-						{{ t('field.password') }} <span class="text-error">*</span>
-						<span class="float-right" :class="{ 'text-error': auth.password.length < 8 }">
+				</label>
+				<div v-if="error.email" class="text-red-600">{{ t('error.requiredEmail') }}</div>
+				<label class="flex flex-col gap-1">
+					<span class="flex justify-between">
+						<span>{{ t('field.password') }} <span class="text-red-600">*</span></span>
+						<span :class="{ 'text-red-600': auth.password.length < 8 }">
 							{{ auth.password.length }}<span v-if="auth.password.length < 8"> / 8</span>
 						</span>
-					</label>
+					</span>
 					<input
-						id="password"
 						type="password"
 						v-model="auth.password"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.password.missing || error.password.mismatch || error.password.tooshort }"
+						:class="{ '!border-red-600': error.password.missing || error.password.mismatch || error.password.tooshort }"
 						:placeholder="t('placeholder.examplePassword', { p: examplePassword })"
 					/>
 					<input
 						type="password"
 						v-model="auth.repeat"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.password.missing || error.password.mismatch || error.password.tooshort }"
+						:class="{ '!border-red-600': error.password.missing || error.password.mismatch || error.password.tooshort }"
 						:placeholder="t('placeholder.repeatPassword')"
 					/>
-					<p
-						v-if="error.password.missing || error.password.mismatch || error.password.tooshort"
-						class="form-input-hint"
-					>
-						<span v-if="error.password.missing">{{ t('error.requiredPassword') }}</span>
-						<span v-if="error.password.mismatch"> {{ t('error.passwordsDontMatch') }}</span>
-						<span v-if="error.password.tooshort"> {{ t('error.passwordTooShort') }}</span>
-					</p>
+				</label>
+				<div
+					v-if="error.password.missing || error.password.mismatch || error.password.tooshort"
+					class="text-red-600"
+				>
+					<span v-if="error.password.missing">{{ t('error.requiredPassword') }}</span>
+					<span v-if="error.password.mismatch"> {{ t('error.passwordsDontMatch') }}</span>
+					<span v-if="error.password.tooshort"> {{ t('error.passwordTooShort') }}</span>
 				</div>
 			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
+			<div class="flex justify-end items-center gap-4">
+				<button class="px-3 py-1 text-zinc-500" aria-label="Cancel" @click.prevent="emit('closed')">
 					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-primary ml-2" @click="signUp">{{ t('button.signUp') }}</button>
+				</button>
+				<primary-button class="grow" @click="signUp">
+					{{ $t('button.signUp') }}
+					<ion-icon :icon="personAddOutline" class="w-6 h-6"></ion-icon>
+				</primary-button>
 			</div>
 		</div>
 	</div>
@@ -78,6 +79,8 @@
 import { reactive, computed } from 'vue';
 import { useI18n } from "vue-i18n";
 import { randomString } from '@/utils.js';
+import { closeOutline, personAddOutline } from 'ionicons/icons';
+import PrimaryButton from '@/elements/primaryButton.vue';
 const { t } = useI18n();
 
 // inherited properties

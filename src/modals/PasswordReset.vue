@@ -13,7 +13,7 @@
 			</div>
 			<div>{{ t('text.sendPasswordResetEmail') }}</div>
 			<div class="flex flex-col gap-1">
-				<label class="form-label" for="email">
+				<label for="email">
 					{{ t('field.email') }} <span class="text-red-600">*</span>
 				</label>
 				<input
