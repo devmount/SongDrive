@@ -11,6 +11,7 @@ module.exports = {
 			chunkFilename: 'js/[chunkhash]-[name].bundle.js',
 		},
 	},
+	transpileDependencies: true,
 	productionSourceMap: false,
 	publicPath: '/',
 	chainWebpack: config => {

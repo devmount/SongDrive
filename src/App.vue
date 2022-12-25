@@ -1,5 +1,5 @@
 <template>
-	<div id="app">
+	<div>
 		<!-- logged in, confirmed and verified -->
 		<div
 			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && c.users[auth.user] && ready.permissions && c.permissions[auth.user] && !loading"
@@ -15,7 +15,7 @@
 				<div class="sidebar-wrapper">
 					<div class="brand text-center mt-2">
 						<router-link to="/">
-							<Logo />
+							<logo />
 						</router-link>
 					</div>
 					<ul class="menu text-uppercase">
@@ -166,15 +166,15 @@
 		</div>
 		<!-- logged in but not confimed yet -->
 		<div v-if="auth.ready && auth.user && auth.confirmed === false && !loading">
-			<UserUnconfirmed :config="c.config" :ready="ready" @signOut="signOut" />
+			<user-unconfirmed :config="c.config" :ready="ready" @signOut="signOut" />
 		</div>
 		<!-- logged in, confimed but not verified yet -->
 		<div v-if="auth.ready && auth.user && auth.confirmed && !auth.userObject.emailVerified && !loading">
-			<UserUnverified :config="c.config" :ready="ready" @signOut="signOut" @resendEmailVerification="resendEmailVerification()" />
+			<user-unverified :config="c.config" :ready="ready" @signOut="signOut" @resendEmailVerification="resendEmailVerification()" />
 		</div>
 		<!-- login screen -->
 		<div v-if="auth.ready && !auth.user && !loading">
-			<Login
+			<login
 				@signIn="signIn"
 				@signUp="modal.signup = true"
 				@resetPassword="modal.passwordreset = true"
@@ -186,7 +186,7 @@
 		</div>
 
 		<!-- modals -->
-		<SongSet
+		<song-set
 			v-if="modal.addsong"
 			:active="modal.addsong"
 			:existing="false"
@@ -200,7 +200,7 @@
 			@closed="modal.addsong = false"
 			@reset="resetSong"
 		/>
-		<SetlistSet
+		<setlist-set
 			v-if="modal.addsetlist"
 			:active="modal.addsetlist"
 			:existing="false"
@@ -215,13 +215,13 @@
 			@closed="modal.addsetlist = false"
 			@reset="resetSetlist"
 		/>
-		<SignUp
+		<sign-up
 			v-if="modal.signup"
 			:active="modal.signup"
 			@closed="modal.signup = false"
 			@submitted="signUp"
 		/>
-		<PasswordReset
+		<password-reset
 			v-if="modal.passwordreset"
 			:active="modal.passwordreset"
 			@closed="modal.passwordreset = false"

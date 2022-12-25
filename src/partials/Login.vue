@@ -1,5 +1,5 @@
 <template>
-	<div class="login">
+	<div class="h-screen flex justify-center items-center">
 		<!-- heading -->
 		<div class="column col-12">
 			<Logo class="featured hide-version" />
@@ -54,26 +54,24 @@ const email    = ref('');
 const password = ref('');
 </script>
 
-<style lang="scss">
+<style>
 .login {
-	display: flex;
-	flex-direction: column;
-	gap: 2.5rem;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-
-	.panel {
-		height: auto;
-	}
-
-	.btn-link {
-		margin: 0;
-		padding: 0;
-		border: none;
-		line-height: inherit;
-		height: auto;
-		vertical-align: initial;
-	}
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.login .panel {
+  height: auto;
+}
+.login .btn-link {
+  margin: 0;
+  padding: 0;
+  border: none;
+  line-height: inherit;
+  height: auto;
+  vertical-align: initial;
 }
 </style>

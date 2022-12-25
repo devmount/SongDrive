@@ -133,16 +133,16 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss">
+<style>
 .chart {
-	display: flex;
-	flex-flow: column;
-	&>h2, &>p {
-		flex: 0 1 auto;
-	}
-	&>.chart-container {
-		position: relative;
-		flex: 1 1 auto;
-	}
+  display: flex;
+  flex-flow: column;
+}
+.chart > h2, .chart > p {
+  flex: 0 1 auto;
+}
+.chart > .chart-container {
+  position: relative;
+  flex: 1 1 auto;
 }
 </style>

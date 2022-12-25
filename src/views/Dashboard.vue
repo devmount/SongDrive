@@ -551,15 +551,12 @@ const isFirstSetlistPage = computed(() => setlistsPage.value == 0);
 const isLastSetlistPage = computed(() => setlistlist.value.length < listLength.value);
 </script>
 
-<style lang="scss">
-.dashboard {
-	.avatar-secondary {
-		width: 2rem;
-		font-size: 0.7rem;
-
-		&::before {
-			text-transform: unset;
-		}
-	}
+<style>
+.dashboard .avatar-secondary {
+  width: 2rem;
+  font-size: 0.7rem;
+}
+.dashboard .avatar-secondary::before {
+  text-transform: unset;
 }
 </style>

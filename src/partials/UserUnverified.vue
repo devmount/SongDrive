@@ -48,21 +48,19 @@ const resendVerification = () => {
 }
 </script>
 
-<style lang="scss">
+<style>
 .user-unverified {
-	display: flex;
-	flex-direction: column;
-	gap: 2.5rem;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-
-	.message {
-		max-width: 400px;
-
-		h3 {
-			text-align: center;
-		}
-	}
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.user-unverified .message {
+  max-width: 400px;
+}
+.user-unverified .message h3 {
+  text-align: center;
 }
 </style>

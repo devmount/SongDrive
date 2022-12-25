@@ -156,34 +156,31 @@ const content = computed(
 );
 </script>
 
-<style lang="scss">
-.documentation {
-	
-	.logo {
-		width: 150px;
-		margin-top: 2rem;
-	}
-	.md-content {
-		max-width: 960px;
-		margin: 0 auto;
-		padding-bottom: 5rem;
-	}
-	h2, h3 {
-		margin-top: 1.5em;
-		margin-bottom: 1em;
-		padding: 0;
-	}
-	table {
-		border-collapse: collapse;
-		th, td {
-			padding: .5rem;
-		}
-		thead th {
-			border-bottom: 1px solid currentColor;
-		}
-		tr:not(:last-child) td {
-			border-bottom: 1px solid #4a5052; // $gray-color-700
-		}
-	}
+<style>
+.documentation .logo {
+  width: 150px;
+  margin-top: 2rem;
+}
+.documentation .md-content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding-bottom: 5rem;
+}
+.documentation h2, .documentation h3 {
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+  padding: 0;
+}
+.documentation table {
+  border-collapse: collapse;
+}
+.documentation table th, .documentation table td {
+  padding: 0.5rem;
+}
+.documentation table thead th {
+  border-bottom: 1px solid currentColor;
+}
+.documentation table tr:not(:last-child) td {
+  border-bottom: 1px solid #4a5052; /* $gray-color-700 */
 }
 </style>

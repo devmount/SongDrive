@@ -819,15 +819,14 @@ watch (
 );
 </script>
 
-<style lang="scss">
+<style>
 .tuning {
-	min-width: 100px;
-
-	code {
-		width: 2em;
-		display: inline-block;
-		text-align: center;
-		background: transparent;
-	}
+  min-width: 100px;
+}
+.tuning code {
+  width: 2em;
+  display: inline-block;
+  text-align: center;
+  background: transparent;
 }
 </style>

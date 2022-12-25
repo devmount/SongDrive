@@ -640,22 +640,20 @@ const set = () => {
 };
 </script>
 
-<style lang="scss">
+<style>
 #content {
-	height: 55vh;
-	font-size: .9em;
-	line-height: 1.3em;
+  height: 55vh;
+  font-size: 0.9em;
+  line-height: 1.3em;
 }
 .prism-editor__container {
-	min-height: 100%;
+  min-height: 100%;
 }
 .prism-editor__textarea:focus {
-	outline: none;
+  outline: none;
 }
-.modal-secondary {
-	.max-column {
-		height: 42vh;
-		overflow-y: scroll;
-	}
+.modal-secondary .max-column {
+  height: 42vh;
+  overflow-y: scroll;
 }
 </style>

@@ -58,5 +58,8 @@ Object.filter = (obj, predicate) =>
 		.filter(key => predicate(obj[key]))
 		.reduce((res, key) => (res[key] = obj[key], res), {});
 
+// init basic css with tailwind imports
+import '@/assets/main.css';
+
 // ready? let's go!
 app.mount('#app');

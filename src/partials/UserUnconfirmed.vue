@@ -26,21 +26,19 @@ const props = defineProps({
 });
 </script>
 
-<style lang="scss">
+<style>
 .user-unconfirmed {
-	display: flex;
-	flex-direction: column;
-	gap: 2.5rem;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-
-	.message {
-		max-width: 400px;
-
-		h3 {
-			text-align: center;
-		}
-	}
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.user-unconfirmed .message {
+  max-width: 400px;
+}
+.user-unconfirmed .message h3 {
+  text-align: center;
 }
 </style>
