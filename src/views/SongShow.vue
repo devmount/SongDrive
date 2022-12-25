@@ -21,12 +21,12 @@
 						<div v-if="ready.songs && song" class="column col-12">
 							<h2>
 								{{ song.title }}
-								<span class="label text-pre ml-2 px-3">{{ showTuning.current }}</span>
+								<span class="label text-pre ml-2 px-2 py-1 text-small text-bottom">{{ showTuning.current }}</span>
 							</h2>
-							<div class="heading text-uppercase mt-2">{{ song.subtitle }}</div>
+							<div class="heading text-gray text-uppercase mb-2">{{ song.subtitle }}</div>
 							<!-- toolbar -->
 							<div class="toolbar">
-								<div class="flex align-center g-1">
+								<div v-if="ready.songs" class="flex align-center g-1">
 									<button
 										class="btn btn-secondary flex align-center"
 										:data-tooltip="t('button.back')"
@@ -35,8 +35,6 @@
 										<ion-icon :icon="arrowBackOutline"></ion-icon>
 										<span class="hide-xl ml-2">{{ t('button.back') }}</span>
 									</button>
-								</div>
-								<div v-if="ready.songs" class="flex align-center g-1">
 									<div
 										v-for="([id, lang], i) in showLanguages"
 										:key="i"
@@ -52,38 +50,38 @@
 										</router-link>
 									</div>
 								</div>
-								<div class="flex align-center g-1 p-relative key-preview">
-									<button
-										class="btn btn-secondary tooltip tooltip-top"
-										:class="{ disabled: !chords }"
-										:data-tooltip="t('tooltip.transposeDown')"
-										@click="tuning--"
-									>
-										<ion-icon :icon="arrowBack"></ion-icon>
-									</button>
-									<button
-										class="btn btn-secondary tooltip tooltip-top"
-										:class="{ disabled: !chords }"
-										:data-tooltip="t('tooltip.keyReset')"
-										@click="tuning = 0"
-									>
-										<ion-icon :icon="refresh"></ion-icon>
-									</button>
-									<button
-										class="btn btn-secondary tooltip tooltip-top"
-										:class="{ disabled: !chords }"
-										:data-tooltip="t('tooltip.transposeUp')"
-										@click="tuning++"
-									>
-										<ion-icon :icon="arrowForward"></ion-icon>
-									</button>
-									<div class="p-absolute preview-pane flex justify-between p-1">
-										<span class="text-center text-pre text-gray text-large px-3">{{ showTuning.previous }}</span>
-										<span class="label label-rounded text-center text-large text-pre text-bold px-3">{{ showTuning.current }}</span>
-										<span class="text-center text-pre text-gray text-large px-3">{{ showTuning.next }}</span>
-									</div>
-								</div>
 								<div class="flex align-center g-1">
+									<div class="flex align-center g-1 ml-1 p-relative key-preview">
+										<button
+											class="btn btn-secondary tooltip tooltip-top"
+											:class="{ disabled: !chords }"
+											:data-tooltip="t('tooltip.transposeDown')"
+											@click="tuning--"
+										>
+											<ion-icon :icon="arrowBack"></ion-icon>
+										</button>
+										<button
+											class="btn btn-secondary tooltip tooltip-top"
+											:class="{ disabled: !chords }"
+											:data-tooltip="t('tooltip.keyReset')"
+											@click="tuning = 0"
+										>
+											<ion-icon :icon="refresh"></ion-icon>
+										</button>
+										<button
+											class="btn btn-secondary tooltip tooltip-top"
+											:class="{ disabled: !chords }"
+											:data-tooltip="t('tooltip.transposeUp')"
+											@click="tuning++"
+										>
+											<ion-icon :icon="arrowForward"></ion-icon>
+										</button>
+										<div class="p-absolute preview-pane flex justify-between p-1">
+											<span class="text-center text-pre text-gray text-large px-3">{{ showTuning.previous }}</span>
+											<span class="label label-rounded text-center text-large text-pre text-bold px-3">{{ showTuning.current }}</span>
+											<span class="text-center text-pre text-gray text-large px-3">{{ showTuning.next }}</span>
+										</div>
+									</div>
 									<label
 										class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center"
 										:data-tooltip="t('tooltip.chordsShow')"
@@ -95,7 +93,7 @@
 									</label>
 									<button
 										class="btn btn-secondary flex align-center tooltip tooltip-bottom"
-										:data-tooltip="t('tooltip.startPresentation')"
+										:data-tooltip="t('tooltip.startFullscreen')"
 										@click="modal.present=true"
 									>
 										<ion-icon :icon="videocamOutline"></ion-icon>
@@ -105,7 +103,11 @@
 								<div class="flex align-center g-1">
 									<div class="dropdown dropdown-right">
 										<div class="btn-group">
-											<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('tooltip.downloadSetlist')" tabindex="0">
+											<a
+												class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top"
+												:data-tooltip="t('tooltip.downloadSong')"
+												tabindex="0"
+											>
 												<ion-icon :icon="downloadOutline" class="mr-2"></ion-icon>
 												<span class="hide-xl">{{ t('button.download') }}</span>
 												<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
