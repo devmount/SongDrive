@@ -1,8 +1,8 @@
 <template>
-	<div class="h-screen flex justify-center items-center">
+	<div class="h-screen flex flex-col justify-center items-center gap-12">
 		<!-- heading -->
 		<div class="column col-12">
-			<Logo class="featured hide-version" />
+			<logo :featured="true" :show-version="false" />
 		</div>
 		<!-- login -->
 		<div>

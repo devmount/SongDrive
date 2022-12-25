@@ -8,7 +8,14 @@ module.exports = {
       mono: ['"Fira Mono"', ...defaultTheme.fontFamily.mono],
       fira: ['"Fira Sans"', ...defaultTheme.fontFamily.sans],
     },
-    extend: {},
+    extend: {
+      colors: {
+        'spring': {
+          400: '#88b544',
+          600: '#bbdd77',
+        }
+      }
+    },
   },
   plugins: [
     require('@tailwindcss/forms')
