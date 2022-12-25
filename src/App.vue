@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="bg-zinc-100">
 		<!-- logged in, confirmed and verified -->
 		<div
 			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && c.users[auth.user] && ready.permissions && c.permissions[auth.user] && !loading"

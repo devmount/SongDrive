@@ -1,44 +1,39 @@
 <template>
-	<div class="h-screen flex flex-col justify-center items-center gap-12">
+	<div class="h-screen flex flex-col justify-center items-center gap-12 px-2">
 		<!-- heading -->
-		<div class="column col-12">
-			<logo :featured="true" :show-version="false" />
-		</div>
-		<!-- login -->
-		<div>
-			<div class="panel mb-5">
-				<div class="panel-header">
-					<div class="panel-title text-center">{{ $t('text.signInToSongDrive') }}</div>
-				</div>
-				<div class="panel-body">
-					<input
-						type="email"
-						v-model="email"
-						class="form-input mb-1"
-						:placeholder="$t('field.email')"
-						@keydown.enter="$emit('signIn', email, password)"
-					/>
-					<input
-						type="password"
-						v-model="password"
-						class="form-input"
-						:placeholder="$t('field.password')"
-						@keydown.enter="$emit('signIn', email, password)"
-					/>
-				</div>
-				<div class="panel-footer mt-3">
-					<button class="btn btn-primary btn-block" @click="$emit('signIn', email, password)">
-						{{ $t('button.signIn') }} <ion-icon :icon="logInOutline" class="icon-right"></ion-icon>
-					</button>
-				</div>
+		<logo :featured="true" :show-version="false" />
+		<!-- login panel -->
+		<panel class="max-w-xs w-full">
+			<div class="text-center text-zinc-600">{{ $t('text.signInToSongDrive') }}</div>
+			<div class="flex flex-col gap-1">
+				<input
+					type="email"
+					v-model="email"
+					:placeholder="$t('field.email')"
+					@keydown.enter="emit('signIn', email, password)"
+				/>
+				<input
+					type="password"
+					v-model="password"
+					:placeholder="$t('field.password')"
+					@keydown.enter="emit('signIn', email, password)"
+				/>
 			</div>
-			<div class="px-4">
+			<div class="panel-footer mt-3">
+				<primary-button class="btn btn-primary btn-block w-full" @click="emit('signIn', email, password)">
+					{{ $t('button.signIn') }}
+					<ion-icon :icon="logInOutline" class="w-6 h-6"></ion-icon>
+				</primary-button>
+			</div>
+		</panel>
+		<div class="flex flex-col text-sm text-zinc-600">
+			<div>
 				{{ $t('text.newToSongDrive') }}
-				<button class="btn btn-link" @click="$emit('signUp')">{{ $t('text.createAnAccount') }}</button>.
+				<button class="text-spring-400" @click="emit('signUp')">{{ $t('text.createAnAccount') }}</button>.
 			</div>
-			<div class="px-4">
+			<div>
 				{{ $t('text.forgotPassword') }}
-				<button class="btn btn-link" @click="$emit('resetPassword')">{{ $t('text.resetIt') }}</button>.
+				<button class="text-spring-400" @click="emit('resetPassword')">{{ $t('text.resetIt') }}</button>.
 			</div>
 		</div>
 	</div>
@@ -48,6 +43,11 @@
 import { ref } from 'vue';
 import Logo from '@/partials/Logo';
 import { logInOutline } from 'ionicons/icons';
+import Panel from '@/elements/panel.vue';
+import PrimaryButton from '@/elements/primaryButton.vue';
+
+// emits
+const emit = defineEmits(['signIn', 'signUp', 'resetPassword']);
 
 // reactive data
 const email    = ref('');

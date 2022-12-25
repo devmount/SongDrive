@@ -4,7 +4,10 @@
 
 @layer base {
   input, select, textarea {
-    @apply focus:!ring-teal-500 focus:!border-teal-500;
+    @apply transition-all !py-1.5 !border-zinc-400 focus:!ring-2 focus:!ring-spring-600 hover:!border-spring-600 focus:!border-spring-400;
+  }
+  button {
+    @apply transition-all;
   }
 
   @font-face {
