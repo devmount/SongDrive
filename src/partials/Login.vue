@@ -19,8 +19,8 @@
 					@keydown.enter="emit('signIn', email, password)"
 				/>
 			</div>
-			<div class="panel-footer mt-3">
-				<primary-button class="btn btn-primary btn-block w-full" @click="emit('signIn', email, password)">
+			<div class="mt-3">
+				<primary-button class="w-full" @click="emit('signIn', email, password)">
 					{{ $t('button.signIn') }}
 					<ion-icon :icon="logInOutline" class="w-6 h-6"></ion-icon>
 				</primary-button>
@@ -53,25 +53,3 @@ const emit = defineEmits(['signIn', 'signUp', 'resetPassword']);
 const email    = ref('');
 const password = ref('');
 </script>
-
-<style>
-.login {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-.login .panel {
-  height: auto;
-}
-.login .btn-link {
-  margin: 0;
-  padding: 0;
-  border: none;
-  line-height: inherit;
-  height: auto;
-  vertical-align: initial;
-}
-</style>

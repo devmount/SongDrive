@@ -175,9 +175,9 @@
 		<!-- login screen -->
 		<div v-if="auth.ready && !auth.user && !loading">
 			<login
-				@signIn="signIn"
-				@signUp="modal.signup = true"
-				@resetPassword="modal.passwordreset = true"
+				@sign-in="signIn"
+				@sign-up="modal.signup = true"
+				@reset-password="modal.passwordreset = true"
 			/>
 		</div>
 		<!-- loading screen -->
@@ -222,7 +222,6 @@
 			@submitted="signUp"
 		/>
 		<password-reset
-			v-if="modal.passwordreset"
 			:active="modal.passwordreset"
 			@closed="modal.passwordreset = false"
 			@submitted="sendPasswordReset"

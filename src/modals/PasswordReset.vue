@@ -1,32 +1,37 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.resetPassword') }}</div>
+	<div
+		class="transition-all fixed top-0 z-10 w-screen h-screen bg-zinc-700/50"
+		:class="{ 'hidden': !active }"
+		@click.prevent="emit('closed')"
+	>
+		<div class="fixed z-20 position-center rounded-sm w-full max-w-sm bg-zinc-100 p-4 flex flex-col gap-4" @click.stop="null">
+			<div class="flex justify-between">
+				<div class="text-lg uppercase font-medium">{{ t('modal.resetPassword') }}</div>
+				<button aria-label="Close" @click="emit('closed')">
+					<ion-icon :icon="closeOutline" class="w-6 h-6"></ion-icon>
+				</button>
 			</div>
-			<div class="modal-body">
-				<div class="content">
-					<p>{{ t('text.sendPasswordResetEmail') }}</p>
-					<label class="form-label" for="email">
-						{{ t('field.email') }} <span class="text-error">*</span>
-					</label>
-					<input
-						id="email"
-						type="email"
-						v-model="authEmail"
-						class="form-input mb-1"
-						:class="{ 'is-error': errorEmail }"
-					/>
-					<p v-if="errorEmail" class="form-input-hint">{{ t('error.requiredEmail') }}</p>
-				</div>
+			<div>{{ t('text.sendPasswordResetEmail') }}</div>
+			<div class="flex flex-col gap-1">
+				<label class="form-label" for="email">
+					{{ t('field.email') }} <span class="text-red-600">*</span>
+				</label>
+				<input
+					id="email"
+					type="email"
+					v-model="authEmail"
+					:class="{ '!border-red-600': errorEmail }"
+				/>
+				<p v-if="errorEmail" class="text-red-600">{{ t('error.requiredEmail') }}</p>
 			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
+			<div class="flex justify-end items-center gap-4">
+				<button class="px-3 py-1 text-zinc-500" aria-label="Cancel" @click.prevent="emit('closed')">
 					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-primary ml-2" @click="passwordReset">{{ t('button.sendPasswordResetEmail') }}</button>
+				</button>
+				<primary-button class="grow" @click="passwordReset">
+					{{ $t('button.sendPasswordResetEmail') }}
+					<ion-icon :icon="sendOutline" class="w-6 h-6"></ion-icon>
+				</primary-button>
 			</div>
 		</div>
 	</div>
@@ -35,10 +40,12 @@
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from "vue-i18n";
+import { closeOutline, sendOutline } from 'ionicons/icons';
+import PrimaryButton from '@/elements/primaryButton.vue';
 const { t } = useI18n();
 
 // inherited properties
-const props = defineProps({
+defineProps({
 	active: Boolean // state of modal display, true to show modal
 });
 
