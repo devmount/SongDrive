@@ -547,8 +547,3 @@ onMounted(() => {
 	});
 });
 </script>
-
-<style lang="scss">
-// apply all global styles
-@import "@/assets/global";
-</style>

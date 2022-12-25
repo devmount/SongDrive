@@ -41,7 +41,6 @@
 		"marked": "^4.0.10",
 		"pdfmake": "^0.2.2",
 		"sortablejs": "^1.9.0",
-		"spectre.css": "^0.5.8",
 		"vue": "^3.2.37",
 		"vue-i18n": "^9.1.10",
 		"vue-prism-editor": "^2.0.0-alpha.2",
@@ -52,10 +51,9 @@
 		"@vue/cli-plugin-babel": "^5.0.0-rc.2",
 		"@vue/cli-plugin-pwa": "^5.0.0-rc.2",
 		"@vue/cli-service": "^5.0.0-rc.2",
-		"node-sass": "^8.0.0",
+		"postcss": "^8.4.20",
 		"raw-loader": "^4.0.2",
-		"sass-loader": "^13.0.0",
-		"vue-template-compiler": "^2.6.10"
+		"tailwindcss": "^3.2.4"
 	},
 	"postcss": {
 		"plugins": {
