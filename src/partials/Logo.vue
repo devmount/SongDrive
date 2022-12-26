@@ -1,7 +1,10 @@
 <template>
 	<div
-    class="flex flex-col items-center gap-2 font-medium select-none"
-    :class="{ '2xs:flex-row 2xs:items-baseline 2xs:font-normal': featured }"
+    class="flex items-center gap-2 font-medium select-none"
+    :class="{
+      'flex-col 2xs:flex-row 2xs:items-baseline 2xs:font-normal': featured,
+      'items-baseline': !featured
+    }"
   >
 		<img
       src="@/assets/logo.svg"
@@ -15,7 +18,7 @@
       {{ t('app.name') }}
     </div>
 	</div>
-  <div v-if="showVersion" class="text-xs text-zinc-500 text-right font-medium">
+  <div v-if="showVersion" class="text-xs text-zinc-500 text-right font-medium mt-1">
     v{{ version }}
   </div>
 </template>
