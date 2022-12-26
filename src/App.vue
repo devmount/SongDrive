@@ -35,17 +35,16 @@
 					>
 						<ion-icon :icon="musicalNotesSharp" class="w-5 h-5" />
 						<span class="mb-0.5 uppercase">{{ t('page.songs') }}</span>
-						<div class="menu-badge">
-							<label v-if="ready.songs" class="label py-1">{{ Object.keys(c.songs).length }}</label>
-							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-							<button
+						<div class="flex items-center gap-4 ml-auto">
+							<div v-if="ready.songs" class="font-bold">{{ Object.keys(c.songs).length }}</div>
+							<secondary-button
 								v-if="userRoles[c.permissions[auth.user].role] > 2"
-								class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
+								class="!p-1 tooltip tooltip-left"
 								:data-tooltip="t('tooltip.songAdd')"
 								@click="modal.addsong = true"
 							>
-								<ion-icon :icon="addSharp" />
-							</button>
+								<ion-icon :icon="addSharp" class="w-5 h-5" />
+							</secondary-button>
 						</div>
 					</router-link>
 					<router-link
@@ -55,17 +54,16 @@
 					>
 						<ion-icon :icon="list" class="w-5 h-5" />
 						<span class="mb-0.5 uppercase">{{ t('page.setlists') }}</span>
-						<div class="menu-badge">
-							<label v-if="ready.setlists" class="label py-1">{{ setlistCount }}</label>
-							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-							<button
+						<div class="flex items-center gap-4 ml-auto">
+							<label v-if="ready.setlists" class="font-bold">{{ setlistCount }}</label>
+							<secondary-button
 								v-if="userRoles[c.permissions[auth.user].role] > 1"
-								class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
+								class="!p-1 tooltip tooltip-left"
 								:data-tooltip="t('tooltip.setlistAdd')"
 								@click="modal.addsetlist = true"
 							>
-								<ion-icon :icon="addSharp" />
-							</button>
+								<ion-icon :icon="addSharp" class="w-5 h-5" />
+							</secondary-button>
 						</div>
 					</router-link>
 					<divider-horizontal :label="t('divider.account')" />
