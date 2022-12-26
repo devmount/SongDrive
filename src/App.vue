@@ -209,8 +209,11 @@
 			/>
 		</div>
 		<!-- loading screen -->
-		<div v-if="!auth.ready || !auth.user || auth.confirmed === null || loading" class="full-viewport d-flex justify-center align-center">
-			<div class="loading loading-xl"></div>
+		<div
+			v-if="!auth.ready || !auth.user || auth.confirmed === null || loading"
+			class="w-screen h-screen flex justify-center items-center"
+		>
+			<div class="animate-spin w-16 h-16 rounded-full border-4 border-transparent border-t-blade-400"></div>
 		</div>
 
 		<!-- modals -->
