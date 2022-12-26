@@ -9,8 +9,9 @@ module.exports = {
       fira: ['"Fira Sans"', ...defaultTheme.fontFamily.sans],
     },
     extend: {
-      maxWidth: {
-        '2xs': '16rem',
+      boxShadow: {
+        'm': '0 4px 10px -4px rgb(0 0 0 / 0.5)',
+        'l': '0 5px 20px -10px rgb(0 0 0 / 0.95)',
       },
       colors: {
         'spring': {
@@ -37,6 +38,9 @@ module.exports = {
           900: '#161A22',
           950: '#0A0C0F',
         }
+      },
+      maxWidth: {
+        '2xs': '16rem',
       },
       screens: {
         '2xs': '360px',
