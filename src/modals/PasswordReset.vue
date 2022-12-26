@@ -24,7 +24,7 @@
 				/>
 				<p v-if="errorEmail" class="text-red-600">{{ t('error.requiredEmail') }}</p>
 			</div>
-			<div class="flex justify-end items-center gap-4">
+			<div class="flex flex-col justify-end items-center gap-4 2xs:flex-row">
 				<button class="px-3 py-1 text-zinc-500" aria-label="Cancel" @click.prevent="emit('closed')">
 					{{ t('button.cancel') }}
 				</button>

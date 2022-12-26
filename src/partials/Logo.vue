@@ -1,5 +1,8 @@
 <template>
-	<div class="flex items-baseline gap-2 select-none">
+	<div
+    class="flex flex-col items-center gap-2 font-medium select-none"
+    :class="{ '2xs:flex-row 2xs:items-baseline 2xs:font-normal': featured }"
+  >
 		<img
       src="@/assets/logo.svg"
       alt="Logo of SongDrive Song Management Tool"
@@ -7,12 +10,14 @@
     />
 		<div
       class="text-spring-400 leading-5 tracking-wide uppercase"
-      :class="featured ? 'text-[2.1rem]': 'text-2xl'"
+      :class="featured ? 'text-2xl 2xs:text-[2.1rem]': 'text-2xl'"
     >
       {{ t('app.name') }}
     </div>
 	</div>
-  <div v-if="showVersion" class="text-xs text-zinc-500 text-right font-medium">v{{ version }}</div>
+  <div v-if="showVersion" class="text-xs text-zinc-500 text-right font-medium">
+    v{{ version }}
+  </div>
 </template>
 
 <script setup>
