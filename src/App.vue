@@ -6,140 +6,138 @@
 			class="off-canvas off-canvas-sidebar-show"
 		>
 			<!-- off-screen toggle button -->
-			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
+			<button class="lg:hidden" @click="open = true">
 				<ion-icon :icon="menu" size="large"></ion-icon>
-			</a>
+			</button>
 
 			<!-- off-screen sidebar -->
-			<div id="sidebar-id" class="off-canvas-sidebar" :class="{ active: open }">
-				<div class="sidebar-wrapper">
-					<div class="brand text-center mt-2">
-						<router-link to="/">
-							<logo />
+			<div class="max-w-2xs px-2 py-8 dark:bg-zinc-850" :class="{ active: open }">
+				<div class="brand text-center">
+					<router-link to="/" class="flex flex-col w-max mx-auto">
+						<logo :featured="false" :show-version="true" />
+					</router-link>
+				</div>
+				<ul class="menu text-uppercase">
+					<li class="divider text-center" :data-content="t('divider.start')"></li>
+					<li class="menu-item">
+						<router-link to="/" class="py-2" @click="open = false">
+							<ion-icon :icon="appsSharp" class="mr-2"></ion-icon> {{ t('page.dashboard') }}
 						</router-link>
-					</div>
-					<ul class="menu text-uppercase">
-						<li class="divider text-center" :data-content="t('divider.start')"></li>
-						<li class="menu-item">
-							<router-link to="/" class="py-2" @click="open = false">
-								<ion-icon :icon="appsSharp" class="mr-2"></ion-icon> {{ t('page.dashboard') }}
-							</router-link>
-						</li>
-						<li class="menu-item">
-							<router-link to="/songs" class="py-2" @click="open = false">
-								<ion-icon :icon="musicalNotesSharp" class="mr-2"></ion-icon> {{ t('page.songs') }}
-							</router-link>
-							<div class="menu-badge">
-								<label v-if="ready.songs" class="label py-1">{{ Object.keys(c.songs).length }}</label>
-								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button
-									v-if="userRoles[c.permissions[auth.user].role] > 2"
-									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
-									:data-tooltip="t('tooltip.songAdd')"
-									@click="modal.addsong = true"
-								>
-									<ion-icon :icon="addSharp"></ion-icon>
-								</button>
-							</div>
-						</li>
-						<li class="menu-item">
-							<router-link to="/setlists" class="py-2" @click="open = false">
-								<ion-icon :icon="list" class="mr-2"></ion-icon> {{ t('page.setlists') }}
-							</router-link>
-							<div class="menu-badge">
-								<label v-if="ready.setlists" class="label py-1">{{ setlistCount }}</label>
-								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button
-									v-if="userRoles[c.permissions[auth.user].role] > 1"
-									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
-									:data-tooltip="t('tooltip.setlistAdd')"
-									@click="modal.addsetlist = true"
-								>
-									<ion-icon :icon="addSharp"></ion-icon>
-								</button>
-							</div>
-						</li>
-						<li class="divider text-center" :data-content="t('divider.account')"></li>
-						<li class="menu-item pt-2 pb-2">
-							<router-link to="/profile" class="py-2" @click="open = false">
-								<div class="tile tile-centered">
-									<div class="tile-icon mr-2 ml-1">
-										<img v-if="c.users[auth.user].photo" class="avatar" :src="c.users[auth.user].photo" alt="Avatar">
-										<figure
-											v-else-if="userName"
-											class="avatar"
-											:data-initial="initials(userName)"
-											alt="Avatar"
-										></figure>
-										<span v-else class="avatar flex-center">
-											<ion-icon :icon="person"></ion-icon>
-										</span>
-									</div>
-									<div class="tile-content">
-										{{ userName }}
-										<div class="text-gray text-small">
-											{{ t('role.' + c.permissions[auth.user].role) }}
-										</div>
+					</li>
+					<li class="menu-item">
+						<router-link to="/songs" class="py-2" @click="open = false">
+							<ion-icon :icon="musicalNotesSharp" class="mr-2"></ion-icon> {{ t('page.songs') }}
+						</router-link>
+						<div class="menu-badge">
+							<label v-if="ready.songs" class="label py-1">{{ Object.keys(c.songs).length }}</label>
+							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
+							<button
+								v-if="userRoles[c.permissions[auth.user].role] > 2"
+								class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
+								:data-tooltip="t('tooltip.songAdd')"
+								@click="modal.addsong = true"
+							>
+								<ion-icon :icon="addSharp"></ion-icon>
+							</button>
+						</div>
+					</li>
+					<li class="menu-item">
+						<router-link to="/setlists" class="py-2" @click="open = false">
+							<ion-icon :icon="list" class="mr-2"></ion-icon> {{ t('page.setlists') }}
+						</router-link>
+						<div class="menu-badge">
+							<label v-if="ready.setlists" class="label py-1">{{ setlistCount }}</label>
+							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
+							<button
+								v-if="userRoles[c.permissions[auth.user].role] > 1"
+								class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
+								:data-tooltip="t('tooltip.setlistAdd')"
+								@click="modal.addsetlist = true"
+							>
+								<ion-icon :icon="addSharp"></ion-icon>
+							</button>
+						</div>
+					</li>
+					<li class="divider text-center" :data-content="t('divider.account')"></li>
+					<li class="menu-item pt-2 pb-2">
+						<router-link to="/profile" class="py-2" @click="open = false">
+							<div class="tile tile-centered">
+								<div class="tile-icon mr-2 ml-1">
+									<img v-if="c.users[auth.user].photo" class="avatar" :src="c.users[auth.user].photo" alt="Avatar">
+									<figure
+										v-else-if="userName"
+										class="avatar"
+										:data-initial="initials(userName)"
+										alt="Avatar"
+									></figure>
+									<span v-else class="avatar flex-center">
+										<ion-icon :icon="person"></ion-icon>
+									</span>
+								</div>
+								<div class="tile-content">
+									{{ userName }}
+									<div class="text-gray text-small">
+										{{ t('role.' + c.permissions[auth.user].role) }}
 									</div>
 								</div>
-							</router-link>
-						</li>
-						<li class="menu-item">
-							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles[c.permissions[auth.user].role] > 3 }" @click="open = false">
-								<ion-icon :icon="optionsOutline" class="mr-2"></ion-icon> {{ t('page.settings') }}
-							</router-link>
-						</li>
-						<li class="menu-item">
-							<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
-								{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
-							</button>
-						</li>
-					</ul>
-					<ul class="menu text-uppercase">
-						<li class="divider text-center" :data-content="t('divider.info')"></li>
-						<li class="menu-item">
-							<router-link to="/shortcuts" class="py-2" @click="open = false">
-								<ion-icon :icon="bulbOutline" class="mr-2"></ion-icon> {{ t('page.shortcuts') }}
-							</router-link>
-						</li>
-						<li class="menu-item">
-							<router-link to="/documentation" class="py-2" @click="open = false">
-								<ion-icon :icon="bookOutline" class="mr-2"></ion-icon> {{ t('page.docu') }}
-							</router-link>
-						</li>
-						<li class="menu-item">
-							<a href="https://github.com/devmount/SongDrive" class="py-2" target="_blank">
-								<ion-icon :icon="logoGithub" class="mr-2"></ion-icon>
-								{{ t('page.github') }}
-								<ion-icon :icon="openOutline" class="icon-right"></ion-icon>
-							</a>
-						</li>
-					</ul>
-					<footer>
-						<div class="text-center text-small text-gray">
-							<span>
-								{{ t('app.created.0') }}
-								<ion-icon :icon='heartOutline'></ion-icon>
-								{{ t('app.created.1') }}
-							</span>
-							<a href="https://devmount.de" target="_blank">
-								<svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
-									<path class="st0" d="M6.9,140.6L87.1,40.2l78.2,77.6"/>
-									<path class="st0" d="M40.4,193.8l62.1-77.8l35.9,35.4l48.8-60.6l39.8,39.5"/>
-								</svg>
-							</a>
-						</div>
-						<div class="text-center text-small text-gray">
-							2016–{{ (new Date()).getFullYear() }}
-							<svg class="legal" viewBox="0 0 14 16">
-								<path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path>
+							</div>
+						</router-link>
+					</li>
+					<li class="menu-item">
+						<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles[c.permissions[auth.user].role] > 3 }" @click="open = false">
+							<ion-icon :icon="optionsOutline" class="mr-2"></ion-icon> {{ t('page.settings') }}
+						</router-link>
+					</li>
+					<li class="menu-item">
+						<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
+							{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
+						</button>
+					</li>
+				</ul>
+				<ul class="menu text-uppercase">
+					<li class="divider text-center" :data-content="t('divider.info')"></li>
+					<li class="menu-item">
+						<router-link to="/shortcuts" class="py-2" @click="open = false">
+							<ion-icon :icon="bulbOutline" class="mr-2"></ion-icon> {{ t('page.shortcuts') }}
+						</router-link>
+					</li>
+					<li class="menu-item">
+						<router-link to="/documentation" class="py-2" @click="open = false">
+							<ion-icon :icon="bookOutline" class="mr-2"></ion-icon> {{ t('page.docu') }}
+						</router-link>
+					</li>
+					<li class="menu-item">
+						<a href="https://github.com/devmount/SongDrive" class="py-2" target="_blank">
+							<ion-icon :icon="logoGithub" class="mr-2"></ion-icon>
+							{{ t('page.github') }}
+							<ion-icon :icon="openOutline" class="icon-right"></ion-icon>
+						</a>
+					</li>
+				</ul>
+				<footer>
+					<div class="text-center text-small text-gray">
+						<span>
+							{{ t('app.created.0') }}
+							<ion-icon :icon='heartOutline'></ion-icon>
+							{{ t('app.created.1') }}
+						</span>
+						<a href="https://devmount.de" target="_blank">
+							<svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
+								<path class="st0" d="M6.9,140.6L87.1,40.2l78.2,77.6"/>
+								<path class="st0" d="M40.4,193.8l62.1-77.8l35.9,35.4l48.8-60.6l39.8,39.5"/>
 							</svg>
-							<a href="https://github.com/devmount/SongDrive/blob/main/LICENSE" target="_blank">
-								{{ t('app.license') }}
-							</a>
-						</div>
-					</footer>
-				</div>
+						</a>
+					</div>
+					<div class="text-center text-small text-gray">
+						2016–{{ (new Date()).getFullYear() }}
+						<svg class="legal" viewBox="0 0 14 16">
+							<path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path>
+						</svg>
+						<a href="https://github.com/devmount/SongDrive/blob/main/LICENSE" target="_blank">
+							{{ t('app.license') }}
+						</a>
+					</div>
+				</footer>
 			</div>
 			<a class="off-canvas-overlay" @click="open = false"></a>
 
