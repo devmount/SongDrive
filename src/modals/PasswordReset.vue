@@ -1,10 +1,16 @@
 <template>
 	<div
-		class="transition-all fixed top-0 z-10 w-screen h-screen bg-zinc-700/50"
+		class="transition-all fixed top-0 z-10 w-screen h-screen bg-zinc-700/50 dark:bg-black/50"
 		:class="{ 'hidden': !active }"
 		@click.prevent="emit('closed')"
 	>
-		<div class="fixed z-20 position-center rounded-sm w-full max-w-sm bg-zinc-100 p-4 flex flex-col gap-4" @click.stop="null">
+		<div
+			class="
+				fixed z-20 position-center rounded-sm w-full max-w-sm bg-zinc-100 p-4 flex flex-col gap-4
+				dark:bg-zinc-800
+			"
+			@click.stop="null"
+		>
 			<div class="flex justify-between">
 				<div class="text-lg uppercase font-medium">{{ t('modal.resetPassword') }}</div>
 				<button aria-label="Close" @click="emit('closed')">
@@ -24,7 +30,7 @@
 				/>
 				<p v-if="errorEmail" class="text-red-600">{{ t('error.requiredEmail') }}</p>
 			</div>
-			<div class="flex flex-col justify-end items-center gap-4 2xs:flex-row">
+			<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
 				<button class="px-3 py-1 text-zinc-500" aria-label="Cancel" @click.prevent="emit('closed')">
 					{{ t('button.cancel') }}
 				</button>

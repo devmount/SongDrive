@@ -246,7 +246,7 @@
     "confirmationBody": "Hi {0},\n\nYou were approved to use SongDrive just now. You can now log in under {1}\n\nIf you have any questions, please contact us!\n\nYour SongDrive-Team\n\n",
     "confirmationSubject": "[SongDrive] Your account got activated",
     "createAnAccount": "Create an account",
-    "createNewAccount": "Create a new SongDrive account.",
+    "createNewAccount": "Create a new SongDrive account. You'll get an email to confirm your email address right after.",
     "customizeProfile": "Customize your profile data",
     "customizeUi": "Customize the user interface",
     "dangerZone": "Danger Zone",

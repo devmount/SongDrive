@@ -246,7 +246,7 @@
     "confirmationBody": "Hallo {0},\n\ndu wurdest soeben für die Nutzung von SongDrive freigeschaltet. Du kannst dich nun einloggen unter {1}\n\nKontaktiere uns gern, wenn du Fragen hast.\n\nDein SongDrive-Team\n\n",
     "confirmationSubject": "[SongDrive] Benutzerkonto aktiviert",
     "createAnAccount": "Erstelle ein Konto",
-    "createNewAccount": "Erstelle ein neues SongDrive Konto.",
+    "createNewAccount": "Erstelle ein neues SongDrive Konto. Im Anschluss bekommst du eine E-Mail zur Bestätigung deiner E-Mail-Adresse.",
     "customizeProfile": "Passe deine Profildaten an",
     "customizeUi": "Passe die Benutzeroberfläche an",
     "dangerZone": "Gefahrenbereich",
