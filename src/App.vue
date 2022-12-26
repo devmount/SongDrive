@@ -172,7 +172,7 @@
 			></div>
 
 			<!-- off-screen content -->
-			<div class="off-canvas-content">
+			<div class="p-6">
 				<router-view
 					:key="route.fullPath"
 					:user="auth.user"
@@ -213,7 +213,7 @@
 			v-if="!auth.ready || !auth.user || auth.confirmed === null || loading"
 			class="w-screen h-screen flex justify-center items-center"
 		>
-			<div class="animate-spin w-16 h-16 rounded-full border-4 border-transparent border-t-blade-400"></div>
+			<div class="animate-spin w-16 h-16 rounded-full border-4 border-transparent border-t-spring-600"></div>
 		</div>
 
 		<!-- modals -->
