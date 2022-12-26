@@ -43,27 +43,27 @@
 					<input
 						type="password"
 						v-model="auth.password"
-						:class="{ '!border-red-600': error.password.missing || error.password.mismatch || error.password.tooshort }"
+						:class="{ '!border-red-600': errorsPassword }"
 						:placeholder="t('placeholder.examplePassword', { p: examplePassword })"
 					/>
 					<input
 						type="password"
 						v-model="auth.repeat"
-						:class="{ '!border-red-600': error.password.missing || error.password.mismatch || error.password.tooshort }"
+						:class="{ '!border-red-600': errorsPassword }"
 						:placeholder="t('placeholder.repeatPassword')"
 					/>
 				</label>
 				<div
-					v-if="error.password.missing || error.password.mismatch || error.password.tooshort"
+					v-if="errorsPassword"
 					class="text-red-600"
 				>
-					<span v-if="error.password.missing">{{ t('error.requiredPassword') }}</span>
-					<span v-if="error.password.mismatch"> {{ t('error.passwordsDontMatch') }}</span>
-					<span v-if="error.password.tooshort"> {{ t('error.passwordTooShort') }}</span>
+					<span v-if="error.password.missing">{{ t('error.requiredPassword') }}&nbsp;</span>
+					<span v-if="error.password.mismatch">{{ t('error.passwordsDontMatch') }}&nbsp;</span>
+					<span v-if="error.password.tooshort">{{ t('error.passwordTooShort') }}</span>
 				</div>
 			</div>
-			<div class="flex justify-end items-center gap-4">
-				<button class="px-3 py-1 text-zinc-500" aria-label="Cancel" @click.prevent="emit('closed')">
+			<div class="flex flex-col justify-end items-center gap-4 2xs:flex-row">
+				<button class="px-3 py-2 text-zinc-500" aria-label="Cancel" @click.prevent="emit('closed')">
 					{{ t('button.cancel') }}
 				</button>
 				<primary-button class="grow" @click="signUp">
@@ -112,12 +112,15 @@ const error = reactive({
 const emit = defineEmits(['submitted', 'closed']);
 
 // computed: calculate wether form errors occured
-const errors = computed(() => (
-	error.name ||
-	error.email ||
+const errorsPassword = computed(() => (
 	error.password.missing ||
 	error.password.mismatch ||
 	error.password.tooshort
+));
+const errors = computed(() => (
+	error.name ||
+	error.email ||
+	errorsPassword.value
 ));
 
 const signUp = () => {
