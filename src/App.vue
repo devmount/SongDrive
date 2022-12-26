@@ -15,15 +15,23 @@
 				<router-link to="/" class="flex flex-col w-max mx-auto mb-6 no-active">
 					<logo :featured="false" :show-version="true" />
 				</router-link>
-				<div class="flex flex-col">
+				<div class="flex flex-col gap-1">
 					<divider-horizontal :label="t('divider.start')" />
-					<router-link to="/" class="px-3 py-2 flex items-center gap-3 hover:bg-blade-750" @click="open = false">
-						<ion-icon :icon="appsSharp" class="w-5 h-5" /> <span class="mb-0.5 uppercase">{{ t('page.dashboard') }}</span>
+					<router-link
+						to="/"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<ion-icon :icon="appsSharp" class="w-5 h-5" />
+						<span class="mb-0.5 uppercase">{{ t('page.dashboard') }}</span>
 					</router-link>
-					<li class="menu-item">
-						<router-link to="/songs" class="py-2" @click="open = false">
-							<ion-icon :icon="musicalNotesSharp" class="mr-2"></ion-icon> {{ t('page.songs') }}
-						</router-link>
+					<router-link
+						to="/songs"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<ion-icon :icon="musicalNotesSharp" class="w-5 h-5"></ion-icon>
+						<span class="mb-0.5 uppercase">{{ t('page.songs') }}</span>
 						<div class="menu-badge">
 							<label v-if="ready.songs" class="label py-1">{{ Object.keys(c.songs).length }}</label>
 							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
@@ -36,11 +44,14 @@
 								<ion-icon :icon="addSharp"></ion-icon>
 							</button>
 						</div>
-					</li>
-					<li class="menu-item">
-						<router-link to="/setlists" class="py-2" @click="open = false">
-							<ion-icon :icon="list" class="mr-2"></ion-icon> {{ t('page.setlists') }}
-						</router-link>
+					</router-link>
+					<router-link
+						to="/setlists"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<ion-icon :icon="list" class="w-5 h-5"></ion-icon>
+						<span class="mb-0.5 uppercase">{{ t('page.setlists') }}</span>
 						<div class="menu-badge">
 							<label v-if="ready.setlists" class="label py-1">{{ setlistCount }}</label>
 							<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
@@ -53,60 +64,81 @@
 								<ion-icon :icon="addSharp"></ion-icon>
 							</button>
 						</div>
-					</li>
+					</router-link>
 					<divider-horizontal :label="t('divider.account')" />
-					<li class="menu-item pt-2 pb-2">
-						<router-link to="/profile" class="py-2" @click="open = false">
-							<div class="tile tile-centered">
-								<div class="tile-icon mr-2 ml-1">
-									<img v-if="c.users[auth.user].photo" class="avatar" :src="c.users[auth.user].photo" alt="Avatar">
-									<figure
-										v-else-if="userName"
-										class="avatar"
-										:data-initial="initials(userName)"
-										alt="Avatar"
-									></figure>
-									<span v-else class="avatar flex-center">
-										<ion-icon :icon="person"></ion-icon>
-									</span>
-								</div>
-								<div class="tile-content">
-									{{ userName }}
-									<div class="text-gray text-small">
-										{{ t('role.' + c.permissions[auth.user].role) }}
-									</div>
-								</div>
+					<router-link
+						to="/profile"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<img
+							v-if="c.users[auth.user].photo"
+							class="w-10 h-10 rounded-full bg-spring-600"
+							:src="c.users[auth.user].photo"
+							alt="Avatar"
+						/>
+						<figure
+							v-else-if="userName"
+							class="w-10 h-10 rounded-full bg-spring-600"
+							alt="Avatar"
+						>
+							{{ initials(userName) }}
+						</figure>
+						<figure
+							v-else
+							class="w-10 h-10 rounded-full bg-spring-600"
+							alt="Avatar"
+						>
+							<ion-icon :icon="person"></ion-icon>
+						</figure>
+						<div class="flex flex-col">
+							<div class="leading-5 uppercase">{{ userName }}</div>
+							<div class="text-gray-500 text-sm">
+								{{ t('role.' + c.permissions[auth.user].role) }}
 							</div>
-						</router-link>
-					</li>
-					<li class="menu-item">
-						<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles[c.permissions[auth.user].role] > 3 }" @click="open = false">
-							<ion-icon :icon="optionsOutline" class="mr-2"></ion-icon> {{ t('page.settings') }}
-						</router-link>
-					</li>
-					<li class="menu-item">
-						<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
-							{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
-						</button>
-					</li>
+						</div>
+					</router-link>
+					<router-link
+						to="/settings"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<ion-icon :icon="optionsOutline" class="w-5 h-5"></ion-icon>
+						<span class="mb-0.5 uppercase">{{ t('page.settings') }}</span>
+						<div
+							v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3"
+							class="w-2 h-2 bg-spring-600 ml-auto rounded-full animate-ping"
+						></div>
+					</router-link>
+					<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
+						{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
+					</button>
 					<divider-horizontal :label="t('divider.info')" />
-					<li class="menu-item">
-						<router-link to="/shortcuts" class="py-2" @click="open = false">
-							<ion-icon :icon="bulbOutline" class="mr-2"></ion-icon> {{ t('page.shortcuts') }}
-						</router-link>
-					</li>
-					<li class="menu-item">
-						<router-link to="/documentation" class="py-2" @click="open = false">
-							<ion-icon :icon="bookOutline" class="mr-2"></ion-icon> {{ t('page.docu') }}
-						</router-link>
-					</li>
-					<li class="menu-item">
-						<a href="https://github.com/devmount/SongDrive" class="py-2" target="_blank">
-							<ion-icon :icon="logoGithub" class="mr-2"></ion-icon>
-							{{ t('page.github') }}
-							<ion-icon :icon="openOutline" class="icon-right"></ion-icon>
-						</a>
-					</li>
+					<router-link
+						to="/shortcuts"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<ion-icon :icon="bulbOutline" class="w-5 h-5"></ion-icon>
+						<span class="mb-0.5 uppercase">{{ t('page.shortcuts') }}</span>
+					</router-link>
+					<router-link
+						to="/documentation"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<ion-icon :icon="bookOutline" class="w-5 h-5"></ion-icon>
+						<span class="mb-0.5 uppercase">{{ t('page.docu') }}</span>
+					</router-link>
+					<a
+						href="https://github.com/devmount/SongDrive"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						target="_blank"
+					>
+						<ion-icon :icon="logoGithub" class="w-5 h-5"></ion-icon>
+						<span class="mb-0.5 uppercase">{{ t('page.github') }}</span>
+						<ion-icon :icon="openOutline" class="w-5 h-5 ml-auto"></ion-icon>
+					</a>
 				</div>
 				<footer>
 					<div class="text-center text-small text-gray">
