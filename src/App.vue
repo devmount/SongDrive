@@ -3,16 +3,19 @@
 		<!-- logged in, confirmed and verified -->
 		<div
 			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && c.users[auth.user] && ready.permissions && c.permissions[auth.user] && !loading"
-			class="off-canvas off-canvas-sidebar-show"
+			class="lg:flex min-h-screen"
 		>
 			<!-- off-screen toggle button -->
-			<button class="lg:hidden" @click="open = true">
+			<button class="fixed lg:hidden transition-all top-4 right-4 px-2 py-1 flex items-center" :class="{ 'right-64 mr-4': open }" @click="open = true">
 				<ion-icon :icon="menu" size="large" />
 			</button>
 
 			<!-- off-screen sidebar -->
-			<div class="max-w-2xs px-2 py-8 bg-blade-200 dark:bg-blade-900" :class="{ active: open }">
-				<router-link to="/" class="flex flex-col w-max mx-auto mb-6 no-active">
+			<div
+				class="fixed shrink-0 lg:sticky -right-64 lg:left-0 lg:right-auto top-0 transition-all z-50 h-screen w-64 flex flex-col px-2 py-8 bg-blade-200 dark:bg-blade-900"
+				:class="{ '!right-0': open }"
+			>
+				<router-link to="/" class="flex flex-col w-max mx-auto mb-4 no-active">
 					<logo :featured="false" :show-version="true" />
 				</router-link>
 				<div class="flex flex-col gap-1">
@@ -138,8 +141,8 @@
 						<ion-icon :icon="openOutline" class="w-5 h-5 ml-auto" />
 					</a>
 				</div>
-				<footer>
-					<div class="flex justify-center items-center gap-1 text-sm text-blade-400">
+				<footer class="mt-auto text-sm text-blade-500">
+					<div class="flex justify-center items-center gap-1">
 						<span>{{ t('app.created.0') }}</span>
 						<ion-icon :icon="heartOutline" class="w-5 h-5" />
 						<span>{{ t('app.created.1') }}</span>
@@ -150,7 +153,7 @@
 							</svg>
 						</a>
 					</div>
-					<div class="flex justify-center items-center gap-1 text-sm text-blade-400">
+					<div class="flex justify-center items-center gap-1">
 						<span>2016–{{ (new Date()).getFullYear() }}</span>
 						<svg class="w-5 h-5 fill-transparent stroke-1.5 stroke-current" viewBox="0 0 24 24">
 							<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -164,7 +167,11 @@
 					</div>
 				</footer>
 			</div>
-			<a class="off-canvas-overlay" @click="open = false"></a>
+			<div
+				class="absolute top-0 left-0 z-40 w-screen h-screen bg-blade-800/50 lg:hidden"
+				:class="{ 'hidden': !open }"
+				@click="open = false"
+			></div>
 
 			<!-- off-screen content -->
 			<div class="off-canvas-content">
