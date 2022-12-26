@@ -56,7 +56,7 @@
 							</button>
 						</div>
 					</li>
-					<li class="divider text-center" :data-content="t('divider.account')"></li>
+					<divider-horizontal :label="t('divider.account')" />
 					<li class="menu-item pt-2 pb-2">
 						<router-link to="/profile" class="py-2" @click="open = false">
 							<div class="tile tile-centered">
@@ -91,9 +91,7 @@
 							{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
 						</button>
 					</li>
-				</div>
-				<ul class="menu text-uppercase">
-					<li class="divider text-center" :data-content="t('divider.info')"></li>
+					<divider-horizontal :label="t('divider.info')" />
 					<li class="menu-item">
 						<router-link to="/shortcuts" class="py-2" @click="open = false">
 							<ion-icon :icon="bulbOutline" class="mr-2"></ion-icon> {{ t('page.shortcuts') }}
@@ -111,7 +109,7 @@
 							<ion-icon :icon="openOutline" class="icon-right"></ion-icon>
 						</a>
 					</li>
-				</ul>
+				</div>
 				<footer>
 					<div class="text-center text-small text-gray">
 						<span>
