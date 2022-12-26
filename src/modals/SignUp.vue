@@ -14,7 +14,7 @@
 			<div class="flex justify-between">
 				<div class="text-lg uppercase font-medium">{{ t('modal.signUp') }}</div>
 				<button aria-label="Close" @click="emit('closed')">
-					<ion-icon :icon="closeOutline" class="w-6 h-6"></ion-icon>
+					<ion-icon :icon="closeOutline" class="w-6 h-6" />
 				</button>
 			</div>
 			<div>{{ t('text.createNewAccount') }}</div>
@@ -74,7 +74,7 @@
 				</button>
 				<Primary-button class="grow" @click="signUp">
 					{{ $t('button.signUp') }}
-					<ion-icon :icon="personAddOutline" class="w-6 h-6"></ion-icon>
+					<ion-icon :icon="personAddOutline" class="w-6 h-6" />
 				</primary-button>
 			</div>
 		</div>

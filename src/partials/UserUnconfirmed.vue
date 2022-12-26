@@ -10,7 +10,7 @@
 			<p>{{ $t('text.notApprovedYet') }}</p>
 			<p v-if="ready.config && config.contact.email" v-html="$t('text.unconfirmedMistake', [config.contact.email])"></p>
 			<button class="btn btn-secondary d-block stretch mt-4" @click="$emit('signOut')">
-				{{ $t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
+				{{ $t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right" />
 			</button>
 		</div>
 	</div>

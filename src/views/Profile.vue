@@ -24,7 +24,7 @@
 									:data-initial="initials(users[user].name)"
 								></figure>
 								<span v-else class="avatar avatar-xxl flex-center">
-									<ion-icon :icon="person" class="icon-2x"></ion-icon>
+									<ion-icon :icon="person" class="icon-2x" />
 								</span>
 							</div>
 							<div v-if="users[user].name" class="panel-title h5">{{ users[user].name }}</div>
@@ -37,7 +37,7 @@
 									<div class="tile-subtitle text-gray">{{ users[user].email }}</div>
 								</div>
 								<div class="tile-icon text-gray">
-									<ion-icon :icon="mailOutline" class="icon-1-5x"></ion-icon>
+									<ion-icon :icon="mailOutline" class="icon-1-5x" />
 								</div>
 							</div>
 							<div v-if="users[user].photo" class="tile tile-centered mb-2">
@@ -46,14 +46,14 @@
 									<div class="tile-subtitle text-gray">{{ users[user].photo.substr(0,40) }}...</div>
 								</div>
 								<div class="tile-icon text-gray">
-									<ion-icon :icon="cameraOutline" class="icon-1-5x"></ion-icon>
+									<ion-icon :icon="cameraOutline" class="icon-1-5x" />
 								</div>
 							</div>
 						</div>
 						<div v-if="role" class="panel-link mt-4">
 							<router-link to="/settings" class="btn btn-link btn-block">
 								{{ t('widget.goToSettings') }}
-								<ion-icon :icon="arrowForward" class="ml-4"></ion-icon>
+								<ion-icon :icon="arrowForward" class="ml-4" />
 							</router-link>
 						</div>
 					</div>
@@ -66,7 +66,7 @@
 									<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
 									<div v-else class="text-huge">{{ Object.keys(setlistsFromUser).length }}</div>
 									<div class="panel-title h5">
-										<ion-icon :icon="list" class="mr-2"></ion-icon>
+										<ion-icon :icon="list" class="mr-2" />
 										{{ t('widget.setlistsCreated')}}
 									</div>
 								</div>
@@ -80,7 +80,7 @@
 										<span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span>
 									</div>
 									<div class="panel-title h5">
-										<ion-icon :icon="musicalNotes" class="mr-2"></ion-icon>
+										<ion-icon :icon="musicalNotes" class="mr-2" />
 										{{ t('widget.songsPerformed') }}
 									</div>
 								</div>
@@ -94,7 +94,7 @@
 				<div class="column col-">
 					<div class="empty">
 						<div class="empty-icon">
-							<ion-icon :icon="eyeOffOutline" class="icon-4x"></ion-icon>
+							<ion-icon :icon="eyeOffOutline" class="icon-4x" />
 						</div>
 						<p class="empty-title h5">{{ t('text.pageNotAvailable') }}</p>
 						<p class="empty-subtitle">{{ t('text.signInForAccess') }}</p>

@@ -34,7 +34,7 @@
 					<ul class="pagination">
 						<li class="page-item" :class="{ disabled: isFirstPage }">
 							<a class="btn btn-secondary" @click="!isFirstPage ? page-- : null">
-								<ion-icon :icon="arrowBack"></ion-icon>
+								<ion-icon :icon="arrowBack" />
 							</a>
 						</li>
 						<li
@@ -56,7 +56,7 @@
 						</li>
 						<li class="page-item" :class="{ disabled: isLastPage }">
 							<a class="btn btn-secondary" @click="!isLastPage ? page++ : null">
-								<ion-icon :icon="arrowForward"></ion-icon>
+								<ion-icon :icon="arrowForward" />
 							</a>
 						</li>
 					</ul>
@@ -66,7 +66,7 @@
 				<div class="column col-8 col-xl-12">
 					<div class="input-group filter">
 						<!-- search title, subtitles -->
-						<span class="input-group-addon addon-lg"><ion-icon :icon="searchIcon"></ion-icon></span>
+						<span class="input-group-addon addon-lg"><ion-icon :icon="searchIcon" /></span>
 						<input
 							type="search"
 							ref="searchInput"
@@ -81,7 +81,7 @@
 									:class="{ 'badge': filter!=''||tuning!=''||language!=''}"
 									tabindex="0"
 								>
-									<ion-icon :icon="filterSharp"></ion-icon>
+									<ion-icon :icon="filterSharp" />
 								</a>
 								<ul class="menu text-left">
 									<li class="menu-item">
@@ -113,7 +113,7 @@
 											class="btn input-group-btn btn-lg btn-error-secondary stretch"
 											@click="search=''; filter=''; tuning=''; language=''"
 										>
-											<ion-icon :icon="close"></ion-icon>
+											<ion-icon :icon="close" />
 											{{ t('button.reset') }}
 										</button>
 									</li>
@@ -140,8 +140,8 @@
 							@click="sortList(col)"
 						>
 							{{ t('field.' + col) }}
-							<ion-icon :icon="caretDown" v-if="order.field == col && !order.ascending" class="icon-right"></ion-icon>
-							<ion-icon :icon="caretUp" v-if="order.field == col && order.ascending" class="icon-right"></ion-icon>
+							<ion-icon :icon="caretDown" v-if="order.field == col && !order.ascending" class="icon-right" />
+							<ion-icon :icon="caretUp" v-if="order.field == col && order.ascending" class="icon-right" />
 						</th>
 						<th></th>
 					</tr>
@@ -167,12 +167,12 @@
 							<div class="dropdown dropdown-right">
 								<div class="btn-group">
 									<a class="btn btn-primary dropdown-toggle" tabindex="0">
-										<ion-icon :icon="ellipsisHorizontalOutline"></ion-icon>
+										<ion-icon :icon="ellipsisHorizontalOutline" />
 									</a>
 									<ul class="menu text-left">
 										<li class="menu-item">
 											<router-link :to="{ name: 'song-show', params: { id: song.id }}" class="py-3 px-3">
-												<ion-icon :icon="eyeOutline" class="mr-2"></ion-icon> {{ t('button.show') }}
+												<ion-icon :icon="eyeOutline" class="mr-2" /> {{ t('button.show') }}
 											</router-link>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
@@ -181,7 +181,7 @@
 												class="py-3 px-3"
 												@click.prevent="editDialog(song, true)"
 											>
-												<ion-icon :icon="createOutline" class="mr-2"></ion-icon> {{ t('button.edit') }}
+												<ion-icon :icon="createOutline" class="mr-2" /> {{ t('button.edit') }}
 											</a>
 										</li>
 										<li v-if="user && role > 1" class="menu-item">
@@ -190,7 +190,7 @@
 												class="py-3 px-3"
 												@click.prevent="editDialog(song, false)"
 											>
-												<ion-icon :icon="copyOutline" class="mr-2"></ion-icon> {{ t('button.duplicate') }}
+												<ion-icon :icon="copyOutline" class="mr-2" /> {{ t('button.duplicate') }}
 											</a>
 										</li>
 										<li v-if="user && role > 2" class="menu-item">
@@ -199,7 +199,7 @@
 												class="py-3 px-3 text-error"
 												@click.prevent="deleteDialog(song)"
 											>
-												<ion-icon :icon="trashOutline" class="mr-2"></ion-icon> {{ t('button.delete') }}
+												<ion-icon :icon="trashOutline" class="mr-2" /> {{ t('button.delete') }}
 											</a>
 										</li>
 									</ul>

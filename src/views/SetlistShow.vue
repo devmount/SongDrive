@@ -24,19 +24,19 @@
 									class="text-primary flex align-center g-2 tooltip tooltip-bottom"
 									:data-tooltip="t('tooltip.setlistPrivate')"
 								>
-									<ion-icon :icon="lockClosedOutline" class="icon-sm"></ion-icon>
+									<ion-icon :icon="lockClosedOutline" class="icon-sm" />
 									{{ t('option.private') }}
 								</span>
 								<span class="flex align-center g-2">
-									<ion-icon :icon="list" class="icon-sm"></ion-icon>
+									<ion-icon :icon="list" class="icon-sm" />
 									{{ t('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
 								</span>
 								<span class="flex align-center g-2">
-									<ion-icon :icon="calendarOutline" class="icon-sm"></ion-icon>
+									<ion-icon :icon="calendarOutline" class="icon-sm" />
 									{{ humanDate(setlist.date, locale) }}
 								</span>
 								<span v-if="ready.users && users[setlist.creator]" class="flex align-center g-2">
-									<ion-icon :icon="personOutline" class="icon-sm"></ion-icon>
+									<ion-icon :icon="personOutline" class="icon-sm" />
 									{{ users[setlist.creator].name }}
 								</span>
 							</div>
@@ -49,7 +49,7 @@
 									:data-tooltip="t('button.back')"
 									@click="router.go(-1)"
 								>
-									<ion-icon :icon="arrowBackOutline"></ion-icon>
+									<ion-icon :icon="arrowBackOutline" />
 									<span class="hide-xl ml-2">{{ t('button.back') }}</span>
 								</button>
 							</div>
@@ -61,7 +61,7 @@
 								>
 									<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
 									<i class="form-icon"></i>
-									<ion-icon :icon="sync" class="show-xl mt-1"></ion-icon>
+									<ion-icon :icon="sync" class="show-xl mt-1" />
 									<span class="hide-xl">{{ t('switch.sync') }}</span>
 								</label>
 								<label
@@ -70,7 +70,7 @@
 								>
 									<input type="checkbox" v-model="chords">
 									<i class="form-icon"></i>
-									<ion-icon :icon="musicalNotesOutline" class="show-xl mt-1"></ion-icon>
+									<ion-icon :icon="musicalNotesOutline" class="show-xl mt-1" />
 									<span class="hide-xl">{{ t('switch.chords') }}</span>
 								</label>
 								<button
@@ -78,7 +78,7 @@
 									:data-tooltip="t('tooltip.startPresentation')"
 									@click="modal.present=true"
 								>
-									<ion-icon :icon="videocamOutline"></ion-icon>
+									<ion-icon :icon="videocamOutline" />
 									<span class="hide-xl ml-2">{{ t('button.present') }}</span>
 								</button>
 								<router-link
@@ -87,7 +87,7 @@
 									class="btn btn-secondary flex align-center tooltip tooltip-bottom"
 									:data-tooltip="t('tooltip.openInNewTab')"
 								>
-									<ion-icon :icon="openOutline"></ion-icon>
+									<ion-icon :icon="openOutline" />
 									<span class="hide-xl ml-2">{{ t('button.open') }}</span>
 								</router-link>
 							</div>
@@ -95,26 +95,26 @@
 								<div class="dropdown dropdown-right">
 									<div class="btn-group">
 										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('tooltip.copySetlist')" tabindex="0">
-											<ion-icon :icon="clipboardOutline" class="mr-2"></ion-icon>
+											<ion-icon :icon="clipboardOutline" class="mr-2" />
 											<span class="hide-xl">{{ t('button.copy') }}</span>
-											<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
+											<ion-icon :icon="chevronDownOutline" class="ml-1" />
 										</a>
 										<ul class="menu text-left">
 											<li class="menu-item">
 												<a href="#" class="py-3 px-3" @click="copyList('plain')">
-													<ion-icon :icon="list" class="mr-2"></ion-icon>
+													<ion-icon :icon="list" class="mr-2" />
 													{{ t('button.formatPlain') }}
 												</a>
 											</li>
 											<li class="menu-item">
 												<a href="#" class="py-3 px-3" @click="copyList('markdown')">
-													<ion-icon :icon="logoMarkdown" class="mr-2"></ion-icon>
+													<ion-icon :icon="logoMarkdown" class="mr-2" />
 													{{ t('button.formatMarkdown') }}
 												</a>
 											</li>
 											<li class="menu-item">
 												<a href="#" class="py-3 px-3" @click="copyList('slack')">
-													<ion-icon :icon="logoSlack" class="mr-2"></ion-icon>
+													<ion-icon :icon="logoSlack" class="mr-2" />
 													{{ t('button.formatSlack') }}
 												</a>
 											</li>
@@ -124,20 +124,20 @@
 								<div class="dropdown dropdown-right">
 									<div class="btn-group">
 										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('tooltip.downloadSetlist')" tabindex="0">
-											<ion-icon :icon="downloadOutline" class="mr-2"></ion-icon>
+											<ion-icon :icon="downloadOutline" class="mr-2" />
 											<span class="hide-xl">{{ t('button.download') }}</span>
-											<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
+											<ion-icon :icon="chevronDownOutline" class="ml-1" />
 										</a>
 										<ul class="menu text-left">
 											<li class="menu-item">
 												<a href="#" class="py-3 px-3" @click="exportPdf('list')">
-													<ion-icon :icon="documentTextOutline" class="mr-2"></ion-icon>
+													<ion-icon :icon="documentTextOutline" class="mr-2" />
 													{{ t('button.exportSetlistList') }}
 												</a>
 											</li>
 											<li class="menu-item">
 												<a href="#" class="py-3 px-3" @click="exportPdf('sheets')">
-													<ion-icon :icon="documentsOutline" class="mr-2"></ion-icon>
+													<ion-icon :icon="documentsOutline" class="mr-2" />
 													{{ t('button.exportSetlistSheets') }}
 												</a>
 											</li>
@@ -147,25 +147,25 @@
 								<div v-if="user && role > 1" class="dropdown dropdown-right">
 									<div class="btn-group">
 										<a class="btn btn-secondary dropdown-toggle flex align-center" tabindex="0">
-											<ion-icon :icon="menuOutline"></ion-icon>
-											<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
+											<ion-icon :icon="menuOutline" />
+											<ion-icon :icon="chevronDownOutline" class="ml-1" />
 										</a>
 										<ul class="menu text-left">
 											<li class="menu-item">
 												<a href="#" class="py-3 px-3" @click="existing=true; modal.set=true">
-													<ion-icon :icon="createOutline" class="mr-2"></ion-icon>
+													<ion-icon :icon="createOutline" class="mr-2" />
 													{{ t('button.edit') }}
 												</a>
 											</li>
 											<li class="menu-item">
 												<a href="#" class="py-3 px-3" @click="existing=false; modal.set=true">
-													<ion-icon :icon="copyOutline" class="mr-2"></ion-icon>
+													<ion-icon :icon="copyOutline" class="mr-2" />
 													{{ t('button.duplicate') }}
 												</a>
 											</li>
 											<li v-if="role > 2" class="menu-item">
 												<a href="#" class="py-3 px-3 text-error" @click="modal.delete = true">
-													<ion-icon :icon="trashOutline" class="mr-2"></ion-icon>
+													<ion-icon :icon="trashOutline" class="mr-2" />
 													{{ t('button.delete') }}
 												</a>
 											</li>
@@ -191,7 +191,7 @@
 								<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
 									<tr v-for="(song, i) in setlist.songs" :key="song.id">
 										<td v-if="user && role > 1" class="c-move text-center text-gray">
-											<ion-icon :icon="reorderFourOutline" class="icon-1-5x pl-2 handle"></ion-icon>
+											<ion-icon :icon="reorderFourOutline" class="icon-1-5x pl-2 handle" />
 										</td>
 										<template v-if="songs[song.id]">
 											<td class="c-hand max-w-0" @click.prevent="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})">
@@ -204,7 +204,7 @@
 													class="btn btn-secondary btn-sm btn-fw"
 													@click.prevent="tuneDown(songs[song.id], i)"
 												>
-													<ion-icon :icon="arrowBack" class="icon-sm"></ion-icon>
+													<ion-icon :icon="arrowBack" class="icon-sm" />
 												</button>
 												<code>{{ song.tuning ? song.tuning : songs[song.id].tuning }}</code>
 												<button
@@ -212,7 +212,7 @@
 													class="btn btn-secondary btn-sm btn-fw"
 													@click.prevent="tuneUp(songs[song.id], i)"
 												>
-													<ion-icon :icon="arrowForward" class="icon-sm"></ion-icon>
+													<ion-icon :icon="arrowForward" class="icon-sm" />
 												</button>
 											</td>
 											<td class="hide-xl max-w-0 o-ellipsis">{{ songs[song.id].authors }}</td>
@@ -236,14 +236,14 @@
 												class="btn btn-primary"
 												@click.prevent="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})"
 											>
-												<ion-icon :icon="eyeOutline"></ion-icon>
+												<ion-icon :icon="eyeOutline" />
 											</button>
 											<button
 												v-else
 												class="btn btn-error"
 												@click.prevent="removeSong(song.id)"
 											>
-												<ion-icon :icon="trashOutline"></ion-icon>
+												<ion-icon :icon="trashOutline" />
 											</button>
 										</td>
 									</tr>
@@ -252,7 +252,7 @@
 						</div>
 						<div v-if="ready.songs && ready.setlists && setlist && setlist.songs.length == 0" class="column col-12 empty">
 							<div class="empty-icon">
-								<ion-icon :icon="musicalNotesOutline" class="icon-4x"></ion-icon>
+								<ion-icon :icon="musicalNotesOutline" class="icon-4x" />
 							</div>
 							<p class="empty-title h5">{{ t('text.emptySetlist') }}</p>
 							<p class="empty-subtitle">{{ t('text.editSetlistAddSongs') }}</p>
@@ -264,7 +264,7 @@
 							<div class="panel pb-4">
 								<div class="panel-header">
 									<div class="panel-title h5 text-center">
-										<ion-icon :icon="globeOutline"></ion-icon> {{ t('widget.languages', 2) }}
+										<ion-icon :icon="globeOutline" /> {{ t('widget.languages', 2) }}
 									</div>
 								</div>
 								<div class="panel-body">
@@ -283,7 +283,7 @@
 							<div class="panel pb-4">
 								<div class="panel-header">
 									<div class="panel-title h5 text-center">
-										<ion-icon :icon="musicalNote"></ion-icon> {{ t('widget.keys') }}
+										<ion-icon :icon="musicalNote" /> {{ t('widget.keys') }}
 									</div>
 								</div>
 								<div class="panel-body">
@@ -341,7 +341,7 @@
 	</div>
 	<div v-else class="empty">
 		<div class="empty-icon">
-			<ion-icon :icon="lockClosedOutline" class="icon-4x"></ion-icon>
+			<ion-icon :icon="lockClosedOutline" class="icon-4x" />
 		</div>
 		<p class="empty-title h5">{{ t('text.privateSetlist') }}</p>
 		<p class="empty-subtitle">{{ t('text.setlistVisibleForCreator') }}</p>

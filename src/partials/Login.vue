@@ -22,7 +22,7 @@
 			<div class="mt-3">
 				<Primary-button class="w-full" @click="emit('signIn', email, password)">
 					{{ t('button.signIn') }}
-					<ion-icon :icon="logInOutline" class="w-6 h-6"></ion-icon>
+					<ion-icon :icon="logInOutline" class="w-6 h-6" />
 				</primary-button>
 			</div>
 		</panel>

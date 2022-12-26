@@ -18,20 +18,20 @@
 								<tbody>
 									<tr>
 										<td>
-											<kbd><ion-icon :icon="arrowBack"></ion-icon></kbd> /
-											<kbd><ion-icon :icon="arrowForward"></ion-icon></kbd>
+											<kbd><ion-icon :icon="arrowBack" /></kbd> /
+											<kbd><ion-icon :icon="arrowForward" /></kbd>
 										</td>
 										<td></td>
 										<td>{{ t('tooltip.pagination') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.F') }}</kbd></td>
-										<td><ion-icon :icon="search"></ion-icon></td>
+										<td><ion-icon :icon="search" /></td>
 										<td>{{ t('tooltip.search') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.esc') }}</kbd></td>
-										<td><ion-icon :icon="closeOutline"></ion-icon></td>
+										<td><ion-icon :icon="closeOutline" /></td>
 										<td>{{ t('tooltip.clear') }}</td>
 									</tr>
 								</tbody>
@@ -49,48 +49,48 @@
 								<tbody>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.K') }}</kbd></td>
-										<td><ion-icon :icon="musicalNotes"></ion-icon></td>
+										<td><ion-icon :icon="musicalNotes" /></td>
 										<td>{{ t('tooltip.chordsShow') }} / {{ t('tooltip.chordsHide') }}</td>
 									</tr>
 									<tr>
 										<td>
-											<kbd><ion-icon :icon="arrowForward"></ion-icon></kbd> /
-											<kbd><ion-icon :icon="arrowUp"></ion-icon></kbd>
+											<kbd><ion-icon :icon="arrowForward" /></kbd> /
+											<kbd><ion-icon :icon="arrowUp" /></kbd>
 										</td>
 										<td></td>
 										<td>{{ t('tooltip.transposeUp') }}</td>
 									</tr>
 									<tr>
 										<td>
-											<kbd><ion-icon :icon="arrowBack"></ion-icon></kbd> /
-											<kbd><ion-icon :icon="arrowDown"></ion-icon></kbd>
+											<kbd><ion-icon :icon="arrowBack" /></kbd> /
+											<kbd><ion-icon :icon="arrowDown" /></kbd>
 										</td>
 										<td></td>
 										<td>{{ t('tooltip.transposeDown') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.R') }}</kbd></td>
-										<td><ion-icon :icon="musicalNote"></ion-icon></td>
+										<td><ion-icon :icon="musicalNote" /></td>
 										<td>{{ t('tooltip.keyReset') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.P') }}</kbd></td>
-										<td><ion-icon :icon="videocamOutline"></ion-icon></td>
+										<td><ion-icon :icon="videocamOutline" /></td>
 										<td>{{ t('tooltip.presentationStart') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
-										<td><ion-icon :icon="informationOutline"></ion-icon></td>
+										<td><ion-icon :icon="informationOutline" /></td>
 										<td>{{ t('tooltip.infoSongData') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
-										<td><ion-icon :icon="contrastOutline"></ion-icon></td>
+										<td><ion-icon :icon="contrastOutline" /></td>
 										<td>{{ t('tooltip.invertColors') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.esc') }}</kbd></td>
-										<td><ion-icon :icon="close"></ion-icon></td>
+										<td><ion-icon :icon="close" /></td>
 										<td>{{ t('tooltip.presentationClose') }}</td>
 									</tr>
 								</tbody>
@@ -108,53 +108,53 @@
 								<tbody>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.S') }}</kbd></td>
-										<td><ion-icon :icon="sync"></ion-icon></td>
+										<td><ion-icon :icon="sync" /></td>
 										<td>{{ t('tooltip.syncOn') }} / {{ t('tooltip.syncOff') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.K') }}</kbd></td>
-										<td><ion-icon :icon="musicalNotes"></ion-icon></td>
+										<td><ion-icon :icon="musicalNotes" /></td>
 										<td>{{ t('tooltip.chordsShow') }} / {{ t('tooltip.chordsHide') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.P') }}</kbd></td>
-										<td><ion-icon :icon="videocamOutline"></ion-icon></td>
+										<td><ion-icon :icon="videocamOutline" /></td>
 										<td>{{ t('tooltip.presentationStart') }}</td>
 									</tr>
 									<tr>
 										<td>
-											<kbd><ion-icon :icon="arrowForward"></ion-icon></kbd> /
-											<kbd><ion-icon :icon="arrowDown"></ion-icon></kbd>
+											<kbd><ion-icon :icon="arrowForward" /></kbd> /
+											<kbd><ion-icon :icon="arrowDown" /></kbd>
 										</td>
 										<td></td>
 										<td>{{ t('tooltip.nextSlide') }}</td>
 									</tr>
 									<tr>
 										<td>
-											<kbd><ion-icon :icon="arrowBack"></ion-icon></kbd> /
-											<kbd><ion-icon :icon="arrowUp"></ion-icon></kbd>
+											<kbd><ion-icon :icon="arrowBack" /></kbd> /
+											<kbd><ion-icon :icon="arrowUp" /></kbd>
 										</td>
 										<td></td>
 										<td>{{ t('tooltip.previousSlide') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.B') }}</kbd></td>
-										<td><ion-icon :icon="eyeOffOutline"></ion-icon></td>
+										<td><ion-icon :icon="eyeOffOutline" /></td>
 										<td>{{ t('tooltip.presentationShow') }} / {{ t('tooltip.presentationHide') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
-										<td><ion-icon :icon="informationOutline"></ion-icon></td>
+										<td><ion-icon :icon="informationOutline" /></td>
 										<td>{{ t('tooltip.infoSongData') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
-										<td><ion-icon :icon="contrastOutline"></ion-icon></td>
+										<td><ion-icon :icon="contrastOutline" /></td>
 										<td>{{ t('tooltip.invertColors') }}</td>
 									</tr>
 									<tr>
 										<td><kbd>{{ t('key.esc') }}</kbd></td>
-										<td><ion-icon :icon="close"></ion-icon></td>
+										<td><ion-icon :icon="close" /></td>
 										<td>{{ t('tooltip.presentationClose') }}</td>
 									</tr>
 								</tbody>

@@ -32,7 +32,7 @@
 										:data-tooltip="t('button.back')"
 										@click="router.go(-1)"
 									>
-										<ion-icon :icon="arrowBackOutline"></ion-icon>
+										<ion-icon :icon="arrowBackOutline" />
 										<span class="hide-xl ml-2">{{ t('button.back') }}</span>
 									</button>
 									<div
@@ -58,7 +58,7 @@
 											:data-tooltip="t('tooltip.transposeDown')"
 											@click="tuning--"
 										>
-											<ion-icon :icon="arrowBack"></ion-icon>
+											<ion-icon :icon="arrowBack" />
 										</button>
 										<button
 											class="btn btn-secondary tooltip tooltip-top"
@@ -66,7 +66,7 @@
 											:data-tooltip="t('tooltip.keyReset')"
 											@click="tuning = 0"
 										>
-											<ion-icon :icon="refresh"></ion-icon>
+											<ion-icon :icon="refresh" />
 										</button>
 										<button
 											class="btn btn-secondary tooltip tooltip-top"
@@ -74,7 +74,7 @@
 											:data-tooltip="t('tooltip.transposeUp')"
 											@click="tuning++"
 										>
-											<ion-icon :icon="arrowForward"></ion-icon>
+											<ion-icon :icon="arrowForward" />
 										</button>
 										<div class="p-absolute preview-pane flex justify-between p-1">
 											<span class="text-center text-pre text-gray text-large px-3">{{ showTuning.previous }}</span>
@@ -88,7 +88,7 @@
 									>
 										<input type="checkbox" v-model="chords">
 										<i class="form-icon"></i>
-										<ion-icon :icon="musicalNotesOutline" class="show-xl mt-1"></ion-icon>
+										<ion-icon :icon="musicalNotesOutline" class="show-xl mt-1" />
 										<span class="hide-xl">{{ t('switch.chords') }}</span>
 									</label>
 									<button
@@ -96,7 +96,7 @@
 										:data-tooltip="t('tooltip.startFullscreen')"
 										@click="modal.present=true"
 									>
-										<ion-icon :icon="videocamOutline"></ion-icon>
+										<ion-icon :icon="videocamOutline" />
 										<span class="hide-xl ml-2">{{ t('button.present') }}</span>
 									</button>
 								</div>
@@ -108,26 +108,26 @@
 												:data-tooltip="t('tooltip.downloadSong')"
 												tabindex="0"
 											>
-												<ion-icon :icon="downloadOutline" class="mr-2"></ion-icon>
+												<ion-icon :icon="downloadOutline" class="mr-2" />
 												<span class="hide-xl">{{ t('button.download') }}</span>
-												<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
+												<ion-icon :icon="chevronDownOutline" class="ml-1" />
 											</a>
 											<ul class="menu text-left">
 												<li class="menu-item">
 													<a href="#" class="py-3 px-3" @click="exportTxt">
-														<ion-icon :icon="documentTextOutline" class="mr-2"></ion-icon>
+														<ion-icon :icon="documentTextOutline" class="mr-2" />
 														{{ t('button.filetypeTxt') }}
 													</a>
 												</li>
 												<li class="menu-item">
 													<a href="#" class="py-3 px-3" @click="exportSng">
-														<ion-icon :icon="documentOutline" class="mr-2"></ion-icon>
+														<ion-icon :icon="documentOutline" class="mr-2" />
 														{{ t('button.filetypeSng') }}
 													</a>
 												</li>
 												<li class="menu-item">
 													<a href="#" class="py-3 px-3" @click="exportPdf">
-														<ion-icon :icon="documentOutline" class="mr-2"></ion-icon>
+														<ion-icon :icon="documentOutline" class="mr-2" />
 														{{ t('button.filetypePdf') }}
 													</a>
 												</li>
@@ -137,25 +137,25 @@
 									<div v-if="user && role > 1" class="dropdown dropdown-right">
 										<div class="btn-group">
 											<a class="btn btn-secondary dropdown-toggle flex align-center" tabindex="0">
-												<ion-icon :icon="menuOutline"></ion-icon>
-												<ion-icon :icon="chevronDownOutline" class="ml-1"></ion-icon>
+												<ion-icon :icon="menuOutline" />
+												<ion-icon :icon="chevronDownOutline" class="ml-1" />
 											</a>
 											<ul class="menu text-left">
 												<li class="menu-item">
 													<a href="#" class="py-3 px-3" @click="existing=true; modal.set=true">
-														<ion-icon :icon="createOutline" class="mr-2"></ion-icon>
+														<ion-icon :icon="createOutline" class="mr-2" />
 														{{ t('button.edit') }}
 													</a>
 												</li>
 												<li class="menu-item">
 													<a href="#" class="py-3 px-3" @click="existing=false; modal.set=true">
-														<ion-icon :icon="copyOutline" class="mr-2"></ion-icon>
+														<ion-icon :icon="copyOutline" class="mr-2" />
 														{{ t('button.duplicate') }}
 													</a>
 												</li>
 												<li v-if="role > 2" class="menu-item">
 													<a href="#" class="py-3 px-3 text-error" @click="modal.delete = true">
-														<ion-icon :icon="trashOutline" class="mr-2"></ion-icon>
+														<ion-icon :icon="trashOutline" class="mr-2" />
 														{{ t('button.delete') }}
 													</a>
 												</li>

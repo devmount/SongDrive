@@ -38,7 +38,7 @@
 					@click="song.note ? modal.infosongdata = true : null"
 					:data-tooltip="tooltip('info')"
 				>
-					<ion-icon :icon="informationOutline" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="informationOutline" class="icon-1-5x" />
 				</a>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
@@ -48,7 +48,7 @@
 					@click.prevent="dark = !dark"
 					:data-tooltip="tooltip('lightMode')"
 				>
-					<ion-icon :icon="contrastOutline" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="contrastOutline" class="icon-1-5x" />
 				</a>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
@@ -58,7 +58,7 @@
 					@click.prevent="emit('chords')"
 					:data-tooltip="tooltip('chords')"
 				>
-					<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="musicalNotes" class="icon-1-5x" />
 				</a>
 				<a
 					class="btn btn-secondary btn-xl btn-fw btn-gray tooltip ml-1"
@@ -67,7 +67,7 @@
 					@click.prevent="emit('closed')"
 					:data-tooltip="tooltip('close')"
 				>
-					<ion-icon :icon="close" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="close" class="icon-1-5x" />
 				</a>
 			</div>
 		</div>

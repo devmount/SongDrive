@@ -13,7 +13,7 @@
 						<div class="timeline-item" id="timeline-example-1">
 							<div class="timeline-left">
 								<span class="timeline-icon" :class="{ 'icon-lg': fileSelected }">
-									<ion-icon :icon="checkmarkOutline" v-if="fileSelected"></ion-icon>
+									<ion-icon :icon="checkmarkOutline" v-if="fileSelected" />
 								</span>
 							</div>
 							<div class="timeline-content">
@@ -39,7 +39,7 @@
 						<div class="timeline-item" id="timeline-example-2">
 							<div class="timeline-left">
 								<span class="timeline-icon" :class="{ 'icon-lg': progress.started }">
-									<ion-icon :icon="checkmarkOutline" v-if="progress.started"></ion-icon>
+									<ion-icon :icon="checkmarkOutline" v-if="progress.started" />
 								</span>
 							</div>
 							<div class="timeline-content">
@@ -59,7 +59,7 @@
 						<div class="timeline-item" id="timeline-example-3">
 							<div class="timeline-left">
 								<span class="timeline-icon" :class="{ 'icon-lg': progress.finished && progress.total > 0 }">
-									<ion-icon :icon="checkmarkOutline" v-if="progress.finished && progress.total > 0"></ion-icon>
+									<ion-icon :icon="checkmarkOutline" v-if="progress.finished && progress.total > 0" />
 								</span>
 							</div>
 							<div class="timeline-content">

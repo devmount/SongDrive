@@ -50,7 +50,7 @@
 						aria-label="Previous Song"
 						@click.prevent="presentation.prev()"
 					>
-						<ion-icon :icon="arrowBack" class="icon-1-5x"></ion-icon>
+						<ion-icon :icon="arrowBack" class="icon-1-5x" />
 						<span v-if="currentPosition > 0" class="ml-2">
 							{{ songs[currentPosition-1].title }}
 							<span class="chords ml-2">{{ songs[currentPosition-1].customTuning }}</span>
@@ -69,7 +69,7 @@
 							{{ songs[currentPosition+1].title }}
 							<span class="chords ml-2">{{ songs[currentPosition+1].customTuning }}</span>
 						</span>
-						<ion-icon :icon="arrowForward" class="icon-1-5x"></ion-icon>
+						<ion-icon :icon="arrowForward" class="icon-1-5x" />
 					</a>
 				</div>
 				<span class="clock px-4">{{ timeonly }}</span>
@@ -85,7 +85,7 @@
 					@click="songs[currentPosition].note ? modal.infosongdata = true : null"
 					:data-tooltip="tooltip('info')"
 				>
-					<ion-icon :icon="informationOutline" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="informationOutline" class="icon-1-5x" />
 				</a>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
@@ -95,7 +95,7 @@
 					@click.prevent="autoSync = !autoSync"
 					:data-tooltip="tooltip('sync')"
 				>
-					<ion-icon :icon="sync" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="sync" class="icon-1-5x" />
 				</a>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip tooltip-left ml-1"
@@ -105,7 +105,7 @@
 					@click.prevent="hide = !hide"
 					:data-tooltip="tooltip('display')"
 				>
-					<ion-icon :icon="eyeOffOutline" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="eyeOffOutline" class="icon-1-5x" />
 				</a>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip tooltip-left ml-1"
@@ -115,7 +115,7 @@
 					@click.prevent="dark = !dark"
 					:data-tooltip="tooltip('invert')"
 				>
-					<ion-icon :icon="contrastOutline" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="contrastOutline" class="icon-1-5x" />
 				</a>
 				<a
 					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip tooltip-left ml-1"
@@ -125,7 +125,7 @@
 					@click.prevent="emit('chords')"
 					:data-tooltip="tooltip('chords')"
 				>
-					<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="musicalNotes" class="icon-1-5x" />
 				</a>
 				<a
 					class="btn btn-secondary btn-xl btn-fw btn-gray tooltip ml-1"
@@ -134,7 +134,7 @@
 					@click.prevent="emit('closed')"
 					:data-tooltip="tooltip('close')"
 				>
-					<ion-icon :icon="close" class="icon-1-5x"></ion-icon>
+					<ion-icon :icon="close" class="icon-1-5x" />
 				</a>
 				<div v-if="sync && !autoSync" class="remote-control">
 					<span class="text-uppercase mr-2">{{ t('text.remoteControl') }}</span>
@@ -145,7 +145,7 @@
 						:data-tooltip="tooltip('remoteDisplay')"
 						@click.prevent="emit('updateHide', !remoteHide)"
 					>
-						<ion-icon :icon="eyeOffOutline" class="icon-1-5x"></ion-icon>
+						<ion-icon :icon="eyeOffOutline" class="icon-1-5x" />
 					</a>
 					<a
 						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
@@ -154,7 +154,7 @@
 						:data-tooltip="tooltip('remoteInvert')"
 						@click.prevent="emit('updateDark', !remoteLight)"
 					>
-						<ion-icon :icon="contrastOutline" class="icon-1-5x"></ion-icon>
+						<ion-icon :icon="contrastOutline" class="icon-1-5x" />
 					</a>
 					<a
 						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
@@ -163,7 +163,7 @@
 						:data-tooltip="tooltip('remoteChords')"
 						@click.prevent="emit('updateChords', !remoteText)"
 					>
-						<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
+						<ion-icon :icon="musicalNotes" class="icon-1-5x" />
 					</a>
 				</div>
 			</div>

@@ -11,9 +11,9 @@
 					target="_blank"
 				>
 					<span class="label px-2 py-1">
-						<ion-icon :icon="logoYoutube" class="icon-sm mr-1"></ion-icon>
+						<ion-icon :icon="logoYoutube" class="icon-sm mr-1" />
 						{{ t('field.youtube') }}
-						<ion-icon :icon="openOutline" class="icon-sm ml-1"></ion-icon>
+						<ion-icon :icon="openOutline" class="icon-sm ml-1" />
 					</span>
 				</a>
 				<!-- ccli -->
@@ -25,7 +25,7 @@
 				>
 					<span class="label px-2 py-1">
 						{{ t('field.ccli') }}
-						<ion-icon :icon="openOutline" class="icon-sm ml-1"></ion-icon>
+						<ion-icon :icon="openOutline" class="icon-sm ml-1" />
 					</span>
 				</a>
 				<!-- tags -->
@@ -36,7 +36,7 @@
 					class="mr-2"
 				>
 					<span class="label px-2 py-1">
-						<ion-icon :icon="pricetagOutline" class="icon-sm mr-1"></ion-icon>
+						<ion-icon :icon="pricetagOutline" class="icon-sm mr-1" />
 						{{ tags[tag][locale] ? tags[tag][locale] : tag }}
 					</span>
 				</router-link>

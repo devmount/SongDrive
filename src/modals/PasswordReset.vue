@@ -14,7 +14,7 @@
 			<div class="flex justify-between">
 				<div class="text-lg uppercase font-medium">{{ t('modal.resetPassword') }}</div>
 				<button aria-label="Close" @click="emit('closed')">
-					<ion-icon :icon="closeOutline" class="w-6 h-6"></ion-icon>
+					<ion-icon :icon="closeOutline" class="w-6 h-6" />
 				</button>
 			</div>
 			<div>{{ t('text.sendPasswordResetEmail') }}</div>
@@ -36,7 +36,7 @@
 				</button>
 				<Primary-button class="grow" @click="passwordReset">
 					{{ $t('button.sendPasswordResetEmail') }}
-					<ion-icon :icon="sendOutline" class="w-6 h-6"></ion-icon>
+					<ion-icon :icon="sendOutline" class="w-6 h-6" />
 				</primary-button>
 			</div>
 		</div>

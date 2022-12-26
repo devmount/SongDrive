@@ -10,7 +10,7 @@
 						:data-tooltip="t('button.top')"
 						@click="scrollTo('start')"
 					>
-						<ion-icon :icon="arrowUpOutline" class="icon-left"></ion-icon>
+						<ion-icon :icon="arrowUpOutline" class="icon-left" />
 						<span class="hide-lg">{{ t('button.top') }}</span>
 					</button>
 					<!-- table of contents -->
@@ -23,7 +23,7 @@
 						:data-tooltip="t.text"
 						@click="scrollTo(dashCase(t.text))"
 					>
-						<ion-icon :icon="bookmarkOutline" class="icon-left"></ion-icon>
+						<ion-icon :icon="bookmarkOutline" class="icon-left" />
 						<span class="hide-lg">{{ t.text }}</span>
 					</button>
 					<!-- edit documentation -->
@@ -35,9 +35,9 @@
 						:data-tooltip="t('button.source')"
 						target="_blank"
 					>
-						<ion-icon :icon="codeSlashOutline" class="icon-left"></ion-icon>
+						<ion-icon :icon="codeSlashOutline" class="icon-left" />
 						<span class="hide-lg">{{ t('button.source') }}</span>
-						<ion-icon :icon="openOutline" class="icon-right hide-lg"></ion-icon>
+						<ion-icon :icon="openOutline" class="icon-right hide-lg" />
 					</a>
 					<a
 						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
@@ -45,9 +45,9 @@
 						:data-tooltip="t('button.edit')"
 						target="_blank"
 					>
-						<ion-icon :icon="createOutline" class="icon-left"></ion-icon>
+						<ion-icon :icon="createOutline" class="icon-left" />
 						<span class="hide-lg">{{ t('button.edit') }}</span>
-						<ion-icon :icon="openOutline" class="icon-right hide-lg"></ion-icon>
+						<ion-icon :icon="openOutline" class="icon-right hide-lg" />
 					</a>
 				</div>
 			</div>
@@ -65,17 +65,17 @@
 						<!-- features -->
 						<div class="columns col-8 col-xl-12 col-mx-auto mb-15">
 							<div class="column col-4 col-xl-6 col-sm-12">
-								<ion-icon :icon="flashOutline" class="icon-3x icon-thin mb-3"></ion-icon>
+								<ion-icon :icon="flashOutline" class="icon-3x icon-thin mb-3" />
 								<h3>{{ t('docu.features.0.title') }}</h3>
 								<div>{{ t('docu.features.0.description') }}</div>
 							</div>
 							<div class="column col-4 col-xl-6 col-sm-12">
-								<ion-icon :icon="micOutline" class="icon-3x icon-thin mb-3"></ion-icon>
+								<ion-icon :icon="micOutline" class="icon-3x icon-thin mb-3" />
 								<h3>{{ t('docu.features.1.title') }}</h3>
 								<div>{{ t('docu.features.1.description') }}</div>
 							</div>
 							<div class="column col-4 col-xl-6 col-sm-12">
-								<ion-icon :icon="constructOutline" class="icon-3x icon-thin mb-3"></ion-icon>
+								<ion-icon :icon="constructOutline" class="icon-3x icon-thin mb-3" />
 								<h3>{{ t('docu.features.2.title') }}</h3>
 								<div>{{ t('docu.features.2.description') }}</div>
 							</div>

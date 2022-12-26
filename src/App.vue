@@ -7,7 +7,7 @@
 		>
 			<!-- off-screen toggle button -->
 			<button class="lg:hidden" @click="open = true">
-				<ion-icon :icon="menu" size="large"></ion-icon>
+				<ion-icon :icon="menu" size="large" />
 			</button>
 
 			<!-- off-screen sidebar -->
@@ -30,7 +30,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<ion-icon :icon="musicalNotesSharp" class="w-5 h-5"></ion-icon>
+						<ion-icon :icon="musicalNotesSharp" class="w-5 h-5" />
 						<span class="mb-0.5 uppercase">{{ t('page.songs') }}</span>
 						<div class="menu-badge">
 							<label v-if="ready.songs" class="label py-1">{{ Object.keys(c.songs).length }}</label>
@@ -41,7 +41,7 @@
 								:data-tooltip="t('tooltip.songAdd')"
 								@click="modal.addsong = true"
 							>
-								<ion-icon :icon="addSharp"></ion-icon>
+								<ion-icon :icon="addSharp" />
 							</button>
 						</div>
 					</router-link>
@@ -50,7 +50,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<ion-icon :icon="list" class="w-5 h-5"></ion-icon>
+						<ion-icon :icon="list" class="w-5 h-5" />
 						<span class="mb-0.5 uppercase">{{ t('page.setlists') }}</span>
 						<div class="menu-badge">
 							<label v-if="ready.setlists" class="label py-1">{{ setlistCount }}</label>
@@ -61,7 +61,7 @@
 								:data-tooltip="t('tooltip.setlistAdd')"
 								@click="modal.addsetlist = true"
 							>
-								<ion-icon :icon="addSharp"></ion-icon>
+								<ion-icon :icon="addSharp" />
 							</button>
 						</div>
 					</router-link>
@@ -89,7 +89,7 @@
 							class="w-10 h-10 rounded-full bg-spring-600"
 							alt="Avatar"
 						>
-							<ion-icon :icon="person"></ion-icon>
+							<ion-icon :icon="person" />
 						</figure>
 						<div class="flex flex-col">
 							<div class="leading-5 uppercase">{{ userName }}</div>
@@ -103,7 +103,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<ion-icon :icon="optionsOutline" class="w-5 h-5"></ion-icon>
+						<ion-icon :icon="optionsOutline" class="w-5 h-5" />
 						<span class="mb-0.5 uppercase">{{ t('page.settings') }}</span>
 						<div
 							v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3"
@@ -111,7 +111,7 @@
 						></div>
 					</router-link>
 					<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
-						{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
+						{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right" />
 					</button>
 					<divider-horizontal :label="t('divider.info')" />
 					<router-link
@@ -119,7 +119,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<ion-icon :icon="bulbOutline" class="w-5 h-5"></ion-icon>
+						<ion-icon :icon="bulbOutline" class="w-5 h-5" />
 						<span class="mb-0.5 uppercase">{{ t('page.shortcuts') }}</span>
 					</router-link>
 					<router-link
@@ -127,7 +127,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<ion-icon :icon="bookOutline" class="w-5 h-5"></ion-icon>
+						<ion-icon :icon="bookOutline" class="w-5 h-5" />
 						<span class="mb-0.5 uppercase">{{ t('page.docu') }}</span>
 					</router-link>
 					<a
@@ -135,22 +135,22 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						target="_blank"
 					>
-						<ion-icon :icon="logoGithub" class="w-5 h-5"></ion-icon>
+						<ion-icon :icon="logoGithub" class="w-5 h-5" />
 						<span class="mb-0.5 uppercase">{{ t('page.github') }}</span>
-						<ion-icon :icon="openOutline" class="w-5 h-5 ml-auto"></ion-icon>
+						<ion-icon :icon="openOutline" class="w-5 h-5 ml-auto" />
 					</a>
 				</div>
 				<footer>
 					<div class="text-center text-small text-gray">
 						<span>
 							{{ t('app.created.0') }}
-							<ion-icon :icon='heartOutline'></ion-icon>
+							<ion-icon :icon='heartOutline'/>
 							{{ t('app.created.1') }}
 						</span>
 						<a href="https://devmount.de" target="_blank">
 							<svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
-								<path class="st0" d="M6.9,140.6L87.1,40.2l78.2,77.6"/>
-								<path class="st0" d="M40.4,193.8l62.1-77.8l35.9,35.4l48.8-60.6l39.8,39.5"/>
+								<path class="st0" d="M6.9,140.6L87.1,40.2l78.2,77.6" />
+								<path class="st0" d="M40.4,193.8l62.1-77.8l35.9,35.4l48.8-60.6l39.8,39.5" />
 							</svg>
 						</a>
 					</div>
@@ -254,7 +254,7 @@
 		<notifications position="bottom right" :duration="5000" :width="400">
 			<template #body="props">
 				<div :class="'toast toast-' + props.item.type">
-					<ion-icon :icon="close" class="float-right c-hand icon-1-5x" @click="props.close"></ion-icon>
+					<ion-icon :icon="close" class="float-right c-hand icon-1-5x" @click="props.close" />
 					<h5>{{ props.item.title }}</h5>
 					<p v-html="props.item.text"></p>
 				</div>
