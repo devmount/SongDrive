@@ -4,7 +4,7 @@
 
 @layer base {
   input, select, textarea {
-    @apply transition-all !py-1.5 !border-blade-400 dark:!border-black focus:!ring-2 focus:!ring-spring-600 hover:!border-spring-600 focus:!border-spring-400 dark:!bg-blade-850 dark:!text-blade-100;
+    @apply transition-all !py-1.5 !border-blade-400 dark:!border-black focus:!ring-4 focus:!ring-spring-400/20 hover:!border-spring-400 focus:!border-spring-600 dark:!bg-blade-900 dark:!text-blade-100;
   }
   button {
     @apply transition-all;

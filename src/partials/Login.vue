@@ -29,11 +29,11 @@
 		<div class="flex flex-col text-sm">
 			<div>
 				{{ t('text.newToSongDrive') }}
-				<button class="text-spring-400" @click="emit('signUp')">{{ t('text.createAnAccount') }}</button>.
+				<button class="text-spring-600" @click="emit('signUp')">{{ t('text.createAnAccount') }}</button>.
 			</div>
 			<div>
 				{{ t('text.forgotPassword') }}
-				<button class="text-spring-400" @click="emit('resetPassword')">{{ t('text.resetIt') }}</button>.
+				<button class="text-spring-600" @click="emit('resetPassword')">{{ t('text.resetIt') }}</button>.
 			</div>
 		</div>
 	</div>

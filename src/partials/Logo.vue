@@ -12,7 +12,7 @@
       :class="featured ? 'w-12': 'w-8'"
     />
 		<div
-      class="text-spring-400 leading-5 tracking-wide uppercase"
+      class="text-spring-600 leading-5 tracking-wide uppercase"
       :class="featured ? 'text-2xl 2xs:text-[2.1rem]': 'text-2xl'"
     >
       {{ t('app.name') }}

@@ -1,13 +1,13 @@
 <template>
 	<div
-		class="transition-all fixed top-0 z-10 w-screen h-screen bg-blade-700/50 dark:bg-black/50"
+		class="transition-all fixed top-0 z-10 w-screen h-screen bg-blade-750/50 dark:bg-black/50"
 		:class="{ 'hidden': !active }"
 		@click.prevent="emit('closed')"
 	>
 		<div
 			class="
 				fixed z-20 position-center rounded-sm w-full max-w-sm bg-blade-100 p-4 flex flex-col gap-4
-				dark:bg-blade-800
+				dark:bg-blade-850
 			"
 			@click.stop="null"
 		>
