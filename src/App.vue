@@ -11,14 +11,12 @@
 			</button>
 
 			<!-- off-screen sidebar -->
-			<div class="max-w-2xs px-2 py-8 dark:bg-blade-900" :class="{ active: open }">
-				<div class="brand text-center">
-					<router-link to="/" class="flex flex-col w-max mx-auto">
-						<logo :featured="false" :show-version="true" />
-					</router-link>
-				</div>
-				<ul class="menu text-uppercase">
-					<li class="divider text-center" :data-content="t('divider.start')"></li>
+			<div class="max-w-2xs px-2 py-8 bg-blade-200 dark:bg-blade-900" :class="{ active: open }">
+				<router-link to="/" class="flex flex-col w-max mx-auto mb-6">
+					<logo :featured="false" :show-version="true" />
+				</router-link>
+				<div class="flex flex-col">
+					<divider-horizontal :label="t('divider.start')" />
 					<li class="menu-item">
 						<router-link to="/" class="py-2" @click="open = false">
 							<ion-icon :icon="appsSharp" class="mr-2"></ion-icon> {{ t('page.dashboard') }}
@@ -93,7 +91,7 @@
 							{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
 						</button>
 					</li>
-				</ul>
+				</div>
 				<ul class="menu text-uppercase">
 					<li class="divider text-center" :data-content="t('divider.info')"></li>
 					<li class="menu-item">
@@ -243,6 +241,7 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from 'vue-router';
 import { notify } from '@kyvg/vue3-notification';
 import { userRoles, initials, throwError } from '@/utils.js';
+import DividerHorizontal from '@/elements/DividerHorizontal';
 import Logo from '@/partials/Logo';
 import Login from '@/partials/Login';
 import SignUp from '@/modals/SignUp';
