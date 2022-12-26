@@ -3,7 +3,7 @@
 		<!-- heading -->
 		<logo :featured="true" :show-version="false" />
 		<!-- login panel -->
-		<panel class="max-w-xs w-full">
+		<Panel class="max-w-xs w-full">
 			<div class="text-center">{{ t('text.signInToSongDrive') }}</div>
 			<div class="flex flex-col gap-1">
 				<input
@@ -20,7 +20,7 @@
 				/>
 			</div>
 			<div class="mt-3">
-				<primary-button class="w-full" @click="emit('signIn', email, password)">
+				<Primary-button class="w-full" @click="emit('signIn', email, password)">
 					{{ t('button.signIn') }}
 					<ion-icon :icon="logInOutline" class="w-6 h-6"></ion-icon>
 				</primary-button>
@@ -43,8 +43,8 @@
 import { ref } from 'vue';
 import Logo from '@/partials/Logo';
 import { logInOutline } from 'ionicons/icons';
-import Panel from '@/elements/panel.vue';
-import PrimaryButton from '@/elements/primaryButton.vue';
+import Panel from '@/elements/Panel.vue';
+import PrimaryButton from '@/elements/PrimaryButton.vue';
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 

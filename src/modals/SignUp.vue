@@ -72,7 +72,7 @@
 				<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 					{{ t('button.cancel') }}
 				</button>
-				<primary-button class="grow" @click="signUp">
+				<Primary-button class="grow" @click="signUp">
 					{{ $t('button.signUp') }}
 					<ion-icon :icon="personAddOutline" class="w-6 h-6"></ion-icon>
 				</primary-button>
@@ -86,7 +86,7 @@ import { reactive, computed } from 'vue';
 import { useI18n } from "vue-i18n";
 import { randomString } from '@/utils.js';
 import { closeOutline, personAddOutline } from 'ionicons/icons';
-import PrimaryButton from '@/elements/primaryButton.vue';
+import PrimaryButton from '@/elements/PrimaryButton.vue';
 const { t } = useI18n();
 
 // inherited properties
