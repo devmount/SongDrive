@@ -44,6 +44,10 @@ module.exports = {
       screens: {
         '2xs': '360px',
         'xs': '480px',
+      },
+      strokeWidth: {
+        '1.5': '1.5',
+        '10': '10',
       }
     },
   },
