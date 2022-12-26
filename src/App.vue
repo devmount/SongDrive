@@ -107,9 +107,10 @@
 						<span class="mb-0.5 uppercase">{{ t('page.settings') }}</span>
 						<indicator-pulse v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3" class="ml-auto" />
 					</router-link>
-					<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
-						{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right" />
-					</button>
+					<secondary-button class="" @click="signOut">
+						{{ t('button.signOut') }}
+						<ion-icon :icon="logOutOutline" class="w-6 h-6" />
+					</secondary-button>
 					<divider-horizontal :label="t('divider.info')" />
 					<router-link
 						to="/shortcuts"
@@ -268,6 +269,7 @@ import { notify } from '@kyvg/vue3-notification';
 import { userRoles, initials, throwError } from '@/utils.js';
 import DividerHorizontal from '@/elements/DividerHorizontal';
 import IndicatorPulse from '@/elements/IndicatorPulse';
+import SecondaryButton from '@/elements/SecondaryButton';
 import Logo from '@/partials/Logo';
 import Login from '@/partials/Login';
 import SignUp from '@/modals/SignUp';
