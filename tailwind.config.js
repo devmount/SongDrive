@@ -14,6 +14,10 @@ module.exports = {
           400: '#88b544',
           600: '#bbdd77',
         }
+      },
+      screens: {
+        '2xs': '360px',
+        'xs': '480px',
       }
     },
   },
