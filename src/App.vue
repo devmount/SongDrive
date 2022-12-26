@@ -107,7 +107,7 @@
 						<span class="mb-0.5 uppercase">{{ t('page.settings') }}</span>
 						<indicator-pulse v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3" class="ml-auto" />
 					</router-link>
-					<secondary-button class="" @click="signOut">
+					<secondary-button class="mt-2" @click="signOut">
 						{{ t('button.signOut') }}
 						<ion-icon :icon="logOutOutline" class="w-6 h-6" />
 					</secondary-button>
