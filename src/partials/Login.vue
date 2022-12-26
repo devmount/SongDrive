@@ -4,7 +4,7 @@
 		<logo :featured="true" :show-version="false" />
 		<!-- login panel -->
 		<panel class="max-w-xs w-full">
-			<div class="text-center text-zinc-600">{{ t('text.signInToSongDrive') }}</div>
+			<div class="text-center">{{ t('text.signInToSongDrive') }}</div>
 			<div class="flex flex-col gap-1">
 				<input
 					type="email"
@@ -26,7 +26,7 @@
 				</primary-button>
 			</div>
 		</panel>
-		<div class="flex flex-col text-sm text-zinc-600">
+		<div class="flex flex-col text-sm">
 			<div>
 				{{ t('text.newToSongDrive') }}
 				<button class="text-spring-400" @click="emit('signUp')">{{ t('text.createAnAccount') }}</button>.

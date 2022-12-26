@@ -13,6 +13,10 @@ module.exports = {
         'spring': {
           400: '#88b544',
           600: '#bbdd77',
+        },
+        'zinc': {
+          750: '#313137',
+          850: '#1F1F21'
         }
       },
       screens: {
