@@ -105,10 +105,7 @@
 					>
 						<ion-icon :icon="optionsOutline" class="w-5 h-5" />
 						<span class="mb-0.5 uppercase">{{ t('page.settings') }}</span>
-						<div
-							v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3"
-							class="w-2 h-2 bg-spring-600 ml-auto rounded-full animate-ping"
-						></div>
+						<indicator-pulse v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3" class="ml-auto" />
 					</router-link>
 					<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
 						{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right" />
@@ -270,6 +267,7 @@ import { useRoute } from 'vue-router';
 import { notify } from '@kyvg/vue3-notification';
 import { userRoles, initials, throwError } from '@/utils.js';
 import DividerHorizontal from '@/elements/DividerHorizontal';
+import IndicatorPulse from '@/elements/IndicatorPulse';
 import Logo from '@/partials/Logo';
 import Login from '@/partials/Login';
 import SignUp from '@/modals/SignUp';
