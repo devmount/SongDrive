@@ -6,7 +6,7 @@
   input, select, textarea {
     @apply transition-all !py-1.5 !border-blade-400 dark:!border-black focus:!ring-4 focus:!ring-spring-400/20 hover:!border-spring-400 focus:!border-spring-600 dark:!bg-blade-900 dark:!text-blade-100;
   }
-  button {
+  button, a {
     @apply transition-all;
   }
 
@@ -21,4 +21,8 @@
   .position-center {
     @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
   }
+}
+
+.router-link-active:not(.no-active) {
+  @apply bg-blade-800
 }
