@@ -18,7 +18,7 @@
       {{ t('app.name') }}
     </div>
 	</div>
-  <div v-if="showVersion" class="text-xs text-zinc-500 text-right font-medium mt-1">
+  <div v-if="showVersion" class="text-xs text-blade-500 text-right font-medium mt-1">
     v{{ version }}
   </div>
 </template>

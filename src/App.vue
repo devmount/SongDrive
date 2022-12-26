@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
+	<div class="bg-blade-100 text-blade-600 dark:bg-blade-800 dark:text-blade-300">
 		<!-- logged in, confirmed and verified -->
 		<div
 			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && c.users[auth.user] && ready.permissions && c.permissions[auth.user] && !loading"
@@ -11,7 +11,7 @@
 			</button>
 
 			<!-- off-screen sidebar -->
-			<div class="max-w-2xs px-2 py-8 dark:bg-zinc-850" :class="{ active: open }">
+			<div class="max-w-2xs px-2 py-8 dark:bg-blade-850" :class="{ active: open }">
 				<div class="brand text-center">
 					<router-link to="/" class="flex flex-col w-max mx-auto">
 						<logo :featured="false" :show-version="true" />
