@@ -172,7 +172,7 @@
 			></div>
 
 			<!-- off-screen content -->
-			<div class="p-6">
+			<div class="p-6 w-full">
 				<router-view
 					:key="route.fullPath"
 					:user="auth.user"

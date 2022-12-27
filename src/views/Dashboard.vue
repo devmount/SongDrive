@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col gap-8">
+	<div class="flex flex-col gap-8 w-full">
 		<!-- page heading -->
 		<div class="text-3xl uppercase font-thin tracking-wider">
 			{{ t('page.dashboard')}}
@@ -39,9 +39,9 @@
 			</div>
 		</div>
 
-		<div class="columns" v-if="ready.songs && ready.setlists">
+		<div class="grid grid-cols-3 gap-8 w-full" v-if="ready.songs && ready.setlists">
 			<!-- song list -->
-			<div v-if="!noSongs" class="column col-4 col-xl-6 col-md-12 mt-4">
+			<panel v-if="!noSongs" class="column col-4 col-xl-6 col-md-12">
 				<div class="panel">
 					<div class="panel-header">
 						<div class="panel-title h5">
@@ -119,9 +119,9 @@
 						</RouterLink>
 					</div>
 				</div>
-			</div>
+			</panel>
 			<!-- setlist list -->
-			<div v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12 mt-4">
+			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
 				<div class="panel">
 					<div class="panel-header">
 						<div class="panel-title h5">
@@ -188,9 +188,9 @@
 						</RouterLink>
 					</div>
 				</div>
-			</div>
+			</panel>
 			<!-- song of the year -->
-			<div v-if="!noSongs && !noSetlists" class="column col-4 col-xl-6 col-md-12 mt-4">
+			<panel v-if="!noSongs && !noSetlists" class="column col-4 col-xl-6 col-md-12">
 				<div class="panel">
 					<div class="panel-header">
 						<div class="panel-title h5">
@@ -225,10 +225,10 @@
 						</RouterLink>
 					</div>
 				</div>
-			</div>
+			</panel>
 		</div>
-		<div class="columns" v-if="ready.songs && ready.setlists">
-			<div v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12 mt-4">
+		<div class="grid grid-cols-3 gap-8" v-if="ready.songs && ready.setlists">
+			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
 				<div class="panel">
 					<div class="panel-header">
 						<div class="panel-title h5">
@@ -244,8 +244,8 @@
 						/>
 					</div>
 				</div>
-			</div>
-			<div v-if="!noSongs && !noSetlists" class="column col-4 col-xl-6 col-md-12 mt-4">
+			</panel>
+			<panel v-if="!noSongs && !noSetlists" class="column col-4 col-xl-6 col-md-12">
 				<div class="panel">
 					<div class="panel-header">
 						<div class="panel-title h5">
@@ -261,8 +261,8 @@
 						/>
 					</div>
 				</div>
-			</div>
-			<div v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12 mt-4">
+			</panel>
+			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
 				<div class="panel">
 					<div class="panel-header">
 						<div class="panel-title h5">
@@ -277,7 +277,7 @@
 						/>
 					</div>
 				</div>
-			</div>
+			</panel>
 		</div>
 	</div>
 </template>
@@ -286,6 +286,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from "vue-i18n";
+import Panel from '@/elements/Panel.vue';
 import LineChart from '@/charts/LineChart';
 import BarChart  from '@/charts/BarChart';
 import {
