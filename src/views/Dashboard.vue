@@ -42,82 +42,78 @@
 		<div class="grid grid-cols-3 gap-8 w-full" v-if="ready.songs && ready.setlists">
 			<!-- song list -->
 			<panel v-if="!noSongs" class="column col-4 col-xl-6 col-md-12">
-				<div class="panel">
-					<div class="panel-header">
-						<div class="panel-title h5">
-							{{ t('widget.' + songsProperty) }} {{ t('page.songs') }}
-							<div class="btn-group float-right">
-								<button
-									class="btn btn-secondary px-3"
-									:class="{ disabled: isFirstSongPage }"
-									@click="!isFirstSongPage ? songsPage-- : null"
-								>
-									<ion-icon :icon="arrowBack" />
-								</button>
-								<button
-									class="btn btn-secondary px-3"
-									:class="{ disabled: isLastSongPage }"
-									@click="!isLastSongPage ? songsPage++ : null"
-								>
-									<ion-icon :icon="arrowForward" />
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="panel-body">
-						<div
-							v-for="(song, i) in songlist"
-							:key="i"
-							class="tile tile-centered tile-hover c-hand p-2"
-							@click="router.push({ name: 'song-show', params: { id: song.id }})"
+				<div class="flex justify-between">
+					<div class="text-2xl">{{ t('widget.' + songsProperty) }} {{ t('page.songs') }}</div>
+					<div class="flex gap-1">
+						<secondary-button
+							class=""
+							:class="{ disabled: isFirstSongPage }"
+							@click="!isFirstSongPage ? songsPage-- : null"
 						>
-							<div class="tile-icon">
-								<figure class="avatar s-rounded" :data-initial="song.tuning" :title="t('title.songTuning')"></figure>
-								<figure
-									v-if="songsProperty == 'popular'"
-									class="avatar avatar-secondary s-rounded float-right ml-1"
-									:data-initial="song.popularity + 'x'"
-									:title="t('title.songOccuredOn', { num: song.popularity })"
-								></figure>
-								<figure
-									v-if="songsProperty == 'newest' || songsProperty == 'oldest'"
-									class="avatar avatar-secondary s-rounded float-right ml-1"
-									:data-initial="song.year ? song.year : '—'"
-									:title="song.year ? t('title.songPublishedIn', { year: song.year }) : t('title.noYear')"
-								></figure>
-							</div>
-							<div class="tile-content">
-								<div class="tile-title">{{ song.title }}</div>
-								<div class="tile-subtitle text-gray text-small">{{ song.subtitle }}</div>
-							</div>
+							<ion-icon :icon="arrowBack" />
+						</secondary-button>
+						<secondary-button
+							class=""
+							:class="{ disabled: isLastSongPage }"
+							@click="!isLastSongPage ? songsPage++ : null"
+						>
+							<ion-icon :icon="arrowForward" />
+						</secondary-button>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div
+						v-for="(song, i) in songlist"
+						:key="i"
+						class="tile tile-centered tile-hover c-hand p-2"
+						@click="router.push({ name: 'song-show', params: { id: song.id }})"
+					>
+						<div class="tile-icon">
+							<figure class="avatar s-rounded" :data-initial="song.tuning" :title="t('title.songTuning')"></figure>
+							<figure
+								v-if="songsProperty == 'popular'"
+								class="avatar avatar-secondary s-rounded float-right ml-1"
+								:data-initial="song.popularity + 'x'"
+								:title="t('title.songOccuredOn', { num: song.popularity })"
+							></figure>
+							<figure
+								v-if="songsProperty == 'newest' || songsProperty == 'oldest'"
+								class="avatar avatar-secondary s-rounded float-right ml-1"
+								:data-initial="song.year ? song.year : '—'"
+								:title="song.year ? t('title.songPublishedIn', { year: song.year }) : t('title.noYear')"
+							></figure>
+						</div>
+						<div class="tile-content">
+							<div class="tile-title">{{ song.title }}</div>
+							<div class="tile-subtitle text-gray text-small">{{ song.subtitle }}</div>
 						</div>
 					</div>
-					<div class="panel-footer">
-						<div class="btn-group">
-							<button class="btn btn-secondary" @click="shuffleSongs">
-								<ion-icon :icon="shuffle" class="mr-2" />
-								{{ t('button.shuffle') }}
-							</button>
-							<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs">
-								<ion-icon :icon="arrowUp" class="mr-2" />
-								{{ t('widget.newest') }}
-							</button>
-							<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs">
-								<ion-icon :icon="arrowDown" class="mr-2" />
-								{{ t('widget.oldest') }}
-							</button>
-							<button v-if="!noSetlists" class="btn btn-secondary" @click="popularSongs">
-								<ion-icon :icon="trendingUp" class="mr-2" />
-								{{ t('widget.popular') }}
-							</button>
-						</div>
+				</div>
+				<div class="panel-footer">
+					<div class="btn-group">
+						<button class="btn btn-secondary" @click="shuffleSongs">
+							<ion-icon :icon="shuffle" class="mr-2" />
+							{{ t('button.shuffle') }}
+						</button>
+						<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs">
+							<ion-icon :icon="arrowUp" class="mr-2" />
+							{{ t('widget.newest') }}
+						</button>
+						<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs">
+							<ion-icon :icon="arrowDown" class="mr-2" />
+							{{ t('widget.oldest') }}
+						</button>
+						<button v-if="!noSetlists" class="btn btn-secondary" @click="popularSongs">
+							<ion-icon :icon="trendingUp" class="mr-2" />
+							{{ t('widget.popular') }}
+						</button>
 					</div>
-					<div class="panel-link">
-						<RouterLink to="/songs" class="btn btn-link btn-block">
-							{{ t('widget.goToSongs') }}
-							<ion-icon :icon="arrowForward" class="ml-1" />
-						</RouterLink>
-					</div>
+				</div>
+				<div class="panel-link">
+					<RouterLink to="/songs" class="btn btn-link btn-block">
+						{{ t('widget.goToSongs') }}
+						<ion-icon :icon="arrowForward" class="ml-1" />
+					</RouterLink>
 				</div>
 			</panel>
 			<!-- setlist list -->
@@ -127,20 +123,20 @@
 						<div class="panel-title h5">
 							{{ t('widget.' + setlistsProperty) }} {{ t('page.setlists') }}
 							<div class="btn-group float-right">
-								<button
-									class="btn btn-secondary float-right px-3"
+								<secondary-button
+									class=""
 									:class="{ disabled: isFirstSetlistPage }"
 									@click="!isFirstSetlistPage ? setlistsPage-- : null"
 								>
 									<ion-icon :icon="arrowBack" />
-								</button>
-								<button
-									class="btn btn-secondary float-right px-3"
+								</secondary-button>
+								<secondary-button
+									class=""
 									:class="{ disabled: isLastSetlistPage }"
 									@click="!isLastSetlistPage ? setlistsPage++ : null"
 								>
 									<ion-icon :icon="arrowForward" />
-								</button>
+								</secondary-button>
 							</div>
 						</div>
 					</div>
@@ -229,53 +225,41 @@
 		</div>
 		<div class="grid grid-cols-3 gap-8" v-if="ready.songs && ready.setlists">
 			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
-				<div class="panel">
-					<div class="panel-header">
-						<div class="panel-title h5">
-							{{ t('widget.setlistsCreatedPerYear') }}
-						</div>
+				<div class="flex flex-col gap-4">
+					<div class="text-2xl">
+						{{ t('widget.setlistsCreatedPerYear') }}
 					</div>
-					<div class="panel-body">
-						<LineChart
-							:datasets="setlistsPerYear.datasets"
-							:labels="setlistsPerYear.labels"
-							:ordinate="false"
-							:abscissa="true"
-						/>
-					</div>
+					<LineChart
+						:datasets="setlistsPerYear.datasets"
+						:labels="setlistsPerYear.labels"
+						:ordinate="false"
+						:abscissa="true"
+					/>
 				</div>
 			</panel>
 			<panel v-if="!noSongs && !noSetlists" class="column col-4 col-xl-6 col-md-12">
-				<div class="panel">
-					<div class="panel-header">
-						<div class="panel-title h5">
-							{{ t('widget.songsPerformedPerYear') }}
-						</div>
+				<div class="flex flex-col gap-4">
+					<div class="text-2xl">
+						{{ t('widget.songsPerformedPerYear') }}
 					</div>
-					<div class="panel-body">
-						<LineChart
-							:datasets="songsPerYear.datasets"
-							:labels="songsPerYear.labels"
-							:ordinate="false"
-							:abscissa="true"
-						/>
-					</div>
+					<LineChart
+						:datasets="songsPerYear.datasets"
+						:labels="songsPerYear.labels"
+						:ordinate="false"
+						:abscissa="true"
+					/>
 				</div>
 			</panel>
 			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
-				<div class="panel">
-					<div class="panel-header">
-						<div class="panel-title h5">
-							{{ t('widget.setlistsPerWeekday') }}
-						</div>
+				<div class="flex flex-col gap-4">
+					<div class="text-2xl">
+						{{ t('widget.setlistsPerWeekday') }}
 					</div>
-					<div class="panel-body">
-						<BarChart
-							:datasets="setlistsPerWeekday.datasets"
-							:labels="setlistsPerWeekday.labels"
-							:ordinate="false"
-						/>
-					</div>
+					<BarChart
+						:datasets="setlistsPerWeekday.datasets"
+						:labels="setlistsPerWeekday.labels"
+						:ordinate="false"
+					/>
 				</div>
 			</panel>
 		</div>
@@ -287,6 +271,7 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from "vue-i18n";
 import Panel from '@/elements/Panel.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
 import LineChart from '@/charts/LineChart';
 import BarChart  from '@/charts/BarChart';
 import {

@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-blade-100 text-blade-600 dark:bg-blade-850 dark:text-blade-300">
+	<div>
 		<!-- logged in, confirmed and verified -->
 		<div
 			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && c.users[auth.user] && ready.permissions && c.permissions[auth.user] && !loading"
@@ -210,7 +210,7 @@
 		</div>
 		<!-- loading screen -->
 		<div
-			v-if="!auth.ready || !auth.user || auth.confirmed === null || loading"
+			v-if="!auth.ready || ((!auth.user || auth.confirmed === null) && loading)"
 			class="w-screen h-screen flex justify-center items-center"
 		>
 			<div class="animate-spin w-16 h-16 rounded-full border-4 border-transparent border-t-spring-600"></div>
