@@ -43,74 +43,7 @@
 			<!-- song list -->
 			<widget-song-list :songs="songsArray" :setlists="setlistsArray" />
 			<!-- setlist list -->
-			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
-				<div class="panel">
-					<div class="panel-header">
-						<div class="panel-title h5">
-							{{ t('widget.' + setlistsProperty) }} {{ t('page.setlists') }}
-							<div class="btn-group float-right">
-								<secondary-button
-									class=""
-									:class="{ disabled: isFirstSetlistPage }"
-									@click="!isFirstSetlistPage ? setlistsPage-- : null"
-								>
-									<ion-icon :icon="arrowBack" />
-								</secondary-button>
-								<secondary-button
-									class=""
-									:class="{ disabled: isLastSetlistPage }"
-									@click="!isLastSetlistPage ? setlistsPage++ : null"
-								>
-									<ion-icon :icon="arrowForward" />
-								</secondary-button>
-							</div>
-						</div>
-					</div>
-					<div class="panel-body">
-						<div
-							v-for="(setlist, i) in setlistlist"
-							:key="i"
-							class="tile tile-centered tile-hover c-hand p-2"
-							@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
-						>
-							<div class="tile-icon">
-								<figure
-									class="avatar avatar-secondary s-rounded"
-									:data-initial="setlist.songs.length"
-									:title="t('title.setlistContains', { num: setlist.songs.length})"
-								></figure>
-							</div>
-							<div class="tile-content">
-								<div class="tile-title">
-									{{ setlist.title }}
-									<span v-if="setlist.private" class="text-primary">
-										<ion-icon :icon="lockClosedOutline" class="icon-sm" />
-									</span>
-								</div>
-								<div class="tile-subtitle text-gray text-small">{{ setlist.date }}</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer">
-						<div class="btn-group">
-							<button v-if="setlistsProperty != 'newest'" class="btn btn-secondary" @click="newestSetlists">
-								<ion-icon :icon="arrowUp" class="mr-2" />
-								{{ t('widget.newest') }}
-							</button>
-							<button v-if="setlistsProperty == 'newest'" class="btn btn-secondary" @click="oldestSetlists">
-								<ion-icon :icon="arrowDown" class="mr-2" />
-								{{ t('widget.oldest') }}
-							</button>
-						</div>
-					</div>
-					<div class="panel-link">
-						<router-link to="/setlists" class="btn btn-link btn-block">
-							{{ t('widget.showAllSetlists') }}
-							<ion-icon :icon="arrowForward" class="ml-1" />
-						</router-link>
-					</div>
-				</div>
-			</panel>
+			<widget-setlist-list :setlists="setlistsArray" />
 			<!-- song of the year -->
 			<widget-song-of-year :songs="songs" :setlists="setlistsArray" />
 		</div>
@@ -158,27 +91,20 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed } from 'vue';
 import { useI18n } from "vue-i18n";
 import Panel from '@/elements/Panel';
-import SecondaryButton from '@/elements/SecondaryButton';
 import LineChart from '@/charts/LineChart';
 import BarChart  from '@/charts/BarChart';
 import WidgetSongList from '@/widgets/WidgetSongList';
+import WidgetSetlistList from '@/widgets/WidgetSetlistList';
 import WidgetSongOfYear from '@/widgets/WidgetSongOfYear';
 import {
-	arrowBack,
-	arrowDown,
-	arrowForward,
-	arrowUp,
 	globeOutline,
 	list,
-	lockClosedOutline,
 	micOutline,
 	musicalNotes
 } from 'ionicons/icons';
-const router = useRouter();
 const { t, locale } = useI18n();
 
 // inherited properties
@@ -188,29 +114,6 @@ const props = defineProps({
   ready:    Object,
   user:     String,
 });
-
-// reactive data
-const setlistsProperty  = ref('newest');
-const reorderedSetlists = ref([]);
-const setlistsPage      = ref(0);
-const listLength        = ref(6);
-
-// methods
-const newestSetlists = () => {
-	setlistsPage.value = 0;
-	setlistsProperty.value = 'newest';
-	reorderedSetlists.value = setlistsArray.value.filter(s => s.date != '').sort(
-		(a,b) => (new Date(a.date) < new Date(b.date)) ? 1 : ((new Date(b.date) < new Date(a.date)) ? -1 : 0)
-	);
-	return reorderedSetlists.value;
-};
-const oldestSetlists = () => {
-	setlistsPage.value = 0;
-	setlistsProperty.value = 'oldest';
-	reorderedSetlists.value = setlistsArray.value.filter(s => s.date != '').sort(
-		(a,b) => (new Date(a.date) > new Date(b.date)) ? 1 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0)
-	);
-};
 
 // computed
 const songsPerformed = computed(() => setlistsArray.value.reduce((a, c) => a + c.songs.length, 0));
@@ -241,10 +144,6 @@ const setlistsArray = computed(() => {
 });
 const setlistCount = computed(() => setlistsArray.value.filter(s => !s.private).length);
 const noSetlists = computed(() => props.ready.setlists && setlistsArray.value.length == 0);
-const setlistlist = computed(() => {
-	const list = reorderedSetlists.value.length > 0 ? reorderedSetlists.value : newestSetlists();
-	return list.slice(setlistsPage.value*listLength.value, (setlistsPage.value+1)*listLength.value);
-});
 const setlistsPerYear = computed(() => {
 	let years = {};
 	setlistsArray.value.forEach(setlist => {
@@ -307,6 +206,4 @@ const getWeekDays = computed(() => {
 	}
 	return names;
 });
-const isFirstSetlistPage = computed(() => setlistsPage.value == 0);
-const isLastSetlistPage = computed(() => setlistlist.value.length < listLength.value);
 </script>
