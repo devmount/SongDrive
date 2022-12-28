@@ -1,14 +1,14 @@
 <template>
-	<div class="flex flex-col gap-8 w-full">
+	<div class="flex flex-col gap-6 w-full">
 		<!-- page heading -->
 		<div class="text-3xl uppercase font-thin tracking-wider">
 			{{ t('page.dashboard')}}
 		</div>
-		<div class="grid grid-cols-2 md:grid-cols-4 gap-8 w-max mx-auto" v-if="ready.songs && ready.setlists">
+		<div class="flex gap-8 w-max mx-auto" v-if="ready.songs && ready.setlists">
 			<!-- stored songs count -->
 			<div class="flex flex-col items-center">
 				<div class="text-6xl font-thin">{{ Object.keys(songs).length }}</div>
-				<div class="text-2xl text-blade-400 flex gap-2">
+				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
 					<ion-icon :icon="musicalNotes" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.songsStored') }}
 				</div>
@@ -16,7 +16,7 @@
 			<!-- stored setlists count -->
 			<div class="flex flex-col items-center">
 				<div class="text-6xl font-thin">{{ setlistCount }}</div>
-				<div class="text-2xl text-blade-400 flex gap-2">
+				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
 					<ion-icon :icon="list" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.setlistsStored') }}
 				</div>
@@ -24,7 +24,7 @@
 			<!-- performed songs count -->
 			<div class="flex flex-col items-center">
 				<div class="text-6xl font-thin"><span class="text-blade-500">~</span>{{ songsPerformed }}</div>
-				<div class="text-2xl text-blade-400 flex gap-2">
+				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
 					<ion-icon :icon="micOutline" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.songsPerformed') }}
 				</div>
@@ -32,89 +32,91 @@
 			<!-- used languages count -->
 			<div class="flex flex-col items-center">
 				<div class="text-6xl font-thin">{{ languagesUsed }}</div>
-				<div class="text-2xl text-blade-400 flex gap-2">
+				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
 					<ion-icon :icon="globeOutline" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.languages', languagesUsed) }}
 				</div>
 			</div>
 		</div>
 
-		<div class="grid grid-cols-3 gap-8 w-full" v-if="ready.songs && ready.setlists">
+		<div class="grid grid-cols-3 gap-6 w-full" v-if="ready.songs && ready.setlists">
 			<!-- song list -->
 			<panel v-if="!noSongs" class="column col-4 col-xl-6 col-md-12">
 				<div class="flex justify-between">
 					<div class="text-2xl">{{ t('widget.' + songsProperty) }} {{ t('page.songs') }}</div>
 					<div class="flex gap-1">
 						<secondary-button
-							class=""
-							:class="{ disabled: isFirstSongPage }"
+							:disabled="isFirstSongPage"
 							@click="!isFirstSongPage ? songsPage-- : null"
 						>
 							<ion-icon :icon="arrowBack" />
 						</secondary-button>
 						<secondary-button
-							class=""
-							:class="{ disabled: isLastSongPage }"
+							:disabled="isLastSongPage"
 							@click="!isLastSongPage ? songsPage++ : null"
 						>
 							<ion-icon :icon="arrowForward" />
 						</secondary-button>
 					</div>
 				</div>
-				<div class="panel-body">
+				<div class="flex flex-col gap-2">
 					<div
 						v-for="(song, i) in songlist"
 						:key="i"
-						class="tile tile-centered tile-hover c-hand p-2"
+						class="flex gap-2 cursor-pointer p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
 						@click="router.push({ name: 'song-show', params: { id: song.id }})"
 					>
-						<div class="tile-icon">
-							<figure class="avatar s-rounded" :data-initial="song.tuning" :title="t('title.songTuning')"></figure>
+						<div class="flex">
+							<figure
+								class="flex justify-center items-center bg-spring-700 font-semibold py-1 w-8"
+								:title="t('title.songTuning')"
+							>
+								<div class="-mt-0.5">{{ song.tuning }}</div>
+							</figure>
 							<figure
 								v-if="songsProperty == 'popular'"
-								class="avatar avatar-secondary s-rounded float-right ml-1"
-								:data-initial="song.popularity + 'x'"
+								class="flex justify-center items-center bg-blade-700 font-semibold py-1 w-12"
 								:title="t('title.songOccuredOn', { num: song.popularity })"
-							></figure>
+							>
+								<div class="-mt-0.5">{{ song.popularity }}</div>
+								<ion-icon :icon="closeOutline" class="w-3 h-3" />
+							</figure>
 							<figure
 								v-if="songsProperty == 'newest' || songsProperty == 'oldest'"
-								class="avatar avatar-secondary s-rounded float-right ml-1"
-								:data-initial="song.year ? song.year : '—'"
+								class="flex justify-center items-center bg-blade-700 font-semibold py-1 w-12"
 								:title="song.year ? t('title.songPublishedIn', { year: song.year }) : t('title.noYear')"
-							></figure>
+							>
+								<div class="-mt-0.5">{{ song.year ? song.year : '—' }}</div>
+							</figure>
 						</div>
-						<div class="tile-content">
-							<div class="tile-title">{{ song.title }}</div>
-							<div class="tile-subtitle text-gray text-small">{{ song.subtitle }}</div>
+						<div class="flex flex-col overflow-hidden">
+							<div class="leading-4 truncate">{{ song.title }}</div>
+							<div class="text-sm text-blade-500 leading-4 truncate">{{ song.subtitle }}</div>
 						</div>
 					</div>
 				</div>
-				<div class="panel-footer">
-					<div class="btn-group">
-						<button class="btn btn-secondary" @click="shuffleSongs">
-							<ion-icon :icon="shuffle" class="mr-2" />
-							{{ t('button.shuffle') }}
-						</button>
-						<button v-if="songsProperty != 'newest'" class="btn btn-secondary" @click="newestSongs">
-							<ion-icon :icon="arrowUp" class="mr-2" />
-							{{ t('widget.newest') }}
-						</button>
-						<button v-if="songsProperty == 'newest'" class="btn btn-secondary" @click="oldestSongs">
-							<ion-icon :icon="arrowDown" class="mr-2" />
-							{{ t('widget.oldest') }}
-						</button>
-						<button v-if="!noSetlists" class="btn btn-secondary" @click="popularSongs">
-							<ion-icon :icon="trendingUp" class="mr-2" />
-							{{ t('widget.popular') }}
-						</button>
-					</div>
+				<div class="flex flex-wrap gap-1">
+					<secondary-button @click="shuffleSongs">
+						<ion-icon :icon="shuffle" />
+						{{ t('button.shuffle') }}
+					</secondary-button>
+					<secondary-button v-if="songsProperty != 'newest'" @click="newestSongs">
+						<ion-icon :icon="arrowUp" />
+						{{ t('widget.newest') }}
+					</secondary-button>
+					<secondary-button v-if="songsProperty == 'newest'" @click="oldestSongs">
+						<ion-icon :icon="arrowDown" />
+						{{ t('widget.oldest') }}
+					</secondary-button>
+					<secondary-button v-if="!noSetlists" @click="popularSongs">
+						<ion-icon :icon="trendingUp" />
+						{{ t('widget.popular') }}
+					</secondary-button>
 				</div>
-				<div class="panel-link">
-					<RouterLink to="/songs" class="btn btn-link btn-block">
-						{{ t('widget.goToSongs') }}
-						<ion-icon :icon="arrowForward" class="ml-1" />
-					</RouterLink>
-				</div>
+				<link-button class="mt-auto" @click="router.push({ name: 'songs' })">
+					{{ t('widget.showAllSongs') }}
+					<ion-icon :icon="arrowForward" />
+				</link-button>
 			</panel>
 			<!-- setlist list -->
 			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
@@ -178,10 +180,10 @@
 						</div>
 					</div>
 					<div class="panel-link">
-						<RouterLink to="/setlists" class="btn btn-link btn-block">
-							{{ t('widget.goToSetlists') }}
+						<router-link to="/setlists" class="btn btn-link btn-block">
+							{{ t('widget.showAllSetlists') }}
 							<ion-icon :icon="arrowForward" class="ml-1" />
-						</RouterLink>
+						</router-link>
 					</div>
 				</div>
 			</panel>
@@ -215,21 +217,21 @@
 						</div>
 					</div>
 					<div class="panel-link">
-						<RouterLink to="/songs" class="btn btn-link btn-block">
-							{{ t('widget.goToSongs') }}
+						<router-link to="/songs" class="btn btn-link btn-block">
+							{{ t('widget.showAllSongs') }}
 							<ion-icon :icon="arrowForward" class="ml-1" />
-						</RouterLink>
+						</router-link>
 					</div>
 				</div>
 			</panel>
 		</div>
-		<div class="grid grid-cols-3 gap-8" v-if="ready.songs && ready.setlists">
+		<div class="grid grid-cols-3 gap-6" v-if="ready.songs && ready.setlists">
 			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
 				<div class="flex flex-col gap-4">
 					<div class="text-2xl">
 						{{ t('widget.setlistsCreatedPerYear') }}
 					</div>
-					<LineChart
+					<line-chart
 						:datasets="setlistsPerYear.datasets"
 						:labels="setlistsPerYear.labels"
 						:ordinate="false"
@@ -242,7 +244,7 @@
 					<div class="text-2xl">
 						{{ t('widget.songsPerformedPerYear') }}
 					</div>
-					<LineChart
+					<line-chart
 						:datasets="songsPerYear.datasets"
 						:labels="songsPerYear.labels"
 						:ordinate="false"
@@ -255,7 +257,7 @@
 					<div class="text-2xl">
 						{{ t('widget.setlistsPerWeekday') }}
 					</div>
-					<BarChart
+					<bar-chart
 						:datasets="setlistsPerWeekday.datasets"
 						:labels="setlistsPerWeekday.labels"
 						:ordinate="false"
@@ -272,6 +274,7 @@ import { useRouter } from 'vue-router';
 import { useI18n } from "vue-i18n";
 import Panel from '@/elements/Panel.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
+import LinkButton from '@/elements/LinkButton.vue';
 import LineChart from '@/charts/LineChart';
 import BarChart  from '@/charts/BarChart';
 import {
@@ -279,6 +282,7 @@ import {
 	arrowDown,
 	arrowForward,
 	arrowUp,
+	closeOutline,
 	globeOutline,
 	list,
 	lockClosedOutline,
