@@ -18,7 +18,7 @@
 				<div class="text-6xl font-thin">{{ setlistCount }}</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
 					<ion-icon :icon="list" class="shrink-0 w-5 h-5 mt-2" />
-					{{ t('widget.setlistsStored') }}
+					{{ t('widget.publicSetlists') }}
 				</div>
 			</div>
 			<!-- performed songs count -->
@@ -273,7 +273,7 @@ const setlistsArray = computed(() => {
 		return setlist;
 	}).filter(s => !s.private || s.private && s.creator==props.user);
 });
-const setlistCount = computed(() => setlistsArray.value.length);
+const setlistCount = computed(() => setlistsArray.value.filter(s => !s.private).length);
 const noSetlists = computed(() => props.ready.setlists && setlistsArray.value.length == 0);
 const setlistlist = computed(() => {
 	const list = reorderedSetlists.value.length > 0 ? reorderedSetlists.value : newestSetlists();
