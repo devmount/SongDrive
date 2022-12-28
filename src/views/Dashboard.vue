@@ -4,7 +4,7 @@
 		<div class="text-3xl uppercase font-thin tracking-wider">
 			{{ t('page.dashboard')}}
 		</div>
-		<div class="grid grid-cols-2 md:grid-cols-4 gap-8" v-if="ready.songs && ready.setlists">
+		<div class="grid grid-cols-2 md:grid-cols-4 gap-8 w-max mx-auto" v-if="ready.songs && ready.setlists">
 			<!-- stored songs count -->
 			<div class="flex flex-col items-center">
 				<div class="text-6xl font-thin">{{ Object.keys(songs).length }}</div>
