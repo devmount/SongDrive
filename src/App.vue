@@ -18,8 +18,7 @@
 				<router-link to="/" class="flex flex-col w-max mx-auto mb-4 no-active">
 					<logo :featured="false" :show-version="true" />
 				</router-link>
-				<div class="flex flex-col gap-1">
-					<divider-horizontal :label="t('divider.start')" />
+				<div class="flex flex-col gap-1 mt-1">
 					<router-link
 						to="/"
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
