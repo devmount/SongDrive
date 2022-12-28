@@ -178,5 +178,5 @@ const songlist = computed(() => {
 	return list.slice(page.value*listLength, (page.value+1)*listLength);
 });
 const isFirstPage = computed(() => page.value == 0);
-const isLastPage = computed(() => songlist.value.length < listLength);
+const isLastPage = computed(() => (page.value+1)*listLength >= reordered.value.length);
 </script>

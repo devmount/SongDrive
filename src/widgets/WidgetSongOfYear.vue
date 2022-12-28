@@ -77,7 +77,7 @@ const props = defineProps({
 
 // list data
 const page       = ref(0);
-const listLength = 6;
+const listLength = 7;
 
 // build song of year list
 const songOfYear = computed(() => {
@@ -117,5 +117,5 @@ const songlist = computed(() => {
 	return list.slice(page.value*listLength, (page.value+1)*listLength);
 });
 const isFirstPage = computed(() => page.value == 0);
-const isLastPage = computed(() => songlist.value.length < listLength);
+const isLastPage = computed(() => (page.value+1)*listLength >= songOfYear.value.length);
 </script>
