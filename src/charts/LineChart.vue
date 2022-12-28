@@ -58,7 +58,7 @@ const processedDatasets = computed(() => {
 		};
 		// dashed line for last segment
 		d.segment = {
-			borderDash: ctx => this.unfinished && ctx.p0?.parsed.x == d.data.length-2 ? [10, 5] : undefined
+			borderDash: ctx => props.unfinished && ctx.p0?.parsed.x == d.data.length-2 ? [10, 5] : undefined
 		};
 	})
 	return datasets;
