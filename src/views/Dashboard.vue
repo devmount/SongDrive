@@ -41,83 +41,7 @@
 
 		<div class="grid grid-cols-3 gap-6 w-full" v-if="ready.songs && ready.setlists">
 			<!-- song list -->
-			<panel v-if="!noSongs" class="column col-4 col-xl-6 col-md-12">
-				<div class="flex justify-between">
-					<div class="text-2xl">{{ t('widget.' + songsProperty) }} {{ t('page.songs') }}</div>
-					<div class="flex gap-1">
-						<secondary-button
-							:disabled="isFirstSongPage"
-							@click="!isFirstSongPage ? songsPage-- : null"
-						>
-							<ion-icon :icon="arrowBack" />
-						</secondary-button>
-						<secondary-button
-							:disabled="isLastSongPage"
-							@click="!isLastSongPage ? songsPage++ : null"
-						>
-							<ion-icon :icon="arrowForward" />
-						</secondary-button>
-					</div>
-				</div>
-				<div class="flex flex-col gap-2">
-					<div
-						v-for="(song, i) in songlist"
-						:key="i"
-						class="flex gap-2 cursor-pointer p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
-						@click="router.push({ name: 'song-show', params: { id: song.id }})"
-					>
-						<div class="flex">
-							<figure
-								class="flex justify-center items-center bg-spring-700 font-semibold py-1 w-8"
-								:title="t('title.songTuning')"
-							>
-								<div class="-mt-0.5">{{ song.tuning }}</div>
-							</figure>
-							<figure
-								v-if="songsProperty == 'popular'"
-								class="flex justify-center items-center bg-blade-700 font-semibold py-1 w-12"
-								:title="t('title.songOccuredOn', { num: song.popularity })"
-							>
-								<div class="-mt-0.5">{{ song.popularity }}</div>
-								<ion-icon :icon="closeOutline" class="w-3 h-3" />
-							</figure>
-							<figure
-								v-if="songsProperty == 'newest' || songsProperty == 'oldest'"
-								class="flex justify-center items-center bg-blade-700 font-semibold py-1 w-12"
-								:title="song.year ? t('title.songPublishedIn', { year: song.year }) : t('title.noYear')"
-							>
-								<div class="-mt-0.5">{{ song.year ? song.year : '—' }}</div>
-							</figure>
-						</div>
-						<div class="flex flex-col overflow-hidden">
-							<div class="leading-4 truncate">{{ song.title }}</div>
-							<div class="text-sm text-blade-500 leading-4 truncate">{{ song.subtitle }}</div>
-						</div>
-					</div>
-				</div>
-				<div class="flex flex-wrap gap-1">
-					<secondary-button @click="shuffleSongs">
-						<ion-icon :icon="shuffle" />
-						{{ t('button.shuffle') }}
-					</secondary-button>
-					<secondary-button v-if="songsProperty != 'newest'" @click="newestSongs">
-						<ion-icon :icon="arrowUp" />
-						{{ t('widget.newest') }}
-					</secondary-button>
-					<secondary-button v-if="songsProperty == 'newest'" @click="oldestSongs">
-						<ion-icon :icon="arrowDown" />
-						{{ t('widget.oldest') }}
-					</secondary-button>
-					<secondary-button v-if="!noSetlists" @click="popularSongs">
-						<ion-icon :icon="trendingUp" />
-						{{ t('widget.popular') }}
-					</secondary-button>
-				</div>
-				<link-button class="mt-auto" @click="router.push({ name: 'songs' })">
-					{{ t('widget.showAllSongs') }}
-					<ion-icon :icon="arrowForward" />
-				</link-button>
-			</panel>
+			<widget-song-list :songs="songsArray" :setlists="setlistsArray" />
 			<!-- setlist list -->
 			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
 				<div class="panel">
@@ -274,22 +198,19 @@ import { useRouter } from 'vue-router';
 import { useI18n } from "vue-i18n";
 import Panel from '@/elements/Panel.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
-import LinkButton from '@/elements/LinkButton.vue';
 import LineChart from '@/charts/LineChart';
 import BarChart  from '@/charts/BarChart';
+import WidgetSongList from '@/widgets/WidgetSongList.vue';
 import {
 	arrowBack,
 	arrowDown,
 	arrowForward,
 	arrowUp,
-	closeOutline,
 	globeOutline,
 	list,
 	lockClosedOutline,
 	micOutline,
-	musicalNotes,
-	shuffle,
-	trendingUp,
+	musicalNotes
 } from 'ionicons/icons';
 const router = useRouter();
 const { t, locale } = useI18n();
@@ -303,65 +224,12 @@ const props = defineProps({
 });
 
 // reactive data
-const songsProperty     = ref('newest');
-const reorderedSongs    = ref([]);
-const songsPage         = ref(0);
 const setlistsProperty  = ref('newest');
 const reorderedSetlists = ref([]);
 const setlistsPage      = ref(0);
 const listLength        = ref(6);
 
 // methods
-const shuffleSongs = () => {
-	songsPage.value = 0;
-	songsProperty.value = 'random';
-	let list = songsArray.value;
-	for (let i = list.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[list[i], list[j]] = [list[j], list[i]];
-	}
-	reorderedSongs.value = [...list];
-};
-const newestSongs = () => {
-	songsPage.value = 0;
-	songsProperty.value = 'newest';
-	reorderedSongs.value = songsArray.value.filter(s => s.year > 0).sort(
-		(a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0)
-	);
-	return reorderedSongs.value;
-};
-const oldestSongs = () => {
-	songsPage.value = 0;
-	songsProperty.value = 'oldest';
-	reorderedSongs.value = songsArray.value.filter(s => s.year > 0).sort(
-		(a, b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0)
-	);
-};
-const popularSongs = () => {
-	songsPage.value = 0;
-	songsProperty.value = 'popular';
-	let list = {};
-	setlistsArray.value.forEach(setlist => {
-		if (setlist.songs) {
-			setlist.songs.forEach(song => {
-				if (!list.hasOwnProperty(song.id)) {
-					list[song.id] = 1;
-				} else {
-					list[song.id]++;
-				}
-			});
-		}
-	});
-	var idList = [];
-	for (var id in list) {
-		idList.push([id, list[id]]);
-	}
-	let orderedSongIds = idList.sort((a, b) => b[1] - a[1]).reduce((a, c) => a.concat(c[0]), []);
-	reorderedSongs.value = songsArray.value
-		.filter(s => orderedSongIds.includes(s.id))
-		.map(s => Object.assign({popularity: list[s.id]}, s))
-		.sort((a, b) => (a.popularity < b.popularity) ? 1 : ((b.popularity < a.popularity) ? -1 : 0));
-};
 const newestSetlists = () => {
 	setlistsPage.value = 0;
 	setlistsProperty.value = 'newest';
@@ -397,10 +265,6 @@ const languagesUsed = computed(() => {
 		}
 	})
 	return languages.length;
-});
-const songlist = computed(() => {
-	const list = reorderedSongs.value.length > 0 ? reorderedSongs.value : newestSongs();
-	return list.slice(songsPage.value*listLength.value, (songsPage.value+1)*listLength.value);
 });
 const setlistsArray = computed(() => {
 	return Object.keys(props.setlists).map((key) => {
@@ -507,8 +371,6 @@ const getWeekDays = computed(() => {
 	}
 	return names;
 });
-const isFirstSongPage = computed(() => songsPage.value == 0);
-const isLastSongPage = computed(() => songlist.value.length < listLength.value);
 const isFirstSetlistPage = computed(() => setlistsPage.value == 0);
 const isLastSetlistPage = computed(() => setlistlist.value.length < listLength.value);
 </script>

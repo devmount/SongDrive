@@ -305,6 +305,9 @@ const urlify = (s) => {
     .replace(/³/g, '3');
 }
 
+// get the first key of given object that points to given value
+const keyByValue = (o, v) => Object.keys(o).find(k => o[k]===v);
+
 export {
   keyScale,
   userRoles,
@@ -317,5 +320,6 @@ export {
   initials,
   throwError,
   randomString,
-  urlify
+  urlify,
+  keyByValue
 }
