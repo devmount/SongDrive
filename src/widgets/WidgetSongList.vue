@@ -6,14 +6,14 @@
 			</div>
 			<div class="flex gap-1">
 				<secondary-button
-					:disabled="isFirstSongPage"
-					@click="!isFirstSongPage ? page-- : null"
+					:disabled="isFirstPage"
+					@click="!isFirstPage ? page-- : null"
 				>
 					<ion-icon :icon="arrowBack" />
 				</secondary-button>
 				<secondary-button
-					:disabled="isLastSongPage"
-					@click="!isLastSongPage ? page++ : null"
+					:disabled="isLastPage"
+					@click="!isLastPage ? page++ : null"
 				>
 					<ion-icon :icon="arrowForward" />
 				</secondary-button>
@@ -177,6 +177,6 @@ const songlist = computed(() => {
 	const list = reordered.value.length > 0 ? reordered.value : newestSongs();
 	return list.slice(page.value*listLength, (page.value+1)*listLength);
 });
-const isFirstSongPage = computed(() => page.value == 0);
-const isLastSongPage = computed(() => songlist.value.length < listLength);
+const isFirstPage = computed(() => page.value == 0);
+const isLastPage = computed(() => songlist.value.length < listLength);
 </script>

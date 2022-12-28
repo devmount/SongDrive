@@ -112,42 +112,7 @@
 				</div>
 			</panel>
 			<!-- song of the year -->
-			<panel v-if="!noSongs && !noSetlists" class="column col-4 col-xl-6 col-md-12">
-				<div class="panel">
-					<div class="panel-header">
-						<div class="panel-title h5">
-							{{ t('widget.songOfYear') }}
-						</div>
-					</div>
-					<div class="panel-body">
-						<div
-							v-for="(song, year) in songOfYear"
-							:key="year"
-							class="tile tile-centered tile-hover c-hand p-2"
-							@click="router.push({ name: 'song-show', params: { id: song.id}})"
-						>
-							<div class="tile-icon">
-								<figure class="avatar avatar-secondary bg-primary s-rounded" :data-initial="year"></figure>
-								<figure
-									class="avatar avatar-secondary s-rounded ml-1"
-									:data-initial="song.count + 'x'"
-									:title="t('title.songOccuredOn', { num: song.count })"
-								></figure>
-							</div>
-							<div class="tile-content">
-								<div class="tile-title">{{ songs[song.id].title }}</div>
-								<div class="tile-subtitle text-gray text-small">{{ songs[song.id].subtitle }}</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel-link">
-						<router-link to="/songs" class="btn btn-link btn-block">
-							{{ t('widget.showAllSongs') }}
-							<ion-icon :icon="arrowForward" class="ml-1" />
-						</router-link>
-					</div>
-				</div>
-			</panel>
+			<widget-song-of-year :songs="songs" :setlists="setlistsArray" />
 		</div>
 		<div class="grid grid-cols-3 gap-6" v-if="ready.songs && ready.setlists">
 			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
@@ -196,11 +161,12 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from "vue-i18n";
-import Panel from '@/elements/Panel.vue';
-import SecondaryButton from '@/elements/SecondaryButton.vue';
+import Panel from '@/elements/Panel';
+import SecondaryButton from '@/elements/SecondaryButton';
 import LineChart from '@/charts/LineChart';
 import BarChart  from '@/charts/BarChart';
-import WidgetSongList from '@/widgets/WidgetSongList.vue';
+import WidgetSongList from '@/widgets/WidgetSongList';
+import WidgetSongOfYear from '@/widgets/WidgetSongOfYear';
 import {
 	arrowBack,
 	arrowDown,
@@ -279,36 +245,6 @@ const setlistlist = computed(() => {
 	const list = reorderedSetlists.value.length > 0 ? reorderedSetlists.value : newestSetlists();
 	return list.slice(setlistsPage.value*listLength.value, (setlistsPage.value+1)*listLength.value);
 });
-const songOfYear = computed(() => {
-	let list = {};
-	setlistsArray.value.forEach(setlist => {
-		let year = setlist.date.slice(0, 4);
-		if (year && setlist.songs) {
-			if (!list.hasOwnProperty(year)) {
-				list[year] = {};
-			}
-			setlist.songs.forEach(song => {
-				if (!list[year].hasOwnProperty(song.id)) {
-					list[year][song.id] = 1;
-				} else {
-					list[year][song.id]++;
-				}
-			});
-		}
-	});
-	let songsToYear = {};
-	for (let year in list) {
-		let maxId = '', maxCount = 0;
-		for (let id in list[year]) {
-			if (list[year][id] > maxCount) {
-				maxId = id;
-				maxCount = list[year][id];
-			}
-		}
-		songsToYear[year] = { id: maxId, count: maxCount };
-	}
-	return songsToYear;
-});
 const setlistsPerYear = computed(() => {
 	let years = {};
 	setlistsArray.value.forEach(setlist => {
@@ -374,13 +310,3 @@ const getWeekDays = computed(() => {
 const isFirstSetlistPage = computed(() => setlistsPage.value == 0);
 const isLastSetlistPage = computed(() => setlistlist.value.length < listLength.value);
 </script>
-
-<style>
-.dashboard .avatar-secondary {
-  width: 2rem;
-  font-size: 0.7rem;
-}
-.dashboard .avatar-secondary::before {
-  text-transform: unset;
-}
-</style>
