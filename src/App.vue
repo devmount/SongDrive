@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="bg-blade-100 text-blade-600 dark:bg-blade-850 dark:text-blade-300">
 		<!-- logged in, confirmed and verified -->
 		<div
 			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && c.users[auth.user] && ready.permissions && c.permissions[auth.user] && !loading"

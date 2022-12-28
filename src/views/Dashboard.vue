@@ -8,7 +8,7 @@
 			<!-- stored songs count -->
 			<div class="flex flex-col items-center">
 				<div class="text-6xl font-thin">{{ Object.keys(songs).length }}</div>
-				<div class="text-2xl flex gap-2">
+				<div class="text-2xl text-blade-400 flex gap-2">
 					<ion-icon :icon="musicalNotes" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.songsStored') }}
 				</div>
@@ -16,7 +16,7 @@
 			<!-- stored setlists count -->
 			<div class="flex flex-col items-center">
 				<div class="text-6xl font-thin">{{ setlistCount }}</div>
-				<div class="text-2xl flex gap-2">
+				<div class="text-2xl text-blade-400 flex gap-2">
 					<ion-icon :icon="list" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.setlistsStored') }}
 				</div>
@@ -24,7 +24,7 @@
 			<!-- performed songs count -->
 			<div class="flex flex-col items-center">
 				<div class="text-6xl font-thin"><span class="text-blade-500">~</span>{{ songsPerformed }}</div>
-				<div class="text-2xl flex gap-2">
+				<div class="text-2xl text-blade-400 flex gap-2">
 					<ion-icon :icon="micOutline" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.songsPerformed') }}
 				</div>
@@ -32,7 +32,7 @@
 			<!-- used languages count -->
 			<div class="flex flex-col items-center">
 				<div class="text-6xl font-thin">{{ languagesUsed }}</div>
-				<div class="text-2xl flex gap-2">
+				<div class="text-2xl text-blade-400 flex gap-2">
 					<ion-icon :icon="globeOutline" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.languages', languagesUsed) }}
 				</div>
