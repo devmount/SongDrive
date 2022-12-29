@@ -4,10 +4,12 @@
 		<div class="text-3xl uppercase font-thin tracking-wider">
 			{{ t('page.dashboard')}}
 		</div>
-		<div class="flex gap-8 w-max mx-auto" v-if="ready.songs && ready.setlists">
+		<div class="flex flex-wrap gap-8 w-full justify-center" v-if="ready.songs && ready.setlists">
 			<!-- stored songs count -->
 			<div class="flex flex-col items-center">
-				<div class="text-6xl font-thin">{{ Object.keys(songs).length }}</div>
+				<div class="text-4xl sm:text-6xl font-thin">
+					{{ Object.keys(songs).length }}
+				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
 					<ion-icon :icon="musicalNotes" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.songsStored') }}
@@ -15,7 +17,9 @@
 			</div>
 			<!-- stored setlists count -->
 			<div class="flex flex-col items-center">
-				<div class="text-6xl font-thin">{{ setlistCount }}</div>
+				<div class="text-4xl sm:text-6xl font-thin">
+					{{ setlistCount }}
+				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
 					<ion-icon :icon="list" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.publicSetlists') }}
@@ -23,7 +27,9 @@
 			</div>
 			<!-- performed songs count -->
 			<div class="flex flex-col items-center">
-				<div class="text-6xl font-thin"><span class="text-blade-500">~</span>{{ songsPerformed }}</div>
+				<div class="text-4xl sm:text-6xl font-thin">
+					<span class="text-blade-500">~</span>{{ songsPerformed }}
+				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
 					<ion-icon :icon="micOutline" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.songsPerformed') }}
@@ -31,7 +37,9 @@
 			</div>
 			<!-- used languages count -->
 			<div class="flex flex-col items-center">
-				<div class="text-6xl font-thin">{{ languagesUsed }}</div>
+				<div class="text-4xl sm:text-6xl font-thin">
+					{{ languagesUsed }}
+				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
 					<ion-icon :icon="globeOutline" class="shrink-0 w-5 h-5 mt-2" />
 					{{ t('widget.languages', languagesUsed) }}
@@ -39,7 +47,10 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-3 gap-6 w-full" v-if="ready.songs && ready.setlists">
+		<div
+			v-if="ready.songs && ready.setlists"
+			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+		>
 			<!-- song list -->
 			<widget-song-list :songs="songsArray" :setlists="setlistsArray" />
 			<!-- setlist list -->
@@ -47,44 +58,41 @@
 			<!-- song of the year -->
 			<widget-song-of-year :songs="songs" :setlists="setlistsArray" />
 		</div>
-		<div class="grid grid-cols-3 gap-6" v-if="ready.songs && ready.setlists">
-			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
-				<div class="flex flex-col gap-4">
-					<div class="text-2xl">
-						{{ t('widget.setlistsCreatedPerYear') }}
-					</div>
-					<line-chart
-						:datasets="setlistsPerYear.datasets"
-						:labels="setlistsPerYear.labels"
-						:ordinate="false"
-						:abscissa="true"
-					/>
+		<div
+			v-if="ready.songs && ready.setlists"
+			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+		>
+			<panel v-if="!noSetlists" class="flex flex-col gap-4">
+				<div class="text-2xl">
+					{{ t('widget.setlistsCreatedPerYear') }}
 				</div>
+				<line-chart
+					:datasets="setlistsPerYear.datasets"
+					:labels="setlistsPerYear.labels"
+					:ordinate="false"
+					:abscissa="true"
+				/>
 			</panel>
-			<panel v-if="!noSongs && !noSetlists" class="column col-4 col-xl-6 col-md-12">
-				<div class="flex flex-col gap-4">
-					<div class="text-2xl">
-						{{ t('widget.songsPerformedPerYear') }}
-					</div>
-					<line-chart
-						:datasets="songsPerYear.datasets"
-						:labels="songsPerYear.labels"
-						:ordinate="false"
-						:abscissa="true"
-					/>
+			<panel v-if="!noSongs && !noSetlists" class="flex flex-col gap-4">
+				<div class="text-2xl">
+					{{ t('widget.songsPerformedPerYear') }}
 				</div>
+				<line-chart
+					:datasets="songsPerYear.datasets"
+					:labels="songsPerYear.labels"
+					:ordinate="false"
+					:abscissa="true"
+				/>
 			</panel>
-			<panel v-if="!noSetlists" class="column col-4 col-xl-6 col-md-12">
-				<div class="flex flex-col gap-4">
-					<div class="text-2xl">
-						{{ t('widget.setlistsPerWeekday') }}
-					</div>
-					<bar-chart
-						:datasets="setlistsPerWeekday.datasets"
-						:labels="setlistsPerWeekday.labels"
-						:ordinate="false"
-					/>
+			<panel v-if="!noSetlists" class="flex flex-col gap-4">
+				<div class="text-2xl">
+					{{ t('widget.setlistsPerWeekday') }}
 				</div>
+				<bar-chart
+					:datasets="setlistsPerWeekday.datasets"
+					:labels="setlistsPerWeekday.labels"
+					:ordinate="false"
+				/>
 			</panel>
 		</div>
 	</div>
