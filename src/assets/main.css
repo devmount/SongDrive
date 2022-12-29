@@ -9,6 +9,9 @@
   button, a {
     @apply transition-all;
   }
+  kbd {
+    @apply font-mono rounded bg-blade-500 dark:bg-blade-950 text-blade-200 px-2 py-1
+  }
 
   @font-face {
     font-family: 'Fira Mono';
@@ -25,4 +28,7 @@
 
 .router-link-active:not(.no-active) {
   @apply bg-blade-300 dark:bg-blade-800
+}
+kbd > * {
+  @apply align-middle
 }
