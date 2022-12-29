@@ -28,14 +28,14 @@
 			>
 				<div class="flex">
 					<figure
-						class="flex justify-center items-center bg-spring-700 font-semibold py-1 w-8"
+						class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
 						:title="t('title.songTuning')"
 					>
 						<div class="-mt-0.5">{{ song.tuning }}</div>
 					</figure>
 					<figure
 						v-if="order == sortBy.popular"
-						class="flex justify-center items-center bg-blade-700 font-semibold py-1 w-12"
+						class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-12"
 						:title="t('title.songOccuredOn', { num: song.popularity })"
 					>
 						<div class="-mt-0.5">{{ song.popularity }}</div>
@@ -43,7 +43,7 @@
 					</figure>
 					<figure
 						v-if="order == sortBy.newest || order == sortBy.oldest"
-						class="flex justify-center items-center bg-blade-700 font-semibold py-1 w-12"
+						class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-12"
 						:title="song.year ? t('title.songPublishedIn', { year: song.year }) : t('title.noYear')"
 					>
 						<div class="-mt-0.5">{{ song.year ? song.year : '—' }}</div>

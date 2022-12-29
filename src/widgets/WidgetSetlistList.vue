@@ -28,7 +28,7 @@
 			>
 				<div class="flex">
 					<figure
-						class="flex justify-center items-center bg-blade-700 font-semibold py-1 w-8"
+						class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-8"
 						:title="t('title.setlistContains', { num: setlist.songs.length })"
 					>
 						<div class="-mt-0.5">{{ setlist.songs.length }}</div>

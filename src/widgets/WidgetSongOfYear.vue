@@ -28,13 +28,13 @@
 			>
 				<div class="flex">
 					<figure
-						class="flex justify-center items-center bg-spring-700 font-semibold py-1 w-12"
+						class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-12"
 						:title="t('title.songTuning')"
 					>
 						<div class="-mt-0.5">{{ obj.year }}</div>
 					</figure>
 					<figure
-						class="flex justify-center items-center bg-blade-700 font-semibold py-1 w-12"
+						class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-12"
 						:title="t('title.songOccuredOn', { num: obj.count })"
 					>
 						<div class="-mt-0.5">{{ obj.count }}</div>
