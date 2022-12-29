@@ -4,7 +4,7 @@
 		<div class="text-3xl uppercase font-thin tracking-wider">
 			{{ t('page.dashboard')}}
 		</div>
-		<div class="flex flex-wrap gap-8 w-full justify-center" v-if="ready.songs && ready.setlists">
+		<div class="flex flex-wrap gap-8 w-full justify-evenly" v-if="ready.songs && ready.setlists">
 			<!-- stored songs count -->
 			<div class="flex flex-col items-center">
 				<div class="text-4xl sm:text-6xl font-thin">
