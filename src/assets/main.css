@@ -10,7 +10,7 @@
     @apply transition-all;
   }
   kbd {
-    @apply font-mono rounded bg-blade-500 dark:bg-blade-950 text-blade-200 px-2 py-1
+    @apply font-mono rounded text-blade-600 dark:text-blade-200 bg-blade-300 dark:bg-blade-900 border border-b-4 border-blade-400 dark:border-blade-700 px-2 py-1
   }
 
   @font-face {
