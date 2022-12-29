@@ -1,18 +1,18 @@
 <template>
-	<div class="bg-blade-100 text-blade-600 dark:bg-blade-850 dark:text-blade-300">
+	<div class="bg-blade-100 text-blade-600 dark:bg-blade-850 dark:text-blade-300 overflow-x-hidden">
 		<!-- logged in, confirmed and verified -->
 		<div
 			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && c.users[auth.user] && ready.permissions && c.permissions[auth.user] && !loading"
 			class="lg:flex min-h-screen"
 		>
-			<!-- off-screen toggle button -->
+			<!-- menu toggle button -->
 			<button class="fixed lg:hidden transition-all top-4 right-4 px-2 py-1 flex items-center" :class="{ 'right-64 mr-4': open }" @click="open = true">
 				<ion-icon :icon="menu" size="large" />
 			</button>
 
-			<!-- off-screen sidebar -->
+			<!-- menu sidebar -->
 			<div
-				class="fixed shrink-0 lg:sticky -right-64 lg:left-0 lg:right-auto top-0 transition-all z-50 h-screen w-64 flex flex-col px-2 py-8 bg-blade-200 dark:bg-blade-900"
+				class="fixed shrink-0 lg:sticky -right-64 lg:left-0 lg:right-auto top-0 transition-all z-50 min-h-screen w-64 flex flex-col px-2 py-8 bg-blade-200 dark:bg-blade-900"
 				:class="{ '!right-0': open }"
 			>
 				<router-link to="/" class="flex flex-col w-max mx-auto mb-4 no-active">
@@ -165,7 +165,7 @@
 				</footer>
 			</div>
 			<div
-				class="absolute top-0 left-0 z-40 w-screen h-screen bg-blade-800/50 lg:hidden"
+				class="fixed top-0 left-0 z-40 w-screen h-screen bg-blade-800/50 lg:hidden"
 				:class="{ 'hidden': !open }"
 				@click="open = false"
 			></div>
