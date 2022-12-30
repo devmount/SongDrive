@@ -1,91 +1,85 @@
 <template>
-	<div class="documentation">
-		<div class="off-canvas off-canvas-secondary">
-			<!-- secondary sidebar -->
-			<div class="off-canvas-sidebar active">
-				<div class="sidebar-wrapper">
-					<!-- scroll to top -->
-					<button
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t('button.top')"
-						@click="scrollTo('start')"
-					>
-						<ion-icon :icon="arrowUpOutline" class="icon-left" />
-						<span class="hide-lg">{{ t('button.top') }}</span>
-					</button>
-					<!-- table of contents -->
-					<div class="divider text-center show-lg" :data-content="t('divider.toc').charAt(0)"></div>
-					<div class="divider text-center hide-lg" :data-content="t('divider.toc')"></div>
-					<button
-						v-for="t in toc"
-						:key="t"
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t.text"
-						@click="scrollTo(dashCase(t.text))"
-					>
-						<ion-icon :icon="bookmarkOutline" class="icon-left" />
-						<span class="hide-lg">{{ t.text }}</span>
-					</button>
-					<!-- edit documentation -->
-					<div class="divider text-center show-lg" :data-content="t('divider.docs').charAt(0)"></div>
-					<div class="divider text-center hide-lg" :data-content="t('divider.docs')"></div>
-					<a
-						:href="'https://github.com/devmount/SongDrive/blob/main/src/docs/docs.' + locale + '.md'"
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t('button.source')"
-						target="_blank"
-					>
-						<ion-icon :icon="codeSlashOutline" class="icon-left" />
-						<span class="hide-lg">{{ t('button.source') }}</span>
-						<ion-icon :icon="openOutline" class="icon-right hide-lg" />
-					</a>
-					<a
-						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t('button.edit')"
-						target="_blank"
-					>
-						<ion-icon :icon="createOutline" class="icon-left" />
-						<span class="hide-lg">{{ t('button.edit') }}</span>
-						<ion-icon :icon="openOutline" class="icon-right hide-lg" />
-					</a>
+	<div class="documentation relative">
+		<!-- secondary sidebar -->
+		<div class="fixed top-4 left-4">
+			<!-- scroll to top -->
+			<button
+				class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+				:data-tooltip="t('button.top')"
+				@click="scrollTo('start')"
+			>
+				<ion-icon :icon="arrowUpOutline" class="icon-left" />
+				<span class="hide-lg">{{ t('button.top') }}</span>
+			</button>
+			<!-- table of contents -->
+			<div class="divider text-center show-lg" :data-content="t('divider.toc').charAt(0)"></div>
+			<div class="divider text-center hide-lg" :data-content="t('divider.toc')"></div>
+			<button
+				v-for="t in toc"
+				:key="t"
+				class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+				:data-tooltip="t.text"
+				@click="scrollTo(dashCase(t.text))"
+			>
+				<ion-icon :icon="bookmarkOutline" class="icon-left" />
+				<span class="hide-lg">{{ t.text }}</span>
+			</button>
+			<!-- edit documentation -->
+			<div class="divider text-center show-lg" :data-content="t('divider.docs').charAt(0)"></div>
+			<div class="divider text-center hide-lg" :data-content="t('divider.docs')"></div>
+			<a
+				:href="'https://github.com/devmount/SongDrive/blob/main/src/docs/docs.' + locale + '.md'"
+				class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+				:data-tooltip="t('button.source')"
+				target="_blank"
+			>
+				<ion-icon :icon="codeSlashOutline" class="icon-left" />
+				<span class="hide-lg">{{ t('button.source') }}</span>
+				<ion-icon :icon="openOutline" class="icon-right hide-lg" />
+			</a>
+			<a
+				:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
+				class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+				:data-tooltip="t('button.edit')"
+				target="_blank"
+			>
+				<ion-icon :icon="createOutline" class="icon-left" />
+				<span class="hide-lg">{{ t('button.edit') }}</span>
+				<ion-icon :icon="openOutline" class="icon-right hide-lg" />
+			</a>
+		</div>
+		<!-- content -->
+		<div class="flex flex-col gap-8 max-w-4xl mx-auto" id="start">
+			<!-- title -->
+			<div class="flex flex-col gap-12">
+				<!-- heading -->
+				<div class="flex flex-col justify-center items-center gap-4">
+					<img class="logo" src="@/assets/logo.svg" alt="SongDrive Song Management Tool" />
+					<div class="text-3xl uppercase text-spring-600">{{ t('app.name') }}</div>
+					<div class="text-2xl">{{ t('app.summary') }}</div>
+				</div>
+				<!-- features -->
+				<div class="grid grid-cols-3 gap-8">
+					<div class="flex flex-col justify-start items-center gap-4">
+						<ion-icon :icon="flashOutline" class="w-12 h-12" style="--ionicon-stroke-width: 20" />
+						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.0.title') }}</div>
+						<div class="text-center">{{ t('docu.features.0.description') }}</div>
+					</div>
+					<div class="flex flex-col justify-center items-center gap-4">
+						<ion-icon :icon="micOutline" class="w-12 h-12" style="--ionicon-stroke-width: 20" />
+						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.1.title') }}</div>
+						<div class="text-center">{{ t('docu.features.1.description') }}</div>
+					</div>
+					<div class="flex flex-col justify-center items-center gap-4">
+						<ion-icon :icon="constructOutline" class="w-12 h-12" style="--ionicon-stroke-width: 20" />
+						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.2.title') }}</div>
+						<div class="text-center">{{ t('docu.features.2.description') }}</div>
+					</div>
 				</div>
 			</div>
 			<!-- content -->
-			<div class="off-canvas-content" id="start">
-				<div class="container no-sidebar">
-					<!-- title -->
-					<div class="columns text-center">
-						<!-- heading -->
-						<div class="column col-12 mb-15">
-							<img class="logo" src="@/assets/logo.svg" alt="SongDrive Song Management Tool" />
-							<h2 class="text-primary weight-normal mt-5 mb-3">{{ t('app.name') }}</h2>
-							<div class="text-big">{{ t('app.summary') }}</div>
-						</div>
-						<!-- features -->
-						<div class="columns col-8 col-xl-12 col-mx-auto mb-15">
-							<div class="column col-4 col-xl-6 col-sm-12">
-								<ion-icon :icon="flashOutline" class="icon-3x icon-thin mb-3" />
-								<h3>{{ t('docu.features.0.title') }}</h3>
-								<div>{{ t('docu.features.0.description') }}</div>
-							</div>
-							<div class="column col-4 col-xl-6 col-sm-12">
-								<ion-icon :icon="micOutline" class="icon-3x icon-thin mb-3" />
-								<h3>{{ t('docu.features.1.title') }}</h3>
-								<div>{{ t('docu.features.1.description') }}</div>
-							</div>
-							<div class="column col-4 col-xl-6 col-sm-12">
-								<ion-icon :icon="constructOutline" class="icon-3x icon-thin mb-3" />
-								<h3>{{ t('docu.features.2.title') }}</h3>
-								<div>{{ t('docu.features.2.description') }}</div>
-							</div>
-						</div>
-					</div>
-					<!-- content -->
-					<div class="columns">
-						<div class="column md-content" v-html="content"></div>
-					</div>
-				</div>
+			<div class="columns">
+				<div class="column md-content" v-html="content"></div>
 			</div>
 		</div>
 	</div>
