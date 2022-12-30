@@ -242,11 +242,11 @@ const sdHighlight = (code) => {
   code.split('\n').forEach(line => {
     // check for marker
     if (line.substring(0,2) === '--') {
-      parsedCode.push('<span class="text-gray">' + line + '</span>');
+      parsedCode.push('<span class="sd-marker">' + line + '</span>');
     } else
     // check for chords
     if (line.slice(-2) === '  ') {
-      parsedCode.push('<span class="text-primary">' + line + '</span>');
+      parsedCode.push('<span class="sd-chords">' + line + '</span>');
     }
     // lyrics
     else {

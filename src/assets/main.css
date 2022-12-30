@@ -21,14 +21,70 @@
 }
 
 @layer components {
+  /* centering absolute or fixed positioned elements */
   .position-center {
     @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
   }
 }
 
+/* generated router links */
 .router-link-active:not(.no-active) {
   @apply bg-blade-300 dark:bg-blade-800
 }
+
+/* key caps */
 kbd > * {
   @apply align-middle
+}
+
+/* generated markdown */
+.markdown h2 {
+  @apply text-3xl uppercase font-light tracking-widest mt-8 mb-4
+}
+.markdown h3 {
+  @apply text-xl uppercase tracking-widest mt-6 mb-4
+}
+.markdown h4 {
+  @apply text-lg font-semibold tracking-widest mt-4 mb-1
+}
+.markdown table {
+  @apply mt-4 border-collapse divide-y
+}
+.markdown table th, .markdown table td {
+  @apply py-1.5 px-3
+}
+.markdown table tbody {
+  @apply divide-y divide-blade-600
+}
+.markdown p {
+  @apply mb-4
+}
+.markdown ul {
+  @apply pl-6 mb-4
+}
+.markdown ul li {
+  @apply list-item list-disc pl-2
+}
+.markdown a {
+  @apply text-spring-600 hover:text-white
+}
+.markdown code {
+  @apply rounded-sm bg-blade-750 px-1.5 py-0.5 text-sm
+}
+.markdown pre code {
+  @apply bg-blade-900 mb-4
+}
+.markdown blockquote {
+  @apply border-l-2 border-blade-700 pl-4 py-1 mb-4
+}
+.markdown blockquote p:last-child {
+  @apply mb-0
+}
+
+/* songdrive syntax */
+.language-songdrive .sd-marker {
+  @apply text-blade-500
+}
+.language-songdrive .sd-chords {
+  @apply text-spring-600
 }

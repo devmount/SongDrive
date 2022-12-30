@@ -1,7 +1,7 @@
 <template>
-	<div class="documentation relative">
+	<div class="relative">
 		<!-- secondary sidebar -->
-		<div class="fixed top-4 left-4">
+		<div class="fixed top-4 left-4 lg:left-72">
 			<!-- scroll to top -->
 			<button
 				class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
@@ -12,8 +12,6 @@
 				<span class="hide-lg">{{ t('button.top') }}</span>
 			</button>
 			<!-- table of contents -->
-			<div class="divider text-center show-lg" :data-content="t('divider.toc').charAt(0)"></div>
-			<div class="divider text-center hide-lg" :data-content="t('divider.toc')"></div>
 			<button
 				v-for="t in toc"
 				:key="t"
@@ -24,37 +22,14 @@
 				<ion-icon :icon="bookmarkOutline" class="icon-left" />
 				<span class="hide-lg">{{ t.text }}</span>
 			</button>
-			<!-- edit documentation -->
-			<div class="divider text-center show-lg" :data-content="t('divider.docs').charAt(0)"></div>
-			<div class="divider text-center hide-lg" :data-content="t('divider.docs')"></div>
-			<a
-				:href="'https://github.com/devmount/SongDrive/blob/main/src/docs/docs.' + locale + '.md'"
-				class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-				:data-tooltip="t('button.source')"
-				target="_blank"
-			>
-				<ion-icon :icon="codeSlashOutline" class="icon-left" />
-				<span class="hide-lg">{{ t('button.source') }}</span>
-				<ion-icon :icon="openOutline" class="icon-right hide-lg" />
-			</a>
-			<a
-				:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
-				class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-				:data-tooltip="t('button.edit')"
-				target="_blank"
-			>
-				<ion-icon :icon="createOutline" class="icon-left" />
-				<span class="hide-lg">{{ t('button.edit') }}</span>
-				<ion-icon :icon="openOutline" class="icon-right hide-lg" />
-			</a>
 		</div>
 		<!-- content -->
-		<div class="flex flex-col gap-8 max-w-4xl mx-auto" id="start">
+		<div class="flex flex-col gap-16 max-w-4xl mx-auto py-12" id="start">
 			<!-- title -->
 			<div class="flex flex-col gap-12">
 				<!-- heading -->
 				<div class="flex flex-col justify-center items-center gap-4">
-					<img class="logo" src="@/assets/logo.svg" alt="SongDrive Song Management Tool" />
+					<img class="w-32" src="@/assets/logo.svg" alt="SongDrive Song Management Tool" />
 					<div class="text-3xl uppercase text-spring-600">{{ t('app.name') }}</div>
 					<div class="text-2xl">{{ t('app.summary') }}</div>
 				</div>
@@ -78,14 +53,39 @@
 				</div>
 			</div>
 			<!-- content -->
-			<div class="columns">
-				<div class="column md-content" v-html="content"></div>
+			<div class="markdown" v-html="content"></div>
+			<!-- footer with links to edit documentation -->
+			<div class="max-w-lg mx-auto text-blade-500 flex flex-col gap-2">
+				<div>Found a typo or bug? Please contribute to these docs on GitHub.</div>
+				<div class="flex gap-4 justify-center items-center">
+					<secondary-button
+						:href="'https://github.com/devmount/SongDrive/blob/main/src/docs/docs.' + locale + '.md'"
+						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+						:data-tooltip="t('button.source')"
+						target="_blank"
+					>
+						<ion-icon :icon="codeSlashOutline" class="icon-left" />
+						<span class="hide-lg">{{ t('button.source') }}</span>
+						<ion-icon :icon="openOutline" class="icon-right hide-lg" />
+					</secondary-button>
+					<secondary-button
+						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
+						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
+						:data-tooltip="t('button.edit')"
+						target="_blank"
+					>
+						<ion-icon :icon="createOutline" class="icon-left" />
+						<span class="hide-lg">{{ t('button.edit') }}</span>
+						<ion-icon :icon="openOutline" class="icon-right hide-lg" />
+					</secondary-button>
+				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
+import SecondaryButton from '@/elements/SecondaryButton';
 import { computed } from 'vue';
 import { useI18n } from "vue-i18n";
 import {
@@ -149,32 +149,3 @@ const content = computed(
 	)
 );
 </script>
-
-<style>
-.documentation .logo {
-  width: 150px;
-  margin-top: 2rem;
-}
-.documentation .md-content {
-  max-width: 960px;
-  margin: 0 auto;
-  padding-bottom: 5rem;
-}
-.documentation h2, .documentation h3 {
-  margin-top: 1.5em;
-  margin-bottom: 1em;
-  padding: 0;
-}
-.documentation table {
-  border-collapse: collapse;
-}
-.documentation table th, .documentation table td {
-  padding: 0.5rem;
-}
-.documentation table thead th {
-  border-bottom: 1px solid currentColor;
-}
-.documentation table tr:not(:last-child) td {
-  border-bottom: 1px solid #4a5052; /* $gray-color-700 */
-}
-</style>
