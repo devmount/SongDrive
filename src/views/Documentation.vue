@@ -1,26 +1,24 @@
 <template>
 	<div class="relative">
 		<!-- secondary sidebar -->
-		<div class="fixed top-4 left-4 lg:left-72">
+		<div class="fixed top-4 left-4 lg:left-64 lg:ml-4 flex flex-col items-stretch bg-blade-900 rounded-lg p-2">
 			<!-- scroll to top -->
 			<button
-				class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-				:data-tooltip="t('button.top')"
+				class="py-1 px-2 rounded-md hover:bg-blade-800 flex justify-start items-center gap-2 mb-4"
 				@click="scrollTo('start')"
 			>
-				<ion-icon :icon="arrowUpOutline" class="icon-left" />
-				<span class="hide-lg">{{ t('button.top') }}</span>
+				<ion-icon :icon="arrowUpOutline" />
+				<span>{{ t('button.top') }}</span>
 			</button>
 			<!-- table of contents -->
 			<button
 				v-for="t in toc"
 				:key="t"
-				class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-				:data-tooltip="t.text"
+				class="py-1 px-2 rounded-md hover:bg-blade-800 flex justify-start items-center gap-2"
 				@click="scrollTo(dashCase(t.text))"
 			>
-				<ion-icon :icon="bookmarkOutline" class="icon-left" />
-				<span class="hide-lg">{{ t.text }}</span>
+				<ion-icon :icon="bookmarkOutline" />
+				<span>{{ t.text }}</span>
 			</button>
 		</div>
 		<!-- content -->
@@ -55,28 +53,26 @@
 			<!-- content -->
 			<div class="markdown" v-html="content"></div>
 			<!-- footer with links to edit documentation -->
-			<div class="max-w-lg mx-auto text-blade-500 flex flex-col gap-2">
-				<div>Found a typo or bug? Please contribute to these docs on GitHub.</div>
+			<div class="max-w-lg mx-auto text-blade-500 flex flex-col gap-4">
+				<div class="text-center">{{ t('text.foundABug') }}</div>
 				<div class="flex gap-4 justify-center items-center">
 					<secondary-button
 						:href="'https://github.com/devmount/SongDrive/blob/main/src/docs/docs.' + locale + '.md'"
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t('button.source')"
 						target="_blank"
 					>
-						<ion-icon :icon="codeSlashOutline" class="icon-left" />
-						<span class="hide-lg">{{ t('button.source') }}</span>
-						<ion-icon :icon="openOutline" class="icon-right hide-lg" />
+						<ion-icon :icon="documentTextOutline" />
+						<span class="mr-2">{{ t('button.docsOnGithub') }}</span>
+						<ion-icon :icon="openOutline" />
 					</secondary-button>
 					<secondary-button
 						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
-						:data-tooltip="t('button.edit')"
 						target="_blank"
 					>
-						<ion-icon :icon="createOutline" class="icon-left" />
-						<span class="hide-lg">{{ t('button.edit') }}</span>
-						<ion-icon :icon="openOutline" class="icon-right hide-lg" />
+						<ion-icon :icon="pencilOutline" />
+						<span class="mr-2">{{ t('button.editThis') }}</span>
+						<ion-icon :icon="openOutline" />
 					</secondary-button>
 				</div>
 			</div>
@@ -91,9 +87,9 @@ import { useI18n } from "vue-i18n";
 import {
 	arrowUpOutline,
 	bookmarkOutline,
-	codeSlashOutline,
+	documentTextOutline,
 	constructOutline,
-	createOutline,
+	pencilOutline,
 	flashOutline,
 	micOutline,
 	openOutline
