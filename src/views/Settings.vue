@@ -1,101 +1,81 @@
 <template>
-	<div class="settings">
-		<div class="container no-sidebar">
-			<div class="columns">
-				<!-- heading -->
-				<div class="column">
-					<h2 class="view-title">
-						{{ t('page.settings') }}
-					</h2>
+	<div class="flex flex-col gap-6 w-full">
+		<!-- page heading -->
+		<div class="text-3xl uppercase font-thin tracking-wider">
+				{{ t('page.settings') }}
+		</div>
+		<div
+			v-if="ready.users && user"
+			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+		>
+			<!-- profile -->
+			<panel>
+				<div class="flex flex-col items-center">
+					<ion-icon :icon="personOutline" class="w-8 h-8 mb-2" />
+					<div class="text-xl uppercase font-light tracking-widest">{{ t('page.profile') }}</div>
+					<div class="text-blade-500">{{ t('text.customizeProfile') }}</div>
 				</div>
-			</div>
-			<div v-if="ready.users && user" class="columns">
-				<!-- profile -->
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
-					<div class="panel">
-						<div class="panel-header text-center">
-							<ion-icon :icon="personOutline" class="icon-2x" />
-							<div class="panel-title h5 mt-1">{{ t('page.profile') }}</div>
-							<div class="panel-subtitle text-gray">{{ t('text.customizeProfile') }}</div>
+				<div class="flex flex-col gap-2">
+					<label class="flex flex-col gap-1">
+						<span>{{ t('field.name') }}</span>
+						<input
+							type="text"
+							v-model="profile.name"
+							placeholder="john doe"
+						/>
+					</label>
+					<label class="flex flex-col gap-1">
+						<div class="flex gap-4">
+							<span>{{ t('field.email') }}</span>
+							<span v-if="userObject.emailVerified" class="flex items-center gap-1 text-spring-600">
+								<ion-icon :icon="checkmarkOutline" /> {{ t('text.verified') }}
+							</span>
+							<span v-else class="flex items-center gap-1 text-red-500">
+								<ion-icon :icon="closeOutline" /> {{ t('text.unverified') }}
+							</span>
 						</div>
-						<div class="panel-body">
-							<div class="form-group">
-								<label class="form-label" for="name">{{ t('field.name') }}</label>
-								<input
-									v-model="profile.name"
-									class="form-input"
-									id="name"
-									type="text"
-									placeholder="john doe"
-								/>
-							</div>
-							<div class="form-group">
-								<label class="form-label" for="email">
-									<span class="mr-4">{{ t('field.email') }}</span>
-									<span v-if="userObject.emailVerified" class="text-success">
-										<ion-icon :icon="checkmarkOutline" /> {{ t('text.verified') }}
-									</span>
-									<span v-else class="text-error">
-										<ion-icon :icon="closeOutline" /> {{ t('text.unverified') }}
-									</span>
-								</label>
-								<div class="input-group">
+						<div class="flex">
+							<input
+								type="text"
+								v-model="profile.email"
+								class="grow"
+								placeholder="john@doe.com"
+								disabled
+							/>
+							<secondary-button
+								v-if="!userObject.emailVerified"
+								:class="{ disabled: verificationResend }"
+								:title="!verificationResend ? t('tooltip.resendVerification') : t('tooltip.verificationAlreadySent')"
+								@click="!verificationResend ? resendEmailVerification() : null"
+							>
+								{{ t('button.verify') }}
+								<ion-icon v-if="!verificationResend" :icon="sendOutline" />
+								<ion-icon v-else :icon="checkmarkOutline" />
+							</secondary-button>
+						</div>
+					</label>
+					<div class="d-flex g-4">
+						<div class="flex-grow">
+							<label class="flex flex-col gap-1">
+								{{ t('field.photo') }}
+								<div class="flex items-center gap-2">
 									<input
-										v-model="profile.email"
-										class="form-input"
-										id="email"
 										type="text"
-										placeholder="john@doe.com"
-										disabled
+										v-model="profile.photo"
+										class="grow"
+										placeholder="https://your-photo.link/image.png"
 									/>
-									<button
-										v-if="!userObject.emailVerified"
-										class="btn btn-primary input-group-btn tooltip"
-										:class="{ disabled: verificationResend }"
-										:data-tooltip="!verificationResend ? t('tooltip.resendVerification') : t('tooltip.verificationAlreadySent')"
-										@click="!verificationResend ? resendEmailVerification() : null"
-									>
-										<ion-icon :icon="checkmarkOutline" v-if="!verificationResend" />
-										<ion-icon :icon="checkmarkDoneOutline" v-else/>
-									</button>
+									<Avatar :photo-url="profile.photo" :name="profile.name" size="md" />
 								</div>
-							</div>
-							<div class="form-group mb-3">
-								<div class="d-flex g-4">
-									<div class="flex-grow">
-										<label class="form-label" for="photo">{{ t('field.photo') }}</label>
-										<input
-											v-model="profile.photo"
-											class="form-input "
-											id="photo"
-											type="text"
-											placeholder="https://your-photo.link/image.png"
-										/>
-									</div>
-									<div>
-										<figure v-if="profile.photo" id="preview" class="avatar avatar-xxl">
-											<img :src="profile.photo" alt="Avatar" />
-										</figure>
-										<figure
-											v-else-if="profile.name"
-											id="preview"
-											class="avatar avatar-xxl"
-											:data-initial="initials(profile.name)"
-										></figure>
-										<span v-else class="avatar avatar-xxl flex-center">
-											<ion-icon :icon="person" class="icon-2x" />
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="panel-footer mt-5">
-							<button class="btn btn-secondary text-uppercase" @click="updateProfile">
-								<ion-icon :icon="saveOutline" class="icon-left" /> {{ t('button.saveProfile') }}
-							</button>
+							</label>
 						</div>
 					</div>
 				</div>
+				<secondary-button @click="updateProfile" class="mt-auto self-start">
+					{{ t('button.saveProfile') }}
+					<ion-icon :icon="saveOutline" class="w-6 h-6" />
+				</secondary-button>
+			</panel>
 				<!-- SongDrive UI -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel" v-if="ready.languages">
@@ -506,10 +486,11 @@
 				@closed="modal.importdata = false"
 			/>
 		</div>
-	</div>
 </template>
 
 <script setup>
+import Panel from '@/elements/Panel';
+import SecondaryButton from '@/elements/SecondaryButton';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
@@ -528,7 +509,6 @@ import {
 	addOutline,
 	archiveOutline,
 	checkboxOutline,
-	checkmarkDoneOutline,
 	checkmarkOutline,
 	closeOutline,
 	cogOutline,
@@ -547,8 +527,10 @@ import {
 	pricetagOutline,
 	pricetagsOutline,
 	saveOutline,
+	sendOutline,
 	trashOutline
 } from 'ionicons/icons';
+import Avatar from '@/elements/Avatar.vue';
 const { t, locale, availableLocales } = useI18n({ useScope: 'global' });
 
 // global properties

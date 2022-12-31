@@ -59,7 +59,8 @@
     "updateSetlist": "Update Setlist",
     "updateSong": "Update Song",
     "updateTag": "Update Tag",
-    "updateUser": "Update User"
+    "updateUser": "Update User",
+    "verify": "Verify"
   },
   "divider": {
     "account": "Account",
@@ -188,11 +189,12 @@
     "public": "Pubilc"
   },
   "page": {
+    "account": "My user account",
     "administration": "Administration",
     "dashboard": "Dashboard",
     "docu": "Documentation",
     "github": "GitHub",
-    "profile": "My user account",
+    "profile": "Profile",
     "setlists": "Setlists",
     "settings": "Settings",
     "shortcuts": "Shortcuts",

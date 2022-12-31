@@ -59,7 +59,8 @@
     "updateSetlist": "Setliste Aktualisieren",
     "updateSong": "Song Aktualisieren",
     "updateTag": "Tag Aktualisieren",
-    "updateUser": "Benutzer Aktualisieren"
+    "updateUser": "Benutzer Aktualisieren",
+    "verify": "Bestätigen"
   },
   "divider": {
     "account": "Konto",
@@ -188,11 +189,12 @@
     "public": "Öffentlich"
   },
   "page": {
+    "account": "Mein Benutzerkonto",
     "administration": "Administration",
     "dashboard": "Übersicht",
     "docu": "Dokumentation",
     "github": "GitHub",
-    "profile": "Mein Benutzerkonto",
+    "profile": "Benutzerprofil",
     "setlists": "Setlisten",
     "settings": "Einstellungen",
     "shortcuts": "Tastaturkürzel",

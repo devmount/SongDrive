@@ -2,7 +2,7 @@
 	<div class="flex flex-col gap-6 w-full">
 		<!-- page heading -->
 		<div class="text-3xl uppercase font-thin tracking-wider">
-				{{ t('page.profile') }}
+				{{ t('page.account') }}
 		</div>
 		<div
 			v-if="ready.users && user"
