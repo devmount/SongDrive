@@ -1,35 +1,41 @@
 <template>
-	<div class="user-unverified">
+	<div class="h-screen flex flex-col justify-center items-center gap-12 px-2">
 		<!-- heading -->
-		<div class="column col-12">
-			<Logo class="featured hide-version" />
-		</div>
+		<logo :featured="true" :show-version="false" />
 		<!-- unverified message -->
-		<div class="message">
-			<h3>{{ $t('text.waitingForVerification') }}</h3>
+		<panel class="max-w-sm w-full flex flex-col gap-6">
+			<div class="text-2xl text-center">{{ $t('text.waitingForVerification') }}</div>
 			<p>{{ $t('text.notVerifiedYet') }}</p>
-			<p v-if="ready.config && config.contact.email" v-html="$t('text.unverifiedHelp', [config.contact.email])"></p>
-			<button v-if="!resend" class="btn btn-primary d-block stretch mt-4" @click="resendVerification()">
-				{{ $t('tooltip.resendVerification') }} <ion-icon :icon="sendOutline" class="icon-right" />
-			</button>
+			<p
+				v-if="ready.config && config.contact.email"
+				v-html="$t('text.unverifiedHelp', [config.contact.email])"
+			></p>
+			<secondary-button v-if="!resend" @click="resendVerification()">
+				{{ $t('tooltip.resendVerification') }}
+				<ion-icon :icon="sendOutline" class="w-6 h-6" />
+			</secondary-button>
 			<p v-else>
 				{{ $t('toast.verficationSentText') }}
 			</p>
-			<div class="d-flex g-4 mt-4">
-				<button class="btn btn-secondary d-block" @click="$router.go()">
-					{{ $t('button.recheck') }} <ion-icon :icon="refreshOutline" class="icon-right" />
-				</button>
-				<button class="btn btn-secondary d-block" @click="$emit('signOut')">
-					{{ $t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right" />
-				</button>
+			<div class="flex gap-4">
+				<secondary-button @click="$router.go()">
+					{{ $t('button.recheck') }}
+					<ion-icon :icon="refreshOutline" class="w-6 h-6" />
+				</secondary-button>
+				<secondary-button @click="$emit('signOut')">
+					{{ $t('button.signOut') }}
+					<ion-icon :icon="logOutOutline" class="w-6 h-6" />
+				</secondary-button>
 			</div>
-		</div>
+		</panel>
 	</div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import Logo from '@/partials/Logo';
+import Panel from '@/elements/Panel';
+import SecondaryButton from '@/elements/SecondaryButton';
+import { ref } from 'vue';
 import { sendOutline, refreshOutline, logOutOutline } from 'ionicons/icons';
 
 const props = defineProps({
@@ -47,20 +53,3 @@ const resendVerification = () => {
 	emit('resendEmailVerification');
 }
 </script>
-
-<style>
-.user-unverified {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-.user-unverified .message {
-  max-width: 400px;
-}
-.user-unverified .message h3 {
-  text-align: center;
-}
-</style>
