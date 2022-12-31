@@ -12,11 +12,11 @@
   />
   <figure
     v-else-if="name"
-    class="rounded-full bg-spring-600"
+    class="flex justify-center items-center rounded-full bg-spring-600 font-semibold pb-0.5"
     :class="{
-      'w-6 h-6': size === sizes.sm,
+      'w-6 h-6 text-xs': size === sizes.sm,
       'w-10 h-10': size === sizes.md,
-      'w-32 h-32': size === sizes.lg,
+      'w-32 h-32 text-5xl': size === sizes.lg,
     }"
     alt="Avatar"
   >
@@ -24,7 +24,7 @@
   </figure>
   <figure
     v-else
-    class="rounded-full bg-spring-600"
+    class="flex justify-center items-center rounded-full bg-spring-600"
     :class="{
       'w-6 h-6': size === sizes.sm,
       'w-10 h-10': size === sizes.md,
@@ -32,13 +32,21 @@
     }"
     alt="Avatar"
   >
-    <ion-icon :icon="person" />
+    <ion-icon
+      :icon="personOutline"
+      :class="{
+        'w-4 h-4': size === sizes.sm,
+        'w-6 h-6': size === sizes.md,
+        'w-20 h-20': size === sizes.lg,
+      }"
+      style="--ionicon-stroke-width: 48"
+    />
   </figure>
 </template>
 
 <script setup>
 import { initials } from '@/utils.js';
-import { person } from 'ionicons/icons';
+import { personOutline } from 'ionicons/icons';
 
 // inherited properties
 defineProps({
