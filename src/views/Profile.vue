@@ -4,30 +4,14 @@
 		<div class="text-3xl uppercase font-thin tracking-wider">
 				{{ t('page.profile') }}
 		</div>
-		<div v-if="ready.users && user" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+		<div
+			v-if="ready.users && user"
+			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+		>
 			<!-- profile card -->
 			<panel>
 				<div class="flex flex-col justify-center items-center">
-					<img
-						v-if="users[user].photo"
-						class="w-32 h-32 rounded-full bg-spring-600"
-						:src="users[user].photo"
-						alt="Avatar"
-					/>
-					<figure
-						v-else-if="users[user].name"
-						class="w-32 h-32 rounded-full bg-spring-600"
-						alt="Avatar"
-					>
-						{{ initials(users[user].name) }}
-					</figure>
-					<figure
-						v-else
-						class="w-32 h-32 rounded-full bg-spring-600"
-						alt="Avatar"
-					>
-						<ion-icon :icon="person" />
-					</figure>
+					<avatar :photo-url="users[user].photo" :name="users[user].name" size="lg" />
 					<div v-if="users[user].name" class="text-xl uppercase font-light mt-4">
 						{{ users[user].name }}
 					</div>
@@ -98,6 +82,7 @@ import {
 	mailOutline,
 	person
 } from 'ionicons/icons';
+import Avatar from '@/elements/Avatar.vue';
 const router = useRouter();
 const { t } = useI18n();
 

@@ -71,26 +71,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<img
-							v-if="c.users[auth.user].photo"
-							class="w-10 h-10 rounded-full bg-spring-600"
-							:src="c.users[auth.user].photo"
-							alt="Avatar"
-						/>
-						<figure
-							v-else-if="userName"
-							class="w-10 h-10 rounded-full bg-spring-600"
-							alt="Avatar"
-						>
-							{{ initials(userName) }}
-						</figure>
-						<figure
-							v-else
-							class="w-10 h-10 rounded-full bg-spring-600"
-							alt="Avatar"
-						>
-							<ion-icon :icon="person" />
-						</figure>
+						<avatar :photo-url="c.users[auth.user].photo" :name="userName" size="md" />
 						<div class="flex flex-col">
 							<div class="leading-5 uppercase">{{ userName }}</div>
 							<div class="text-gray-500 text-sm">
@@ -274,10 +255,11 @@ import { ref, reactive, computed, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useRoute } from 'vue-router';
 import { notify } from '@kyvg/vue3-notification';
-import { userRoles, initials, throwError } from '@/utils.js';
+import { userRoles, throwError } from '@/utils.js';
 import DividerHorizontal from '@/elements/DividerHorizontal';
 import IndicatorPulse from '@/elements/IndicatorPulse';
 import SecondaryButton from '@/elements/SecondaryButton';
+import Avatar from './elements/Avatar.vue';
 import Logo from '@/partials/Logo';
 import Login from '@/partials/Login';
 import SignUp from '@/modals/SignUp';
@@ -304,7 +286,6 @@ import {
 	musicalNotesSharp,
 	openOutline,
 	optionsOutline,
-	person
 } from 'ionicons/icons';
 const { t } = useI18n();
 const route = useRoute();
