@@ -245,61 +245,53 @@
 					</div>
 				</div>
 			</panel>
-				<!-- language administration -->
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
-					<div class="panel">
-						<div class="panel-header text-center pos-relative">
-							<ion-icon :icon="languageOutline" class="icon-2x" />
-							<div class="panel-title h5 mt-1">{{ t('widget.languages', numberOfLanguages, [numberOfLanguages]) }}</div>
-							<div class="panel-subtitle text-gray">{{ t('text.manageLanguages') }}</div>
-							<div class="pos-absolute-tr">
-								<button
-									class="btn btn-secondary tooltip px-3 m-3"
-									:data-tooltip="t('modal.addLanguage')"
-									@click="active.language={ label: '' }; active.key=''; active.existing=false; modal.languageset=true"
-								>
-									<ion-icon :icon="addOutline" />
-								</button>
-							</div>
+			<!-- language administration -->
+			<panel>
+				<div class="relative flex flex-col items-center">
+					<ion-icon :icon="languageOutline" class="w-8 h-8 mb-2" />
+					<div class="text-xl uppercase font-light tracking-widest">
+						{{ t('widget.languages', numberOfLanguages, [numberOfLanguages]) }}
+					</div>
+					<div class="text-blade-500">{{ t('text.manageLanguages') }}</div>
+					<secondary-button
+						class="absolute top-0 right-0"
+						:title="t('modal.addLanguage')"
+						@click="active.language={ label: '' }; active.key=''; active.existing=false; modal.languageset=true"
+					>
+						<ion-icon :icon="addOutline" class="w-6 h-6" />
+					</secondary-button>
+				</div>
+				<div class="flex flex-col">
+					<div
+						v-for="(l, key) in languages" :key="key"
+						class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
+					>
+						<figure
+							class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 px-2"
+							alt="Avatar"
+						>
+							{{ key.substring(0,2).toUpperCase()}}
+						</figure>
+						<div class="self-center flex flex-col overflow-hidden mr-auto">
+							<div class="truncate">{{ l.label }}</div>
 						</div>
-						<div class="panel-body">
-							<div
-								v-for="(l, key) in languages"
-								:key="key"
-								class="tile tile-centered tile-hover p-2"
-							>
-								<div class="tile-icon">
-									<figure
-										class="avatar avatar-secondary"
-										:data-initial="key.substring(0,2).toUpperCase()"
-										alt="Avatar"
-									></figure>
-								</div>
-								<div class="tile-content">
-									<div class="tile-title">{{ l.label }}</div>
-								</div>
-								<div class="tile-action">
-									<button
-										class="btn btn-link btn-action tooltip"
-										:data-tooltip="t('modal.editLanguage')"
-										@click="active.language=l; active.key=key; active.existing=true; modal.languageset=true"
-									>
-										<ion-icon :icon="createOutline" />
-									</button>
-									<button
-										class="btn btn-link btn-action tooltip text-error"
-										:data-tooltip="t('modal.deleteLanguage')"
-										@click="active.language=l; active.key=key; modal.languagedelete=true;"
-									>
-										<ion-icon :icon="trashOutline" />
-									</button>
-								</div>
-							</div>
-						</div>
-						<div class="panel-footer mt-5">
-						</div>
+						<button
+							class="flex items-center text-spring-600 hover:bg-opacity-80"
+							:title="t('modal.editLanguage')"
+							@click="active.language=l; active.key=key; active.existing=true; modal.languageset=true"
+						>
+							<ion-icon :icon="createOutline" class="w-5 h-5" />
+						</button>
+						<button
+							class="flex items-center text-rose-600 hover:bg-opacity-80"
+							:title="t('modal.deleteLanguage')"
+							@click="active.language=l; active.key=key; modal.languagedelete=true;"
+						>
+							<ion-icon :icon="trashOutline" class="w-5 h-5" />
+						</button>
 					</div>
 				</div>
+			</panel>
 				<!-- tag administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
