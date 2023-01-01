@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col gap-6 w-full">
-		<!-- page heading -->
+		<!-- normal user settings -->
 		<div class="text-3xl uppercase font-thin tracking-wider">
 			{{ t('page.settings') }}
 		</div>
@@ -30,7 +30,7 @@
 							<span v-if="userObject.emailVerified" class="flex items-center gap-1 text-spring-600">
 								<ion-icon :icon="checkmarkOutline" /> {{ t('text.verified') }}
 							</span>
-							<span v-else class="flex items-center gap-1 text-red-500">
+							<span v-else class="flex items-center gap-1 text-rose-500">
 								<ion-icon :icon="closeOutline" /> {{ t('text.unverified') }}
 							</span>
 						</div>
@@ -90,50 +90,51 @@
 					</label>
 				</div>
 			</panel>
-				<!-- account -->
-				<panel>
-					<div class="flex flex-col items-center">
-						<ion-icon :icon="keyOutline" class="w-8 h-8 mb-2" />
-						<div class="text-xl uppercase font-light tracking-widest">{{ t('divider.account') }}</div>
-						<div class="text-blade-500">{{ t('text.changeAccount') }}</div>
-					</div>
-						<div class="flex flex-col gap-8">
-							<div>
-								<div>{{ t('button.changePassword') }}</div>
-								<div class="text-blade-500">{{ t('text.renewYourPassword') }}</div>
-								<secondary-button @click="modal.passwordchange = true" class="mt-2">
-									{{ t('button.changePassword') }}
-									<ion-icon :icon="keyOutline" class="w-6 h-6" />
-								</secondary-button>
-							</div>
-							<zone-danger :label="t('text.dangerZone')">
-								<div>
-									<div>{{ t('button.changeEmail') }}</div>
-									<div class="text-blade-500">{{ t('text.changeToAnotherEmail') }}</div>
-									<secondary-button @click="modal.emailchange = true" type="danger" class="mt-2">
-										{{ t('button.changeEmail') }}
-										<ion-icon :icon="keyOutline" class="w-6 h-6" />
-									</secondary-button>
-								</div>
-								<div>
-									<div>{{ t('button.deleteAccount') }}</div>
-									<div class="text-blade-500">{{ t('text.deleteYourAccount') }}</div>
-									<secondary-button @click="modal.accountdelete = true" type="danger" class="mt-2">
-										{{ t('button.deleteAccount') }}
-										<ion-icon :icon="trashOutline" class="w-6 h-6" />
-									</secondary-button>
-								</div>
-							</zone-danger>
-						</div>
-				</panel>
-			</div>
-			<!-- administration area -->
-			<div v-if="ready.users && ready.permissions && user && userObject && role > 1" class="columns mt-4 pt-4">
-				<div class="column col-12">
-					<h2>
-						{{ t('page.administration') }}
-					</h2>
+			<!-- account -->
+			<panel>
+				<div class="flex flex-col items-center">
+					<ion-icon :icon="keyOutline" class="w-8 h-8 mb-2" />
+					<div class="text-xl uppercase font-light tracking-widest">{{ t('divider.account') }}</div>
+					<div class="text-blade-500">{{ t('text.changeAccount') }}</div>
 				</div>
+				<div class="flex flex-col gap-8">
+					<div>
+						<div>{{ t('button.changePassword') }}</div>
+						<div class="text-blade-500">{{ t('text.renewYourPassword') }}</div>
+						<secondary-button @click="modal.passwordchange = true" class="mt-2">
+							{{ t('button.changePassword') }}
+							<ion-icon :icon="keyOutline" class="w-6 h-6" />
+						</secondary-button>
+					</div>
+					<zone-danger :label="t('text.dangerZone')">
+						<div>
+							<div>{{ t('button.changeEmail') }}</div>
+							<div class="text-blade-500">{{ t('text.changeToAnotherEmail') }}</div>
+							<secondary-button @click="modal.emailchange = true" type="danger" class="mt-2">
+								{{ t('button.changeEmail') }}
+								<ion-icon :icon="keyOutline" class="w-6 h-6" />
+							</secondary-button>
+						</div>
+						<div>
+							<div>{{ t('button.deleteAccount') }}</div>
+							<div class="text-blade-500">{{ t('text.deleteYourAccount') }}</div>
+							<secondary-button @click="modal.accountdelete = true" type="danger" class="mt-2">
+								{{ t('button.deleteAccount') }}
+								<ion-icon :icon="trashOutline" class="w-6 h-6" />
+							</secondary-button>
+						</div>
+					</zone-danger>
+				</div>
+			</panel>
+		</div>
+		<!-- administration settings -->
+		<div class="text-3xl uppercase font-thin tracking-wider">
+			{{ t('page.administration') }}
+		</div>
+		<div
+			v-if="ready.users && ready.permissions && user && userObject && role > 1"
+			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+		>
 				<!-- user administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
@@ -407,82 +408,82 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- modal: change password -->
-			<password-change
-				v-if="modal.passwordchange"
-				:active="modal.passwordchange"
-				@closed="modal.passwordchange = false"
-			/>
-			<!-- modal: change email -->
-			<email-change
-				v-if="modal.emailchange"
-				:active="modal.emailchange"
-				@closed="modal.emailchange = false"
-			/>
-			<!-- modal: delete own account -->
-			<account-delete
-				v-if="modal.accountdelete"
-				:active="modal.accountdelete"
-				@closed="modal.accountdelete = false"
-			/>
-			<!-- modal: set user -->
-			<user-set
-				v-if="modal.userset"
-				:active="modal.userset"
-				:userId="active.userId"
-				:initialUser="active.user"
-				:role="active.role"
-				:state="active.state"
-				@started="emit('started')"
-				@closed="modal.userset = false"
-			/>
-			<!-- modal: delete user -->
-			<user-delete
-				v-if="modal.userdelete"
-				:active="modal.userdelete"
-				:userName="active.user.name"
-				:userKey="active.key"
-				:approved="active.approved"
-				:users="users"
-				:setlists="setlists"
-				@closed="modal.userdelete = false"
-			/>
-			<!-- modal: set language -->
-			<language-set
-				v-if="modal.languageset"
-				:active="modal.languageset"
-				:existing="active.existing"
-				:initialLanguage="active.language"
-				:languageKey="active.key"
-				@closed="modal.languageset = false"
-			/>
-			<!-- modal: delete language -->
-			<language-delete
-				v-if="modal.languagedelete"
-				:active="modal.languagedelete"
-				:languageName="active.language.label"
-				:languageKey="active.key"
-				:songs="songs"
-				@closed="modal.languagedelete = false"
-			/>
-			<!-- modal: set tag -->
-			<tag-set
-				v-if="modal.tagset"
-				:active="modal.tagset"
-				:existing="active.existing"
-				:initialTag="active.tag"
-				:tagKey="active.key"
-				:uiLanguages="uiLanguages"
-				@closed="modal.tagset = false"
-			/>
-			<!-- modal: import data -->
-			<import-data
-				v-if="modal.importdata"
-				:active="modal.importdata"
-				@closed="modal.importdata = false"
-			/>
 		</div>
+		<!-- modal: change password -->
+		<password-change
+			v-if="modal.passwordchange"
+			:active="modal.passwordchange"
+			@closed="modal.passwordchange = false"
+		/>
+		<!-- modal: change email -->
+		<email-change
+			v-if="modal.emailchange"
+			:active="modal.emailchange"
+			@closed="modal.emailchange = false"
+		/>
+		<!-- modal: delete own account -->
+		<account-delete
+			v-if="modal.accountdelete"
+			:active="modal.accountdelete"
+			@closed="modal.accountdelete = false"
+		/>
+		<!-- modal: set user -->
+		<user-set
+			v-if="modal.userset"
+			:active="modal.userset"
+			:userId="active.userId"
+			:initialUser="active.user"
+			:role="active.role"
+			:state="active.state"
+			@started="emit('started')"
+			@closed="modal.userset = false"
+		/>
+		<!-- modal: delete user -->
+		<user-delete
+			v-if="modal.userdelete"
+			:active="modal.userdelete"
+			:userName="active.user.name"
+			:userKey="active.key"
+			:approved="active.approved"
+			:users="users"
+			:setlists="setlists"
+			@closed="modal.userdelete = false"
+		/>
+		<!-- modal: set language -->
+		<language-set
+			v-if="modal.languageset"
+			:active="modal.languageset"
+			:existing="active.existing"
+			:initialLanguage="active.language"
+			:languageKey="active.key"
+			@closed="modal.languageset = false"
+		/>
+		<!-- modal: delete language -->
+		<language-delete
+			v-if="modal.languagedelete"
+			:active="modal.languagedelete"
+			:languageName="active.language.label"
+			:languageKey="active.key"
+			:songs="songs"
+			@closed="modal.languagedelete = false"
+		/>
+		<!-- modal: set tag -->
+		<tag-set
+			v-if="modal.tagset"
+			:active="modal.tagset"
+			:existing="active.existing"
+			:initialTag="active.tag"
+			:tagKey="active.key"
+			:uiLanguages="uiLanguages"
+			@closed="modal.tagset = false"
+		/>
+		<!-- modal: import data -->
+		<import-data
+			v-if="modal.importdata"
+			:active="modal.importdata"
+			@closed="modal.importdata = false"
+		/>
+	</div>
 </template>
 
 <script setup>
