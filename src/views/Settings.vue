@@ -135,136 +135,116 @@
 			v-if="ready.users && ready.permissions && user && userObject && role > 1"
 			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
 		>
-				<!-- user administration -->
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
-					<div class="panel">
-						<div class="panel-header text-center pos-relative">
-							<ion-icon :icon="peopleOutline" class="icon-2x" />
-							<div class="panel-title h5 mt-1">{{ Object.keys(users).length }} {{ t('widget.users') }}</div>
-							<div class="panel-subtitle text-gray">{{ t('text.manageConfirmedUsers') }}</div>
-							<div class="pos-absolute-tr">
-								<button
-									class="btn btn-secondary tooltip px-3 m-3"
-									:data-tooltip="t('modal.addUser')"
-									@click="
-										active.userId = '';
-										active.user = { name: '', email: '', password: '' };
-										active.role = 'reader';
-										active.state = 'new';
-										modal.userset = true;
-									"
-								>
-									<ion-icon :icon="addOutline" />
-								</button>
-							</div>
+			<!-- user administration -->
+			<panel>
+				<div class="relative flex flex-col items-center">
+					<ion-icon :icon="peopleOutline" class="w-8 h-8 mb-2" />
+					<div class="text-xl uppercase font-light tracking-widest">{{ Object.keys(users).length }} {{ t('widget.users') }}</div>
+					<div class="text-blade-500">{{ t('text.manageConfirmedUsers') }}</div>
+					<secondary-button
+						class="absolute top-0 right-0"
+						:title="t('modal.addUser')"
+						@click="
+							active.userId = '';
+							active.user = { name: '', email: '', password: '' };
+							active.role = 'reader';
+							active.state = 'new';
+							modal.userset = true;
+						"
+					>
+						<ion-icon :icon="addOutline" class="w-6 h-6" />
+					</secondary-button>
+				</div>
+				<div class="flex flex-col">
+					<div
+						v-for="(u, k) in users" :key="k"
+						class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
+					>
+						<avatar class="shrink-0" :photo-url="u.photo" :name="u.name" size="md" />
+						<div class="flex flex-col overflow-hidden mr-auto">
+							<div class="-mt-1 truncate">{{ u.name }}</div>
+							<div class="text-sm text-blade-500 -mt-1 truncate">{{ u.email }}</div>
 						</div>
-						<div class="panel-body">
-							<div
-								v-for="(u, k) in users" :key="k"
-								class="tile tile-centered tile-hover p-2"
-							>
-								<div class="tile-icon">
-									<figure v-if="u.photo" class="avatar">
-										<img :src="u.photo" alt="Avatar" />
-									</figure>
-									<figure
-										v-else-if="u.name"
-										class="avatar"
-										:data-initial="initials(u.name)"
-									></figure>
-									<span v-else class="avatar flex-center">
-										<ion-icon :icon="person" />
-									</span>
-								</div>
-								<div class="tile-content">
-									<span v-if="permissions[k]" class="label float-right py-1 px-2">{{ t('role.' + permissions[k].role) }}</span>
-									<div class="tile-title">{{ u.name }}</div>
-									<div class="tile-subtitle text-gray text-small">{{ u.email }}</div>
-								</div>
-								<div class="tile-action">
-									<a
-										:href="'mailto:' + u.email + '?' + confirmationMail(u.name)"
-										class="btn btn-link btn-action tooltip"
-										:data-tooltip="t('tooltip.sendConfirmationMail')"
-									>
-										<ion-icon :icon="mailOutline" />
-									</a>
-									<button
-										class="btn btn-link btn-action tooltip"
-										:data-tooltip="t('modal.editUser')"
-										@click.prevent="
-											active.userId = k;
-											active.user = u;
-											active.role = permissions[k].role;
-											active.state = 'confirmed';
-											modal.userset = true;
-										"
-									>
-										<ion-icon :icon="createOutline" />
-									</button>
-									<button
-										v-if="numberOfUsers > 1"
-										class="btn btn-link btn-action tooltip text-error"
-										:data-tooltip="t('modal.deleteUser')"
-										@click.prevent="active.user=u; active.key=k; active.approved=true; modal.userdelete=true"
-									>
-										<ion-icon :icon="personRemoveOutline" />
-									</button>
-								</div>
-							</div>
+						<div v-if="permissions[k]" class="self-center rounded-sm bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
+							{{ t('role.' + permissions[k].role) }}
 						</div>
-						<div v-if="Object.keys(registrations).length == 0" class="empty">
-							<div class="empty-icon">
-								<ion-icon :icon="checkboxOutline" class="icon-4x" />
-							</div>
-							<p class="empty-title h5">{{ t('text.noUnconfirmedUsers') }}</p>
-							<p class="empty-subtitle">{{ t('text.goodWork') }}</p>
-						</div>
-						<div v-else class="panel-footer mt-5">
-							<div class="panel-title h5 mt-1 text-center">
-								{{ Object.keys(registrations).length }} {{ t('widget.registrations') }}
-							</div>
-							<div class="panel-subtitle mb-4 text-gray text-center">{{ t('text.manageUnconfirmedUsers') }}</div>
-							<div
-								v-for="(r, k) in registrations" :key="k"
-								class="tile tile-centered tile-hover p-2"
-							>
-								<div class="tile-icon">
-									<div class="avatar bg-dark flex-center">
-										<ion-icon :icon="personOutline" />
-									</div>
-								</div>
-								<div class="tile-content">
-									<span class="label float-right py-1 px-2">{{ t('role.unconfirmed') }}</span>
-									<div class="tile-title">{{ r.name }}</div>
-									<div class="tile-subtitle text-gray text-small">{{ r.email }}</div>
-								</div>
-								<div class="tile-action">
-									<button
-										class="btn btn-link btn-action tooltip"
-										:data-tooltip="t('tooltip.approveUser')"
-										@click.prevent="
-											active.userId = k;
-											active.user = r;
-											active.role = 'reader';
-											active.state = 'registered';
-											modal.userset = true;
-										"
-									>
-										<ion-icon :icon="personAddOutline" />
-									</button>
-									<button
-										class="btn btn-link btn-action tooltip text-error"
-										:data-tooltip="t('modal.deleteUser')"
-										@click.prevent="active.user=r; active.key=k; active.approved=false; modal.userdelete=true"
-									>
-										<ion-icon :icon="personRemoveOutline" />
-									</button>
-								</div>
-							</div>
-						</div>
+						<a
+							:href="'mailto:' + u.email + '?' + confirmationMail(u.name)"
+							class="flex items-center text-spring-600 hover:bg-opacity-80"
+							:title="t('tooltip.sendConfirmationMail')"
+						>
+							<ion-icon :icon="mailOutline" class="w-5 h-5" />
+						</a>
+						<button
+							class="flex items-center text-spring-600 hover:bg-opacity-80"
+							:title="t('modal.editUser')"
+							@click.prevent="
+								active.userId = k;
+								active.user = u;
+								active.role = permissions[k].role;
+								active.state = 'confirmed';
+								modal.userset = true;
+							"
+						>
+							<ion-icon :icon="createOutline" class="w-5 h-5" />
+						</button>
+						<button
+							v-if="numberOfUsers > 1"
+							class="flex items-center text-rose-600 hover:bg-opacity-80"
+							:title="t('modal.deleteUser')"
+							@click.prevent="active.user=u; active.key=k; active.approved=true; modal.userdelete=true"
+						>
+							<ion-icon :icon="personRemoveOutline" class="w-5 h-5" />
+						</button>
 					</div>
 				</div>
+				<div v-if="Object.keys(registrations).length == 0" class="flex flex-col justify-center items-center gap-2">
+					<ion-icon :icon="checkboxOutline" class="text-blade-500 w-12 h-12" />
+					<p class="text-xl uppercase font-light tracking-widest">{{ t('text.noUnconfirmedUsers') }}</p>
+					<p class="text-blade-500">{{ t('text.goodWork') }}</p>
+				</div>
+				<div v-else class="flex flex-col items-center">
+					<div class="text-xl uppercase font-light tracking-widest">
+						{{ Object.keys(registrations).length }} {{ t('widget.registrations') }}
+					</div>
+					<div class="text-blade-500">{{ t('text.manageUnconfirmedUsers') }}</div>
+				</div>
+				<div class="flex flex-col">
+					<div
+						v-for="(r, k) in registrations" :key="k"
+						class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
+					>
+						<avatar class="shrink-0" size="md" />
+						<div class="flex flex-col overflow-hidden mr-auto">
+							<div class="-mt-1 truncate">{{ r.name }}</div>
+							<div class="text-sm text-blade-500 -mt-1 truncate">{{ r.email }}</div>
+						</div>
+						<div class="self-center rounded-sm bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
+							{{ t('role.unconfirmed') }}
+						</div>
+						<button
+							class="flex items-center text-spring-600 hover:bg-opacity-80"
+							:title="t('tooltip.approveUser')"
+							@click.prevent="
+								active.userId = k;
+								active.user = r;
+								active.role = 'reader';
+								active.state = 'registered';
+								modal.userset = true;
+							"
+						>
+							<ion-icon :icon="personAddOutline" class="w-5 h-5" />
+						</button>
+						<button
+							class="flex items-center text-rose-600 hover:bg-opacity-80"
+							:title="t('modal.deleteUser')"
+							@click.prevent="active.user=r; active.key=k; active.approved=false; modal.userdelete=true"
+						>
+							<ion-icon :icon="personRemoveOutline" class="w-5 h-5" />
+						</button>
+					</div>
+				</div>
+			</panel>
 				<!-- language administration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
