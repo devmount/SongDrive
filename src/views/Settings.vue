@@ -2,7 +2,7 @@
 	<div class="flex flex-col gap-6 w-full">
 		<!-- page heading -->
 		<div class="text-3xl uppercase font-thin tracking-wider">
-				{{ t('page.settings') }}
+			{{ t('page.settings') }}
 		</div>
 		<div
 			v-if="ready.users && user"
@@ -54,50 +54,42 @@
 							</secondary-button>
 						</div>
 					</label>
-					<div class="d-flex g-4">
-						<div class="flex-grow">
-							<label class="flex flex-col gap-1">
-								{{ t('field.photo') }}
-								<div class="flex items-center gap-2">
-									<input
-										type="text"
-										v-model="profile.photo"
-										class="grow"
-										placeholder="https://your-photo.link/image.png"
-									/>
-									<Avatar :photo-url="profile.photo" :name="profile.name" size="md" />
-								</div>
-							</label>
+					<label class="flex flex-col gap-1">
+						{{ t('field.photo') }}
+						<div class="flex items-center gap-2">
+							<input
+								type="text"
+								v-model="profile.photo"
+								class="grow"
+								placeholder="https://your-photo.link/image.png"
+							/>
+							<avatar :photo-url="profile.photo" :name="profile.name" size="md" />
 						</div>
-					</div>
+					</label>
 				</div>
 				<secondary-button @click="updateProfile" class="mt-auto self-start">
 					{{ t('button.saveProfile') }}
 					<ion-icon :icon="saveOutline" class="w-6 h-6" />
 				</secondary-button>
 			</panel>
-				<!-- SongDrive UI -->
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
-					<div class="panel" v-if="ready.languages">
-						<div class="panel-header text-center">
-							<ion-icon :icon="colorPaletteOutline" class="icon-2x" />
-							<div class="panel-title h5 mt-1">{{ t('widget.appearance') }}</div>
-							<div class="panel-subtitle text-gray">{{ t('text.customizeUi') }}</div>
-						</div>
-						<div class="panel-body">
-							<div class="form-group mb-1">
-								<label class="form-label" for="language">{{ t('field.language') }}</label>
-								<select v-model="locale" class="form-select" id="language">
-									<option v-for="(label, key) in uiLanguages" :key="key" :value="key">
-										{{ label }}
-									</option>
-								</select>
-							</div>
-						</div>
-						<div class="panel-footer mt-5">
-						</div>
-					</div>
+			<!-- SongDrive UI -->
+			<panel v-if="ready.languages">
+				<div class="flex flex-col items-center">
+					<ion-icon :icon="colorPaletteOutline" class="w-8 h-8 mb-2" />
+					<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.appearance') }}</div>
+					<div class="text-blade-500">{{ t('text.customizeUi') }}</div>
 				</div>
+				<div class="flex flex-col gap-2">
+					<label class="flex flex-col gap-1">
+						{{ t('field.language') }}
+						<select v-model="locale">
+							<option v-for="(label, key) in uiLanguages" :key="key" :value="key">
+								{{ label }}
+							</option>
+						</select>
+					</label>
+				</div>
+			</panel>
 				<!-- account -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel pb-4">
@@ -412,25 +404,25 @@
 				</div>
 			</div>
 			<!-- modal: change password -->
-			<PasswordChange
+			<password-change
 				v-if="modal.passwordchange"
 				:active="modal.passwordchange"
 				@closed="modal.passwordchange = false"
 			/>
 			<!-- modal: change email -->
-			<EmailChange
+			<email-change
 				v-if="modal.emailchange"
 				:active="modal.emailchange"
 				@closed="modal.emailchange = false"
 			/>
 			<!-- modal: delete own account -->
-			<AccountDelete
+			<account-delete
 				v-if="modal.accountdelete"
 				:active="modal.accountdelete"
 				@closed="modal.accountdelete = false"
 			/>
 			<!-- modal: set user -->
-			<UserSet
+			<user-set
 				v-if="modal.userset"
 				:active="modal.userset"
 				:userId="active.userId"
@@ -441,7 +433,7 @@
 				@closed="modal.userset = false"
 			/>
 			<!-- modal: delete user -->
-			<UserDelete
+			<user-delete
 				v-if="modal.userdelete"
 				:active="modal.userdelete"
 				:userName="active.user.name"
@@ -452,7 +444,7 @@
 				@closed="modal.userdelete = false"
 			/>
 			<!-- modal: set language -->
-			<LanguageSet
+			<language-set
 				v-if="modal.languageset"
 				:active="modal.languageset"
 				:existing="active.existing"
@@ -461,7 +453,7 @@
 				@closed="modal.languageset = false"
 			/>
 			<!-- modal: delete language -->
-			<LanguageDelete
+			<language-delete
 				v-if="modal.languagedelete"
 				:active="modal.languagedelete"
 				:languageName="active.language.label"
@@ -470,7 +462,7 @@
 				@closed="modal.languagedelete = false"
 			/>
 			<!-- modal: set tag -->
-			<TagSet
+			<tag-set
 				v-if="modal.tagset"
 				:active="modal.tagset"
 				:existing="active.existing"
@@ -480,7 +472,7 @@
 				@closed="modal.tagset = false"
 			/>
 			<!-- modal: import data -->
-			<ImportData
+			<import-data
 				v-if="modal.importdata"
 				:active="modal.importdata"
 				@closed="modal.importdata = false"
