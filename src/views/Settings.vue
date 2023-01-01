@@ -341,33 +341,34 @@
 					<ion-icon :icon="saveOutline" class="w-6 h-6" />
 				</secondary-button>
 			</panel>
-				<!-- backup administration -->
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
-					<div class="panel mb-4">
-						<div class="panel-header text-center">
-							<ion-icon :icon="fileTrayOutline" class="icon-2x" />
-							<div class="panel-title h5 mt-1">{{ t('widget.backup') }}</div>
-							<div class="panel-subtitle text-gray">{{ t('text.exportImportData') }}</div>
-						</div>
-						<div class="panel-body">
-							<div class="mt-2">
-								<div>{{ t('text.exportData') }}</div>
-								<div class="text-gray">{{ t('text.saveAll')}}</div>
-								<button class="btn btn-secondary text-uppercase mt-2" @click="exportDb">
-									<ion-icon :icon="archiveOutline" class="w-6 h-6" /> {{ t('button.export') }}
-								</button>
-							</div>
-							<div class="zone zone-danger" data-title="Danger Zone">
-								<div>{{ t('text.importData') }}</div>
-								<div class="text-gray">{{ t('text.importAndOverwrite')}}</div>
-								<button class="btn btn-error-secondary text-uppercase mt-2" @click="modal.importdata=true">
-									<ion-icon :icon="downloadOutline" class="w-6 h-6" /> {{ t('button.import') }}
-								</button>
-							</div>
-							
-						</div>
-					</div>
+			<!-- backup administration -->
+			<panel>
+				<div class="flex flex-col items-center">
+					<ion-icon :icon="fileTrayOutline" class="w-8 h-8 mb-2" />
+					<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.backup') }}</div>
+					<div class="text-blade-500">{{ t('text.exportImportData') }}</div>
 				</div>
+				<div class="flex flex-col gap-8">
+					<div>
+						<div>{{ t('text.exportData') }}</div>
+						<div class="text-blade-500">{{ t('text.saveAll')}}</div>
+						<secondary-button @click="exportDb" class="mt-2">
+							{{ t('button.export') }}
+							<ion-icon :icon="archiveOutline" class="w-6 h-6" />
+						</secondary-button>
+					</div>
+					<zone-danger :label="t('text.dangerZone')">
+						<div>
+							<div>{{ t('text.importData') }}</div>
+							<div class="text-blade-500">{{ t('text.importAndOverwrite')}}</div>
+							<secondary-button @click="modal.importdata=true" type="danger" class="mt-2">
+								{{ t('button.import') }}
+								<ion-icon :icon="downloadOutline" class="w-6 h-6" />
+							</secondary-button>
+						</div>
+					</zone-danger>
+				</div>
+			</panel>
 		</div>
 		<!-- modal: change password -->
 		<password-change
