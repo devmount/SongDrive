@@ -20,15 +20,15 @@
 			<div>{{ t('text.sendPasswordResetEmail') }}</div>
 			<div class="flex flex-col gap-1">
 				<label for="email">
-					{{ t('field.email') }} <span class="text-red-600">*</span>
+					{{ t('field.email') }} <span class="text-rose-600">*</span>
 				</label>
 				<input
 					id="email"
 					type="email"
 					v-model="authEmail"
-					:class="{ '!border-red-600': errorEmail }"
+					:class="{ '!border-rose-600': errorEmail }"
 				/>
-				<p v-if="errorEmail" class="text-red-600">{{ t('error.requiredEmail') }}</p>
+				<p v-if="errorEmail" class="text-rose-600">{{ t('error.requiredEmail') }}</p>
 			</div>
 			<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
 				<button class="px-3 py-1 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">

@@ -5,7 +5,7 @@
       dark:bg-blade-700 hover:bg-opacity-80 hover:shadow-l disabled:opacity-30 disabled:shadow-none hover:disabled:bg-opacity-100
     "
     :class="{
-      'text-red-600 bg-blade-350 dark:text-red-500 dark:bg-blade-750': type === types.danger
+      'text-rose-600 bg-blade-350 dark:text-rose-500 dark:bg-blade-750': type === types.danger
     }"
   >
     <slot></slot>

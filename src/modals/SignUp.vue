@@ -20,48 +20,48 @@
 			<div>{{ t('text.createNewAccount') }}</div>
 			<div class="flex flex-col gap-2">
 				<label class="flex flex-col gap-1">
-					<span>{{ t('field.name') }} <span class="text-red-600">*</span></span>
+					<span>{{ t('field.name') }} <span class="text-rose-600">*</span></span>
 					<input
 						type="text"
 						v-model="auth.name"
-						:class="{ '!border-red-600': error.name }"
+						:class="{ '!border-rose-600': error.name }"
 						:placeholder="t('placeholder.exampleUserName')"
 					/>
 				</label>
-				<div v-if="error.name" class="text-red-600">{{ t('error.requiredName') }}</div>
+				<div v-if="error.name" class="text-rose-600">{{ t('error.requiredName') }}</div>
 				<label class="flex flex-col gap-1">
-					<span>{{ t('field.email') }} <span class="text-red-600">*</span></span>
+					<span>{{ t('field.email') }} <span class="text-rose-600">*</span></span>
 					<input
 						type="email"
 						v-model="auth.email"
-						:class="{ '!border-red-600': error.email }"
+						:class="{ '!border-rose-600': error.email }"
 						:placeholder="t('placeholder.exampleUserEmail')"
 					/>
 				</label>
-				<div v-if="error.email" class="text-red-600">{{ t('error.requiredEmail') }}</div>
+				<div v-if="error.email" class="text-rose-600">{{ t('error.requiredEmail') }}</div>
 				<label class="flex flex-col gap-1">
 					<span class="flex justify-between">
-						<span>{{ t('field.password') }} <span class="text-red-600">*</span></span>
-						<span :class="{ 'text-red-600': auth.password.length < 8 }">
+						<span>{{ t('field.password') }} <span class="text-rose-600">*</span></span>
+						<span :class="{ 'text-rose-600': auth.password.length < 8 }">
 							{{ auth.password.length }}<span v-if="auth.password.length < 8"> / 8</span>
 						</span>
 					</span>
 					<input
 						type="password"
 						v-model="auth.password"
-						:class="{ '!border-red-600': errorsPassword }"
+						:class="{ '!border-rose-600': errorsPassword }"
 						:placeholder="t('placeholder.examplePassword', { p: examplePassword })"
 					/>
 					<input
 						type="password"
 						v-model="auth.repeat"
-						:class="{ '!border-red-600': errorsPassword }"
+						:class="{ '!border-rose-600': errorsPassword }"
 						:placeholder="t('placeholder.repeatPassword')"
 					/>
 				</label>
 				<div
 					v-if="errorsPassword"
-					class="text-red-600"
+					class="text-rose-600"
 				>
 					<span v-if="error.password.missing">{{ t('error.requiredPassword') }}&nbsp;</span>
 					<span v-if="error.password.mismatch">{{ t('error.passwordsDontMatch') }}&nbsp;</span>
