@@ -293,39 +293,32 @@
 				</div>
 			</panel>
 				<!-- tag administration -->
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
-					<div class="panel">
-						<div class="panel-header text-center pos-relative">
-							<ion-icon :icon="pricetagsOutline" class="icon-2x" />
-							<div class="panel-title h5 mt-1">{{ t('widget.tags', numberOfTags, [numberOfTags]) }}</div>
-							<div class="panel-subtitle text-gray">{{ t('text.manageTags') }}</div>
-							<div class="pos-absolute-tr">
-								<button
-									class="btn btn-secondary tooltip px-3 m-3"
-									:data-tooltip="t('modal.addTag')"
-									@click="active.tag={ key: '' }; active.key=''; active.existing=false; modal.tagset=true"
-								>
-									<ion-icon :icon="addOutline" />
-								</button>
+					<panel>
+						<div class="relative flex flex-col items-center">
+							<ion-icon :icon="pricetagsOutline" class="w-8 h-8 mb-2" />
+							<div class="text-xl uppercase font-light tracking-widest">
+								{{ t('widget.tags', numberOfTags, [numberOfTags]) }}
 							</div>
+							<div class="text-blade-500">{{ t('text.manageTags') }}</div>
+							<secondary-button
+								class="absolute top-0 right-0"
+								:title="t('modal.addTag')"
+								@click="active.tag={ key: '' }; active.key=''; active.existing=false; modal.tagset=true"
+							>
+								<ion-icon :icon="addOutline" class="w-6 h-6" />
+							</secondary-button>
 						</div>
-						<div class="panel-body">
-							<a
-								v-for="tag in tags"
-								:key="tag.key"
-								class="mr-2"
+						<div class="flex flex-wrap justify-start items-center gap-2">
+							<div
+								v-for="tag in tags" :key="tag.key"
+								class="cursor-pointer rounded flex items-center bg-blade-300 dark:bg-blade-750 hover:bg-spring-700 gap-2 py-0.5 px-2"
 								@click="active.tag=tag; active.key=tag.key; active.existing=true; modal.tagset=true"
 							>
-								<span class="label px-2 py-1 my-1">
-									<ion-icon :icon="pricetagOutline" class="icon-sm mr-1" />
-									{{ tag[locale] ? tag[locale] : tag.key }}
-								</span>
-							</a>
+								<ion-icon :icon="pricetagOutline" class="w-4 h-4" />
+								{{ tag[locale] ? tag[locale] : tag.key }}
+							</div>
 						</div>
-						<div class="panel-footer mt-5">
-						</div>
-					</div>
-				</div>
+					</panel>
 				<!-- configuration -->
 				<div class="column col-4 col-xl-6 col-md-12 mt-4">
 					<div class="panel">
