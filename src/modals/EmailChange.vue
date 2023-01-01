@@ -1,59 +1,74 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.changeEmail') }}</div>
+	<div
+		class="transition-all fixed top-0 left-0 z-40 w-screen h-screen bg-blade-750/50 dark:bg-black/50"
+		:class="{ 'hidden': !active }"
+		@click.prevent="emit('closed')"
+	>
+		<div
+			class="
+				fixed z-50 position-center rounded-sm w-full max-w-sm bg-blade-100 p-4 flex flex-col gap-4
+				dark:bg-blade-850
+			"
+			@click.stop="null"
+		>
+			<div class="flex justify-between">
+				<div class="text-lg uppercase font-medium">{{ t('modal.changeEmail') }}</div>
+				<button aria-label="Close" @click="emit('closed')">
+					<ion-icon :icon="closeOutline" class="w-6 h-6" />
+				</button>
 			</div>
-			<div class="modal-body">
-				<div class="content">
-					<!-- email -->
-					<label class="form-label" for="newemail">
-						{{ t('field.newEmail') }} <span class="text-error">*</span>
-					</label>
+			<div class="flex flex-col gap-2">
+				<!-- email -->
+				<label class="flex flex-col gap-1">
+					<div>{{ t('field.newEmail') }} <span class="text-rose-600">*</span></div>
 					<input
-						id="newemail"
 						type="email"
 						v-model="user.email"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.email.missing || error.email.mismatch || error.email.notchanged }"
+						:class="{ 'border-rose-600': error.email.missing || error.email.mismatch || error.email.notchanged }"
 						:placeholder="t('placeholder.exampleUserEmail')"
 					/>
 					<input
 						type="email"
 						v-model="user.repeat"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.email.missing || error.email.mismatch || error.email.notchanged }"
+						:class="{ 'border-rose-600': error.email.missing || error.email.mismatch || error.email.notchanged }"
 						:placeholder="t('placeholder.repeatEmail')"
 					/>
-					<p
-						v-if="error.email.missing || error.email.mismatch || error.email.notchanged"
-						class="form-input-hint"
-					>
-						<span v-if="error.email.missing">{{ t('error.requiredEmail') }}</span>
-						<span v-if="error.email.mismatch"> {{ t('error.emailsDontMatch') }}</span>
-						<span v-if="error.email.notchanged"> {{ t('error.emailNotChanged') }}</span>
-					</p>
+				</label>
+				<div
+					v-if="error.email.missing || error.email.mismatch || error.email.notchanged"
+					class="text-rose-600"
+				>
+					<span v-if="error.email.missing">{{ t('error.requiredEmail') }}&nbsp;</span>
+					<span v-if="error.email.mismatch"> {{ t('error.emailsDontMatch') }}&nbsp;</span>
+					<span v-if="error.email.notchanged"> {{ t('error.emailNotChanged') }}</span>
 				</div>
 				<!-- user password reauthentification -->
-				<hr />
-				<label class="form-label" for="currentpassword">{{ t('text.confirmWithCurrentPassword') }} <span class="text-error">*</span></label>
-				<input
-					id="currentpassword"
-					type="password"
-					v-model="user.currentpassword"
-					class="form-input mb-1"
-					:class="{ 'is-error': error.currentpassword.missing || error.currentpassword.wrong }"
-				/>
-				<p v-if="error.currentpassword.missing" class="form-input-hint">{{ t('error.requiredPassword') }}</p>
-				<p v-if="error.currentpassword.wrong" class="form-input-hint">{{ t('error.wrongPassword') }}</p>
+				<divider-horizontal />
+				<label class="flex flex-col gap-1">
+					<div>{{ t('text.confirmWithCurrentPassword') }} <span class="text-rose-600">*</span></div>
+					<input
+						id="currentpassword"
+						type="password"
+						v-model="user.currentpassword"
+						class="form-input mb-1"
+						:class="{ 'border-rose-600': error.currentpassword.missing || error.currentpassword.wrong }"
+					/>
+				</label>
+				<div v-if="error.currentpassword.missing" class="text-rose-600">
+					{{ t('error.requiredPassword') }}
+				</div>
+				<div v-if="error.currentpassword.wrong" class="text-rose-600">
+					{{ t('error.wrongPassword') }}
+				</div>
 			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
+			<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+				<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-primary ml-2" @click="setEmail">{{ t('button.changeEmail') }}</button>
+				</button>
+				<primary-button class="grow" @click="setEmail">
+					{{ t('button.changeEmail') }}
+					<ion-icon :icon="saveOutline" class="w-6 h-6" />
+				</primary-button>
 			</div>
 		</div>
 	</div>
@@ -63,8 +78,11 @@
 import { reactive, computed, inject } from 'vue';
 import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
+import { closeOutline, saveOutline } from 'ionicons/icons';
 import firebase from 'firebase/compat/app';
 import { throwError } from '@/utils.js';
+import DividerHorizontal from '@/elements/DividerHorizontal';
+import PrimaryButton from '@/elements/PrimaryButton';
 const { t } = useI18n();
 
 // global properties

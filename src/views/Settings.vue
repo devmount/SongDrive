@@ -370,81 +370,80 @@
 				</div>
 			</panel>
 		</div>
-		<!-- modal: change password -->
-		<password-change
-			v-if="modal.passwordchange"
-			:active="modal.passwordchange"
-			@closed="modal.passwordchange = false"
-		/>
-		<!-- modal: change email -->
-		<email-change
-			v-if="modal.emailchange"
-			:active="modal.emailchange"
-			@closed="modal.emailchange = false"
-		/>
-		<!-- modal: delete own account -->
-		<account-delete
-			v-if="modal.accountdelete"
-			:active="modal.accountdelete"
-			@closed="modal.accountdelete = false"
-		/>
-		<!-- modal: set user -->
-		<user-set
-			v-if="modal.userset"
-			:active="modal.userset"
-			:userId="active.userId"
-			:initialUser="active.user"
-			:role="active.role"
-			:state="active.state"
-			@started="emit('started')"
-			@closed="modal.userset = false"
-		/>
-		<!-- modal: delete user -->
-		<user-delete
-			v-if="modal.userdelete"
-			:active="modal.userdelete"
-			:userName="active.user.name"
-			:userKey="active.key"
-			:approved="active.approved"
-			:users="users"
-			:setlists="setlists"
-			@closed="modal.userdelete = false"
-		/>
-		<!-- modal: set language -->
-		<language-set
-			v-if="modal.languageset"
-			:active="modal.languageset"
-			:existing="active.existing"
-			:initialLanguage="active.language"
-			:languageKey="active.key"
-			@closed="modal.languageset = false"
-		/>
-		<!-- modal: delete language -->
-		<language-delete
-			v-if="modal.languagedelete"
-			:active="modal.languagedelete"
-			:languageName="active.language.label"
-			:languageKey="active.key"
-			:songs="songs"
-			@closed="modal.languagedelete = false"
-		/>
-		<!-- modal: set tag -->
-		<tag-set
-			v-if="modal.tagset"
-			:active="modal.tagset"
-			:existing="active.existing"
-			:initialTag="active.tag"
-			:tagKey="active.key"
-			:uiLanguages="uiLanguages"
-			@closed="modal.tagset = false"
-		/>
-		<!-- modal: import data -->
-		<import-data
-			v-if="modal.importdata"
-			:active="modal.importdata"
-			@closed="modal.importdata = false"
-		/>
 	</div>
+	<!-- modal: change password -->
+	<password-change
+		v-if="modal.passwordchange"
+		:active="modal.passwordchange"
+		@closed="modal.passwordchange = false"
+	/>
+	<!-- modal: change email -->
+	<email-change
+		:active="modal.emailchange"
+		@closed="modal.emailchange = false"
+	/>
+	<!-- modal: delete own account -->
+	<account-delete
+		v-if="modal.accountdelete"
+		:active="modal.accountdelete"
+		@closed="modal.accountdelete = false"
+	/>
+	<!-- modal: set user -->
+	<user-set
+		v-if="modal.userset"
+		:active="modal.userset"
+		:userId="active.userId"
+		:initialUser="active.user"
+		:role="active.role"
+		:state="active.state"
+		@started="emit('started')"
+		@closed="modal.userset = false"
+	/>
+	<!-- modal: delete user -->
+	<user-delete
+		v-if="modal.userdelete"
+		:active="modal.userdelete"
+		:userName="active.user.name"
+		:userKey="active.key"
+		:approved="active.approved"
+		:users="users"
+		:setlists="setlists"
+		@closed="modal.userdelete = false"
+	/>
+	<!-- modal: set language -->
+	<language-set
+		v-if="modal.languageset"
+		:active="modal.languageset"
+		:existing="active.existing"
+		:initialLanguage="active.language"
+		:languageKey="active.key"
+		@closed="modal.languageset = false"
+	/>
+	<!-- modal: delete language -->
+	<language-delete
+		v-if="modal.languagedelete"
+		:active="modal.languagedelete"
+		:languageName="active.language.label"
+		:languageKey="active.key"
+		:songs="songs"
+		@closed="modal.languagedelete = false"
+	/>
+	<!-- modal: set tag -->
+	<tag-set
+		v-if="modal.tagset"
+		:active="modal.tagset"
+		:existing="active.existing"
+		:initialTag="active.tag"
+		:tagKey="active.key"
+		:uiLanguages="uiLanguages"
+		@closed="modal.tagset = false"
+	/>
+	<!-- modal: import data -->
+	<import-data
+		v-if="modal.importdata"
+		:active="modal.importdata"
+		@closed="modal.importdata = false"
+	/>
 </template>
 
 <script setup>
@@ -454,7 +453,7 @@ import SecondaryButton from '@/elements/SecondaryButton';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
-import { download, initials, throwError } from '@/utils.js';
+import { download, throwError } from '@/utils.js';
 import PasswordChange from '@/modals/PasswordChange';
 import EmailChange from '@/modals/EmailChange';
 import AccountDelete from '@/modals/AccountDelete';
@@ -480,7 +479,6 @@ import {
 	languageOutline,
 	mailOutline,
 	peopleOutline,
-	person,
 	personAddOutline,
 	personOutline,
 	personRemoveOutline,

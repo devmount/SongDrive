@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="transition-all fixed top-0 z-10 w-screen h-screen bg-blade-750/50 dark:bg-black/50"
+		class="transition-all fixed top-0 left-0 z-10 w-screen h-screen bg-blade-750/50 dark:bg-black/50"
 		:class="{ 'hidden': !active }"
 		@click.prevent="emit('closed')"
 	>
@@ -72,7 +72,7 @@
 				<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 					{{ t('button.cancel') }}
 				</button>
-				<Primary-button class="grow" @click="signUp">
+				<primary-button class="grow" @click="signUp">
 					{{ $t('button.signUp') }}
 					<ion-icon :icon="personAddOutline" class="w-6 h-6" />
 				</primary-button>
