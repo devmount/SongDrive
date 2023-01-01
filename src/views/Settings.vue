@@ -91,36 +91,41 @@
 				</div>
 			</panel>
 				<!-- account -->
-				<div class="column col-4 col-xl-6 col-md-12 mt-4">
-					<div class="panel pb-4">
-						<div class="panel-header text-center">
-							<ion-icon :icon="keyOutline" class="icon-2x" />
-							<div class="panel-title h5 mt-1">{{ t('divider.account') }}</div>
-							<div class="panel-subtitle text-gray">{{ t('text.changeAccount') }}</div>
-						</div>
-						<div class="panel-body">
-							<div class="mt-2">
-								<div>{{ t('button.changePassword') }}</div>
-								<div class="text-gray">{{ t('text.renewYourPassword') }}</div>
-								<button class="btn btn-secondary text-uppercase mt-2" @click="modal.passwordchange = true">
-									<ion-icon :icon="keyOutline" class="icon-left" /> {{ t('button.changePassword') }}
-								</button>
-							</div>
-							<div class="zone zone-danger" :data-title="t('text.dangerZone')">
-								<div>{{ t('button.changeEmail') }}</div>
-								<div class="text-gray">{{ t('text.changeToAnotherEmail') }}</div>
-								<button class="btn btn-error-secondary text-uppercase mt-2" @click="modal.emailchange = true">
-									<ion-icon :icon="keyOutline" class="icon-left" /> {{ t('button.changeEmail') }}
-								</button>
-								<div class="mt-5">{{ t('button.deleteAccount') }}</div>
-								<div class="text-gray">{{ t('text.deleteYourAccount') }}</div>
-								<button class="btn btn-error-secondary text-uppercase mt-2" @click="modal.accountdelete = true">
-									<ion-icon :icon="trashOutline" class="icon-left" /> {{ t('button.deleteAccount') }}
-								</button>
-							</div>
-						</div>
+				<panel>
+					<div class="flex flex-col items-center">
+						<ion-icon :icon="keyOutline" class="w-8 h-8 mb-2" />
+						<div class="text-xl uppercase font-light tracking-widest">{{ t('divider.account') }}</div>
+						<div class="text-blade-500">{{ t('text.changeAccount') }}</div>
 					</div>
-				</div>
+						<div class="flex flex-col gap-8">
+							<div>
+								<div>{{ t('button.changePassword') }}</div>
+								<div class="text-blade-500">{{ t('text.renewYourPassword') }}</div>
+								<secondary-button @click="modal.passwordchange = true" class="mt-2">
+									{{ t('button.changePassword') }}
+									<ion-icon :icon="keyOutline" class="w-6 h-6" />
+								</secondary-button>
+							</div>
+							<zone-danger :label="t('text.dangerZone')">
+								<div>
+									<div>{{ t('button.changeEmail') }}</div>
+									<div class="text-blade-500">{{ t('text.changeToAnotherEmail') }}</div>
+									<secondary-button @click="modal.emailchange = true" type="danger" class="mt-2">
+										{{ t('button.changeEmail') }}
+										<ion-icon :icon="keyOutline" class="w-6 h-6" />
+									</secondary-button>
+								</div>
+								<div>
+									<div>{{ t('button.deleteAccount') }}</div>
+									<div class="text-blade-500">{{ t('text.deleteYourAccount') }}</div>
+									<secondary-button @click="modal.accountdelete = true" type="danger" class="mt-2">
+										{{ t('button.deleteAccount') }}
+										<ion-icon :icon="trashOutline" class="w-6 h-6" />
+									</secondary-button>
+								</div>
+							</zone-danger>
+						</div>
+				</panel>
 			</div>
 			<!-- administration area -->
 			<div v-if="ready.users && ready.permissions && user && userObject && role > 1" class="columns mt-4 pt-4">
@@ -370,7 +375,7 @@
 						</div>
 						<div class="panel-footer mt-5">
 							<button class="btn btn-secondary text-uppercase" @click="updateConfig">
-								<ion-icon :icon="saveOutline" class="icon-left" /> {{ t('button.saveConfig') }}
+								<ion-icon :icon="saveOutline" class="w-6 h-6" /> {{ t('button.saveConfig') }}
 							</button>
 						</div>
 					</div>
@@ -388,14 +393,14 @@
 								<div>{{ t('text.exportData') }}</div>
 								<div class="text-gray">{{ t('text.saveAll')}}</div>
 								<button class="btn btn-secondary text-uppercase mt-2" @click="exportDb">
-									<ion-icon :icon="archiveOutline" class="icon-left" /> {{ t('button.export') }}
+									<ion-icon :icon="archiveOutline" class="w-6 h-6" /> {{ t('button.export') }}
 								</button>
 							</div>
 							<div class="zone zone-danger" data-title="Danger Zone">
 								<div>{{ t('text.importData') }}</div>
 								<div class="text-gray">{{ t('text.importAndOverwrite')}}</div>
 								<button class="btn btn-error-secondary text-uppercase mt-2" @click="modal.importdata=true">
-									<ion-icon :icon="downloadOutline" class="icon-left" /> {{ t('button.import') }}
+									<ion-icon :icon="downloadOutline" class="w-6 h-6" /> {{ t('button.import') }}
 								</button>
 							</div>
 							
@@ -482,6 +487,7 @@
 
 <script setup>
 import Panel from '@/elements/Panel';
+import ZoneDanger from '@/elements/ZoneDanger';
 import SecondaryButton from '@/elements/SecondaryButton';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
