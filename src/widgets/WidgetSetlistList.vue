@@ -19,7 +19,7 @@
 				</secondary-button>
 			</div>
 		</div>
-		<div class="flex flex-col gap-2">
+		<div class="flex flex-col">
 			<div
 				v-for="(setlist, i) in setlistlist"
 				:key="i"
@@ -35,11 +35,11 @@
 					</figure>
 				</div>
 				<div class="flex flex-col overflow-hidden">
-					<div class="leading-4 truncate">
+					<div class="-mt-1 truncate">
 						{{ setlist.title }}
 						<ion-icon v-if="setlist.private" :icon="lockClosedOutline" class="text-spring-600" />
 					</div>
-					<div class="text-sm text-blade-500 leading-4 truncate">{{ setlist.date }}</div>
+					<div class="text-sm text-blade-500 -mt-1 truncate">{{ setlist.date }}</div>
 				</div>
 			</div>
 		</div>

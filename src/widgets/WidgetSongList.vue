@@ -19,7 +19,7 @@
 				</secondary-button>
 			</div>
 		</div>
-		<div class="flex flex-col gap-2">
+		<div class="flex flex-col">
 			<div
 				v-for="(song, i) in songlist"
 				:key="i"
@@ -39,7 +39,7 @@
 						:title="t('title.songOccuredOn', { num: song.popularity })"
 					>
 						<div class="-mt-0.5">{{ song.popularity }}</div>
-						<ion-icon :icon="closeOutline" class="w-3 h-3" />
+						<ion-icon :icon="closeOutline" class="w-3 h-3 -mr-1" />
 					</figure>
 					<figure
 						v-if="order == sortBy.newest || order == sortBy.oldest"
@@ -50,8 +50,8 @@
 					</figure>
 				</div>
 				<div class="flex flex-col overflow-hidden">
-					<div class="leading-4 truncate">{{ song.title }}</div>
-					<div class="text-sm text-blade-500 leading-4 truncate">{{ song.subtitle }}</div>
+					<div class="-mt-1 truncate">{{ song.title }}</div>
+					<div class="text-sm text-blade-500 -mt-1 truncate">{{ song.subtitle }}</div>
 				</div>
 			</div>
 		</div>

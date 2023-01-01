@@ -19,7 +19,7 @@
 				</secondary-button>
 			</div>
 		</div>
-		<div class="flex flex-col gap-2">
+		<div class="flex flex-col">
 			<div
 				v-for="obj in songlist"
 				:key="obj.year"
@@ -38,12 +38,12 @@
 						:title="t('title.songOccuredOn', { num: obj.count })"
 					>
 						<div class="-mt-0.5">{{ obj.count }}</div>
-						<ion-icon :icon="closeOutline" class="w-3 h-3" />
+						<ion-icon :icon="closeOutline" class="w-3 h-3 -mr-1" />
 					</figure>
 				</div>
 				<div class="flex flex-col overflow-hidden">
-					<div class="leading-4 truncate">{{ obj.song.title }}</div>
-					<div class="text-sm text-blade-500 leading-4 truncate">{{ obj.song.subtitle }}</div>
+					<div class="-mt-1 truncate">{{ obj.song.title }}</div>
+					<div class="text-sm text-blade-500 -mt-1 truncate">{{ obj.song.subtitle }}</div>
 				</div>
 			</div>
 		</div>
