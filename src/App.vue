@@ -6,13 +6,13 @@
 			class="lg:flex min-h-screen"
 		>
 			<!-- menu toggle button -->
-			<button class="fixed lg:hidden transition-all top-4 right-4 px-2 py-1 z-30 flex items-center" :class="{ 'right-64 mr-4': open }" @click="open = true">
+			<button class="fixed lg:hidden transition-all top-4 right-4 px-2 py-1 z-10 flex items-center" :class="{ 'right-64 mr-4': open }" @click="open = true">
 				<ion-icon :icon="menu" size="large" />
 			</button>
 
 			<!-- menu sidebar -->
 			<div
-				class="fixed shrink-0 -right-64 lg:left-0 lg:right-auto top-0 transition-all z-50 min-h-screen w-64 flex flex-col px-2 py-8 bg-blade-200 dark:bg-blade-900"
+				class="fixed shrink-0 -right-64 lg:left-0 lg:right-auto top-0 transition-all z-30 min-h-screen w-64 flex flex-col px-2 py-8 bg-blade-200 dark:bg-blade-900"
 				:class="{ '!right-0': open }"
 			>
 				<router-link to="/" class="flex flex-col w-max mx-auto mb-4 no-active">
@@ -146,7 +146,7 @@
 				</footer>
 			</div>
 			<div
-				class="fixed top-0 left-0 z-40 w-screen h-screen bg-blade-800/50 lg:hidden"
+				class="fixed top-0 left-0 z-20 w-screen h-screen bg-blade-800/50 lg:hidden"
 				:class="{ 'hidden': !open }"
 				@click="open = false"
 			></div>
