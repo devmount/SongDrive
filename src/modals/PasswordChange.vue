@@ -1,70 +1,72 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.changePassword') }}</div>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<!-- password -->
-					<label class="form-label" for="password">
-						{{ t('field.newPassword') }} <span class="text-error">*</span>
-						<span class="float-right" :class="{ 'text-error': user.password.length < 8 }">
-							{{ user.password.length }}<span v-if="user.password.length < 8"> / 8</span>
-						</span>
-					</label>
-					<input
-						id="password"
-						type="password"
-						v-model="user.password"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.password.missing || error.password.mismatch || error.password.tooshort }"
-						:placeholder="t('placeholder.examplePassword', { p: examplePassword })"
-					/>
-					<input
-						type="password"
-						v-model="user.repeat"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.password.missing || error.password.mismatch }"
-						:placeholder="t('placeholder.repeatPassword')"
-					/>
-					<p
-						v-if="error.password.missing || error.password.mismatch || error.password.tooshort"
-						class="form-input-hint"
-					>
-						<span v-if="error.password.missing">{{ t('error.requiredPassword') }}</span>
-						<span v-if="error.password.mismatch"> {{ t('error.passwordsDontMatch') }}</span>
-						<span v-if="error.password.tooshort"> {{ t('error.passwordTooShort') }}</span>
-					</p>
-				</div>
-				<!-- user password reauthentification -->
-				<hr />
-				<label class="form-label" for="currentpassword">{{ t('text.confirmWithCurrentPassword') }} <span class="text-error">*</span></label>
+	<modal :active="active" :title="t('modal.changePassword')" @closed="emit('closed')">
+		<div class="flex flex-col gap-2">
+			<!-- password -->
+			<label class="flex flex-col gap-1">
+				<span class="flex justify-between">
+					<span>{{ t('field.newPassword') }} <span class="text-rose-600">*</span></span>
+					<span :class="{ 'text-rose-600': user.password.length < 8 }">
+						{{ user.password.length }}<span v-if="user.password.length < 8"> / 8</span>
+					</span>
+				</span>
 				<input
-					id="currentpassword"
+					type="password"
+					v-model="user.password"
+					:class="{ 'border-rose-600': error.password.missing || error.password.mismatch || error.password.tooshort }"
+					:placeholder="t('placeholder.examplePassword', { p: examplePassword })"
+				/>
+				<input
+					type="password"
+					v-model="user.repeat"
+					:class="{ 'border-rose-600': error.password.missing || error.password.mismatch }"
+					:placeholder="t('placeholder.repeatPassword')"
+				/>
+			</label>
+			<div
+				v-if="error.password.missing || error.password.mismatch || error.password.tooshort"
+				class="text-rose-600"
+			>
+				<span v-if="error.password.missing">{{ t('error.requiredPassword') }}&nbsp;</span>
+				<span v-if="error.password.mismatch"> {{ t('error.passwordsDontMatch') }}&nbsp;</span>
+				<span v-if="error.password.tooshort"> {{ t('error.passwordTooShort') }}</span>
+			</div>
+			<!-- user password reauthentification -->
+			<divider-horizontal />
+			<label class="flex flex-col gap-1">
+				<div>{{ t('text.confirmWithCurrentPassword') }} <span class="text-rose-600">*</span></div>
+				<input
 					type="password"
 					v-model="user.currentpassword"
-					class="form-input mb-1"
-					:class="{ 'is-error': error.currentpassword }"
+					:class="{ 'border-rose-600': error.currentpassword.missing || error.currentpassword.wrong }"
 				/>
-				<p v-if="error.currentpassword" class="form-input-hint">{{ t('error.requiredPassword') }}</p>
+			</label>
+			<div v-if="error.currentpassword.missing" class="text-rose-600">
+				{{ t('error.requiredPassword') }}
 			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
-					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-primary ml-2" @click="setPassword">{{ t('button.changePassword') }}</button>
+			<div v-if="error.currentpassword.wrong" class="text-rose-600">
+				{{ t('error.wrongPassword') }}
 			</div>
 		</div>
-	</div>
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button class="grow" @click="setPassword">
+				{{ t('button.changePassword') }}
+				<ion-icon :icon="saveOutline" class="w-6 h-6" />
+			</primary-button>
+		</div>
+	</modal>
 </template>
 
 <script setup>
+import DividerHorizontal from '@/elements/DividerHorizontal';
+import PrimaryButton from '@/elements/PrimaryButton';
+import Modal from '@/elements/Modal';
 import { reactive, computed } from 'vue';
 import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
+import { saveOutline } from 'ionicons/icons';
 import firebase from 'firebase/compat/app';
 import { throwError, randomString } from '@/utils.js';
 const { t } = useI18n();
@@ -89,7 +91,10 @@ const error = reactive({
 		mismatch: false,
 		tooshort: false,
 	},
-	currentpassword: false
+	currentpassword: {
+		missing: false,
+		wrong: false,
+	}
 });
 
 // emits
@@ -109,7 +114,7 @@ const setPassword = () => {
 	error.password.missing = user.password == '';
 	error.password.mismatch = user.password != user.repeat;
 	error.password.tooshort = user.password.length < 8;
-	error.currentpassword = user.currentpassword == '';
+	error.currentpassword.missing = user.currentpassword == '';
 	// no errors: send submitted user data and close modal
 	if (!errors.value) {
 		// first reauthenticate user
@@ -129,6 +134,7 @@ const setPassword = () => {
 				});
 			}).catch((error) => throwError(error));
 		}).catch(() => {
+			error.currentpassword.wrong = true;
 			notify({
 				title: t('toast.passwordWrong'),
 				text: t('toast.passwordWrongText'),

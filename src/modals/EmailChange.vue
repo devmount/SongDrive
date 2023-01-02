@@ -30,10 +30,8 @@
 			<label class="flex flex-col gap-1">
 				<div>{{ t('text.confirmWithCurrentPassword') }} <span class="text-rose-600">*</span></div>
 				<input
-					id="currentpassword"
 					type="password"
 					v-model="user.currentpassword"
-					class="form-input mb-1"
 					:class="{ 'border-rose-600': error.currentpassword.missing || error.currentpassword.wrong }"
 				/>
 			</label>
