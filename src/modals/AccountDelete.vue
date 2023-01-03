@@ -1,49 +1,55 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.deleteAccount') }}</div>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<p>{{ t('text.reallyDeleteAccount') }}</p>
-					<p class="text-danger">{{ t('text.cannotBeUndone') }}</p>
-					<!-- agree and enable further form elements -->
-					<label class="form-checkbox mt-2">
-						<input v-model="user.agreed" :value="true" type="checkbox">
-						<i class="form-icon"></i> {{ t('text.yesIUnderstand') }}
-					</label>
-				</div>
-				<!-- user password reauthentification -->
-				<hr />
-				<label class="form-label" for="currentpassword">{{ t('text.confirmWithCurrentPassword') }} <span class="text-error">*</span></label>
+	<modal :active="active" :title="t('modal.deleteAccount')" @closed="emit('closed')">
+		<div class="flex flex-col gap-2">
+			<p>{{ t('text.reallyDeleteAccount') }}</p>
+			<p class="text-rose-600">{{ t('text.cannotBeUndone') }}</p>
+			<!-- agree and enable further form elements -->
+			<label class="flex items-center gap-3 mt-4">
+				<input v-model="user.agreed" :value="true" type="checkbox" class="w-6 h-6" />
+				{{ t('text.yesIUnderstand') }}
+			</label>
+			<divider-horizontal />
+			<!-- user password reauthentification -->
+			<label class="flex flex-col gap-1">
+				<div>{{ t('text.confirmWithCurrentPassword') }} <span class="text-rose-600">*</span></div>
 				<input
-					id="currentpassword"
 					type="password"
 					v-model="user.currentpassword"
-					class="form-input mb-1"
-					:class="{ 'is-error': error.currentpassword.missing || error.currentpassword.wrong }"
-					:disabled="!user.agreed"
+					:class="{ 'border-rose-600': error.currentpassword.missing || error.currentpassword.wrong }"
 				/>
-				<p v-if="error.currentpassword.missing" class="form-input-hint">{{ t('error.requiredPassword') }}</p>
-				<p v-if="error.currentpassword.wrong" class="form-input-hint">{{ t('error.wrongPassword') }}</p>
+			</label>
+			<div v-if="error.currentpassword.missing" class="text-rose-600">
+				{{ t('error.requiredPassword') }}
 			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
-					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-error ml-2" @click="user.agreed ? deleteAccount() : null" :disabled="!user.agreed">{{ t('button.delete') }}</button>
+			<div v-if="error.currentpassword.wrong" class="text-rose-600">
+				{{ t('error.wrongPassword') }}
 			</div>
 		</div>
-	</div>
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button
+				class="grow"
+				type="danger"
+				@click="user.agreed ? deleteAccount() : null"
+				:disabled="!user.agreed"
+			>
+				{{ t('button.delete') }}
+				<ion-icon :icon="trashOutline" class="w-6 h-6" />
+			</primary-button>
+		</div>
+	</modal>
 </template>
 
 <script setup>
+import DividerHorizontal from '@/elements/DividerHorizontal';
+import PrimaryButton from '@/elements/PrimaryButton';
+import Modal from '@/elements/Modal';
 import { reactive, computed, inject } from 'vue';
 import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
+import { trashOutline } from 'ionicons/icons';
 import firebase from 'firebase/compat/app';
 import { throwError } from '@/utils.js';
 const { t } = useI18n();

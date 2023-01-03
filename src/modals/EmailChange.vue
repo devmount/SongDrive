@@ -25,8 +25,8 @@
 				<span v-if="error.email.mismatch"> {{ t('error.emailsDontMatch') }}&nbsp;</span>
 				<span v-if="error.email.notchanged"> {{ t('error.emailNotChanged') }}</span>
 			</div>
-			<!-- user password reauthentification -->
 			<divider-horizontal />
+			<!-- user password reauthentification -->
 			<label class="flex flex-col gap-1">
 				<div>{{ t('text.confirmWithCurrentPassword') }} <span class="text-rose-600">*</span></div>
 				<input
