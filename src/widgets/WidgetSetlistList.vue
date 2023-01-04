@@ -35,9 +35,9 @@
 					</figure>
 				</div>
 				<div class="flex flex-col overflow-hidden">
-					<div class="-mt-1 truncate">
-						{{ setlist.title }}
-						<ion-icon v-if="setlist.private" :icon="lockClosedOutline" class="text-spring-600" />
+					<div class="-mt-1 flex gap-1 items-center">
+						<div class="truncate">{{ setlist.title }}</div>
+						<ion-icon v-if="setlist.private" :icon="lockClosedOutline" class="w-5 h-5 text-spring-600 mt-1" />
 					</div>
 					<div class="text-sm text-blade-500 -mt-1 truncate">{{ setlist.date }}</div>
 				</div>
