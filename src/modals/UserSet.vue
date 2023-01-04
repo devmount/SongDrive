@@ -1,100 +1,108 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">
-					<span v-if="state=='new' || state=='registered'">{{ t('modal.addUser') }}</span>
-					<span v-if="state=='confirmed'">{{ t('modal.editUser') }}</span>
-				</div>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<!-- name -->
-					<label class="form-label" for="user-name">{{ t('field.name') }} <span class="text-error">*</span></label>
+	<modal
+		:active="active"
+		:title="state=='new' || state=='registered' ? t('modal.addUser') : t('modal.editUser')"
+		@closed="emit('closed')"
+	>
+		<div class="flex flex-col gap-2">
+			<!-- name -->
+			<label class="flex flex-col gap-1">
+				<div>{{ t('field.newEmail') }} <span class="text-rose-600">*</span></div>
+				<input
+					type="text"
+					v-model="user.name"
+					:class="{ 'border-rose-600': error.name }"
+					:placeholder="t('placeholder.exampleUserName')"
+				/>
+			</label>
+			<div v-if="error.name" class="text-rose-600">{{ t('error.requiredName') }}</div>
+			<!-- email -->
+			<label class="flex flex-col gap-1">
+				<div>{{ t('field.email') }} <span class="text-rose-600">*</span></div>
+				<input
+					type="email"
+					v-model="user.email"
+					:class="{ 'border-rose-600': error.email }"
+					:placeholder="t('placeholder.exampleUserEmail')"
+				/>
+			</label>
+			<div v-if="error.email" class="text-rose-600">{{ t('error.requiredEmail') }}</div>
+			<!-- password -->
+			<template v-if="state=='new'">
+				<label class="flex flex-col gap-1">
+					<span class="flex justify-between">
+						<span>{{ t('field.password') }} <span class="text-rose-600">*</span></span>
+						<span :class="{ 'text-rose-600': user.password.length < 8 }">
+							{{ user.password.length }}<span v-if="user.password.length < 8"> / 8</span>
+						</span>
+					</span>
 					<input
-						id="user-name"
-						type="text"
-						v-model="user.name"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.name }"
-						:placeholder="t('placeholder.exampleUserName')"
-					/>
-					<p v-if="error.name" class="form-input-hint">{{ t('error.requiredName') }}</p>
-					<!-- email -->
-					<label class="form-label" for="user-email">{{ t('field.email') }} <span class="text-error">*</span></label>
-					<input
-						id="user-email"
-						type="email"
-						v-model="user.email"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.email }"
-						:placeholder="t('placeholder.exampleUserEmail')"
-					/>
-					<p v-if="error.email" class="form-input-hint">{{ t('error.requiredEmail') }}</p>
-					<!-- password -->
-					<div v-if="state=='new'">
-						<label class="form-label" for="password">
-							{{ t('field.password') }} <span class="text-error">*</span>
-							<span class="float-right" :class="{ 'text-error': user.password.length < 8 }">
-								{{ user.password.length }}<span v-if="user.password.length < 8"> / 8</span>
-							</span>
-						</label>
-						<input
-							id="password"
-							type="password"
-							v-model="user.password"
-							class="form-input mb-1"
-							:class="{ 'is-error': error.password.missing || error.password.tooshort }"
-							:placeholder="t('placeholder.examplePassword', { p: example.password })"
-						/>
-						<p v-if="error.password.missing || error.password.tooshort" class="form-input-hint">
-							<span v-if="error.password.missing">{{ t('error.requiredPassword') }}</span>
-							<span v-if="error.password.tooshort"> {{ t('error.passwordTooShort') }}</span>
-						</p>
-					</div>
-					<!-- role -->
-					<label class="form-label" for="role">{{ t('field.role') }} <span class="text-error">*</span></label>
-					<select v-model="permission.role" id="role" class="form-select filter" required>
-						<option value="" disabled selected>{{ t('placeholder.select') }}</option>
-						<option v-for="(r, k) in userRoles" :key="k" :value="k">{{ t('role.' + k) }}</option>
-					</select>
-				</div>
-				<!-- admin password confirmation -->
-				<div v-if="state=='new'">
-					<hr />
-					<label class="form-label" for="adminpassword">{{ t('text.confirmWithAdminPassword') }} <span class="text-error">*</span></label>
-					<input
-						id="adminpassword"
 						type="password"
-						v-model="admin.password"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.adminpassword }"
+						v-model="user.password"
+						:class="{ '!border-rose-600': errorsPassword }"
+						:placeholder="t('placeholder.examplePassword', { p: examplePassword })"
 					/>
-					<p v-if="error.adminpassword" class="form-input-hint">{{ t('error.requiredPassword') }}</p>
+				</label>
+				<div
+					v-if="errorsPassword"
+					class="text-rose-600"
+				>
+					<span v-if="error.password.missing">{{ t('error.requiredPassword') }}&nbsp;</span>
+					<span v-if="error.password.tooshort">{{ t('error.passwordTooShort') }}</span>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
-					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-primary ml-2" @click="setUser">
-					<span v-if="state=='new' || state=='registered'">{{ t('button.addUser') }}</span>
-					<span v-if="state=='confirmed'">{{ t('button.updateUser') }}</span>
-				</button>
+			</template>
+			<!-- role -->
+			<label class="flex flex-col gap-1">
+				<div>{{ t('field.role') }} <span class="text-rose-600">*</span></div>
+				<select v-model="permission.role" required>
+					<option value="" disabled selected>{{ t('placeholder.select') }}</option>
+					<option v-for="(r, k) in userRoles" :key="k" :value="k">{{ t('role.' + k) }}</option>
+				</select>
+			</label>
+			<divider-horizontal />
+			<div v-if="state=='new'">
+				<!-- user password reauthentification -->
+				<label class="flex flex-col gap-1">
+					<div>{{ t('text.confirmWithCurrentPassword') }} <span class="text-rose-600">*</span></div>
+					<input
+						type="password"
+						v-model="user.currentpassword"
+						:class="{ 'border-rose-600': error.currentpassword.missing || error.currentpassword.wrong }"
+					/>
+				</label>
+				<div v-if="error.currentpassword.missing" class="text-rose-600">
+					{{ t('error.requiredPassword') }}
+				</div>
+				<div v-if="error.currentpassword.wrong" class="text-rose-600">
+					{{ t('error.wrongPassword') }}
+				</div>
 			</div>
 		</div>
-	</div>
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button class="grow" @click="setUser">
+				<span v-if="state=='new' || state=='registered'">{{ t('button.addUser') }}</span>
+				<span v-if="state=='confirmed'">{{ t('button.updateUser') }}</span>
+				<ion-icon :icon="saveOutline" class="w-6 h-6" />
+			</primary-button>
+		</div>
+	</modal>
 </template>
 
 <script setup>
+import DividerHorizontal from '@/elements/DividerHorizontal';
+import PrimaryButton from '@/elements/PrimaryButton';
+import Modal from '@/elements/Modal';
 import { ref, reactive, computed, inject } from 'vue';
 import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
+import { saveOutline } from 'ionicons/icons';
 import firebase from 'firebase/compat/app';
 import { userRoles, throwError, randomString } from '@/utils.js';
 const { t } = useI18n();
+const examplePassword = randomString(8);
 
 // global properties
 const db = inject('db');
@@ -127,8 +135,15 @@ const error = reactive({
 		tooshort: false,
 	},
 	role: false,
-	adminpassword: false
+	currentpassword: {
+		missing: false,
+		wrong: false,
+	}
 });
+const errorsPassword = computed(() => (
+	error.password.missing ||
+	error.password.tooshort
+));
 
 // emits
 const emit = defineEmits(['started', 'closed']);
@@ -140,7 +155,7 @@ const errors = computed(() => (
 	error.password.missing ||
 	error.password.tooshort ||
 	error.role ||
-	error.adminpassword
+	error.currentpassword.missing
 ));
 
 // save user object to database
@@ -151,7 +166,7 @@ const setUser = () => {
 	error.password.missing = props.state == 'new' && user.value.password == '';
 	error.password.tooshort = props.state == 'new' && user.value.password.length < 8;
 	error.role = permission.role == '';
-	error.adminpassword = props.state == 'new' && admin.password == '';
+	error.currentpassword.missing = props.state == 'new' && admin.password == '';
 	// no errors: send submitted user data and close modal
 	if (!errors.value) {
 		// user exists and is confirmed
@@ -231,6 +246,7 @@ const setUser = () => {
 					}).catch((error) => throwError(error));
 				}).catch((error) => throwError(error));
 			}).catch((error) => throwError(error));
+			error.currentpassword.wrong = true;
 		}
 	}
 };
