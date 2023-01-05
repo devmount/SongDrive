@@ -1,5 +1,5 @@
 <template>
-	<Modal :active="active" :title="t('modal.signUp')" @closed="emit('closed')">
+	<modal :active="active" :title="t('modal.signUp')" @closed="emit('closed')">
 		<div>{{ t('text.createNewAccount') }}</div>
 		<div class="flex flex-col gap-2">
 			<label class="flex flex-col gap-1">

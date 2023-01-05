@@ -85,7 +85,7 @@
 			<primary-button class="grow" @click="setUser">
 				<span v-if="state=='new' || state=='registered'">{{ t('button.addUser') }}</span>
 				<span v-if="state=='confirmed'">{{ t('button.updateUser') }}</span>
-				<ion-icon :icon="saveOutline" class="w-6 h-6" />
+				<ion-icon :icon="(state=='new' || state=='registered') ? addOutline : saveOutline" class="w-6 h-6" />
 			</primary-button>
 		</div>
 	</modal>
@@ -98,7 +98,7 @@ import Modal from '@/elements/Modal';
 import { ref, reactive, computed, inject } from 'vue';
 import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
-import { saveOutline } from 'ionicons/icons';
+import { addOutline, saveOutline } from 'ionicons/icons';
 import firebase from 'firebase/compat/app';
 import { userRoles, throwError, randomString } from '@/utils.js';
 const { t } = useI18n();

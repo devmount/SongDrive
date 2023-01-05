@@ -18,9 +18,9 @@
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>
-			<primary-button class="grow" :disabled="!transferUser" @click="deleteUser">
-				{{ t('button.changeEmail') }}
-				<ion-icon :icon="saveOutline" class="w-6 h-6" />
+			<primary-button class="grow" type="danger" :disabled="!transferUser" @click="deleteUser">
+				{{ t('button.delete') }}
+				<ion-icon :icon="trashOutline" class="w-6 h-6" />
 			</primary-button>
 		</div>
 	</modal>
@@ -32,7 +32,7 @@ import Modal from '@/elements/Modal';
 import { ref, computed, inject } from 'vue';
 import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
-import { saveOutline } from 'ionicons/icons';
+import { trashOutline } from 'ionicons/icons';
 import { throwError } from '@/utils.js';
 const { t } = useI18n();
 

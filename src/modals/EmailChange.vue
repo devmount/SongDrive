@@ -46,7 +46,7 @@
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>
-			<primary-button class="grow" @click="setEmail">
+			<primary-button class="grow" type="danger" @click="setEmail">
 				{{ t('button.changeEmail') }}
 				<ion-icon :icon="saveOutline" class="w-6 h-6" />
 			</primary-button>
