@@ -66,7 +66,7 @@
 					<div>{{ t('text.confirmWithCurrentPassword') }} <span class="text-rose-600">*</span></div>
 					<input
 						type="password"
-						v-model="user.currentpassword"
+						v-model="admin.password"
 						:class="{ 'border-rose-600': error.currentpassword.missing || error.currentpassword.wrong }"
 					/>
 				</label>
@@ -123,9 +123,6 @@ const permission = reactive({
 });
 const admin = reactive({
 	password: ''
-});
-const example = reactive({
-	password: randomString(8)
 });
 const error = reactive({
 	name: false,
@@ -210,11 +207,11 @@ const setUser = () => {
 		}
 		// user doesn't exist
 		if (props.state == 'new') {
-			emit('started');
 			const adminUser = firebase.auth().currentUser;
 			const credential = firebase.auth.EmailAuthProvider.credential(adminUser.email, admin.password);
 			// first check if admin is authentic
 			adminUser.reauthenticateWithCredential(credential).then(() => {
+				emit('started');
 				// create firebase user, this automatically signs in as the new user
 				firebase.auth().createUserWithEmailAndPassword(user.value.email, user.value.password).then(() => {
 					// get new user id as long as still logged in as the new user
@@ -245,8 +242,14 @@ const setUser = () => {
 						}).catch((error) => throwError(error));
 					}).catch((error) => throwError(error));
 				}).catch((error) => throwError(error));
-			}).catch((error) => throwError(error));
-			error.currentpassword.wrong = true;
+			}).catch(() => {
+				error.currentpassword.wrong = true;
+				notify({
+					title: t('toast.passwordWrong'),
+					text: t('toast.passwordWrongText'),
+					type: 'error'
+				});
+			});
 		}
 	}
 };
