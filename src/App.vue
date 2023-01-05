@@ -240,10 +240,20 @@
 		<!-- notifications -->
 		<notifications position="bottom right" :duration="5000" :width="400">
 			<template #body="props">
-				<div :class="'toast toast-' + props.item.type">
-					<ion-icon :icon="close" class="float-right c-hand icon-1-5x" @click="props.close" />
-					<h5>{{ props.item.title }}</h5>
-					<p v-html="props.item.text"></p>
+				<div
+					class="mb-2 mr-2 py-2 px-3 rounded-sm text-white"
+					:class="{
+						'bg-spring-700': props.item.type === 'primary',
+						'bg-rose-700': props.item.type === 'error',
+					}"
+				>
+					<div class="flex justify-between">
+						<div class="text-lg font-semibold">{{ props.item.title }}</div>
+						<button aria-label="Close" @click="props.close">
+							<ion-icon :icon="closeOutline" class="w-6 h-6" />
+						</button>
+					</div>
+					<div v-html="props.item.text"></div>
 				</div>
 			</template>
 		</notifications>
@@ -277,7 +287,7 @@ import {
 	addSharp,
 	bookOutline,
 	bulbOutline,
-	close,
+	closeOutline,
 	heartOutline,
 	list,
 	logoGithub,
