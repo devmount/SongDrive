@@ -1,55 +1,50 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">
-					<span v-if="!existing">{{ t('modal.addTag') }}</span>
-					<span v-else>{{ t('modal.editTag') }}</span>
-				</div>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<label class="form-label" for="key">{{ t('field.key') }} <span class="text-error">*</span></label>
-					<input
-						id="key"
-						type="text"
-						v-model="key"
-						class="form-input mb-1"
-						:class="{ 'is-error': errorKey }"
-						:placeholder="t('placeholder.exampleTagKey')"
-						:disabled="existing"
-					/>
-					<p v-if="errorKey" class="form-input-hint">{{ t('error.requiredTagKey') }}</p>
-					<template v-for="(label, key) in uiLanguages" :key="key">
-						<label class="form-label" for="key">{{ label }}</label>
-						<input
-							:id="key"
-							type="text"
-							v-model="languages[key]"
-							class="form-input mb-1"
-						/>
-					</template>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
-					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-primary ml-2" @click="setTag">
-					<span v-if="!existing">{{ t('button.addTag') }}</span>
-					<span v-else>{{ t('button.updateTag') }}</span>
-				</button>
-			</div>
+	<modal
+		:active="active"
+		:title="!existing ? t('modal.addTag') : t('modal.editTag')"
+		@closed="emit('closed')"
+	>
+		<div class="flex flex-col gap-2">
+			<!-- tag key -->
+			<label class="flex flex-col gap-1">
+				<div>{{ t('field.key') }} <span class="text-rose-600">*</span></div>
+				<input
+					type="text"
+					v-model="key"
+					:class="{ 'border-rose-600': errorKey }"
+					:placeholder="t('placeholder.exampleTagKey')"
+					:disabled="existing"
+				/>
+			</label>
+			<div v-if="errorKey" class="text-rose-600">{{ t('error.requiredTagKey') }}</div>
+			<!-- tag labels for each language -->
+			<template v-for="(label, key) in uiLanguages" :key="key">
+				<label class="flex flex-col gap-1">
+					<div>{{ label }}</div>
+					<input type="text" v-model="languages[key]" />
+				</label>
+			</template>
 		</div>
-	</div>
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button class="grow" @click="setTag">
+				<span v-if="!existing">{{ t('button.addTag') }}</span>
+				<span v-else>{{ t('button.updateTag') }}</span>
+				<ion-icon :icon="!existing ? addOutline : saveOutline" class="w-6 h-6" />
+			</primary-button>
+		</div>
+	</modal>
 </template>
 
 <script setup>
+import PrimaryButton from '@/elements/PrimaryButton';
+import Modal from '@/elements/Modal';
 import { ref, inject } from 'vue';
 import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
+import { addOutline, saveOutline } from 'ionicons/icons';
 import { throwError } from '@/utils.js';
 const { t } = useI18n();
 
