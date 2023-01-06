@@ -9,6 +9,11 @@
 				fixed z-50 position-center rounded-sm w-full max-w-sm bg-blade-100 p-4 flex flex-col gap-4
 				dark:bg-blade-850
 			"
+			:class="{
+				'max-w-md': size === sizes.md,
+				'max-w-lg': size === sizes.lg,
+				'max-w-xl': size === sizes.xl,
+			}"
 			@click.stop="null"
 		>
 			<div class="flex justify-between">
@@ -29,8 +34,16 @@ import { closeOutline } from 'ionicons/icons';
 const props = defineProps({
 	active: Boolean, // state of modal display, true to show modal
   title:  String,  // titel to display on top
+  size:   String,  // maximum width for modal
 });
 
 // emits
 const emit = defineEmits(['closed']);
+
+// available modal sizes
+const sizes = {
+	md: 'md',
+	lg: 'lg',
+	xl: 'xl',
+}
 </script>

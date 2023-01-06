@@ -1,102 +1,83 @@
 <template>
-	<div class="modal modal-md" :class="{ active: active }">
-		<a class="modal-overlay"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.import') }}</div>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<div class="timeline">
-						<!-- file selection -->
-						<div class="timeline-item" id="timeline-example-1">
-							<div class="timeline-left">
-								<span class="timeline-icon" :class="{ 'icon-lg': fileSelected }">
-									<ion-icon :icon="checkmarkOutline" v-if="fileSelected" />
-								</span>
-							</div>
-							<div class="timeline-content">
-								<div class="tile">
-									<div class="tile-content">
-										<div class="tile-title">
-											<div class="mb-4">{{ t('text.selectJsonFile') }}</div>
-											<button class="btn btn-primary" @click="backupFile.click()">
-												<span>{{ t('button.chooseFile') }}</span>
-											</button>
-											<span v-if="file" class="ml-4">
-												<span class="text-pre">{{ file.name }}</span>
-												<span class="ml-4">({{ humanFileSize(file.size, true) }})</span>
-											</span>
-											<p v-if="error.noFile" class="form-input-hint">{{ t('error.requiredFile') }}</p>
-											<p v-if="error.wrongFormat" class="form-input-hint">{{ t('error.requiredJsonFormat') }}</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- start import -->
-						<div class="timeline-item" id="timeline-example-2">
-							<div class="timeline-left">
-								<span class="timeline-icon" :class="{ 'icon-lg': progress.started }">
-									<ion-icon :icon="checkmarkOutline" v-if="progress.started" />
-								</span>
-							</div>
-							<div class="timeline-content">
-								<div class="tile">
-									<div class="tile-content">
-										<div class="tile-title">
-											<div class="mb-4" :class="{ 'text-gray': !fileSelected }">{{ t('text.doTheImport') }}</div>
-											<button class="btn btn-primary" :class="{ 'disabled': !fileSelected }" @click="importData()">
-												<span>{{ t('button.startImport') }}</span>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- import progress and result -->
-						<div class="timeline-item" id="timeline-example-3">
-							<div class="timeline-left">
-								<span class="timeline-icon" :class="{ 'icon-lg': progress.finished && progress.total > 0 }">
-									<ion-icon :icon="checkmarkOutline" v-if="progress.finished && progress.total > 0" />
-								</span>
-							</div>
-							<div class="timeline-content">
-								<div class="tile">
-									<div class="tile-content">
-										<div class="tile-title">
-											<div class="mb-4" :class="{ 'text-gray': !progress.started }">{{ t('text.importResult', [progress.imported]) }}</div>
-											<div class="bar bar-sm mt-4">
-												<div class="bar-item" role="progressbar" :style="{ width: percentageImported + '%' }"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+	<modal :active="active" :title="t('modal.import')" size="xl" @closed="emit('closed')">
+		<div class="flex flex-col gap-4">
+			<!-- file selection -->
+			<div class="flex gap-4">
+				<div class="flex flex-col items-center">
+					<ion-icon v-if="fileSelected" :icon="checkmarkCircleOutline" class="w-6 h-6 text-spring-600" />
+					<ion-icon v-else :icon="ellipseOutline" class="w-6 h-6 text-spring-700" />
+					<div
+						class="w-px mt-1 grow -mb-3"
+						:class="{ 'bg-spring-700': fileSelected, 'bg-blade-700': !fileSelected }
+					"></div>
+				</div>
+				<div class="flex flex-col gap-2">
+					<div>{{ t('text.selectJsonFile') }}</div>
+					<div class="flex items-center gap-4">
+						<primary-button class="grow-0" @click="backupFile.click()">
+							<span>{{ t('button.chooseFile') }}</span>
+						</primary-button>
+						<span v-if="file" class="font-mono">{{ file.name }}</span>
+						<span v-if="file">({{ humanFileSize(file.size, true) }})</span>
 					</div>
-					<!-- file input. Hidden because it's ugly. -->
-					<input class="d-invisible" type="file" name="upload" accept=".json" ref="backupFile" @change="getFile(backupFile)" />
+					<div v-if="error.noFile" class="text-rose-600">{{ t('error.requiredFile') }}</div>
+					<div v-if="error.wrongFormat" class="text-rose-600">{{ t('error.requiredJsonFormat') }}</div>
 				</div>
 			</div>
-			<div class="modal-footer">
-				<a v-if="!progress.finished" class="btn btn-link btn-gray" href="#" aria-label="Close" @click.prevent="emit('closed')">
-					{{ t('button.close') }}
-				</a>
-				<button v-else class="btn btn-primary" aria-label="Close" @click.prevent="emit('closed')">
-					<span>{{ t('button.done') }}</span>
-				</button>
+			<!-- start import -->
+			<div class="flex gap-4">
+				<div class="flex flex-col items-center">
+					<ion-icon v-if="progress.started" :icon="checkmarkCircleOutline" class="w-6 h-6 text-spring-600" />
+					<ion-icon v-else :icon="ellipseOutline" class="w-6 h-6 text-spring-700" />
+					<div
+						class="w-px mt-1 grow -mb-3"
+						:class="{ 'bg-spring-700': progress.started, 'bg-blade-700': !progress.started }
+					"></div>
+				</div>
+				<div class="flex flex-col gap-2">
+					<div :class="{ 'text-blade-600': !fileSelected }">{{ t('text.doTheImport') }}</div>
+					<div class="flex items-center gap-4">
+						<primary-button class="grow-0" :disabled="!fileSelected" @click="importData()">
+							<span>{{ t('button.startImport') }}</span>
+						</primary-button>
+					</div>
+				</div>
+			</div>
+			<!-- import progress and result -->
+			<div class="flex gap-4">
+				<div class="flex flex-col items-center">
+					<ion-icon v-if="progress.finished" :icon="checkmarkCircleOutline" class="w-6 h-6 text-spring-600" />
+					<ion-icon v-else :icon="ellipseOutline" class="w-6 h-6 text-spring-700" />
+				</div>
+				<div class="flex flex-col gap-2 w-full">
+					<div :class="{ 'text-blade-600': !progress.started }">{{ t('text.importResult', [progress.imported]) }}</div>
+					<div class="h-2 bg-blade-750 rounded-sm">
+						<div class="h-2 bg-spring-700 rounded-sm" role="progressbar" :style="{ width: percentageImported + '%' }"></div>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
+		<!-- file input. Hidden because it's ugly. -->
+		<input class="hidden" type="file" name="upload" accept=".json" ref="backupFile" @change="getFile(backupFile)" />
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.close') }}
+			</button>
+			<primary-button :disabled="!progress.finished" @click="emit('closed')">
+				{{ t('button.done') }}
+				<ion-icon :icon="checkmarkOutline" class="w-6 h-6" />
+			</primary-button>
+		</div>
+	</modal>
 </template>
 
 <script setup>
+import PrimaryButton from '@/elements/PrimaryButton';
+import Modal from '@/elements/Modal';
 import { ref, reactive, computed, inject } from 'vue';
 import { useI18n } from "vue-i18n";
 import { humanFileSize } from '@/utils.js';
-import { checkmarkOutline } from 'ionicons/icons';
+import { checkmarkOutline, checkmarkCircleOutline, ellipseOutline } from 'ionicons/icons';
 const { t } = useI18n();
 
 
