@@ -66,38 +66,38 @@
 				</tr>
 				<!-- column filters -->
 				<tr>
-					<th>
+					<td>
 						<input
 							type="search"
 							ref="searchInput"
 							v-model="search"
-							class="form-input input-lg"
+							class="w-full"
 							:placeholder="t('placeholder.searchSongTitle')"
 						/>
-					</th>
-					<th></th>
-					<th>
-						<select v-model="filter" class="form-select select-lg filter">
+					</td>
+					<td></td>
+					<td>
+						<select v-model="filter" class="w-full">
 							<option value="" disabled selected>{{ t('placeholder.tag') }}</option>
 							<option v-for="tag in tags" :key="tag.key" :value="tag.key">
 								{{ tag[locale] ? tag[locale] : tag.key }}
 							</option>
 						</select>
-					</th>
-					<th>
-						<select v-model="language" class="form-select select-lg filter">
+					</td>
+					<td>
+						<select v-model="language" class="w-full">
 							<option value="" disabled selected>{{ t('placeholder.language') }}</option>
 							<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
 						</select>
-					</th>
-					<th></th>
-					<th>
-						<select v-model="tuning" class="form-select select-lg filter">
+					</td>
+					<td></td>
+					<td>
+						<select v-model="tuning" class="w-full">
 							<option value="" disabled selected>{{ t('placeholder.tuning') }}</option>
 							<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
 						</select>
-					</th>
-					<th>
+					</td>
+					<td>
 						<button
 							class="btn input-group-btn btn-lg btn-error-secondary stretch"
 							@click="search=''; filter=''; tuning=''; language=''"
@@ -105,7 +105,7 @@
 							<ion-icon :icon="close" />
 							{{ t('button.reset') }}
 						</button>
-					</th>
+					</td>
 				</tr>
 			</thead>
 				<tbody>
@@ -115,7 +115,7 @@
 							<div class="text-blade-500">{{ song.subtitle }}</div>
 						</td>
 						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.authors }}
+							<div class="max-w-xs truncate">{{ song.authors }}</div>
 						</td>
 						<td class="cursor-pointer">
 							<div class="flex flex-wrap gap-1">
