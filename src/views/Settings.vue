@@ -373,7 +373,6 @@
 	</div>
 	<!-- modal: change password -->
 	<password-change
-		v-if="modal.passwordchange"
 		:active="modal.passwordchange"
 		@closed="modal.passwordchange = false"
 	/>
@@ -384,13 +383,11 @@
 	/>
 	<!-- modal: delete own account -->
 	<account-delete
-		v-if="modal.accountdelete"
 		:active="modal.accountdelete"
 		@closed="modal.accountdelete = false"
 	/>
 	<!-- modal: set user -->
 	<user-set
-		v-if="modal.userset"
 		:active="modal.userset"
 		:userId="active.userId"
 		:initialUser="active.user"
@@ -401,7 +398,6 @@
 	/>
 	<!-- modal: delete user -->
 	<user-delete
-		v-if="modal.userdelete"
 		:active="modal.userdelete"
 		:userName="active.user.name"
 		:userKey="active.key"
@@ -412,7 +408,6 @@
 	/>
 	<!-- modal: set language -->
 	<language-set
-		v-if="modal.languageset"
 		:active="modal.languageset"
 		:existing="active.existing"
 		:initialLanguage="active.language"
@@ -421,7 +416,6 @@
 	/>
 	<!-- modal: delete language -->
 	<language-delete
-		v-if="modal.languagedelete"
 		:active="modal.languagedelete"
 		:languageName="active.language.label"
 		:languageKey="active.key"
@@ -430,7 +424,6 @@
 	/>
 	<!-- modal: set tag -->
 	<tag-set
-		v-if="modal.tagset"
 		:active="modal.tagset"
 		:existing="active.existing"
 		:initialTag="active.tag"
@@ -440,7 +433,6 @@
 	/>
 	<!-- modal: import data -->
 	<import-data
-		v-if="modal.importdata"
 		:active="modal.importdata"
 		@closed="modal.importdata = false"
 	/>
