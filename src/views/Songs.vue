@@ -1,72 +1,72 @@
 <template>
-	<div class="songs">
-		<div
-			class="container no-sidebar"
-			ref="container"
-			tabindex="0"
-			@keydown.left.exact="!isFirstPage && !noSongs ? page-- : null"
-			@keydown.right.exact="!isLastPage && !noSongs ? page++ : null"
-			@keydown.ctrl.f.prevent="!noSongs ? searchInput.focus() : null"
-			@keydown.esc.exact="search=''; filter=''; tuning=''"
-		>
-			<div class="columns">
-				<!-- heading -->
-				<div class="column col-12">
-					<h2 class="view-title">
-						<span v-if="ready.songs" class="text-bold">{{ Object.keys(filteredSongs).length }}</span>
-						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
-						{{ t('page.songs') }}
-					</h2>
-				</div>
+	<div
+		class="flex flex-col gap-6 w-full focus:outline-none"
+		ref="container"
+		tabindex="0"
+		@keydown.left.exact="!isFirstPage && !noSongs ? page-- : null"
+		@keydown.right.exact="!isLastPage && !noSongs ? page++ : null"
+		@keydown.ctrl.f.prevent="!noSongs ? searchInput.focus() : null"
+		@keydown.esc.exact="search=''; filter=''; tuning=''"
+	>
+		<!-- page heading -->
+		<div class="flex flex-col sm:flex-row justify-between items-stretch gap-4">
+			<!-- title -->
+			<div v-if="ready.songs" class="text-3xl uppercase font-thin tracking-wider">
+				<span class="font-semibold">{{ Object.keys(filteredSongs).length }}</span>
+				{{ t('page.songs', Object.keys(filteredSongs).length) }}
 			</div>
-
-			<div v-if="noSongs" class="columns mt-2">
-				<!-- heading -->
-				<div class="column col-12">
-					<span v-if="user && role">{{ t('text.noSongsAvailableSignedIn') }}</span>
-					<span v-else>{{ t('text.noSongsAvailableSignedOut') }}</span>
+			<!-- pagination -->
+			<div class="flex items-center flex-nowrap gap-2 mr-16 lg:mr-0">
+				<secondary-button @click="!isFirstPage ? page-- : null" :disabled="isFirstPage">
+					<ion-icon :icon="arrowBack" class="w-5 h-5" />
+				</secondary-button>
+				<div
+					v-for="(p, i) in pageCount" :key="i"
+					v-show="showPageItem(p)"
+				>
+					<div v-show="showFirstEllipsis(p)">&hellip;</div>
+					<div
+						class="transition-colors cursor-pointer rounded-sm px-2 py-1 hover:bg-blade-300 dark:hover:bg-blade-750"
+						:class="{ 'bg-spring-400 dark:bg-spring-700': (p-1) == page }"
+						v-show="showPageItemLink(p)"
+						@click="page = p-1"
+					>
+						{{ p }}
+					</div>
+					<div v-show="showLastEllipsis(p)">&hellip;</div>
 				</div>
+				<secondary-button @click="!isLastPage ? page++ : null" :disabled="isLastPage">
+					<ion-icon :icon="arrowForward" class="w-5 h-5" />
+				</secondary-button>
 			</div>
+		</div>	
 
-			<div v-if="ready.songs && !noSongs" class="columns mt-2 mb-3">
-				<!-- pagination -->
-				<div class="column col-3 col-xl-6 col-md-9 col-sm-12 col-mx-auto">
-					<ul class="pagination">
-						<li class="page-item" :class="{ disabled: isFirstPage }">
-							<a class="btn btn-secondary" @click="!isFirstPage ? page-- : null">
-								<ion-icon :icon="arrowBack" />
-							</a>
-						</li>
-						<li
-							class="page-item"
-							:class="{ active: (p-1) == page }"
-							v-for="(p, i) in pageCount"
-							:key="i"
-							v-show="showPageItem(p)"
-						>
-							<span v-show="showFirstEllipsis(p)">...</span>
-							<a
-								class="c-hand"
-								v-show="showPageItemLink(p)"
-								@click="page = p-1"
-							>
-								{{ p }}
-							</a>
-							<span v-show="showLastEllipsis(p)">...</span>
-						</li>
-						<li class="page-item" :class="{ disabled: isLastPage }">
-							<a class="btn btn-secondary" @click="!isLastPage ? page++ : null">
-								<ion-icon :icon="arrowForward" />
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="column col-1 hide-xl"></div>
-				<!-- search and filter -->
-				<div class="column col-8 col-xl-12">
-					<div class="input-group filter">
-						<!-- search title, subtitles -->
-						<span class="input-group-addon addon-lg"><ion-icon :icon="searchIcon" /></span>
+		<!-- empty songs collection -->
+		<div v-if="noSongs" class="text-blade-500">
+			{{ t('text.noSongsAvailable') }}
+		</div>
+
+		<!-- song list -->
+		<table v-if="ready.songs && !noSongs" class="table table-striped table-hover">
+			<thead>
+				<!-- column titles -->
+				<tr>
+					<th
+						v-for="col in ['title', 'authors', 'tags', 'language', 'year', 'tuning']"
+						:key="col"
+						class="cursor-pointer"
+						:class="{ 'bg-blade-900': order.field == col }"
+						@click="sortList(col)"
+					>
+						{{ t('field.' + col) }}
+						<ion-icon :icon="caretDown" v-if="order.field == col && !order.ascending" class="icon-right" />
+						<ion-icon :icon="caretUp" v-if="order.field == col && order.ascending" class="icon-right" />
+					</th>
+					<th></th>
+				</tr>
+				<!-- column filters -->
+				<tr>
+					<th>
 						<input
 							type="search"
 							ref="searchInput"
@@ -74,93 +74,59 @@
 							class="form-input input-lg"
 							:placeholder="t('placeholder.searchSongTitle')"
 						/>
-						<div class="dropdown dropdown-right">
-							<div class="btn-group">
-								<a
-									class="btn input-group-btn btn-secondary btn-lg dropdown-toggle"
-									:class="{ 'badge': filter!=''||tuning!=''||language!=''}"
-									tabindex="0"
-								>
-									<ion-icon :icon="filterSharp" />
-								</a>
-								<ul class="menu text-left">
-									<li class="menu-item">
-										<!-- filter tag -->
-										<select v-model="filter" class="form-select select-lg filter">
-											<option value="" disabled selected>{{ t('placeholder.tag') }}</option>
-											<option v-for="tag in tags" :key="tag.key" :value="tag.key">
-												{{ tag[locale] ? tag[locale] : tag.key }}
-											</option>
-										</select>
-									</li>
-									<li class="menu-item">
-										<!-- filter key -->
-										<select v-model="tuning" class="form-select select-lg filter">
-											<option value="" disabled selected>{{ t('placeholder.tuning') }}</option>
-											<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
-										</select>
-									</li>
-									<li class="menu-item">
-										<!-- filter language -->
-										<select v-model="language" class="form-select select-lg filter">
-											<option value="" disabled selected>{{ t('placeholder.language') }}</option>
-											<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
-										</select>
-									</li>
-									<li class="menu-item">
-										<!-- reset filter -->
-										<button
-											class="btn input-group-btn btn-lg btn-error-secondary stretch"
-											@click="search=''; filter=''; tuning=''; language=''"
-										>
-											<ion-icon :icon="close" />
-											{{ t('button.reset') }}
-										</button>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		
-			<!-- song list -->
-			<table v-if="ready.songs && !noSongs" class="table table-striped table-hover">
-				<thead>
-					<tr>
-						<th
-							v-for="col in ['title', 'subtitle', 'authors', 'year', 'tuning']"
-							:key="col"
-							class="c-hand"
-							:class="{
-								'bg-primary-dark': order.field == col,
-								'hide-md': col == 'authors',
-								'hide-xl': col == 'subtitle' || col == 'year'
-							}"
-							@click="sortList(col)"
+					</th>
+					<th></th>
+					<th>
+						<select v-model="filter" class="form-select select-lg filter">
+							<option value="" disabled selected>{{ t('placeholder.tag') }}</option>
+							<option v-for="tag in tags" :key="tag.key" :value="tag.key">
+								{{ tag[locale] ? tag[locale] : tag.key }}
+							</option>
+						</select>
+					</th>
+					<th>
+						<select v-model="language" class="form-select select-lg filter">
+							<option value="" disabled selected>{{ t('placeholder.language') }}</option>
+							<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
+						</select>
+					</th>
+					<th></th>
+					<th>
+						<select v-model="tuning" class="form-select select-lg filter">
+							<option value="" disabled selected>{{ t('placeholder.tuning') }}</option>
+							<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
+						</select>
+					</th>
+					<th>
+						<button
+							class="btn input-group-btn btn-lg btn-error-secondary stretch"
+							@click="search=''; filter=''; tuning=''; language=''"
 						>
-							{{ t('field.' + col) }}
-							<ion-icon :icon="caretDown" v-if="order.field == col && !order.ascending" class="icon-right" />
-							<ion-icon :icon="caretUp" v-if="order.field == col && order.ascending" class="icon-right" />
-						</th>
-						<th></th>
-					</tr>
-				</thead>
+							<ion-icon :icon="close" />
+							{{ t('button.reset') }}
+						</button>
+					</th>
+				</tr>
+			</thead>
 				<tbody>
 					<tr v-for="(song, i) in pagedSongs" :key="i">
-						<td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.title }} <div class="show-xl text-gray">{{ song.subtitle }}</div>
+						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+							{{ song.title }}
+							<div class="text-blade-500">{{ song.subtitle }}</div>
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.subtitle }}
-						</td>
-						<td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 							{{ song.authors }}
 						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+							{{ song.tags }}
+						</td>
+						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+							{{ song.language }}
+						</td>
+						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 							{{ song.year }}
 						</td>
-						<td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+						<td class="text-center cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 							{{ song.tuning }}
 						</td>
 						<td class="text-right">
@@ -232,7 +198,6 @@
 				@closed="modal.delete = false"
 			/>
 		</div>
-	</div>
 </template>
 
 <script setup>
@@ -242,6 +207,7 @@ import { useRoute } from 'vue-router'
 import { keyScale } from '@/utils.js';
 import SongSet from '@/modals/SongSet';
 import SongDelete from '@/modals/SongDelete';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
 import {
 	arrowBack,
 	arrowForward,
