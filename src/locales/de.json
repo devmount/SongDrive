@@ -195,10 +195,10 @@
     "docu": "Dokumentation",
     "github": "GitHub",
     "profile": "Benutzerprofil",
-    "setlists": "Setlisten",
+    "setlists": "Setlisten | Setliste | Setlisten",
     "settings": "Einstellungen",
     "shortcuts": "Tastaturkürzel",
-    "songs": "Songs"
+    "songs": "Songs | Song | Songs"
   },
   "placeholder": {
     "exampleLanguageIsocode": "z.B. de",
@@ -271,10 +271,8 @@
     "manageTags": "Alle Tags für Songs verwalten (zum Bearbeiten anklicken)",
     "manageUnconfirmedUsers": "Unbestätigte Benutzer verwalten",
     "newToSongDrive": "Neu bei SongDrive?",
-    "noSetlistsAvailableSignedIn": "Es sind aktuell keine Setlisten vorhanden. Füge Setlisten hinzu oder importiere Backup- oder Demo-Daten.",
-    "noSetlistsAvailableSignedOut": "Es sind aktuell keine Setlisten vorhanden. Bitte melde dich an, um Setlisten hinzuzufügen oder zu importieren.",
-    "noSongsAvailableSignedIn": "Es sind aktuell keine Songs vorhanden. Füge Songs hinzu oder importiere Backup- oder Demo-Daten.",
-    "noSongsAvailableSignedOut": "Es sind aktuell keine Songs vorhanden. Bitte melde dich an, um Songs hinzuzufügen oder zu importieren.",
+    "noSetlistsAvailable": "Es sind aktuell keine Setlisten vorhanden.",
+    "noSongsAvailable": "Es sind aktuell keine Songs vorhanden.",
     "noSongsSelected": "Keine Songs ausgewählt",
     "noTagsSelected": "Keine Tags ausgewählt",
     "noTranslations": "Dieser Song hat bisher keine Übersetzungen.",

@@ -166,7 +166,7 @@ const setlistsPerYear = computed(() => {
 	});
 	return {
 		datasets: [
-			{ label: t('page.setlists'), data: Object.values(years), borderColor: '#88b544' },
+			{ label: t('page.setlists', 2), data: Object.values(years), borderColor: '#88b544' },
 		],
 		labels: Object.keys(years)
 	};
@@ -184,7 +184,7 @@ const songsPerYear = computed(() => {
 	});
 	return {
 		datasets: [
-			{ label: t('page.songs'), data: Object.values(years), borderColor: '#88b544' },
+			{ label: t('page.songs', 2), data: Object.values(years), borderColor: '#88b544' },
 		],
 		labels: Object.keys(years)
 	};
@@ -200,7 +200,7 @@ const setlistsPerWeekday = computed(() => {
 	});
 	return {
 		datasets: [
-			{ label: t('page.setlists'), data: Object.values(weekday), borderColor: '#88b544' },
+			{ label: t('page.setlists', 2), data: Object.values(weekday), borderColor: '#88b544' },
 		],
 		labels: Object.keys(weekday).map(d => d.slice(0,2))
 	};

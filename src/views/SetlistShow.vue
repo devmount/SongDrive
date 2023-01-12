@@ -475,7 +475,7 @@ const setlistLanguages = computed(() => {
 	}
 	return {
 		datasets: [
-			{ label: t('page.songs'), data: Object.values(languages), color: '#88b544' },
+			{ label: t('page.songs', 2), data: Object.values(languages), color: '#88b544' },
 		],
 		labels: Object.keys(languages).map(e => props.languages[e]?.label)
 	};
@@ -491,7 +491,7 @@ const setlistKeys = computed(() => {
 	}
 	return {
 		datasets: [
-			{ label: t('page.songs'), data: Object.values(keys), color: '#88b544' },
+			{ label: t('page.songs', 2), data: Object.values(keys), color: '#88b544' },
 		],
 		labels: Object.keys(keys)
 	};

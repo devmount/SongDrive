@@ -2,7 +2,7 @@
 	<panel v-if="songs?.length > 0">
 		<div class="flex justify-between">
 			<div class="text-2xl">
-				{{ t('widget.' + keyByValue(sortBy, order)) }} {{ t('page.songs') }}
+				{{ t('widget.' + keyByValue(sortBy, order)) }} {{ t('page.songs', 2) }}
 			</div>
 			<div class="flex gap-1">
 				<secondary-button

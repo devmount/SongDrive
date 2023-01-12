@@ -33,7 +33,7 @@
 						@click="open = false"
 					>
 						<ion-icon :icon="musicalNotesSharp" class="w-5 h-5" />
-						<span class="mb-0.5 uppercase">{{ t('page.songs') }}</span>
+						<span class="mb-0.5 uppercase">{{ t('page.songs', Object.keys(c.songs)?.length) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
 							<div v-if="ready.songs" class="font-bold">{{ Object.keys(c.songs).length }}</div>
 							<secondary-button
@@ -52,7 +52,7 @@
 						@click="open = false"
 					>
 						<ion-icon :icon="list" class="w-5 h-5" />
-						<span class="mb-0.5 uppercase">{{ t('page.setlists') }}</span>
+						<span class="mb-0.5 uppercase">{{ t('page.setlists', setlistCount) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
 							<label v-if="ready.setlists" class="font-bold">{{ setlistCount }}</label>
 							<secondary-button

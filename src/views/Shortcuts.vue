@@ -7,7 +7,7 @@
 		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
 			<panel class="flex flex-col gap-4">
 				<div class="text-2xl">
-					{{ t('page.songs') }} / {{ t('page.setlists') }}
+					{{ t('page.songs', 2) }} / {{ t('page.setlists', 2) }}
 				</div>
 				<table class="table-auto border-separate border-spacing-x-4 border-spacing-y-2">
 					<tbody>
