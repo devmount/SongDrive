@@ -117,8 +117,14 @@
 						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 							{{ song.authors }}
 						</td>
-						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.tags }}
+						<td class="cursor-pointer">
+							<div class="flex flex-wrap gap-1">
+								<tag
+									v-for="tag in song.tags" :key="tag"
+									:tag="tags[tag]"
+									@click="router.push({ name: 'songs-tag', params: { tag: tag }})"
+								/>
+							</div>
 						</td>
 						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 							{{ song.language }}
@@ -203,11 +209,12 @@
 <script setup>
 import { ref, reactive, onMounted, computed, watch } from 'vue';
 import { useI18n } from "vue-i18n";
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { keyScale } from '@/utils.js';
 import SongSet from '@/modals/SongSet';
 import SongDelete from '@/modals/SongDelete';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
+import Tag from '@/elements/Tag';
 import {
 	arrowBack,
 	arrowForward,
@@ -219,11 +226,11 @@ import {
 	ellipsisHorizontalOutline,
 	eyeOutline,
 	filterSharp,
-	search as searchIcon,
 	trashOutline
 } from 'ionicons/icons';
 const { t, locale } = useI18n();
-const route = useRoute()
+const route = useRoute();
+const router = useRouter();
 
 // inherited properties
 const props = defineProps({

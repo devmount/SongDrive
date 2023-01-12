@@ -309,14 +309,11 @@
 					</secondary-button>
 				</div>
 				<div class="flex flex-wrap justify-start items-center gap-2">
-					<div
+					<tag
 						v-for="tag in tags" :key="tag.key"
-						class="cursor-pointer rounded flex items-center bg-blade-300 dark:bg-blade-750 hover:bg-spring-700 gap-2 py-0.5 px-2"
+						:tag="tag"
 						@click="active.tag=tag; active.key=tag.key; active.existing=true; modal.tagset=true"
-					>
-						<ion-icon :icon="pricetagOutline" class="w-4 h-4" />
-						{{ tag[locale] ? tag[locale] : tag.key }}
-					</div>
+					/>
 				</div>
 			</panel>
 			<!-- configuration -->
@@ -442,6 +439,7 @@
 import Panel from '@/elements/Panel';
 import ZoneDanger from '@/elements/ZoneDanger';
 import SecondaryButton from '@/elements/SecondaryButton';
+import Tag from '@/elements/Tag';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
@@ -474,7 +472,6 @@ import {
 	personAddOutline,
 	personOutline,
 	personRemoveOutline,
-	pricetagOutline,
 	pricetagsOutline,
 	saveOutline,
 	sendOutline,
