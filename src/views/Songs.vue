@@ -6,7 +6,7 @@
 		@keydown.left.exact="!isFirstPage && !noSongs ? page-- : null"
 		@keydown.right.exact="!isLastPage && !noSongs ? page++ : null"
 		@keydown.ctrl.f.prevent="!noSongs ? searchInput.focus() : null"
-		@keydown.esc.exact="search=''; filter=''; tuning=''"
+		@keydown.esc.exact="resetFilter"
 	>
 		<!-- page heading -->
 		<div class="flex flex-col sm:flex-row justify-between items-stretch gap-4">
@@ -70,41 +70,49 @@
 						<input
 							type="search"
 							ref="searchInput"
-							v-model="search"
+							v-model="filter.fulltext"
 							class="w-full"
 							:placeholder="t('placeholder.searchSongTitle')"
 						/>
 					</td>
-					<td></td>
 					<td>
-						<select v-model="filter" class="w-full">
-							<option value="" disabled selected>{{ t('placeholder.tag') }}</option>
+						<input
+							type="search"
+							v-model="filter.authors"
+							class="w-full"
+						/>
+					</td>
+					<td>
+						<select v-model="filter.tag" class="w-full">
+							<option :value="null" disabled selected>{{ t('placeholder.tag') }}</option>
 							<option v-for="tag in tags" :key="tag.key" :value="tag.key">
 								{{ tag[locale] ? tag[locale] : tag.key }}
 							</option>
 						</select>
 					</td>
 					<td>
-						<select v-model="language" class="w-full">
-							<option value="" disabled selected>{{ t('placeholder.language') }}</option>
+						<select v-model="filter.language" class="w-full">
+							<option :value="null" disabled selected>{{ t('placeholder.language') }}</option>
 							<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
 						</select>
 					</td>
-					<td></td>
 					<td>
-						<select v-model="tuning" class="w-full">
-							<option value="" disabled selected>{{ t('placeholder.tuning') }}</option>
+						<input
+							type="search"
+							v-model="filter.year"
+							class="w-full"
+						/>
+					</td>
+					<td>
+						<select v-model="filter.key" class="w-full">
+							<option :value="null" disabled selected>{{ t('placeholder.tuning') }}</option>
 							<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
 						</select>
 					</td>
 					<td>
-						<button
-							class="btn input-group-btn btn-lg btn-error-secondary stretch"
-							@click="search=''; filter=''; tuning=''; language=''"
-						>
+						<secondary-button @click="resetFilter">
 							<ion-icon :icon="close" />
-							{{ t('button.reset') }}
-						</button>
+						</secondary-button>
 					</td>
 				</tr>
 			</thead>
@@ -247,11 +255,24 @@ const props = defineProps({
 const container   = ref(null);
 const searchInput = ref(null);
 
-// reactive data
-const search     = ref('');
-const filter     = ref(route.params.tag ? route.params.tag : '');
-const tuning     = ref('');
-const language   = ref('');
+// table filter
+const filter = reactive({
+	fulltext: null,
+	authors: null,
+	tag: route.params.tag ?? null,
+	language: null,
+	key: null,
+	year: null,
+});
+const resetFilter = () => {
+	for (const field in filter) {
+		if (Object.hasOwnProperty.call(filter, field)) {
+			filter[field] = null;
+		}
+	}
+};
+
+// pagination
 const page       = ref(0);
 const listLength = ref(12);
 const order = reactive({ 
@@ -297,31 +318,43 @@ const songsArray = computed(() => {
 });
 const filteredSongs = computed(() => {
 	var songs = songsArray.value;
-	if (search.value != '') {
+	if (filter.fulltext) {
 		songs = songs.filter(song => {
 			// filter fields: title, subtitle
-			var key = search.value;
+			var key = filter.fulltext;
 			return song.title.toLowerCase().indexOf(key) !== -1
 				|| song.subtitle.toLowerCase().indexOf(key) !== -1
 				|| song.content.toLowerCase().indexOf(key) !== -1
 		});
 	}
-	if (filter.value != '') {
+	if (filter.authors) {
 		songs = songs.filter(song => {
 			// filter field: tags
-			return song.tags.indexOf(filter.value) !== -1;
+			return song.authors.toLowerCase().indexOf(filter.tag) !== -1;
 		});
 	}
-	if (tuning.value != '') {
+	if (filter.tag) {
 		songs = songs.filter(song => {
-			// filter field: tuning
-			return song.tuning.indexOf(tuning.value) !== -1;
+			// filter field: tags
+			return song.tags.indexOf(filter.tag) !== -1;
 		});
 	}
-	if (language.value != '') {
+	if (filter.language) {
 		songs = songs.filter(song => {
 			// filter field: language
-			return song.language.indexOf(language.value) !== -1;
+			return song.language.indexOf(filter.language) !== -1;
+		});
+	}
+	if (filter.year) {
+		songs = songs.filter(song => {
+			// filter field: year
+			return String(song.year).indexOf(filter.year) !== -1;
+		});
+	}
+	if (filter.key) {
+		songs = songs.filter(song => {
+			// filter field: key
+			return song.tuning.indexOf(filter.key) !== -1;
 		});
 	}
 	return songs
@@ -393,5 +426,5 @@ const deleteDialog = (song) => {
 };
 
 // watcher
-watch ([search, filter, tuning, language], () => { page.value = 0 });
+watch (filter, () => { page.value = 0 });
 </script>
