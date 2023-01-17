@@ -1,10 +1,7 @@
 <template>
-	<div
-		class="transition-all fixed top-0 left-0 z-40 w-screen h-screen bg-blade-750/50 dark:bg-black/50"
-		:class="{ 'hidden': !active }"
-		@click.prevent="emit('closed')"
-	>
+	<transition-scale>
 		<div
+			v-if="active"
 			class="
 				fixed z-50 position-center rounded-sm w-full max-w-sm bg-blade-100 p-4 flex flex-col gap-4
 				dark:bg-blade-850
@@ -22,13 +19,22 @@
 					<ion-icon :icon="closeOutline" class="w-6 h-6" />
 				</button>
 			</div>
-      <slot></slot>
-    </div>
-  </div>
+			<slot></slot>
+		</div>
+	</transition-scale>
+	<transition-fade>
+		<div
+			v-if="active"
+			class="fixed top-0 left-0 z-40 w-screen h-screen bg-blade-750/50 dark:bg-black/50"
+			@click.prevent="emit('closed')"
+		></div>
+	</transition-fade>
 </template>
 
 <script setup>
 import { closeOutline } from 'ionicons/icons';
+import TransitionFade from '@/elements/TransitionFade.vue';
+import TransitionScale from '@/elements/TransitionScale.vue';
 
 // inherited properties
 const props = defineProps({
