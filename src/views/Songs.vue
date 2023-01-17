@@ -47,7 +47,7 @@
 		</div>
 
 		<!-- song list -->
-		<table v-if="ready.songs && !noSongs" class="table table-striped table-hover">
+		<table v-if="ready.songs && !noSongs" class="border-separate border-spacing-y-2">
 			<thead>
 				<!-- column titles -->
 				<tr>
@@ -116,102 +116,94 @@
 					</td>
 				</tr>
 			</thead>
-				<tbody>
-					<tr v-for="(song, i) in pagedSongs" :key="i">
-						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.title }}
-							<div class="text-blade-500">{{ song.subtitle }}</div>
-						</td>
-						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							<div class="max-w-xs truncate">{{ song.authors }}</div>
-						</td>
-						<td class="cursor-pointer">
-							<div class="flex flex-wrap gap-1">
-								<tag
-									v-for="tag in song.tags" :key="tag"
-									:tag="tags[tag]"
-									@click="router.push({ name: 'songs-tag', params: { tag: tag }})"
-								/>
-							</div>
-						</td>
-						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.language }}
-						</td>
-						<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.year }}
-						</td>
-						<td class="text-center cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.tuning }}
-						</td>
-						<td class="text-right">
-							<div class="dropdown dropdown-right">
-								<div class="btn-group">
-									<a class="btn btn-primary dropdown-toggle" tabindex="0">
-										<ion-icon :icon="ellipsisHorizontalOutline" />
-									</a>
-									<ul class="menu text-left">
-										<li class="menu-item">
-											<router-link :to="{ name: 'song-show', params: { id: song.id }}" class="py-3 px-3">
-												<ion-icon :icon="eyeOutline" class="mr-2" /> {{ t('button.show') }}
-											</router-link>
-										</li>
-										<li v-if="user && role > 1" class="menu-item">
-											<a
-												href="#"
-												class="py-3 px-3"
-												@click.prevent="editDialog(song, true)"
-											>
-												<ion-icon :icon="createOutline" class="mr-2" /> {{ t('button.edit') }}
-											</a>
-										</li>
-										<li v-if="user && role > 1" class="menu-item">
-											<a
-												href="#"
-												class="py-3 px-3"
-												@click.prevent="editDialog(song, false)"
-											>
-												<ion-icon :icon="copyOutline" class="mr-2" /> {{ t('button.duplicate') }}
-											</a>
-										</li>
-										<li v-if="user && role > 2" class="menu-item">
-											<a
-												href="#"
-												class="py-3 px-3 text-error"
-												@click.prevent="deleteDialog(song)"
-											>
-												<ion-icon :icon="trashOutline" class="mr-2" /> {{ t('button.delete') }}
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<!-- modals -->
-			<SongSet
-				v-if="modal.set"
-				:active="modal.set"
-				:existing="active.existing"
-				:initialSong="active.song"
-				:songKey="active.key"
-				:songs="songs"
-				:setlists="setlists"
-				:tags="tags"
-				:languages="languages"
-				:ready="ready"
-				@closed="modal.set = false"
-			/>
-			<SongDelete
-				v-if="modal.delete"
-				:active="modal.delete"
-				:title="active.title"
-				:id="active.key"
-				:songs="songs"
-				@closed="modal.delete = false"
-			/>
-		</div>
+			<tbody>
+				<tr v-for="(song, i) in pagedSongs" :key="i">
+					<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+						{{ song.title }}
+						<div class="text-blade-500">{{ song.subtitle }}</div>
+					</td>
+					<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+						<div class="max-w-xs truncate">{{ song.authors }}</div>
+					</td>
+					<td class="cursor-pointer">
+						<div class="flex flex-wrap gap-1">
+							<tag
+								v-for="tag in song.tags" :key="tag"
+								:tag="tags[tag]"
+								@click="router.push({ name: 'songs-tag', params: { tag: tag }})"
+							/>
+						</div>
+					</td>
+					<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+						{{ song.language }}
+					</td>
+					<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+						{{ song.year }}
+					</td>
+					<td class="text-center cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+						{{ song.tuning }}
+					</td>
+					<td>
+						<dropdown class="flex flex-col gap-1">
+							<router-link
+								:to="{ name: 'song-show', params: { id: song.id }}"
+								class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
+							>
+								<ion-icon :icon="eyeOutline" class="mr-2" />
+								{{ t('button.show') }}
+							</router-link>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click.prevent="editDialog(song, true)"
+							>
+								<ion-icon :icon="createOutline" class="mr-2" />
+								{{ t('button.edit') }}
+							</button>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click.prevent="editDialog(song, false)"
+							>
+								<ion-icon :icon="copyOutline" class="mr-2" />
+								{{ t('button.duplicate') }}
+							</button>
+							<button
+								v-if="user && role > 2"
+								class="px-3 py-2 w-full flex items-center gap-2 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+								@click.prevent="deleteDialog(song)"
+							>
+								<ion-icon :icon="trashOutline" class="mr-2" />
+								{{ t('button.delete') }}
+							</button>
+						</dropdown>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- modals -->
+		<SongSet
+			v-if="modal.set"
+			:active="modal.set"
+			:existing="active.existing"
+			:initialSong="active.song"
+			:songKey="active.key"
+			:songs="songs"
+			:setlists="setlists"
+			:tags="tags"
+			:languages="languages"
+			:ready="ready"
+			@closed="modal.set = false"
+		/>
+		<SongDelete
+			v-if="modal.delete"
+			:active="modal.delete"
+			:title="active.title"
+			:id="active.key"
+			:songs="songs"
+			@closed="modal.delete = false"
+		/>
+	</div>
 </template>
 
 <script setup>
@@ -223,6 +215,7 @@ import SongSet from '@/modals/SongSet';
 import SongDelete from '@/modals/SongDelete';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import Tag from '@/elements/Tag';
+import Dropdown from '@/elements/Dropdown';
 import {
 	arrowBack,
 	arrowForward,
