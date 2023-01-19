@@ -47,14 +47,14 @@
 		</div>
 
 		<!-- song list -->
-		<table v-if="ready.songs && !noSongs" class="border-separate border-spacing-y-2">
+		<table v-if="ready.songs && !noSongs">
 			<thead>
 				<!-- column titles -->
 				<tr>
 					<th
 						v-for="col in ['title', 'authors', 'tags', 'language', 'year', 'tuning']"
 						:key="col"
-						class="cursor-pointer"
+						class="cursor-pointer p-2"
 						:class="{ 'bg-blade-900': order.field == col }"
 						@click="sortList(col)"
 					>
@@ -117,65 +117,68 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(song, i) in pagedSongs" :key="i">
-					<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+				<tr v-for="(song, i) in pagedSongs" :key="i" class="even:bg-blade-900/50 hover:bg-blade-900">
+					<td class="cursor-pointer px-3 py-2" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 						{{ song.title }}
-						<div class="text-blade-500">{{ song.subtitle }}</div>
+						<div class="text-blade-500 max-w-xs truncate">{{ song.subtitle }}</div>
 					</td>
-					<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td class="cursor-pointer px-3 py-2" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 						<div class="max-w-xs truncate">{{ song.authors }}</div>
 					</td>
-					<td class="cursor-pointer">
-						<div class="flex flex-wrap gap-1">
+					<td class="cursor-pointer px-3 py-2">
+						<div class="flex flex-nowrap gap-1">
 							<tag
-								v-for="tag in song.tags" :key="tag"
+								v-for="tag in song.tags.splice(0,3)" :key="tag"
 								:tag="tags[tag]"
 								@click="router.push({ name: 'songs-tag', params: { tag: tag }})"
 							/>
+							<span v-if="song.tags.length > 3">...</span>
 						</div>
 					</td>
-					<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td class="cursor-pointer px-3 py-2" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 						{{ song.language }}
 					</td>
-					<td class="cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td class="cursor-pointer px-3 py-2" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 						{{ song.year }}
 					</td>
-					<td class="text-center cursor-pointer" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td class="text-center cursor-pointer p-2" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 						{{ song.tuning }}
 					</td>
 					<td>
-						<dropdown class="flex flex-col gap-1">
-							<router-link
-								:to="{ name: 'song-show', params: { id: song.id }}"
-								class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
-							>
-								<ion-icon :icon="eyeOutline" class="mr-2" />
-								{{ t('button.show') }}
-							</router-link>
-							<button
-								v-if="user && role > 1"
-								class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.prevent="editDialog(song, true)"
-							>
-								<ion-icon :icon="createOutline" class="mr-2" />
-								{{ t('button.edit') }}
-							</button>
-							<button
-								v-if="user && role > 1"
-								class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.prevent="editDialog(song, false)"
-							>
-								<ion-icon :icon="copyOutline" class="mr-2" />
-								{{ t('button.duplicate') }}
-							</button>
-							<button
-								v-if="user && role > 2"
-								class="px-3 py-2 w-full flex items-center gap-2 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
-								@click.prevent="deleteDialog(song)"
-							>
-								<ion-icon :icon="trashOutline" class="mr-2" />
-								{{ t('button.delete') }}
-							</button>
+						<dropdown>
+							<template #default class="flex flex-col gap-1">
+								<router-link
+									:to="{ name: 'song-show', params: { id: song.id }}"
+									class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
+								>
+									<ion-icon :icon="eyeOutline" class="mr-2" />
+									{{ t('button.show') }}
+								</router-link>
+								<button
+									v-if="user && role > 1"
+									class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click.prevent="editDialog(song, true)"
+								>
+									<ion-icon :icon="createOutline" class="mr-2" />
+									{{ t('button.edit') }}
+								</button>
+								<button
+									v-if="user && role > 1"
+									class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click.prevent="editDialog(song, false)"
+								>
+									<ion-icon :icon="copyOutline" class="mr-2" />
+									{{ t('button.duplicate') }}
+								</button>
+								<button
+									v-if="user && role > 2"
+									class="px-3 py-2 w-full flex items-center gap-2 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+									@click.prevent="deleteDialog(song)"
+								>
+									<ion-icon :icon="trashOutline" class="mr-2" />
+									{{ t('button.delete') }}
+								</button>
+							</template>
 						</dropdown>
 					</td>
 				</tr>

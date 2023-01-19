@@ -1,6 +1,6 @@
 <template>
 	<slot name="trigger">
-		<secondary-button @click="open = !open">
+		<secondary-button @click="open = !open" @focusout="open = false">
 			<ion-icon :icon="ellipsisHorizontalOutline" />
 		</secondary-button>
 	</slot>
