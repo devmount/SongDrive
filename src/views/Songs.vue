@@ -67,48 +67,54 @@
 				</tr>
 				<!-- column filters -->
 				<tr>
-					<td>
+					<td class="relative">
+						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 						<input
 							type="search"
 							ref="searchInput"
 							v-model="filter.fulltext"
-							class="w-full"
+							class="w-full pl-8"
 							:placeholder="t('placeholder.searchSongTitle')"
 						/>
 					</td>
-					<td>
+					<td class="relative">
+						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 						<input
 							type="search"
 							v-model="filter.authors"
-							class="w-full"
+							class="w-full pl-8"
 						/>
 					</td>
-					<td>
-						<select v-model="filter.tag" class="w-full">
+					<td class="relative">
+						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+						<select v-model="filter.tag" class="w-full pl-8">
 							<option v-for="tag in tags" :key="tag.key" :value="tag.key">
 								{{ tag[locale] ? tag[locale] : tag.key }}
 							</option>
 						</select>
 					</td>
-					<td>
-						<select v-model="filter.language" class="w-full">
+					<td class="relative">
+						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+						<select v-model="filter.language" class="w-full pl-8">
 							<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
 						</select>
 					</td>
-					<td>
+					<td class="relative">
+						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 						<input
 							type="search"
 							v-model="filter.year"
-							class="w-full"
+							class="w-full pl-8"
 						/>
 					</td>
-					<td>
-						<select v-model="filter.key" class="w-full">
+					<td class="relative">
+						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+						<select v-model="filter.key" class="w-full pl-8">
 							<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
 						</select>
 					</td>
 					<td>
-						<secondary-button @click="resetFilter">
+						<secondary-button @click="resetFilter" :disabled="!isFiltered">
 							<filter-off-icon class="w-5 h-5 stroke-1.5" />
 						</secondary-button>
 					</td>
@@ -222,6 +228,7 @@ import {
 	CopyIcon,
 	EditIcon,
 	EyeIcon,
+	FilterIcon,
 	FilterOffIcon,
 	SortAscendingIcon,
 	SortDescendingIcon,
@@ -262,6 +269,9 @@ const resetFilter = () => {
 		}
 	}
 };
+const isFiltered = computed(() => {
+	return filter.fulltext || filter.authors || filter.tag || filter.language || filter.key || filter.year;
+});
 
 // pagination
 const page       = ref(0);
