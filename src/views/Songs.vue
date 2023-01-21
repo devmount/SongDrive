@@ -47,7 +47,7 @@
 		</div>
 
 		<!-- song list -->
-		<table v-if="ready.songs && !noSongs">
+		<table v-if="ready.songs && !noSongs" class="w-full">
 			<thead>
 				<!-- column titles -->
 				<tr>
@@ -118,12 +118,11 @@
 			</thead>
 			<tbody>
 				<tr v-for="(song, i) in pagedSongs" :key="i" class="even:bg-blade-900/50 hover:bg-blade-900">
-					<td class="cursor-pointer px-3 py-2" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-						{{ song.title }}
-						<div class="text-blade-500 max-w-xs truncate">{{ song.subtitle }}</div>
+					<td class="cursor-pointer px-3 py-2 w-auto max-w-xs" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+						<div class="truncate">{{ song.title }} <span class="text-blade-500 ml-2">{{ song.subtitle }}</span></div>
 					</td>
-					<td class="cursor-pointer px-3 py-2" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-						<div class="max-w-xs truncate">{{ song.authors }}</div>
+					<td class="cursor-pointer px-3 py-2 w-auto max-w-xs" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+						<div class="truncate">{{ song.authors }}</div>
 					</td>
 					<td class="cursor-pointer px-3 py-2">
 						<div class="flex flex-nowrap gap-1">
@@ -185,7 +184,7 @@
 			</tbody>
 		</table>
 		<!-- modals -->
-		<SongSet
+		<song-set
 			v-if="modal.set"
 			:active="modal.set"
 			:existing="active.existing"
@@ -198,7 +197,7 @@
 			:ready="ready"
 			@closed="modal.set = false"
 		/>
-		<SongDelete
+		<song-delete
 			v-if="modal.delete"
 			:active="modal.delete"
 			:title="active.title"
