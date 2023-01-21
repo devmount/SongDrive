@@ -18,7 +18,7 @@
 			<!-- pagination -->
 			<div class="flex items-center flex-nowrap gap-2 mr-16 lg:mr-0">
 				<secondary-button @click="!isFirstPage ? page-- : null" :disabled="isFirstPage">
-					<ion-icon :icon="arrowBack" class="w-5 h-5" />
+					<chevron-left-icon class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 				<div
 					v-for="(p, i) in pageCount" :key="i"
@@ -36,7 +36,7 @@
 					<div v-show="showLastEllipsis(p)">&hellip;</div>
 				</div>
 				<secondary-button @click="!isLastPage ? page++ : null" :disabled="isLastPage">
-					<ion-icon :icon="arrowForward" class="w-5 h-5" />
+					<chevron-right-icon class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 			</div>
 		</div>	
@@ -54,13 +54,14 @@
 					<th
 						v-for="col in ['title', 'authors', 'tags', 'language', 'year', 'tuning']"
 						:key="col"
-						class="cursor-pointer p-2"
-						:class="{ 'bg-blade-900': order.field == col }"
+						class="cursor-pointer uppercase p-2 font-semibold"
 						@click="sortList(col)"
 					>
-						{{ t('field.' + col) }}
-						<ion-icon :icon="caretDown" v-if="order.field == col && !order.ascending" class="icon-right" />
-						<ion-icon :icon="caretUp" v-if="order.field == col && order.ascending" class="icon-right" />
+						<div class="flex items-center gap-2">
+							{{ t('field.' + col) }}
+							<sort-ascending-icon v-if="order.field == col && !order.ascending" class="w-5 h-5 stroke-1.5" />
+							<sort-descending-icon v-if="order.field == col && order.ascending" class="w-5 h-5 stroke-1.5" />
+						</div>
 					</th>
 					<th></th>
 				</tr>
@@ -108,7 +109,7 @@
 					</td>
 					<td>
 						<secondary-button @click="resetFilter">
-							<ion-icon :icon="close" />
+							<filter-off-icon class="w-5 h-5 stroke-1.5" />
 						</secondary-button>
 					</td>
 				</tr>
@@ -145,33 +146,33 @@
 							<template #default class="flex flex-col gap-1">
 								<router-link
 									:to="{ name: 'song-show', params: { id: song.id }}"
-									class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								>
-									<ion-icon :icon="eyeOutline" class="mr-2" />
+									<eye-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.show') }}
 								</router-link>
 								<button
 									v-if="user && role > 1"
-									class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 									@click.prevent="editDialog(song, true)"
 								>
-									<ion-icon :icon="createOutline" class="mr-2" />
+									<edit-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.edit') }}
 								</button>
 								<button
 									v-if="user && role > 1"
-									class="px-3 py-2 w-full flex items-center gap-2 hover:bg-blade-100 dark:hover:bg-blade-750"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 									@click.prevent="editDialog(song, false)"
 								>
-									<ion-icon :icon="copyOutline" class="mr-2" />
+									<copy-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.duplicate') }}
 								</button>
 								<button
 									v-if="user && role > 2"
-									class="px-3 py-2 w-full flex items-center gap-2 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+									class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
 									@click.prevent="deleteDialog(song)"
 								>
-									<ion-icon :icon="trashOutline" class="mr-2" />
+									<trash-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.delete') }}
 								</button>
 							</template>
@@ -215,19 +216,17 @@ import SongDelete from '@/modals/SongDelete';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import Tag from '@/elements/Tag';
 import Dropdown from '@/elements/Dropdown';
-import {
-	arrowBack,
-	arrowForward,
-	caretDown,
-	caretUp,
-	close,
-	copyOutline,
-	createOutline,
-	ellipsisHorizontalOutline,
-	eyeOutline,
-	filterSharp,
-	trashOutline
-} from 'ionicons/icons';
+import { 
+	ChevronLeftIcon,
+	ChevronRightIcon,
+	CopyIcon,
+	EditIcon,
+	EyeIcon,
+	FilterOffIcon,
+	SortAscendingIcon,
+	SortDescendingIcon,
+	TrashIcon,
+} from "vue-tabler-icons";
 const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();

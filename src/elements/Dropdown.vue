@@ -1,7 +1,7 @@
 <template>
 	<slot name="trigger">
 		<secondary-button @click="open = !open" @focusout="open = false">
-			<ion-icon :icon="ellipsisHorizontalOutline" />
+			<dots-icon class="w-5 h-5 stroke-1.5" />
 		</secondary-button>
 	</slot>
 	<transition-scale>
@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { ellipsisHorizontalOutline } from 'ionicons/icons';
+import { DotsIcon } from 'vue-tabler-icons';
 import { ref } from 'vue';
 import TransitionScale from '@/elements/TransitionScale.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
