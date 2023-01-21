@@ -84,7 +84,6 @@
 					</td>
 					<td>
 						<select v-model="filter.tag" class="w-full">
-							<option :value="null" disabled selected>{{ t('placeholder.tag') }}</option>
 							<option v-for="tag in tags" :key="tag.key" :value="tag.key">
 								{{ tag[locale] ? tag[locale] : tag.key }}
 							</option>
@@ -92,7 +91,6 @@
 					</td>
 					<td>
 						<select v-model="filter.language" class="w-full">
-							<option :value="null" disabled selected>{{ t('placeholder.language') }}</option>
 							<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
 						</select>
 					</td>
@@ -105,7 +103,6 @@
 					</td>
 					<td>
 						<select v-model="filter.key" class="w-full">
-							<option :value="null" disabled selected>{{ t('placeholder.tuning') }}</option>
 							<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
 						</select>
 					</td>
@@ -116,7 +113,7 @@
 					</td>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody v-if="ready.songs">
 				<tr v-for="(song, i) in pagedSongs" :key="i" class="even:bg-blade-900/50 hover:bg-blade-900">
 					<td class="cursor-pointer px-3 py-2 w-auto max-w-xs" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 						<div class="truncate">{{ song.title }} <span class="text-blade-500 ml-2">{{ song.subtitle }}</span></div>
@@ -125,7 +122,7 @@
 						<div class="truncate">{{ song.authors }}</div>
 					</td>
 					<td class="cursor-pointer px-3 py-2">
-						<div class="flex flex-nowrap gap-1">
+						<div v-if="ready.tags" class="flex flex-nowrap gap-1">
 							<tag
 								v-for="tag in song.tags.splice(0,3)" :key="tag"
 								:tag="tags[tag]"
@@ -134,7 +131,7 @@
 							<span v-if="song.tags.length > 3">...</span>
 						</div>
 					</td>
-					<td class="cursor-pointer px-3 py-2" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td class="cursor-pointer px-3 py-2 uppercase" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 						{{ song.language }}
 					</td>
 					<td class="cursor-pointer px-3 py-2" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
@@ -269,7 +266,7 @@ const resetFilter = () => {
 
 // pagination
 const page       = ref(0);
-const listLength = ref(12);
+const listLength = 20;
 const order = reactive({ 
 	field: 'date',
 	ascending: true
@@ -358,7 +355,7 @@ const noSongs = computed(() => {
 	return props.ready.songs && songsArray.value.length == 0;
 });
 const pagedSongs = computed(() => {
-	return filteredSongs.value.slice(page.value*listLength.value, (page.value+1)*listLength.value);
+	return filteredSongs.value.slice(page.value*listLength, (page.value+1)*listLength);
 });
 const isFirstPage = computed(() => {
 	return page.value == 0;
@@ -367,7 +364,7 @@ const isLastPage = computed(() => {
 	return page.value == pageCount.value-1;
 });
 const pageCount = computed(() => {
-	return Math.ceil(filteredSongs.value.length/listLength.value);
+	return Math.ceil(filteredSongs.value.length/listLength);
 });
 
 // methods
