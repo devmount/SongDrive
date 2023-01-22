@@ -143,11 +143,11 @@
 					<td class="cursor-pointer px-3 py-2">
 						<div v-if="ready.tags" class="flex flex-nowrap gap-1">
 							<tag
-								v-for="tag in song.tags.splice(0,3)" :key="tag"
+								v-for="tag in song.tags.slice(0, 3)" :key="tag"
 								:tag="tags[tag]"
 								@click="router.push({ name: 'songs-tag', params: { tag: tag }})"
 							/>
-							<span v-if="song.tags.length > 3">...</span>
+							<span v-if="song.tags.length > 3">&hellip;</span>
 						</div>
 					</td>
 					<td class="cursor-pointer px-3 py-2 uppercase" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
@@ -289,7 +289,7 @@ const isFiltered = computed(() => {
 const page       = ref(0);
 const listLength = 20;
 const order = reactive({ 
-	field: 'date',
+	field: 'title',
 	ascending: true
 });
 const modal = reactive({
@@ -310,11 +310,14 @@ onMounted(() => {
 
 // computed
 const songsArray = computed(() => {
-	let songs = Object.keys(props.songs).map((key) => {
-		let song = props.songs[key];
-		song['id'] = key;
-		return song;
-	})
+	const songs = [];
+	for (const key in props.songs) {
+		if (Object.hasOwnProperty.call(props.songs, key)) {
+			const element = props.songs[key];
+			element['id'] = key;
+			songs.push(element);
+		}
+	}
 	songs.sort((a, b) => {
 		var propA = String(a[order.field]).toLowerCase().trim();
 		var propB = String(b[order.field]).toLowerCase().trim();
