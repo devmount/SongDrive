@@ -55,15 +55,21 @@
 						v-for="col in ['title', 'authors', 'tags', 'language', 'year', 'tuning']"
 						:key="col"
 						class="cursor-pointer uppercase p-2 font-normal"
+						:class="{
+							'hidden 3xl:table-cell': col === 'tags',
+							'hidden xl:table-cell': col === 'authors',
+							'hidden md:table-cell w-24': ['language', 'year'].includes(col),
+							'hidden xs:table-cell w-24': col === 'tuning',
+						}"
 						@click="sortList(col)"
 					>
-						<div class="flex items-center gap-2">
+						<div class="flex items-center gap-2" :class="{ 'justify-center': ['language', 'year', 'tuning'].includes(col) }">
 							{{ t('field.' + col) }}
 							<sort-ascending-icon v-if="order.field == col && !order.ascending" class="w-5 h-5 stroke-1.5 stroke-spring-600" />
 							<sort-descending-icon v-if="order.field == col && order.ascending" class="w-5 h-5 stroke-1.5 stroke-spring-600" />
 						</div>
 					</th>
-					<th></th>
+					<th class="w-11"></th>
 				</tr>
 				<!-- column filters -->
 				<tr>
@@ -79,7 +85,7 @@
 							/>
 						</label>
 					</td>
-					<td>
+					<td class="hidden xl:table-cell">
 						<label class="relative">
 							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<input
@@ -89,7 +95,7 @@
 							/>
 						</label>
 					</td>
-					<td>
+					<td class="hidden 3xl:table-cell">
 						<label class="relative">
 							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<select v-model="filter.tag" class="w-full pl-8">
@@ -99,7 +105,7 @@
 							</select>
 						</label>
 					</td>
-					<td>
+					<td class="hidden md:table-cell">
 						<label class="relative">
 							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<select v-model="filter.language" class="w-full pl-8">
@@ -107,7 +113,7 @@
 							</select>
 						</label>
 					</td>
-					<td>
+					<td class="hidden md:table-cell">
 						<label class="relative">
 							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<input
@@ -117,7 +123,7 @@
 							/>
 						</label>
 					</td>
-					<td>
+					<td class="hidden xs:table-cell">
 						<label class="relative">
 							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<select v-model="filter.key" class="w-full pl-8">
@@ -134,13 +140,16 @@
 			</thead>
 			<tbody v-if="ready.songs">
 				<tr v-for="(song, i) in pagedSongs" :key="i" class="even:bg-blade-900/50 hover:bg-blade-900">
-					<td class="cursor-pointer px-3 py-2 w-auto max-w-xs" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-						<div class="truncate">{{ song.title }} <span class="text-blade-500 ml-2">{{ song.subtitle }}</span></div>
+					<td class="cursor-pointer px-3 py-2 max-w-0" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+						<div class="truncate">
+							{{ song.title }}
+							<span class="text-blade-500 ml-2">{{ song.subtitle }}</span>
+						</div>
 					</td>
-					<td class="cursor-pointer px-3 py-2 w-auto max-w-xs" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td class="cursor-pointer px-3 py-2 max-w-0 hidden xl:table-cell" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 						<div class="truncate">{{ song.authors }}</div>
 					</td>
-					<td class="cursor-pointer px-3 py-2">
+					<td class="cursor-pointer px-3 py-2 max-w-0 hidden 3xl:table-cell">
 						<div v-if="ready.tags" class="flex flex-nowrap gap-1">
 							<tag
 								v-for="tag in song.tags.slice(0, 3)" :key="tag"
@@ -150,13 +159,13 @@
 							<span v-if="song.tags.length > 3">&hellip;</span>
 						</div>
 					</td>
-					<td class="cursor-pointer px-3 py-2 uppercase" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td class="cursor-pointer px-3 py-2 text-center uppercase hidden md:table-cell" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 						{{ song.language }}
 					</td>
-					<td class="cursor-pointer px-3 py-2" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td class="cursor-pointer px-3 py-2 text-center hidden md:table-cell" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 						{{ song.year }}
 					</td>
-					<td class="text-center cursor-pointer p-2" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td class="cursor-pointer p-2 text-center hidden xs:table-cell" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
 						{{ song.tuning }}
 					</td>
 					<td>
@@ -345,8 +354,8 @@ const filteredSongs = computed(() => {
 	}
 	if (filter.authors) {
 		songs = songs.filter(song => {
-			// filter field: tags
-			return song.authors.toLowerCase().indexOf(filter.tag) !== -1;
+			// filter field: authors
+			return song.authors.toLowerCase().indexOf(filter.authors) !== -1;
 		});
 	}
 	if (filter.tag) {

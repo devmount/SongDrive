@@ -6,7 +6,7 @@
 			class="lg:flex min-h-screen"
 		>
 			<!-- menu toggle button -->
-			<button class="fixed lg:hidden transition-all top-4 right-4 px-2 py-1 z-10 flex items-center" :class="{ 'right-64 mr-4': open }" @click="open = true">
+			<button class="fixed lg:hidden transition-all top-2 right-2 lg:top-4 lg:right-4 px-2 py-1 z-10 flex items-center" :class="{ 'right-64 mr-4': open }" @click="open = true">
 				<ion-icon :icon="menu" size="large" />
 			</button>
 
@@ -133,12 +133,7 @@
 					</div>
 					<div class="flex justify-center items-center gap-1">
 						<span>2016–{{ (new Date()).getFullYear() }}</span>
-						<svg class="w-5 h-5 fill-transparent stroke-1.5 stroke-current" viewBox="0 0 24 24">
-							<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-							<path d="M15 21h-9a3 3 0 0 1 -3 -3v-1h10v2a2 2 0 0 0 4 0v-14a2 2 0 1 1 2 2h-2m2 -4h-11a3 3 0 0 0 -3 3v11"></path>
-							<line x1="9" y1="7" x2="13" y2="7"></line>
-							<line x1="9" y1="11" x2="13" y2="11"></line>
-						</svg>
+						<license-icon class="w-5 h-5 fill-transparent stroke-1.5 stroke-current" />
 						<a href="https://github.com/devmount/SongDrive/blob/main/LICENSE" target="_blank">
 							{{ t('app.license') }}
 						</a>
@@ -152,7 +147,7 @@
 			></div>
 
 			<!-- off-screen content -->
-			<div class="w-full p-6 lg:ml-64">
+			<div class="w-full p-3 sm:p-6 lg:ml-64">
 				<router-view
 					:key="route.fullPath"
 					:user="auth.user"
@@ -297,6 +292,9 @@ import {
 	openOutline,
 	optionsOutline,
 } from 'ionicons/icons';
+import { 
+	LicenseIcon,
+} from "vue-tabler-icons";
 const { t } = useI18n();
 const route = useRoute();
 
