@@ -54,64 +54,76 @@
 					<th
 						v-for="col in ['title', 'authors', 'tags', 'language', 'year', 'tuning']"
 						:key="col"
-						class="cursor-pointer uppercase p-2 font-semibold"
+						class="cursor-pointer uppercase p-2 font-normal"
 						@click="sortList(col)"
 					>
 						<div class="flex items-center gap-2">
 							{{ t('field.' + col) }}
-							<sort-ascending-icon v-if="order.field == col && !order.ascending" class="w-5 h-5 stroke-1.5" />
-							<sort-descending-icon v-if="order.field == col && order.ascending" class="w-5 h-5 stroke-1.5" />
+							<sort-ascending-icon v-if="order.field == col && !order.ascending" class="w-5 h-5 stroke-1.5 stroke-spring-600" />
+							<sort-descending-icon v-if="order.field == col && order.ascending" class="w-5 h-5 stroke-1.5 stroke-spring-600" />
 						</div>
 					</th>
 					<th></th>
 				</tr>
 				<!-- column filters -->
 				<tr>
-					<td class="relative">
-						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
-						<input
-							type="search"
-							ref="searchInput"
-							v-model="filter.fulltext"
-							class="w-full pl-8"
-							:placeholder="t('placeholder.searchSongTitle')"
-						/>
+					<td>
+						<label class="relative">
+							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<input
+								type="search"
+								ref="searchInput"
+								v-model="filter.fulltext"
+								class="w-full pl-8"
+								:placeholder="t('placeholder.searchSongTitle')"
+							/>
+						</label>
 					</td>
-					<td class="relative">
-						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
-						<input
-							type="search"
-							v-model="filter.authors"
-							class="w-full pl-8"
-						/>
+					<td>
+						<label class="relative">
+							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<input
+								type="search"
+								v-model="filter.authors"
+								class="w-full pl-8"
+							/>
+						</label>
 					</td>
-					<td class="relative">
-						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
-						<select v-model="filter.tag" class="w-full pl-8">
-							<option v-for="tag in tags" :key="tag.key" :value="tag.key">
-								{{ tag[locale] ? tag[locale] : tag.key }}
-							</option>
-						</select>
+					<td>
+						<label class="relative">
+							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<select v-model="filter.tag" class="w-full pl-8">
+								<option v-for="tag in tags" :key="tag.key" :value="tag.key">
+									{{ tag[locale] ? tag[locale] : tag.key }}
+								</option>
+							</select>
+						</label>
 					</td>
-					<td class="relative">
-						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
-						<select v-model="filter.language" class="w-full pl-8">
-							<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
-						</select>
+					<td>
+						<label class="relative">
+							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<select v-model="filter.language" class="w-full pl-8">
+								<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
+							</select>
+						</label>
 					</td>
-					<td class="relative">
-						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
-						<input
-							type="search"
-							v-model="filter.year"
-							class="w-full pl-8"
-						/>
+					<td>
+						<label class="relative">
+							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<input
+								type="search"
+								v-model="filter.year"
+								class="w-full pl-8"
+							/>
+						</label>
 					</td>
-					<td class="relative">
-						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
-						<select v-model="filter.key" class="w-full pl-8">
-							<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
-						</select>
+					<td>
+						<label class="relative">
+							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<select v-model="filter.key" class="w-full pl-8">
+								<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
+							</select>
+						</label>
 					</td>
 					<td>
 						<secondary-button @click="resetFilter" :disabled="!isFiltered">
