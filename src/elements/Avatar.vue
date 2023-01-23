@@ -32,23 +32,24 @@
     }"
     alt="Avatar"
   >
-    <ion-icon
-      :icon="personOutline"
+    <user-icon
       :class="{
         'w-4 h-4': size === sizes.sm,
         'w-6 h-6': size === sizes.md,
         'w-20 h-20': size === sizes.lg,
       }"
-      style="--ionicon-stroke-width: 48"
+      class="stroke-2"
     />
   </figure>
 </template>
 
 <script setup>
 import { initials } from '@/utils.js';
-import { personOutline } from 'ionicons/icons';
 
-// inherited properties
+// icons
+import { UserIcon} from "vue-tabler-icons";
+
+// component properties
 defineProps({
   photoUrl: String, // actual url of a profile image
   name:     String, // name of the user
