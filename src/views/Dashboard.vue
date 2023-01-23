@@ -11,7 +11,7 @@
 					{{ Object.keys(songs).length }}
 				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<ion-icon :icon="musicalNotes" class="shrink-0 w-5 h-5 mt-2" />
+					<music-icon class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
 					{{ t('widget.songsStored') }}
 				</div>
 			</div>
@@ -21,7 +21,7 @@
 					{{ setlistCount }}
 				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<ion-icon :icon="list" class="shrink-0 w-5 h-5 mt-2" />
+					<playlist-icon class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
 					{{ t('widget.publicSetlists') }}
 				</div>
 			</div>
@@ -31,7 +31,7 @@
 					<span class="text-blade-500">~</span>{{ songsPerformed }}
 				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<ion-icon :icon="micOutline" class="shrink-0 w-5 h-5 mt-2" />
+					<microphone-icon class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
 					{{ t('widget.songsPerformed') }}
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 					{{ languagesUsed }}
 				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<ion-icon :icon="globeOutline" class="shrink-0 w-5 h-5 mt-2" />
+					<world-icon class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
 					{{ t('widget.languages', languagesUsed) }}
 				</div>
 			</div>
@@ -101,21 +101,25 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from "vue-i18n";
-import Panel from '@/elements/Panel';
-import LineChart from '@/charts/LineChart';
 import BarChart  from '@/charts/BarChart';
-import WidgetSongList from '@/widgets/WidgetSongList';
+import LineChart from '@/charts/LineChart';
+import Panel from '@/elements/Panel';
 import WidgetSetlistList from '@/widgets/WidgetSetlistList';
+import WidgetSongList from '@/widgets/WidgetSongList';
 import WidgetSongOfYear from '@/widgets/WidgetSongOfYear';
+
+// iconss
 import {
-	globeOutline,
-	list,
-	micOutline,
-	musicalNotes
-} from 'ionicons/icons';
+	MicrophoneIcon,
+	MusicIcon,
+	PlaylistIcon,
+	WorldIcon,
+} from "vue-tabler-icons";
+
+// component constants
 const { t, locale } = useI18n();
 
-// inherited properties
+// component properties
 const props = defineProps({
   songs:    Object,
   setlists: Object,
@@ -123,8 +127,10 @@ const props = defineProps({
   user:     String,
 });
 
-// computed
+// totala number of song performances
 const songsPerformed = computed(() => setlistsArray.value.reduce((a, c) => a + c.songs.length, 0));
+
+// provides list of all songs
 const songsArray = computed(() => {
 	let list = Object.keys(props.songs).map((key) => {
 		let song = props.songs[key];
@@ -133,7 +139,11 @@ const songsArray = computed(() => {
 	});
 	return list.sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0));
 });
+
+// true if song data collection is empty
 const noSongs = computed(() => props.ready.songs && songsArray.value.length == 0);
+
+// total number of song languages 
 const languagesUsed = computed(() => {
 	let languages = [];
 	songsArray.value.forEach(song => {
@@ -143,6 +153,8 @@ const languagesUsed = computed(() => {
 	})
 	return languages.length;
 });
+
+// provides list of public setlists and those owned by current user
 const setlistsArray = computed(() => {
 	return Object.keys(props.setlists).map((key) => {
 		let setlist = props.setlists[key];
@@ -150,8 +162,14 @@ const setlistsArray = computed(() => {
 		return setlist;
 	}).filter(s => !s.private || s.private && s.creator==props.user);
 });
+
+// total number of public setlists
 const setlistCount = computed(() => setlistsArray.value.filter(s => !s.private).length);
+
+// true if setlist data collection is empty
 const noSetlists = computed(() => props.ready.setlists && setlistsArray.value.length == 0);
+
+// chart data providing number of setlists per year
 const setlistsPerYear = computed(() => {
 	let years = {};
 	setlistsArray.value.forEach(setlist => {
@@ -171,6 +189,8 @@ const setlistsPerYear = computed(() => {
 		labels: Object.keys(years)
 	};
 });
+
+// chart data providing number of song performances per year
 const songsPerYear = computed(() => {
 	let years = {};
 	setlistsArray.value.forEach(setlist => {
@@ -189,6 +209,7 @@ const songsPerYear = computed(() => {
 		labels: Object.keys(years)
 	};
 });
+// chart data holding number of setlists per event weekday
 const setlistsPerWeekday = computed(() => {
 	let weekday = {};
 	for (let i = 0; i < getWeekDays.value.length; i++) {
@@ -205,6 +226,8 @@ const setlistsPerWeekday = computed(() => {
 		labels: Object.keys(weekday).map(d => d.slice(0,2))
 	};
 });
+
+// generate locale weekday names
 const getWeekDays = computed(() => {
 	var d = new Date(Date.UTC(2017, 0, 2)); // start with a Monday
 	var names = [];
