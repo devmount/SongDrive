@@ -14,10 +14,12 @@
 </template>
 
 <script setup>
+// component properties
 defineProps({
   type: String
 })
 
+// available additional button types
 const types = {
   danger: 'danger'
 }

@@ -12,6 +12,7 @@
 </template>
 
 <script setup>
+// component properties
 defineProps({
   label: String
 })

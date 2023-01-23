@@ -8,11 +8,15 @@
 </template>
 
 <script setup>
-import { TagIcon } from 'vue-tabler-icons';
 import { useI18n } from "vue-i18n";
+
+// icons
+import { TagIcon } from 'vue-tabler-icons';
+
+// component constants
 const { locale } = useI18n({ useScope: 'global' });
 
-// inherited properties
+// component properties
 const props = defineProps({
 	tag: Object, // tag to display
 });

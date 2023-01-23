@@ -14,10 +14,12 @@
 </template>
 
 <script setup>
-import { DotsIcon } from 'vue-tabler-icons';
 import { ref } from 'vue';
-import TransitionScale from '@/elements/TransitionScale.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
+import TransitionScale from '@/elements/TransitionScale.vue';
+
+// icons
+import { DotsIcon } from 'vue-tabler-icons';
 
 // dropdown state
 const open = ref(false);

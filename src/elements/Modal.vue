@@ -16,7 +16,7 @@
 			<div class="flex justify-between">
 				<div class="text-lg uppercase font-medium">{{ title }}</div>
 				<button aria-label="Close" @click="emit('closed')">
-					<ion-icon :icon="closeOutline" class="w-6 h-6" />
+					<x-icon class="w-6 h-6 stroke-1.5" />
 				</button>
 			</div>
 			<slot></slot>
@@ -32,11 +32,13 @@
 </template>
 
 <script setup>
-import { closeOutline } from 'ionicons/icons';
 import TransitionFade from '@/elements/TransitionFade.vue';
 import TransitionScale from '@/elements/TransitionScale.vue';
 
-// inherited properties
+// icons
+import { XIcon } from 'vue-tabler-icons';
+
+// component properties
 const props = defineProps({
 	active: Boolean, // state of modal display, true to show modal
   title:  String,  // titel to display on top
