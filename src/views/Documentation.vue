@@ -7,7 +7,7 @@
 				class="py-1 px-2 rounded-md hover:bg-blade-800 flex justify-start items-center gap-2 mb-4"
 				@click="scrollTo('start')"
 			>
-				<ion-icon :icon="arrowUpOutline" />
+				<arrow-up-icon class="w-5 h-5 stroke-1.5" />
 				<span>{{ t('button.top') }}</span>
 			</button>
 			<!-- table of contents -->
@@ -17,7 +17,7 @@
 				class="py-1 px-2 rounded-md hover:bg-blade-800 flex justify-start items-center gap-2"
 				@click="scrollTo(dashCase(t.text))"
 			>
-				<ion-icon :icon="bookmarkOutline" />
+				<bookmark-icon class="w-5 h-5 stroke-1.5" />
 				<span>{{ t.text }}</span>
 			</button>
 		</div>
@@ -34,17 +34,17 @@
 				<!-- features -->
 				<div class="grid grid-cols-3 gap-8">
 					<div class="flex flex-col justify-start items-center gap-4">
-						<ion-icon :icon="flashOutline" class="w-12 h-12" style="--ionicon-stroke-width: 20" />
+						<bolt-icon class="w-12 h-12 stroke-1" />
 						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.0.title') }}</div>
 						<div class="text-center">{{ t('docu.features.0.description') }}</div>
 					</div>
 					<div class="flex flex-col justify-center items-center gap-4">
-						<ion-icon :icon="micOutline" class="w-12 h-12" style="--ionicon-stroke-width: 20" />
+						<microphone-icon class="w-12 h-12 stroke-1" />
 						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.1.title') }}</div>
 						<div class="text-center">{{ t('docu.features.1.description') }}</div>
 					</div>
 					<div class="flex flex-col justify-center items-center gap-4">
-						<ion-icon :icon="constructOutline" class="w-12 h-12" style="--ionicon-stroke-width: 20" />
+						<tools-icon class="w-12 h-12 stroke-1" />
 						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.2.title') }}</div>
 						<div class="text-center">{{ t('docu.features.2.description') }}</div>
 					</div>
@@ -61,18 +61,18 @@
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						target="_blank"
 					>
-						<ion-icon :icon="documentTextOutline" />
+						<notes-icon class="w-5 h-5 stroke-1.5" />
 						<span class="mr-2">{{ t('button.docsOnGithub') }}</span>
-						<ion-icon :icon="openOutline" />
+						<external-link-icon class="w-5 h-5 stroke-1.5" />
 					</secondary-button>
 					<secondary-button
 						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						target="_blank"
 					>
-						<ion-icon :icon="pencilOutline" />
+						<pencil-icon class="w-5 h-5 stroke-1.5" />
 						<span class="mr-2">{{ t('button.editThis') }}</span>
-						<ion-icon :icon="openOutline" />
+						<external-link-icon class="w-5 h-5 stroke-1.5" />
 					</secondary-button>
 				</div>
 			</div>
@@ -81,23 +81,27 @@
 </template>
 
 <script setup>
-import SecondaryButton from '@/elements/SecondaryButton';
-import { computed } from 'vue';
-import { useI18n } from "vue-i18n";
-import {
-	arrowUpOutline,
-	bookmarkOutline,
-	documentTextOutline,
-	constructOutline,
-	pencilOutline,
-	flashOutline,
-	micOutline,
-	openOutline
-} from 'ionicons/icons';
-import { sdHighlight } from '@/utils.js';
 import 'highlight.js/styles/github-dark.css';
-const { t, locale } = useI18n();
+import { computed } from 'vue';
+import { sdHighlight } from '@/utils.js';
+import { useI18n } from "vue-i18n";
+import SecondaryButton from '@/elements/SecondaryButton';
+
+// icons
+import {
+	ArrowUpIcon,
+	BookmarkIcon,
+	NotesIcon,
+	ExternalLinkIcon,
+	PencilIcon,
+	ToolsIcon,
+	BoltIcon,
+	MicrophoneIcon,
+} from "vue-tabler-icons";
+
+// component constants
 const { marked } = require('marked');
+const { t, locale } = useI18n();
 
 // markdown parser
 const hljs = require('highlight.js');
@@ -108,18 +112,22 @@ const docs = {
 	en: require("@/docs/docs.en.md").default,
 };
 
-// methods
+// convert spaces to dashes
 const dashCase = (text) => {
 	return text.toLowerCase().replace(' ', '-');
 };
+
+// scroll to element of given id
 const scrollTo = (id) => {
 	document.getElementById(id).scrollIntoView({ behavior: "smooth" });
 };
 
-// computed
+// generate table of contents from h2's
 const toc = computed(
 	() => marked.lexer(docs[locale.value]).filter(t => t.type === 'heading' && t.depth === 2)
 );
+
+// parse documentation markdown content
 const content = computed(
 	() => marked.parse(
 		docs[locale.value],
