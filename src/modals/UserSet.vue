@@ -91,7 +91,6 @@
 </template>
 
 <script setup>
-import { addOutline, saveOutline } from 'ionicons/icons';
 import { notify } from '@kyvg/vue3-notification';
 import { reactive, computed, inject, onMounted, watch } from 'vue';
 import { useI18n } from "vue-i18n";
@@ -101,6 +100,10 @@ import firebase from 'firebase/compat/app';
 import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
+// icons
+import { addOutline, saveOutline } from 'ionicons/icons';
+
+// component constants
 const { t } = useI18n();
 const examplePassword = randomString(8);
 

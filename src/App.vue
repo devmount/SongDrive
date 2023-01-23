@@ -7,7 +7,7 @@
 		>
 			<!-- menu toggle button -->
 			<button class="fixed lg:hidden transition-all top-2 right-2 lg:top-4 lg:right-4 px-2 py-1 z-10 flex items-center" :class="{ 'right-64 mr-4': open }" @click="open = true">
-				<ion-icon :icon="menu" size="large" />
+				<menu2-icon class="w-8 h-8 stroke-2" />
 			</button>
 
 			<!-- menu sidebar -->
@@ -24,7 +24,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<ion-icon :icon="appsSharp" class="w-5 h-5" />
+						<layout-grid-icon class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.dashboard') }}</span>
 					</router-link>
 					<router-link
@@ -32,7 +32,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<ion-icon :icon="musicalNotesSharp" class="w-5 h-5" />
+						<music-icon class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.songs', Object.keys(c.songs)?.length) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
 							<div v-if="ready.songs" class="font-bold">{{ Object.keys(c.songs).length }}</div>
@@ -42,7 +42,7 @@
 								:data-tooltip="t('tooltip.songAdd')"
 								@click="modal.addsong = true"
 							>
-								<ion-icon :icon="addSharp" class="w-5 h-5" />
+								<plus-icon class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
 						</div>
 					</router-link>
@@ -51,7 +51,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<ion-icon :icon="list" class="w-5 h-5" />
+						<playlist-icon class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.setlists', setlistCount) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
 							<label v-if="ready.setlists" class="font-bold">{{ setlistCount }}</label>
@@ -61,7 +61,7 @@
 								:data-tooltip="t('tooltip.setlistAdd')"
 								@click="modal.addsetlist = true"
 							>
-								<ion-icon :icon="addSharp" class="w-5 h-5" />
+								<plus-icon class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
 						</div>
 					</router-link>
@@ -84,13 +84,13 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<ion-icon :icon="optionsOutline" class="w-5 h-5" />
+						<settings-icon class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.settings') }}</span>
 						<indicator-pulse v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3" class="ml-auto" />
 					</router-link>
 					<secondary-button class="mt-2" @click="signOut">
 						{{ t('button.signOut') }}
-						<ion-icon :icon="logOutOutline" class="w-6 h-6" />
+						<logout-icon class="w-6 h-6 stroke-1.5" />
 					</secondary-button>
 					<divider-horizontal :label="t('divider.info')" />
 					<router-link
@@ -98,7 +98,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<ion-icon :icon="bulbOutline" class="w-5 h-5" />
+						<bulb-icon class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.shortcuts') }}</span>
 					</router-link>
 					<router-link
@@ -106,7 +106,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<ion-icon :icon="bookOutline" class="w-5 h-5" />
+						<book-icon class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.docu') }}</span>
 					</router-link>
 					<a
@@ -114,15 +114,15 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						target="_blank"
 					>
-						<ion-icon :icon="logoGithub" class="w-5 h-5" />
+						<brand-github-icon class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.github') }}</span>
-						<ion-icon :icon="openOutline" class="w-5 h-5 ml-auto" />
+						<external-link-icon class="w-5 h-5 ml-auto" />
 					</a>
 				</div>
 				<footer class="mt-auto text-sm text-blade-500">
 					<div class="flex justify-center items-center gap-1">
 						<span>{{ t('app.created.0') }}</span>
-						<ion-icon :icon="heartOutline" class="w-5 h-5" />
+						<heart-icon class="w-5 h-5 stroke-1.5" />
 						<span>{{ t('app.created.1') }}</span>
 						<a href="https://devmount.de" target="_blank">
 							<svg class="w-6 h-6 fill-transparent stroke-10 stroke-current" viewBox="0 0 234 234">
@@ -151,9 +151,9 @@
 				<router-view
 					:key="route.fullPath"
 					:user="auth.user"
-					:userObject="auth.userObject"
+					:user-object="auth.userObject"
 					:role="userRoles[c.permissions[auth.user].role]"
-					:roleName="c.permissions[auth.user].role"
+					:role-name="c.permissions[auth.user].role"
 					:ready="ready"
 					:config="c.config"
 					:languages="c.languages"
@@ -196,8 +196,8 @@
 			v-if="modal.addsong"
 			:active="modal.addsong"
 			:existing="false"
-			:initialSong="newSong"
-			songKey=""
+			:initial-song="newSong"
+			song-key=""
 			:songs="c.songs"
 			:setlists="c.setlists"
 			:tags="c.tags"
@@ -210,8 +210,8 @@
 			v-if="modal.addsetlist"
 			:active="modal.addsetlist"
 			:existing="false"
-			:initialSetlist="newSetlist"
-			setlistKey=""
+			:initial-setlist="newSetlist"
+			setlist-key=""
 			:user="auth.user"
 			:songs="c.songs"
 			:setlists="c.setlists"
@@ -245,7 +245,7 @@
 					<div class="flex justify-between">
 						<div class="text-lg font-semibold">{{ props.item.title }}</div>
 						<button aria-label="Close" @click="props.close">
-							<ion-icon :icon="closeOutline" class="w-6 h-6" />
+							<x-icon class="w-6 h-6" />
 						</button>
 					</div>
 					<div v-html="props.item.text"></div>
@@ -256,52 +256,54 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, inject, onMounted } from 'vue';
-import { useI18n } from "vue-i18n";
-import { useRoute } from 'vue-router';
-import { notify } from '@kyvg/vue3-notification';
-import { userRoles, throwError } from '@/utils.js';
-import DividerHorizontal from '@/elements/DividerHorizontal';
-import IndicatorPulse from '@/elements/IndicatorPulse';
-import SecondaryButton from '@/elements/SecondaryButton';
-import Avatar from './elements/Avatar.vue';
-import Logo from '@/partials/Logo';
-import Login from '@/partials/Login';
-import SignUp from '@/modals/SignUp';
-import PasswordReset from '@/modals/PasswordReset';
-import UserUnconfirmed from '@/partials/UserUnconfirmed';
-import UserUnverified from '@/partials/UserUnverified';
-import SongSet from '@/modals/SongSet';
-import SetlistSet from '@/modals/SetlistSet';
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { collection, onSnapshot } from "firebase/firestore";
+import { notify } from '@kyvg/vue3-notification';
+import { ref, reactive, computed, inject, onMounted } from 'vue';
+import { useI18n } from "vue-i18n";
+import { useRoute } from 'vue-router';
+import { userRoles, throwError } from '@/utils.js';
+import Avatar from './elements/Avatar.vue';
+import DividerHorizontal from '@/elements/DividerHorizontal';
+import firebase from 'firebase/compat/app';
+import IndicatorPulse from '@/elements/IndicatorPulse';
+import Login from '@/partials/Login';
+import Logo from '@/partials/Logo';
+import PasswordReset from '@/modals/PasswordReset';
+import SecondaryButton from '@/elements/SecondaryButton';
+import SetlistSet from '@/modals/SetlistSet';
+import SignUp from '@/modals/SignUp';
+import SongSet from '@/modals/SongSet';
+import UserUnconfirmed from '@/partials/UserUnconfirmed';
+import UserUnverified from '@/partials/UserUnverified';
+
+// icons
 import {
-	appsSharp,
-	addSharp,
-	bookOutline,
-	bulbOutline,
-	closeOutline,
-	heartOutline,
-	list,
-	logoGithub,
-	logOutOutline,
-	menu,
-	musicalNotesSharp,
-	openOutline,
-	optionsOutline,
-} from 'ionicons/icons';
-import { 
+	BookIcon,
+	BrandGithubIcon,
+	BulbIcon,
+	ExternalLinkIcon,
+	HeartIcon,
+	LayoutGridIcon,
 	LicenseIcon,
+	LogoutIcon,
+	Menu2Icon,
+	MusicIcon,
+	PlaylistIcon,
+	PlusIcon,
+	SettingsIcon,
+	XIcon,
 } from "vue-tabler-icons";
+
+// component constants
 const { t } = useI18n();
 const route = useRoute();
 
 // global properties
 const db = inject('db');
 
-// reactive data: db tables / collections
+// db table collections
 const c = reactive({
 	config: {},
 	languages: {},
@@ -364,7 +366,7 @@ const newSetlist = reactive({
 	date: '',
 	songs: [],
 });
-// authentification
+// authentication
 const auth = reactive({
 	confirmed: null,
 	ready: false,
@@ -531,9 +533,9 @@ const sendPasswordReset = (email) => {
 	}).catch((error) => throwError(error));
 };
 
-// handle mount hooks
+// initially check authentication
 onMounted(() => {
-	// add listener for authentification state
+	// add listener for authentication state
 	firebase.auth().onAuthStateChanged(user => {
 		if (user) {
 			// load app config on auth change only when not explicitly loading
