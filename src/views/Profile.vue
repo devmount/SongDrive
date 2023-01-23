@@ -20,16 +20,16 @@
 					</div>
 				</div>
 				<div v-if="users[user].email" class="flex items-center gap-2">
-					<ion-icon :icon="mailOutline" class="w-6 h-6" :title="t('field.email')" />
+					<mail-icon class="w-6 h-6 stroke-1.5" :title="t('field.email')" />
 					<div>{{ users[user].email }}</div>
 				</div>
 				<div v-if="users[user].photo" class="flex items-center gap-2">
-					<ion-icon :icon="cameraOutline" class="w-6 h-6" :title="t('field.photo')" />
+					<camera-icon class="w-6 h-6 stroke-1.5" :title="t('field.photo')" />
 					<div class="truncate">{{ users[user].photo }}</div>
 				</div>
 				<link-button v-if="role" @click="router.push({ name: 'settings' })">
 					{{ t('widget.showAllSettings') }}
-					<ion-icon :icon="arrowForward" class="ml-4" />
+					<arrow-right-icon class="ml-4 stroke-1.5" />
 				</link-button>
 			</panel>
 			<div v-if="role > 1" class="flex flex-wrap gap-8 w-full justify-evenly col-span-2">
@@ -53,40 +53,29 @@
 				</div>
 			</div>
 		</div>
-		<!-- not logged in -->
-		<div v-if="ready.users && !user" class="columns">
-			<div class="column col-">
-				<div class="empty">
-					<div class="empty-icon">
-						<ion-icon :icon="eyeOffOutline" class="icon-4x" />
-					</div>
-					<p class="empty-title h5">{{ t('text.pageNotAvailable') }}</p>
-					<p class="empty-subtitle">{{ t('text.signInForAccess') }}</p>
-				</div>
-			</div>
-		</div>
 	</div>
 </template>
 
 <script setup>
-import Panel from '@/elements/Panel.vue';
-import LinkButton from '@/elements/LinkButton.vue';
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useI18n } from "vue-i18n";
-import { initials } from '@/utils.js';
-import { 
-	arrowForward,
-	cameraOutline,
-	eyeOffOutline,
-	mailOutline,
-	person
-} from 'ionicons/icons';
+import { useRouter } from 'vue-router';
 import Avatar from '@/elements/Avatar.vue';
+import LinkButton from '@/elements/LinkButton.vue';
+import Panel from '@/elements/Panel.vue';
+
+// icons
+import {
+	ArrowRightIcon,
+	CameraIcon,
+	MailIcon
+} from "vue-tabler-icons";
+
+// component constants
 const router = useRouter();
 const { t } = useI18n();
 
-// inherited properties
+// component properties
 const props = defineProps({
   setlists: Object,
   user:     String,
@@ -96,8 +85,10 @@ const props = defineProps({
   ready:    Object,
 });
 
-// computed
+// number of setlists owned by current user
 const setlistsFromUser = computed(() => Object.filter(props.setlists, s => s.creator == props.user));
+
+// number of songs on those setlists
 const songsFromUser = computed(() => {
 	let list = setlistsFromUser.value;
 	return Object.keys(list).reduce((previous, key) => previous + list[key].songs.length, 0);
