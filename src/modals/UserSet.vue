@@ -7,7 +7,7 @@
 		<div class="flex flex-col gap-2">
 			<!-- name -->
 			<label class="flex flex-col gap-1">
-				<div>{{ t('field.newEmail') }} <span class="text-rose-600">*</span></div>
+				<div>{{ t('field.name') }} <span class="text-rose-600">*</span></div>
 				<input
 					type="text"
 					v-model="user.name"
@@ -55,8 +55,7 @@
 			<label class="flex flex-col gap-1">
 				<div>{{ t('field.role') }} <span class="text-rose-600">*</span></div>
 				<select v-model="permission.role" required>
-					<option value="" disabled selected>{{ t('placeholder.select') }}</option>
-					<option v-for="(r, k) in userRoles" :key="k" :value="k">{{ t('role.' + k) }}</option>
+					<option v-for="(_, k) in userRoles" :key="k" :value="k">{{ t('role.' + k) }}</option>
 				</select>
 			</label>
 			<divider-horizontal />
@@ -92,22 +91,23 @@
 </template>
 
 <script setup>
-import DividerHorizontal from '@/elements/DividerHorizontal';
-import PrimaryButton from '@/elements/PrimaryButton';
-import Modal from '@/elements/Modal';
-import { ref, reactive, computed, inject } from 'vue';
-import { useI18n } from "vue-i18n";
-import { notify } from '@kyvg/vue3-notification';
 import { addOutline, saveOutline } from 'ionicons/icons';
-import firebase from 'firebase/compat/app';
+import { notify } from '@kyvg/vue3-notification';
+import { reactive, computed, inject, onMounted, watch } from 'vue';
+import { useI18n } from "vue-i18n";
 import { userRoles, throwError, randomString } from '@/utils.js';
+import DividerHorizontal from '@/elements/DividerHorizontal';
+import firebase from 'firebase/compat/app';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
 const { t } = useI18n();
 const examplePassword = randomString(8);
 
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active: Boolean,     // state of modal display, true to show modal
 	userId: String,      // user id, if user or registration exists
@@ -116,14 +116,32 @@ const props = defineProps({
 	state: String,       // user state: confirmed | registered | new
 });
 
-// reactive data
-const user = ref(JSON.parse(JSON.stringify(props.initialUser)));
-const permission = reactive({
-	role: props.role
+// user input data
+const user = reactive({
+	name: '',
+	email: '',
+	password: ''
 });
+const permission = reactive({
+	role: ''
+});
+const initInput = () => {
+	user.name = props.initialUser.name;
+	user.email = props.initialUser.email;
+	permission.role = props.role;
+};
+onMounted(() => initInput());
+watch(() => props.active, () => initInput());
+
+// admin password for confirmation
 const admin = reactive({
 	password: ''
 });
+
+// component emits
+const emit = defineEmits(['started', 'closed']);
+
+// computed: calculate if any form errors occured
 const error = reactive({
 	name: false,
 	email: false,
@@ -141,11 +159,6 @@ const errorsPassword = computed(() => (
 	error.password.missing ||
 	error.password.tooshort
 ));
-
-// emits
-const emit = defineEmits(['started', 'closed']);
-
-// computed: calculate wether form errors occured
 const errors = computed(() => (
 	error.name ||
 	error.email ||
@@ -158,10 +171,10 @@ const errors = computed(() => (
 // save user object to database
 const setUser = () => {
 	// first check for form errors
-	error.name = user.value.name == '';
-	error.email = user.value.email == '';
-	error.password.missing = props.state == 'new' && user.value.password == '';
-	error.password.tooshort = props.state == 'new' && user.value.password.length < 8;
+	error.name = user.name == '';
+	error.email = user.email == '';
+	error.password.missing = props.state == 'new' && user.password == '';
+	error.password.tooshort = props.state == 'new' && user.password?.length < 8;
 	error.role = permission.role == '';
 	error.currentpassword.missing = props.state == 'new' && admin.password == '';
 	// no errors: send submitted user data and close modal
@@ -172,8 +185,8 @@ const setUser = () => {
 			db.collection('permissions').doc(props.userId).update(permission).then(() => {
 				// permissions updated successfully, now update user
 				db.collection('users').doc(props.userId).update({
-					name: user.value.name,
-					email: user.value.email,
+					name: user.name,
+					email: user.email,
 				}).then(() => {
 					emit('closed');
 					notify({
@@ -190,8 +203,8 @@ const setUser = () => {
 			db.collection('permissions').doc(props.userId).set(permission).then(() => {
 				// permissions updated successfully, now create user
 				db.collection('users').doc(props.userId).set({
-					name: user.value.name,
-					email: user.value.email,
+					name: user.name,
+					email: user.email,
 				}).then(() => {
 					// user created successfully, now delete registration
 					db.collection('registrations').doc(props.userId).delete().then(() => {
@@ -213,7 +226,7 @@ const setUser = () => {
 			adminUser.reauthenticateWithCredential(credential).then(() => {
 				emit('started');
 				// create firebase user, this automatically signs in as the new user
-				firebase.auth().createUserWithEmailAndPassword(user.value.email, user.value.password).then(() => {
+				firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
 					// get new user id as long as still logged in as the new user
 					const userId = firebase.auth().currentUser.uid;
 					// send verification email to new user
@@ -226,8 +239,8 @@ const setUser = () => {
 								db.collection('permissions').doc(userId).set(permission).then(() => {
 									// permissions created successfully, now create user doc in users collection
 									db.collection('users').doc(userId).set({
-										name: user.value.name,
-										email: user.value.email,
+										name: user.name,
+										email: user.email,
 									}).then(() => {
 										// finally finished! Close modal and toast success
 										emit('closed');

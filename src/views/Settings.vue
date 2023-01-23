@@ -144,20 +144,14 @@
 					<secondary-button
 						class="absolute top-0 right-0"
 						:title="t('modal.addUser')"
-						@click="
-							active.userId = '';
-							active.user = { name: '', email: '', password: '' };
-							active.role = 'reader';
-							active.state = 'new';
-							modal.userset = true;
-						"
+						@click="addUser"
 					>
 						<ion-icon :icon="addOutline" class="w-6 h-6" />
 					</secondary-button>
 				</div>
 				<div class="flex flex-col">
 					<div
-						v-for="(u, k) in users" :key="k"
+						v-for="u in sortedUsers" :key="u.id"
 						class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
 					>
 						<avatar class="shrink-0" :photo-url="u.photo" :name="u.name" size="md" />
@@ -165,8 +159,8 @@
 							<div class="-mt-1 truncate">{{ u.name }}</div>
 							<div class="text-sm text-blade-500 -mt-1 truncate">{{ u.email }}</div>
 						</div>
-						<div v-if="permissions[k]" class="self-center rounded-sm bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
-							{{ t('role.' + permissions[k].role) }}
+						<div v-if="permissions[u.id]" class="self-center rounded-sm bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
+							{{ t('role.' + permissions[u.id].role) }}
 						</div>
 						<a
 							:href="'mailto:' + u.email + '?' + confirmationMail(u.name)"
@@ -178,13 +172,7 @@
 						<button
 							class="flex items-center text-spring-600 hover:bg-opacity-80"
 							:title="t('modal.editUser')"
-							@click.prevent="
-								active.userId = k;
-								active.user = u;
-								active.role = permissions[k].role;
-								active.state = 'confirmed';
-								modal.userset = true;
-							"
+							@click.prevent="editUser(u)"
 						>
 							<ion-icon :icon="createOutline" class="w-5 h-5" />
 						</button>
@@ -192,7 +180,7 @@
 							v-if="numberOfUsers > 1"
 							class="flex items-center text-rose-600 hover:bg-opacity-80"
 							:title="t('modal.deleteUser')"
-							@click.prevent="active.user=u; active.key=k; active.approved=true; modal.userdelete=true"
+							@click.prevent="active.user=u; active.key=u.id; active.approved=true; modal.userdelete=true"
 						>
 							<ion-icon :icon="personRemoveOutline" class="w-5 h-5" />
 						</button>
@@ -225,13 +213,7 @@
 						<button
 							class="flex items-center text-spring-600 hover:bg-opacity-80"
 							:title="t('tooltip.approveUser')"
-							@click.prevent="
-								active.userId = k;
-								active.user = r;
-								active.role = 'reader';
-								active.state = 'registered';
-								modal.userset = true;
-							"
+							@click.prevent="addRegistration"
 						>
 							<ion-icon :icon="personAddOutline" class="w-5 h-5" />
 						</button>
@@ -386,8 +368,8 @@
 	<!-- modal: set user -->
 	<user-set
 		:active="modal.userset"
-		:userId="active.userId"
-		:initialUser="active.user"
+		:user-id="active.userId"
+		:initial-user="active.user"
 		:role="active.role"
 		:state="active.state"
 		@started="emit('started')"
@@ -396,7 +378,7 @@
 	<!-- modal: delete user -->
 	<user-delete
 		:active="modal.userdelete"
-		:userName="active.user.name"
+		:user-name="active.user.name"
 		:userKey="active.key"
 		:approved="active.approved"
 		:users="users"
@@ -407,15 +389,15 @@
 	<language-set
 		:active="modal.languageset"
 		:existing="active.existing"
-		:initialLanguage="active.language"
-		:languageKey="active.key"
+		:initial-language="active.language"
+		:language-key="active.key"
 		@closed="modal.languageset = false"
 	/>
 	<!-- modal: delete language -->
 	<language-delete
 		:active="modal.languagedelete"
-		:languageName="active.language.label"
-		:languageKey="active.key"
+		:language-name="active.language.label"
+		:language-key="active.key"
 		:songs="songs"
 		@closed="modal.languagedelete = false"
 	/>
@@ -423,9 +405,9 @@
 	<tag-set
 		:active="modal.tagset"
 		:existing="active.existing"
-		:initialTag="active.tag"
-		:tagKey="active.key"
-		:uiLanguages="uiLanguages"
+		:initial-tag="active.tag"
+		:tag-key="active.key"
+		:ui-languages="uiLanguages"
 		@closed="modal.tagset = false"
 	/>
 	<!-- modal: import data -->
@@ -601,6 +583,30 @@ const confirmationMail = (name) => {
 	return 'subject=' + encodeURIComponent(t('text.confirmationSubject'))
 		+ '&body=' + encodeURIComponent(t('text.confirmationBody', [name, window.location.origin]))
 };
+const addUser = () => {
+	active.userId = '';
+	active.user.name = '';
+	active.user.email = '';
+	active.role = 'reader';
+	active.state = 'new';
+	modal.userset = true;
+};
+const editUser = (user) => {
+	active.userId = user.id;
+	active.user.name = user.name;
+	active.user.email = user.email;
+	active.role = props.permissions[user.id].role;
+	active.state = 'confirmed';
+	modal.userset = true;
+};
+const addRegistration = (user, id) => {
+	active.userId = id;
+	active.user.name = user.name;
+	active.user.email = user.email;
+	active.role = 'reader';
+	active.state = 'registered';
+	modal.userset = true;
+};
 const exportDb = () => {
 	let data = {
 		'config': configuration,
@@ -638,6 +644,16 @@ const numberOfLanguages = computed(() => {
 });
 const numberOfUsers = computed(() => {
 	return Object.keys(props.users).length;
+});
+const sortedUsers = computed(() => {
+	const users = [];
+	for (const id in props.users) {
+		if (Object.hasOwnProperty.call(props.users, id)) {
+			users.push({ id: id, ...props.users[id] });
+		}
+	}
+	users.sort((a,b) => a.name > b.name);
+	return users;
 });
 
 // watcher
