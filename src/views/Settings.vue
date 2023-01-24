@@ -187,7 +187,7 @@
 					</div>
 				</div>
 				<div v-if="Object.keys(registrations).length == 0" class="flex flex-col justify-center items-center gap-2">
-					<checkbox-icon class="text-blade-500 w-12 h-12 stroke-1.5" />
+					<checkbox-icon class="text-blade-500 w-12 h-12 stroke-1" />
 					<p class="text-xl uppercase font-light tracking-widest">{{ t('text.noUnconfirmedUsers') }}</p>
 					<p class="text-blade-500">{{ t('text.goodWork') }}</p>
 				</div>

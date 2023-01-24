@@ -37,7 +37,7 @@
 
 /* key caps */
 kbd > * {
-  @apply align-middle
+  @apply align-middle inline
 }
 
 /* generated markdown */
