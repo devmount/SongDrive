@@ -4,8 +4,8 @@
 			<!-- file selection -->
 			<div class="flex gap-4">
 				<div class="flex flex-col items-center">
-					<ion-icon v-if="fileSelected" :icon="checkmarkCircleOutline" class="w-6 h-6 text-spring-600" />
-					<ion-icon v-else :icon="ellipseOutline" class="w-6 h-6 text-spring-700" />
+					<circle-check-icon v-if="fileSelected" class="w-6 h-6 text-spring-600" />
+					<circle-dashed-icon v-else class="w-6 h-6 text-spring-700" />
 					<div
 						class="w-px mt-1 grow -mb-3"
 						:class="{ 'bg-spring-700': fileSelected, 'bg-blade-700': !fileSelected }
@@ -27,8 +27,8 @@
 			<!-- start import -->
 			<div class="flex gap-4">
 				<div class="flex flex-col items-center">
-					<ion-icon v-if="progress.started" :icon="checkmarkCircleOutline" class="w-6 h-6 text-spring-600" />
-					<ion-icon v-else :icon="ellipseOutline" class="w-6 h-6 text-spring-700" />
+					<circle-check-icon v-if="progress.started" class="w-6 h-6 text-spring-600" />
+					<circle-dashed-icon v-else class="w-6 h-6 text-spring-700" />
 					<div
 						class="w-px mt-1 grow -mb-3"
 						:class="{ 'bg-spring-700': progress.started, 'bg-blade-700': !progress.started }
@@ -46,8 +46,8 @@
 			<!-- import progress and result -->
 			<div class="flex gap-4">
 				<div class="flex flex-col items-center">
-					<ion-icon v-if="progress.finished" :icon="checkmarkCircleOutline" class="w-6 h-6 text-spring-600" />
-					<ion-icon v-else :icon="ellipseOutline" class="w-6 h-6 text-spring-700" />
+					<circle-check-icon v-if="progress.finished" class="w-6 h-6 text-spring-600" />
+					<circle-dashed-icon v-else class="w-6 h-6 text-spring-700" />
 				</div>
 				<div class="flex flex-col gap-2 w-full">
 					<div :class="{ 'text-blade-600': !progress.started }">{{ t('text.importResult', [progress.imported]) }}</div>
@@ -65,19 +65,27 @@
 			</button>
 			<primary-button :disabled="!progress.finished" @click="emit('closed')">
 				{{ t('button.done') }}
-				<ion-icon :icon="checkmarkOutline" class="w-6 h-6" />
+				<check-icon class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
 </template>
 
 <script setup>
-import PrimaryButton from '@/elements/PrimaryButton';
-import Modal from '@/elements/Modal';
+import { humanFileSize } from '@/utils.js';
 import { ref, reactive, computed, inject } from 'vue';
 import { useI18n } from "vue-i18n";
-import { humanFileSize } from '@/utils.js';
-import { checkmarkOutline, checkmarkCircleOutline, ellipseOutline } from 'ionicons/icons';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { 
+	CheckIcon,
+	CircleCheckIcon,
+	CircleDashedIcon,
+} from "vue-tabler-icons";
+
+// component constants
 const { t } = useI18n();
 
 
