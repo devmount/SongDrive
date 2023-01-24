@@ -9,13 +9,13 @@
 					:disabled="isFirstPage"
 					@click="!isFirstPage ? page-- : null"
 				>
-					<ion-icon :icon="arrowBack" />
+					<arrow-left-icon />
 				</secondary-button>
 				<secondary-button
 					:disabled="isLastPage"
 					@click="!isLastPage ? page++ : null"
 				>
-					<ion-icon :icon="arrowForward" />
+					<arrow-right-icon />
 				</secondary-button>
 			</div>
 		</div>
@@ -39,7 +39,7 @@
 						:title="t('title.songOccuredOn', { num: song.popularity })"
 					>
 						<div class="-mt-0.5">{{ song.popularity }}</div>
-						<ion-icon :icon="closeOutline" class="w-3 h-3 -mr-1" />
+						<x-icon class="w-3 h-3 stroke-2 -mr-1" />
 					</figure>
 					<figure
 						v-if="order == sortBy.newest || order == sortBy.oldest"
@@ -57,46 +57,50 @@
 		</div>
 		<div class="flex flex-wrap gap-1">
 			<secondary-button @click="shuffleSongs">
-				<ion-icon :icon="shuffle" />
+				<arrows-shuffle-icon />
 				{{ t('button.shuffle') }}
 			</secondary-button>
 			<secondary-button v-if="order != sortBy.newest" @click="newestSongs">
-				<ion-icon :icon="arrowUp" />
+				<arrow-up-icon />
 				{{ t('widget.newest') }}
 			</secondary-button>
 			<secondary-button v-if="order == sortBy.newest" @click="oldestSongs">
-				<ion-icon :icon="arrowDown" />
+				<arrow-down-icon />
 				{{ t('widget.oldest') }}
 			</secondary-button>
 			<secondary-button v-if="setlists?.length > 0" @click="popularSongs">
-				<ion-icon :icon="trendingUp" />
+				<trending-up-icon />
 				{{ t('widget.popular') }}
 			</secondary-button>
 		</div>
 		<link-button class="mt-auto" @click="router.push({ name: 'songs' })">
 			{{ t('widget.showAllSongs') }}
-			<ion-icon :icon="arrowForward" />
+			<arrow-right-icon />
 		</link-button>
 	</panel>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { useI18n } from "vue-i18n";
-import {
-	arrowBack,
-	arrowDown,
-	arrowForward,
-	arrowUp,
-	closeOutline,
-	shuffle,
-	trendingUp
-} from 'ionicons/icons';
-import Panel from '@/elements/Panel.vue';
-import LinkButton from '@/elements/LinkButton.vue';
-import SecondaryButton from '@/elements/SecondaryButton.vue';
 import { keyByValue } from "@/utils";
+import { ref, computed } from 'vue';
+import { useI18n } from "vue-i18n";
+import { useRouter } from 'vue-router';
+import LinkButton from '@/elements/LinkButton.vue';
+import Panel from '@/elements/Panel.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+
+// icons
+import {
+	ArrowDownIcon,
+	ArrowLeftIcon,
+	ArrowRightIcon,
+	ArrowUpIcon,
+	ArrowsShuffleIcon,
+	TrendingUpIcon,
+	XIcon,
+} from "vue-tabler-icons";
+
+// component constants
 const router = useRouter();
 const { t } = useI18n();
 
