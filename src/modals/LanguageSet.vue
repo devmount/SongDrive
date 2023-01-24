@@ -35,26 +35,31 @@
 			<primary-button class="grow" @click="setLanguage">
 				<span v-if="!existing">{{ t('button.addLanguage') }}</span>
 				<span v-else>{{ t('button.updateLanguage') }}</span>
-				<ion-icon :icon="!existing ? addOutline : saveOutline" class="w-6 h-6" />
+				<plus-icon v-if="!existing" class="w-6 h-6 stroke-1.5" />
+				<device-floppy-icon v-else class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
 </template>
 
 <script setup>
-import PrimaryButton from '@/elements/PrimaryButton';
-import Modal from '@/elements/Modal';
-import { ref, reactive, computed, inject } from 'vue';
-import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
-import { addOutline, saveOutline } from 'ionicons/icons';
+import { ref, reactive, computed, inject, onMounted, watch } from 'vue';
 import { throwError } from '@/utils.js';
+import { useI18n } from "vue-i18n";
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { PlusIcon, DeviceFloppyIcon } from "vue-tabler-icons";
+
+// component constants
 const { t } = useI18n();
 
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active: Boolean,         // state of modal display, true to show modal
 	initialLanguage: Object, // initial language object to fill with data
@@ -62,20 +67,27 @@ const props = defineProps({
 	languageKey: String,     // language code
 });
 
-// reactive data
-const isocode = ref(props.languageKey);
-const language = ref(JSON.parse(JSON.stringify(props.initialLanguage)));
-const error = reactive({
-	label: false,
-	isocode: false,
-});
+// language input data
+const isocode = ref('');
+const language = ref({});
+const initInput = () => {
+	isocode.value = props.languageKey;
+	language.value = {...props.initialLanguage};
+};
+onMounted(() => initInput());
+watch(() => props.active, () => initInput());
 
 // emits
 const emit = defineEmits(['closed']);
 
 // computed: calculate wether form errors occured
+const error = reactive({
+	label: false,
+	isocode: false,
+});
 const errors = computed(() => (error.label || error.isocode));
 
+// save changes
 const setLanguage = () => {
 	// first check for form errors
 	error.label = language.value.label == '';
