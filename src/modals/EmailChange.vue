@@ -48,38 +48,47 @@
 			</button>
 			<primary-button class="grow" type="danger" @click="setEmail">
 				{{ t('button.changeEmail') }}
-				<ion-icon :icon="saveOutline" class="w-6 h-6" />
+				<device-floppy-icon class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
 </template>
 
 <script setup>
-import DividerHorizontal from '@/elements/DividerHorizontal';
-import PrimaryButton from '@/elements/PrimaryButton';
-import Modal from '@/elements/Modal';
-import { reactive, computed, inject } from 'vue';
-import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
-import { saveOutline } from 'ionicons/icons';
-import firebase from 'firebase/compat/app';
+import { reactive, computed, inject } from 'vue';
 import { throwError } from '@/utils.js';
+import { useI18n } from "vue-i18n";
+import DividerHorizontal from '@/elements/DividerHorizontal';
+import firebase from 'firebase/compat/app';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { DeviceFloppyIcon } from "vue-tabler-icons";
+
+// component constants
 const { t } = useI18n();
 
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active: Boolean // state of modal display, true to show modal
 });
 
-// reactive data
+// user input data
 const user = reactive({
 	email: '',
 	repeat: '',
 	currentpassword: ''
 });
+
+// emits
+const emit = defineEmits(['closed']);
+
+// calculate wether form errors occured
 const error = reactive({
 	email: {
 		missing: false,
@@ -91,12 +100,6 @@ const error = reactive({
 		wrong: false,
 	}
 });
-
-// emits
-const emit = defineEmits(['closed']);
-
-// computed
-// calculate wether form errors occured
 const errors = computed(() => (
 	error.email.missing ||
 	error.email.mismatch ||
@@ -104,7 +107,6 @@ const errors = computed(() => (
 	error.currentpassword.missing
 ));
 
-// methods
 // save user object to database
 const setEmail = () => {
 	const currentUser = firebase.auth().currentUser;
