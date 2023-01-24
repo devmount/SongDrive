@@ -15,26 +15,30 @@
 			</button>
 			<primary-button class="grow" type="danger" :disabled="languageInUse" @click="deleteLanguage">
 				{{ t('button.delete') }}
-				<ion-icon :icon="trashOutline" class="w-6 h-6" />
+				<trash-icon class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
 </template>
 
 <script setup>
-import PrimaryButton from '@/elements/PrimaryButton';
-import Modal from '@/elements/Modal';
 import { computed, inject } from 'vue';
-import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
-import { trashOutline } from 'ionicons/icons';
 import { throwError } from '@/utils.js';
+import { useI18n } from "vue-i18n";
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { TrashIcon } from "vue-tabler-icons";
+
+// component constants
 const { t } = useI18n();
 
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active: Boolean,      // state of modal display, true to show modal
 	languageName: String, // name of language to delete
@@ -45,7 +49,7 @@ const props = defineProps({
 // emits
 const emit = defineEmits(['closed']);
 
-// computed
+// true if there are still songs assigned to this language
 const languageInUse = computed(() => {
 	for (const id in props.songs) {
 		if (Object.hasOwnProperty.call(props.songs, id)) {
@@ -57,7 +61,7 @@ const languageInUse = computed(() => {
 	return false;
 });
 
-// methods
+// remove language from collection
 const deleteLanguage = () => {
 	if (!languageInUse.value) {
 		db.collection('languages').doc(props.languageKey).delete().then(() => {
