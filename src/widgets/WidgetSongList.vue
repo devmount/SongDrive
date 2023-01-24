@@ -101,8 +101,8 @@ import {
 } from "vue-tabler-icons";
 
 // component constants
-const router = useRouter();
 const { t } = useI18n();
+const router = useRouter();
 
 // component properties
 const props = defineProps({

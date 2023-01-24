@@ -9,13 +9,13 @@
 					:disabled="isFirstPage"
 					@click="!isFirstPage ? page-- : null"
 				>
-					<ion-icon :icon="arrowBack" />
+					<arrow-left-icon />
 				</secondary-button>
 				<secondary-button
 					:disabled="isLastPage"
 					@click="!isLastPage ? page++ : null"
 				>
-					<ion-icon :icon="arrowForward" />
+					<arrow-right-icon />
 				</secondary-button>
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 						:title="t('title.songOccuredOn', { num: obj.count })"
 					>
 						<div class="-mt-0.5">{{ obj.count }}</div>
-						<ion-icon :icon="closeOutline" class="w-3 h-3 -mr-1" />
+						<x-icon class="w-3 h-3 stroke-2 -mr-1" />
 					</figure>
 				</div>
 				<div class="flex flex-col overflow-hidden">
@@ -49,25 +49,29 @@
 		</div>
 		<link-button class="mt-auto" @click="router.push({ name: 'songs' })">
 			{{ t('widget.showAllSongs') }}
-			<ion-icon :icon="arrowForward" />
+			<arrow-right-icon />
 		</link-button>
 	</panel>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useI18n } from "vue-i18n";
-import {
-	arrowBack,
-	arrowForward,
-	closeOutline,
-} from 'ionicons/icons';
-import Panel from '@/elements/Panel.vue';
+import { useRouter } from 'vue-router';
 import LinkButton from '@/elements/LinkButton.vue';
+import Panel from '@/elements/Panel.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
-const router = useRouter();
+
+// icons
+import {
+	ArrowLeftIcon,
+	ArrowRightIcon,
+	XIcon,
+} from "vue-tabler-icons";
+
+// component constants
 const { t } = useI18n();
+const router = useRouter();
 
 // component properties
 const props = defineProps({
