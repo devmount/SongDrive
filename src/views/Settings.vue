@@ -11,7 +11,7 @@
 			<!-- profile -->
 			<panel>
 				<div class="flex flex-col items-center">
-					<ion-icon :icon="personOutline" class="w-8 h-8 mb-2" />
+					<user-icon class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ t('page.profile') }}</div>
 					<div class="text-blade-500">{{ t('text.customizeProfile') }}</div>
 				</div>
@@ -28,10 +28,10 @@
 						<div class="flex gap-4">
 							<span>{{ t('field.email') }}</span>
 							<span v-if="userObject.emailVerified" class="flex items-center gap-1 text-spring-600">
-								<ion-icon :icon="checkmarkOutline" /> {{ t('text.verified') }}
+								<check-icon class="stroke-1.5" /> {{ t('text.verified') }}
 							</span>
 							<span v-else class="flex items-center gap-1 text-rose-500">
-								<ion-icon :icon="closeOutline" /> {{ t('text.unverified') }}
+								<x-icon class="stroke-1.5" /> {{ t('text.unverified') }}
 							</span>
 						</div>
 						<div class="flex">
@@ -49,8 +49,8 @@
 								@click="!verificationResend ? resendEmailVerification() : null"
 							>
 								{{ t('button.verify') }}
-								<ion-icon v-if="!verificationResend" :icon="sendOutline" />
-								<ion-icon v-else :icon="checkmarkOutline" />
+								<send-icon v-if="!verificationResend" class="stroke-1.5" />
+								<check-icon v-else class="stroke-1.5" />
 							</secondary-button>
 						</div>
 					</label>
@@ -69,13 +69,13 @@
 				</div>
 				<secondary-button @click="updateProfile" class="mt-auto self-start">
 					{{ t('button.saveProfile') }}
-					<ion-icon :icon="saveOutline" class="w-6 h-6" />
+					<device-floppy-icon class="w-6 h-6 stroke-1.5" />
 				</secondary-button>
 			</panel>
 			<!-- SongDrive UI -->
 			<panel v-if="ready.languages">
 				<div class="flex flex-col items-center">
-					<ion-icon :icon="colorPaletteOutline" class="w-8 h-8 mb-2" />
+					<palette-icon class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.appearance') }}</div>
 					<div class="text-blade-500">{{ t('text.customizeUi') }}</div>
 				</div>
@@ -93,7 +93,7 @@
 			<!-- account -->
 			<panel>
 				<div class="flex flex-col items-center">
-					<ion-icon :icon="keyOutline" class="w-8 h-8 mb-2" />
+					<key-icon class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ t('divider.account') }}</div>
 					<div class="text-blade-500">{{ t('text.changeAccount') }}</div>
 				</div>
@@ -103,7 +103,7 @@
 						<div class="text-blade-500">{{ t('text.renewYourPassword') }}</div>
 						<secondary-button @click="modal.passwordchange = true" class="mt-2">
 							{{ t('button.changePassword') }}
-							<ion-icon :icon="keyOutline" class="w-6 h-6" />
+							<key-icon class="w-6 h-6 stroke-1.5" />
 						</secondary-button>
 					</div>
 					<zone-danger :label="t('text.dangerZone')">
@@ -112,7 +112,7 @@
 							<div class="text-blade-500">{{ t('text.changeToAnotherEmail') }}</div>
 							<secondary-button @click="modal.emailchange = true" type="danger" class="mt-2">
 								{{ t('button.changeEmail') }}
-								<ion-icon :icon="keyOutline" class="w-6 h-6" />
+								<key-icon class="w-6 h-6 stroke-1.5" />
 							</secondary-button>
 						</div>
 						<div>
@@ -120,7 +120,7 @@
 							<div class="text-blade-500">{{ t('text.deleteYourAccount') }}</div>
 							<secondary-button @click="modal.accountdelete = true" type="danger" class="mt-2">
 								{{ t('button.deleteAccount') }}
-								<ion-icon :icon="trashOutline" class="w-6 h-6" />
+								<trash-icon class="w-6 h-6 stroke-1.5" />
 							</secondary-button>
 						</div>
 					</zone-danger>
@@ -138,7 +138,7 @@
 			<!-- user administration -->
 			<panel>
 				<div class="relative flex flex-col items-center">
-					<ion-icon :icon="peopleOutline" class="w-8 h-8 mb-2" />
+					<users-icon class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ Object.keys(users).length }} {{ t('widget.users') }}</div>
 					<div class="text-blade-500">{{ t('text.manageConfirmedUsers') }}</div>
 					<secondary-button
@@ -146,7 +146,7 @@
 						:title="t('modal.addUser')"
 						@click="addUser"
 					>
-						<ion-icon :icon="addOutline" class="w-6 h-6" />
+						<plus-icon class="w-6 h-6 stroke-1.5" />
 					</secondary-button>
 				</div>
 				<div class="flex flex-col">
@@ -167,14 +167,14 @@
 							class="flex items-center text-spring-600 hover:bg-opacity-80"
 							:title="t('tooltip.sendConfirmationMail')"
 						>
-							<ion-icon :icon="mailOutline" class="w-5 h-5" />
+							<mail-icon class="w-5 h-5 stroke-1.5" />
 						</a>
 						<button
 							class="flex items-center text-spring-600 hover:bg-opacity-80"
 							:title="t('modal.editUser')"
 							@click.prevent="editUser(u)"
 						>
-							<ion-icon :icon="createOutline" class="w-5 h-5" />
+							<edit-icon class="w-5 h-5 stroke-1.5" />
 						</button>
 						<button
 							v-if="numberOfUsers > 1"
@@ -182,12 +182,12 @@
 							:title="t('modal.deleteUser')"
 							@click.prevent="active.user=u; active.key=u.id; active.approved=true; modal.userdelete=true"
 						>
-							<ion-icon :icon="personRemoveOutline" class="w-5 h-5" />
+							<user-minus-icon class="w-5 h-5 stroke-1.5" />
 						</button>
 					</div>
 				</div>
 				<div v-if="Object.keys(registrations).length == 0" class="flex flex-col justify-center items-center gap-2">
-					<ion-icon :icon="checkboxOutline" class="text-blade-500 w-12 h-12" />
+					<checkbox-icon class="text-blade-500 w-12 h-12 stroke-1.5" />
 					<p class="text-xl uppercase font-light tracking-widest">{{ t('text.noUnconfirmedUsers') }}</p>
 					<p class="text-blade-500">{{ t('text.goodWork') }}</p>
 				</div>
@@ -215,14 +215,14 @@
 							:title="t('tooltip.approveUser')"
 							@click.prevent="addRegistration"
 						>
-							<ion-icon :icon="personAddOutline" class="w-5 h-5" />
+							<user-plus-icon class="w-5 h-5 stroke-1.5" />
 						</button>
 						<button
 							class="flex items-center text-rose-600 hover:bg-opacity-80"
 							:title="t('modal.deleteUser')"
 							@click.prevent="active.user=r; active.key=k; active.approved=false; modal.userdelete=true"
 						>
-							<ion-icon :icon="personRemoveOutline" class="w-5 h-5" />
+							<user-minus-icon class="w-5 h-5 stroke-1.5" />
 						</button>
 					</div>
 				</div>
@@ -230,7 +230,7 @@
 			<!-- language administration -->
 			<panel>
 				<div class="relative flex flex-col items-center">
-					<ion-icon :icon="languageOutline" class="w-8 h-8 mb-2" />
+					<language-icon class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">
 						{{ t('widget.languages', numberOfLanguages, [numberOfLanguages]) }}
 					</div>
@@ -240,7 +240,7 @@
 						:title="t('modal.addLanguage')"
 						@click="active.language={ label: '' }; active.key=''; active.existing=false; modal.languageset=true"
 					>
-						<ion-icon :icon="addOutline" class="w-6 h-6" />
+						<plus-icon class="w-6 h-6 stroke-1.5" />
 					</secondary-button>
 				</div>
 				<div class="flex flex-col">
@@ -262,14 +262,14 @@
 							:title="t('modal.editLanguage')"
 							@click="active.language=l; active.key=key; active.existing=true; modal.languageset=true"
 						>
-							<ion-icon :icon="createOutline" class="w-5 h-5" />
+							<edit-icon class="w-5 h-5 stroke-1.5" />
 						</button>
 						<button
 							class="flex items-center text-rose-600 hover:bg-opacity-80"
 							:title="t('modal.deleteLanguage')"
 							@click="active.language=l; active.key=key; modal.languagedelete=true;"
 						>
-							<ion-icon :icon="trashOutline" class="w-5 h-5" />
+							<trash-icon class="w-5 h-5 stroke-1.5" />
 						</button>
 					</div>
 				</div>
@@ -277,7 +277,7 @@
 			<!-- tag administration -->
 			<panel>
 				<div class="relative flex flex-col items-center">
-					<ion-icon :icon="pricetagsOutline" class="w-8 h-8 mb-2" />
+					<tags-icon class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">
 						{{ t('widget.tags', numberOfTags, [numberOfTags]) }}
 					</div>
@@ -287,7 +287,7 @@
 						:title="t('modal.addTag')"
 						@click="active.tag={ key: '' }; active.key=''; active.existing=false; modal.tagset=true"
 					>
-						<ion-icon :icon="addOutline" class="w-6 h-6" />
+						<plus-icon class="w-6 h-6 stroke-1.5" />
 					</secondary-button>
 				</div>
 				<div class="flex flex-wrap justify-start items-center gap-2">
@@ -301,7 +301,7 @@
 			<!-- configuration -->
 			<panel>
 				<div class="relative flex flex-col items-center">
-					<ion-icon :icon="cogOutline" class="w-8 h-8 mb-2" />
+					<settings-icon class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.configuration') }}</div>
 					<div class="text-blade-500">{{ t('text.configureApp') }}</div>
 				</div>
@@ -317,13 +317,13 @@
 				</div>
 				<secondary-button @click="updateConfig" class="mt-auto self-start">
 					{{ t('button.saveConfig') }}
-					<ion-icon :icon="saveOutline" class="w-6 h-6" />
+					<device-floppy-icon class="w-6 h-6 stroke-1.5" />
 				</secondary-button>
 			</panel>
 			<!-- backup administration -->
 			<panel>
 				<div class="flex flex-col items-center">
-					<ion-icon :icon="fileTrayOutline" class="w-8 h-8 mb-2" />
+					<server-bolt-icon class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.backup') }}</div>
 					<div class="text-blade-500">{{ t('text.exportImportData') }}</div>
 				</div>
@@ -333,7 +333,7 @@
 						<div class="text-blade-500">{{ t('text.saveAll')}}</div>
 						<secondary-button @click="exportDb" class="mt-2">
 							{{ t('button.export') }}
-							<ion-icon :icon="archiveOutline" class="w-6 h-6" />
+							<archive-icon class="w-6 h-6 stroke-1.5" />
 						</secondary-button>
 					</div>
 					<zone-danger :label="t('text.dangerZone')">
@@ -342,7 +342,7 @@
 							<div class="text-blade-500">{{ t('text.importAndOverwrite')}}</div>
 							<secondary-button @click="modal.importdata=true" type="danger" class="mt-2">
 								{{ t('button.import') }}
-								<ion-icon :icon="downloadOutline" class="w-6 h-6" />
+								<download-icon class="w-6 h-6 stroke-1.5" />
 							</secondary-button>
 						</div>
 					</zone-danger>
@@ -379,7 +379,7 @@
 	<user-delete
 		:active="modal.userdelete"
 		:user-name="active.user.name"
-		:userKey="active.key"
+		:user-key="active.key"
 		:approved="active.approved"
 		:users="users"
 		:setlists="setlists"
@@ -418,54 +418,58 @@
 </template>
 
 <script setup>
-import Panel from '@/elements/Panel';
-import ZoneDanger from '@/elements/ZoneDanger';
-import SecondaryButton from '@/elements/SecondaryButton';
-import Tag from '@/elements/Tag';
+import { download, throwError } from '@/utils.js';
+import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
-import { notify } from '@kyvg/vue3-notification';
-import { download, throwError } from '@/utils.js';
-import PasswordChange from '@/modals/PasswordChange';
-import EmailChange from '@/modals/EmailChange';
 import AccountDelete from '@/modals/AccountDelete';
-import UserSet from '@/modals/UserSet';
-import UserDelete from '@/modals/UserDelete';
-import LanguageSet from '@/modals/LanguageSet';
-import LanguageDelete from '@/modals/LanguageDelete';
-import TagSet from '@/modals/TagSet';
-import ImportData from '@/modals/ImportData';
-import firebase from 'firebase/compat/app';
-import {
-	addOutline,
-	archiveOutline,
-	checkboxOutline,
-	checkmarkOutline,
-	closeOutline,
-	cogOutline,
-	colorPaletteOutline,
-	createOutline,
-	downloadOutline,
-	fileTrayOutline,
-	keyOutline,
-	languageOutline,
-	mailOutline,
-	peopleOutline,
-	personAddOutline,
-	personOutline,
-	personRemoveOutline,
-	pricetagsOutline,
-	saveOutline,
-	sendOutline,
-	trashOutline
-} from 'ionicons/icons';
 import Avatar from '@/elements/Avatar.vue';
+import EmailChange from '@/modals/EmailChange';
+import firebase from 'firebase/compat/app';
+import ImportData from '@/modals/ImportData';
+import LanguageDelete from '@/modals/LanguageDelete';
+import LanguageSet from '@/modals/LanguageSet';
+import Panel from '@/elements/Panel';
+import PasswordChange from '@/modals/PasswordChange';
+import SecondaryButton from '@/elements/SecondaryButton';
+import Tag from '@/elements/Tag';
+import TagSet from '@/modals/TagSet';
+import UserDelete from '@/modals/UserDelete';
+import UserSet from '@/modals/UserSet';
+import ZoneDanger from '@/elements/ZoneDanger';
+
+// icons
+import {
+	ArchiveIcon,
+	CheckboxIcon,
+	CheckIcon,
+	DeviceFloppyIcon,
+	DownloadIcon,
+	EditIcon,
+	KeyIcon,
+	LanguageIcon,
+	MailIcon,
+	PaletteIcon,
+	PlusIcon,
+	SendIcon,
+	ServerBoltIcon,
+	SettingsIcon,
+	TagsIcon,
+	TrashIcon,
+	UserIcon,
+	UserMinusIcon,
+	UserPlusIcon,
+	UsersIcon,
+	XIcon,
+} from "vue-tabler-icons";
+
+// component constants
 const { t, locale, availableLocales } = useI18n({ useScope: 'global' });
 
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
   user:           String,
   userObject:     Object,
@@ -482,21 +486,29 @@ const props = defineProps({
   users:          Object,
 });
 
-// reactive data
+// remember when verification was already send
 const verificationResend = ref(false);
+
+// profile input data
 const profile = reactive({
 	name: null,
 	email: null,
 	photo: null
 });
+
+// permission input data
 const permission = reactive({
 	role: null,
 });
+
+// configuration input data
 const configuration = reactive({
 	contact: {
 		email: props.config?.contact?.email
 	}
 });
+
+// modal display state
 const modal = reactive({
 	passwordchange: false,
 	emailchange: false,
@@ -508,6 +520,8 @@ const modal = reactive({
 	tagset: false,
 	importdata: false,
 });
+
+// modal input data
 const active = reactive({
 	userId: '',
 	user: {},
@@ -523,12 +537,12 @@ const active = reactive({
 // emits
 const emit = defineEmits(['started'])
 
-// mounted
+// initially load profile data
 onMounted(() => {
 	loadProfile();
 });
 
-// methods
+// load profile data
 const loadProfile = () => {
 	if (props.ready.users && props.user) {
 		profile.name = props.users[props.user].name;
@@ -537,6 +551,7 @@ const loadProfile = () => {
 		permission.role = props.permissions[props.user].role;
 	}
 };
+
 // resend email with verification link to currently logged in user
 const resendEmailVerification = () => {
 	firebase.auth().currentUser.sendEmailVerification().then(() => {
@@ -548,6 +563,8 @@ const resendEmailVerification = () => {
 		verificationResend.value = true;
 	}).catch((error) => throwError(error));
 };
+
+// save profile data
 const updateProfile = () => {
 	props.userObject.updateProfile({
 			displayName: profile.name,
@@ -567,6 +584,8 @@ const updateProfile = () => {
 		}).catch((error) => throwError(error));
 	}, (error) => throwError(error));
 };
+
+// save configration
 const updateConfig = () => {
 	db.collection('config').doc('contact').update({
 		email: configuration.contact.email
@@ -579,10 +598,14 @@ const updateConfig = () => {
 		});
 	}).catch((error) => throwError(error));
 };
+
+// provoke confirmation mail mailto
 const confirmationMail = (name) => {
 	return 'subject=' + encodeURIComponent(t('text.confirmationSubject'))
 		+ '&body=' + encodeURIComponent(t('text.confirmationBody', [name, window.location.origin]))
 };
+
+// show modal to add user
 const addUser = () => {
 	active.userId = '';
 	active.user.name = '';
@@ -591,6 +614,8 @@ const addUser = () => {
 	active.state = 'new';
 	modal.userset = true;
 };
+
+// show modal to edit user
 const editUser = (user) => {
 	active.userId = user.id;
 	active.user.name = user.name;
@@ -599,6 +624,8 @@ const editUser = (user) => {
 	active.state = 'confirmed';
 	modal.userset = true;
 };
+
+// show modal to add new registration
 const addRegistration = (user, id) => {
 	active.userId = id;
 	active.user.name = user.name;
@@ -607,6 +634,8 @@ const addRegistration = (user, id) => {
 	active.state = 'registered';
 	modal.userset = true;
 };
+
+// show modal to export database colections
 const exportDb = () => {
 	let data = {
 		'config': configuration,
@@ -626,7 +655,7 @@ const exportDb = () => {
 	});
 };
 
-// computed
+// get ui language code and names
 const uiLanguages = computed(() => {
 	let uiLanguages = {};
 	availableLocales.forEach(key => {
@@ -636,15 +665,23 @@ const uiLanguages = computed(() => {
 	})
 	return uiLanguages;
 });
+
+// total number of song tags
 const numberOfTags = computed(() => {
 	return Object.keys(props.tags).length;
 });
+
+// total number of song languages
 const numberOfLanguages = computed(() => {
 	return Object.keys(props.languages).length;
 });
+
+// total number of users
 const numberOfUsers = computed(() => {
 	return Object.keys(props.users).length;
 });
+
+// sort user list by name
 const sortedUsers = computed(() => {
 	const users = [];
 	for (const id in props.users) {
@@ -656,7 +693,7 @@ const sortedUsers = computed(() => {
 	return users;
 });
 
-// watcher
+// update configuration
 watch(
 	() => props.config,
 	() => { configuration.contact.email = props.config.contact.email; }
