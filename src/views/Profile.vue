@@ -29,7 +29,7 @@
 				</div>
 				<link-button v-if="role" @click="router.push({ name: 'settings' })">
 					{{ t('widget.showAllSettings') }}
-					<arrow-right-icon class="ml-4 stroke-1.5" />
+					<arrow-right-icon />
 				</link-button>
 			</panel>
 			<div v-if="role > 1" class="flex flex-wrap gap-8 w-full justify-evenly col-span-2">
@@ -72,8 +72,8 @@ import {
 } from "vue-tabler-icons";
 
 // component constants
-const router = useRouter();
 const { t } = useI18n();
+const router = useRouter();
 
 // component properties
 const props = defineProps({
