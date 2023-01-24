@@ -9,13 +9,13 @@
 					:disabled="isFirstPage"
 					@click="!isFirstPage ? page-- : null"
 				>
-					<ion-icon :icon="arrowBack" />
+					<arrow-left-icon />
 				</secondary-button>
 				<secondary-button
 					:disabled="isLastPage"
 					@click="!isLastPage ? page++ : null"
 				>
-					<ion-icon :icon="arrowForward" />
+					<arrow-right-icon />
 				</secondary-button>
 			</div>
 		</div>
@@ -37,46 +37,50 @@
 				<div class="flex flex-col overflow-hidden">
 					<div class="-mt-1 flex gap-1 items-center">
 						<div class="truncate">{{ setlist.title }}</div>
-						<ion-icon v-if="setlist.private" :icon="lockClosedOutline" class="w-5 h-5 text-spring-600 mt-1" />
+						<lock-icon v-if="setlist.private" class="w-5 h-5 stroke-1.5 text-spring-600 mt-1" />
 					</div>
-					<div class="text-sm text-blade-500 -mt-1 truncate">{{ setlist.date }}</div>
+					<div class="text-sm text-blade-500 -mt-1 truncate">{{ humanDate(setlist.date, locale) }}</div>
 				</div>
 			</div>
 		</div>
 		<div class="flex flex-wrap gap-1">
 			<secondary-button v-if="order != sortBy.newest" @click="newestSetlists">
-				<ion-icon :icon="arrowUp" />
+				<arrow-up-icon />
 				{{ t('widget.newest') }}
 			</secondary-button>
 			<secondary-button v-if="order == sortBy.newest" @click="oldestSetlists">
-				<ion-icon :icon="arrowDown" />
+				<arrow-down-icon />
 				{{ t('widget.oldest') }}
 			</secondary-button>
 		</div>
 		<link-button class="mt-auto" @click="router.push({ name: 'setlists' })">
 			{{ t('widget.showAllSetlists') }}
-			<ion-icon :icon="arrowForward" />
+			<arrow-right-icon />
 		</link-button>
 	</panel>
 </template>
 
 <script setup>
+import { keyByValue, humanDate } from "@/utils";
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useI18n } from "vue-i18n";
-import {
-	arrowBack,
-	arrowDown,
-	arrowForward,
-	arrowUp,
-	lockClosedOutline,
-} from 'ionicons/icons';
-import Panel from '@/elements/Panel.vue';
+import { useRouter } from 'vue-router';
 import LinkButton from '@/elements/LinkButton.vue';
+import Panel from '@/elements/Panel.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
-import { keyByValue } from "@/utils";
+
+// icons
+import {
+	ArrowDownIcon,
+	ArrowLeftIcon,
+	ArrowRightIcon,
+	ArrowUpIcon,
+	LockIcon,
+} from "vue-tabler-icons";
+
+// component constants
+const { t, locale } = useI18n();
 const router = useRouter();
-const { t } = useI18n();
 
 // component properties
 const props = defineProps({
