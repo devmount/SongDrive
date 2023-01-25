@@ -26,9 +26,12 @@
 <script setup>
 import { inject } from 'vue';
 import { useI18n } from "vue-i18n";
+
+// component constants
 const { t } = useI18n();
 const version = inject('version');
 
+// component properties
 defineProps({
   featured:    Boolean, // make logo big and stand out
   showVersion: Boolean, // show version hint
