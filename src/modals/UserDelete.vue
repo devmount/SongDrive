@@ -20,20 +20,24 @@
 			</button>
 			<primary-button class="grow" type="danger" :disabled="!transferUser" @click="deleteUser">
 				{{ t('button.delete') }}
-				<ion-icon :icon="trashOutline" class="w-6 h-6" />
+				<trash-icon class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
 </template>
 
 <script setup>
-import PrimaryButton from '@/elements/PrimaryButton';
-import Modal from '@/elements/Modal';
-import { ref, computed, inject } from 'vue';
-import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
-import { trashOutline } from 'ionicons/icons';
+import { ref, computed, inject } from 'vue';
 import { throwError } from '@/utils.js';
+import { useI18n } from "vue-i18n";
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { TrashIcon } from "vue-tabler-icons";
+
+// component constants
 const { t } = useI18n();
 
 // global properties
@@ -55,16 +59,17 @@ const transferUser = ref(null);
 // emits
 const emit = defineEmits(['closed']);
 
-// computed: list of users that can be an assignment target
+// list of users that can be an assignment target
 const assignableUsers = computed(() => {
 	let users = JSON.parse(JSON.stringify(props.users));
 	delete users[props.userKey];
 	return users;
 });
-// computed: total number of users
+
+// total number of users
 const numberOfUsers = computed(() => Object.keys(props.users).length);
 
-// delete user if there are more than one
+// delete user if at least one user is left afterwards
 const deleteUser = () => {
 	if (numberOfUsers.value > 1) {
 		// delete approved user (living in users table) or unapproved user (living in registrations table)
