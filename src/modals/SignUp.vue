@@ -57,36 +57,43 @@
 			</button>
 			<primary-button class="grow" @click="signUp">
 				{{ $t('button.signUp') }}
-				<ion-icon :icon="personAddOutline" class="w-6 h-6" />
+				<user-plus-icon class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
 </template>
 
 <script setup>
-import PrimaryButton from '@/elements/PrimaryButton';
-import Modal from '@/elements/Modal';
+import { randomString } from '@/utils.js';
 import { reactive, computed } from 'vue';
 import { useI18n } from "vue-i18n";
-import { randomString } from '@/utils.js';
-import { personAddOutline } from 'ionicons/icons';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { UserPlusIcon } from "vue-tabler-icons";
+
+// component constants
 const { t } = useI18n();
+const examplePassword = randomString(8);
 
 // inherited properties
 const props = defineProps({
 	active: Boolean // state of modal display, true to show modal
 });
 
-// non reactive data
-const examplePassword = randomString(8);
-
-// reactive data
+// input data
 const auth = reactive({
 	name: '',
 	email: '',
 	password: '',
 	repeat: '',
 });
+
+// emits
+const emit = defineEmits(['submitted', 'closed']);
+
+// possible form errors
 const error = reactive({
 	name: false,
 	email: false,
@@ -96,11 +103,6 @@ const error = reactive({
 		tooshort: false,
 	}
 });
-
-// emits
-const emit = defineEmits(['submitted', 'closed']);
-
-// computed: calculate wether form errors occured
 const errorsPassword = computed(() => (
 	error.password.missing ||
 	error.password.mismatch ||
@@ -112,6 +114,7 @@ const errors = computed(() => (
 	errorsPassword.value
 ));
 
+// sign current user up
 const signUp = () => {
 	// first check for form errors
 	error.name = auth.name == '';

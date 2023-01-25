@@ -44,12 +44,14 @@ defineProps({
 
 // input data
 const authEmail  = ref('');
+
+// possible form errors
 const errorEmail = ref(false);
 
 // emits
 const emit = defineEmits(['submitted', 'closed']);
 
-// send password reset
+// send password reset to current user
 const passwordReset = () => {
 	// first check for form errors
 	errorEmail.value = authEmail.value == '';
