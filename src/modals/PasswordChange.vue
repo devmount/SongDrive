@@ -53,38 +53,45 @@
 			</button>
 			<primary-button class="grow" @click="setPassword">
 				{{ t('button.changePassword') }}
-				<ion-icon :icon="saveOutline" class="w-6 h-6" />
+				<device-floppy-icon class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
 </template>
 
 <script setup>
-import DividerHorizontal from '@/elements/DividerHorizontal';
-import PrimaryButton from '@/elements/PrimaryButton';
-import Modal from '@/elements/Modal';
-import { reactive, computed } from 'vue';
-import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
-import { saveOutline } from 'ionicons/icons';
-import firebase from 'firebase/compat/app';
+import { reactive, computed } from 'vue';
 import { throwError, randomString } from '@/utils.js';
+import { useI18n } from "vue-i18n";
+import DividerHorizontal from '@/elements/DividerHorizontal';
+import firebase from 'firebase/compat/app';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { DeviceFloppyIcon } from "vue-tabler-icons";
+
+// component constants
 const { t } = useI18n();
+const examplePassword = randomString(8);
 
 // inherited properties
 const props = defineProps({
 	active: Boolean // state of modal display, true to show modal
 });
 
-// non reactive data
-const examplePassword = randomString(8);
-
-// reactive data
+// input data
 const user = reactive({
 	password: '',
 	repeat: '',
 	currentpassword: ''
 });
+
+// emits
+const emit = defineEmits(['closed']);
+
+// available form errors
 const error = reactive({
 	password: {
 		missing: false,
@@ -96,11 +103,6 @@ const error = reactive({
 		wrong: false,
 	}
 });
-
-// emits
-const emit = defineEmits(['closed']);
-
-// computed: calculate wether form errors occured
 const errors = computed(() => (
 	error.password.missing
 	|| error.password.mismatch
