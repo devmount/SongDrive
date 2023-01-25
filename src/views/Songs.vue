@@ -151,7 +151,7 @@
 				<tr v-for="(song, i) in pagedSongs" :key="i" class="even:bg-blade-900/50 hover:bg-blade-900">
 					<td
 						class="cursor-pointer px-3 py-2 max-w-0"
-						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+						@click="router.push({ name: 'song-show', params: { id: song.id }})"
 					>
 						<div class="truncate">
 							{{ song.title }}
@@ -160,7 +160,7 @@
 					</td>
 					<td
 						class="cursor-pointer px-3 py-2 max-w-0 hidden xl:table-cell"
-						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+						@click="router.push({ name: 'song-show', params: { id: song.id }})"
 					>
 						<div class="truncate">{{ song.authors }}</div>
 					</td>
@@ -176,19 +176,19 @@
 					</td>
 					<td
 						class="cursor-pointer px-3 py-2 text-center uppercase hidden md:table-cell"
-						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+						@click="router.push({ name: 'song-show', params: { id: song.id }})"
 					>
 						{{ song.language }}
 					</td>
 					<td
 						class="cursor-pointer px-3 py-2 text-center hidden md:table-cell"
-						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+						@click="router.push({ name: 'song-show', params: { id: song.id }})"
 					>
 						{{ song.year }}
 					</td>
 					<td
 						class="cursor-pointer p-2 text-center hidden xs:table-cell"
-						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+						@click="router.push({ name: 'song-show', params: { id: song.id }})"
 					>
 						{{ song.tuning }}
 					</td>
@@ -356,8 +356,8 @@ const songsArray = computed(() => {
 		}
 	}
 	songs.sort((a, b) => {
-		var propA = String(a[order.field]).toLowerCase().trim();
-		var propB = String(b[order.field]).toLowerCase().trim();
+		let propA = String(a[order.field]).toLowerCase().trim();
+		let propB = String(b[order.field]).toLowerCase().trim();
 		if (order.ascending) {
 			if (propA < propB) { return -1 };
 			if (propA > propB) { return 1 };
@@ -370,43 +370,43 @@ const songsArray = computed(() => {
 	return songs;
 });
 const filteredSongs = computed(() => {
-	var songs = songsArray.value;
+	let songs = songsArray.value;
 	if (filter.fulltext) {
+		// filter fields: title, subtitle, content
 		songs = songs.filter(song => {
-			// filter fields: title, subtitle
-			var key = filter.fulltext;
+			let key = filter.fulltext;
 			return song.title.toLowerCase().indexOf(key) !== -1
 				|| song.subtitle.toLowerCase().indexOf(key) !== -1
 				|| song.content.toLowerCase().indexOf(key) !== -1
 		});
 	}
 	if (filter.authors) {
+		// filter field: authors
 		songs = songs.filter(song => {
-			// filter field: authors
 			return song.authors.toLowerCase().indexOf(filter.authors) !== -1;
 		});
 	}
 	if (filter.tag) {
+		// filter field: tags
 		songs = songs.filter(song => {
-			// filter field: tags
 			return song.tags.indexOf(filter.tag) !== -1;
 		});
 	}
 	if (filter.language) {
+		// filter field: language
 		songs = songs.filter(song => {
-			// filter field: language
 			return song.language.indexOf(filter.language) !== -1;
 		});
 	}
 	if (filter.year) {
+		// filter field: year
 		songs = songs.filter(song => {
-			// filter field: year
 			return String(song.year).indexOf(filter.year) !== -1;
 		});
 	}
 	if (filter.key) {
+		// filter field: key
 		songs = songs.filter(song => {
-			// filter field: key
 			return song.tuning.indexOf(filter.key) !== -1;
 		});
 	}

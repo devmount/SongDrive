@@ -209,11 +209,11 @@ const download = (data, filename) => {
 };
 
 // format human readable date
-const humanDate = (d, locale, showWeekdate=true) => {
+const humanDate = (d, locale, showWeekdate=true, short=false) => {
   if (!d) return '';
   let options = showWeekdate
     ? { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-    : { year: 'numeric', month: 'long', day: 'numeric' };
+    : { year: short ? '2-digit' : 'numeric', month: short ? 'numeric' : 'long', day: 'numeric' };
   return (new Date(d)).toLocaleDateString(locale + '-' + locale.toUpperCase(), options);
 };
 

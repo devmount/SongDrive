@@ -1,263 +1,274 @@
 <template>
-	<div class="setlists">
-		<div
-			class="container no-sidebar"
-			ref="container"
-			tabindex="0"
-			@keydown.left.exact="!isFirstPage && !noSetlists ? page-- : null"
-			@keydown.right.exact="!isLastPage && !noSetlists ? page++ : null"
-			@keydown.ctrl.f.prevent="!noSetlists ? searchInput.focus() : null"
-			@keydown.esc.exact="search=''; filter='';"
-		>
-			<div class="columns">
-				<!-- heading -->
-				<div class="column col-12">
-					<h2 class="view-title">
-						<span v-if="ready.setlists" class="text-bold">{{ Object.keys(filteredSetlists).length }}</span>
-						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
-						{{ t('page.setlists') }}
-					</h2>
-				</div>
+	<div
+		class="flex flex-col gap-6 w-full focus:outline-none"
+		ref="container"
+		tabindex="0"
+		@keydown.left.exact="!isFirstPage && !noSetlists ? page-- : null"
+		@keydown.right.exact="!isLastPage && !noSetlists ? page++ : null"
+		@keydown.ctrl.f.prevent="!noSetlists ? searchInput.focus() : null"
+		@keydown.esc.exact="resetFilter"
+	>
+		<!-- page heading -->
+		<div class="flex flex-col sm:flex-row justify-between items-stretch gap-4">
+			<!-- title -->
+			<div v-if="ready.setlists" class="text-3xl uppercase font-thin tracking-wider">
+				<span class="font-semibold">{{ Object.keys(filteredSetlists).length }}</span>
+				{{ t('page.setlists', Object.keys(filteredSetlists).length) }}
 			</div>
-
-			<div v-if="noSetlists" class="columns mt-2">
-				<!-- heading -->
-				<div class="column col-12">
-					<span v-if="user && role">{{ t('text.noSetlistsAvailableSignedIn') }}</span>
-					<span v-else>{{ t('text.noSetlistsAvailableSignedOut') }}</span>
-				</div>
-			</div>
-
-			<div v-if="ready.setlists && !noSetlists" class="columns mt-2 mb-3">
-				<!-- pagination -->
-				<div class="column col-3 col-xl-6 col-md-9 col-sm-12 col-mx-auto">
-					<ul class="pagination">
-						<li class="page-item" :class="{ disabled: isFirstPage }">
-							<a class="btn btn-secondary" @click="!isFirstPage ? page-- : null">
-								<ion-icon :icon="arrowBack" />
-							</a>
-						</li>
-						<li
-							class="page-item"
-							:class="{ active: (p-1) == page }"
-							v-for="(p, i) in pageCount"
-							:key="i"
-							v-show="showPageItem(p)"
-						>
-							<span v-show="showFirstEllipsis(p)">...</span>
-							<a
-								class="c-hand"
-								v-show="showPageItemLink(p)"
-								@click="page = p-1"
-							>
-								{{ p }}
-							</a>
-							<span v-show="showLastEllipsis(p)">...</span>
-						</li>
-						<li class="page-item" :class="{ disabled: isLastPage }">
-							<a class="btn btn-secondary" @click="!isLastPage ? page++ : null">
-								<ion-icon :icon="arrowForward" />
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="column col-1 hide-xl"></div>
-				<!-- search and filter -->
-				<div class="column col-8 col-xl-12">
-					<div class="input-group filter">
-						<!-- search title, subtitles -->
-						<span class="input-group-addon addon-lg"><ion-icon :icon="searchIcon" /></span>
-						<input
-							type="search"
-							ref="searchInput"
-							v-model="search"
-							class="form-input input-lg"
-							:placeholder="t('placeholder.searchSetlistTitle')"
-						/>
-						<div class="dropdown dropdown-right">
-							<div class="btn-group">
-								<a
-									class="btn input-group-btn btn-secondary btn-lg dropdown-toggle"
-									:class="{ 'badge': filter!='' }"
-									tabindex="0"
-								>
-									<ion-icon :icon="filterSharp" />
-								</a>
-								<ul class="menu text-left">
-									<li class="menu-item">
-										<!-- filter year -->
-										<select v-model="filter" class="form-select select-lg filter">
-											<option value="" disabled selected>{{ t('placeholder.year') }}.</option>
-											<option v-for="year in setlistYears" :key="year" :value="year">{{ year }}</option>
-										</select>
-									</li>
-									<li class="menu-item">
-										<!-- reset filter -->
-										<button
-											class="btn input-group-btn btn-lg btn-error-secondary stretch"
-											@click="search=''; filter=''"
-										>
-											<ion-icon :icon="close" />
-											{{ t('button.reset') }}
-										</button>
-									</li>
-								</ul>
-							</div>
-						</div>
+			<!-- pagination -->
+			<div class="flex items-center flex-nowrap gap-2 mr-16 lg:mr-0">
+				<secondary-button @click="!isFirstPage ? page-- : null" :disabled="isFirstPage">
+					<chevron-left-icon class="w-5 h-5 stroke-1.5" />
+				</secondary-button>
+				<div
+					v-for="(p, i) in pageCount" :key="i"
+					v-show="showPageItem(p)"
+				>
+					<div v-show="showFirstEllipsis(p)">&hellip;</div>
+					<div
+						class="transition-colors cursor-pointer rounded-sm px-2 py-1 hover:bg-blade-300 dark:hover:bg-blade-750"
+						:class="{ 'bg-spring-400 dark:bg-spring-700': (p-1) == page }"
+						v-show="showPageItemLink(p)"
+						@click="page = p-1"
+					>
+						{{ p }}
 					</div>
+					<div v-show="showLastEllipsis(p)">&hellip;</div>
 				</div>
+				<secondary-button @click="!isLastPage ? page++ : null" :disabled="isLastPage">
+					<chevron-right-icon class="w-5 h-5 stroke-1.5" />
+				</secondary-button>
 			</div>
+		</div>	
 
-			<!-- setlist list -->
-			<table v-if="ready.setlists && !noSetlists" class="table table-striped table-hover">
-				<thead>
-					<tr>
-						<th></th>
-						<th
-							v-for="col in ['date', 'title', 'creator', 'songs']"
-							:key="col"
-							class="c-hand"
-							:class="{
-								'bg-primary-dark': order.field == col,
-								'hide-xl': col == 'date' || col == 'songs'
-							}"
-							@click="sortList(col)"
-						>
-							{{ t('field.' + col) }}
-							<ion-icon :icon="caretDown" v-if="order.field == col && !order.ascending" class="icon-right" />
-							<ion-icon :icon="caretUp" v-if="order.field == col && order.ascending" class="icon-right" />
-						</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="(setlist, i) in pagedSetlists" :key="i">
-						<td>
-							<div
-								class="s-circle s-circle-state ml-2 tooltip-right"
-								:data-tooltip="t('tooltip.syncActive')"
-								:class="{ active: setlist.active, tooltip: setlist.active }"
-							></div>
-						</td>
-						<td class="hide-xl c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
-							{{ humanDate(setlist.date, locale) }}
-						</td>
-						<td class="c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
-							{{ setlist.title }}
-							<div
-								v-if="setlist.private"
-								class="text-primary d-inline-block ml-2 tooltip tooltip-bottom"
-								:data-tooltip="t('tooltip.setlistPrivate')"
-							>
-								<ion-icon :icon="lockClosedOutline" />
-							</div>
-						</td>
-						<td class="c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
-							{{ users[setlist.creator] ? users[setlist.creator].name : '' }}
-						</td>
-						<td class="hide-xl c-hand" @click="router.push({ name: 'setlist-show', params: { id: setlist.id }})">
-							{{ setlist.songs.length }}
-						</td>
-						<td class="text-right">
-							<div class="dropdown dropdown-right">
-								<div class="btn-group">
-									<a class="btn btn-primary dropdown-toggle" tabindex="0">
-										<ion-icon :icon="ellipsisHorizontalOutline" />
-									</a>
-									<ul class="menu text-left">
-										<li class="menu-item">
-											<router-link :to="{ name: 'setlist-show', params: { id: setlist.id }}" class="py-3 px-3">
-												<ion-icon :icon="eyeOutline" class="mr-2" /> {{ t('button.show') }}
-											</router-link>
-										</li>
-										<li v-if="user && role > 1" class="menu-item">
-											<a
-												href="#"
-												class="py-3 px-3"
-												@click.prevent="editDialog(setlist, true)"
-											>
-												<ion-icon :icon="createOutline" class="mr-2" /> {{ t('button.edit') }}
-											</a>
-										</li>
-										<li v-if="user && role > 1" class="menu-item">
-											<a
-												href="#"
-												class="py-3 px-3"
-												@click.prevent="editDialog(setlist, false)"
-											>
-												<ion-icon :icon="copyOutline" class="mr-2" /> {{ t('button.duplicate') }}
-											</a>
-										</li>
-										<li v-if="user && role > 2" class="menu-item">
-											<a
-												href="#"
-												class="py-3 px-3 text-error"
-												@click.prevent="deleteDialog(setlist)"
-											>
-												<ion-icon :icon="trashOutline" class="mr-2" /> {{ t('button.delete') }}
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<!-- modals -->
-			<SetlistSet
-				v-if="modal.set"
-				:active="modal.set"
-				:existing="active.existing"
-				:initialSetlist="active.setlist"
-				:setlistKey="active.key"
-				:user="user"
-				:songs="songs"
-				:setlists="setlists"
-				:tags="tags"
-				:languages="languages"
-				:ready="ready"
-				@closed="modal.set = false"
-			/>
-			<SetlistDelete
-				v-if="modal.delete"
-				:active="modal.delete"
-				:title="active.title"
-				:id="active.key"
-				@closed="modal.delete = false"
-			/>
-
+		<!-- empty setlists collection -->
+		<div v-if="noSetlists" class="text-blade-500">
+			{{ t('text.noSetlistsAvailable') }}
 		</div>
+
+		<!-- setlist list -->
+		<table v-if="ready.setlists && !noSetlists" class="w-full">
+			<thead>
+				<!-- column titles -->
+				<tr>
+					<th></th>
+					<th
+						v-for="col in ['date', 'title', 'creator', 'songs']"
+						:key="col"
+						class="cursor-pointer uppercase p-2 font-normal"
+						:class="{
+							'hidden xl:table-cell': col === 'creator',
+							'hidden sm:table-cell w-24': col === 'songs',
+						}"
+						@click="sortList(col)"
+					>
+						<div class="flex items-center gap-2" :class="{ 'justify-center': col === 'songs' }">
+							{{ t('field.' + col) }}
+							<sort-ascending-icon
+								v-if="order.field == col && !order.ascending"
+								class="w-5 h-5 stroke-1.5 stroke-spring-600"
+							/>
+							<sort-descending-icon
+								v-if="order.field == col && order.ascending"
+								class="w-5 h-5 stroke-1.5 stroke-spring-600"
+							/>
+						</div>
+					</th>
+					<th class="w-11"></th>
+				</tr>
+				<!-- column filters -->
+				<tr>
+					<td>
+						<div class="py-1.5 border border-blade-400 dark:border-black dark:bg-blade-900 dark:text-blade-100">
+							<circle-dot-icon
+								v-if="filter.active"
+								@click="filter.active = false"
+								class="w-6 h-6 stroke-1.5 text-spring-600 cursor-pointer mx-auto"
+							/>
+							<circle-dotted-icon
+								v-else
+								@click="filter.active = true"
+								class="w-6 h-6 stroke-1.5 cursor-pointer mx-auto"
+							/>
+						</div>
+					</td>
+					<td>
+						<label class="relative">
+							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<input
+								type="search"
+								v-model="filter.date"
+								class="w-full pl-8"
+							/>
+						</label>
+					</td>
+					<td>
+						<label class="relative">
+							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<input
+								type="search"
+								ref="searchInput"
+								v-model="filter.title"
+								class="w-full pl-8"
+							/>
+						</label>
+					</td>
+					<td class="hidden xl:table-cell">
+						<label class="relative">
+							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<select v-model="filter.creator" class="w-full pl-8">
+								<option v-for="(name, id) in creators" :key="id" :value="id">
+									{{ name }}
+								</option>
+							</select>
+						</label>
+					</td>
+					<td class="hidden sm:table-cell">
+						<label class="relative">
+							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<input
+								type="search"
+								v-model="filter.songs"
+								class="w-full pl-8"
+							/>
+						</label>
+					</td>
+					<td>
+						<secondary-button @click="resetFilter" :disabled="!isFiltered">
+							<filter-off-icon class="w-5 h-5 stroke-1.5" />
+						</secondary-button>
+					</td>
+				</tr>
+			</thead>
+			<tbody v-if="ready.setlists">
+				<tr v-for="(setlist, i) in pagedSetlists" :key="i" class="even:bg-blade-900/50 hover:bg-blade-900">
+					<td>
+						<circle-dot-icon v-if="setlist.active" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" :title="t('tooltip.syncActive')" />
+						<circle-dotted-icon v-else class="w-6 h-6 stroke-1.5 mx-auto" />
+					</td>
+					<td
+						class="cursor-pointer px-3 py-2 max-w-0"
+						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
+					>
+						<div class="truncate hidden md:block">{{ humanDate(setlist.date, locale) }}</div>
+						<div class="truncate md:hidden">{{ humanDate(setlist.date, locale, false, true) }}</div>
+					</td>
+					<td
+						class="cursor-pointer px-3 py-2 max-w-0"
+						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
+					>
+						<div class="truncate flex gap-2">
+							{{ setlist.title }}
+							<lock-icon v-if="setlist.private" class="text-spring-600 stroke-1.5" :title="t('tooltip.setlistPrivate')" />
+						</div>
+					</td>
+					<td
+						class="cursor-pointer px-3 py-2 hidden xl:table-cell"
+						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
+					>
+						{{ users[setlist.creator] ? users[setlist.creator].name : '' }}
+					</td>
+					<td
+						class="cursor-pointer px-3 py-2 hidden sm:table-cell text-center"
+						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
+					>
+						{{ setlist.songs.length }}
+					</td>
+					<td>
+						<dropdown>
+							<template #default class="flex flex-col gap-1">
+								<router-link
+									:to="{ name: 'setlist-show', params: { id: setlist.id }}"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								>
+									<eye-icon class="w-5 h-5 stroke-1.5" />
+									{{ t('button.show') }}
+								</router-link>
+								<button
+									v-if="user && role > 1"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click.prevent="editDialog(setlist, true)"
+								>
+									<edit-icon class="w-5 h-5 stroke-1.5" />
+									{{ t('button.edit') }}
+								</button>
+								<button
+									v-if="user && role > 1"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click.prevent="editDialog(setlist, false)"
+								>
+									<copy-icon class="w-5 h-5 stroke-1.5" />
+									{{ t('button.duplicate') }}
+								</button>
+								<button
+									v-if="user && role > 2"
+									class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+									@click.prevent="deleteDialog(setlist)"
+								>
+									<trash-icon class="w-5 h-5 stroke-1.5" />
+									{{ t('button.delete') }}
+								</button>
+							</template>
+						</dropdown>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- modals -->
+		<setlist-set
+			v-if="modal.set"
+			:active="modal.set"
+			:existing="active.existing"
+			:initial-setlist="active.setlist"
+			:setlist-key="active.key"
+			:user="user"
+			:songs="songs"
+			:setlists="setlists"
+			:tags="tags"
+			:languages="languages"
+			:ready="ready"
+			@closed="modal.set = false"
+		/>
+		<setlist-delete
+			v-if="modal.delete"
+			:active="modal.delete"
+			:title="active.title"
+			:id="active.key"
+			@closed="modal.delete = false"
+		/>
 	</div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { useI18n } from "vue-i18n";
-import { useRoute } from 'vue-router'
 import { humanDate } from '@/utils.js';
-import SetlistSet from '@/modals/SetlistSet';
+import { ref, reactive, onMounted, computed, watch } from 'vue';
+import { useI18n } from "vue-i18n";
+import { useRouter } from 'vue-router';
+import Dropdown from '@/elements/Dropdown';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistDelete from '@/modals/SetlistDelete';
+import SetlistSet from '@/modals/SetlistSet';
+
+// icons
 import { 
-	arrowBack,
-	arrowForward,
-	caretDown,
-	caretUp,
-	close,
-	copyOutline,
-	createOutline,
-	ellipsisHorizontalOutline,
-	eyeOutline,
-	filterSharp,
-	lockClosedOutline,
-	search as searchIcon,
-	trashOutline
-} from 'ionicons/icons';
+	ChevronLeftIcon,
+	ChevronRightIcon,
+	CopyIcon,
+	EditIcon,
+	EyeIcon,
+	FilterIcon,
+	FilterOffIcon,
+	SortAscendingIcon,
+	SortDescendingIcon,
+	TrashIcon,
+	CircleDottedIcon,
+	CircleDotIcon,
+	LockIcon,
+} from "vue-tabler-icons";
+
+// component constants
 const { t, locale } = useI18n();
 const router = useRouter();
-const route = useRoute()
 
 // inherited properties
 const props = defineProps({
@@ -275,11 +286,28 @@ const props = defineProps({
 const container   = ref(null);
 const searchInput = ref(null);
 
-// reactive data
-const search     = ref('');
-const filter     = ref(route.params.year ? route.params.year : '');
+// table filter
+const filter = reactive({
+	active: null,
+	date: null,
+	title: null,
+	creator: null,
+	songs: null,
+});
+const resetFilter = () => {
+	for (const field in filter) {
+		if (Object.hasOwnProperty.call(filter, field)) {
+			filter[field] = null;
+		}
+	}
+};
+const isFiltered = computed(() => {
+	return filter.active !== null || filter.date || filter.title || filter.creator || filter.songs;
+});
+
+// pagination
 const page       = ref(0);
-const listLength = ref(12);
+const listLength = 20;
 const order = reactive({ 
 	field: 'date',
 	ascending: false
@@ -302,11 +330,14 @@ onMounted(() => {
 
 // computed
 const setlistsArray = computed(() => {
-	let setlists = Object.keys(props.setlists).map((key) => {
-		let setlist = props.setlists[key];
-		setlist['id'] = key;
-		return setlist;
-	});
+	const setlists = [];
+	for (const key in props.setlists) {
+		if (Object.hasOwnProperty.call(props.setlists, key)) {
+			const element = props.setlists[key];
+			element['id'] = key;
+			setlists.push(element);
+		}
+	}
 	setlists.sort((a, b) => {
 		let propA, propB;
 		if (order.field == 'songs') {
@@ -331,18 +362,36 @@ const setlistsArray = computed(() => {
 	return setlists;
 });
 const filteredSetlists = computed(() => {
-	var setlists = setlistsArray.value.filter(s => !s.private || s.private && s.creator==props.user);
-	if (search.value != '') {
+	let setlists = setlistsArray.value.filter(s => !s.private || s.private && s.creator==props.user);
+	if (filter.active !== null) {
+		// filter fields: date
 		setlists = setlists.filter(s => {
-			// filter fields: title, date
-			var key = search.value;
-			return s.title.toLowerCase().indexOf(key) !== -1 || s.date.toLowerCase().indexOf(key) !== -1;
+			return s.active === filter.active;
 		})
 	}
-	if (filter.value != '') {
+	if (filter.date) {
+		// filter fields: date
 		setlists = setlists.filter(s => {
-			// filter field: date(Y)
-			return s.date.substring(0,4).indexOf(filter.value) !== -1;
+			return s.date.indexOf(filter.date) !== -1
+				|| humanDate(s.date, locale.value).toLowerCase().indexOf(filter.date) !== -1;
+		})
+	}
+	if (filter.title) {
+		// filter fields: title
+		setlists = setlists.filter(s => {
+			return s.title.toLowerCase().indexOf(filter.title) !== -1;
+		})
+	}
+	if (filter.creator) {
+		// filter fields: creator
+		setlists = setlists.filter(s => {
+			return s.creator === filter.creator;
+		})
+	}
+	if (filter.songs) {
+		// filter fields: songs
+		setlists = setlists.filter(s => {
+			return s.songs.length.toString().indexOf(filter.songs) !== -1;
 		})
 	}
 	return setlists;
@@ -350,17 +399,8 @@ const filteredSetlists = computed(() => {
 const noSetlists = computed(() => {
 	return props.ready.setlists && setlistsArray.value.length == 0;
 });
-const setlistYears = computed(() => {
-	if (props.ready.setlists && !noSetlists.value) {
-		let start = parseInt(Object.keys(props.setlists).sort()[0].substring(0, 4));
-		let end = parseInt(Object.keys(props.setlists).sort().slice(-1)[0].substring(0, 4));
-		return Array.from(Array(end-start+1).keys(), x => x + start).reverse();
-	} else {
-		return [];
-	}
-});
 const pagedSetlists = computed(() => {
-	return filteredSetlists.value.slice(page.value*listLength.value, (page.value+1)*listLength.value);
+	return filteredSetlists.value.slice(page.value*listLength, (page.value+1)*listLength);
 });
 const isFirstPage = computed(() => {
 	return page.value == 0;
@@ -369,7 +409,17 @@ const isLastPage = computed(() => {
 	return page.value == pageCount.value-1;
 });
 const pageCount = computed(() => {
-	return Math.ceil(filteredSetlists.value.length/listLength.value);
+	return Math.ceil(filteredSetlists.value.length/listLength);
+});
+const creators = computed(() => {
+	const creators = {};
+	setlistsArray.value.forEach(s => {
+		const name = props.users[s.creator]?.name;
+		if (name && !creators.hasOwnProperty(s.creator)) {
+			creators[s.creator] = name;
+		}
+	});
+	return creators;
 });
 
 // methods
@@ -423,5 +473,5 @@ const deleteDialog = (setlist) => {
 };
 
 // watcher
-watch ([search, filter], () => { page.value = 0 });
+watch (filter, () => { page.value = 0 });
 </script>
