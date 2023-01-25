@@ -12,7 +12,7 @@
 			></p>
 			<secondary-button @click="$emit('signOut')">
 				{{ $t('button.signOut') }}
-				<ion-icon :icon="logOutOutline" class="w-6 h-6" />
+				<logout-icon class="w-6 h-6 stroke-1.5" />
 			</secondary-button>
 		</panel>
 	</div>
@@ -22,8 +22,11 @@
 import Logo from '@/partials/Logo';
 import Panel from '@/elements/Panel';
 import SecondaryButton from '@/elements/SecondaryButton';
-import { logOutOutline } from 'ionicons/icons';
 
+// icons
+import { LogoutIcon } from "vue-tabler-icons";
+
+// component properties
 const props = defineProps({
   ready: Object,
   config: Object,
