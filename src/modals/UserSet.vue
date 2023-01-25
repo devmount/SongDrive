@@ -82,9 +82,10 @@
 				{{ t('button.cancel') }}
 			</button>
 			<primary-button class="grow" @click="setUser">
-				<span v-if="state=='new' || state=='registered'">{{ t('button.addUser') }}</span>
-				<span v-if="state=='confirmed'">{{ t('button.updateUser') }}</span>
-				<ion-icon :icon="(state=='new' || state=='registered') ? addOutline : saveOutline" class="w-6 h-6" />
+				<span v-if="state !== 'confirmed'">{{ t('button.addUser') }}</span>
+				<span v-else>{{ t('button.updateUser') }}</span>
+				<plus-icon v-if="state !== 'confirmed'" class="w-6 h-6 stroke-1.5" />
+				<device-floppy-icon v-else class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -101,7 +102,7 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { addOutline, saveOutline } from 'ionicons/icons';
+import { PlusIcon, DeviceFloppyIcon } from "vue-tabler-icons";
 
 // component constants
 const { t } = useI18n();
