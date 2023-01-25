@@ -22,7 +22,7 @@
 			<div class="mt-3">
 				<primary-button class="w-full" @click="emit('signIn', email, password)">
 					{{ t('button.signIn') }}
-					<ion-icon :icon="logInOutline" class="w-6 h-6" />
+					<login-icon class="w-6 h-6 stroke-1.5" />
 				</primary-button>
 			</div>
 		</panel>
@@ -41,18 +41,22 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useI18n } from "vue-i18n";
+import LinkButton from '@/elements/LinkButton.vue';
 import Logo from '@/partials/Logo';
-import { logInOutline } from 'ionicons/icons';
 import Panel from '@/elements/Panel.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
-import LinkButton from '@/elements/LinkButton.vue';
-import { useI18n } from "vue-i18n";
+
+// icons
+import { LoginIcon } from "vue-tabler-icons";
+
+// component constants
 const { t } = useI18n();
 
 // emits
 const emit = defineEmits(['signIn', 'signUp', 'resetPassword']);
 
-// reactive data
+// input data
 const email    = ref('');
 const password = ref('');
 </script>
