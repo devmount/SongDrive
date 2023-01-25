@@ -108,7 +108,7 @@ import WidgetSetlistList from '@/widgets/WidgetSetlistList';
 import WidgetSongList from '@/widgets/WidgetSongList';
 import WidgetSongOfYear from '@/widgets/WidgetSongOfYear';
 
-// iconss
+// icons
 import {
 	MicrophoneIcon,
 	MusicIcon,

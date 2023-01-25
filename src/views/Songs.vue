@@ -213,8 +213,8 @@
 			v-if="modal.set"
 			:active="modal.set"
 			:existing="active.existing"
-			:initialSong="active.song"
-			:songKey="active.key"
+			:initial-song="active.song"
+			:song-key="active.key"
 			:songs="songs"
 			:setlists="setlists"
 			:tags="tags"
@@ -235,14 +235,16 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed, watch } from 'vue';
+import { keyScale } from '@/utils.js';
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from 'vue-router'
-import { keyScale } from '@/utils.js';
-import SongSet from '@/modals/SongSet';
-import SongDelete from '@/modals/SongDelete';
-import SecondaryButton from '@/elements/SecondaryButton.vue';
-import Tag from '@/elements/Tag';
 import Dropdown from '@/elements/Dropdown';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SongDelete from '@/modals/SongDelete';
+import SongSet from '@/modals/SongSet';
+import Tag from '@/elements/Tag';
+
+// icons
 import { 
 	ChevronLeftIcon,
 	ChevronRightIcon,
@@ -255,11 +257,13 @@ import {
 	SortDescendingIcon,
 	TrashIcon,
 } from "vue-tabler-icons";
+
+// component constantes
 const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
-// inherited properties
+// component properties
 const props = defineProps({
   songs:     Object,
   setlists:  Object,
