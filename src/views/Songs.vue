@@ -63,10 +63,19 @@
 						}"
 						@click="sortList(col)"
 					>
-						<div class="flex items-center gap-2" :class="{ 'justify-center': ['language', 'year', 'tuning'].includes(col) }">
+						<div
+							class="flex items-center gap-2"
+							:class="{ 'justify-center': ['language', 'year', 'tuning'].includes(col) }"
+						>
 							{{ t('field.' + col) }}
-							<sort-ascending-icon v-if="order.field == col && !order.ascending" class="w-5 h-5 stroke-1.5 stroke-spring-600" />
-							<sort-descending-icon v-if="order.field == col && order.ascending" class="w-5 h-5 stroke-1.5 stroke-spring-600" />
+							<sort-ascending-icon
+								v-if="order.field == col && !order.ascending"
+								class="w-5 h-5 stroke-1.5 stroke-spring-600"
+							/>
+							<sort-descending-icon
+								v-if="order.field == col && order.ascending"
+								class="w-5 h-5 stroke-1.5 stroke-spring-600"
+							/>
 						</div>
 					</th>
 					<th class="w-11"></th>
@@ -140,13 +149,19 @@
 			</thead>
 			<tbody v-if="ready.songs">
 				<tr v-for="(song, i) in pagedSongs" :key="i" class="even:bg-blade-900/50 hover:bg-blade-900">
-					<td class="cursor-pointer px-3 py-2 max-w-0" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td
+						class="cursor-pointer px-3 py-2 max-w-0"
+						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+					>
 						<div class="truncate">
 							{{ song.title }}
 							<span class="text-blade-500 ml-2">{{ song.subtitle }}</span>
 						</div>
 					</td>
-					<td class="cursor-pointer px-3 py-2 max-w-0 hidden xl:table-cell" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td
+						class="cursor-pointer px-3 py-2 max-w-0 hidden xl:table-cell"
+						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+					>
 						<div class="truncate">{{ song.authors }}</div>
 					</td>
 					<td class="cursor-pointer px-3 py-2 max-w-0 hidden 3xl:table-cell">
@@ -159,13 +174,22 @@
 							<span v-if="song.tags.length > 3">&hellip;</span>
 						</div>
 					</td>
-					<td class="cursor-pointer px-3 py-2 text-center uppercase hidden md:table-cell" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td
+						class="cursor-pointer px-3 py-2 text-center uppercase hidden md:table-cell"
+						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+					>
 						{{ song.language }}
 					</td>
-					<td class="cursor-pointer px-3 py-2 text-center hidden md:table-cell" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td
+						class="cursor-pointer px-3 py-2 text-center hidden md:table-cell"
+						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+					>
 						{{ song.year }}
 					</td>
-					<td class="cursor-pointer p-2 text-center hidden xs:table-cell" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
+					<td
+						class="cursor-pointer p-2 text-center hidden xs:table-cell"
+						@click="$router.push({ name: 'song-show', params: { id: song.id }})"
+					>
 						{{ song.tuning }}
 					</td>
 					<td>
