@@ -80,14 +80,19 @@
 				<tr>
 					<td>
 						<div class="py-1.5 border border-blade-400 dark:border-black dark:bg-blade-900 dark:text-blade-100">
+							<filter-icon
+								v-if="filter.active === null"
+								@click="filter.active = true"
+								class="w-5 h-5 stroke-1.5 text-blade-500 cursor-pointer mx-auto my-0.5"
+							/>
 							<circle-dot-icon
-								v-if="filter.active"
+								v-if="filter.active === true"
 								@click="filter.active = false"
 								class="w-6 h-6 stroke-1.5 text-spring-600 cursor-pointer mx-auto"
 							/>
 							<circle-dotted-icon
-								v-else
-								@click="filter.active = true"
+								v-if="filter.active === false"
+								@click="filter.active = null"
 								class="w-6 h-6 stroke-1.5 cursor-pointer mx-auto"
 							/>
 						</div>
