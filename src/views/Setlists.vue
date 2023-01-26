@@ -51,18 +51,19 @@
 			<thead>
 				<!-- column titles -->
 				<tr>
-					<th></th>
+					<th class="w-11"></th>
 					<th
-						v-for="col in ['date', 'title', 'creator', 'songs']"
+						v-for="col in ['date', 'private', 'title', 'creator', 'songs']"
 						:key="col"
 						class="cursor-pointer uppercase p-2 font-normal"
 						:class="{
+							'w-11': col === 'private',
 							'hidden xl:table-cell': col === 'creator',
 							'hidden sm:table-cell w-24': col === 'songs',
 						}"
 						@click="sortList(col)"
 					>
-						<div class="flex items-center gap-2" :class="{ 'justify-center': col === 'songs' }">
+						<div class="flex items-center gap-2" :class="{ 'justify-center': col === 'songs', 'hidden': col === 'private' }">
 							{{ t('field.' + col) }}
 							<sort-ascending-icon
 								v-if="order.field == col && !order.ascending"
@@ -83,18 +84,9 @@
 							class="cursor-pointer py-1.5 border border-blade-400 dark:border-black dark:bg-blade-900 dark:text-blade-100 hover:border-spring-600"
 							@click="toggleFilter('active')"
 						>
-							<filter-icon
-								v-if="filter.active === null"
-								class="w-5 h-5 stroke-1.5 text-blade-500 mx-auto my-0.5"
-							/>
-							<circle-dot-icon
-								v-if="filter.active === true"
-								class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto"
-							/>
-							<circle-dotted-icon
-								v-if="filter.active === false"
-								class="w-6 h-6 stroke-1.5 mx-auto"
-							/>
+							<filter-icon v-if="filter.active === null" class="w-5 h-5 stroke-1.5 text-blade-500 mx-auto my-0.5" />
+							<circle-dot-icon v-if="filter.active === true" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" />
+							<circle-dotted-icon v-if="filter.active === false" class="w-6 h-6 stroke-1.5 mx-auto" />
 						</div>
 					</td>
 					<td>
@@ -106,6 +98,16 @@
 								class="w-full pl-8"
 							/>
 						</label>
+					</td>
+					<td>
+						<div
+							class="cursor-pointer py-1.5 border border-blade-400 dark:border-black dark:bg-blade-900 dark:text-blade-100 hover:border-spring-600"
+							@click="toggleFilter('private')"
+						>
+							<filter-icon v-if="filter.private === null" class="w-5 h-5 stroke-1.5 text-blade-500 mx-auto my-0.5" />
+							<lock-icon v-if="filter.private === true" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" />
+							<lock-open-icon v-if="filter.private === false" class="w-6 h-6 stroke-1.5 mx-auto" />
+						</div>
 					</td>
 					<td>
 						<label class="relative">
@@ -158,14 +160,15 @@
 						<div class="truncate hidden md:block">{{ humanDate(setlist.date, locale) }}</div>
 						<div class="truncate md:hidden">{{ humanDate(setlist.date, locale, false, true) }}</div>
 					</td>
+					<td>
+						<lock-icon v-if="setlist.private" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" :title="t('tooltip.setlistPrivate')" />
+						<lock-open-icon v-else class="w-6 h-6 stroke-1.5 stroke-blade-500 mx-auto" />
+					</td>
 					<td
 						class="cursor-pointer px-3 py-2 max-w-0"
 						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
 					>
-						<div class="truncate flex gap-2">
-							{{ setlist.title }}
-							<lock-icon v-if="setlist.private" class="text-spring-600 stroke-1.5" :title="t('tooltip.setlistPrivate')" />
-						</div>
+						<div class="truncate">{{ setlist.title }}</div>
 					</td>
 					<td
 						class="cursor-pointer px-3 py-2 hidden xl:table-cell"
@@ -258,17 +261,18 @@ import SetlistSet from '@/modals/SetlistSet';
 import { 
 	ChevronLeftIcon,
 	ChevronRightIcon,
+	CircleDotIcon,
+	CircleDottedIcon,
 	CopyIcon,
 	EditIcon,
 	EyeIcon,
 	FilterIcon,
 	FilterOffIcon,
+	LockIcon,
+	LockOpenIcon,
 	SortAscendingIcon,
 	SortDescendingIcon,
 	TrashIcon,
-	CircleDottedIcon,
-	CircleDotIcon,
-	LockIcon,
 } from "vue-tabler-icons";
 
 // component constants
@@ -293,11 +297,12 @@ const searchInput = ref(null);
 
 // table filter
 const filter = reactive({
-	active: null,
-	date: null,
-	title: null,
+	active:  null,
+	private: null,
+	date:    null,
+	title:   null,
 	creator: null,
-	songs: null,
+	songs:   null,
 });
 const resetFilter = () => {
 	for (const field in filter) {
@@ -307,7 +312,12 @@ const resetFilter = () => {
 	}
 };
 const isFiltered = computed(() => {
-	return filter.active !== null || filter.date || filter.title || filter.creator || filter.songs;
+	return filter.active !== null
+		|| filter.private !== null
+		|| filter.date
+		|| filter.title
+		|| filter.creator
+		|| filter.songs;
 });
 
 // pagination
@@ -372,6 +382,12 @@ const filteredSetlists = computed(() => {
 		// filter fields: date
 		setlists = setlists.filter(s => {
 			return s.active === filter.active;
+		})
+	}
+	if (filter.private !== null) {
+		// filter fields: date
+		setlists = setlists.filter(s => {
+			return s.private === filter.private || (!filter.private && !s.private);
 		})
 	}
 	if (filter.date) {
