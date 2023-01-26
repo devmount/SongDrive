@@ -79,21 +79,21 @@
 				<!-- column filters -->
 				<tr>
 					<td>
-						<div class="py-1.5 border border-blade-400 dark:border-black dark:bg-blade-900 dark:text-blade-100">
+						<div
+							class="cursor-pointer py-1.5 border border-blade-400 dark:border-black dark:bg-blade-900 dark:text-blade-100 hover:border-spring-600"
+							@click="toggleFilter('active')"
+						>
 							<filter-icon
 								v-if="filter.active === null"
-								@click="filter.active = true"
-								class="w-5 h-5 stroke-1.5 text-blade-500 cursor-pointer mx-auto my-0.5"
+								class="w-5 h-5 stroke-1.5 text-blade-500 mx-auto my-0.5"
 							/>
 							<circle-dot-icon
 								v-if="filter.active === true"
-								@click="filter.active = false"
-								class="w-6 h-6 stroke-1.5 text-spring-600 cursor-pointer mx-auto"
+								class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto"
 							/>
 							<circle-dotted-icon
 								v-if="filter.active === false"
-								@click="filter.active = null"
-								class="w-6 h-6 stroke-1.5 cursor-pointer mx-auto"
+								class="w-6 h-6 stroke-1.5 mx-auto"
 							/>
 						</div>
 					</td>
@@ -328,7 +328,7 @@ const active = reactive({
 	existing: true
 });
 
-// mounted
+// focus container on mount
 onMounted(() => {
 	container.value.focus();
 });
@@ -435,6 +435,20 @@ const sortList = (field) => {
 		order.ascending = true;
 	}
 	order.field = field;
+};
+const toggleFilter = (prop) => {
+	switch (filter[prop]) {
+		case null:
+			filter[prop] = true;
+			break;
+		case true:
+			filter[prop] = false;
+			break;
+		case false:
+		default:
+			filter[prop] = null;
+			break;
+	}
 };
 const showPageItem = (p) => {
 	return pageCount.value < 6 || (
