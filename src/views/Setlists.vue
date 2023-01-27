@@ -51,20 +51,21 @@
 			<thead>
 				<!-- column titles -->
 				<tr>
-					<th class="w-11"></th>
+					<th></th>
 					<th
 						v-for="col in ['date', 'private', 'title', 'creator', 'songs']"
 						:key="col"
 						class="cursor-pointer uppercase p-2 font-normal"
 						:class="{
-							'w-11': col === 'private',
+							'hidden xs:table-cell': col === 'private',
 							'hidden xl:table-cell': col === 'creator',
-							'hidden sm:table-cell w-24': col === 'songs',
+							'hidden sm:table-cell': col === 'songs',
 						}"
 						@click="sortList(col)"
 					>
-						<div class="flex items-center gap-2" :class="{ 'justify-center': col === 'songs', 'hidden': col === 'private' }">
-							{{ t('field.' + col) }}
+						<div v-if="col !== 'private'" class="flex items-center gap-2" :class="{ 'justify-center': col === 'songs' }">
+							<span :class="{ 'md:hidden': col === 'date' }">{{ t('field.' + col) }}</span>
+							<span v-if="col === 'date'" class="hidden md:inline">{{ t('field.dateOfEvent') }}</span>
 							<sort-ascending-icon
 								v-if="order.field == col && !order.ascending"
 								class="w-5 h-5 stroke-1.5 stroke-spring-600"
@@ -75,11 +76,11 @@
 							/>
 						</div>
 					</th>
-					<th class="w-11"></th>
+					<th></th>
 				</tr>
 				<!-- column filters -->
 				<tr>
-					<td>
+					<td class="w-11">
 						<div
 							class="cursor-pointer py-1.5 border border-blade-400 dark:border-black dark:bg-blade-900 dark:text-blade-100 hover:border-spring-600"
 							@click="toggleFilter('active')"
@@ -89,7 +90,7 @@
 							<circle-dotted-icon v-if="filter.active === false" class="w-6 h-6 stroke-1.5 mx-auto" />
 						</div>
 					</td>
-					<td>
+					<td class="w-24 md:w-auto">
 						<label class="relative">
 							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<input
@@ -99,7 +100,7 @@
 							/>
 						</label>
 					</td>
-					<td>
+					<td class="w-11 hidden xs:table-cell">
 						<div
 							class="cursor-pointer py-1.5 border border-blade-400 dark:border-black dark:bg-blade-900 dark:text-blade-100 hover:border-spring-600"
 							@click="toggleFilter('private')"
@@ -130,7 +131,7 @@
 							</select>
 						</label>
 					</td>
-					<td class="hidden sm:table-cell">
+					<td class="hidden sm:table-cell w-24">
 						<label class="relative">
 							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<input
@@ -140,7 +141,7 @@
 							/>
 						</label>
 					</td>
-					<td>
+					<td class="w-11">
 						<secondary-button @click="resetFilter" :disabled="!isFiltered">
 							<filter-off-icon class="w-5 h-5 stroke-1.5" />
 						</secondary-button>
@@ -160,7 +161,7 @@
 						<div class="truncate hidden md:block">{{ humanDate(setlist.date, locale) }}</div>
 						<div class="truncate md:hidden">{{ humanDate(setlist.date, locale, false, true) }}</div>
 					</td>
-					<td>
+					<td class="hidden xs:table-cell">
 						<lock-icon v-if="setlist.private" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" :title="t('tooltip.setlistPrivate')" />
 						<lock-open-icon v-else class="w-6 h-6 stroke-1.5 stroke-blade-500 mx-auto" />
 					</td>
