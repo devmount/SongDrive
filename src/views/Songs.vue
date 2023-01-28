@@ -194,7 +194,7 @@
 					</td>
 					<td>
 						<dropdown>
-							<template #default class="flex flex-col gap-1">
+							<template #default>
 								<router-link
 									:to="{ name: 'song-show', params: { id: song.id }}"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
@@ -269,7 +269,7 @@ import SongSet from '@/modals/SongSet';
 import Tag from '@/elements/Tag';
 
 // icons
-import { 
+import {
 	ChevronLeftIcon,
 	ChevronRightIcon,
 	CopyIcon,

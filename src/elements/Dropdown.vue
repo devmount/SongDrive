@@ -8,7 +8,7 @@
 	</div>
 	<transition-scale>
 		<div v-if="open" class="relative">
-			<div class="absolute top-0 right-0 p-1 bg-blade-200 dark:bg-blade-900 z-10 w-max rounded-sm shadow-lg">
+			<div class="absolute top-0 right-0 p-1 bg-blade-200 dark:bg-blade-900 z-10 w-max rounded-sm shadow-lg flex flex-col gap-1">
 				<slot></slot>
 			</div>
 		</div>

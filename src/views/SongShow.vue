@@ -1,7 +1,7 @@
 <template>
 	<div
-		class="song-show"
-		ref="songshow"
+		class="flex flex-col gap-6 w-full focus:outline-none"
+		ref="container"
 		tabindex="0"
 		@keydown.up.exact="chords ? tuning-- : null"
 		@keydown.left.exact="chords ? tuning-- : null"
@@ -10,241 +10,264 @@
 		@keydown.ctrl.k.prevent="chords = !chords"
 		@keydown.ctrl.r.prevent="chords ? tuning=0 : null"
 		@keydown.ctrl.p.prevent="modal.present=true"
-		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; songshow.focus()"
+		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; container.focus()"
 	>
-		<div class="off-canvas off-canvas-secondary">
-			<!-- content -->
-			<div class="off-canvas-content">
-				<div class="container">
-					<!-- title and song content -->
-					<div class="columns pb-4">
-						<div v-if="ready.songs && song" class="column col-12">
-							<h2>
-								{{ song.title }}
-								<span class="label text-pre ml-2 px-2 py-1 text-small text-bottom">{{ showTuning.current }}</span>
-							</h2>
-							<div class="heading text-gray text-uppercase mb-2">{{ song.subtitle }}</div>
-							<!-- toolbar -->
-							<div class="toolbar">
-								<div v-if="ready.songs" class="flex align-center g-1">
-									<button
-										class="btn btn-secondary flex align-center"
-										:data-tooltip="t('button.back')"
-										@click="router.go(-1)"
-									>
-										<ion-icon :icon="arrowBackOutline" />
-										<span class="hide-xl ml-2">{{ t('button.back') }}</span>
-									</button>
-									<div
-										v-for="([id, lang], i) in showLanguages"
-										:key="i"
-										class=" tooltip tooltip-bottom"
-										:data-tooltip="t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
-									>
-										<router-link
-											:to="{ name: 'song-show', params: { id: id }}"
-											class="btn btn-secondary text-uppercase"
-											:class="{ disabled: (!id || songId == id) }"
-										>
-											{{ lang }}
-										</router-link>
-									</div>
-								</div>
-								<div class="flex align-center g-1">
-									<div class="flex align-center g-1 ml-1 p-relative key-preview">
-										<button
-											class="btn btn-secondary tooltip tooltip-top"
-											:class="{ disabled: !chords }"
-											:data-tooltip="t('tooltip.transposeDown')"
-											@click="tuning--"
-										>
-											<ion-icon :icon="arrowBack" />
-										</button>
-										<button
-											class="btn btn-secondary tooltip tooltip-top"
-											:class="{ disabled: !chords }"
-											:data-tooltip="t('tooltip.keyReset')"
-											@click="tuning = 0"
-										>
-											<ion-icon :icon="refresh" />
-										</button>
-										<button
-											class="btn btn-secondary tooltip tooltip-top"
-											:class="{ disabled: !chords }"
-											:data-tooltip="t('tooltip.transposeUp')"
-											@click="tuning++"
-										>
-											<ion-icon :icon="arrowForward" />
-										</button>
-										<div class="p-absolute preview-pane flex justify-between p-1">
-											<span class="text-center text-pre text-gray text-large px-3">{{ showTuning.previous }}</span>
-											<span class="label label-rounded text-center text-large text-pre text-bold px-3">{{ showTuning.current }}</span>
-											<span class="text-center text-pre text-gray text-large px-3">{{ showTuning.next }}</span>
-										</div>
-									</div>
-									<label
-										class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center"
-										:data-tooltip="t('tooltip.chordsShow')"
-									>
-										<input type="checkbox" v-model="chords">
-										<i class="form-icon"></i>
-										<ion-icon :icon="musicalNotesOutline" class="show-xl mt-1" />
-										<span class="hide-xl">{{ t('switch.chords') }}</span>
-									</label>
-									<button
-										class="btn btn-secondary flex align-center tooltip tooltip-bottom"
-										:data-tooltip="t('tooltip.startFullscreen')"
-										@click="modal.present=true"
-									>
-										<ion-icon :icon="videocamOutline" />
-										<span class="hide-xl ml-2">{{ t('button.present') }}</span>
-									</button>
-								</div>
-								<div class="flex align-center g-1">
-									<div class="dropdown dropdown-right">
-										<div class="btn-group">
-											<a
-												class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top"
-												:data-tooltip="t('tooltip.downloadSong')"
-												tabindex="0"
-											>
-												<ion-icon :icon="downloadOutline" class="mr-2" />
-												<span class="hide-xl">{{ t('button.download') }}</span>
-												<ion-icon :icon="chevronDownOutline" class="ml-1" />
-											</a>
-											<ul class="menu text-left">
-												<li class="menu-item">
-													<a href="#" class="py-3 px-3" @click="exportTxt">
-														<ion-icon :icon="documentTextOutline" class="mr-2" />
-														{{ t('button.filetypeTxt') }}
-													</a>
-												</li>
-												<li class="menu-item">
-													<a href="#" class="py-3 px-3" @click="exportSng">
-														<ion-icon :icon="documentOutline" class="mr-2" />
-														{{ t('button.filetypeSng') }}
-													</a>
-												</li>
-												<li class="menu-item">
-													<a href="#" class="py-3 px-3" @click="exportPdf">
-														<ion-icon :icon="documentOutline" class="mr-2" />
-														{{ t('button.filetypePdf') }}
-													</a>
-												</li>
-											</ul>
-										</div>
-									</div>
-									<div v-if="user && role > 1" class="dropdown dropdown-right">
-										<div class="btn-group">
-											<a class="btn btn-secondary dropdown-toggle flex align-center" tabindex="0">
-												<ion-icon :icon="menuOutline" />
-												<ion-icon :icon="chevronDownOutline" class="ml-1" />
-											</a>
-											<ul class="menu text-left">
-												<li class="menu-item">
-													<a href="#" class="py-3 px-3" @click="existing=true; modal.set=true">
-														<ion-icon :icon="createOutline" class="mr-2" />
-														{{ t('button.edit') }}
-													</a>
-												</li>
-												<li class="menu-item">
-													<a href="#" class="py-3 px-3" @click="existing=false; modal.set=true">
-														<ion-icon :icon="copyOutline" class="mr-2" />
-														{{ t('button.duplicate') }}
-													</a>
-												</li>
-												<li v-if="role > 2" class="menu-item">
-													<a href="#" class="py-3 px-3 text-error" @click="modal.delete = true">
-														<ion-icon :icon="trashOutline" class="mr-2" />
-														{{ t('button.delete') }}
-													</a>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
-							<SongContent
-								:content="song.content"
-								:chords="chords"
-								:tuning="tuning"
-								:presentation="false"
-							/>
+		<!-- page heading -->
+		<div class="flex flex-col justify-between items-stretch gap-4">
+			<!-- title and song content -->
+			<div v-if="ready.songs && song" class="flex gap-6 text-3xl uppercase font-thin tracking-wider">
+				<span class="font-semibold">{{ song.title }}</span>
+				{{ showTuning.current }}
+			</div>
+			<div class="text-blade-500 -mt-4">{{ song.subtitle }}</div>
+		</div>
+		<!-- toolbar -->
+		<div class="flex justify-between align-center w-full bg-blade-200 dark:bg-blade-900 rounded-lg p-2 gap-1">
+			<div v-if="ready.songs" class="flex align-center gap-1">
+				<secondary-button :title="t('button.back')" @click="router.go(-1)">
+					<arrow-left-icon />
+					<span class="hidden xl:inline">{{ t('button.back') }}</span>
+				</secondary-button>
+				<secondary-button
+					v-for="([id, lang], i) in showLanguages" :key="i"
+					:title="t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
+					@click="router.push({ name: 'song-show', params: { id: id }})"
+					class="uppercase hidden sm:inline"
+					:disabled="!id || songId == id"
+				>
+					{{ lang }}
+				</secondary-button>
+			</div>
+			<div class="flex items-center gap-1">
+				<div class="group flex items-center gap-1 relative key-preview">
+					<secondary-button
+						:disabled="!chords"
+						:title="t('tooltip.transposeDown')"
+						@click="tuning--"
+					>
+						<arrow-left-icon />
+					</secondary-button>
+					<secondary-button
+						:disabled="!chords"
+						:title="t('tooltip.keyReset')"
+						@click="tuning = 0"
+					>
+						<reload-icon />
+					</secondary-button>
+					<secondary-button
+						:disabled="!chords"
+						:title="t('tooltip.transposeUp')"
+						@click="tuning++"
+					>
+						<arrow-right-icon />
+					</secondary-button>
+					<div class="absolute top-11 left-1/2 -translate-x-1/2 w-40 flex justify-between p-1 rounded-lg bg-blade-200 dark:bg-blade-900 invisible group-hover:visible">
+						<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
+							{{ showTuning.previous }}
+						</div>
+						<div class="flex-auto basis-0 font-mono rounded-xl text-center text-xl font-semibold px-3">
+							{{ showTuning.current }}
+						</div>
+						<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
+							{{ showTuning.next }}
 						</div>
 					</div>
-					<!-- song footer with info and data about the song -->
-					<SongFooter
-						v-if="ready.songs && song && ready.tags"
-						class="columns mt-4 pt-4"
-						:song="song"
-						:tags="tags"
-					/>
+				</div>
+				<secondary-button
+					:title="t('tooltip.chordsShow')"
+					@click="chords = !chords"
+				>
+					<music-icon v-if="chords" class="stroke-spring-400" />
+					<music-off-icon v-else />
+					<span class="hidden xl:inline">{{ t('switch.chords') }}</span>
+				</secondary-button>
+				<secondary-button
+					:title="t('tooltip.startFullscreen')"
+					@click="modal.present=true"
+				>
+					<presentation-icon />
+					<span class="hidden xl:inline">{{ t('button.present') }}</span>
+				</secondary-button>
+			</div>
+			<div class="flex align-center gap-1">
+				<div class="hidden sm:block">
+					<dropdown>
+						<template #trigger>
+							<secondary-button class="h-full">
+								<download-icon class="w-5 h-5 stroke-1.5" />
+								<span class="hidden xl:inline">{{ t('button.download') }}</span>
+								<chevron-down-icon class="w-5 h-5 stroke-1.5" />
+							</secondary-button>
+						</template>
+						<template #default>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click="exportTxt"
+							>
+								<file-pencil-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.filetypeTxt') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click="exportSng"
+							>
+								<file-music-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.filetypeSng') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click="exportPdf"
+							>
+								<file-text-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.filetypePdf') }}
+							</button>
+						</template>
+					</dropdown>
+				</div>
+				<div class="h-full">
+					<dropdown>
+						<template #default>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click.stop="editDialog(song, true)"
+							>
+								<edit-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.edit') }}
+							</button>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click.prevent="editDialog(song, false)"
+							>
+								<copy-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.duplicate') }}
+							</button>
+							<button
+								v-if="user && role > 2"
+								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+								@click.prevent="deleteDialog(song)"
+							>
+								<trash-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.delete') }}
+							</button>
+							<div class="flex gap-1 sm:hidden">
+								<secondary-button
+									v-for="([id, lang], i) in showLanguages" :key="i"
+									:title="t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
+									@click="router.push({ name: 'song-show', params: { id: id }})"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 uppercase"
+									:disabled="!id || songId == id"
+								>
+									{{ lang }}
+								</secondary-button>
+							</div>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+								@click="exportTxt"
+							>
+								<file-pencil-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.filetypeTxt') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+								@click="exportSng"
+							>
+								<file-music-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.filetypeSng') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+								@click="exportPdf"
+							>
+								<file-text-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.filetypePdf') }}
+							</button>
+						</template>
+					</dropdown>
 				</div>
 			</div>
-			<!-- modals -->
-			<SongSet
-				v-if="modal.set"
-				:active="modal.set"
-				:existing="existing"
-				:initialSong="song"
-				:id="songId"
-				:songs="songs"
-				:setlists="setlists"
-				:tags="tags"
-				:languages="languages"
-				:ready="ready"
-				@closed="modal.set = false"
-			/>
-			<SongDelete
-				v-if="modal.delete"
-				:active="modal.delete"
-				:title="song ? song.title : ''"
-				:id="songId"
-				:songs="songs"
-				@closed="modal.delete = false"
-			/>
-			<SongPresent
-				v-if="modal.present"
-				:active="modal.present"
-				:song="song"
-				:chords="chords"
-				:tuning="tuning"
-				@chords="chords = !chords"
-				@closed="modal.present = false"
-			/>
 		</div>
+		<SongContent
+			:content="song.content"
+			:chords="chords"
+			:tuning="tuning"
+			:presentation="false"
+		/>
+		<!-- song footer with info and data about the song -->
+		<song-footer
+			v-if="ready.songs && song && ready.tags"
+			class="columns mt-4 pt-4"
+			:song="song"
+			:tags="tags"
+		/>
+		<!-- modals -->
+		<song-set
+			v-if="modal.set"
+			:active="modal.set"
+			:existing="existing"
+			:initial-song="song"
+			:id="songId"
+			:songs="songs"
+			:setlists="setlists"
+			:tags="tags"
+			:languages="languages"
+			:ready="ready"
+			@closed="modal.set = false"
+		/>
+		<song-delete
+			v-if="modal.delete"
+			:active="modal.delete"
+			:title="song ? song.title : ''"
+			:id="songId"
+			:songs="songs"
+			@closed="modal.delete = false"
+		/>
+		<song-present
+			v-if="modal.present"
+			:active="modal.present"
+			:song="song"
+			:chords="chords"
+			:tuning="tuning"
+			@chords="chords = !chords"
+			@closed="modal.present = false"
+		/>
 	</div>
 </template>
 
 <script setup>
+import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
+import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from 'vue-router';
-import { notify } from '@kyvg/vue3-notification';
-import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
+import Dropdown from '@/elements/Dropdown';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent';
-import SongFooter from '../partials/SongFooter.vue';
-import SongSet from '@/modals/SongSet';
 import SongDelete from '@/modals/SongDelete';
+import SongFooter from '../partials/SongFooter.vue';
 import SongPresent from '@/modals/SongPresent';
+import SongSet from '@/modals/SongSet';
+
+// icons
 import {
-	arrowBack,
-	arrowBackOutline,
-	arrowDown,
-	arrowForward,
-	arrowUp,
-	chevronDownOutline,
-	documentOutline,
-	documentTextOutline,
-	menuOutline,
-	copyOutline,
-	createOutline,
-	downloadOutline,
-	musicalNotesOutline,
-	refresh,
-	trashOutline,
-	videocamOutline
-} from 'ionicons/icons';
+	ArrowLeftIcon,
+	ArrowRightIcon,
+	ChevronDownIcon,
+	CopyIcon,
+	DownloadIcon,
+	EditIcon,
+	FileMusicIcon,
+	FilePencilIcon,
+	FileTextIcon,
+	MusicIcon,
+	MusicOffIcon,
+	PresentationIcon,
+	ReloadIcon,
+	TrashIcon,
+} from "vue-tabler-icons";
+
+// component constants
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
@@ -291,17 +314,16 @@ const modal = reactive({
 });
 
 // template references
-const songshow = ref(null);
+const container = ref(null);
 
 // mounted
 onMounted(() => {
 	// focus component area for shortcuts
-	songshow.value.focus();
+	container.value.focus();
 	// set custom tuning when loading this component and songKey is given
 	tuning.value = props.song && songKey ? urlKeyDiff() : 0;
 });
 
-// computed
 // get song object from db as soon as songs have finished loading
 const song = computed(() => {
 	if (props.ready.songs) {
@@ -339,7 +361,6 @@ const showTuning = computed(() => {
 	}
 });
 
-// methods
 // calculates difference between song key and url key parameter and returns new key scale index
 const urlKeyDiff = () => {
 	return (12 + keyScale.indexOf(songKey) - keyScale.indexOf(song.value.tuning)) % 12;
@@ -527,15 +548,24 @@ const getPdfSongContent = () => {
 	];
 };
 
+// handle dialog modals
+const editDialog = (existing) => {
+	existing = existing;
+	modal.set = true;
+};
+const deleteDialog = () => {
+	modal.delete = true;
+};
+
 // watcher
 watch (
 	() => modal.present,
 	(newValue) => {
 		// remove scroll bar when in presentation moden
 		if (newValue) {
-			document.body.classList.add('o-hidden');
+			document.body.classList.add('overflow-hidden');
 		} else {
-			document.body.classList.remove('o-hidden');
+			document.body.classList.remove('overflow-hidden');
 		}
 	}
 );
