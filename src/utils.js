@@ -112,7 +112,7 @@ const parsedContent = (content, tuning, showChords, twoColumns) => {
       switch (line.charAt(2).toLowerCase()) {
         case 'v':
           types.push('v');
-          classes.push('verse ' + ((!isNaN(parseInt(line.trim().charAt(3)))) ? 'part' + line.trim().charAt(3) : ''));
+          classes.push('verse');
           numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
           break;
         case 'p':

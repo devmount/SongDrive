@@ -74,7 +74,7 @@
 					</div>
 				</div>
 				<secondary-button
-					:title="t('tooltip.chordsShow')"
+					:title="chords ? t('tooltip.chordsHide') : t('tooltip.chordsShow')"
 					@click="chords = !chords"
 				>
 					<music-icon v-if="chords" class="stroke-spring-400" />
@@ -188,7 +188,7 @@
 				</div>
 			</div>
 		</div>
-		<SongContent
+		<song-content
 			:content="song.content"
 			:chords="chords"
 			:tuning="tuning"

@@ -1,16 +1,27 @@
 <template>
-	<div class="content song-content columns">
+	<div class="flex flex-wrap gap-8">
 		<div
-			class="column col-6"
-			:class="{ 'present': presentation, 'text': !chords, 'col-2x-12': !presentation }"
-			v-for="(parts, i) in parsedContent(content, tuning, chords, true)"
-			:key="i"
+			v-for="(parts, i) in parsedContent(content, tuning, chords, true)" :key="i"
+			class="flex flex-col gap-7"
+			:class="{
+				'present': presentation,
+				'text': !chords,
+				'col-2x-12': !presentation
+			}"
 		>
-			<pre v-for="(part, j) in parts" :key="j" :class="part.class"><!--
-				--><span v-for="(line, l) in part.content.split('\n')" :key="l" :class="{ chords: isChordLine(line) }"><!--
-					-->{{ line }}<!--
-				--></span><!--
-			--></pre>
+			<pre
+				v-for="(part, j) in parts" :key="j"
+				:part="part.number"
+				class="relative overflow-visible"
+				:class="{
+					'relative pl-8 before:absolute before:top-2 before:left-1 before:text-4xl before:font-fira before:font-light before:content-[attr(part)]': part.class === 'verse',
+					'font-fira text-2xl': !chords,
+				}"
+			><span
+				v-for="(line, l) in part.content.split('\n')" :key="l"
+				class="block"
+				:class="{ 'text-spring-600': isChordLine(line) }"
+			>{{ line }}</span></pre>
 		</div>
 	</div>
 </template>
