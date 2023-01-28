@@ -2,8 +2,12 @@
 	<div
 		class="cursor-pointer rounded text-sm flex items-center bg-blade-300 dark:bg-blade-750 hover:bg-spring-700 gap-2 py-0.5 px-2"
 	>
-		<tag-icon class="shrink-0 w-4 h-4 stroke-1.5" />
-		<div class="whitespace-nowrap">{{ tag[locale] ? tag[locale] : tag.key }}</div>
+		<slot>
+			<tag-icon class="shrink-0 w-4 h-4 stroke-1.5" />
+			<div v-if="tag" class="whitespace-nowrap">
+				{{ tag[locale] ? tag[locale] : tag.key }}
+			</div>
+		</slot>
 	</div>
 </template>
 
