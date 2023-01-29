@@ -1,29 +1,21 @@
 <template>
-	<div class="modal modal-md" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.songSyntaxCheatsheet') }}</div>
-			</div>
-			<div class="modal-body">
-				<div v-html="content"></div>
-			</div>
-			<div class="modal-footer"></div>
-		</div>
-	</div>
+	<modal :active="active" :title="t('modal.songSyntaxCheatsheet')" size="xl2" @closed="emit('closed')">
+		<div class="markdown overflow-y-scroll" v-html="content"></div>
+	</modal>
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useI18n } from "vue-i18n";
-import { sdHighlight } from '@/utils.js';
-import { marked } from 'marked';
 import 'highlight.js/styles/github-dark.css';
-const { t, locale } = useI18n();
+import { computed } from 'vue';
+import { marked } from 'marked';
+import { sdHighlight } from '@/utils.js';
+import { useI18n } from "vue-i18n";
+import Modal from '@/elements/Modal';
 
-// markdown parser
-const hljs = require('highlight.js');
+
+// component constants
+const { t, locale } = useI18n();
+const hljs = require('highlight.js'); // markdown parser
 
 // cheatsheet contents
 const cheatsheets = {
@@ -31,7 +23,7 @@ const cheatsheets = {
 	en: require("@/docs/syntax-cheatsheet.en.md").default,
 };
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active: Boolean // state of modal display, true to show modal
 });
@@ -39,6 +31,7 @@ const props = defineProps({
 // emits
 const emit = defineEmits(['closed']);
 
+// parse content of cheatsheet markdown file
 const content = computed(() => marked.parse(
 	cheatsheets[locale.value],
 	{
