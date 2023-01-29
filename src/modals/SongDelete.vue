@@ -3,11 +3,20 @@
 		<div class="flex flex-col gap-2">
 			<div>{{ t('text.reallyDeleteSong', { title: title }) }}</div>
 			<div class="text-rose-600">{{ t('text.cannotBeUndone') }}</div>
+			<label class="flex items-center gap-3 mt-4">
+				<input v-model="agreed" :value="true" type="checkbox" class="w-6 h-6" />
+				{{ t('text.yesIUnderstand') }}
+			</label>
 			<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
 				<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 					{{ t('button.cancel') }}
 				</button>
-				<primary-button class="grow" type="danger" @click="deleteSong">
+				<primary-button
+					class="grow"
+					type="danger"
+					:disabled="!agreed"
+					@click="agreed ? deleteSong() : null"
+				>
 					{{ t('button.delete') }}
 					<trash-icon class="w-6 h-6 stroke-1.5" />
 				</primary-button>
@@ -17,7 +26,7 @@
 </template>
 
 <script setup>
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
 import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
 import { useI18n } from "vue-i18n";
@@ -43,6 +52,8 @@ const props = defineProps({
 	id: String,      // id of setlist to delete
 	songs: Object,   // list of songs assigned to this setlist
 });
+
+const agreed = ref(false);
 
 // emits
 const emit = defineEmits(['closed']);
