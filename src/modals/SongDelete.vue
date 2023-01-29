@@ -53,6 +53,7 @@ const props = defineProps({
 	songs: Object,   // list of songs assigned to this setlist
 });
 
+// user input properties
 const agreed = ref(false);
 
 // emits

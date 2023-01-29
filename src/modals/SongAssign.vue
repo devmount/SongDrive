@@ -1,0 +1,126 @@
+<template>
+	<modal :active="active" :title="t('modal.translations')" size="xl3" @closed="emit('closed')">
+		<div class="grid grid-cols-2 gap-4">
+			<div class="flex flex-col gap-4">
+				<label class="relative">
+					<filter-icon class="absolute top-2 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+					<input
+						type="search"
+						v-model="searchInput"
+						class="w-full pl-8"
+						:placeholder="t('placeholder.searchSongTitle')"
+					/>
+				</label>
+				<div class="h-1/2v overflow-y-scroll flex flex-col gap-2">
+					<label v-for="(fsong, key) in filteredSongs" :key="key" class="flex items-center gap-2">
+						<input
+							v-model="selectedSongs"
+							:value="key"
+							type="checkbox"
+							class="w-6 h-6 ml-2"
+						/>
+						<div class="truncate">
+							{{ fsong.title }}
+							<span class="text-blade-500">{{ fsong.subtitle }}</span>
+						</div>
+					</label>
+				</div>
+			</div>
+			<div>
+				<div v-if="selectedSongs.length == 0" class="flex flex-col items-center gap-2">
+					<language-icon class="w-12 h-12 stroke-1 text-blade-500" />
+					<div class="text-lg">{{ t('text.noSongsSelected') }}</div>
+					<div class="text-blade-500 text-center w-4/5">{{ t('text.selectSomeTranslations') }}</div>
+				</div>
+				<div v-else class="flex flex-col gap-2">
+					<div class="text-lg text-center mb-2">{{ t('text.selection') }}</div>
+					<div v-for="tsong in selectedSongs" :key="tsong" class="flex items-center gap-3">
+						<figure class="shrink-0 flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-12">
+							<div class="-mt-0.5 uppercase">{{ songs[tsong].language }}</div>
+						</figure>
+						<div class="flex flex-col overflow-hidden">
+							<div class="-mt-1 truncate">{{ songs[tsong].title }}</div>
+							<div class="text-sm text-blade-500 -mt-1 truncate">{{ songs[tsong].subtitle }}</div>
+						</div>
+						<button
+							class="ml-auto"
+							@click="selectedSongs = selectedSongs.filter(k => k !== tsong)"
+						>
+							<x-icon class="w-4 h-4 text-blade-500" />
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button @click="emit('assign', selectedSongs)">
+				{{ t('button.assign') }}
+				<arrow-back-icon class="w-6 h-6 stroke-1.5" />
+			</primary-button>
+		</div>
+	</modal>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+import { useI18n } from "vue-i18n";
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import {
+	ArrowBackIcon,
+	LanguageIcon,
+	XIcon,
+	FilterIcon
+} from "vue-tabler-icons";
+
+// component constants
+const { t } = useI18n();
+
+// user input properties
+const selectedSongs = ref([]);
+const searchInput = ref('');
+
+// inherited properties
+const props = defineProps({
+	active:   Boolean, // state of modal display, true to show modal
+	existing: Boolean, // song already exists
+	id:       String,  // identifier of original song
+	songs:    Object,  // list of all available songs
+});
+
+// emits
+const emit = defineEmits(['closed', 'assign']);
+
+// computed: filter song list by search query
+const filteredSongs = computed(() => {
+	let songs = {};
+	if (searchInput.value != '') {
+		for (const key in props.songs) {
+			if (props.songs.hasOwnProperty(key)) {
+				// exclude self assignment
+				if (props.existing && props.id == key) continue;
+				// search in title and subtitle
+				const song = props.songs[key];
+				let search = searchInput.value.toLowerCase();
+				if (
+					song.title.toLowerCase().indexOf(search) !== -1 ||
+					song.subtitle.toLowerCase().indexOf(search) !== -1 ||
+					song.content.toLowerCase().indexOf(search) !== -1
+				) {
+					songs[key] = song;
+				}
+			}
+		}
+		return songs;
+	} else {
+		let songs = {...props.songs};
+		if (props.existing) delete songs[props.id];
+		return songs;
+	}
+});
+</script>

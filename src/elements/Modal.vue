@@ -10,6 +10,8 @@
 				'max-w-md': size === sizes.md,
 				'max-w-lg': size === sizes.lg,
 				'max-w-xl': size === sizes.xl,
+				'max-w-2xl': size === sizes.xl2,
+				'max-w-3xl': size === sizes.xl3,
 			}"
 			@click.stop="null"
 		>
@@ -53,5 +55,7 @@ const sizes = {
 	md: 'md',
 	lg: 'lg',
 	xl: 'xl',
+	xl2: 'xl2',
+	xl3: 'xl3',
 }
 </script>
