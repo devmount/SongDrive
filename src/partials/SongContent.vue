@@ -3,18 +3,14 @@
 		<div
 			v-for="(parts, i) in parsedContent(content, tuning, chords, true)" :key="i"
 			class="flex flex-col gap-7"
-			:class="{
-				'present': presentation,
-				'text': !chords,
-				'col-2x-12': !presentation
-			}"
+			:class="{ 'present': presentation }"
 		>
 			<pre
 				v-for="(part, j) in parts" :key="j"
 				:part="part.number"
 				class="relative overflow-visible"
 				:class="{
-					'relative pl-8 before:absolute before:top-2 before:left-1 before:text-4xl before:font-fira before:font-light before:content-[attr(part)]': part.class === 'verse',
+					'relative pl-8 before:absolute before:top-2 before:left-1 before:text-4xl before:font-fira before:font-light before:content-[attr(part)]': part.class === 'verse' && part.number > 0,
 					'font-fira text-2xl': !chords,
 				}"
 			><span

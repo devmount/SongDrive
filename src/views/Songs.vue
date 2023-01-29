@@ -232,29 +232,28 @@
 				</tr>
 			</tbody>
 		</table>
-		<!-- modals -->
-		<song-set
-			v-if="modal.set"
-			:active="modal.set"
-			:existing="active.existing"
-			:initial-song="active.song"
-			:song-key="active.key"
-			:songs="songs"
-			:setlists="setlists"
-			:tags="tags"
-			:languages="languages"
-			:ready="ready"
-			@closed="modal.set = false"
-		/>
-		<song-delete
-			v-if="modal.delete"
-			:active="modal.delete"
-			:title="active.title"
-			:id="active.key"
-			:songs="songs"
-			@closed="modal.delete = false"
-		/>
 	</div>
+	<!-- modals -->
+	<song-set
+		v-if="modal.set"
+		:active="modal.set"
+		:existing="active.existing"
+		:initial-song="active.song"
+		:song-key="active.key"
+		:songs="songs"
+		:setlists="setlists"
+		:tags="tags"
+		:languages="languages"
+		:ready="ready"
+		@closed="modal.set = false"
+	/>
+	<song-delete
+		:active="modal.delete"
+		:title="active.title"
+		:id="active.key"
+		:songs="songs"
+		@closed="modal.delete = false"
+	/>
 </template>
 
 <script setup>

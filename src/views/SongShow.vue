@@ -201,38 +201,37 @@
 			:song="song"
 			:tags="tags"
 		/>
-		<!-- modals -->
-		<song-set
-			v-if="modal.set"
-			:active="modal.set"
-			:existing="existing"
-			:initial-song="song"
-			:id="songId"
-			:songs="songs"
-			:setlists="setlists"
-			:tags="tags"
-			:languages="languages"
-			:ready="ready"
-			@closed="modal.set = false"
-		/>
-		<song-delete
-			v-if="modal.delete"
-			:active="modal.delete"
-			:title="song ? song.title : ''"
-			:id="songId"
-			:songs="songs"
-			@closed="modal.delete = false"
-		/>
-		<song-present
-			v-if="modal.present"
-			:active="modal.present"
-			:song="song"
-			:chords="chords"
-			:tuning="tuning"
-			@chords="chords = !chords"
-			@closed="modal.present = false"
-		/>
 	</div>
+	<!-- modals -->
+	<song-set
+		v-if="modal.set"
+		:active="modal.set"
+		:existing="existing"
+		:initial-song="song"
+		:id="songId"
+		:songs="songs"
+		:setlists="setlists"
+		:tags="tags"
+		:languages="languages"
+		:ready="ready"
+		@closed="modal.set = false"
+	/>
+	<song-delete
+		:active="modal.delete"
+		:title="song ? song.title : ''"
+		:id="songId"
+		:songs="songs"
+		@closed="modal.delete = false"
+	/>
+	<song-present
+		v-if="modal.present"
+		:active="modal.present"
+		:song="song"
+		:chords="chords"
+		:tuning="tuning"
+		@chords="chords = !chords"
+		@closed="modal.present = false"
+	/>
 </template>
 
 <script setup>
