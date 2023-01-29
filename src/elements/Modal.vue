@@ -3,15 +3,15 @@
 		<div
 			v-if="active"
 			class="
-				fixed z-50 position-center rounded-sm w-full max-w-sm bg-blade-100 p-4 flex flex-col gap-4
-				dark:bg-blade-850
+				fixed z-50 position-center rounded-sm w-full max-w-sm p-4 flex flex-col gap-4
+				bg-blade-100 dark:bg-blade-850
 			"
 			:class="{
 				'max-w-md': size === sizes.md,
 				'max-w-lg': size === sizes.lg,
 				'max-w-xl': size === sizes.xl,
-				'max-w-2xl': size === sizes.xl2,
-				'max-w-3xl': size === sizes.xl3,
+				'max-w-2xl h-screen xs:h-2/3v': size === sizes.xl2,
+				'max-w-3xl h-screen xs:h-2/3v': size === sizes.xl3,
 			}"
 			@click.stop="null"
 		>

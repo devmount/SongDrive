@@ -1,7 +1,7 @@
 <template>
 	<modal :active="active" :title="t('modal.translations')" size="xl3" @closed="emit('closed')">
-		<div class="grid grid-cols-2 gap-4">
-			<div class="flex flex-col gap-4">
+		<div class="grow grid grid-cols-1 grid-rows-2 xs:grid-cols-2 xs:grid-rows-1 gap-4">
+			<div class="max-h-[calc(50vh_-_6rem)] xs:max-h-[calc(66.666667vh_-_8.25rem)] flex flex-col gap-4">
 				<label class="relative">
 					<filter-icon class="absolute top-2 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 					<input
@@ -11,7 +11,7 @@
 						:placeholder="t('placeholder.searchSongTitle')"
 					/>
 				</label>
-				<div class="h-1/2v overflow-y-scroll flex flex-col gap-2">
+				<div class="overflow-y-scroll flex flex-col gap-2">
 					<label v-for="(fsong, key) in filteredSongs" :key="key" class="flex items-center gap-2">
 						<input
 							v-model="selectedSongs"
@@ -52,7 +52,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+		<div class="flex flex-col justify-end items-center gap-4 2xs:flex-row">
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>

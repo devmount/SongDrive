@@ -48,7 +48,7 @@ module.exports = {
         '3xl': '1792px',
       },
       height: {
-        '1/2v': '50vh',
+        '2/3v': '66.666667vh',
       },
       strokeWidth: {
         '1.5': '1.5',
