@@ -7,7 +7,7 @@
 			<div v-if="tag" class="whitespace-nowrap">
 				{{ tag[locale] ? tag[locale] : tag.key }}
 			</div>
-			<x-icon v-if="closable" class="cursor-pointer"  @click="emit('close')" />
+			<x-icon v-if="closable" class="cursor-pointer w-4 h-4 stroke-1.5"  @click="emit('close')" />
 		</slot>
 	</div>
 </template>
