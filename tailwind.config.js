@@ -49,6 +49,7 @@ module.exports = {
       },
       height: {
         '2/3v': '66.666667vh',
+        '3/4v': '75vh',
       },
       strokeWidth: {
         '1.5': '1.5',
