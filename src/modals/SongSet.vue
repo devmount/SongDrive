@@ -1,498 +1,329 @@
 <template>
-	<div>
-		<!-- main modal: set song -->
-		<div class="modal modal-lg modal-wide" :class="{ active: active }">
-			<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-			<div v-if="song && ready.songs" class="modal-container">
-				<div class="modal-header">
-					<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-					<div v-if="!existing" class="modal-title h5">{{ t('modal.newSong') }}</div>
-					<div v-else class="modal-title h5">
-						{{ t('modal.editSong') }}
-						«<span class="text-uppercase ls-1">{{ song.title }}</span>»
+	<modal
+		:active="active"
+		:title="!existing ? t('modal.newSong') : t('modal.editSong') + ' «' + song.title + '»'"
+		size="xl6"
+		@closed="emit('closed')"
+	>
+		<div class="flex flex-col lg:grid lg:grid-cols-2 gap-4 overflow-y-auto h-full">
+			<div class="flex flex-col gap-2">
+				<!-- title -->
+				<label class="flex flex-col gap-1">
+					<div>{{ t('field.title') }} <span class="text-rose-600">*</span></div>
+					<input
+						type="text"
+						v-model="song.title"
+						:class="{ '!border-rose-600': error.title || error.slug }"
+						:placeholder="t('placeholder.exampleSongTitle')"
+						:disabled="existing"
+					/>
+					<div v-if="error.title" class="text-rose-600">
+						{{ t('error.requiredTitle') }}
 					</div>
+					<div v-if="error.slug" class="text-rose-600">
+						{{ t('error.songAlreadyExists') }}
+					</div>
+				</label>
+				<div class="grid grid-cols-2/1 gap-4">
+					<!-- subtitle -->
+					<label class="flex flex-col gap-1">
+						<div>{{ t('field.subtitle') }}</div>
+						<input
+							type="text"
+							v-model="song.subtitle"
+							:placeholder="t('placeholder.exampleSongSubtitle')"
+						>
+					</label>
+					<!-- language -->
+					<label v-if="ready.languages" class="flex flex-col gap-1">
+						<div>{{ t('field.language') }} <span class="text-rose-600">*</span></div>
+						<select v-model="song.language" :class="{ '!border-rose-600': error.language }">
+							<option value="">{{ t('placeholder.select') }}</option>
+							<option v-for="(l, key) in languages" :value="key" :key="key">
+								{{ l.label }}
+							</option>
+						</select>
+						<div v-if="error.language" class="text-rose-600">
+							{{ t('error.requiredLanguage') }}
+						</div>
+					</label>
 				</div>
-				<div class="modal-body">
-					<div class="content">
-						<div class="columns">
-							<div class="column col-6 col-sm-12">
-								<div class="columns">
-									<div class="column col-12">
-										<div class="form-group" :class="{ 'has-error': error.title || error.slug }">
-											<label class="form-label" for="title">
-												{{ t('field.title') }} <span class="text-error">*</span>
-											</label>
-											<input
-												v-model="song.title"
-												class="form-input"
-												id="title"
-												type="text"
-												:placeholder="t('placeholder.exampleSongTitle')"
-											>
-											<p v-if="error.title" class="form-input-hint">{{ t('error.requiredTitle') }}</p>
-											<p v-if="error.slug" class="form-input-hint">{{ t('error.songAlreadyExists') }}</p>
-										</div>
-									</div>
-									<div class="column col-8 col-md-12">
-										<div class="form-group">
-											<label class="form-label" for="subtitle">{{ t('field.subtitle') }}</label>
-											<input
-												v-model="song.subtitle"
-												class="form-input"
-												id="subtitle"
-												type="text"
-												:placeholder="t('placeholder.exampleSongSubtitle')"
-											>
-										</div>
-									</div>
-									<div class="column col-4 col-md-12">
-										<div v-if="ready.languages" class="form-group" :class="{ 'has-error': error.language }">
-											<label class="form-label" for="language">
-												{{ t('field.language') }} <span class="text-error">*</span>
-											</label>
-											<select v-model="song.language" class="form-select" id="language">
-												<option value="">{{ t('placeholder.select') }}</option>
-												<option v-for="(l, key) in languages" :value="key" :key="key">{{ l.label }}</option>
-											</select>
-											<p v-if="error.language" class="form-input-hint">{{ t('error.requiredLanguage') }}</p>
-										</div>
-									</div>
-									<div class="column col-8 col-md-12">
-										<div class="form-group">
-											<label class="form-label" for="authors">{{ t('field.authors') }}</label>
-											<input
-												v-model="song.authors"
-												class="form-input"
-												id="authors"
-												type="text"
-												:placeholder="t('placeholder.exampleSongAuthors')"
-											>
-										</div>
-									</div>
-									<div class="column col-4 col-md-12">
-										<div class="form-group">
-											<label class="form-label" for="tuning">{{ t('field.tuning') }}</label>
-											<select v-model="song.tuning" class="form-select" id="tuning">
-												<option value="">{{ t('placeholder.select') }}</option>
-												<option v-for="tune in keyScale" :key="tune">{{ tune }}</option>
-											</select>
-										</div>
-									</div>
-									<div class="column col-8 col-md-12">
-										<div class="form-group">
-											<label class="form-label" for="tags">{{ t('field.tags') }}</label>
-											<div v-for="tag in song.tags" :key="tag" class="chip s-rounded">
-												<ion-icon :icon="pricetagOutline" class="icon-sm mr-2" />
-												{{ tags[tag][locale] ? tags[tag][locale] : tag }}
-												<a
-													href="#"
-													class="btn btn-clear"
-													aria-label="Close"
-													role="button"
-													@click="song.tags = song.tags.filter(k => k !== tag)"
-												></a>
-											</div>
-											<button class="btn btn-secondary btn-sm" @click="modal.tags = true">
-												<ion-icon :icon="add" />
-											</button>
-										</div>
-									</div>
-									<div class="column col-4 col-md-12">
-										<div class="form-group">
-											<label class="form-label" for="ccli">{{ t('field.ccli') }} #</label>
-											<input
-												v-model="song.ccli"
-												class="form-input"
-												id="ccli"
-												type="number"
-												:placeholder="t('placeholder.exampleSongCcli')"
-											>
-										</div>
-									</div>
-									<div class="column col-8 col-md-12">
-										<div class="form-group">
-											<label class="form-label" for="publisher">{{ t('field.publisher') }}</label>
-											<textarea
-												v-model="song.publisher"
-												class="form-input"
-												id="publisher"
-												:placeholder="t('placeholder.exampleSongPublisher')"
-												rows="2"
-											></textarea>
-										</div>
-									</div>
-									<div class="column col-4 col-md-12">
-										<div class="form-group">
-											<label class="form-label" for="year">{{ t('field.year') }}</label>
-											<input
-												v-model="song.year"
-												class="form-input"
-												id="year"
-												type="number"
-												:placeholder="t('placeholder.exampleSongYear')"
-											>
-										</div>
-									</div>
-									<div class="column col-8 col-md-12">
-										<div class="form-group">
-											<label class="form-label" for="note">{{ t('field.note') }}</label>
-											<textarea
-												v-model="song.note"
-												class="form-input"
-												id="note"
-												type="text"
-												:placeholder="t('placeholder.exampleSongNote')"
-												rows="2"
-											></textarea>
-										</div>
-									</div>
-									<div class="column col-4 col-md-12">
-										<div class="form-group">
-											<label class="form-label" for="youtube">{{ t('field.youtubeId') }}</label>
-											<input
-												v-model="song.youtube"
-												class="form-input"
-												id="youtube"
-												type="text"
-												:placeholder="t('placeholder.exampleSongYoutubeId')"
-											>
-										</div>
-									</div>
-									<div class="column col-12">
-										<label class="form-label">{{ t('field.translations') }}</label>
-										<div v-if="song.translations && song.translations.length == 0" class="text-gray">
-											<ion-icon :icon="informationCircleOutline" /> {{ t('text.noTranslations') }}
-										</div>
-										<div v-else>
-											<div v-for="tsong in song.translations" :key="tsong" class="tile tile-centered mb-1">
-												<div class="tile-icon">
-													<figure class="avatar s-rounded" :data-initial="songs[tsong].language"></figure>
-												</div>
-												<div class="tile-content">
-													<div class="tile-title">{{ songs[tsong].title }}</div>
-													<div class="tile-subtitle text-gray text-small">{{ songs[tsong].subtitle }}</div>
-												</div>
-												<div class="tile-action">
-													<button
-														class="btn btn-link btn-action"
-														@click="song.translations = song.translations.filter(k => k !== tsong)"
-													>
-														<ion-icon :icon="close" />
-													</button>
-												</div>
-											</div>
-										</div>
-										<button class="btn btn-secondary btn-sm mt-1" @click="modal.translations = true">
-											<ion-icon :icon="add" />
-										</button>
-									</div>
-								</div>
-							</div>
-							<div class="column col-6 col-sm-12">
-								<div class="form-group" :class="{ 'has-error': error.content }">
-									<label class="form-label" for="content">
-										{{ t('field.content') }} <span class="text-error">*</span>
-										<button
-											class="btn btn-secondary btn-sm tooltip tooltip-left float-right"
-											:data-tooltip="t('modal.songSyntaxCheatsheet')"
-											@click="modal.infosongsyntax = true"
-										>
-											<ion-icon :icon="informationOutline" />
-										</button>
-									</label>
-									<prism-editor
-										id="content"
-										class="form-input text-pre"
-										v-model="song.content"
-										:highlight="sdHighlight"
-										:placeholder="t('placeholder.exampleSongContent')"
-									></prism-editor>
-									<p v-if="error.content" class="form-input-hint">{{ t('error.requiredContent') }}</p>
-								</div>
-							</div>
+				<div class="grid grid-cols-2/1 gap-4">
+					<!-- authors -->
+					<label class="flex flex-col gap-1">
+						<div>{{ t('field.authors') }}</div>
+						<input
+							type="text"
+							v-model="song.authors"
+							:placeholder="t('placeholder.exampleSongAuthors')"
+						>
+					</label>
+					<!-- key -->
+					<label class="flex flex-col gap-1">
+						<div>{{ t('field.tuning') }}</div>
+						<select v-model="song.tuning">
+							<option value="">{{ t('placeholder.select') }}</option>
+							<option v-for="key in keyScale" :key="key" :value="key">{{ key }}</option>
+						</select>
+					</label>
+				</div>
+				<div class="grid grid-cols-2/1 gap-4">
+					<!-- tags -->
+					<div class="flex flex-col gap-1">
+						<div>{{ t('field.tags') }}</div>
+						<div class="flex flex-wrap items-start gap-1">
+							<tag
+									v-for="tag in song.tags" :key="tag"
+									:tag="tags[tag]"
+									@close="song.tags = song.tags.filter(k => k !== tag)"
+									closable
+								/>
+							<secondary-button class="!p-0.5" @click="showModal.tags = true">
+								<plus-icon class="w-5 h-5 stroke-1.5" />
+							</secondary-button>
 						</div>
 					</div>
+					<!-- year -->
+					<label class="flex flex-col gap-1">
+						<div>{{ t('field.year') }}</div>
+						<input
+							type="number"
+							v-model="song.year"
+							:placeholder="t('placeholder.exampleSongYear')"
+						>
+					</label>
 				</div>
-				<div class="modal-footer">
-					<button class="btn btn-link btn-gray" aria-label="Cancel" @click.prevent="emit('closed')">
-						{{ t('button.cancel') }}
-					</button>
-					<button class="btn btn-primary ml-2" @click="set">
-						<span v-if="!existing">{{ t('button.createSong') }}</span>
-						<span v-else>{{ t('button.updateSong') }}</span>
-					</button>
+				<div class="grid grid-cols-2/1 gap-4">
+				<!-- youtube id -->
+					<label class="flex flex-col gap-1">
+						<div>{{ t('field.youtubeId') }}</div>
+						<input
+							type="text"
+							v-model="song.youtube"
+							:placeholder="t('placeholder.exampleSongYoutubeId')"
+						>
+					</label>
+					<!-- ccli number -->
+					<label class="flex flex-col gap-1">
+						<div class="flex gap-2">
+							{{ t('field.ccli') }}
+							<number-icon class="stroke-1.5 mt-0.5" />
+						</div>
+						<input
+							type="number"
+							v-model="song.ccli"
+							:placeholder="t('placeholder.exampleSongCcli')"
+						>
+					</label>
+				</div>
+				<div class="grid grid-cols-2/1 gap-4">
+					<!-- publisher -->
+					<label class="flex flex-col gap-1">
+						<div>{{ t('field.publisher') }}</div>
+						<textarea
+							v-model="song.publisher"
+							class="text-sm"
+							:placeholder="t('placeholder.exampleSongPublisher')"
+							rows="2"
+						></textarea>
+					</label>
+					<!-- note -->
+					<label class="flex flex-col gap-1">
+						<div>{{ t('field.note') }}</div>
+						<textarea
+							v-model="song.note"
+							class="text-sm"
+							:placeholder="t('placeholder.exampleSongNote')"
+							rows="2"
+						></textarea>
+					</label>
+				</div>
+				<!-- song translations -->
+				<label class="flex flex-col gap-2">
+					<div>{{ t('field.translations') }}</div>
+					<div
+						v-if="song.translations && song.translations.length == 0"
+						class="flex gap-1 text-blade-500"
+					>
+						<info-circle-icon />
+						{{ t('text.noTranslations') }}
+					</div>
+					<div v-else class="flex flex-col gap-1">
+						<div v-for="tsong in song.translations" :key="tsong" class="flex items-center gap-3">
+							<figure class="shrink-0 flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-12">
+								<div class="-mt-0.5 uppercase">{{ songs[tsong].language }}</div>
+							</figure>
+							<div class="flex flex-col overflow-hidden">
+								<div class="-mt-1 truncate">{{ songs[tsong].title }}</div>
+								<div class="text-sm text-blade-500 -mt-1 truncate">{{ songs[tsong].subtitle }}</div>
+							</div>
+							<button
+								class="ml-auto"
+								@click="song.translations = song.translations.filter(k => k !== tsong)"
+							>
+								<x-icon class="w-4 h-4 text-blade-500" />
+							</button>
+						</div>
+					</div>
+					<secondary-button class="!p-1 self-start" @click="showModal.translations = true">
+						<plus-icon class="w-5 h-5 stroke-1.5" />
+					</secondary-button>
+				</label>
+			</div>
+			<div class="h-full flex flex-col gap-1">
+				<!-- song content -->
+				<label class="flex justify-between" for="song-content">
+					<div>{{ t('field.content') }} <span class="text-rose-600">*</span></div>
+					<secondary-button
+						class="!p-1"
+						:data-tooltip="t('modal.songSyntaxCheatsheet')"
+						@click="showModal.infosongsyntax = true"
+					>
+						<book-icon class="w-4 h-4 stroke-1.5" />
+					</secondary-button>
+				</label>
+				<prism-editor
+					id="song-content"
+					class="font-mono text-sm leading-4 p-1.5"
+					:class="{ '!border-rose-600': error.content }"
+					v-model="song.content"
+					:highlight="sdHighlight"
+					:placeholder="t('placeholder.exampleSongContent')"
+				></prism-editor>
+				<div v-if="error.content" class="text-rose-600">
+					{{ t('error.requiredContent') }}
 				</div>
 			</div>
 		</div>
-		<!-- additional modal: add tag -->
-		<div v-if="song" class="modal modal-secondary" :class="{ active: modal.tags }">
-			<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modal.tags = false"></a>
-			<div class="modal-container">
-				<div class="modal-header">
-					<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="modal.tags = false"></a>
-					<div class="modal-title h5">{{ t('modal.tags') }}</div>
-				</div>
-				<div class="modal-body">
-					<div class="content">
-						<div class="columns">
-							<div class="column col-6">
-								<div class="input-group filter">
-									<span class="input-group-addon"><ion-icon :icon="searchOutline" /></span>
-									<input
-										v-model="search.tags"
-										type="search"
-										class="form-input"
-										:placeholder="t('placeholder.searchTagName')"
-									/>
-								</div>
-								<div class="form-group max-column mt-2">
-									<label v-for="tag in filteredTags" :key="tag.key" class="form-checkbox">
-										<input v-model="song.tags" :value="tag.key" type="checkbox">
-										<i class="form-icon"></i>
-										{{ tag[locale] ? tag[locale] : tag.key }}
-									</label>
-								</div>
-							</div>
-							<div class="column col-6">
-								<div v-if="song.tags && song.tags.length == 0" class="empty">
-									<div class="empty-icon">
-										<ion-icon :icon="pricetagsOutline" class="icon-4x" />
-									</div>
-									<p class="empty-title h5">{{ t('text.noTagsSelected') }}</p>
-									<p class="empty-subtitle">{{ t('text.selectSomeTags') }}</p>
-								</div>
-								<div v-else>
-									<h3 class="text-center">{{ t('text.selection') }}</h3>
-									<div v-for="tag in song.tags" :key="tag" class="tile tile-centered">
-										<div class="tile-content">
-											<div class="tile-title">
-												<ion-icon :icon="pricetagOutline" class="mr-2" />
-												{{ tags[tag][locale] ? tags[tag][locale] : tag }}
-											</div>
-										</div>
-										<div class="tile-action">
-											<button
-												class="btn btn-link btn-action"
-												@click="song.tags = song.tags.filter(k => k !== tag)"
-											>
-												<ion-icon :icon="close" />
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-primary" aria-label="Close" @click.prevent="modal.tags = false">
-						{{ t('button.close') }}
-					</button>
-				</div>
-			</div>
+		<div class="flex flex-col justify-end items-center gap-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button @click="setSong">
+				<span v-if="!existing">{{ t('button.createSong') }}</span>
+				<span v-else>{{ t('button.updateSong') }}</span>
+				<plus-icon v-if="!existing" class="w-6 h-6 stroke-1.5" />
+				<device-floppy-icon v-else class="w-6 h-6 stroke-1.5" />
+			</primary-button>
 		</div>
-		<!-- additional modal: add translation -->
-		<div v-if="song && ready.songs" class="modal modal-secondary" :class="{ active: modal.translations }">
-			<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="modal.translations = false"></a>
-			<div class="modal-container">
-				<div class="modal-header">
-					<a
-						href="#"
-						class="btn btn-clear float-right"
-						aria-label="Close"
-						@click.prevent="modal.translations = false"
-					></a>
-					<div class="modal-title h5">{{ t('modal.translations') }}</div>
-				</div>
-				<div class="modal-body">
-					<div class="content">
-						<div class="columns">
-							<div class="column col-6">
-								<div class="input-group filter">
-									<span class="input-group-addon"><ion-icon :icon="searchOutline" /></span>
-									<input
-										v-model="search.translations"
-										type="search"
-										class="form-input"
-										:placeholder="t('placeholder.searchSongTitle')"
-									/>
-								</div>
-								<div class="form-group max-column mt-2">
-									<label v-for="(fsong, key) in filteredSongs" :key="key" class="form-checkbox mt-2">
-										<input v-model="song.translations" :value="key" type="checkbox">
-										<i class="form-icon"></i> {{ fsong.title }}
-										<div class="text-gray text-small">
-											{{ fsong.subtitle }}
-										</div>
-									</label>
-								</div>
-							</div>
-							<div class="column col-6">
-								<div v-if="song.translations && song.translations.length == 0" class="empty">
-									<div class="empty-icon">
-										<ion-icon :icon="bookOutline" class="icon-4x" />
-									</div>
-									<p class="empty-title h5">{{ t('text.noSongsSelected') }}</p>
-									<p class="empty-subtitle">{{ t('text.selectSomeTranslations') }}</p>
-								</div>
-								<div v-else>
-									<h3 class="text-center">{{ t('text.selection') }}</h3>
-									<div v-for="tsong in song.translations" :key="tsong" class="tile tile-centered mb-2">
-										<div class="tile-icon">
-											<figure class="avatar s-rounded" :data-initial="songs[tsong].language"></figure>
-										</div>
-										<div class="tile-content">
-											<div class="tile-title">{{ songs[tsong].title }}</div>
-											<div class="tile-subtitle text-gray text-small">{{ songs[tsong].subtitle }}</div>
-										</div>
-										<div class="tile-action">
-											<button
-												class="btn btn-link btn-action"
-												@click="song.translations = song.translations.filter(k => k !== tsong)"
-											>
-												<ion-icon :icon="close" />
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-primary" aria-label="Close" @click.prevent="modal.translations = false">
-						{{ t('button.close') }}
-					</button>
-				</div>
-			</div>
-		</div>
-		<!-- modal: info song syntax -->
-		<InfoSongSyntax
-			v-if="modal.infosongsyntax"
-			:active="modal.infosongsyntax"
-			@closed="modal.infosongsyntax = false"
-		/>
-	</div>
+	</modal>
+	<!-- modal: info song syntax -->
+	<info-song-syntax
+		:active="showModal.infosongsyntax"
+		@closed="showModal.infosongsyntax = false"
+	/>
+	<!-- modal: assign tag to song -->
+	<tag-assign
+		:active="showModal.tags"
+		:tags="tags"
+		@assign="assignTags"
+		@closed="showModal.tags = false"
+	/>
+	<!-- additional modal: add translation -->
+	<song-assign
+		:active="showModal.translations"
+		:existing="existing"
+		:id="id"
+		:songs="songs"
+		@assign="assignTranslations"
+		@closed="showModal.translations = false"
+	/>
 </template>
 
 <script setup>
-import { ref, reactive, computed, inject } from 'vue';
+import 'vue-prism-editor/dist/prismeditor.min.css';
+import { keyScale, sdHighlight, throwError, urlify } from '@/utils.js';
+import { notify } from '@kyvg/vue3-notification';
+import { PrismEditor } from 'vue-prism-editor';
+import { ref, reactive, computed, inject, onMounted, watch } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useRouter } from 'vue-router';
-import { notify } from '@kyvg/vue3-notification';
-import { keyScale, sdHighlight, throwError, urlify } from '@/utils.js';
 import InfoSongSyntax from '@/modals/InfoSongSyntax';
-import { PrismEditor } from 'vue-prism-editor';
-import 'vue-prism-editor/dist/prismeditor.min.css';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+import SecondaryButton from '@/elements/SecondaryButton';
+import SongAssign from '@/modals/SongAssign';
+import Tag from '@/elements/Tag';
+import TagAssign from '@/modals/TagAssign';
+
+// icons
 import {
-	add,
-	bookOutline,
-	close,
-	informationCircleOutline,
-	informationOutline,
-	pricetagOutline,
-	pricetagsOutline,
-	searchOutline
-} from 'ionicons/icons';
-const { t, locale } = useI18n();
+	BookIcon,
+	DeviceFloppyIcon,
+	InfoCircleIcon,
+	NumberIcon,
+	PlusIcon,
+	XIcon,
+} from "vue-tabler-icons";
+
+// component constants
+const { t } = useI18n();
 const router = useRouter();
 
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active:      Boolean, // state of modal display, true to show modal
 	existing:    Boolean, // song already exists
-	initialSong: Object,  // song structure to fill with data
 	id:          String,  // song identifier
-	user:        String,  // user identifier
-	songs:       Object,  // list of all available songs
-	setlists:    Object,  // list of all available setlists
-	tags:        Object,  // list of all available tags
+	initialSong: Object,  // song structure to fill with data
 	languages:   Object,  // list of all available languages
 	ready:       Object,  // object holding information about the retrieval state of collections
+	setlists:    Object,  // list of all available setlists
+	songs:       Object,  // list of all available songs
+	tags:        Object,  // list of all available tags
 });
 
-// reactive data
-const song = ref(JSON.parse(JSON.stringify(props.initialSong)));
-const modal = reactive({
+// song input data
+const song = ref({});
+const initInput = () => {
+	song.value = { ...props.initialSong };
+};
+onMounted(() => initInput());
+watch(() => props.active, () => initInput());
+
+// active modals state
+const showModal = reactive({
 	tags: false,
 	translations: false,
 	infosongsyntax: false
 });
-const search = reactive({
-	tags: '',
-	translations: '',
-});
+
+// emits
+const emit = defineEmits(['closed', 'reset']);
+
+// assign selected tags to song
+const assignTags = (tags) => {
+	song.value.tags = tags;
+	showModal.tags = false;
+};
+
+// assign selected tags to song
+const assignTranslations = (translations) => {
+	song.value.translations = translations;
+	showModal.translations = false;
+};
+
+// check if form errors occured
 const error = reactive({
 	title: false,
 	language: false,
 	content: false,
 	slug: false,
 });
-
-// emits
-const emit = defineEmits(['closed', 'reset']);
-
-// computed: filter song list by search query
-const filteredTags = computed(() => {
-	let tags = {};
-	if (search.tags != '') {
-		for (const key in props.tags) {
-			if (props.tags.hasOwnProperty(key)) {
-				const tag = props.tags[key];
-				let search = search.tags.toLowerCase();
-				// search in tag labels
-				let label = tag[locale.value] ? tag[locale.value] : key;
-				if (label.toLowerCase().indexOf(search) !== -1) {
-					tags[key] = tag;
-				}
-			}
-		}
-		return tags;
-	} else {
-		return props.tags;
-	}
-});
-// computed: filter song list by search query
-const filteredSongs = computed(() => {
-	let songs = {};
-	if (search.translations != '') {
-		for (const key in props.songs) {
-			if (props.songs.hasOwnProperty(key)) {
-				// exclude self assignment
-				if (props.existing && props.id == key) continue;
-				// search in title and subtitle
-				const song = props.songs[key];
-				let search = search.translations.toLowerCase();
-				if (
-					song.title.toLowerCase().indexOf(search) !== -1 ||
-					song.subtitle.toLowerCase().indexOf(search) !== -1 ||
-					song.content.toLowerCase().indexOf(search) !== -1
-				) {
-					songs[key] = song;
-				}
-			}
-		}
-		return songs;
-	} else {
-		let songs = JSON.parse(JSON.stringify(props.songs));
-		if (props.existing) delete songs[props.id];
-		return songs;
-	}
-});
-// computed: calculate wether form errors occured
 const errors = computed(() => {
 	return (error.title || error.language || error.content || error.slug);
 });
 
-// create a human readable record key of format YYYYMMDD-the-setlist-title
+// create a human readable record id of format YYYYMMDD-setlist-title to use in ursl
 const createSlug = () => {
 	return urlify(song.value.title) + '-' + song.value.language;
 };
+
 // add or save edits of song to db 
-const set = () => {
+const setSong = () => {
 	// first check for form errors
 	error.title = song.value.title == '';
 	error.language = song.value.language == '';
@@ -501,21 +332,10 @@ const set = () => {
 	error.slug = props.existing && props.id == slug ? false : props.songs.hasOwnProperty(slug);
 	// no errors: start saving song data
 	if (!errors.value) {
-		let processedSong = {
-			authors: song.value.authors,
-			ccli: song.value.ccli ? parseInt(song.value.ccli) : '',
-			content: song.value.content,
-			language: song.value.language,
-			note: song.value.note,
-			publisher: song.value.publisher,
-			subtitle: song.value.subtitle,
-			tags: song.value.tags,
-			title: song.value.title,
-			translations: song.value.translations,
-			tuning: song.value.tuning,
-			year: song.value.year ? parseInt(song.value.year) : '',
-			youtube: song.value.youtube ? song.value.youtube : '',
-		};
+		let processedSong = { ...song.value };
+		processedSong.ccli = processedSong.ccli ? parseInt(processedSong.ccli) : '';
+		processedSong.year = processedSong.year ? parseInt(processedSong.year) : '';
+		processedSong.youtube = processedSong.youtube ? processedSong.youtube : '';
 		// new song should be created
 		if (!props.existing) {
 			db.collection('songs').doc(slug).set(processedSong).then(() => {
@@ -544,7 +364,7 @@ const set = () => {
 		}
 		// existing song should be updated
 		else {
-			let initialSong = props.initialSong; // remember initial song data before update
+			let initialSong = { ...props.initialSong }; // remember initial song data before update
 			// check if key remained (no title or language changes)
 			if (props.id == slug) {
 				// just update the existing song
@@ -639,21 +459,3 @@ const set = () => {
 	}
 };
 </script>
-
-<style>
-#content {
-  height: 55vh;
-  font-size: 0.9em;
-  line-height: 1.3em;
-}
-.prism-editor__container {
-  min-height: 100%;
-}
-.prism-editor__textarea:focus {
-  outline: none;
-}
-.modal-secondary .max-column {
-  height: 42vh;
-  overflow-y: scroll;
-}
-</style>

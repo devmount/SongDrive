@@ -204,7 +204,6 @@
 	</div>
 	<!-- modals -->
 	<song-set
-		v-if="modal.set"
 		:active="modal.set"
 		:existing="existing"
 		:initial-song="song"
@@ -237,7 +236,7 @@
 <script setup>
 import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from 'vue-router';
 import Dropdown from '@/elements/Dropdown';
@@ -283,19 +282,25 @@ pdfMake.fonts = {
 	}
 };
 
-// global properties
-const db = inject('db');
-
 // inherited properties
 const props = defineProps({
-	songs:     Object,
-	setlists:  Object,
-	tags:      Object,
-	languages: Object,
-	user:      String,
-	role:      Number,
-	ready:     Object,
+  config:        Object,
+  languages:     Object,
+  permissions:   Object,
+  ready:         Object,
+  registrations: Object,
+  role:          Number,
+  roleName:      String,
+  setlists:      Object,
+  songs:         Object,
+  tags:          Object,
+  user:          String,
+  userObject:    Object,
+  users:         Object,
 });
+
+// emits
+defineEmits(['started']);
 
 // non reactive data
 const songId = route.params.id;

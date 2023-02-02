@@ -40,7 +40,7 @@
 								v-if="userRoles[c.permissions[auth.user].role] > 2"
 								class="!p-1 tooltip tooltip-left"
 								:data-tooltip="t('tooltip.songAdd')"
-								@click="modal.addsong = true"
+								@click.stop.prevent="showModal.addsong = true"
 							>
 								<plus-icon class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
@@ -59,7 +59,7 @@
 								v-if="userRoles[c.permissions[auth.user].role] > 1"
 								class="!p-1 tooltip tooltip-left"
 								:data-tooltip="t('tooltip.setlistAdd')"
-								@click="modal.addsetlist = true"
+								@click.stop.prevent="showModal.addsetlist = true"
 							>
 								<plus-icon class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
@@ -179,8 +179,8 @@
 		<div v-if="auth.ready && !auth.user && !loading">
 			<login
 				@sign-in="signIn"
-				@sign-up="modal.signup = true"
-				@reset-password="modal.passwordreset = true"
+				@sign-up="showModal.signup = true"
+				@reset-password="showModal.passwordreset = true"
 			/>
 		</div>
 		<!-- loading screen -->
@@ -190,47 +190,6 @@
 		>
 			<div class="animate-spin w-16 h-16 rounded-full border-4 border-transparent border-t-spring-600"></div>
 		</div>
-
-		<!-- modals -->
-		<song-set
-			v-if="modal.addsong"
-			:active="modal.addsong"
-			:existing="false"
-			:initial-song="newSong"
-			song-key=""
-			:songs="c.songs"
-			:setlists="c.setlists"
-			:tags="c.tags"
-			:languages="c.languages"
-			:ready="ready"
-			@closed="modal.addsong = false"
-			@reset="resetSong"
-		/>
-		<setlist-set
-			v-if="modal.addsetlist"
-			:active="modal.addsetlist"
-			:existing="false"
-			:initial-setlist="newSetlist"
-			setlist-key=""
-			:user="auth.user"
-			:songs="c.songs"
-			:setlists="c.setlists"
-			:tags="c.tags"
-			:languages="c.languages"
-			:ready="ready"
-			@closed="modal.addsetlist = false"
-			@reset="resetSetlist"
-		/>
-		<sign-up
-			:active="modal.signup"
-			@closed="modal.signup = false"
-			@submitted="doSignUp"
-		/>
-		<password-reset
-			:active="modal.passwordreset"
-			@closed="modal.passwordreset = false"
-			@submitted="sendPasswordReset"
-		/>
 
 		<!-- notifications -->
 		<notifications position="bottom right" :duration="5000" :width="400">
@@ -253,6 +212,44 @@
 			</template>
 		</notifications>
 	</div>
+	<!-- modals -->
+	<song-set
+		:active="showModal.addsong"
+		:existing="false"
+		:initial-song="newSong"
+		:songs="c.songs"
+		:setlists="c.setlists"
+		:tags="c.tags"
+		:languages="c.languages"
+		:ready="ready"
+		@closed="showModal.addsong = false"
+		@reset="resetSong"
+	/>
+	<setlist-set
+		v-if="showModal.addsetlist"
+		:active="showModal.addsetlist"
+		:existing="false"
+		:initial-setlist="newSetlist"
+		setlist-key=""
+		:user="auth.user"
+		:songs="c.songs"
+		:setlists="c.setlists"
+		:tags="c.tags"
+		:languages="c.languages"
+		:ready="ready"
+		@closed="showModal.addsetlist = false"
+		@reset="resetSetlist"
+	/>
+	<sign-up
+		:active="showModal.signup"
+		@closed="showModal.signup = false"
+		@submitted="doSignUp"
+	/>
+	<password-reset
+		:active="showModal.passwordreset"
+		@closed="showModal.passwordreset = false"
+		@submitted="sendPasswordReset"
+	/>
 </template>
 
 <script setup>
@@ -338,7 +335,7 @@ const listener = reactive({
 });
 // modals
 const open = ref(false);
-const modal = reactive({
+const showModal = reactive({
 	addsong: false,
 	addsetlist: false,
 	signup: false,

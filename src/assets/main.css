@@ -84,10 +84,26 @@ kbd > * {
   @apply mb-0
 }
 
-/* songdrive syntax */
-.language-songdrive .sd-marker {
+/* songdrive syntax and prism editor */
+.language-songdrive .sd-marker,
+.prism-editor__editor .sd-marker {
   @apply text-blade-500
 }
-.language-songdrive .sd-chords {
+.language-songdrive .sd-chords,
+.prism-editor__editor .sd-chords {
   @apply text-spring-600
+}
+.prism-editor__container {
+  @apply min-h-full
+}
+
+/* prism editor */
+#song-content {
+  @apply transition-all p-1.5 border border-blade-400 dark:border-black focus:ring-4 focus:ring-spring-400/20 hover:border-spring-400 focus:border-spring-600 dark:bg-blade-900 dark:text-blade-100 hover:disabled:border-black;
+}
+.prism-editor__textarea {
+  @apply !p-0
+}
+.prism-editor__textarea:focus {
+  @apply outline-none
 }

@@ -235,11 +235,10 @@
 	</div>
 	<!-- modals -->
 	<song-set
-		v-if="modal.set"
 		:active="modal.set"
 		:existing="active.existing"
 		:initial-song="active.song"
-		:song-key="active.key"
+		:id="active.key"
 		:songs="songs"
 		:setlists="setlists"
 		:tags="tags"
@@ -288,18 +287,27 @@ const router = useRouter();
 
 // component properties
 const props = defineProps({
-  songs:     Object,
-  setlists:  Object,
-  tags:      Object,
-  languages: Object,
-  user:      String,
-  role:      Number,
-  ready:     Object,
+  config:        Object,
+  languages:     Object,
+  permissions:   Object,
+  ready:         Object,
+  registrations: Object,
+  role:          Number,
+  roleName:      String,
+  setlists:      Object,
+  songs:         Object,
+  tags:          Object,
+  user:          String,
+  userObject:    Object,
+  users:         Object,
 });
 
 // template references
 const container   = ref(null);
 const searchInput = ref(null);
+
+// emits
+defineEmits(['started']);
 
 // table filter
 const filter = reactive({

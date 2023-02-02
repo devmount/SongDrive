@@ -39,6 +39,9 @@ module.exports = {
           950: '#0A0C0F',
         }
       },
+      gridTemplateColumns: {
+        '2/1': 'minmax(0, 2fr) minmax(0, 1fr)',
+      },
       maxWidth: {
         '2xs': '16rem',
       },
@@ -50,6 +53,7 @@ module.exports = {
       height: {
         '2/3v': '66.666667vh',
         '3/4v': '75vh',
+        '4/5v': '80vh',
       },
       strokeWidth: {
         '1.5': '1.5',
