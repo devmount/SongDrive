@@ -20,6 +20,7 @@
 				'max-w-2xl h-screen xs:h-2/3v': size === sizes.xl2,
 				'max-w-3xl h-screen xs:h-2/3v': size === sizes.xl3,
 				'max-w-5xl h-screen md:h-3/4v': size === sizes.xl5,
+				'max-w-6xl h-screen lg:h-4/5v': size === sizes.xl6,
 			}"
 			@click.stop="null"
 		>
@@ -35,6 +36,7 @@
 </template>
 
 <script setup>
+import { watch } from 'vue';
 import TransitionFade from '@/elements/TransitionFade.vue';
 import TransitionScale from '@/elements/TransitionScale.vue';
 
@@ -51,6 +53,18 @@ const props = defineProps({
 // emits
 const emit = defineEmits(['closed']);
 
+watch(
+	() => props.active,
+	(newValue) => {
+		if (newValue && !document.body.classList.contains('overflow-y-hidden')) {
+			document.body.classList.add('overflow-y-hidden');
+		}
+		else if (!newValue && document.body.classList.contains('overflow-y-hidden')) {
+			document.body.classList.remove('overflow-y-hidden');
+		}
+	}
+);
+
 // available modal sizes
 const sizes = {
 	md: 'md',
@@ -59,5 +73,6 @@ const sizes = {
 	xl2: 'xl2',
 	xl3: 'xl3',
 	xl5: 'xl5',
+	xl6: 'xl6',
 }
 </script>
