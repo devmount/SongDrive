@@ -226,6 +226,7 @@
 		:existing="existing"
 		:id="id"
 		:songs="songs"
+		:assigned-songs="song.translations"
 		@assign="assignTranslations"
 		@closed="showModal.translations = false"
 	/>

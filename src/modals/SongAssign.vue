@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from "vue-i18n";
 import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
@@ -87,11 +87,17 @@ const searchInput = ref('');
 
 // inherited properties
 const props = defineProps({
-	active:   Boolean, // state of modal display, true to show modal
-	existing: Boolean, // song already exists
-	id:       String,  // identifier of original song
-	songs:    Object,  // list of all available songs
+	active:        Boolean, // state of modal display, true to show modal
+	existing:      Boolean, // song already exists
+	id:            String,  // identifier of original song
+	songs:         Object,  // list of all available songs
+	assignedSongs: Array,   // already assigned songs
 });
+const initInput = () => {
+	selectedSongs.value = props.assignedSongs ?? [];
+};
+onMounted(() => initInput());
+watch(() => props.active, () => initInput());
 
 // emits
 const emit = defineEmits(['closed', 'assign']);

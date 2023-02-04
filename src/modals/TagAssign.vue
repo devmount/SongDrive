@@ -81,8 +81,8 @@ const searchInput = ref('');
 // inherited properties
 const props = defineProps({
 	active:       Boolean, // state of modal display, true to show modal
-	assignedTags: Array,   // already assigned tags
 	tags:         Object,  // list of all available tags
+	assignedTags: Array,   // already assigned tags
 });
 const initInput = () => {
 	selectedTags.value = props.assignedTags ?? [];
