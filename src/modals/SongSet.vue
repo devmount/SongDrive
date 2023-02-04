@@ -216,6 +216,7 @@
 	<tag-assign
 		:active="showModal.tags"
 		:tags="tags"
+		:assigned-tags="song.tags"
 		@assign="assignTags"
 		@closed="showModal.tags = false"
 	/>

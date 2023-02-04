@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
@@ -80,9 +80,16 @@ const searchInput = ref('');
 
 // inherited properties
 const props = defineProps({
-	active: Boolean, // state of modal display, true to show modal
-	tags:   Object,  // list of all available tags
+	active:       Boolean, // state of modal display, true to show modal
+	assignedTags: Array,   // already assigned tags
+	tags:         Object,  // list of all available tags
 });
+const initInput = () => {
+	selectedTags.value = props.assignedTags ?? [];
+};
+onMounted(() => initInput());
+watch(() => props.active, () => initInput());
+
 
 // emits
 const emit = defineEmits(['closed', 'assign']);
