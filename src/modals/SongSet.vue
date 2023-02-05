@@ -278,9 +278,28 @@ const props = defineProps({
 	tags:        Object,  // list of all available tags
 });
 
+// check if form errors occured
+const error = reactive({
+	title: false,
+	language: false,
+	content: false,
+	slug: false,
+});
+const errors = computed(() => {
+	return (error.title || error.language || error.content || error.slug);
+});
+const resetErrors = () => {
+	for (const key in error) {
+		if (Object.hasOwnProperty.call(error, key)) {
+			error[key] = false;
+		}
+	}
+};
+
 // song input data
 const song = ref({});
 const initInput = () => {
+	resetErrors();
 	song.value = { ...props.initialSong };
 };
 onMounted(() => initInput());
@@ -294,7 +313,7 @@ const showModal = reactive({
 });
 
 // emits
-const emit = defineEmits(['closed', 'reset']);
+const emit = defineEmits(['closed']);
 
 // assign selected tags to song
 const assignTags = (tags) => {
@@ -307,17 +326,6 @@ const assignTranslations = (translations) => {
 	song.value.translations = translations;
 	showModal.translations = false;
 };
-
-// check if form errors occured
-const error = reactive({
-	title: false,
-	language: false,
-	content: false,
-	slug: false,
-});
-const errors = computed(() => {
-	return (error.title || error.language || error.content || error.slug);
-});
 
 // create a human readable record id of format YYYYMMDD-setlist-title to use in ursl
 const createSlug = () => {
@@ -353,7 +361,6 @@ const setSong = () => {
 					});
 				}
 				emit('closed');
-				emit('reset');
 				processedSong = {};
 				router.push({ name: 'song-show', params: { id: slug }});
 				// toast success creation message
@@ -389,7 +396,6 @@ const setSong = () => {
 						});
 					}
 					emit('closed');
-					emit('reset');
 					processedSong = {};
 					// toast success update message
 					notify({
@@ -446,7 +452,6 @@ const setSong = () => {
 						});
 					}
 					emit('closed');
-					emit('reset');
 					processedSong = {};
 					router.push({ name: 'song-show', params: { id: slug }});
 					// toast success update message

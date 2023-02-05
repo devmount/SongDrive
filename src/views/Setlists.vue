@@ -149,7 +149,10 @@
 				</tr>
 			</thead>
 			<tbody v-if="ready.setlists">
-				<tr v-for="(setlist, i) in pagedSetlists" :key="i" class="even:bg-blade-900/50 hover:bg-blade-900">
+				<tr
+					v-for="(setlist, i) in pagedSetlists" :key="i"
+					class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900"
+				>
 					<td>
 						<circle-dot-icon v-if="setlist.active" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" :title="t('tooltip.syncActive')" />
 						<circle-dotted-icon v-else class="w-6 h-6 stroke-1.5 mx-auto" />

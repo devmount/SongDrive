@@ -10,7 +10,7 @@
 		@keydown.ctrl.k.prevent="chords = !chords"
 		@keydown.ctrl.r.prevent="chords ? tuning=0 : null"
 		@keydown.ctrl.p.prevent="modal.present=true"
-		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; container.focus()"
+		@keydown.esc.exact="modal.delete=false; modal.present=false; container.focus()"
 	>
 		<!-- page heading -->
 		<div class="flex flex-col justify-between items-stretch gap-4">
@@ -130,7 +130,7 @@
 							<button
 								v-if="user && role > 1"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.stop="editDialog(song, true)"
+								@click.stop="editExistingSong(song, song.id, true)"
 							>
 								<edit-icon class="w-5 h-5 stroke-1.5" />
 								{{ t('button.edit') }}
@@ -138,7 +138,7 @@
 							<button
 								v-if="user && role > 1"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.prevent="editDialog(song, false)"
+								@click.prevent="editExistingSong(song, song.id, false)"
 							>
 								<copy-icon class="w-5 h-5 stroke-1.5" />
 								{{ t('button.duplicate') }}
@@ -203,18 +203,6 @@
 		/>
 	</div>
 	<!-- modals -->
-	<song-set
-		:active="modal.set"
-		:existing="existing"
-		:initial-song="song"
-		:id="songId"
-		:songs="songs"
-		:setlists="setlists"
-		:tags="tags"
-		:languages="languages"
-		:ready="ready"
-		@closed="modal.set = false"
-	/>
 	<song-delete
 		:active="modal.delete"
 		:title="song ? song.title : ''"
@@ -236,7 +224,7 @@
 <script setup>
 import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, watch, onMounted } from 'vue';
+import { ref, reactive, computed, watch, onMounted, inject } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from 'vue-router';
 import Dropdown from '@/elements/Dropdown';
@@ -245,7 +233,6 @@ import SongContent from '@/partials/SongContent';
 import SongDelete from '@/modals/SongDelete';
 import SongFooter from '../partials/SongFooter.vue';
 import SongPresent from '@/modals/SongPresent';
-import SongSet from '@/modals/SongSet';
 
 // icons
 import {
@@ -299,7 +286,8 @@ const props = defineProps({
   users:         Object,
 });
 
-// emits
+// injects and emits
+const editExistingSong = inject('editExistingSong');
 defineEmits(['started']);
 
 // non reactive data
@@ -307,12 +295,10 @@ const songId = route.params.id;
 const songKey = route.params.key;
 
 // reactive data
-const existing = ref(true);
 const chords   = ref(true);
 const tuning   = ref(0);
 const modal = reactive({
 	song: {},
-	set: false,
 	delete: false,
 	present: false,
 });
@@ -553,26 +539,11 @@ const getPdfSongContent = () => {
 };
 
 // handle dialog modals
-const editDialog = (existing) => {
-	existing = existing;
-	modal.set = true;
-};
 const deleteDialog = () => {
 	modal.delete = true;
 };
 
 // watcher
-watch (
-	() => modal.present,
-	(newValue) => {
-		// remove scroll bar when in presentation moden
-		if (newValue) {
-			document.body.classList.add('overflow-hidden');
-		} else {
-			document.body.classList.remove('overflow-hidden');
-		}
-	}
-);
 watch (
 	song,
 	() => {

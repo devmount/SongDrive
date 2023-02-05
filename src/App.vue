@@ -40,7 +40,7 @@
 								v-if="userRoles[c.permissions[auth.user].role] > 2"
 								class="!p-1 tooltip tooltip-left"
 								:data-tooltip="t('tooltip.songAdd')"
-								@click.stop.prevent="showModal.addsong = true"
+								@click.stop.prevent="createNewSong"
 							>
 								<plus-icon class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
@@ -59,7 +59,7 @@
 								v-if="userRoles[c.permissions[auth.user].role] > 1"
 								class="!p-1 tooltip tooltip-left"
 								:data-tooltip="t('tooltip.setlistAdd')"
-								@click.stop.prevent="showModal.addsetlist = true"
+								@click.stop.prevent="showModal.setlistset = true"
 							>
 								<plus-icon class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
@@ -214,20 +214,20 @@
 	</div>
 	<!-- modals -->
 	<song-set
-		:active="showModal.addsong"
-		:existing="false"
-		:initial-song="newSong"
+		:active="showModal.songset"
+		:existing="songModalData.existing"
+		:initial-song="songModalData.song"
+		:id="songModalData.id"
 		:songs="c.songs"
 		:setlists="c.setlists"
 		:tags="c.tags"
 		:languages="c.languages"
 		:ready="ready"
-		@closed="showModal.addsong = false"
-		@reset="resetSong"
+		@closed="showModal.songset = false"
 	/>
 	<setlist-set
-		v-if="showModal.addsetlist"
-		:active="showModal.addsetlist"
+		v-if="showModal.setlistset"
+		:active="showModal.setlistset"
 		:existing="false"
 		:initial-setlist="newSetlist"
 		setlist-key=""
@@ -237,7 +237,7 @@
 		:tags="c.tags"
 		:languages="c.languages"
 		:ready="ready"
-		@closed="showModal.addsetlist = false"
+		@closed="showModal.setlistset = false"
 		@reset="resetSetlist"
 	/>
 	<sign-up
@@ -257,7 +257,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { collection, onSnapshot } from "firebase/firestore";
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, inject, onMounted } from 'vue';
+import { ref, reactive, computed, inject, provide, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useRoute } from 'vue-router';
 import { userRoles, throwError } from '@/utils.js';
@@ -311,6 +311,7 @@ const c = reactive({
 	tags: {},
 	users: {},
 });
+
 // db table ready state
 const ready = reactive({
 	config: false,
@@ -322,6 +323,7 @@ const ready = reactive({
 	tags: false,
 	users: false,
 });
+
 // db table listeners
 const listener = reactive({
 	config: null,
@@ -333,16 +335,12 @@ const listener = reactive({
 	tags: null,
 	users: null,
 });
-// modals
+
+// mobile menu state
 const open = ref(false);
-const showModal = reactive({
-	addsong: false,
-	addsetlist: false,
-	signup: false,
-	passwordreset: false,
-});
-// objects to save
-const newSong = reactive({
+
+// song object
+const newSong = {
 	authors: '',
 	ccli: '',
 	content: '',
@@ -356,13 +354,42 @@ const newSong = reactive({
 	tuning: '',
 	year: '',
 	youtube: '',
-});
-const newSetlist = reactive({
+};
+// setlist object
+const newSetlist = {
 	title: '',
 	private: false,
 	date: '',
 	songs: [],
+};
+
+// modals
+const showModal = reactive({
+	songset: false,
+	setlistset: false,
+	signup: false,
+	passwordreset: false,
 });
+const songModalData = reactive({
+	song: newSong,
+	existing: false,
+	id: null,
+});
+const createNewSong = () => {
+	songModalData.song = newSong;
+	songModalData.existing = false;
+	songModalData.id = null;
+	showModal.songset = true;
+};
+const editExistingSong = (song, id, existing) => {
+	songModalData.song = song;
+	songModalData.existing = existing;
+	songModalData.id = id;
+	showModal.songset = true;
+};
+provide('createNewSong', createNewSong);
+provide('editExistingSong', editExistingSong);
+
 // authentication
 const auth = reactive({
 	confirmed: null,
@@ -370,6 +397,7 @@ const auth = reactive({
 	user: '',
 	userObject: null,
 });
+
 // explicit loading indication
 // currently used for switching profiles on user creation
 const loading = ref(false);
@@ -423,21 +451,6 @@ const loadConfig = () => {
 			ready.config = true;
 		}
 	}).catch((error) => throwError(error));
-};
-// set all newSong values to default
-const resetSong = () => {
-	newSong.authors = '';
-	newSong.ccli = '';
-	newSong.content = '';
-	newSong.language = '';
-	newSong.note = '';
-	newSong.publisher = '';
-	newSong.subtitle = '';
-	newSong.tags = [];
-	newSong.title = '';
-	newSong.translations = [];
-	newSong.tuning = '';
-	newSong.year = '';
 };
 // set all newSetlist values to default
 const resetSetlist = () => {

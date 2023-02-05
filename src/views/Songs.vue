@@ -148,7 +148,10 @@
 				</tr>
 			</thead>
 			<tbody v-if="ready.songs">
-				<tr v-for="(song, i) in pagedSongs" :key="i" class="even:bg-blade-900/50 hover:bg-blade-900">
+				<tr
+					v-for="(song, i) in pagedSongs" :key="i"
+					class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900"
+				>
 					<td
 						class="cursor-pointer px-3 py-2 max-w-0"
 						@click="router.push({ name: 'song-show', params: { id: song.id }})"
@@ -205,7 +208,7 @@
 								<button
 									v-if="user && role > 1"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="editDialog(song, true)"
+									@click.prevent="editExistingSong(song, song.id, true)"
 								>
 									<edit-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.edit') }}
@@ -213,7 +216,7 @@
 								<button
 									v-if="user && role > 1"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="editDialog(song, false)"
+									@click.prevent="editExistingSong(song, song.id, false)"
 								>
 									<copy-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.duplicate') }}
@@ -233,19 +236,6 @@
 			</tbody>
 		</table>
 	</div>
-	<!-- modals -->
-	<song-set
-		:active="modal.set"
-		:existing="active.existing"
-		:initial-song="active.song"
-		:id="active.key"
-		:songs="songs"
-		:setlists="setlists"
-		:tags="tags"
-		:languages="languages"
-		:ready="ready"
-		@closed="modal.set = false"
-	/>
 	<song-delete
 		:active="modal.delete"
 		:title="active.title"
@@ -256,14 +246,13 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed, watch } from 'vue';
+import { ref, reactive, onMounted, computed, watch, inject } from 'vue';
 import { keyScale, sortTags } from '@/utils.js';
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from 'vue-router'
 import Dropdown from '@/elements/Dropdown';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongDelete from '@/modals/SongDelete';
-import SongSet from '@/modals/SongSet';
 import Tag from '@/elements/Tag';
 
 // icons
@@ -306,7 +295,8 @@ const props = defineProps({
 const container   = ref(null);
 const searchInput = ref(null);
 
-// emits
+// injects and emits
+const editExistingSong = inject('editExistingSong');
 defineEmits(['started']);
 
 // table filter
@@ -343,8 +333,6 @@ const modal = reactive({
 const active = reactive({
 	title: '',
 	key: '',
-	song: {},
-	existing: true
 });
 
 // mounted
@@ -471,13 +459,6 @@ const showPageItemLink = (p) => {
 };
 const showLastEllipsis = (p) => {
 	return pageCount.value >= 6 && page.value < pageCount.value-3 && p == pageCount.value-1;
-};
-const editDialog = (song, existing) => {
-	active.title = song.title;
-	active.song = song;
-	active.key = song.id;
-	active.existing = existing;
-	modal.set = true;
 };
 const deleteDialog = (song) => {
 	active.title = song.title;
