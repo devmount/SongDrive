@@ -167,9 +167,9 @@
 					<td class="cursor-pointer px-3 py-2 max-w-0 hidden 3xl:table-cell">
 						<div v-if="ready.tags" class="flex flex-nowrap gap-1">
 							<tag
-								v-for="tag in song.tags.slice(0, 3)" :key="tag"
-								:tag="tags[tag]"
-								@click="router.push({ name: 'songs-tag', params: { tag: tag }})"
+								v-for="tag in sortedTags(song.tags).slice(0, 3)" :key="tag.key"
+								:tag="tag"
+								@click="router.push({ name: 'songs-tag', params: { tag: tag.key }})"
 							/>
 							<span v-if="song.tags.length > 3">&hellip;</span>
 						</div>
@@ -257,7 +257,7 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed, watch } from 'vue';
-import { keyScale } from '@/utils.js';
+import { keyScale, sortTags } from '@/utils.js';
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from 'vue-router'
 import Dropdown from '@/elements/Dropdown';
@@ -483,6 +483,11 @@ const deleteDialog = (song) => {
 	active.title = song.title;
 	active.key = song.id;
 	modal.delete = true;
+};
+
+const sortedTags = (tagKeys) => {
+	const tags = tagKeys.map(t => props.tags[t]);
+	return sortTags(tags, locale.value);
 };
 
 // watcher

@@ -308,6 +308,13 @@ const urlify = (s) => {
 // get the first key of given object that points to given value
 const keyByValue = (o, v) => Object.keys(o).find(k => o[k]===v);
 
+// sort tags by locale
+const sortTags = (tags, locale) => tags.sort(
+  (a,b) => a[locale] && b[locale]
+    ? a[locale].localeCompare(b[locale])
+    : a.localeCompare(b)
+);
+
 export {
   keyScale,
   userRoles,
@@ -321,5 +328,6 @@ export {
   throwError,
   randomString,
   urlify,
-  keyByValue
+  keyByValue,
+  sortTags,
 }

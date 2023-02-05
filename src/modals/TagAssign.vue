@@ -31,7 +31,7 @@
 				</div>
 				<div v-else class="flex flex-col gap-2">
 					<div class="text-lg text-center mb-2">{{ t('text.selection') }}</div>
-					<div v-for="tag in selectedTags" :key="tag" class="flex items-center gap-2">
+					<div v-for="tag in sortedSelectedTags" :key="tag" class="flex items-center gap-2">
 						<tag-icon class="w-4 h-4" />
 						{{ tags[tag][locale] ? tags[tag][locale] : tag }}
 						<button
@@ -113,5 +113,10 @@ const filteredTags = computed(() => {
 	} else {
 		return props.tags;
 	}
+});
+
+// show selected tags sorted alphabeticaly
+const sortedSelectedTags = computed(() => {
+	return selectedTags.value.sort();
 });
 </script>
