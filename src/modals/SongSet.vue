@@ -223,7 +223,7 @@
 	<!-- additional modal: add translation -->
 	<song-assign
 		:active="showModal.translations"
-		:existing="existing"
+		:language="song.language"
 		:id="id"
 		:songs="songs"
 		:assigned-songs="song.translations"

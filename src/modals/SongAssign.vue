@@ -88,7 +88,7 @@ const searchInput = ref('');
 // inherited properties
 const props = defineProps({
 	active:        Boolean, // state of modal display, true to show modal
-	existing:      Boolean, // song already exists
+	language:      String,  // language key of song
 	id:            String,  // identifier of original song
 	songs:         Object,  // list of all available songs
 	assignedSongs: Array,   // already assigned songs
@@ -105,13 +105,14 @@ const emit = defineEmits(['closed', 'assign']);
 // computed: filter song list by search query
 const filteredSongs = computed(() => {
 	let songs = {};
-	if (searchInput.value != '') {
-		for (const key in props.songs) {
-			if (props.songs.hasOwnProperty(key)) {
-				// exclude self assignment
-				if (props.existing && props.id == key) continue;
+	for (const key in props.songs) {
+		if (props.songs.hasOwnProperty(key)) {
+			const song = props.songs[key];
+			// exclude same language songs
+			if (song.language === props.language) continue;
+			// handle filter input
+			if (searchInput.value != '') {
 				// search in title and subtitle
-				const song = props.songs[key];
 				let search = searchInput.value.toLowerCase();
 				if (
 					song.title.toLowerCase().indexOf(search) !== -1 ||
@@ -120,13 +121,11 @@ const filteredSongs = computed(() => {
 				) {
 					songs[key] = song;
 				}
+			} else {
+				songs[key] = song;
 			}
 		}
-		return songs;
-	} else {
-		let songs = {...props.songs};
-		if (props.existing) delete songs[props.id];
-		return songs;
 	}
+	return songs;
 });
 </script>
