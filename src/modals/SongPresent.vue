@@ -57,7 +57,6 @@
 	</modal>
 	<!-- modal: info song note -->
 	<info-song-data
-		v-if="showModal.infosongdata"
 		:active="showModal.infosongdata"
 		:song="song"
 		@closed="showModal.infosongdata = false"
