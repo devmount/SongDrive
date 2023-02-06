@@ -9,11 +9,11 @@
 	<transition-scale>
 		<div
 			v-if="active"
-			class="
-				fixed z-40 position-center rounded-sm shadow-l w-full max-w-sm p-4 flex flex-col gap-4
-				bg-blade-100 dark:bg-blade-850
-			"
+			class="fixed z-40 position-center rounded-sm shadow-l w-full max-w-sm p-4 flex flex-col gap-4"
 			:class="{
+				'bg-blade-100 dark:bg-blade-850': !theme,
+				'bg-white text-black': theme === themes.white,
+				'bg-black text-white': theme === themes.black,
 				'max-w-md': size === sizes.md,
 				'max-w-lg': size === sizes.lg,
 				'max-w-xl': size === sizes.xl,
@@ -21,14 +21,17 @@
 				'max-w-3xl h-screen xs:h-2/3v': size === sizes.xl3,
 				'max-w-5xl h-screen md:h-3/4v': size === sizes.xl5,
 				'max-w-6xl h-screen lg:h-4/5v': size === sizes.xl6,
+				'max-w-none w-screen h-screen': size === sizes.full,
 			}"
 			@click.stop="null"
 		>
 			<div class="flex justify-between">
 				<div class="text-lg uppercase font-medium">{{ title }}</div>
-				<button aria-label="Close" @click="emit('closed')">
-					<x-icon class="w-6 h-6 stroke-1.5" />
-				</button>
+				<slot name="close">
+					<button aria-label="Close" @click="emit('closed')">
+						<x-icon class="w-6 h-6 stroke-1.5" />
+					</button>
+				</slot>
 			</div>
 			<slot></slot>
 		</div>
@@ -46,7 +49,8 @@ import { XIcon } from 'vue-tabler-icons';
 // component properties
 const props = defineProps({
 	active: Boolean, // state of modal display, true to show modal
-  title:  String,  // titel to display on top
+	theme:  Boolean, // theme mode (optional), black|white
+  title:  String,  // title to display on top
   size:   String,  // maximum width for modal
 });
 
@@ -74,5 +78,12 @@ const sizes = {
 	xl3: 'xl3',
 	xl5: 'xl5',
 	xl6: 'xl6',
+	full: 'full',
+}
+
+// available themes
+const themes = {
+	white: 'white',
+	black: 'black',
 }
 </script>

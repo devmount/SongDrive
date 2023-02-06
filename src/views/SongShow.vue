@@ -211,7 +211,6 @@
 		@closed="modal.delete = false"
 	/>
 	<song-present
-		v-if="modal.present"
 		:active="modal.present"
 		:song="song"
 		:chords="chords"

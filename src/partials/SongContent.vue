@@ -1,9 +1,12 @@
 <template>
-	<div class="flex flex-wrap gap-8">
+	<div
+		class="flex gap-4"
+		:class="{ 'flex-wrap gap-8': !presentation }"
+	>
 		<div
 			v-for="(parts, i) in parsedContent(content, tuning, chords, true)" :key="i"
-			class="flex flex-col gap-7"
-			:class="{ 'present': presentation }"
+			class="flex flex-col gap-7 items-start"
+			:class="{ 'present w-1/2 overflow-x-visible': presentation }"
 		>
 			<pre
 				v-for="(part, j) in parts" :key="j"
@@ -12,12 +15,12 @@
 				:class="{
 					'relative pl-8 before:absolute before:top-2 before:left-1 before:text-4xl before:font-fira before:font-light before:content-[attr(part)]': part.class === 'verse' && part.number > 0,
 					'font-fira text-2xl': !chords,
+					'inline-block leading-[1.4] before:text-5xl before:-left-0.5': presentation,
 				}"
-			><span
+			><div
 				v-for="(line, l) in part.content.split('\n')" :key="l"
-				class="block"
-				:class="{ 'text-spring-600': isChordLine(line) }"
-			>{{ line }}</span></pre>
+				:class="{ 'text-spring-600 -mb-1': isChordLine(line) }"
+			>{{ line }}</div></pre>
 		</div>
 	</div>
 </template>
@@ -26,17 +29,17 @@
 import { isChordLine, parsedContent } from '@/utils.js';
 
 const props = defineProps({
-	content: String,
-	chords: Boolean,
-	tuning: Number,
-	presentation: Boolean
+	content:      String,  // actual song content to display
+	chords:       Boolean, // true if chords shall be rendered
+	tuning:       Number,  // key to present song in
+	presentation: Boolean, // flag if song is displayed in presentation mode
 });
 
 // methods
 const maximizeFontsize = () => {
 	// config
-	const WIDTH_MARGIN = 40;
-	const HEIGHT_MARGIN = 40;
+	const WIDTH_MARGIN = 20;
+	const HEIGHT_MARGIN = 30;
 	const MAX_FONTSIZE = 48;
 	// all parent elements
 	for (let a of document.querySelectorAll('.present')) {
