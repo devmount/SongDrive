@@ -10,6 +10,7 @@
 		<div
 			ref="containerRef"
 			tabindex="0"
+			class="h-full overflow-y-auto pb-12 xs:pb-0"
 			@keydown.ctrl.i.prevent="song.note ? showModal.infosongdata = !showModal.infosongdata : null"
 			@keydown.ctrl.l.prevent="dark = !dark"
 			@keydown.esc.exact="emit('closed')"
@@ -23,7 +24,7 @@
 				ref="songContentRef"
 			/>
 			<!-- toolbar -->
-			<div class="absolute bottom-2 right-2 flex gap-2">
+			<div class="fixed bottom-2 right-2 flex gap-2">
 				<secondary-button
 					:disabled="!song.note"
 					:title="tooltip('info')"

@@ -1,12 +1,15 @@
 <template>
 	<div
-		class="flex gap-4"
-		:class="{ 'flex-wrap gap-8': !presentation }"
+		class="flex flex-wrap overflow-y-scroll"
+		:class="{
+			'flex-row gap-8': !presentation,
+			'flex-col xs:flex-row gap-7 xs:gap-0': presentation
+		}"
 	>
 		<div
 			v-for="(parts, i) in parsedContent(content, tuning, chords, true)" :key="i"
 			class="flex flex-col gap-7 items-start"
-			:class="{ 'present w-1/2 overflow-x-visible': presentation }"
+			:class="{ 'present w-full xs:w-1/2 overflow-x-visible': presentation }"
 		>
 			<pre
 				v-for="(part, j) in parts" :key="j"
