@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex flex-wrap overflow-y-scroll"
+		class="flex flex-wrap overflow-y-auto"
 		:class="{
 			'flex-row gap-8': !presentation,
 			'flex-col xs:flex-row gap-7 xs:gap-0': presentation
@@ -18,7 +18,7 @@
 				:class="{
 					'relative pl-8 before:absolute before:top-2 before:left-1 before:text-4xl before:font-fira before:font-light before:content-[attr(part)]': part.class === 'verse' && part.number > 0,
 					'font-fira text-2xl': !chords,
-					'inline-block leading-[1.4] before:text-5xl before:-left-0.5': presentation,
+					'inline-block leading-[1.4] xs:before:text-5xl before:-left-0.5': presentation,
 				}"
 			><div
 				v-for="(line, l) in part.content.split('\n')" :key="l"

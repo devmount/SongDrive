@@ -6,7 +6,7 @@
 		size="full"
 		@closed="emit('closed')"
 	>
-		<template #close><span></span></template>
+		<template #close><i></i></template>
 		<div
 			ref="containerRef"
 			tabindex="0"
