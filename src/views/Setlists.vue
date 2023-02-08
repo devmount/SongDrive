@@ -158,7 +158,7 @@
 						<circle-dotted-icon v-else class="w-6 h-6 stroke-1.5 mx-auto" />
 					</td>
 					<td
-						class="cursor-pointer px-3 py-2 max-w-0"
+						class="cursor-pointer p-3 max-w-0"
 						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
 					>
 						<div class="truncate hidden md:block">{{ humanDate(setlist.date, locale) }}</div>
@@ -169,19 +169,19 @@
 						<lock-open-icon v-else class="w-6 h-6 stroke-1.5 stroke-blade-500 mx-auto" />
 					</td>
 					<td
-						class="cursor-pointer px-3 py-2 max-w-0"
+						class="cursor-pointer p-3 max-w-0"
 						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
 					>
 						<div class="truncate">{{ setlist.title }}</div>
 					</td>
 					<td
-						class="cursor-pointer px-3 py-2 hidden xl:table-cell"
+						class="cursor-pointer p-3 hidden xl:table-cell"
 						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
 					>
 						{{ users[setlist.creator] ? users[setlist.creator].name : '' }}
 					</td>
 					<td
-						class="cursor-pointer px-3 py-2 hidden sm:table-cell text-center"
+						class="cursor-pointer p-3 hidden sm:table-cell text-center"
 						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
 					>
 						{{ setlist.songs.length }}
@@ -326,7 +326,7 @@ const isFiltered = computed(() => {
 
 // pagination
 const page       = ref(0);
-const listLength = 20;
+const listLength = 16;
 const order = reactive({ 
 	field: 'date',
 	ascending: false

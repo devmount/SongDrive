@@ -153,7 +153,7 @@
 					class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900"
 				>
 					<td
-						class="cursor-pointer px-3 py-2 max-w-0"
+						class="cursor-pointer p-3 max-w-0"
 						@click="router.push({ name: 'song-show', params: { id: song.id }})"
 					>
 						<div class="truncate">
@@ -162,12 +162,12 @@
 						</div>
 					</td>
 					<td
-						class="cursor-pointer px-3 py-2 max-w-0 hidden xl:table-cell"
+						class="cursor-pointer p-3 max-w-0 hidden xl:table-cell"
 						@click="router.push({ name: 'song-show', params: { id: song.id }})"
 					>
 						<div class="truncate">{{ song.authors }}</div>
 					</td>
-					<td class="cursor-pointer px-3 py-2 max-w-0 hidden 3xl:table-cell">
+					<td class="cursor-pointer p-3 max-w-0 hidden 3xl:table-cell">
 						<div v-if="ready.tags" class="flex flex-nowrap gap-1">
 							<tag
 								v-for="tag in sortedTags(song.tags).slice(0, 3)" :key="tag.key"
@@ -178,19 +178,19 @@
 						</div>
 					</td>
 					<td
-						class="cursor-pointer px-3 py-2 text-center uppercase hidden md:table-cell"
+						class="cursor-pointer p-3 text-center uppercase hidden md:table-cell"
 						@click="router.push({ name: 'song-show', params: { id: song.id }})"
 					>
 						{{ song.language }}
 					</td>
 					<td
-						class="cursor-pointer px-3 py-2 text-center hidden md:table-cell"
+						class="cursor-pointer p-3 text-center hidden md:table-cell"
 						@click="router.push({ name: 'song-show', params: { id: song.id }})"
 					>
 						{{ song.year }}
 					</td>
 					<td
-						class="cursor-pointer p-2 text-center hidden xs:table-cell"
+						class="cursor-pointer p-3 text-center hidden xs:table-cell"
 						@click="router.push({ name: 'song-show', params: { id: song.id }})"
 					>
 						{{ song.tuning }}
@@ -321,7 +321,7 @@ const isFiltered = computed(() => {
 
 // pagination
 const page       = ref(0);
-const listLength = 20;
+const listLength = 16;
 const order = reactive({ 
 	field: 'title',
 	ascending: true
