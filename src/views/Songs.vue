@@ -236,23 +236,37 @@
 			</tbody>
 		</table>
 	</div>
-	<song-delete
-		:active="modal.delete"
-		:title="active.title"
-		:id="active.key"
+	<!-- modals -->
+	<song-set
+		:active="showModal.set"
+		:existing="songSetModalData.existing"
+		:initial-song="songSetModalData.song"
+		:id="songSetModalData.id"
 		:songs="songs"
-		@closed="modal.delete = false"
+		:setlists="setlists"
+		:tags="tags"
+		:languages="languages"
+		:ready="ready"
+		@closed="showModal.set = false"
+	/>
+	<song-delete
+		:active="showModal.delete"
+		:title="songDeleteModalData.title"
+		:id="songDeleteModalData.key"
+		:songs="songs"
+		@closed="showModal.delete = false"
 	/>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed, watch, inject } from 'vue';
+import { ref, reactive, onMounted, computed, watch, provide } from 'vue';
 import { keyScale, sortTags } from '@/utils.js';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router'
 import Dropdown from '@/elements/Dropdown';
-import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SecondaryButton from '@/elements/SecondaryButton';
 import SongDelete from '@/modals/SongDelete';
+import SongSet from '@/modals/SongSet';
 import Tag from '@/elements/Tag';
 
 // icons
@@ -273,6 +287,22 @@ import {
 const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
+// song object
+const initialSong = {
+	authors:      '',
+	ccli:         '',
+	content:      '',
+	language:     '',
+	note:         '',
+	publisher:    '',
+	subtitle:     '',
+	tags:         [],
+	title:        '',
+	translations: [],
+	tuning:       '',
+	year:         '',
+	youtube:      '',
+};
 
 // component properties
 const props = defineProps({
@@ -296,7 +326,6 @@ const container   = ref(null);
 const searchInput = ref(null);
 
 // injects and emits
-const editExistingSong = inject('editExistingSong');
 defineEmits(['started']);
 
 // table filter
@@ -319,20 +348,12 @@ const isFiltered = computed(() => {
 	return filter.fulltext || filter.authors || filter.tag || filter.language || filter.key || filter.year;
 });
 
-// pagination
+// pagination and sorting
 const page       = ref(0);
 const listLength = 16;
 const order = reactive({ 
 	field: 'title',
 	ascending: true
-});
-const modal = reactive({
-	set: false,
-	delete: false,
-});
-const active = reactive({
-	title: '',
-	key: '',
 });
 
 // mounted
@@ -460,12 +481,47 @@ const showPageItemLink = (p) => {
 const showLastEllipsis = (p) => {
 	return pageCount.value >= 6 && page.value < pageCount.value-3 && p == pageCount.value-1;
 };
+
+// handle modals
+const showModal = reactive({
+	set:    false,
+	delete: false,
+});
+
+// add and edit songs
+const songSetModalData = reactive({
+	song:     structuredClone(initialSong),
+	existing: false,
+	id:       null,
+});
+const createNewSong = () => {
+	songSetModalData.song     = structuredClone(initialSong);
+	songSetModalData.existing = false;
+	songSetModalData.id       = null;
+	showModal.set             = true;
+};
+const editExistingSong = (song, id, existing) => {
+	songSetModalData.song     = song;
+	songSetModalData.existing = existing;
+	songSetModalData.id       = id;
+	showModal.set             = true;
+};
+provide('createNewSong', createNewSong);
+provide('editExistingSong', editExistingSong);
+defineExpose({ createNewSong })
+
+// delete songs
+const songDeleteModalData = reactive({
+	title: '',
+	key:   '',
+});
 const deleteDialog = (song) => {
-	active.title = song.title;
-	active.key = song.id;
-	modal.delete = true;
+	songDeleteModalData.title = song.title;
+	songDeleteModalData.key   = song.id;
+	showModal.delete          = true;
 };
 
+// sort song tags alphabetically
 const sortedTags = (tagKeys) => {
 	const tags = tagKeys.map(t => props.tags[t]);
 	return sortTags(tags, locale.value);

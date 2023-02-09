@@ -164,7 +164,10 @@
 					:tags="c.tags"
 					:users="c.users"
 					@started="loading=true"
-				></router-view>
+					v-slot="{ Component }"
+				>
+					<component ref="view" :is="Component" />
+				</router-view>
 			</div>
 		</div>
 		<!-- logged in but not confimed yet -->
@@ -213,18 +216,6 @@
 		</notifications>
 	</div>
 	<!-- modals -->
-	<song-set
-		:active="showModal.songset"
-		:existing="songModalData.existing"
-		:initial-song="songModalData.song"
-		:id="songModalData.id"
-		:songs="c.songs"
-		:setlists="c.setlists"
-		:tags="c.tags"
-		:languages="c.languages"
-		:ready="ready"
-		@closed="showModal.songset = false"
-	/>
 	<setlist-set
 		v-if="showModal.setlistset"
 		:active="showModal.setlistset"
@@ -257,7 +248,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { collection, onSnapshot } from "firebase/firestore";
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, inject, provide, onMounted } from 'vue';
+import { ref, reactive, computed, inject, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useRoute } from 'vue-router';
 import { userRoles, throwError } from '@/utils.js';
@@ -271,7 +262,6 @@ import PasswordReset from '@/modals/PasswordReset';
 import SecondaryButton from '@/elements/SecondaryButton';
 import SetlistSet from '@/modals/SetlistSet';
 import SignUp from '@/modals/SignUp';
-import SongSet from '@/modals/SongSet';
 import UserUnconfirmed from '@/partials/UserUnconfirmed';
 import UserUnverified from '@/partials/UserUnverified';
 
@@ -299,6 +289,10 @@ const route = useRoute();
 
 // global properties
 const db = inject('db');
+
+// child components
+const view = ref(null);
+const createNewSong = () => view.value?.createNewSong();
 
 // db table collections
 const c = reactive({
@@ -339,22 +333,6 @@ const listener = reactive({
 // mobile menu state
 const open = ref(false);
 
-// song object
-const newSong = {
-	authors: '',
-	ccli: '',
-	content: '',
-	language: '',
-	note: '',
-	publisher: '',
-	subtitle: '',
-	tags: [],
-	title: '',
-	translations: [],
-	tuning: '',
-	year: '',
-	youtube: '',
-};
 // setlist object
 const newSetlist = {
 	title: '',
@@ -365,30 +343,10 @@ const newSetlist = {
 
 // modals
 const showModal = reactive({
-	songset: false,
 	setlistset: false,
 	signup: false,
 	passwordreset: false,
 });
-const songModalData = reactive({
-	song: newSong,
-	existing: false,
-	id: null,
-});
-const createNewSong = () => {
-	songModalData.song = newSong;
-	songModalData.existing = false;
-	songModalData.id = null;
-	showModal.songset = true;
-};
-const editExistingSong = (song, id, existing) => {
-	songModalData.song = song;
-	songModalData.existing = existing;
-	songModalData.id = id;
-	showModal.songset = true;
-};
-provide('createNewSong', createNewSong);
-provide('editExistingSong', editExistingSong);
 
 // authentication
 const auth = reactive({
