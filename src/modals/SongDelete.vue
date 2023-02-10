@@ -12,7 +12,6 @@
 					{{ t('button.cancel') }}
 				</button>
 				<primary-button
-					class="grow"
 					type="danger"
 					:disabled="!agreed"
 					@click="agreed ? deleteSong() : null"
@@ -45,12 +44,12 @@ const router = useRouter()
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active: Boolean, // state of modal display, true to show modal
-	title: String,   // title of setlist to delete
-	id: String,      // id of setlist to delete
-	songs: Object,   // list of songs assigned to this setlist
+	title:  String,  // title of setlist to delete
+	id:     String,  // id of setlist to delete
+	songs:  Object,  // list of songs assigned to this setlist
 });
 
 // user input properties
@@ -59,6 +58,7 @@ const agreed = ref(false);
 // emits
 const emit = defineEmits(['closed']);
 
+// execute song deletion
 const deleteSong = () => {
 	db.collection('songs').doc(props.id).delete().then(() => {
 		emit('closed');

@@ -356,7 +356,7 @@
 		<!-- stats -->
 		<div
 			v-if="ready.setlists && setlist && setlist.songs.length > 0"
-			class="flex flex-col sm:flex-row justify-center items-center gap-8 mt-4"
+			class="flex flex-col sm:flex-row justify-center sm:justify-start items-center gap-8 mt-4"
 		>
 			<div class="w-64 max-w-full">
 				<div class="flex justify-center items-center gap-2 text-2xl">
@@ -412,7 +412,6 @@
 		@closed="modal.set = false"
 	/>
 	<setlist-delete
-		v-if="modal.delete"
 		:active="modal.delete"
 		:title="setlist ? setlist.title : ''"
 		:id="setlistKey"
@@ -440,7 +439,7 @@
 <script setup>
 import { keyScale, parsedContent, humanDate, throwError } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
+import { ref, reactive, computed, inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import DoughnutChart from '@/charts/DoughnutChart';
@@ -721,6 +720,11 @@ const updateHide = (val) => {
 	if (setlist.value.active) {
 		db.collection('setlists').doc(route.params.id).set({ remoteHide: val }, { merge: true });
 	}
+};
+
+// handle dialog modals
+const deleteDialog = () => {
+	modal.delete = true;
 };
 
 // copy list to clipboard in given format (plain|markdown|slack)
