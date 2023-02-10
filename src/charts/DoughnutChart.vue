@@ -3,7 +3,7 @@
 	<h2 v-if="title" class="text-center">{{ title }}</h2>
 	<p v-if="description" class="text-gray text-center">{{ description }}</p>
 	<div class="chart-container">
-		<canvas :id="id"></canvas>
+		<canvas :id="id" :style="{ maxHeight: '180px' }"></canvas>
 		<div v-if="info" class="chart-info">
 			<div class="featured">{{ info.number }}</div>
 			<div class="text-gray">{{ info.label }}</div>
@@ -115,13 +115,13 @@ const opacity = (value, max) => {
 }
 .chart > .chart-container .chart-info {
   position: absolute;
-  bottom: 3rem;
+  bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
 }
 .chart > .chart-container .chart-info .featured {
-  font-size: 3.25em;
+  font-size: 2.5em;
   line-height: 1em;
   font-weight: 500;
 }

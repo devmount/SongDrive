@@ -1,395 +1,492 @@
 <template>
 	<div
 		v-if="setlistAccess"
-		class="setlist-show"
-		ref="setlistshow"
+		class="flex flex-col gap-6 w-full focus:outline-none"
+		ref="container"
 		tabindex="0"
 		@keydown.ctrl.s.prevent="!modal.present ? updateActive() : null"
 		@keydown.ctrl.k.prevent="chords = !chords"
 		@keydown.ctrl.p.prevent="modal.present=true"
-		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; setlistshow.focus()"
+		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; container?.focus();"
 	>
-		<div class="off-canvas off-canvas-secondary">
-			<!-- content -->
-			<div class="off-canvas-content">
-				<div class="container">
-					<!-- setlist data -->
-					<div class="columns">
-						<!-- title and information bar -->
-						<div v-if="ready.setlists && setlist" class="column col-12">
-							<h2>{{ setlist.title }}</h2>
-							<div class="heading flex flex-wrap gx-5 gy-2 my-2">
-								<span
-									v-if="setlist.private"
-									class="text-primary flex align-center g-2 tooltip tooltip-bottom"
-									:data-tooltip="t('tooltip.setlistPrivate')"
-								>
-									<ion-icon :icon="lockClosedOutline" class="icon-sm" />
-									{{ t('option.private') }}
-								</span>
-								<span class="flex align-center g-2">
-									<ion-icon :icon="list" class="icon-sm" />
-									{{ t('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
-								</span>
-								<span class="flex align-center g-2">
-									<ion-icon :icon="calendarOutline" class="icon-sm" />
-									{{ humanDate(setlist.date, locale) }}
-								</span>
-								<span v-if="ready.users && users[setlist.creator]" class="flex align-center g-2">
-									<ion-icon :icon="personOutline" class="icon-sm" />
-									{{ users[setlist.creator].name }}
-								</span>
-							</div>
-						</div>
-						<!-- toolbar -->
-						<div class="toolbar">
-							<div class="flex align-center g-1">
-								<button
-									class="btn btn-secondary flex align-center"
-									:data-tooltip="t('button.back')"
-									@click="router.go(-1)"
-								>
-									<ion-icon :icon="arrowBackOutline" />
-									<span class="hide-xl ml-2">{{ t('button.back') }}</span>
-								</button>
-							</div>
-							<div class="flex align-center g-1">
-								<label
-									v-if="setlist && user && role > 1"
-									class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center mr-1"
-									:data-tooltip="t('tooltip.sync')"
-								>
-									<input type="checkbox" v-model="setlist.active" @click.prevent="updateActive">
-									<i class="form-icon"></i>
-									<ion-icon :icon="sync" class="show-xl mt-1" />
-									<span class="hide-xl">{{ t('switch.sync') }}</span>
-								</label>
-								<label
-									class="form-switch switch-lg c-hand tooltip tooltip-bottom flex align-center"
-									:data-tooltip="t('tooltip.chordsShow')"
-								>
-									<input type="checkbox" v-model="chords">
-									<i class="form-icon"></i>
-									<ion-icon :icon="musicalNotesOutline" class="show-xl mt-1" />
-									<span class="hide-xl">{{ t('switch.chords') }}</span>
-								</label>
-								<button
-									class="btn btn-secondary flex align-center tooltip tooltip-bottom"
-									:data-tooltip="t('tooltip.startPresentation')"
-									@click="modal.present=true"
-								>
-									<ion-icon :icon="videocamOutline" />
-									<span class="hide-xl ml-2">{{ t('button.present') }}</span>
-								</button>
-								<router-link
-									:to="{ name: 'setlist-show', params: { id: setlistKey }}"
-									target="_blank"
-									class="btn btn-secondary flex align-center tooltip tooltip-bottom"
-									:data-tooltip="t('tooltip.openInNewTab')"
-								>
-									<ion-icon :icon="openOutline" />
-									<span class="hide-xl ml-2">{{ t('button.open') }}</span>
-								</router-link>
-							</div>
-							<div class="flex align-center g-1">
-								<div class="dropdown dropdown-right">
-									<div class="btn-group">
-										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('tooltip.copySetlist')" tabindex="0">
-											<ion-icon :icon="clipboardOutline" class="mr-2" />
-											<span class="hide-xl">{{ t('button.copy') }}</span>
-											<ion-icon :icon="chevronDownOutline" class="ml-1" />
-										</a>
-										<ul class="menu text-left">
-											<li class="menu-item">
-												<a href="#" class="py-3 px-3" @click="copyList('plain')">
-													<ion-icon :icon="list" class="mr-2" />
-													{{ t('button.formatPlain') }}
-												</a>
-											</li>
-											<li class="menu-item">
-												<a href="#" class="py-3 px-3" @click="copyList('markdown')">
-													<ion-icon :icon="logoMarkdown" class="mr-2" />
-													{{ t('button.formatMarkdown') }}
-												</a>
-											</li>
-											<li class="menu-item">
-												<a href="#" class="py-3 px-3" @click="copyList('slack')">
-													<ion-icon :icon="logoSlack" class="mr-2" />
-													{{ t('button.formatSlack') }}
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="dropdown dropdown-right">
-									<div class="btn-group">
-										<a class="btn btn-secondary dropdown-toggle flex align-center tooltip tooltip-top" :data-tooltip="t('tooltip.downloadSetlist')" tabindex="0">
-											<ion-icon :icon="downloadOutline" class="mr-2" />
-											<span class="hide-xl">{{ t('button.download') }}</span>
-											<ion-icon :icon="chevronDownOutline" class="ml-1" />
-										</a>
-										<ul class="menu text-left">
-											<li class="menu-item">
-												<a href="#" class="py-3 px-3" @click="exportPdf('list')">
-													<ion-icon :icon="documentTextOutline" class="mr-2" />
-													{{ t('button.exportSetlistList') }}
-												</a>
-											</li>
-											<li class="menu-item">
-												<a href="#" class="py-3 px-3" @click="exportPdf('sheets')">
-													<ion-icon :icon="documentsOutline" class="mr-2" />
-													{{ t('button.exportSetlistSheets') }}
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div v-if="user && role > 1" class="dropdown dropdown-right">
-									<div class="btn-group">
-										<a class="btn btn-secondary dropdown-toggle flex align-center" tabindex="0">
-											<ion-icon :icon="menuOutline" />
-											<ion-icon :icon="chevronDownOutline" class="ml-1" />
-										</a>
-										<ul class="menu text-left">
-											<li class="menu-item">
-												<a href="#" class="py-3 px-3" @click="existing=true; modal.set=true">
-													<ion-icon :icon="createOutline" class="mr-2" />
-													{{ t('button.edit') }}
-												</a>
-											</li>
-											<li class="menu-item">
-												<a href="#" class="py-3 px-3" @click="existing=false; modal.set=true">
-													<ion-icon :icon="copyOutline" class="mr-2" />
-													{{ t('button.duplicate') }}
-												</a>
-											</li>
-											<li v-if="role > 2" class="menu-item">
-												<a href="#" class="py-3 px-3 text-error" @click="modal.delete = true">
-													<ion-icon :icon="trashOutline" class="mr-2" />
-													{{ t('button.delete') }}
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- song list -->
-						<div v-if="ready.songs && ready.setlists && setlist && setlist.songs.length > 0" class="column col-12 mt-4">
-							<table class="table table-striped table-hover">
-								<thead>
-									<tr>
-										<th class="w-90" v-if="user && role > 1"></th>
-										<th class="w-50p">{{ t('field.title') }}</th>
-										<th class="w-120">{{ t('field.tuning') }}</th>
-										<th class="w-40p hide-xl">{{ t('field.authors') }}</th>
-										<th class="w-90 hide-xl">{{ t('field.language') }}</th>
-										<th class="w-120 hide-md">{{ t('field.ccli') }}</th>
-										<th class="w-50"></th>
-									</tr>
-								</thead>
-								<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
-									<tr v-for="(song, i) in setlist.songs" :key="song.id">
-										<td v-if="user && role > 1" class="c-move text-center text-gray">
-											<ion-icon :icon="reorderFourOutline" class="icon-1-5x pl-2 handle" />
-										</td>
-										<template v-if="songs[song.id]">
-											<td class="c-hand max-w-0" @click.prevent="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})">
-												<div class="o-ellipsis">{{ songs[song.id].title }}</div>
-												<div class="text-gray o-ellipsis">{{ songs[song.id].subtitle }}</div>
-											</td>
-											<td class="tuning">
-												<button
-													v-if="user && role > 1"
-													class="btn btn-secondary btn-sm btn-fw"
-													@click.prevent="tuneDown(songs[song.id], i)"
-												>
-													<ion-icon :icon="arrowBack" class="icon-sm" />
-												</button>
-												<code>{{ song.tuning ? song.tuning : songs[song.id].tuning }}</code>
-												<button
-													v-if="user && role > 1"
-													class="btn btn-secondary btn-sm btn-fw"
-													@click.prevent="tuneUp(songs[song.id], i)"
-												>
-													<ion-icon :icon="arrowForward" class="icon-sm" />
-												</button>
-											</td>
-											<td class="hide-xl max-w-0 o-ellipsis">{{ songs[song.id].authors }}</td>
-											<td class="hide-xl text-uppercase text-center">{{ songs[song.id].language }}</td>
-											<td class="hide-md">
-												<a :href="'https://songselect.ccli.com/Songs/' + songs[song.id].ccli" target="_blank">
-													{{ songs[song.id].ccli }}
-												</a>
-											</td>
-										</template>
-										<template v-else>
-											<td colspan="2"><span class="text-error mr-1">{{ t('toast.songDeleted') }}</span> <br class="show-xl hide-sm" />
-												<span class="text-gray text-pre text-tiny hide-sm">{{ song.id }}</span>
-											</td>
-											<td class="hide-xl"></td>
-											<td class="hide-xl"></td>
-										</template>
-										<td class="text-right">
-											<button
-												v-if="songs[song.id]"
-												class="btn btn-primary"
-												@click.prevent="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})"
-											>
-												<ion-icon :icon="eyeOutline" />
-											</button>
-											<button
-												v-else
-												class="btn btn-error"
-												@click.prevent="removeSong(song.id)"
-											>
-												<ion-icon :icon="trashOutline" />
-											</button>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div v-if="ready.songs && ready.setlists && setlist && setlist.songs.length == 0" class="column col-12 empty">
-							<div class="empty-icon">
-								<ion-icon :icon="musicalNotesOutline" class="icon-4x" />
-							</div>
-							<p class="empty-title h5">{{ t('text.emptySetlist') }}</p>
-							<p class="empty-subtitle">{{ t('text.editSetlistAddSongs') }}</p>
-						</div>
-					</div>
-					<!-- stats -->
-					<div v-if="ready.setlists && setlist && setlist.songs.length > 0" class="columns mt-4">
-						<div class="column col-4 col-lg-6 mt-4">
-							<div class="panel pb-4">
-								<div class="panel-header">
-									<div class="panel-title h5 text-center">
-										<ion-icon :icon="globeOutline" /> {{ t('widget.languages', 2) }}
-									</div>
-								</div>
-								<div class="panel-body">
-									<DoughnutChart
-										:info="{
-											number: setlistLanguages.labels.length,
-											label: t('widget.languages', setlistLanguages.labels.length)
-										}"
-										:datasets="setlistLanguages.datasets"
-										:labels="setlistLanguages.labels"
-									/>
-								</div>
-							</div>
-						</div>
-						<div class="column col-4 col-lg-6 mt-4">
-							<div class="panel pb-4">
-								<div class="panel-header">
-									<div class="panel-title h5 text-center">
-										<ion-icon :icon="musicalNote" /> {{ t('widget.keys') }}
-									</div>
-								</div>
-								<div class="panel-body">
-									<DoughnutChart
-										:info="{ number: setlistKeys.labels.length, label: t('widget.keys') }"
-										:datasets="setlistKeys.datasets"
-										:labels="setlistKeys.labels"
-									/>
-								</div>
-							</div>
-						</div>
-					</div>
+		<!-- page heading -->
+		<div class="flex flex-col justify-between items-stretch gap-4">
+			<!-- title and visible setlist count -->
+			<div
+				v-if="ready.setlists && setlist"
+				class="flex flex-col xs:flex-row gap-x-6 gap-y-0 text-3xl uppercase font-thin tracking-wider"
+			>
+				<span class="font-semibold">{{ setlist.title }}</span>
+				{{ t('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
+			</div>
+			<div class="flex flex-wrap gap-x-4 gap-y-2 -mt-2 -mb-2">
+				<div
+					v-if="setlist.private"
+					class="text-spring-600 flex items-center gap-2"
+					:title="t('tooltip.setlistPrivate')"
+				>
+					<lock-icon />
+					{{ t('option.private') }}
+				</div>
+				<div class="text-blade-500 flex items-center gap-2">
+					<calendar-event-icon />
+					{{ humanDate(setlist.date, locale) }}
+				</div>
+				<div v-if="ready.users && users[setlist.creator]" class="text-blade-500 flex items-center gap-2">
+					<user-icon />
+					{{ users[setlist.creator].name }}
 				</div>
 			</div>
-			<!-- modals -->
-			<SetlistSet
-				v-if="modal.set"
-				:active="modal.set"
-				:existing="existing"
-				:initialSetlist="setlist"
-				:setlistKey="setlistKey"
-				:user="user"
-				:songs="songs"
-				:setlists="setlists"
-				:tags="tags"
-				:languages="languages"
-				:ready="ready"
-				@closed="modal.set = false"
-			/>
-			<SetlistDelete
-				v-if="modal.delete"
-				:active="modal.delete"
-				:title="setlist ? setlist.title : ''"
-				:id="setlistKey"
-				@closed="modal.delete = false"
-			/>
-			<SetlistPresent
-				v-if="modal.present"
-				:active="modal.present"
-				:songs="setlistSongs"
-				:sync="setlist.active"
-				:position="setlist.position"
-				:chords="chords"
-				:remoteHide="setlist.remoteHide"
-				:remoteLight="setlist.remoteLight"
-				:remoteText="setlist.remoteText"
-				@chords="chords = !chords"
-				@closed="modal.present = false"
-				@updatePosition="updatePosition"
-				@updateHide="updateHide"
-				@updateDark="updateDark"
-				@updateChords="updateChords"
-			/>
+		</div>
+		<!-- toolbar -->
+		<div class="flex justify-between align-center w-full bg-blade-200 dark:bg-blade-900 rounded-lg p-2 gap-1">
+			<div class="flex align-center gap-1">
+				<secondary-button :title="t('button.back')" @click="router.go(-1)">
+					<arrow-left-icon />
+					<span class="hidden xl:inline">{{ t('button.back') }}</span>
+				</secondary-button>
+			</div>
+			<div class="flex items-center gap-1">
+				<secondary-button
+					v-if="setlist && user && role > 1"
+					:title="setlist.active ? t('tooltip.syncOn') : t('tooltip.syncOff')"
+					@click="updateActive"
+				>
+					<refresh-icon v-if="setlist.active === true" class="stroke-spring-400" />
+					<refresh-off-icon v-else />
+					<span class="hidden xl:inline">{{ t('switch.sync') }}</span>
+				</secondary-button>
+				<secondary-button
+					:title="chords ? t('tooltip.chordsHide') : t('tooltip.chordsShow')"
+					@click="chords = !chords"
+				>
+					<music-icon v-if="chords" class="stroke-spring-400" />
+					<music-off-icon v-else />
+					<span class="hidden xl:inline">{{ t('switch.chords') }}</span>
+				</secondary-button>
+				<secondary-button
+					:title="t('tooltip.startFullscreen')"
+					@click="modal.present=true"
+				>
+					<presentation-icon />
+					<span class="hidden xl:inline">{{ t('button.present') }}</span>
+				</secondary-button>
+				<router-link
+					:to="{ name: 'setlist-show', params: { id: setlistKey }}"
+					target="_blank"
+					:title="t('tooltip.openInNewTab')"
+				>
+					<secondary-button>
+						<external-link-icon />
+						<span class="hidden xl:inline">{{ t('button.open') }}</span>
+					</secondary-button>
+				</router-link>
+			</div>
+			<div class="flex align-center gap-1">
+				<div class="hidden sm:block">
+					<dropdown>
+						<template #trigger>
+							<secondary-button class="h-full" :title="t('tooltip.copySetlist')">
+								<clipboard-icon class="w-5 h-5 stroke-1.5" />
+								<span class="hidden xl:inline">{{ t('button.copy') }}</span>
+								<chevron-down-icon class="w-5 h-5 stroke-1.5" />
+							</secondary-button>
+						</template>
+						<template #default>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click="copyList('plain')"
+							>
+								<txt-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.formatPlain') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click="copyList('markdown')"
+							>
+								<markdown-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.formatMarkdown') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click="copyList('slack')"
+							>
+								<brand-slack-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.formatSlack') }}
+							</button>
+						</template>
+					</dropdown>
+				</div>
+				<div class="hidden sm:block">
+					<dropdown>
+						<template #trigger>
+							<secondary-button class="h-full" :title="t('tooltip.downloadSetlist')">
+								<download-icon class="w-5 h-5 stroke-1.5" />
+								<span class="hidden xl:inline">{{ t('button.download') }}</span>
+								<chevron-down-icon class="w-5 h-5 stroke-1.5" />
+							</secondary-button>
+						</template>
+						<template #default>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click="exportPdf('list')"
+							>
+								<file-text-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.exportSetlistList') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click="exportPdf('sheets')"
+							>
+								<files-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.exportSetlistSheets') }}
+							</button>
+						</template>
+					</dropdown>
+				</div>
+				<div class="h-full">
+					<dropdown>
+						<template #default>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click.stop="emit('editSetlist', setlist, setlist.id, true)"
+							>
+								<edit-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.edit') }}
+							</button>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click.prevent="emit('editSetlist', setlist, setlist.id, false)"
+							>
+								<copy-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.duplicate') }}
+							</button>
+							<button
+								v-if="user && role > 2"
+								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+								@click.prevent="deleteDialog(setlist)"
+							>
+								<trash-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.delete') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+								@click="copyList('plain')"
+							>
+								<txt-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.formatPlain') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+								@click="copyList('markdown')"
+							>
+								<markdown-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.formatMarkdown') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+								@click="copyList('slack')"
+							>
+								<brand-slack-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.formatSlack') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+								@click="exportPdf('list')"
+							>
+								<file-text-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.exportSetlistList') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+								@click="exportPdf('sheets')"
+							>
+								<files-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.exportSetlistSheets') }}
+							</button>
+						</template>
+					</dropdown>
+				</div>
+			</div>
+		</div>
+		<!-- song list -->
+		<table
+			v-if="ready.songs && ready.setlists && setlist && setlist.songs.length > 0"
+			class="w-full"
+		>
+			<thead>
+				<tr>
+					<th v-if="user && role > 1" class="w-11"></th>
+					<th class="uppercase p-2 font-normal">{{ t('field.title') }}</th>
+					<th class="uppercase p-2 font-normal w-96 hidden 2xl:table-cell">{{ t('field.authors') }}</th>
+					<th class="uppercase p-2 font-normal w-20 text-center">{{ t('field.tuning') }}</th>
+					<th class="uppercase p-2 font-normal w-20 hidden xl:table-cell">{{ t('field.language') }}</th>
+					<th class="uppercase p-2 font-normal w-20 hidden md:table-cell">{{ t('field.ccli') }}</th>
+					<th class="w-11"></th>
+				</tr>
+			</thead>
+			<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
+				<tr
+					v-for="(song, i) in setlist.songs" :key="song.id"
+					class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900 transition-all"
+				>
+					<td v-if="user && role > 1" class="cursor-grab active:cursor-grabbing text-center text-blade-500">
+						<menu-order-icon class="handle inline" />
+					</td>
+					<template v-if="songs[song.id]">
+						<td
+							class="cursor-pointer px-3 py-2 max-w-0"
+							@click="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})"
+						>
+							<div class="truncate">
+								<span>{{ songs[song.id].title }}</span>
+								<span class="text-blade-500 ml-3">{{ songs[song.id].subtitle }}</span>
+							</div>
+						</td>
+						<td
+							class="cursor-pointer px-3 py-2 max-w-0 hidden 2xl:table-cell"
+							@click="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})"
+						>
+							<div class="truncate">{{ songs[song.id].authors }}</div>
+						</td>
+						<td class="px-3 py-2">
+							<div class="flex justify-center items-center gap-3">
+								<secondary-button
+									v-if="user && role > 1"
+									class="!px-2"
+									@click.prevent="transposeDown(songs[song.id], i)"
+								>
+									<arrow-left-icon class="w-5 h-5" />
+								</secondary-button>
+								<div class="font-mono font-semibold text-xl w-6 text-center">
+									{{ song.tuning ? song.tuning : songs[song.id].tuning }}
+								</div>
+								<secondary-button
+									v-if="user && role > 1"
+									class="!px-2"
+									@click.prevent="transposeUp(songs[song.id], i)"
+								>
+									<arrow-right-icon class="w-5 h-5" />
+								</secondary-button>
+							</div>
+						</td>
+						<td class="px-3 py-2 hidden xl:table-cell text-center">
+							<div class="uppercase">{{ songs[song.id].language }}</div>
+						</td>
+						<td class="px-3 py-2 hidden md:table-cell">
+							<a
+								class="text-spring-600"
+								:href="'https://songselect.ccli.com/Songs/' + songs[song.id].ccli"
+								target="_blank"
+							>
+								{{ songs[song.id].ccli }}
+							</a>
+						</td>
+					</template>
+					<template v-else>
+						<td colspan="2" class="px-3 py-2 max-w-0">
+							<div class="truncate">
+								<span class="text-rose-600">{{ t('toast.songDeleted') }}</span>
+								<span class="text-blade-500 font-mono text-sm ml-3">{{ song.id }}</span>
+							</div>
+						</td>
+						<td class="hidden 2xl:table-cell"></td>
+						<td class="hidden xl:table-cell"></td>
+						<td class="hidden md:table-cell"></td>
+					</template>
+					<td class="px-1 py-2">
+						<dropdown v-if="songs[song.id]">
+							<template #default>
+								<router-link
+									:to="{ name: 'song-show', params: { id: song.id }}"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								>
+									<eye-icon class="w-5 h-5 stroke-1.5" />
+									{{ t('button.show') }}
+								</router-link>
+								<button
+									v-if="user && role > 1"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click.prevent="emit('editSong', songs[song.id], song.id, true)"
+								>
+									<edit-icon class="w-5 h-5 stroke-1.5" />
+									{{ t('button.edit') }}
+								</button>
+								<button
+									v-if="user && role > 1"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click.prevent="emit('editSong', songs[song.id], song.id, false)"
+								>
+									<copy-icon class="w-5 h-5 stroke-1.5" />
+									{{ t('button.duplicate') }}
+								</button>
+							</template>
+						</dropdown>
+						<secondary-button
+							v-else
+							class="flex items-center text-rose-600 hover:bg-opacity-80"
+							@click.prevent="removeSong(song.id)"
+						>
+							<trash-icon class="w-5 h-5" />
+						</secondary-button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- setlist without songs -->
+		<div
+			v-if="ready.songs && ready.setlists && setlist && setlist.songs.length == 0"
+			class="flex flex-col items-center gap-8 mt-4"
+		>
+			<playlist-icon class="w-12 h-12 stroke-1 text-blade-500" />
+			<div class="text-center">
+				<div class="text-lg">{{ t('text.emptySetlist') }}</div>
+				<div class="text-blade-500">{{ t('text.editSetlistAddSongs') }}</div>
+			</div>
+			<primary-button
+				v-if="user && role > 1"
+				@click="emit('editSetlist', setlist, setlist.id, true)"
+			>
+				{{ t('modal.editSetlist') }}
+				<edit-icon class="w-6 h-6 stroke-1.5" />
+			</primary-button>
+		</div>
+		<!-- stats -->
+		<div
+			v-if="ready.setlists && setlist && setlist.songs.length > 0"
+			class="flex flex-col sm:flex-row justify-center items-center gap-8 mt-4"
+		>
+			<div class="w-64 max-w-full">
+				<div class="flex justify-center items-center gap-2 text-2xl">
+					<world-icon />
+					{{ t('widget.languages', 2) }}
+				</div>
+				<doughnut-chart
+					:info="{
+						number: setlistLanguages.labels.length,
+						label: t('widget.languages', setlistLanguages.labels.length),
+					}"
+					:datasets="setlistLanguages.datasets"
+					:labels="setlistLanguages.labels"
+				/>
+			</div>
+			<div class="w-64 max-w-full">
+				<div class="flex justify-center items-center gap-2 text-2xl">
+					<music-icon />
+					{{ t('widget.keys') }}
+				</div>
+				<doughnut-chart
+					:info="{
+						number: setlistKeys.labels.length,
+						label: t('widget.keys'),
+					}"
+					:datasets="setlistKeys.datasets"
+					:labels="setlistKeys.labels"
+				/>
+			</div>
 		</div>
 	</div>
-	<div v-else class="empty">
-		<div class="empty-icon">
-			<ion-icon :icon="lockClosedOutline" class="icon-4x" />
+	<!-- unauthorized access -->
+	<div v-else class="flex flex-col items-center gap-8 mt-4">
+		<lock-icon class="w-12 h-12 stroke-1 text-blade-500" />
+		<div class="text-center">
+			<div class="text-lg">{{ t('text.privateSetlist') }}</div>
+			<div class="text-blade-500">{{ t('text.setlistVisibleForCreator') }}</div>
 		</div>
-		<p class="empty-title h5">{{ t('text.privateSetlist') }}</p>
-		<p class="empty-subtitle">{{ t('text.setlistVisibleForCreator') }}</p>
 	</div>
+	<!-- modals -->
+	<setlist-set
+		v-if="modal.set"
+		:active="modal.set"
+		:existing="existing"
+		:initialSetlist="setlist"
+		:setlistKey="setlistKey"
+		:user="user"
+		:songs="songs"
+		:setlists="setlists"
+		:tags="tags"
+		:languages="languages"
+		:ready="ready"
+		@closed="modal.set = false"
+	/>
+	<setlist-delete
+		v-if="modal.delete"
+		:active="modal.delete"
+		:title="setlist ? setlist.title : ''"
+		:id="setlistKey"
+		@closed="modal.delete = false"
+	/>
+	<setlist-present
+		v-if="modal.present"
+		:active="modal.present"
+		:songs="setlistSongs"
+		:sync="setlist.active"
+		:position="setlist.position"
+		:chords="chords"
+		:remoteHide="setlist.remoteHide"
+		:remoteLight="setlist.remoteLight"
+		:remoteText="setlist.remoteText"
+		@chords="chords = !chords"
+		@closed="modal.present = false"
+		@updatePosition="updatePosition"
+		@updateHide="updateHide"
+		@updateDark="updateDark"
+		@updateChords="updateChords"
+	/>
 </template>
 
 <script setup>
-import firebase from 'firebase/compat/app';
-import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
-import { useI18n } from "vue-i18n";
-import { useRoute, useRouter } from 'vue-router';
-import { notify } from '@kyvg/vue3-notification';
 import { keyScale, parsedContent, humanDate, throwError } from '@/utils.js';
-import SetlistSet from '@/modals/SetlistSet';
+import { notify } from '@kyvg/vue3-notification';
+import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+import DoughnutChart from '@/charts/DoughnutChart';
+import Dropdown from '@/elements/Dropdown';
+import firebase from 'firebase/compat/app';
+import PrimaryButton from '@/elements/PrimaryButton';
+import SecondaryButton from '@/elements/SecondaryButton';
 import SetlistDelete from '@/modals/SetlistDelete';
 import SetlistPresent from '@/modals/SetlistPresent';
-import DoughnutChart from '@/charts/DoughnutChart';
+import SetlistSet from '@/modals/SetlistSet';
+
+// icons
 import {
-	arrowBack,
-	arrowBackOutline,
-	arrowForward,
-	calendarOutline,
-	chevronDownOutline,
-	clipboardOutline,
-	copyOutline,
-	createOutline,
-	documentsOutline,
-	documentTextOutline,
-	downloadOutline,
-	eyeOutline,
-	globeOutline,
-	list,
-	lockClosedOutline,
-	logoMarkdown,
-	logoSlack,
-	menuOutline,
-	musicalNote,
-	musicalNotesOutline,
-	openOutline,
-	personOutline,
-	reorderFourOutline,
-	sync,
-	trashOutline,
-	videocamOutline
-} from 'ionicons/icons';
+	ArrowLeftIcon,
+	ArrowRightIcon,
+	BrandSlackIcon,
+	CalendarEventIcon,
+	ChevronDownIcon,
+	ClipboardIcon,
+	CopyIcon,
+	DownloadIcon,
+	EditIcon,
+	ExternalLinkIcon,
+	EyeIcon,
+	FilesIcon,
+	FileTextIcon,
+	LockIcon,
+	MarkdownIcon,
+	MenuOrderIcon,
+	MusicIcon,
+	MusicOffIcon,
+	PlaylistIcon,
+	PresentationIcon,
+	RefreshIcon,
+	RefreshOffIcon,
+	TrashIcon,
+	TxtIcon,
+	UserIcon,
+	WorldIcon,
+} from 'vue-tabler-icons';
+
+// component constants
 const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
+const setlistKey = route.params.id;
 
 // pdf creation
 var pdfMake = require('pdfmake/build/pdfmake');
@@ -404,21 +501,24 @@ pdfMake.fonts = {
 
 // global properties
 const db = inject('db');
+const emit = defineEmits(['started', 'editSong', 'editSetlist']);
 
-// inherited properties
+// component properties
 const props = defineProps({
-  songs:     Object,
-  setlists:  Object,
-  users:     Object,
-  tags:      Object,
-  languages: Object,
-  user:      String,
-  role:      Number,
-  ready:     Object,
+  config:        Object,
+  languages:     Object,
+  permissions:   Object,
+  ready:         Object,
+  registrations: Object,
+  role:          Number,
+  roleName:      String,
+  setlists:      Object,
+  songs:         Object,
+  tags:          Object,
+  user:          String,
+  userObject:    Object,
+  users:         Object,
 });
-
-// non reactive data
-const setlistKey = route.params.id;
 
 // reactive data
 const existing = ref(true);
@@ -430,21 +530,23 @@ const modal = reactive({
 });
 
 // template references
-const setlistshow = ref(null);
+const container = ref(null);
 
-// mounted
+// focus container on mount to target shortcuts
 onMounted(() => {
 	// focus component area for shortcuts
-	setlistshow.value.focus();
+	container.value?.focus();
 });
 
-// computed
+// retrieve setlist object to show
 const setlist = computed(() => {
 	if (props.ready.setlists) {
 		return props.setlists[setlistKey];
 	}
 	return false;
 });
+
+// retrieve setlist song objects and apply custom song keys
 const setlistSongs = computed(() => {
 	if (props.ready.songs && props.ready.setlists && setlist.value?.songs?.length > 0) {
 		let songs = [];
@@ -464,6 +566,8 @@ const setlistSongs = computed(() => {
 	}
 	return [];
 });
+
+// build data object for song languages doughnut chart
 const setlistLanguages = computed(() => {
 	let languages = {};
 	for (let i = 0; i < setlistSongs.value.length; i++) {
@@ -480,6 +584,8 @@ const setlistLanguages = computed(() => {
 		labels: Object.keys(languages).map(e => props.languages[e]?.label)
 	};
 });
+
+// build data object for song keys doughnut chart
 const setlistKeys = computed(() => {
 	let keys = {};
 	for (let i = 0; i < setlistSongs.value.length; i++) {
@@ -496,12 +602,14 @@ const setlistKeys = computed(() => {
 		labels: Object.keys(keys)
 	};
 });
-// Bool indicating if this setlist is accessible for current user or not
+
+// true if this setlist is accessible for current user
 const setlistAccess = computed(() => {
-	return setlist.value && (!setlist.value.private || setlist.value.private && setlist.value.creator==props.user);
+	return setlist.value
+		&& (!setlist.value.private || setlist.value.private && setlist.value.creator == props.user);
 });
 
-// methods
+// handle drag and drop reorder event and save new order for setlist
 const reorder = ({oldIndex, newIndex}) => {
 	const movedItem = setlist.value.songs.splice(oldIndex, 1)[0];
 	setlist.value.songs.splice(newIndex, 0, movedItem);
@@ -516,7 +624,9 @@ const reorder = ({oldIndex, newIndex}) => {
 		});
 	}).catch((error) => throwError(error));
 };
-const tuneUp = (song, songPosition) => {
+
+// transpose key of given song up and save new key for setlist
+const transposeUp = (song, songPosition) => {
 	let songs = setlist.value.songs;
 	// update tuning
 	let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning;
@@ -530,7 +640,9 @@ const tuneUp = (song, songPosition) => {
 	songs[songPosition].tuning = tone;
 	db.collection('setlists').doc(route.params.id).set({ songs: songs }, { merge: true });
 };
-const tuneDown = (song, songPosition) => {
+
+// transpose key of given song down and save new key for setlist
+const transposeDown = (song, songPosition) => {
 	let songs = setlist.value.songs;
 	// update tuning
 	let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning;
@@ -544,6 +656,8 @@ const tuneDown = (song, songPosition) => {
 	songs[songPosition].tuning = tone;
 	db.collection('setlists').doc(route.params.id).set({ songs: songs }, { merge: true });
 };
+
+// remove a song from setlist, currently used only for deleted songs
 const removeSong = (songId) => {
 	let songs = setlist.value.songs.filter(s => s.id != songId);
 	db.collection('setlists').doc(route.params.id).update({ songs: songs }).then(() => {
@@ -555,9 +669,11 @@ const removeSong = (songId) => {
 		});
 	});
 };
+
+// toggle and save setlist's active flag to enable or disable sync
 const updateActive = () => {
-	// update setlist's active flag to enable or disable sync
-	var sync = !setlist.value.active;
+	setlist.value.active = !setlist.value.active;
+	const sync = setlist.value.active;
 	db.collection('setlists').doc(route.params.id).set({ active: sync }, { merge: true }).then(() => {
 		notify({
 			title: t('toast.sync' + (sync ? 'Activated' : 'Deactivated')),
@@ -578,30 +694,36 @@ const updateActive = () => {
 		}
 	}
 };
+
+// save setlist presentation slide position when sync is enabled
 const updatePosition = (val) => {
-	// update setlist's position if sync enabled
 	if (setlist.value.active) {
 		db.collection('setlists').doc(route.params.id).set({ position: val }, { merge: true });
 	}
 };
+
+// save setlist chords visibility when sync is enabled
 const updateChords = (val) => {
-	// update setlist's display of chords if sync enabled
 	if (setlist.value.active) {
 		db.collection('setlists').doc(route.params.id).set({ remoteText: val }, { merge: true });
 	}
 };
+
+// save setlist theme mode when sync enabled
 const updateDark = (val) => {
-	// update setlist's theme mode if sync enabled
 	if (setlist.value.active) {
 		db.collection('setlists').doc(route.params.id).set({ remoteLight: val }, { merge: true });
 	}
 };
+
+// save setlist content visibility when sync enabled
 const updateHide = (val) => {
-	// update setlist's display of content if sync enabled
 	if (setlist.value.active) {
 		db.collection('setlists').doc(route.params.id).set({ remoteHide: val }, { merge: true });
 	}
 };
+
+// copy list to clipboard in given format (plain|markdown|slack)
 const copyList = (format) => {
 	// build text list
 	let list = [], label = '';
@@ -639,6 +761,8 @@ const copyList = (format) => {
 		type: 'primary'
 	});
 };
+
+// download pdf in given mode (sheets|list)
 const exportPdf = (mode) => {
 	var content = mode == 'sheets' ? getPdfSongsheets() : getPdfSetlist();
 	// return page configuration with computed content
@@ -689,7 +813,7 @@ const exportPdf = (mode) => {
 	pdfMake.createPdf(doc).download(
 		route.params.id
 		+ '-'
-		+ (mode == 'sheets' ? t('button.exportSetlistSheets') : t('button.exportSetlistList')).toLowerCase()
+		+ (mode == 'sheets' ? t('text.songsheets') : t('text.list')).toLowerCase()
 		+ '.pdf'
 	);
 	// toast success message
@@ -699,6 +823,8 @@ const exportPdf = (mode) => {
 		type: 'primary'
 	});
 };
+
+// create pdfMake object for list
 const getPdfSetlist = () => {
 	let songs = [];
 	for (const key in setlist.value.songs) {
@@ -719,6 +845,8 @@ const getPdfSetlist = () => {
 		{ ol: songs, style: 'list'}
 	];
 };
+
+// create pdfMake object for songsheets
 const getPdfSongsheets = () => {
 	let sheets = [];
 	for (const key in setlist.value.songs) {
@@ -804,29 +932,4 @@ const getPdfSongsheets = () => {
 	}
 	return sheets;
 };
-
-// watcher
-watch (
-	() => modal.present,
-	(newValue) => {
-		// remove scroll bar when in presentation moden
-		if (newValue) {
-			document.body.classList.add('o-hidden');
-		} else {
-			document.body.classList.remove('o-hidden');
-		}
-	}
-);
 </script>
-
-<style>
-.tuning {
-  min-width: 100px;
-}
-.tuning code {
-  width: 2em;
-  display: inline-block;
-  text-align: center;
-  background: transparent;
-}
-</style>
