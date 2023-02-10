@@ -301,6 +301,8 @@
     "selected": "ausgewählt",
     "selection": "Auswahl",
     "sendPasswordResetEmail": "Gib die verifizierte E-Mail-Adresse deines Benutzerkontos ein und erhalte einen Link zum Zurücksetzen des Passworts.",
+    "setlistDeletedOrBrokenLink": "Diese Setliste existiert nicht. Sie wurde möglicherweise gelöscht oder der Link ist kaputt.",
+    "setlistNotFound": "Setliste nicht gefunden",
     "setlistVisibleForCreator": "Diese Setlist ist nur für ihre Erstellerin / ihren Ersteller sichtbar.",
     "signInForAccess": "Bitte melde dich mit deinem Benutzerkonto an, um auf diese Seite zuzugreifen.",
     "signInToSongDrive": "Melde Dich bei SongDrive an",

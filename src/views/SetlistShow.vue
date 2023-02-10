@@ -348,6 +348,7 @@
 			<primary-button
 				v-if="user && role > 1"
 				@click="emit('editSetlist', setlist, setlist.id, true)"
+				class="mt-4"
 			>
 				{{ t('modal.editSetlist') }}
 				<edit-icon class="w-6 h-6 stroke-1.5" />
@@ -388,13 +389,29 @@
 			</div>
 		</div>
 	</div>
+	<!-- access to non-existing setlist -->
+	<div v-if="setlistNotFound" class="flex flex-col items-center gap-8 mt-4">
+		<error404-icon class="w-12 h-12 stroke-1 text-blade-500" />
+		<div class="text-center">
+			<div class="text-lg">{{ t('text.setlistNotFound') }}</div>
+			<div class="text-blade-500">{{ t('text.setlistDeletedOrBrokenLink') }}</div>
+		</div>
+		<primary-button @click="router.push({ name: 'setlists' })" class="mt-4">
+			{{ t('widget.showAllSetlists') }}
+			<playlist-icon class="stroke-1.5" />
+		</primary-button>
+	</div>
 	<!-- unauthorized access -->
-	<div v-else class="flex flex-col items-center gap-8 mt-4">
+	<div v-else-if="!setlistAccess" class="flex flex-col items-center gap-8 mt-4">
 		<lock-icon class="w-12 h-12 stroke-1 text-blade-500" />
 		<div class="text-center">
 			<div class="text-lg">{{ t('text.privateSetlist') }}</div>
 			<div class="text-blade-500">{{ t('text.setlistVisibleForCreator') }}</div>
 		</div>
+		<primary-button @click="router.push({ name: 'setlists' })" class="mt-4">
+			{{ t('widget.showAllSetlists') }}
+			<playlist-icon class="stroke-1.5" />
+		</primary-button>
 	</div>
 	<!-- modals -->
 	<setlist-set
@@ -462,6 +479,7 @@ import {
 	CopyIcon,
 	DownloadIcon,
 	EditIcon,
+	Error404Icon,
 	ExternalLinkIcon,
 	EyeIcon,
 	FilesIcon,
@@ -542,7 +560,7 @@ const setlist = computed(() => {
 	if (props.ready.setlists) {
 		return props.setlists[setlistKey];
 	}
-	return false;
+	return null;
 });
 
 // retrieve setlist song objects and apply custom song keys
@@ -604,8 +622,15 @@ const setlistKeys = computed(() => {
 
 // true if this setlist is accessible for current user
 const setlistAccess = computed(() => {
-	return setlist.value
+	return props.ready.setlists
+		&& (setlistKey in props.setlists)
+		&& setlist.value
 		&& (!setlist.value.private || setlist.value.private && setlist.value.creator == props.user);
+});
+
+// true if this setlist is not part in collection
+const setlistNotFound = computed(() => {
+	return props.ready.setlists && !(setlistKey in props.setlists);
 });
 
 // handle drag and drop reorder event and save new order for setlist
