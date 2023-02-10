@@ -164,10 +164,9 @@
 					:tags="c.tags"
 					:users="c.users"
 					@started="loading=true"
-					v-slot="{ Component }"
-				>
-					<component ref="view" :is="Component" />
-				</router-view>
+					@edit-song="editExistingSong"
+					@edit-setlist="null"
+				/>
 			</div>
 		</div>
 		<!-- logged in but not confimed yet -->
@@ -216,6 +215,18 @@
 		</notifications>
 	</div>
 	<!-- modals -->
+	<song-set
+		:active="showModal.songset"
+		:existing="songSetModalData.existing"
+		:initial-song="songSetModalData.song"
+		:id="songSetModalData.id"
+		:songs="c.songs"
+		:setlists="c.setlists"
+		:tags="c.tags"
+		:languages="c.languages"
+		:ready="ready"
+		@closed="showModal.songset = false"
+	/>
 	<setlist-set
 		v-if="showModal.setlistset"
 		:active="showModal.setlistset"
@@ -262,6 +273,7 @@ import PasswordReset from '@/modals/PasswordReset';
 import SecondaryButton from '@/elements/SecondaryButton';
 import SetlistSet from '@/modals/SetlistSet';
 import SignUp from '@/modals/SignUp';
+import SongSet from '@/modals/SongSet';
 import UserUnconfirmed from '@/partials/UserUnconfirmed';
 import UserUnverified from '@/partials/UserUnverified';
 
@@ -289,10 +301,6 @@ const route = useRoute();
 
 // global properties
 const db = inject('db');
-
-// child components
-const view = ref(null);
-const createNewSong = () => view.value?.createNewSong();
 
 // db table collections
 const c = reactive({
@@ -341,12 +349,49 @@ const newSetlist = {
 	songs: [],
 };
 
+// song object
+const initialSong = {
+	authors:      '',
+	ccli:         '',
+	content:      '',
+	language:     '',
+	note:         '',
+	publisher:    '',
+	subtitle:     '',
+	tags:         [],
+	title:        '',
+	translations: [],
+	tuning:       '',
+	year:         '',
+	youtube:      '',
+};
+
 // modals
 const showModal = reactive({
-	setlistset: false,
-	signup: false,
+	songset:       false,
+	setlistset:    false,
+	signup:        false,
 	passwordreset: false,
 });
+
+// add and edit songs
+const songSetModalData = reactive({
+	song:     structuredClone(initialSong),
+	existing: false,
+	id:       null,
+});
+const createNewSong = () => {
+	songSetModalData.song     = structuredClone(initialSong);
+	songSetModalData.existing = false;
+	songSetModalData.id       = null;
+	showModal.songset         = true;
+};
+const editExistingSong = (data, id, exists) => {
+	songSetModalData.song     = data;
+	songSetModalData.existing = exists;
+	songSetModalData.id       = id;
+	showModal.songset         = true;
+};
 
 // authentication
 const auth = reactive({

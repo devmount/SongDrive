@@ -14,7 +14,7 @@
 	>
 		<!-- page heading -->
 		<div class="flex flex-col justify-between items-stretch gap-4">
-			<!-- title and song content -->
+			<!-- title and song count -->
 			<div v-if="ready.songs && song" class="flex gap-6 text-3xl uppercase font-thin tracking-wider">
 				<span class="font-semibold">{{ song.title }}</span>
 				{{ showTuning.current }}
@@ -23,7 +23,7 @@
 		</div>
 		<!-- toolbar -->
 		<div class="flex justify-between align-center w-full bg-blade-200 dark:bg-blade-900 rounded-lg p-2 gap-1">
-			<div v-if="ready.songs" class="flex align-center gap-1">
+			<div class="flex align-center gap-1">
 				<secondary-button :title="t('button.back')" @click="router.go(-1)">
 					<arrow-left-icon />
 					<span class="hidden xl:inline">{{ t('button.back') }}</span>
@@ -130,7 +130,7 @@
 							<button
 								v-if="user && role > 1"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.stop="editExistingSong(song, song.id, true)"
+								@click.stop="emit('editSong', song, song.id, true)"
 							>
 								<edit-icon class="w-5 h-5 stroke-1.5" />
 								{{ t('button.edit') }}
@@ -138,7 +138,7 @@
 							<button
 								v-if="user && role > 1"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.prevent="editExistingSong(song, song.id, false)"
+								@click.prevent="emit('editSong', song, song.id, false)"
 							>
 								<copy-icon class="w-5 h-5 stroke-1.5" />
 								{{ t('button.duplicate') }}
@@ -223,7 +223,7 @@
 <script setup>
 import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, watch, onMounted, inject } from 'vue';
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from 'vue-router';
 import Dropdown from '@/elements/Dropdown';
@@ -255,6 +255,8 @@ import {
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
+const songId = route.params.id;
+const songKey = route.params.key;
 
 // pdf creation
 const EOL = '\n';
@@ -268,7 +270,7 @@ pdfMake.fonts = {
 	}
 };
 
-// inherited properties
+// component properties
 const props = defineProps({
   config:        Object,
   languages:     Object,
@@ -285,13 +287,8 @@ const props = defineProps({
   users:         Object,
 });
 
-// injects and emits
-const editExistingSong = inject('editExistingSong');
-defineEmits(['started']);
-
-// non reactive data
-const songId = route.params.id;
-const songKey = route.params.key;
+// emits
+const emit = defineEmits(['started', 'editSong', 'editSetlist']);
 
 // reactive data
 const chords   = ref(true);

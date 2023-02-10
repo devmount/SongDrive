@@ -208,7 +208,7 @@
 								<button
 									v-if="user && role > 1"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="editExistingSong(song, song.id, true)"
+									@click.prevent="emit('editSong', song, song.id, true)"
 								>
 									<edit-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.edit') }}
@@ -216,7 +216,7 @@
 								<button
 									v-if="user && role > 1"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="editExistingSong(song, song.id, false)"
+									@click.prevent="emit('editSong', song, song.id, false)"
 								>
 									<copy-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.duplicate') }}
@@ -237,18 +237,6 @@
 		</table>
 	</div>
 	<!-- modals -->
-	<song-set
-		:active="showModal.set"
-		:existing="songSetModalData.existing"
-		:initial-song="songSetModalData.song"
-		:id="songSetModalData.id"
-		:songs="songs"
-		:setlists="setlists"
-		:tags="tags"
-		:languages="languages"
-		:ready="ready"
-		@closed="showModal.set = false"
-	/>
 	<song-delete
 		:active="showModal.delete"
 		:title="songDeleteModalData.title"
@@ -259,14 +247,13 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed, watch, provide } from 'vue';
+import { ref, reactive, onMounted, computed, watch } from 'vue';
 import { keyScale, sortTags } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router'
 import Dropdown from '@/elements/Dropdown';
 import SecondaryButton from '@/elements/SecondaryButton';
 import SongDelete from '@/modals/SongDelete';
-import SongSet from '@/modals/SongSet';
 import Tag from '@/elements/Tag';
 
 // icons
@@ -287,22 +274,6 @@ import {
 const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
-// song object
-const initialSong = {
-	authors:      '',
-	ccli:         '',
-	content:      '',
-	language:     '',
-	note:         '',
-	publisher:    '',
-	subtitle:     '',
-	tags:         [],
-	title:        '',
-	translations: [],
-	tuning:       '',
-	year:         '',
-	youtube:      '',
-};
 
 // component properties
 const props = defineProps({
@@ -326,7 +297,7 @@ const container   = ref(null);
 const searchInput = ref(null);
 
 // injects and emits
-defineEmits(['started']);
+const emit = defineEmits(['started', 'editSong', 'editSetlist']);
 
 // table filter
 const filter = reactive({
@@ -484,31 +455,8 @@ const showLastEllipsis = (p) => {
 
 // handle modals
 const showModal = reactive({
-	set:    false,
 	delete: false,
 });
-
-// add and edit songs
-const songSetModalData = reactive({
-	song:     structuredClone(initialSong),
-	existing: false,
-	id:       null,
-});
-const createNewSong = () => {
-	songSetModalData.song     = structuredClone(initialSong);
-	songSetModalData.existing = false;
-	songSetModalData.id       = null;
-	showModal.set             = true;
-};
-const editExistingSong = (song, id, existing) => {
-	songSetModalData.song     = song;
-	songSetModalData.existing = existing;
-	songSetModalData.id       = id;
-	showModal.set             = true;
-};
-provide('createNewSong', createNewSong);
-provide('editExistingSong', editExistingSong);
-defineExpose({ createNewSong })
 
 // delete songs
 const songDeleteModalData = reactive({
