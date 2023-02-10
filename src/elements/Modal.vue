@@ -49,7 +49,7 @@ import { XIcon } from 'vue-tabler-icons';
 // component properties
 const props = defineProps({
 	active: Boolean, // state of modal display, true to show modal
-	theme:  Boolean, // theme mode (optional), black|white
+	theme:  String,  // theme mode (optional), black|white
   title:  String,  // title to display on top
   size:   String,  // maximum width for modal
 });
