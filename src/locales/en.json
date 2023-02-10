@@ -32,7 +32,7 @@
     "editThis": "Edit this page",
     "export": "Export",
     "exportSetlistList": "List as PDF",
-    "exportSetlistSheets": "Shesqets as PDF",
+    "exportSetlistSheets": "Sheets as PDF",
     "filetypePdf": "PDF file [.pdf]",
     "filetypeSng": "SongBeamer file [.sng]",
     "filetypeTxt": "Plain text file [.txt]",
@@ -188,7 +188,7 @@
   },
   "option": {
     "private": "Private",
-    "public": "Pubilc"
+    "public": "Public"
   },
   "page": {
     "account": "My user account",
