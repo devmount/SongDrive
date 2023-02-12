@@ -1,5 +1,6 @@
 <template>
-	<div @click="open = !open" @focusout="open = false" class="h-full">
+	<div @click="open = !open" @focusout="open = false" class="h-full relative">
+		<div v-if="showBadge" class="w-3 h-3 rounded-full bg-spring-700 border-2 border-blade-100 dark:border-blade-900 absolute -top-1 -right-1"></div>
 		<slot name="trigger">
 			<secondary-button class="h-full">
 				<dots-icon class="w-5 h-5 stroke-1.5" />
@@ -22,6 +23,11 @@ import TransitionScale from '@/elements/TransitionScale.vue';
 
 // icons
 import { DotsIcon } from 'vue-tabler-icons';
+
+// component properties
+const props = defineProps({
+	showBadge: Boolean, // if true a small badge is shown
+});
 
 // dropdown state
 const open = ref(false);

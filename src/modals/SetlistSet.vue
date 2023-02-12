@@ -92,54 +92,60 @@
 							:placeholder="t('placeholder.searchSongTitle')"
 						/>
 					</label>
-					<!-- filter by key -->
+					<!-- filter by tag -->
 					<div class="h-full">
-						<dropdown>
+						<dropdown :show-badge="filter.tag !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
 									<tags-icon class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
-							<div
-								v-for="tag in tags" :key="tag.key"
-								@click="filter.tag = tag.key"
-								class="cursor-pointer"
-							>
-								{{ tag[locale] ? tag[locale] : tag.key }}
+							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 !p-2 text-sm">
+								<tag
+									v-for="tag in tags" :key="tag.key"
+									:tag="tag"
+									@click="filter.tag = tag.key"
+									class="cursor-pointer"
+									:class="{ '!bg-spring-700': tag.key === filter.tag }"
+								/>
 							</div>
 						</dropdown>
 					</div>
-					<!-- filter by tag -->
+					<!-- filter by key -->
 					<div class="h-full">
-						<dropdown>
+						<dropdown :show-badge="filter.key !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
 									<music-icon class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
-							<div
-								v-for="t in keyScale" :key="t"
-								@click="filter.key = t"
-								class="cursor-pointer"
-							>
-								{{ t }}
+							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 !p-2 text-sm font-mono">
+								<secondary-button
+									v-for="t in keyScale" :key="t"
+									@click="filter.key = t"
+									:class="{ '!bg-spring-700': t === filter.key }"
+								>
+									{{ t }}
+								</secondary-button>
 							</div>
 						</dropdown>
 					</div>
 					<!-- filter by language -->
 					<div class="h-full">
-						<dropdown>
+						<dropdown :show-badge="filter.language !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
 									<world-icon class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
-							<div 
-								v-for="(l, k) in languages" :key="k"
-								@click="filter.language = k"
-								class="cursor-pointer"
-							>
-								{{ l.label }}
+							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 !p-2 text-sm">
+								<secondary-button 
+									v-for="(l, k) in languages" :key="k"
+									@click="filter.language = k"
+									:class="{ '!bg-spring-700': k === filter.language }"
+								>
+									{{ l.label }}
+								</secondary-button>
 							</div>
 						</dropdown>
 					</div>
@@ -262,6 +268,7 @@ import Dropdown from '@/elements/Dropdown';
 import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 import SecondaryButton from '@/elements/SecondaryButton';
+import Tag from '@/elements/Tag';
 
 // icons
 import {
@@ -290,7 +297,7 @@ const router = useRouter();
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active:         Boolean, // state of modal display, true to show modal
 	existing:       Boolean, // setlist already exists
@@ -326,6 +333,7 @@ const setlist = ref({});
 const setlistSongs = ref([]);
 const initInput = () => {
 	resetErrors();
+	resetFilter();
 	const sl = structuredClone(props.initialSetlist);
 	// only show undeleted songs
 	sl.songs = sl.songs.filter(s => s.id in props.songs);
