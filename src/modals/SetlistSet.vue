@@ -13,12 +13,12 @@
 					<input
 						type="text"
 						v-model="setlist.title"
-						:class="{ '!border-rose-600': error.title || error.slug }"
+						:class="{ '!border-rose-600': (error.title & !setlist.title) || error.slug }"
 						:placeholder="t('placeholder.exampleSetlistTitle')"
 						:disabled="existing"
 						required
 					/>
-					<div v-if="error.title" class="text-rose-600">
+					<div v-if="error.title & !setlist.title" class="text-rose-600">
 						{{ t('error.requiredTitle') }}
 					</div>
 					<div v-if="error.slug" class="text-rose-600">
@@ -41,7 +41,7 @@
 				</label>
 				<!-- date -->
 				<label class="flex grow lg:grow-0 flex-col gap-1">
-					<div>{{ t('field.date') }} <span class="text-rose-600">*</span></div>
+					<div>{{ t('field.dateOfEvent') }} <span class="text-rose-600">*</span></div>
 					<input
 						type="date"
 						v-model="setlist.date"
@@ -49,10 +49,14 @@
 						pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
 					/>
 					<div class="text-blade-500">{{ humanDate(setlist.date, locale) }}</div>
+					<div v-if="error.date & !setlist.date" class="text-rose-600">
+						{{ t('error.requiredDate') }}
+					</div>
 					<datepicker
 						:model-value="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 						format="yyyy-MM-dd"
 						class="hidden lg:block"
+						:class="{ 'border !border-rose-600': error.date & !setlist.date }"
 						inline
 						auto-apply
 						:dark="browserPrefersDark()"
@@ -304,9 +308,10 @@ const props = defineProps({
 const error = reactive({
 	title: false,
 	slug: false,
+	date: false,
 });
 const errors = computed(() => {
-	return (error.title || error.slug);
+	return (error.title || error.slug || error.date);
 });
 const resetErrors = () => {
 	for (const key in error) {
@@ -454,9 +459,10 @@ const createSlug = () => {
 
 // add or save edits of setlist to db 
 const setSetlist = () => {
+	const slug = createSlug();
 	// first check for form errors
 	error.title = setlist.value.title == '';
-	const slug = createSlug();
+	error.date = setlist.value.date == '';
 	error.slug = props.existing && props.id == slug ? false : props.setlists.hasOwnProperty(slug);
 	// no errors: start saving song data
 	if (!errors.value) {

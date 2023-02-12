@@ -98,6 +98,7 @@
     "passwordTooShort": "Das Passwort ist zu kurz.",
     "passwordsDontMatch": "Die Passwörter stimmen nicht überein.",
     "requiredContent": "Der Inhalt des Songs fehlt.",
+    "requiredDate": "Ein Veranstaltungsdatum muss angegeben werden.",
     "requiredEmail": "Eine E-Mail-Adresse muss angegeben werden.",
     "requiredFile": "Eine Datei muss ausgewählt werden.",
     "requiredIsocode": "Ein ISO Code muss angegeben werden.",

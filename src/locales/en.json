@@ -99,6 +99,7 @@
     "passwordsDontMatch": "The passwords don't match.",
     "requiredContent": "The song content is missing.",
     "requiredEmail": "An email address is required.",
+    "requiredDate": "An event date is required.",
     "requiredFile": "A file must be selected.",
     "requiredIsocode": "An ISO code is required.",
     "requiredJsonFormat": "The file must be in JSON format.",
