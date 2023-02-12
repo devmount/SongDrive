@@ -13,11 +13,11 @@
 					<input
 						type="text"
 						v-model="song.title"
-						:class="{ '!border-rose-600': error.title || error.slug }"
+						:class="{ '!border-rose-600': (error.title & !song.title) || error.slug }"
 						:placeholder="t('placeholder.exampleSongTitle')"
 						:disabled="existing"
 					/>
-					<div v-if="error.title" class="text-rose-600">
+					<div v-if="error.title & !song.title" class="text-rose-600">
 						{{ t('error.requiredTitle') }}
 					</div>
 					<div v-if="error.slug" class="text-rose-600">
@@ -37,13 +37,13 @@
 					<!-- language -->
 					<label v-if="ready.languages" class="flex flex-col gap-1">
 						<div>{{ t('field.language') }} <span class="text-rose-600">*</span></div>
-						<select v-model="song.language" :class="{ '!border-rose-600': error.language }">
+						<select v-model="song.language" :class="{ '!border-rose-600': error.language & !song.language }">
 							<option value="">{{ t('placeholder.select') }}</option>
 							<option v-for="(l, key) in languages" :value="key" :key="key">
 								{{ l.label }}
 							</option>
 						</select>
-						<div v-if="error.language" class="text-rose-600">
+						<div v-if="error.language & !song.language" class="text-rose-600">
 							{{ t('error.requiredLanguage') }}
 						</div>
 					</label>
@@ -185,12 +185,12 @@
 				<prism-editor
 					id="song-content"
 					class="font-mono text-sm leading-4 p-1.5"
-					:class="{ '!border-rose-600': error.content }"
+					:class="{ '!border-rose-600': error.content & !song.content }"
 					v-model="song.content"
 					:highlight="sdHighlight"
 					:placeholder="t('placeholder.exampleSongContent')"
 				></prism-editor>
-				<div v-if="error.content" class="text-rose-600">
+				<div v-if="error.content & !song.content" class="text-rose-600">
 					{{ t('error.requiredContent') }}
 				</div>
 			</div>
