@@ -238,7 +238,7 @@ import { keyScale, sdHighlight, throwError, urlify } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { PrismEditor } from 'vue-prism-editor';
 import { ref, reactive, computed, inject, onMounted, watch } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import InfoSongSyntax from '@/modals/InfoSongSyntax';
 import Modal from '@/elements/Modal';
@@ -256,7 +256,7 @@ import {
 	NumberIcon,
 	PlusIcon,
 	XIcon,
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();
@@ -300,7 +300,7 @@ const resetErrors = () => {
 const song = ref({});
 const initInput = () => {
 	resetErrors();
-	song.value = { ...props.initialSong };
+	song.value = structuredClone(props.initialSong);
 };
 onMounted(() => initInput());
 watch(() => props.active, () => initInput());
@@ -342,7 +342,7 @@ const setSong = () => {
 	error.slug = props.existing && props.id == slug ? false : props.songs.hasOwnProperty(slug);
 	// no errors: start saving song data
 	if (!errors.value) {
-		let processedSong = { ...song.value };
+		let processedSong = structuredClone(song.value);
 		processedSong.ccli = processedSong.ccli ? parseInt(processedSong.ccli) : '';
 		processedSong.year = processedSong.year ? parseInt(processedSong.year) : '';
 		processedSong.youtube = processedSong.youtube ? processedSong.youtube : '';
@@ -373,7 +373,7 @@ const setSong = () => {
 		}
 		// existing song should be updated
 		else {
-			let initialSong = { ...props.initialSong }; // remember initial song data before update
+			const initialSong = structuredClone(props.initialSong); // remember initial song data before update
 			// check if key remained (no title or language changes)
 			if (props.id == slug) {
 				// just update the existing song

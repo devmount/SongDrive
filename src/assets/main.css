@@ -107,3 +107,43 @@ kbd > * {
 .prism-editor__textarea:focus {
   @apply outline-none
 }
+
+/* date picker */
+.dp__theme_dark {
+  --dp-background-color: theme(colors.blade.900);
+  --dp-text-color: theme(colors.inherit);
+  --dp-hover-color: theme(colors.blade.700);
+  --dp-hover-text-color: theme(colors.white);
+  --dp-hover-icon-color: theme(colors.white);
+  --dp-primary-color: theme(colors.spring.600);
+  --dp-primary-text-color: theme(colors.white);
+  --dp-secondary-color: theme(colors.blade.500);
+  --dp-border-color: theme(colors.black);
+  --dp-menu-border-color: theme(colors.black);
+  --dp-icon-color: theme(colors.inherit);
+}
+.dp__theme_light {
+  --dp-text-color: theme(colors.inherit);
+  --dp-primary-color: theme(colors.spring.700);
+  --dp-primary-text-color: theme(colors.white);
+  --dp-icon-color: theme(colors.inherit);
+}
+.dp__menu,
+.dp__calendar,
+.dp__calendar_header {
+  @apply w-full
+}
+.dp__calendar_header_item {
+  @apply font-normal uppercase text-sm
+}
+.dp__calendar_item,
+.dp__calendar_header_item {
+  @apply flex-1
+}
+.dp__calendar_row {
+  @apply gap-1
+}
+.dp__cell_inner,
+.dp__calendar_header_item {
+  @apply h-10 w-auto !rounded-sm
+}

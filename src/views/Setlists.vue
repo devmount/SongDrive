@@ -199,7 +199,7 @@
 								<button
 									v-if="user && role > 1"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="editDialog(setlist, true)"
+									@click.prevent="emit('editSetlist', setlist, setlist.id, true)"
 								>
 									<edit-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.edit') }}
@@ -207,7 +207,7 @@
 								<button
 									v-if="user && role > 1"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="editDialog(setlist, false)"
+									@click.prevent="emit('editSetlist', setlist, setlist.id, false)"
 								>
 									<copy-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.duplicate') }}
@@ -227,26 +227,11 @@
 			</tbody>
 		</table>
 		<!-- modals -->
-		<setlist-set
-			v-if="modal.set"
-			:active="modal.set"
-			:existing="active.existing"
-			:initial-setlist="active.setlist"
-			:setlist-key="active.key"
-			:user="user"
-			:songs="songs"
-			:setlists="setlists"
-			:tags="tags"
-			:languages="languages"
-			:ready="ready"
-			@closed="modal.set = false"
-		/>
 		<setlist-delete
-			v-if="modal.delete"
-			:active="modal.delete"
-			:title="active.title"
-			:id="active.key"
-			@closed="modal.delete = false"
+			:active="showModal.delete"
+			:title="setlistDeleteModalData.title"
+			:id="setlistDeleteModalData.key"
+			@closed="showModal.delete = false"
 		/>
 	</div>
 </template>
@@ -259,7 +244,6 @@ import { useRouter } from 'vue-router';
 import Dropdown from '@/elements/Dropdown';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistDelete from '@/modals/SetlistDelete';
-import SetlistSet from '@/modals/SetlistSet';
 
 // icons
 import { 
@@ -299,6 +283,9 @@ const props = defineProps({
 const container   = ref(null);
 const searchInput = ref(null);
 
+// injects and emits
+const emit = defineEmits(['started', 'editSong', 'editSetlist']);
+
 // table filter
 const filter = reactive({
 	active:  null,
@@ -330,16 +317,6 @@ const listLength = 16;
 const order = reactive({ 
 	field: 'date',
 	ascending: false
-});
-const modal = reactive({
-	set: false,
-	delete: false,
-});
-const active = reactive({
-	title: '',
-	key: '',
-	setlist: {},
-	existing: true
 });
 
 // focus container on mount
@@ -498,17 +475,21 @@ const showPageItemLink = (p) => {
 const showLastEllipsis = (p) => {
 	return pageCount.value >= 6 && page.value < pageCount.value-3 && p == pageCount.value-1;
 };
-const editDialog = (setlist, existing) => {
-	active.title = setlist.title;
-	active.setlist = setlist;
-	active.key = setlist.id;
-	active.existing = existing;
-	modal.set = true;
-};
+
+// handle modals
+const showModal = reactive({
+	delete: false,
+});
+
+// delete setlist
+const setlistDeleteModalData = reactive({
+	title: '',
+	key: '',
+});
 const deleteDialog = (setlist) => {
-	active.title = setlist.title;
-	active.key = setlist.id;
-	modal.delete = true;
+	setlistDeleteModalData.title = setlist.title;
+	setlistDeleteModalData.key = setlist.id;
+	showModal.delete = true;
 };
 
 // watcher

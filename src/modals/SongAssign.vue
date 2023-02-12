@@ -11,7 +11,7 @@
 						:placeholder="t('placeholder.searchSongTitle')"
 					/>
 				</label>
-				<div class="overflow-y-scroll flex flex-col gap-2">
+				<div class="overflow-y-scroll h-full flex flex-col gap-2">
 					<label v-for="(fsong, key) in filteredSongs" :key="key" class="flex items-center gap-2">
 						<input
 							v-model="selectedSongs"

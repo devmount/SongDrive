@@ -21,8 +21,7 @@
 		</div>
 		<div class="flex flex-col">
 			<div
-				v-for="(song, i) in songlist"
-				:key="i"
+				v-for="(song, i) in songlist" :key="i"
 				class="flex gap-2 cursor-pointer p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
 				@click="router.push({ name: 'song-show', params: { id: song.id }})"
 			>

@@ -146,67 +146,65 @@
 				</div>
 				<div class="h-full">
 					<dropdown>
-						<template #default>
-							<button
-								v-if="user && role > 1"
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.stop="emit('editSetlist', setlist, setlist.id, true)"
-							>
-								<edit-icon class="w-5 h-5 stroke-1.5" />
-								{{ t('button.edit') }}
-							</button>
-							<button
-								v-if="user && role > 1"
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.prevent="emit('editSetlist', setlist, setlist.id, false)"
-							>
-								<copy-icon class="w-5 h-5 stroke-1.5" />
-								{{ t('button.duplicate') }}
-							</button>
-							<button
-								v-if="user && role > 2"
-								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
-								@click.prevent="deleteDialog(setlist)"
-							>
-								<trash-icon class="w-5 h-5 stroke-1.5" />
-								{{ t('button.delete') }}
-							</button>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
-								@click="copyList('plain')"
-							>
-								<txt-icon class="w-5 h-5 stroke-1.5" />
-								{{ t('button.formatPlain') }}
-							</button>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
-								@click="copyList('markdown')"
-							>
-								<markdown-icon class="w-5 h-5 stroke-1.5" />
-								{{ t('button.formatMarkdown') }}
-							</button>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
-								@click="copyList('slack')"
-							>
-								<brand-slack-icon class="w-5 h-5 stroke-1.5" />
-								{{ t('button.formatSlack') }}
-							</button>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
-								@click="exportPdf('list')"
-							>
-								<file-text-icon class="w-5 h-5 stroke-1.5" />
-								{{ t('button.exportSetlistList') }}
-							</button>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
-								@click="exportPdf('sheets')"
-							>
-								<files-icon class="w-5 h-5 stroke-1.5" />
-								{{ t('button.exportSetlistSheets') }}
-							</button>
-						</template>
+						<button
+							v-if="user && role > 1"
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+							@click.stop="emit('editSetlist', setlist, setlist.id, true)"
+						>
+							<edit-icon class="w-5 h-5 stroke-1.5" />
+							{{ t('button.edit') }}
+						</button>
+						<button
+							v-if="user && role > 1"
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+							@click.prevent="emit('editSetlist', setlist, setlist.id, false)"
+						>
+							<copy-icon class="w-5 h-5 stroke-1.5" />
+							{{ t('button.duplicate') }}
+						</button>
+						<button
+							v-if="user && role > 2"
+							class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+							@click.prevent="deleteDialog(setlist)"
+						>
+							<trash-icon class="w-5 h-5 stroke-1.5" />
+							{{ t('button.delete') }}
+						</button>
+						<button
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+							@click="copyList('plain')"
+						>
+							<txt-icon class="w-5 h-5 stroke-1.5" />
+							{{ t('button.formatPlain') }}
+						</button>
+						<button
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+							@click="copyList('markdown')"
+						>
+							<markdown-icon class="w-5 h-5 stroke-1.5" />
+							{{ t('button.formatMarkdown') }}
+						</button>
+						<button
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+							@click="copyList('slack')"
+						>
+							<brand-slack-icon class="w-5 h-5 stroke-1.5" />
+							{{ t('button.formatSlack') }}
+						</button>
+						<button
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+							@click="exportPdf('list')"
+						>
+							<file-text-icon class="w-5 h-5 stroke-1.5" />
+							{{ t('button.exportSetlistList') }}
+						</button>
+						<button
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+							@click="exportPdf('sheets')"
+						>
+							<files-icon class="w-5 h-5 stroke-1.5" />
+							{{ t('button.exportSetlistSheets') }}
+						</button>
 					</dropdown>
 				</div>
 			</div>
@@ -298,31 +296,29 @@
 					</template>
 					<td class="px-1 py-2">
 						<dropdown v-if="songs[song.id]">
-							<template #default>
-								<router-link
-									:to="{ name: 'song-show', params: { id: song.id }}"
-									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								>
-									<eye-icon class="w-5 h-5 stroke-1.5" />
-									{{ t('button.show') }}
-								</router-link>
-								<button
-									v-if="user && role > 1"
-									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="emit('editSong', songs[song.id], song.id, true)"
-								>
-									<edit-icon class="w-5 h-5 stroke-1.5" />
-									{{ t('button.edit') }}
-								</button>
-								<button
-									v-if="user && role > 1"
-									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="emit('editSong', songs[song.id], song.id, false)"
-								>
-									<copy-icon class="w-5 h-5 stroke-1.5" />
-									{{ t('button.duplicate') }}
-								</button>
-							</template>
+							<router-link
+								:to="{ name: 'song-show', params: { id: song.id }}"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+							>
+								<eye-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.show') }}
+							</router-link>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click.prevent="emit('editSong', songs[song.id], song.id, true)"
+							>
+								<edit-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.edit') }}
+							</button>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click.prevent="emit('editSong', songs[song.id], song.id, false)"
+							>
+								<copy-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.duplicate') }}
+							</button>
 						</dropdown>
 						<secondary-button
 							v-else

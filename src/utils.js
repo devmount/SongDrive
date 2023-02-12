@@ -315,6 +315,9 @@ const sortTags = (tags, locale) => tags.sort(
     : a.localeCompare(b)
 );
 
+// true if browser uses a dark color scheme
+const browserPrefersDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+
 export {
   keyScale,
   userRoles,
@@ -330,4 +333,5 @@ export {
   urlify,
   keyByValue,
   sortTags,
+  browserPrefersDark,
 }

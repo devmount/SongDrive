@@ -59,7 +59,7 @@
 								v-if="userRoles[c.permissions[auth.user].role] > 1"
 								class="!p-1 tooltip tooltip-left"
 								:data-tooltip="t('tooltip.setlistAdd')"
-								@click.stop.prevent="showModal.setlistset = true"
+								@click.stop.prevent="createNewSetlist"
 							>
 								<plus-icon class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
@@ -165,7 +165,7 @@
 					:users="c.users"
 					@started="loading=true"
 					@edit-song="editExistingSong"
-					@edit-setlist="null"
+					@edit-setlist="editExistingSetlist"
 				/>
 			</div>
 		</div>
@@ -228,11 +228,10 @@
 		@closed="showModal.songset = false"
 	/>
 	<setlist-set
-		v-if="showModal.setlistset"
 		:active="showModal.setlistset"
-		:existing="false"
-		:initial-setlist="newSetlist"
-		setlist-key=""
+		:existing="setlistSetModalData.existing"
+		:initial-setlist="setlistSetModalData.setlist"
+		:id="setlistSetModalData.id"
 		:user="auth.user"
 		:songs="c.songs"
 		:setlists="c.setlists"
@@ -240,7 +239,6 @@
 		:languages="c.languages"
 		:ready="ready"
 		@closed="showModal.setlistset = false"
-		@reset="resetSetlist"
 	/>
 	<sign-up
 		:active="showModal.signup"
@@ -257,10 +255,10 @@
 <script setup>
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from 'firebase/firestore';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, inject, onMounted } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { userRoles, throwError } from '@/utils.js';
 import Avatar from './elements/Avatar.vue';
@@ -293,7 +291,7 @@ import {
 	PlusIcon,
 	SettingsIcon,
 	XIcon,
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();
@@ -342,7 +340,7 @@ const listener = reactive({
 const open = ref(false);
 
 // setlist object
-const newSetlist = {
+const initialSetlist = {
 	title: '',
 	private: false,
 	date: '',
@@ -391,6 +389,25 @@ const editExistingSong = (data, id, exists) => {
 	songSetModalData.existing = exists;
 	songSetModalData.id       = id;
 	showModal.songset         = true;
+};
+
+// add and edit setlists
+const setlistSetModalData = reactive({
+	setlist:  structuredClone(initialSetlist),
+	existing: false,
+	id:       null,
+});
+const createNewSetlist = () => {
+	setlistSetModalData.setlist  = structuredClone(initialSetlist);
+	setlistSetModalData.existing = false;
+	setlistSetModalData.id       = null;
+	showModal.setlistset         = true;
+};
+const editExistingSetlist = (data, id, exists) => {
+	setlistSetModalData.setlist  = data;
+	setlistSetModalData.existing = exists;
+	setlistSetModalData.id       = id;
+	showModal.setlistset         = true;
 };
 
 // authentication
@@ -455,12 +472,7 @@ const loadConfig = () => {
 		}
 	}).catch((error) => throwError(error));
 };
-// set all newSetlist values to default
-const resetSetlist = () => {
-	newSetlist.title = '';
-	newSetlist.date = '';
-	newSetlist.songs = [];
-};
+
 // execute sign in on Firebase backend
 const signIn = (email, password) => {
 	firebase.auth().signInWithEmailAndPassword(email, password).then(() => {

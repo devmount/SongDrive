@@ -197,39 +197,37 @@
 					</td>
 					<td>
 						<dropdown>
-							<template #default>
-								<router-link
-									:to="{ name: 'song-show', params: { id: song.id }}"
-									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								>
-									<eye-icon class="w-5 h-5 stroke-1.5" />
-									{{ t('button.show') }}
-								</router-link>
-								<button
-									v-if="user && role > 1"
-									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="emit('editSong', song, song.id, true)"
-								>
-									<edit-icon class="w-5 h-5 stroke-1.5" />
-									{{ t('button.edit') }}
-								</button>
-								<button
-									v-if="user && role > 1"
-									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="emit('editSong', song, song.id, false)"
-								>
-									<copy-icon class="w-5 h-5 stroke-1.5" />
-									{{ t('button.duplicate') }}
-								</button>
-								<button
-									v-if="user && role > 2"
-									class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
-									@click.prevent="deleteDialog(song)"
-								>
-									<trash-icon class="w-5 h-5 stroke-1.5" />
-									{{ t('button.delete') }}
-								</button>
-							</template>
+							<router-link
+								:to="{ name: 'song-show', params: { id: song.id }}"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+							>
+								<eye-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.show') }}
+							</router-link>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click.prevent="emit('editSong', song, song.id, true)"
+							>
+								<edit-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.edit') }}
+							</button>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click.prevent="emit('editSong', song, song.id, false)"
+							>
+								<copy-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.duplicate') }}
+							</button>
+							<button
+								v-if="user && role > 2"
+								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+								@click.prevent="deleteDialog(song)"
+							>
+								<trash-icon class="w-5 h-5 stroke-1.5" />
+								{{ t('button.delete') }}
+							</button>
 						</dropdown>
 					</td>
 				</tr>
