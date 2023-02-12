@@ -410,20 +410,6 @@
 		</primary-button>
 	</div>
 	<!-- modals -->
-	<setlist-set
-		v-if="modal.set"
-		:active="modal.set"
-		:existing="existing"
-		:initialSetlist="setlist"
-		:setlistKey="setlistKey"
-		:user="user"
-		:songs="songs"
-		:setlists="setlists"
-		:tags="tags"
-		:languages="languages"
-		:ready="ready"
-		@closed="modal.set = false"
-	/>
 	<setlist-delete
 		:active="modal.delete"
 		:title="setlist ? setlist.title : ''"
@@ -431,21 +417,20 @@
 		@closed="modal.delete = false"
 	/>
 	<setlist-present
-		v-if="modal.present"
 		:active="modal.present"
 		:songs="setlistSongs"
 		:sync="setlist.active"
 		:position="setlist.position"
 		:chords="chords"
-		:remoteHide="setlist.remoteHide"
-		:remoteLight="setlist.remoteLight"
-		:remoteText="setlist.remoteText"
+		:remote-hide="setlist.remoteHide"
+		:remote-light="setlist.remoteLight"
+		:remote-text="setlist.remoteText"
 		@chords="chords = !chords"
 		@closed="modal.present = false"
-		@updatePosition="updatePosition"
-		@updateHide="updateHide"
-		@updateDark="updateDark"
-		@updateChords="updateChords"
+		@update-position="updatePosition"
+		@update-hide="updateHide"
+		@update-dark="updateDark"
+		@update-chords="updateChords"
 	/>
 </template>
 
@@ -462,7 +447,6 @@ import PrimaryButton from '@/elements/PrimaryButton';
 import SecondaryButton from '@/elements/SecondaryButton';
 import SetlistDelete from '@/modals/SetlistDelete';
 import SetlistPresent from '@/modals/SetlistPresent';
-import SetlistSet from '@/modals/SetlistSet';
 
 // icons
 import {
