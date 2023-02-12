@@ -6,9 +6,9 @@
 		@closed="emit('closed')"
 	>
 		<div class="flex flex-col lg:grid lg:grid-cols-3 gap-4 overflow-y-auto h-full">
-			<div class="flex flex-col gap-2">
+			<div class="flex lg:flex-col flex-wrap gap-2">
 				<!-- title -->
-				<label class="flex flex-col gap-1">
+				<label class="flex grow lg:grow-0 flex-col gap-1">
 					<div>{{ t('field.title') }} <span class="text-rose-600">*</span></div>
 					<input
 						type="text"
@@ -26,7 +26,7 @@
 					</div>
 				</label>
 				<!-- visibility -->
-				<label class="flex flex-col gap-1">
+				<label class="flex grow lg:grow-0 flex-col gap-1">
 					<div>{{ t('field.visibility') }} <span class="text-rose-600">*</span></div>
 					<select v-model="setlist.private" required>
 						<option value="0">{{ t('option.public') }}</option>
@@ -40,15 +40,15 @@
 					</div>
 				</label>
 				<!-- date -->
-				<label class="flex flex-col gap-1">
+				<label class="flex grow lg:grow-0 flex-col gap-1">
 					<div>{{ t('field.date') }} <span class="text-rose-600">*</span></div>
-					<div class="text-blade-500">{{ humanDate(setlist.date, locale) }}</div>
 					<input
 						type="date"
 						v-model="setlist.date"
 						class="lg:hidden"
 						pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
 					/>
+					<div class="text-blade-500">{{ humanDate(setlist.date, locale) }}</div>
 					<datepicker
 						:model-value="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 						format="yyyy-MM-dd"
@@ -74,7 +74,7 @@
 				</label>
 			</div>
 			<!-- song selection -->
-			<div class="max-h-[calc(50vh_-_6rem)] xs:max-h-[calc(80vh_-_8.25rem)] flex flex-col gap-1">
+			<div class="max-h-[calc(50vh_-_6rem)] lg:max-h-[calc(80vh_-_8.25rem)] flex flex-col gap-1">
 				<label>{{ t('field.songs') }}</label>
 				<!-- filter -->
 				<div class="flex gap-1">
@@ -177,7 +177,7 @@
 				</div>
 			</div>
 			<!-- song preview -->
-			<div class="max-h-[calc(50vh_-_6rem)] xs:max-h-[calc(80vh_-_8.25rem)] flex flex-col gap-1">
+			<div class="max-h-[calc(50vh_-_6rem)] lg:max-h-[calc(80vh_-_8.25rem)] flex flex-col gap-1">
 				<div v-if="setlist.songs && setlist.songs.length == 0" class="flex flex-col items-center gap-8 mt-4">
 					<playlist-icon class="w-12 h-12 stroke-1 text-blade-500" />
 					<div class="text-center">
@@ -473,7 +473,6 @@ const setSetlist = () => {
 		if (!props.existing) {
 			db.collection('setlists').doc(slug).set(processedSetlist).then(() => {
 				emit('closed');
-				emit('reset');
 				processedSetlist = {};
 				router.push({ name: 'setlist-show', params: { id: slug }});
 				// toast success creation message
@@ -491,7 +490,6 @@ const setSetlist = () => {
 				// just update the existing setlist
 				db.collection('setlists').doc(props.id).update(processedSetlist).then(() => {
 					emit('closed');
-					emit('reset');
 					processedSetlist = {};
 					// toast success update message
 					notify({
@@ -505,7 +503,6 @@ const setSetlist = () => {
 				db.collection('setlists').doc(props.id).delete();
 				db.collection('setlists').doc(slug).set(processedSetlist).then(() => {
 					emit('closed');
-					emit('reset');
 					processedSetlist = {};
 					router.push({ name: 'setlist-show', params: { id: slug }});
 					// toast success update message
