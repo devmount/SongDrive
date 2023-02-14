@@ -20,7 +20,7 @@
 
 <script setup>
 import { computed, watch, onMounted } from 'vue';
-import { Chart, transparentGradientLine } from '../chart.config'
+import { Chart, transparentGradientLine } from '@/chart.config';
 
 // inherited properties
 const props = defineProps({
