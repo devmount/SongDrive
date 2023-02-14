@@ -1,15 +1,23 @@
 <template>
-<div class="chart">
-	<h2 v-if="title" class="text-center">{{ title }}</h2>
-	<p v-if="description" class="text-gray text-center">{{ description }}</p>
-	<div class="chart-container">
-		<canvas :id="id" :style="{ maxHeight: '180px' }"></canvas>
-		<div v-if="info" class="chart-info">
-			<div class="featured">{{ info.number }}</div>
-			<div class="text-gray">{{ info.label }}</div>
+	<div class="flex flex-col">
+		<h2 v-if="title" class="flex-initial text-center">
+			{{ title }}
+		</h2>
+		<div v-if="description" class="flex-initial text-blade-500 text-center">
+			{{ description }}
+		</div>
+		<div class="relative flex-auto">
+			<canvas :id="id" :style="{ maxHeight: '180px' }"></canvas>
+			<div v-if="info" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-center">
+				<div class="text-5xl leading-10 font-medium">
+					{{ info.number }}
+				</div>
+				<div class="text-blade-500">
+					{{ info.label }}
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
 </template>
 
 <script setup>
@@ -100,29 +108,3 @@ const opacity = (value, max) => {
 	return Math.round(255*value/max).toString(16).padStart(2, "0");
 };
 </script>
-
-<style>
-.chart {
-  display: flex;
-  flex-flow: column;
-}
-.chart > h2, .chart > p {
-  flex: 0 1 auto;
-}
-.chart > .chart-container {
-  position: relative;
-  flex: 1 1 auto;
-}
-.chart > .chart-container .chart-info {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-}
-.chart > .chart-container .chart-info .featured {
-  font-size: 2.5em;
-  line-height: 1em;
-  font-weight: 500;
-}
-</style>
