@@ -260,7 +260,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import { enGB, de } from 'date-fns/locale';
 import { keyScale, humanDate, throwError, urlify, browserPrefersDark } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, inject, watch, onMounted } from 'vue';
+import { ref, reactive, computed, inject, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import Datepicker from '@vuepic/vue-datepicker';
@@ -314,8 +314,8 @@ const props = defineProps({
 // check if errors occured
 const error = reactive({
 	title: false,
-	slug: false,
-	date: false,
+	slug:  false,
+	date:  false,
 });
 const errors = computed(() => {
 	return (error.title || error.slug || error.date);
@@ -330,7 +330,7 @@ const resetErrors = () => {
 
 // setlist input data
 const setlist = ref({});
-const setlistSongs = ref([]);
+const setlistSongs = ref(null);
 const initInput = () => {
 	resetErrors();
 	resetFilter();
@@ -343,15 +343,14 @@ const initInput = () => {
 	setlist.value = sl;
 	setlistSongs.value = sl.songs.map(s => s.id);
 };
-onMounted(() => initInput());
 watch(() => props.active, () => initInput());
 
 // filter input
 const filter = reactive({
 	fulltext: null,
-	tag: null,
+	tag:      null,
+	key:      null,
 	language: null,
-	key: null,
 });
 const resetFilter = () => {
 	for (const field in filter) {
@@ -531,22 +530,24 @@ const setSetlist = () => {
 	}
 };
 
-// toggle local content display if autoSync is on and remote content display was updated
+// sync selected songs with setlist assigned songs
 watch (setlistSongs, (newList, oldList) => {
-	// song was added
-	if (newList.length > oldList.length) {
-		let songAdded = newList.filter(x => !oldList.includes(x))[0];
-		setlist.value.songs.push({ id: songAdded, tuning: props.songs[songAdded]?.tuning });
-	}
-	// song was removed
-	else {
-		let songRemoved = oldList.filter(x => !newList.includes(x))[0], newSongs = [];
-		for (var i in setlist.value.songs) {
-			if (setlist.value.songs[i].id != songRemoved) {
-				newSongs.push({ id: setlist.value.songs[i].id, tuning: setlist.value.songs[i]?.tuning });
-			}
+	if (oldList !== null) {
+		// song was added
+		if (newList.length > oldList.length) {
+			let songAdded = newList.filter(x => !oldList.includes(x))[0];
+			setlist.value.songs.push({ id: songAdded, tuning: props.songs[songAdded]?.tuning });
 		}
-		setlist.value.songs = newSongs;
+		// song was removed
+		else {
+			let songRemoved = oldList.filter(x => !newList.includes(x))[0], newSongs = [];
+			for (var i in setlist.value.songs) {
+				if (setlist.value.songs[i].id != songRemoved) {
+					newSongs.push({ id: setlist.value.songs[i].id, tuning: setlist.value.songs[i]?.tuning });
+				}
+			}
+			setlist.value.songs = newSongs;
+		}
 	}
 });
 </script>
