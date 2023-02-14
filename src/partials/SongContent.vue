@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex flex-wrap overflow-y-auto"
+		class="w-full flex flex-wrap overflow-y-auto"
 		:class="{
 			'flex-row gap-8': !presentation,
 			'flex-col xs:flex-row gap-7 xs:gap-0': presentation

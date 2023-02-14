@@ -43,6 +43,7 @@ module.exports = {
         '2/1': 'minmax(0, 2fr) minmax(0, 1fr)',
       },
       maxWidth: {
+        '3xs': '12rem',
         '2xs': '16rem',
       },
       screens: {

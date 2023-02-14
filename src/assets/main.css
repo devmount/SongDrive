@@ -147,3 +147,14 @@ kbd > * {
 .dp__calendar_header_item {
   @apply h-10 w-auto !rounded-sm
 }
+
+/* carousel */
+.carousel__pagination-button {
+	@apply w-6 h-6 rounded-full !p-0 !bg-blade-300 dark:!bg-blade-700
+}
+.carousel__pagination-button::after {
+	@apply !hidden
+}
+.carousel__pagination-button--active {
+  @apply !bg-spring-600
+}

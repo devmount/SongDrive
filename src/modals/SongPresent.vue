@@ -36,8 +36,7 @@
 					:title="tooltip('lightMode')"
 					@click.prevent="dark = !dark"
 				>
-					<brightness-icon v-if="!dark" class="stroke-spring-400" />
-					<brightness-off-icon v-else />
+					<brightness-icon :class="{ 'stroke-spring-400': !dark }" />
 				</secondary-button>
 				<secondary-button
 					:title="tooltip('chords')"
@@ -46,12 +45,13 @@
 					<music-icon v-if="chords" class="stroke-spring-400" />
 					<music-off-icon v-else />
 				</secondary-button>
-				<secondary-button
+				<button
+					class="p-2 text-blade-500"
 					:title="tooltip('close')"
 					@click.prevent="emit('closed')"
 				>
 					<x-icon />
-				</secondary-button>
+				</button>
 			</div>
 		</div>
 	</modal>
@@ -74,7 +74,6 @@ import SongContent from '@/partials/SongContent';
 // icons
 import {
 	BrightnessIcon,
-	BrightnessOffIcon,
 	InfoCircleIcon,
 	MusicIcon,
 	MusicOffIcon,
@@ -86,10 +85,10 @@ const { t } = useI18n();
 
 // inherited properties
 const props = defineProps({
-	active: Boolean,  // state of modal display, true to show modal
-	chords: Boolean,  // true if chords shall be rendered
-	song:   Object,   // single song to present
-	tuning: Number,   // key to present song in
+	active: Boolean, // state of modal display, true to show modal
+	chords: Boolean, // true if chords shall be rendered
+	song:   Object,  // single song to present
+	tuning: Number,  // key to present song in
 });
 
 // reactive data

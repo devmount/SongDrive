@@ -20,10 +20,10 @@ const keyScale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'
    x        create, edit and delete users               
 */
 const userRoles = {
-  reader: 1,
+  reader:    1,
   performer: 2,
-  editor: 3,
-  admin: 4,
+  editor:    3,
+  admin:     4,
 };
 
 // identify chord lines
