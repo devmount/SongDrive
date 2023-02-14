@@ -302,7 +302,6 @@ const initInput = () => {
 	resetErrors();
 	song.value = structuredClone(props.initialSong);
 };
-onMounted(() => initInput());
 watch(() => props.active, () => initInput());
 
 // active modals state
@@ -334,11 +333,11 @@ const createSlug = () => {
 
 // add or save edits of song to db 
 const setSong = () => {
+	const slug = createSlug();
 	// first check for form errors
 	error.title = song.value.title == '';
 	error.language = song.value.language == '';
 	error.content = song.value.content == '';
-	let slug = createSlug();
 	error.slug = props.existing && props.id == slug ? false : props.songs.hasOwnProperty(slug);
 	// no errors: start saving song data
 	if (!errors.value) {

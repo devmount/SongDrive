@@ -130,7 +130,7 @@
 							<button
 								v-if="user && role > 1"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.stop="emit('editSong', song, song.id, true)"
+								@click="emit('editSong', { data: song, id: song.id, exists: true })"
 							>
 								<edit-icon class="w-5 h-5 stroke-1.5" />
 								{{ t('button.edit') }}
@@ -138,7 +138,7 @@
 							<button
 								v-if="user && role > 1"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.prevent="emit('editSong', song, song.id, false)"
+								@click="emit('editSong', { data: song, id: song.id, exists: false })"
 							>
 								<copy-icon class="w-5 h-5 stroke-1.5" />
 								{{ t('button.duplicate') }}
@@ -146,7 +146,7 @@
 							<button
 								v-if="user && role > 2"
 								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
-								@click.prevent="deleteDialog(song)"
+								@click="deleteDialog(song)"
 							>
 								<trash-icon class="w-5 h-5 stroke-1.5" />
 								{{ t('button.delete') }}

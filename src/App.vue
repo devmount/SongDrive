@@ -384,7 +384,7 @@ const createNewSong = () => {
 	songSetModalData.id       = null;
 	showModal.songset         = true;
 };
-const editExistingSong = (data, id, exists) => {
+const editExistingSong = ({data, id, exists}) => {
 	songSetModalData.song     = data;
 	songSetModalData.existing = exists;
 	songSetModalData.id       = id;
@@ -403,7 +403,7 @@ const createNewSetlist = () => {
 	setlistSetModalData.id       = null;
 	showModal.setlistset         = true;
 };
-const editExistingSetlist = (data, id, exists) => {
+const editExistingSetlist = ({data, id, exists}) => {
 	setlistSetModalData.setlist  = data;
 	setlistSetModalData.existing = exists;
 	setlistSetModalData.id       = id;

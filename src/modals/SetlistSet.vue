@@ -474,13 +474,13 @@ const setSetlist = () => {
 	// no errors: start saving song data
 	if (!errors.value) {
 		var processedSetlist = {
-			active: false,
-			creator: !props.existing ? props.user : setlist.value.creator,
+			active:   false,
+			creator:  !props.existing ? props.user : setlist.value.creator,
 			position: 0,
-			title: setlist.value.title,
-			private: setlist.value.private == 1,
-			date: setlist.value.date,
-			songs: setlist.value.songs,
+			title:    setlist.value.title,
+			private:  setlist.value.private == 1,
+			date:     setlist.value.date,
+			songs:    setlist.value.songs,
 		};
 		// new setlist should be created
 		if (!props.existing) {
@@ -491,8 +491,8 @@ const setSetlist = () => {
 				// toast success creation message
 				notify({
 					title: t('toast.setlistAdded'),
-					text: t('toast.setlistSavedText'),
-					type: 'primary'
+					text:  t('toast.setlistSavedText'),
+					type:  'primary'
 				});
 			}).catch((error) => throwError(error));
 		}
@@ -507,8 +507,8 @@ const setSetlist = () => {
 					// toast success update message
 					notify({
 						title: t('toast.setlistUpdated'),
-						text: t('toast.setlistSavedText'),
-						type: 'primary'
+						text:  t('toast.setlistSavedText'),
+						type:  'primary'
 					});
 				}).catch((error) => throwError(error));
 			} else {
@@ -521,8 +521,8 @@ const setSetlist = () => {
 					// toast success update message
 					notify({
 						title: t('toast.setlistUpdated'),
-						text: t('toast.setlistSavedText'),
-						type: 'primary'
+						text:  t('toast.setlistSavedText'),
+						type:  'primary'
 					});
 				}).catch((error) => throwError(error));
 			}

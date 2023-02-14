@@ -199,7 +199,7 @@
 								<button
 									v-if="user && role > 1"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="emit('editSetlist', setlist, setlist.id, true)"
+									@click.prevent="emit('editSetlist', { data: setlist, id: setlist.id, exists: true })"
 								>
 									<edit-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.edit') }}
@@ -207,7 +207,7 @@
 								<button
 									v-if="user && role > 1"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="emit('editSetlist', setlist, setlist.id, false)"
+									@click.prevent="emit('editSetlist', { data: setlist, id: setlist.id, exists: false })"
 								>
 									<copy-icon class="w-5 h-5 stroke-1.5" />
 									{{ t('button.duplicate') }}

@@ -149,7 +149,7 @@
 						<button
 							v-if="user && role > 1"
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-							@click.stop="emit('editSetlist', setlist, setlist.id, true)"
+							@click.stop="emit('editSetlist', { data: setlist, id: setlistKey, exists: true })"
 						>
 							<edit-icon class="w-5 h-5 stroke-1.5" />
 							{{ t('button.edit') }}
@@ -157,7 +157,7 @@
 						<button
 							v-if="user && role > 1"
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-							@click.prevent="emit('editSetlist', setlist, setlist.id, false)"
+							@click.prevent="emit('editSetlist', { data: setlist, id: setlistKey, exists: false })"
 						>
 							<copy-icon class="w-5 h-5 stroke-1.5" />
 							{{ t('button.duplicate') }}
@@ -306,7 +306,7 @@
 							<button
 								v-if="user && role > 1"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.prevent="emit('editSong', songs[song.id], song.id, true)"
+								@click.prevent="emit('editSong', { data: songs[song.id], id: song.id, exists: true })"
 							>
 								<edit-icon class="w-5 h-5 stroke-1.5" />
 								{{ t('button.edit') }}
@@ -314,7 +314,7 @@
 							<button
 								v-if="user && role > 1"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.prevent="emit('editSong', songs[song.id], song.id, false)"
+								@click.prevent="emit('editSong', { data: songs[song.id], id: song.id, exists: false })"
 							>
 								<copy-icon class="w-5 h-5 stroke-1.5" />
 								{{ t('button.duplicate') }}
@@ -343,7 +343,7 @@
 			</div>
 			<primary-button
 				v-if="user && role > 1"
-				@click="emit('editSetlist', setlist, setlist.id, true)"
+				@click="emit('editSetlist', { data: setlist, id: setlistKey, exists: true })"
 				class="mt-4"
 			>
 				{{ t('modal.editSetlist') }}
