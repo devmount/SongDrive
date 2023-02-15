@@ -535,7 +535,7 @@ const active = reactive({
 });
 
 // emits
-const emit = defineEmits(['started'])
+const emit = defineEmits(['started', 'editSong', 'editSetlist']);
 
 // initially load profile data
 onMounted(() => {
