@@ -23,8 +23,8 @@
 		"presentation"
 	],
 	"bugs": "https://github.com/devmount/SongDrive/issues",
-	"private": false,
 	"browser": "./dist/index.html",
+	"packageManager": "yarn@3.4.1",
 	"scripts": {
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build"
@@ -49,16 +49,21 @@
 		"vue3-carousel": "^0.2.0"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.20.7",
+		"@babel/core": "*",
+		"@firebase/app": "*",
+		"@firebase/app-types": "*",
 		"@tailwindcss/forms": "^0.5.3",
 		"@vue/cli-plugin-babel": "^5.0.8",
 		"@vue/cli-plugin-pwa": "^5.0.8",
 		"@vue/cli-plugin-router": "^5.0.8",
 		"@vue/cli-service": "^5.0.8",
 		"autoprefixer": "^10.4.13",
+		"core-js": "^3.28.0",
 		"postcss": "^8.4.20",
 		"raw-loader": "^4.0.2",
-		"tailwindcss": "^3.2.4"
+		"regenerator-runtime": "^0.13.11",
+		"tailwindcss": "^3.2.4",
+		"webpack": "*"
 	},
 	"postcss": {
 		"plugins": {
