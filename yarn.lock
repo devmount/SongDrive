@@ -55,7 +55,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:*, @babel/core@npm:^7.11.1, @babel/core@npm:^7.12.16":
+"@babel/core@npm:^7.11.1, @babel/core@npm:^7.12.16, @babel/core@npm:^7.20.12":
   version: 7.20.12
   resolution: "@babel/core@npm:7.20.12"
   dependencies:
@@ -1440,14 +1440,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/app-types@npm:*, @firebase/app-types@npm:0.9.0":
+"@firebase/app-types@npm:0.9.0, @firebase/app-types@npm:^0.9.0":
   version: 0.9.0
   resolution: "@firebase/app-types@npm:0.9.0"
   checksum: e79bd3c4a8d6b911326fe83fddca8d8922ea5880fcb3ad72d3561b51e3d01f22669cdc6d61d2ec48ac9c5e763e3d44b7b6736cadf36a0827d7f62447bde4b12e
   languageName: node
   linkType: hard
 
-"@firebase/app@npm:*, @firebase/app@npm:0.9.3":
+"@firebase/app@npm:0.9.3, @firebase/app@npm:^0.9.3":
   version: 0.9.3
   resolution: "@firebase/app@npm:0.9.3"
   dependencies:
@@ -2081,7 +2081,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kyvg/vue3-notification@npm:^2.3.4":
+"@kyvg/vue3-notification@npm:^2.9.0":
   version: 2.9.0
   resolution: "@kyvg/vue3-notification@npm:2.9.0"
   peerDependencies:
@@ -3117,7 +3117,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vuepic/vue-datepicker@npm:^3.2.2":
+"@vuepic/vue-datepicker@npm:^3.6.8":
   version: 3.6.8
   resolution: "@vuepic/vue-datepicker@npm:3.6.8"
   dependencies:
@@ -4075,7 +4075,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chart.js@npm:^4.0.1":
+"chart.js@npm:^4.2.1":
   version: 4.2.1
   resolution: "chart.js@npm:4.2.1"
   dependencies:
@@ -4691,7 +4691,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.29.1, date-fns@npm:^2.29.3":
+"date-fns@npm:^2.29.3":
   version: 2.29.3
   resolution: "date-fns@npm:2.29.3"
   checksum: e01cf5b62af04e05dfff921bb9c9933310ed0e1ae9a81eb8653452e64dc841acf7f6e01e1a5ae5644d0337e9a7f936175fd2cb6819dc122fdd9c5e86c56be484
@@ -5622,7 +5622,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase@npm:^9.0.0":
+"firebase@npm:^9.17.1":
   version: 9.17.1
   resolution: "firebase@npm:9.17.1"
   dependencies:
@@ -6070,7 +6070,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highlight.js@npm:^11.3.1":
+"highlight.js@npm:^11.7.0":
   version: 11.7.0
   resolution: "highlight.js@npm:11.7.0"
   checksum: 19e3fb8b56f4b361b057a8523b989dfeb6479bbd1e29cec3fac6fa5c78d09927d5fa61b7dba6631fdb57cfdca9b3084aa4da49405ceaf4a67f67beae2ed5b77d
@@ -7186,7 +7186,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^4.0.10":
+"marked@npm:^4.2.12":
   version: 4.2.12
   resolution: "marked@npm:4.2.12"
   bin:
@@ -8041,7 +8041,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfmake@npm:^0.2.2":
+"pdfmake@npm:^0.2.7":
   version: 0.2.7
   resolution: "pdfmake@npm:0.2.7"
   dependencies:
@@ -8551,7 +8551,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.0.9, postcss@npm:^8.1.10, postcss@npm:^8.2.6, postcss@npm:^8.3.5, postcss@npm:^8.4.19, postcss@npm:^8.4.20":
+"postcss@npm:^8.0.9, postcss@npm:^8.1.10, postcss@npm:^8.2.6, postcss@npm:^8.3.5, postcss@npm:^8.4.19, postcss@npm:^8.4.21":
   version: 8.4.21
   resolution: "postcss@npm:8.4.21"
   dependencies:
@@ -9452,40 +9452,40 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "songdrive@workspace:."
   dependencies:
-    "@babel/core": "*"
-    "@firebase/app": "*"
-    "@firebase/app-types": "*"
-    "@kyvg/vue3-notification": ^2.3.4
+    "@babel/core": ^7.20.12
+    "@firebase/app": ^0.9.3
+    "@firebase/app-types": ^0.9.0
+    "@kyvg/vue3-notification": ^2.9.0
     "@tailwindcss/forms": ^0.5.3
     "@vue/cli-plugin-babel": ^5.0.8
     "@vue/cli-plugin-pwa": ^5.0.8
     "@vue/cli-plugin-router": ^5.0.8
     "@vue/cli-service": ^5.0.8
-    "@vuepic/vue-datepicker": ^3.2.2
+    "@vuepic/vue-datepicker": ^3.6.8
     autoprefixer: ^10.4.13
-    chart.js: ^4.0.1
+    chart.js: ^4.2.1
     core-js: ^3.28.0
-    date-fns: ^2.29.1
-    firebase: ^9.0.0
-    highlight.js: ^11.3.1
-    marked: ^4.0.10
-    pdfmake: ^0.2.2
-    postcss: ^8.4.20
+    date-fns: ^2.29.3
+    firebase: ^9.17.1
+    highlight.js: ^11.7.0
+    marked: ^4.2.12
+    pdfmake: ^0.2.7
+    postcss: ^8.4.21
     raw-loader: ^4.0.2
     regenerator-runtime: ^0.13.11
-    sortablejs: ^1.9.0
-    tailwindcss: ^3.2.4
-    vue: ^3.2.37
-    vue-i18n: ^9.1.10
+    sortablejs: ^1.15.0
+    tailwindcss: ^3.2.6
+    vue: ^3.2.47
+    vue-i18n: ^9.2.2
     vue-prism-editor: ^2.0.0-alpha.2
-    vue-router: ^4.0.16
-    vue-tabler-icons: ^2.18.0
-    vue3-carousel: ^0.2.0
-    webpack: "*"
+    vue-router: ^4.1.6
+    vue-tabler-icons: ^2.19.0
+    vue3-carousel: ^0.2.9
+    webpack: ^5.75.0
   languageName: unknown
   linkType: soft
 
-"sortablejs@npm:^1.9.0":
+"sortablejs@npm:^1.15.0":
   version: 1.15.0
   resolution: "sortablejs@npm:1.15.0"
   checksum: bb82223a663484640d317cad510ac987f26b7a443631040407224de1be069afcc6c39048b6d8527f10f269e33595e8128d7de2fac23517c8260470f77f932d55
@@ -9890,7 +9890,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.2.4":
+"tailwindcss@npm:^3.2.6":
   version: 3.2.6
   resolution: "tailwindcss@npm:3.2.6"
   dependencies:
@@ -10379,7 +10379,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-i18n@npm:^9.1.10":
+"vue-i18n@npm:^9.2.2":
   version: 9.2.2
   resolution: "vue-i18n@npm:9.2.2"
   dependencies:
@@ -10420,7 +10420,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-router@npm:^4.0.16":
+"vue-router@npm:^4.1.6":
   version: 4.1.6
   resolution: "vue-router@npm:4.1.6"
   dependencies:
@@ -10441,7 +10441,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-tabler-icons@npm:^2.18.0":
+"vue-tabler-icons@npm:^2.19.0":
   version: 2.19.0
   resolution: "vue-tabler-icons@npm:2.19.0"
   checksum: 48fad80127817dd5f297dc83dbb7e9de9484b244f2dbb87a3538dec789a05f2d3f0751e0e1be4b4045128bbf18dbeb63285538ebc3d4ef57b4eb71ac52100bce
@@ -10455,7 +10455,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue3-carousel@npm:^0.2.0":
+"vue3-carousel@npm:^0.2.9":
   version: 0.2.9
   resolution: "vue3-carousel@npm:0.2.9"
   peerDependencies:
@@ -10464,7 +10464,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.2.37":
+"vue@npm:^3.2.47":
   version: 3.2.47
   resolution: "vue@npm:3.2.47"
   dependencies:
@@ -10642,7 +10642,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:*, webpack@npm:^5.54.0":
+"webpack@npm:^5.54.0, webpack@npm:^5.75.0":
   version: 5.75.0
   resolution: "webpack@npm:5.75.0"
   dependencies:
