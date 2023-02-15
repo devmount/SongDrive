@@ -318,6 +318,9 @@ const sortTags = (tags, locale) => tags.sort(
 // true if browser uses a dark color scheme
 const browserPrefersDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
 
+// trigger mailto
+const mailto = (address) => window.location.href = 'mailto:' + address;
+
 export {
   keyScale,
   userRoles,
@@ -334,4 +337,5 @@ export {
   keyByValue,
   sortTags,
   browserPrefersDark,
+  mailto,
 }

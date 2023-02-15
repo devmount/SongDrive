@@ -5,27 +5,33 @@
 		<!-- unconfirmed message -->
 		<panel class="max-w-sm w-full flex flex-col gap-6">
 			<div class="text-2xl text-center">{{ t('text.waitingForApproval') }}</div>
-			<p>{{ t('text.notApprovedYet') }}</p>
-			<p
-				v-if="ready.config && config.contact.email"
-				v-html="t('text.unconfirmedMistake', [config.contact.email])"
-			></p>
-			<secondary-button @click="emit('signOut')">
-				{{ t('button.signOut') }}
-				<logout-icon class="w-6 h-6 stroke-1.5" />
-			</secondary-button>
+			<div>{{ t('text.notApprovedYet') }}</div>
+			<div v-if="ready.config && config.contact.email">
+				{{ t('text.unconfirmedMistake') }}
+			</div>
+			<div class="flex gap-2 w-full">
+				<secondary-button @click="mailto(config.contact.email)" class="grow">
+					{{ t('button.contactUs') }}
+					<send-icon class="w-6 h-6 stroke-1.5" />
+				</secondary-button>
+				<secondary-button @click="emit('signOut')" class="grow">
+					{{ t('button.signOut') }}
+					<logout-icon class="w-6 h-6 stroke-1.5" />
+				</secondary-button>
+			</div>
 		</panel>
 	</div>
 </template>
 
 <script setup>
+import { mailto } from "@/utils";
 import { useI18n } from 'vue-i18n';
 import Logo from '@/partials/Logo';
 import Panel from '@/elements/Panel';
 import SecondaryButton from '@/elements/SecondaryButton';
 
 // icons
-import { LogoutIcon } from 'vue-tabler-icons';
+import { LogoutIcon, SendIcon } from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();

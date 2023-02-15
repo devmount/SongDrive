@@ -5,11 +5,10 @@
 		<!-- unverified message -->
 		<panel class="max-w-sm w-full flex flex-col gap-6">
 			<div class="text-2xl text-center">{{ t('text.waitingForVerification') }}</div>
-			<p>{{ t('text.notVerifiedYet') }}</p>
-			<p
-				v-if="ready.config && config.contact.email"
-				v-html="t('text.unverifiedHelp', [config.contact.email])"
-			></p>
+			<div>{{ t('text.notVerifiedYet') }}</div>
+			<div v-if="ready.config && config.contact.email">
+				{{ t('text.unverifiedHelp') }}
+			</div>
 			<secondary-button v-if="!resend" @click="resendVerification()">
 				{{ t('tooltip.resendVerification') }}
 				<send-icon class="w-6 h-6 stroke-1.5" />
