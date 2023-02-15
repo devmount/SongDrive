@@ -61,13 +61,13 @@
 </template>
 
 <script setup>
-import { keyByValue, humanDate } from "@/utils";
+import { keyByValue, humanDate } from '@/utils';
 import { ref, computed } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import LinkButton from '@/elements/LinkButton.vue';
-import Panel from '@/elements/Panel.vue';
-import SecondaryButton from '@/elements/SecondaryButton.vue';
+import LinkButton from '@/elements/LinkButton';
+import Panel from '@/elements/Panel';
+import SecondaryButton from '@/elements/SecondaryButton';
 
 // icons
 import {
@@ -76,7 +76,7 @@ import {
 	ArrowRightIcon,
 	ArrowUpIcon,
 	LockIcon,
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t, locale } = useI18n();

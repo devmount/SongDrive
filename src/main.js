@@ -1,6 +1,6 @@
 // init app
 import { createApp } from 'vue';
-import App from '@/App.vue';
+import App from '@/App';
 const app = createApp(App);
 
 // init router

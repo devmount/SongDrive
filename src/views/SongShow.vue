@@ -224,13 +224,13 @@
 import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, onMounted } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import Dropdown from '@/elements/Dropdown';
-import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SecondaryButton from '@/elements/SecondaryButton';
 import SongContent from '@/partials/SongContent';
 import SongDelete from '@/modals/SongDelete';
-import SongFooter from '../partials/SongFooter.vue';
+import SongFooter from '../partials/SongFooter';
 import SongPresent from '@/modals/SongPresent';
 
 // icons
@@ -249,7 +249,7 @@ import {
 	PresentationIcon,
 	ReloadIcon,
 	TrashIcon,
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();

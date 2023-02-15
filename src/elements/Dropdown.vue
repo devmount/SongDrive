@@ -18,8 +18,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import SecondaryButton from '@/elements/SecondaryButton.vue';
-import TransitionScale from '@/elements/TransitionScale.vue';
+import SecondaryButton from '@/elements/SecondaryButton';
+import TransitionScale from '@/elements/TransitionScale';
 
 // icons
 import { DotsIcon } from 'vue-tabler-icons';

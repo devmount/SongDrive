@@ -40,8 +40,8 @@
 
 <script setup>
 import { watch } from 'vue';
-import TransitionFade from '@/elements/TransitionFade.vue';
-import TransitionScale from '@/elements/TransitionScale.vue';
+import TransitionFade from '@/elements/TransitionFade';
+import TransitionScale from '@/elements/TransitionScale';
 
 // icons
 import { XIcon } from 'vue-tabler-icons';

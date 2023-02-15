@@ -9,7 +9,7 @@ import 'highlight.js/styles/github-dark.css';
 import { computed } from 'vue';
 import { marked } from 'marked';
 import { sdHighlight } from '@/utils.js';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import Modal from '@/elements/Modal';
 
 

@@ -65,7 +65,7 @@
 
 <script setup>
 import { reactive, ref, watch, onMounted, onUnmounted, nextTick } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import InfoSongData from '@/modals/InfoSongData';
 import Modal from '@/elements/Modal';
 import SecondaryButton from '@/elements/SecondaryButton';
@@ -78,7 +78,7 @@ import {
 	MusicIcon,
 	MusicOffIcon,
 	XIcon,
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();

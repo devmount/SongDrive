@@ -421,9 +421,9 @@
 import { download, throwError } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import AccountDelete from '@/modals/AccountDelete';
-import Avatar from '@/elements/Avatar.vue';
+import Avatar from '@/elements/Avatar';
 import EmailChange from '@/modals/EmailChange';
 import firebase from 'firebase/compat/app';
 import ImportData from '@/modals/ImportData';
@@ -461,7 +461,7 @@ import {
 	UserPlusIcon,
 	UsersIcon,
 	XIcon,
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t, locale, availableLocales } = useI18n({ useScope: 'global' });

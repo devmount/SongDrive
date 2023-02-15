@@ -94,7 +94,7 @@
 <script setup>
 import { notify } from '@kyvg/vue3-notification';
 import { reactive, computed, inject, onMounted, watch } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import { userRoles, throwError, randomString } from '@/utils.js';
 import DividerHorizontal from '@/elements/DividerHorizontal';
 import firebase from 'firebase/compat/app';
@@ -102,7 +102,7 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { PlusIcon, DeviceFloppyIcon } from "vue-tabler-icons";
+import { PlusIcon, DeviceFloppyIcon } from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();

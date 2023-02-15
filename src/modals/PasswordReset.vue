@@ -27,12 +27,12 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import PrimaryButton from '@/elements/PrimaryButton';
 import Modal from '@/elements/Modal';
 
 // icons
-import { SendIcon } from "vue-tabler-icons";
+import { SendIcon } from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();

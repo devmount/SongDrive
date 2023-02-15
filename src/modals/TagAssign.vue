@@ -58,7 +58,7 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
@@ -69,7 +69,7 @@ import {
 	TagIcon,
 	XIcon,
 	FilterIcon
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t, locale } = useI18n();

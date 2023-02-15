@@ -84,7 +84,7 @@
 import 'highlight.js/styles/github-dark.css';
 import { computed } from 'vue';
 import { sdHighlight } from '@/utils.js';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import SecondaryButton from '@/elements/SecondaryButton';
 
 // icons
@@ -97,7 +97,7 @@ import {
 	ToolsIcon,
 	BoltIcon,
 	MicrophoneIcon,
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { marked } = require('marked');

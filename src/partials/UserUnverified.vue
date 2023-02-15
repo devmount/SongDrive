@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router'
 import Logo from '@/partials/Logo';
 import Panel from '@/elements/Panel';
@@ -40,7 +40,7 @@ import SecondaryButton from '@/elements/SecondaryButton';
 import { ref } from 'vue';
 
 // icons
-import { SendIcon, RefreshIcon, LogoutIcon } from "vue-tabler-icons";
+import { SendIcon, RefreshIcon, LogoutIcon } from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();

@@ -41,14 +41,14 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useI18n } from "vue-i18n";
-import LinkButton from '@/elements/LinkButton.vue';
+import { useI18n } from 'vue-i18n';
+import LinkButton from '@/elements/LinkButton';
 import Logo from '@/partials/Logo';
-import Panel from '@/elements/Panel.vue';
-import PrimaryButton from '@/elements/PrimaryButton.vue';
+import Panel from '@/elements/Panel';
+import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { LoginIcon } from "vue-tabler-icons";
+import { LoginIcon } from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();

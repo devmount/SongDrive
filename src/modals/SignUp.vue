@@ -66,12 +66,12 @@
 <script setup>
 import { randomString } from '@/utils.js';
 import { reactive, computed } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { UserPlusIcon } from "vue-tabler-icons";
+import { UserPlusIcon } from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();

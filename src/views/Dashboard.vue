@@ -100,7 +100,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import BarChart  from '@/charts/BarChart';
 import LineChart from '@/charts/LineChart';
 import Panel from '@/elements/Panel';
@@ -114,7 +114,7 @@ import {
 	MusicIcon,
 	PlaylistIcon,
 	WorldIcon,
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t, locale } = useI18n();

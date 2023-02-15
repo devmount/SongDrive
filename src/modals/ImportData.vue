@@ -74,7 +74,7 @@
 <script setup>
 import { humanFileSize } from '@/utils.js';
 import { ref, reactive, computed, inject } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
@@ -83,7 +83,7 @@ import {
 	CheckIcon,
 	CircleCheckIcon,
 	CircleDashedIcon,
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();

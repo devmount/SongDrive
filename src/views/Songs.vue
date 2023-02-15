@@ -266,7 +266,7 @@ import {
 	SortAscendingIcon,
 	SortDescendingIcon,
 	TrashIcon,
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constantes
 const { t, locale } = useI18n();

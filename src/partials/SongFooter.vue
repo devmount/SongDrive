@@ -44,15 +44,15 @@
 
 <script setup>
 import { computed } from 'vue';
-import { sortTags } from "@/utils";
-import { useI18n } from "vue-i18n";
+import { sortTags } from '@/utils';
+import { useI18n } from 'vue-i18n';
 import Tag from '@/elements/Tag';
 
 // icons
 import {
 	BrandYoutubeIcon,
 	ExternalLinkIcon
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t, locale } = useI18n();

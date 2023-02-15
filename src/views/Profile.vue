@@ -58,18 +58,18 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import Avatar from '@/elements/Avatar.vue';
-import LinkButton from '@/elements/LinkButton.vue';
-import Panel from '@/elements/Panel.vue';
+import Avatar from '@/elements/Avatar';
+import LinkButton from '@/elements/LinkButton';
+import Panel from '@/elements/Panel';
 
 // icons
 import {
 	ArrowRightIcon,
 	CameraIcon,
 	MailIcon
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();

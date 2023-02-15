@@ -46,14 +46,14 @@
 import { notify } from '@kyvg/vue3-notification';
 import { reactive, computed, inject } from 'vue';
 import { throwError } from '@/utils.js';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import DividerHorizontal from '@/elements/DividerHorizontal';
 import firebase from 'firebase/compat/app';
 import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { TrashIcon } from "vue-tabler-icons";
+import { TrashIcon } from 'vue-tabler-icons';
 
 // component constants
 const { t } = useI18n();

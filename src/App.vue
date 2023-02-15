@@ -261,7 +261,7 @@ import { ref, reactive, computed, inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { userRoles, throwError } from '@/utils.js';
-import Avatar from './elements/Avatar.vue';
+import Avatar from '@/elements/Avatar';
 import DividerHorizontal from '@/elements/DividerHorizontal';
 import firebase from 'firebase/compat/app';
 import IndicatorPulse from '@/elements/IndicatorPulse';

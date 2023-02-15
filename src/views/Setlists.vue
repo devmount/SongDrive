@@ -239,10 +239,10 @@
 <script setup>
 import { humanDate } from '@/utils.js';
 import { ref, reactive, onMounted, computed, watch } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import Dropdown from '@/elements/Dropdown';
-import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SecondaryButton from '@/elements/SecondaryButton';
 import SetlistDelete from '@/modals/SetlistDelete';
 
 // icons
@@ -261,7 +261,7 @@ import {
 	SortAscendingIcon,
 	SortDescendingIcon,
 	TrashIcon,
-} from "vue-tabler-icons";
+} from 'vue-tabler-icons';
 
 // component constants
 const { t, locale } = useI18n();
