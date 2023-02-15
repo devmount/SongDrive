@@ -2012,27 +2012,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ionic/core@npm:6.5.4":
-  version: 6.5.4
-  resolution: "@ionic/core@npm:6.5.4"
-  dependencies:
-    "@stencil/core": ^2.18.0
-    ionicons: ^6.1.3
-    tslib: ^2.1.0
-  checksum: 5dabbeb4f795fea862bb326db4fcada3844becafbc9b8e467822daf3d8c663d4db95e64703f2891976346c4e2f84a34db7e679ad42c9571011b2decb0dea7295
-  languageName: node
-  linkType: hard
-
-"@ionic/vue@npm:^6.1.15":
-  version: 6.5.4
-  resolution: "@ionic/vue@npm:6.5.4"
-  dependencies:
-    "@ionic/core": 6.5.4
-    ionicons: ^6.1.3
-  checksum: ea119eb903a9800dd4a0d9f13b200210b61f84649c241f8e9058f20d0d0783882f39d4e55f9f46d2725c31edd45d72e213a1f3339d8f1306f575dd7d4ac0eadf
-  languageName: node
-  linkType: hard
-
 "@jridgewell/gen-mapping@npm:^0.1.0":
   version: 0.1.1
   resolution: "@jridgewell/gen-mapping@npm:0.1.1"
@@ -2353,15 +2332,6 @@ __metadata:
   version: 1.0.2
   resolution: "@soda/get-current-script@npm:1.0.2"
   checksum: 60c13475db06e2ece83df4c0f64bf3ca4f69f5fcd462512f1be2f5b6e5c3e1dbd75b0209cc2b21bb3ff9bc5fefd7ba60c2626cdda2f7067cffe985d9af439622
-  languageName: node
-  linkType: hard
-
-"@stencil/core@npm:^2.18.0":
-  version: 2.22.2
-  resolution: "@stencil/core@npm:2.22.2"
-  bin:
-    stencil: bin/stencil
-  checksum: 139a7b63b81c7eaa5026e76e1c947a402f58d0a6d1d353a34883995ea7e480fa6991e71c0c3d812f7046d395b99d0f7f7b11af9277f04a3c62aba96cda18dd5d
   languageName: node
   linkType: hard
 
@@ -6424,15 +6394,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ionicons@npm:^6.0.2, ionicons@npm:^6.1.3":
-  version: 6.1.3
-  resolution: "ionicons@npm:6.1.3"
-  dependencies:
-    "@stencil/core": ^2.18.0
-  checksum: c63aa3e0f83129129a836f97f07547b6c53a244e84a41f838a70b4eb17ddc9d926526e1fdee63f897a32300523192fe0c0889aa38617b9df01d15c62e9cb3a37
-  languageName: node
-  linkType: hard
-
 "ip@npm:^2.0.0":
   version: 2.0.0
   resolution: "ip@npm:2.0.0"
@@ -9494,7 +9455,6 @@ __metadata:
     "@babel/core": "*"
     "@firebase/app": "*"
     "@firebase/app-types": "*"
-    "@ionic/vue": ^6.1.15
     "@kyvg/vue3-notification": ^2.3.4
     "@tailwindcss/forms": ^0.5.3
     "@vue/cli-plugin-babel": ^5.0.8
@@ -9508,7 +9468,6 @@ __metadata:
     date-fns: ^2.29.1
     firebase: ^9.0.0
     highlight.js: ^11.3.1
-    ionicons: ^6.0.2
     marked: ^4.0.10
     pdfmake: ^0.2.2
     postcss: ^8.4.20

@@ -22,10 +22,6 @@ let firebaseApp = firebase.initializeApp(conf);
 app.provide('db', firebaseApp.firestore());
 app.provide('version', process.env.VUE_APP_VERSION);
 
-// ionicons
-import { IonIcon } from '@ionic/vue';
-app.component('ion-icon', IonIcon);
-
 // vue-notification
 import Notifications from '@kyvg/vue3-notification';
 app.use(Notifications);
