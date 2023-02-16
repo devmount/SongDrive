@@ -52,8 +52,8 @@ import { UserIcon } from 'vue-tabler-icons';
 // component properties
 defineProps({
 	photoUrl: String, // actual url of a profile image
-	name: String, // name of the user
-	size: String, // avatar size: sm | md | lg
+	name:     String, // name of the user
+	size:     String, // avatar size: sm | md | lg
 });
 
 // available avatar sizes

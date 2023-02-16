@@ -12,6 +12,7 @@ deploy.sh
 !.yarn/versions
 
 # local env files
+.env
 .env.local
 .env.*.local
 
