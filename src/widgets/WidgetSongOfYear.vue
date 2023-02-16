@@ -9,13 +9,13 @@
 					:disabled="isFirstPage"
 					@click="!isFirstPage ? page-- : null"
 				>
-					<arrow-left-icon />
+					<icon-arrow-left />
 				</secondary-button>
 				<secondary-button
 					:disabled="isLastPage"
 					@click="!isLastPage ? page++ : null"
 				>
-					<arrow-right-icon />
+					<icon-arrow-right />
 				</secondary-button>
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 						:title="t('title.songOccuredOn', { num: obj.count })"
 					>
 						<div class="-mt-0.5">{{ obj.count }}</div>
-						<x-icon class="w-3 h-3 stroke-2 -mr-1" />
+						<icon-x class="w-3 h-3 stroke-2 -mr-1" />
 					</figure>
 				</div>
 				<div class="flex flex-col overflow-hidden">
@@ -49,7 +49,7 @@
 		</div>
 		<link-button class="mt-auto" @click="router.push({ name: 'songs' })">
 			{{ t('widget.showAllSongs') }}
-			<arrow-right-icon />
+			<icon-arrow-right />
 		</link-button>
 	</panel>
 </template>
@@ -64,10 +64,10 @@ import SecondaryButton from '@/elements/SecondaryButton';
 
 // icons
 import {
-	ArrowLeftIcon,
-	ArrowRightIcon,
-	XIcon,
-} from 'vue-tabler-icons';
+	IconArrowLeft,
+	IconArrowRight,
+	IconX,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

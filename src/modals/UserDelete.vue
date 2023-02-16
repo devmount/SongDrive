@@ -20,7 +20,7 @@
 			</button>
 			<primary-button class="grow" type="danger" :disabled="!transferUser" @click="deleteUser">
 				{{ t('button.delete') }}
-				<trash-icon class="w-6 h-6 stroke-1.5" />
+				<icon-trash class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -35,7 +35,7 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { TrashIcon } from 'vue-tabler-icons';
+import { IconTrash } from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

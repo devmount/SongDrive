@@ -79,7 +79,7 @@
 									closable
 								/>
 							<secondary-button class="!p-0.5" @click="showModal.tags = true">
-								<plus-icon class="w-5 h-5 stroke-1.5" />
+								<icon-plus class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
 						</div>
 					</div>
@@ -107,7 +107,7 @@
 					<label class="flex flex-col gap-1">
 						<div class="flex gap-2">
 							{{ t('field.ccli') }}
-							<number-icon class="stroke-1.5 mt-0.5" />
+							<icon-number class="stroke-1.5 mt-0.5" />
 						</div>
 						<input
 							type="number"
@@ -145,7 +145,7 @@
 						v-if="song.translations && song.translations.length == 0"
 						class="flex gap-1 text-blade-500"
 					>
-						<info-circle-icon />
+						<icon-info-circle />
 						{{ t('text.noTranslations') }}
 					</div>
 					<div v-else class="flex flex-col gap-1">
@@ -161,12 +161,12 @@
 								class="ml-auto"
 								@click="song.translations = song.translations.filter(k => k !== tsong)"
 							>
-								<x-icon class="w-4 h-4 text-blade-500" />
+								<icon-x class="w-4 h-4 text-blade-500" />
 							</button>
 						</div>
 					</div>
 					<secondary-button class="!p-1 self-start" @click="showModal.translations = true">
-						<plus-icon class="w-5 h-5 stroke-1.5" />
+						<icon-plus class="w-5 h-5 stroke-1.5" />
 					</secondary-button>
 				</label>
 			</div>
@@ -179,7 +179,7 @@
 						:data-tooltip="t('modal.songSyntaxCheatsheet')"
 						@click="showModal.infosongsyntax = true"
 					>
-						<book-icon class="w-4 h-4 stroke-1.5" />
+						<icon-book class="w-4 h-4 stroke-1.5" />
 					</secondary-button>
 				</label>
 				<prism-editor
@@ -202,8 +202,8 @@
 			<primary-button @click="setSong">
 				<span v-if="!existing">{{ t('button.createSong') }}</span>
 				<span v-else>{{ t('button.updateSong') }}</span>
-				<plus-icon v-if="!existing" class="w-6 h-6 stroke-1.5" />
-				<device-floppy-icon v-else class="w-6 h-6 stroke-1.5" />
+				<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
+				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -250,13 +250,13 @@ import TagAssign from '@/modals/TagAssign';
 
 // icons
 import {
-	BookIcon,
-	DeviceFloppyIcon,
-	InfoCircleIcon,
-	NumberIcon,
-	PlusIcon,
-	XIcon,
-} from 'vue-tabler-icons';
+	IconBook,
+	IconDeviceFloppy,
+	IconInfoCircle,
+	IconNumber,
+	IconPlus,
+	IconX,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

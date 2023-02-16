@@ -11,7 +11,7 @@
 					{{ Object.keys(songs).length }}
 				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<music-icon class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
+					<icon-music class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
 					{{ t('widget.songsStored') }}
 				</div>
 			</div>
@@ -21,7 +21,7 @@
 					{{ setlistCount }}
 				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<playlist-icon class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
+					<icon-playlist class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
 					{{ t('widget.publicSetlists') }}
 				</div>
 			</div>
@@ -31,7 +31,7 @@
 					<span class="text-blade-500">~</span>{{ songsPerformed }}
 				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<microphone-icon class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
+					<icon-microphone class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
 					{{ t('widget.songsPerformed') }}
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 					{{ languagesUsed }}
 				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<world-icon class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
+					<icon-world class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
 					{{ t('widget.languages', languagesUsed) }}
 				</div>
 			</div>
@@ -110,11 +110,11 @@ import WidgetSongOfYear from '@/widgets/WidgetSongOfYear';
 
 // icons
 import {
-	MicrophoneIcon,
-	MusicIcon,
-	PlaylistIcon,
-	WorldIcon,
-} from 'vue-tabler-icons';
+	IconMicrophone,
+	IconMusic,
+	IconPlaylist,
+	IconWorld,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t, locale } = useI18n();

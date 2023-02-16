@@ -32,7 +32,7 @@
 		}"
 		alt="Avatar"
 	>
-		<user-icon
+		<icon-user
 			:class="{
 				'w-4 h-4': size === sizes.sm,
 				'w-6 h-6': size === sizes.md,
@@ -47,7 +47,7 @@
 import { initials } from '@/utils.js';
 
 // icons
-import { UserIcon } from 'vue-tabler-icons';
+import { IconUser } from '@tabler/icons-vue';
 
 // component properties
 defineProps({

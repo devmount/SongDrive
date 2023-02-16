@@ -13,20 +13,20 @@
 					<tbody>
 						<tr>
 							<td>
-								<kbd><arrow-left-icon /></kbd> /
-								<kbd><arrow-right-icon /></kbd>
+								<kbd><icon-arrow-left /></kbd> /
+								<kbd><icon-arrow-right /></kbd>
 							</td>
 							<td></td>
 							<td>{{ t('tooltip.pagination') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.F') }}</kbd></td>
-							<td><search-icon /></td>
+							<td><icon-search /></td>
 							<td>{{ t('tooltip.search') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.esc') }}</kbd></td>
-							<td><x-icon /></td>
+							<td><icon-x /></td>
 							<td>{{ t('tooltip.clear') }}</td>
 						</tr>
 					</tbody>
@@ -40,48 +40,48 @@
 					<tbody>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.K') }}</kbd></td>
-							<td><music-icon /></td>
+							<td><icon-music /></td>
 							<td>{{ t('tooltip.chordsShow') }} / {{ t('tooltip.chordsHide') }}</td>
 						</tr>
 						<tr>
 							<td>
-								<kbd><arrow-right-icon /></kbd> /
-								<kbd><arrow-up-icon /></kbd>
+								<kbd><icon-arrow-right /></kbd> /
+								<kbd><icon-arrow-up /></kbd>
 							</td>
 							<td></td>
 							<td>{{ t('tooltip.transposeUp') }}</td>
 						</tr>
 						<tr>
 							<td>
-								<kbd><arrow-left-icon /></kbd> /
-								<kbd><arrow-down-icon /></kbd>
+								<kbd><icon-arrow-left /></kbd> /
+								<kbd><icon-arrow-down /></kbd>
 							</td>
 							<td></td>
 							<td>{{ t('tooltip.transposeDown') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.R') }}</kbd></td>
-							<td><reload-icon /></td>
+							<td><icon-reload /></td>
 							<td>{{ t('tooltip.keyReset') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.P') }}</kbd></td>
-							<td><presentation-icon /></td>
+							<td><icon-presentation /></td>
 							<td>{{ t('tooltip.presentationStart') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
-							<td><info-circle-icon /></td>
+							<td><icon-info-circle /></td>
 							<td>{{ t('tooltip.infoSongData') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
-							<td><brightness-icon /></td>
+							<td><icon-brightness /></td>
 							<td>{{ t('tooltip.invertColors') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.esc') }}</kbd></td>
-							<td><x-icon /></td>
+							<td><icon-x /></td>
 							<td>{{ t('tooltip.presentationClose') }}</td>
 						</tr>
 					</tbody>
@@ -95,53 +95,53 @@
 					<tbody>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.S') }}</kbd></td>
-							<td><refresh-icon /></td>
+							<td><icon-refresh /></td>
 							<td>{{ t('tooltip.syncOn') }} / {{ t('tooltip.syncOff') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.K') }}</kbd></td>
-							<td><music-icon /></td>
+							<td><icon-music /></td>
 							<td>{{ t('tooltip.chordsShow') }} / {{ t('tooltip.chordsHide') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.P') }}</kbd></td>
-							<td><presentation-icon /></td>
+							<td><icon-presentation /></td>
 							<td>{{ t('tooltip.presentationStart') }}</td>
 						</tr>
 						<tr>
 							<td>
-								<kbd><arrow-right-icon /></kbd> /
-								<kbd><arrow-down-icon /></kbd>
+								<kbd><icon-arrow-right /></kbd> /
+								<kbd><icon-arrow-down /></kbd>
 							</td>
 							<td></td>
 							<td>{{ t('tooltip.nextSlide') }}</td>
 						</tr>
 						<tr>
 							<td>
-								<kbd><arrow-left-icon /></kbd> /
-								<kbd><arrow-up-icon /></kbd>
+								<kbd><icon-arrow-left /></kbd> /
+								<kbd><icon-arrow-up /></kbd>
 							</td>
 							<td></td>
 							<td>{{ t('tooltip.previousSlide') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.B') }}</kbd></td>
-							<td><eye-off-icon /></td>
+							<td><icon-eye-off /></td>
 							<td>{{ t('tooltip.presentationShow') }} / {{ t('tooltip.presentationHide') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
-							<td><info-circle-icon /></td>
+							<td><icon-info-circle /></td>
 							<td>{{ t('tooltip.infoSongData') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
-							<td><brightness-icon /></td>
+							<td><icon-brightness /></td>
 							<td>{{ t('tooltip.invertColors') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.esc') }}</kbd></td>
-							<td><x-icon /></td>
+							<td><icon-x /></td>
 							<td>{{ t('tooltip.presentationClose') }}</td>
 						</tr>
 					</tbody>
@@ -157,20 +157,20 @@ import Panel from '@/elements/Panel';
 
 // icons
 import {
-	ArrowDownIcon,
-	ArrowLeftIcon,
-	ArrowRightIcon,
-	ArrowUpIcon,
-	BrightnessIcon,
-	EyeOffIcon,
-	InfoCircleIcon,
-	MusicIcon,
-	PresentationIcon,
-	RefreshIcon,
-	ReloadIcon,
-	SearchIcon,
-	XIcon,
-} from 'vue-tabler-icons';
+	IconArrowDown,
+	IconArrowLeft,
+	IconArrowRight,
+	IconArrowUp,
+	IconBrightness,
+	IconEyeOff,
+	IconInfoCircle,
+	IconMusic,
+	IconPresentation,
+	IconRefresh,
+	IconReload,
+	IconSearch,
+	IconX,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

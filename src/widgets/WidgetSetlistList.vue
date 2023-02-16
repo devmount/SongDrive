@@ -9,13 +9,13 @@
 					:disabled="isFirstPage"
 					@click="!isFirstPage ? page-- : null"
 				>
-					<arrow-left-icon />
+					<icon-arrow-left />
 				</secondary-button>
 				<secondary-button
 					:disabled="isLastPage"
 					@click="!isLastPage ? page++ : null"
 				>
-					<arrow-right-icon />
+					<icon-arrow-right />
 				</secondary-button>
 			</div>
 		</div>
@@ -37,7 +37,7 @@
 				<div class="flex flex-col overflow-hidden">
 					<div class="-mt-1 flex gap-1 items-center">
 						<div class="truncate">{{ setlist.title }}</div>
-						<lock-icon v-if="setlist.private" class="w-5 h-5 stroke-1.5 text-spring-600 mt-1" />
+						<icon-lock v-if="setlist.private" class="w-5 h-5 stroke-1.5 text-spring-600 mt-1" />
 					</div>
 					<div class="text-sm text-blade-500 -mt-1 truncate">{{ humanDate(setlist.date, locale) }}</div>
 				</div>
@@ -45,17 +45,17 @@
 		</div>
 		<div class="flex flex-wrap gap-1">
 			<secondary-button v-if="order != sortBy.newest" @click="newestSetlists">
-				<arrow-up-icon />
+				<icon-arrow-up />
 				{{ t('widget.newest') }}
 			</secondary-button>
 			<secondary-button v-if="order == sortBy.newest" @click="oldestSetlists">
-				<arrow-down-icon />
+				<icon-arrow-down />
 				{{ t('widget.oldest') }}
 			</secondary-button>
 		</div>
 		<link-button class="mt-auto" @click="router.push({ name: 'setlists' })">
 			{{ t('widget.showAllSetlists') }}
-			<arrow-right-icon />
+			<icon-arrow-right />
 		</link-button>
 	</panel>
 </template>
@@ -71,12 +71,12 @@ import SecondaryButton from '@/elements/SecondaryButton';
 
 // icons
 import {
-	ArrowDownIcon,
-	ArrowLeftIcon,
-	ArrowRightIcon,
-	ArrowUpIcon,
-	LockIcon,
-} from 'vue-tabler-icons';
+	IconArrowDown,
+	IconArrowLeft,
+	IconArrowRight,
+	IconArrowUp,
+	IconLock,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t, locale } = useI18n();

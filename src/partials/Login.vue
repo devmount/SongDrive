@@ -22,7 +22,7 @@
 			<div class="mt-3">
 				<primary-button class="w-full" @click="emit('signIn', email, password)">
 					{{ t('button.signIn') }}
-					<login-icon class="w-6 h-6 stroke-1.5" />
+					<icon-login class="w-6 h-6 stroke-1.5" />
 				</primary-button>
 			</div>
 		</panel>
@@ -48,7 +48,7 @@ import Panel from '@/elements/Panel';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { LoginIcon } from 'vue-tabler-icons';
+import { IconLogin } from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

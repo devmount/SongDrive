@@ -84,8 +84,8 @@
 			<primary-button class="grow" @click="setUser">
 				<span v-if="state !== 'confirmed'">{{ t('button.addUser') }}</span>
 				<span v-else>{{ t('button.updateUser') }}</span>
-				<plus-icon v-if="state !== 'confirmed'" class="w-6 h-6 stroke-1.5" />
-				<device-floppy-icon v-else class="w-6 h-6 stroke-1.5" />
+				<icon-plus v-if="state !== 'confirmed'" class="w-6 h-6 stroke-1.5" />
+				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -102,7 +102,7 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { PlusIcon, DeviceFloppyIcon } from 'vue-tabler-icons';
+import { IconPlus, IconDeviceFloppy } from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

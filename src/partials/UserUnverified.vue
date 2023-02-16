@@ -11,7 +11,7 @@
 			</div>
 			<secondary-button v-if="!resend" @click="resendVerification()">
 				{{ t('tooltip.resendVerification') }}
-				<send-icon class="w-6 h-6 stroke-1.5" />
+				<icon-send class="w-6 h-6 stroke-1.5" />
 			</secondary-button>
 			<p v-else>
 				{{ t('toast.verficationSentText') }}
@@ -19,11 +19,11 @@
 			<div class="flex gap-4">
 				<secondary-button @click="router.go()">
 					{{ t('button.recheck') }}
-					<refresh-icon class="w-6 h-6 stroke-1.5" />
+					<icon-refresh class="w-6 h-6 stroke-1.5" />
 				</secondary-button>
 				<secondary-button @click="emit('signOut')">
 					{{ t('button.signOut') }}
-					<logout-icon class="w-6 h-6 stroke-1.5" />
+					<icon-logout class="w-6 h-6 stroke-1.5" />
 				</secondary-button>
 			</div>
 		</panel>
@@ -39,7 +39,7 @@ import SecondaryButton from '@/elements/SecondaryButton';
 import { ref } from 'vue';
 
 // icons
-import { SendIcon, RefreshIcon, LogoutIcon } from 'vue-tabler-icons';
+import { IconSend, IconRefresh, IconLogout } from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

@@ -30,6 +30,7 @@
 	},
 	"dependencies": {
 		"@kyvg/vue3-notification": "^2.3.4",
+		"@tabler/icons-vue": "^2.4.0",
 		"@vuepic/vue-datepicker": "^3.2.2",
 		"chart.js": "^4.0.1",
 		"date-fns": "^2.29.1",

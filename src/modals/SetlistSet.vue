@@ -66,13 +66,13 @@
 						@update:model-value="updateDate"
 					>
 						<template #arrow-left>
-							<arrow-left-icon class="w-4 h-4 stroke-2" />
+							<icon-arrow-left class="w-4 h-4 stroke-2" />
 						</template>
 						<template #arrow-right>
-							<arrow-right-icon class="w-4 h-4 stroke-2" />
+							<icon-arrow-right class="w-4 h-4 stroke-2" />
 						</template>
-						<template #calendar-icon>
-							<calendar-icon class="w-4 h-4 stroke-2" />
+						<template #icon-calendar>
+							<icon-calendar class="w-4 h-4 stroke-2" />
 						</template>
 					</datepicker>
 				</label>
@@ -84,7 +84,7 @@
 				<div class="flex gap-1">
 					<!-- search in title, subtitle and content fulltext -->
 					<label class="relative w-full">
-						<filter-icon class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+						<icon-filter class="absolute top-2.5 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 						<input
 							type="search"
 							v-model="filter.fulltext"
@@ -97,7 +97,7 @@
 						<dropdown :show-badge="filter.tag !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
-									<tags-icon class="w-5 h-5 stroke-1.5" />
+									<icon-tags class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
 							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 !p-2 text-sm">
@@ -116,7 +116,7 @@
 						<dropdown :show-badge="filter.key !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
-									<music-icon class="w-5 h-5 stroke-1.5" />
+									<icon-music class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
 							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 !p-2 text-sm font-mono">
@@ -135,7 +135,7 @@
 						<dropdown :show-badge="filter.language !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
-									<world-icon class="w-5 h-5 stroke-1.5" />
+									<icon-world class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
 							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 !p-2 text-sm">
@@ -151,7 +151,7 @@
 					</div>
 					<!-- reset filter -->
 					<button @click="resetFilter">
-						<x-icon class="w-4 h-4" />
+						<icon-x class="w-4 h-4" />
 					</button>
 				</div>
 				<!-- song list -->
@@ -189,7 +189,7 @@
 			<!-- song preview -->
 			<div class="max-h-[calc(50vh_-_6rem)] lg:max-h-[calc(80vh_-_8.25rem)] flex flex-col gap-1">
 				<div v-if="setlist.songs && setlist.songs.length == 0" class="flex flex-col items-center gap-8 mt-4">
-					<playlist-icon class="w-12 h-12 stroke-1 text-blade-500" />
+					<icon-playlist class="w-12 h-12 stroke-1 text-blade-500" />
 					<div class="text-center">
 						<div class="text-lg">{{ t('text.noSongsSelected') }}</div>
 						<div class="text-blade-500">{{ t('text.selectSomeSongs') }}</div>
@@ -206,11 +206,11 @@
 							class="flex items-center gap-2 p-1 hover:bg-blade-200 dark:hover:bg-blade-800"
 						>
 							<button class="p-1 cursor-grab active:cursor-grabbing text-blade-500">
-								<menu-order-icon class="handle w-5 h-5" />
+								<icon-menu-order class="handle w-5 h-5" />
 							</button>
 							<div class="flex items-center">
 								<secondary-button @click.prevent="tuneDown(i)" class="w-6 h-6 !p-1">
-									<arrow-left-icon class="w-4 h-4 stroke-2 shrink-0" />
+									<icon-arrow-left class="w-4 h-4 stroke-2 shrink-0" />
 								</secondary-button>
 								<figure
 									class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
@@ -219,7 +219,7 @@
 									<div class="-mt-0.5">{{ song.tuning ? song.tuning : songs[song.id].tuning }}</div>
 								</figure>
 								<secondary-button @click.prevent="tuneUp(i)" class="w-6 h-6 !p-1">
-									<arrow-right-icon class="w-4 h-4 stroke-2 shrink-0" />
+									<icon-arrow-right class="w-4 h-4 stroke-2 shrink-0" />
 								</secondary-button>
 							</div>
 							<div class="flex flex-col overflow-hidden">
@@ -234,7 +234,7 @@
 								class="ml-auto p-1 text-blade-500"
 								@click="setlistSongs = setlistSongs.filter(k => k !== song.id)"
 							>
-								<x-icon class="w-4 h-4" />
+								<icon-x class="w-4 h-4" />
 							</button>
 						</div>
 					</div>
@@ -248,8 +248,8 @@
 			<primary-button @click="setSetlist">
 				<span v-if="!existing">{{ t('button.createSetlist') }}</span>
 				<span v-else>{{ t('button.updateSetlist') }}</span>
-				<plus-icon v-if="!existing" class="w-6 h-6 stroke-1.5" />
-				<device-floppy-icon v-else class="w-6 h-6 stroke-1.5" />
+				<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
+				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -272,19 +272,19 @@ import Tag from '@/elements/Tag';
 
 // icons
 import {
-	ArrowLeftIcon,
-	ArrowRightIcon,
-	CalendarIcon,
-	DeviceFloppyIcon,
-	FilterIcon,
-	MenuOrderIcon,
-	MusicIcon,
-	PlaylistIcon,
-	PlusIcon,
-	TagsIcon,
-	WorldIcon,
-	XIcon,
-} from 'vue-tabler-icons';
+	IconArrowLeft,
+	IconArrowRight,
+	IconCalendar,
+	IconDeviceFloppy,
+	IconFilter,
+	IconMenuOrder,
+	IconMusic,
+	IconPlaylist,
+	IconPlus,
+	IconTags,
+	IconWorld,
+	IconX,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t, locale } = useI18n();

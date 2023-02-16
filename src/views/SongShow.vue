@@ -25,7 +25,7 @@
 		<div class="flex justify-between align-center w-full bg-blade-200 dark:bg-blade-900 rounded-lg p-2 gap-1">
 			<div class="flex align-center gap-1">
 				<secondary-button :title="t('button.back')" @click="router.go(-1)">
-					<arrow-left-icon />
+					<icon-arrow-left />
 					<span class="hidden xl:inline">{{ t('button.back') }}</span>
 				</secondary-button>
 				<secondary-button
@@ -45,21 +45,21 @@
 						:title="t('tooltip.transposeDown')"
 						@click="tuning--"
 					>
-						<arrow-left-icon />
+						<icon-arrow-left />
 					</secondary-button>
 					<secondary-button
 						:disabled="!chords"
 						:title="t('tooltip.keyReset')"
 						@click="tuning = 0"
 					>
-						<reload-icon />
+						<icon-reload />
 					</secondary-button>
 					<secondary-button
 						:disabled="!chords"
 						:title="t('tooltip.transposeUp')"
 						@click="tuning++"
 					>
-						<arrow-right-icon />
+						<icon-arrow-right />
 					</secondary-button>
 					<div class="absolute top-11 left-1/2 -translate-x-1/2 w-40 flex justify-between p-1 rounded-lg bg-blade-200 dark:bg-blade-900 invisible group-hover:visible">
 						<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
@@ -77,15 +77,15 @@
 					:title="chords ? t('tooltip.chordsHide') : t('tooltip.chordsShow')"
 					@click="chords = !chords"
 				>
-					<music-icon v-if="chords" class="stroke-spring-400" />
-					<music-off-icon v-else />
+					<icon-music v-if="chords" class="stroke-spring-400" />
+					<icon-music-off v-else />
 					<span class="hidden xl:inline">{{ t('switch.chords') }}</span>
 				</secondary-button>
 				<secondary-button
 					:title="t('tooltip.startFullscreen')"
 					@click="modal.present=true"
 				>
-					<presentation-icon />
+					<icon-presentation />
 					<span class="hidden xl:inline">{{ t('button.present') }}</span>
 				</secondary-button>
 			</div>
@@ -94,9 +94,9 @@
 					<dropdown>
 						<template #trigger>
 							<secondary-button class="h-full">
-								<download-icon class="w-5 h-5 stroke-1.5" />
+								<icon-download class="w-5 h-5 stroke-1.5" />
 								<span class="hidden xl:inline">{{ t('button.download') }}</span>
-								<chevron-down-icon class="w-5 h-5 stroke-1.5" />
+								<icon-chevron-down class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
 						</template>
 						<template #default>
@@ -104,21 +104,21 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="exportTxt"
 							>
-								<file-pencil-icon class="w-5 h-5 stroke-1.5" />
+								<icon-file-pencil class="w-5 h-5 stroke-1.5" />
 								{{ t('button.filetypeTxt') }}
 							</button>
 							<button
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="exportSng"
 							>
-								<file-music-icon class="w-5 h-5 stroke-1.5" />
+								<icon-file-music class="w-5 h-5 stroke-1.5" />
 								{{ t('button.filetypeSng') }}
 							</button>
 							<button
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="exportPdf"
 							>
-								<file-text-icon class="w-5 h-5 stroke-1.5" />
+								<icon-file-text class="w-5 h-5 stroke-1.5" />
 								{{ t('button.filetypePdf') }}
 							</button>
 						</template>
@@ -132,7 +132,7 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="emit('editSong', { data: song, id: song.id, exists: true })"
 							>
-								<edit-icon class="w-5 h-5 stroke-1.5" />
+								<icon-edit class="w-5 h-5 stroke-1.5" />
 								{{ t('button.edit') }}
 							</button>
 							<button
@@ -140,7 +140,7 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="emit('editSong', { data: song, id: song.id, exists: false })"
 							>
-								<copy-icon class="w-5 h-5 stroke-1.5" />
+								<icon-copy class="w-5 h-5 stroke-1.5" />
 								{{ t('button.duplicate') }}
 							</button>
 							<button
@@ -148,7 +148,7 @@
 								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
 								@click="deleteDialog(song)"
 							>
-								<trash-icon class="w-5 h-5 stroke-1.5" />
+								<icon-trash class="w-5 h-5 stroke-1.5" />
 								{{ t('button.delete') }}
 							</button>
 							<div class="flex gap-1 sm:hidden">
@@ -166,21 +166,21 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
 								@click="exportTxt"
 							>
-								<file-pencil-icon class="w-5 h-5 stroke-1.5" />
+								<file-icon-pencil class="w-5 h-5 stroke-1.5" />
 								{{ t('button.filetypeTxt') }}
 							</button>
 							<button
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
 								@click="exportSng"
 							>
-								<file-music-icon class="w-5 h-5 stroke-1.5" />
+								<icon-file-music class="w-5 h-5 stroke-1.5" />
 								{{ t('button.filetypeSng') }}
 							</button>
 							<button
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
 								@click="exportPdf"
 							>
-								<file-text-icon class="w-5 h-5 stroke-1.5" />
+								<icon-file-text class="w-5 h-5 stroke-1.5" />
 								{{ t('button.filetypePdf') }}
 							</button>
 						</template>
@@ -235,21 +235,21 @@ import SongPresent from '@/modals/SongPresent';
 
 // icons
 import {
-	ArrowLeftIcon,
-	ArrowRightIcon,
-	ChevronDownIcon,
-	CopyIcon,
-	DownloadIcon,
-	EditIcon,
-	FileMusicIcon,
-	FilePencilIcon,
-	FileTextIcon,
-	MusicIcon,
-	MusicOffIcon,
-	PresentationIcon,
-	ReloadIcon,
-	TrashIcon,
-} from 'vue-tabler-icons';
+	IconArrowLeft,
+	IconArrowRight,
+	IconChevronDown,
+	IconCopy,
+	IconDownload,
+	IconEdit,
+	IconFileMusic,
+	IconFilePencil,
+	IconFileText,
+	IconMusic,
+	IconMusicOff,
+	IconPresentation,
+	IconReload,
+	IconTrash,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

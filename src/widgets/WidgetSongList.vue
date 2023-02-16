@@ -9,13 +9,13 @@
 					:disabled="isFirstPage"
 					@click="!isFirstPage ? page-- : null"
 				>
-					<arrow-left-icon />
+					<icon-arrow-left />
 				</secondary-button>
 				<secondary-button
 					:disabled="isLastPage"
 					@click="!isLastPage ? page++ : null"
 				>
-					<arrow-right-icon />
+					<icon-arrow-right />
 				</secondary-button>
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 						:title="t('title.songOccuredOn', { num: song.popularity })"
 					>
 						<div class="-mt-0.5">{{ song.popularity }}</div>
-						<x-icon class="w-3 h-3 stroke-2 -mr-1" />
+						<icon-x class="w-3 h-3 stroke-2 -mr-1" />
 					</figure>
 					<figure
 						v-if="order == sortBy.newest || order == sortBy.oldest"
@@ -56,25 +56,25 @@
 		</div>
 		<div class="flex flex-wrap gap-1">
 			<secondary-button @click="shuffleSongs">
-				<arrows-shuffle-icon />
+				<icon-arrows-shuffle />
 				{{ t('button.shuffle') }}
 			</secondary-button>
 			<secondary-button v-if="order != sortBy.newest" @click="newestSongs">
-				<arrow-up-icon />
+				<icon-arrow-up />
 				{{ t('widget.newest') }}
 			</secondary-button>
 			<secondary-button v-if="order == sortBy.newest" @click="oldestSongs">
-				<arrow-down-icon />
+				<icon-arrow-down />
 				{{ t('widget.oldest') }}
 			</secondary-button>
 			<secondary-button v-if="setlists?.length > 0" @click="popularSongs">
-				<trending-up-icon />
+				<icon-trending-up />
 				{{ t('widget.popular') }}
 			</secondary-button>
 		</div>
 		<link-button class="mt-auto" @click="router.push({ name: 'songs' })">
 			{{ t('widget.showAllSongs') }}
-			<arrow-right-icon />
+			<icon-arrow-right />
 		</link-button>
 	</panel>
 </template>
@@ -90,14 +90,14 @@ import SecondaryButton from '@/elements/SecondaryButton';
 
 // icons
 import {
-	ArrowDownIcon,
-	ArrowLeftIcon,
-	ArrowRightIcon,
-	ArrowUpIcon,
-	ArrowsShuffleIcon,
-	TrendingUpIcon,
-	XIcon,
-} from 'vue-tabler-icons';
+	IconArrowDown,
+	IconArrowLeft,
+	IconArrowRight,
+	IconArrowUp,
+	IconArrowsShuffle,
+	IconTrendingUp,
+	IconX,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

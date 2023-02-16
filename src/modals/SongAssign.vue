@@ -3,7 +3,7 @@
 		<div class="grow grid grid-cols-1 grid-rows-2 xs:grid-cols-2 xs:grid-rows-1 gap-4">
 			<div class="max-h-[calc(50vh_-_6rem)] xs:max-h-[calc(66.666667vh_-_8.25rem)] flex flex-col gap-4">
 				<label class="relative">
-					<filter-icon class="absolute top-2 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+					<icon-filter class="absolute top-2 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 					<input
 						type="search"
 						v-model="searchInput"
@@ -28,7 +28,7 @@
 			</div>
 			<div>
 				<div v-if="selectedSongs.length == 0" class="flex flex-col items-center gap-2">
-					<language-icon class="w-12 h-12 stroke-1 text-blade-500" />
+					<icon-language class="w-12 h-12 stroke-1 text-blade-500" />
 					<div class="text-lg">{{ t('text.noSongsSelected') }}</div>
 					<div class="text-blade-500 text-center w-4/5">{{ t('text.selectSomeTranslations') }}</div>
 				</div>
@@ -46,7 +46,7 @@
 							class="ml-auto"
 							@click="selectedSongs = selectedSongs.filter(k => k !== tsong)"
 						>
-							<x-icon class="w-4 h-4 text-blade-500" />
+							<icon-x class="w-4 h-4 text-blade-500" />
 						</button>
 					</div>
 				</div>
@@ -58,7 +58,7 @@
 			</button>
 			<primary-button @click="emit('assign', selectedSongs)">
 				{{ t('button.assign') }}
-				<arrow-back-icon class="w-6 h-6 stroke-1.5" />
+				<icon-arrow-back class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -72,11 +72,11 @@ import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
 import {
-	ArrowBackIcon,
-	LanguageIcon,
-	XIcon,
-	FilterIcon
-} from 'vue-tabler-icons';
+	IconArrowBack,
+	IconLanguage,
+	IconX,
+	IconFilter
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

@@ -30,27 +30,27 @@
 					:title="tooltip('info')"
 					@click="song.note ? showModal.infosongdata = true : null"
 				>
-					<info-circle-icon :class="{ 'stroke-spring-400': showModal.infosongdata }" />
+					<icon-info-circle :class="{ 'stroke-spring-400': showModal.infosongdata }" />
 				</secondary-button>
 				<secondary-button
 					:title="tooltip('lightMode')"
 					@click.prevent="dark = !dark"
 				>
-					<brightness-icon :class="{ 'stroke-spring-400': !dark }" />
+					<icon-brightness :class="{ 'stroke-spring-400': !dark }" />
 				</secondary-button>
 				<secondary-button
 					:title="tooltip('chords')"
 					@click.prevent="emit('chords')"
 				>
-					<music-icon v-if="chords" class="stroke-spring-400" />
-					<music-off-icon v-else />
+					<icon-music v-if="chords" class="stroke-spring-400" />
+					<icon-music-off v-else />
 				</secondary-button>
 				<button
 					class="p-2 text-blade-500"
 					:title="tooltip('close')"
 					@click.prevent="emit('closed')"
 				>
-					<x-icon />
+					<icon-x />
 				</button>
 			</div>
 		</div>
@@ -73,12 +73,12 @@ import SongContent from '@/partials/SongContent';
 
 // icons
 import {
-	BrightnessIcon,
-	InfoCircleIcon,
-	MusicIcon,
-	MusicOffIcon,
-	XIcon,
-} from 'vue-tabler-icons';
+	IconBrightness,
+	IconInfoCircle,
+	IconMusic,
+	IconMusicOff,
+	IconX,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

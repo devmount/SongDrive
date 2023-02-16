@@ -18,7 +18,7 @@
 			<!-- pagination -->
 			<div class="flex items-center flex-nowrap gap-2 mr-16 lg:mr-0">
 				<secondary-button @click="!isFirstPage ? page-- : null" :disabled="isFirstPage">
-					<chevron-left-icon class="w-5 h-5 stroke-1.5" />
+					<icon-chevron-left class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 				<div
 					v-for="(p, i) in pageCount" :key="i"
@@ -36,7 +36,7 @@
 					<div v-show="showLastEllipsis(p)">&hellip;</div>
 				</div>
 				<secondary-button @click="!isLastPage ? page++ : null" :disabled="isLastPage">
-					<chevron-right-icon class="w-5 h-5 stroke-1.5" />
+					<icon-chevron-right class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 			</div>
 		</div>	
@@ -68,11 +68,11 @@
 							:class="{ 'justify-center': ['language', 'year', 'tuning'].includes(col) }"
 						>
 							{{ t('field.' + col) }}
-							<sort-ascending-icon
+							<icon-sort-ascending
 								v-if="order.field == col && !order.ascending"
 								class="w-5 h-5 stroke-1.5 stroke-spring-600"
 							/>
-							<sort-descending-icon
+							<icon-sort-descending
 								v-if="order.field == col && order.ascending"
 								class="w-5 h-5 stroke-1.5 stroke-spring-600"
 							/>
@@ -84,7 +84,7 @@
 				<tr>
 					<td>
 						<label class="relative">
-							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<input
 								type="search"
 								ref="searchInput"
@@ -96,7 +96,7 @@
 					</td>
 					<td class="hidden xl:table-cell">
 						<label class="relative">
-							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<input
 								type="search"
 								v-model="filter.authors"
@@ -106,7 +106,7 @@
 					</td>
 					<td class="hidden 3xl:table-cell">
 						<label class="relative">
-							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<select v-model="filter.tag" class="w-full pl-8">
 								<option v-for="tag in tags" :key="tag.key" :value="tag.key">
 									{{ tag[locale] ? tag[locale] : tag.key }}
@@ -116,7 +116,7 @@
 					</td>
 					<td class="hidden md:table-cell">
 						<label class="relative">
-							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<select v-model="filter.language" class="w-full pl-8">
 								<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
 							</select>
@@ -124,7 +124,7 @@
 					</td>
 					<td class="hidden md:table-cell">
 						<label class="relative">
-							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<input
 								type="search"
 								v-model="filter.year"
@@ -134,7 +134,7 @@
 					</td>
 					<td class="hidden xs:table-cell">
 						<label class="relative">
-							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<select v-model="filter.key" class="w-full pl-8">
 								<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
 							</select>
@@ -142,7 +142,7 @@
 					</td>
 					<td>
 						<secondary-button @click="resetFilter" :disabled="!isFiltered">
-							<filter-off-icon class="w-5 h-5 stroke-1.5" />
+							<icon-filter-off class="w-5 h-5 stroke-1.5" />
 						</secondary-button>
 					</td>
 				</tr>
@@ -201,7 +201,7 @@
 								:to="{ name: 'song-show', params: { id: song.id }}"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 							>
-								<eye-icon class="w-5 h-5 stroke-1.5" />
+								<icon-eye class="w-5 h-5 stroke-1.5" />
 								{{ t('button.show') }}
 							</router-link>
 							<button
@@ -209,7 +209,7 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="emit('editSong', { data: song, id: song.id, exists: true })"
 							>
-								<edit-icon class="w-5 h-5 stroke-1.5" />
+								<icon-edit class="w-5 h-5 stroke-1.5" />
 								{{ t('button.edit') }}
 							</button>
 							<button
@@ -217,7 +217,7 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="emit('editSong', { data: song, id: song.id, exists: false })"
 							>
-								<copy-icon class="w-5 h-5 stroke-1.5" />
+								<icon-copy class="w-5 h-5 stroke-1.5" />
 								{{ t('button.duplicate') }}
 							</button>
 							<button
@@ -225,7 +225,7 @@
 								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
 								@click="deleteDialog(song)"
 							>
-								<trash-icon class="w-5 h-5 stroke-1.5" />
+								<icon-trash class="w-5 h-5 stroke-1.5" />
 								{{ t('button.delete') }}
 							</button>
 						</dropdown>
@@ -256,17 +256,17 @@ import Tag from '@/elements/Tag';
 
 // icons
 import {
-	ChevronLeftIcon,
-	ChevronRightIcon,
-	CopyIcon,
-	EditIcon,
-	EyeIcon,
-	FilterIcon,
-	FilterOffIcon,
-	SortAscendingIcon,
-	SortDescendingIcon,
-	TrashIcon,
-} from 'vue-tabler-icons';
+	IconChevronLeft,
+	IconChevronRight,
+	IconCopy,
+	IconEdit,
+	IconEye,
+	IconFilter,
+	IconFilterOff,
+	IconSortAscending,
+	IconSortDescending,
+	IconTrash,
+} from '@tabler/icons-vue';
 
 // component constantes
 const { t, locale } = useI18n();

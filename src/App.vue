@@ -7,7 +7,7 @@
 		>
 			<!-- menu toggle button -->
 			<button class="fixed lg:hidden transition-all top-2 right-2 lg:top-4 lg:right-4 px-2 py-1 z-10 flex items-center" :class="{ 'right-64 mr-4': open }" @click="open = true">
-				<menu2-icon class="w-8 h-8 stroke-2" />
+				<icon-menu2 class="w-8 h-8 stroke-2" />
 			</button>
 
 			<!-- menu sidebar -->
@@ -24,7 +24,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<layout-grid-icon class="w-5 h-5 stroke-1.5" />
+						<icon-layout-grid class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.dashboard') }}</span>
 					</router-link>
 					<router-link
@@ -32,7 +32,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<music-icon class="w-5 h-5 stroke-1.5" />
+						<icon-music class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.songs', Object.keys(c.songs)?.length) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
 							<div v-if="ready.songs" class="font-bold">{{ Object.keys(c.songs).length }}</div>
@@ -42,7 +42,7 @@
 								:data-tooltip="t('tooltip.songAdd')"
 								@click.stop.prevent="createNewSong"
 							>
-								<plus-icon class="w-5 h-5 stroke-1.5" />
+								<icon-plus class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
 						</div>
 					</router-link>
@@ -51,7 +51,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<playlist-icon class="w-5 h-5 stroke-1.5" />
+						<icon-playlist class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.setlists', setlistCount) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
 							<label v-if="ready.setlists" class="font-bold">{{ setlistCount }}</label>
@@ -61,7 +61,7 @@
 								:data-tooltip="t('tooltip.setlistAdd')"
 								@click.stop.prevent="createNewSetlist"
 							>
-								<plus-icon class="w-5 h-5 stroke-1.5" />
+								<icon-plus class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
 						</div>
 					</router-link>
@@ -84,13 +84,13 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<settings-icon class="w-5 h-5 stroke-1.5" />
+						<icon-settings class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.settings') }}</span>
 						<indicator-pulse v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3" class="ml-auto" />
 					</router-link>
 					<secondary-button class="mt-2" @click="signOut">
 						{{ t('button.signOut') }}
-						<logout-icon class="w-6 h-6 stroke-1.5" />
+						<icon-logout class="w-6 h-6 stroke-1.5" />
 					</secondary-button>
 					<divider-horizontal :label="t('divider.info')" />
 					<router-link
@@ -98,7 +98,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<bulb-icon class="w-5 h-5 stroke-1.5" />
+						<icon-bulb class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.shortcuts') }}</span>
 					</router-link>
 					<router-link
@@ -106,7 +106,7 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<book-icon class="w-5 h-5 stroke-1.5" />
+						<icon-book class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.docu') }}</span>
 					</router-link>
 					<a
@@ -114,15 +114,15 @@
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						target="_blank"
 					>
-						<brand-github-icon class="w-5 h-5 stroke-1.5" />
+						<icon-brand-github class="w-5 h-5 stroke-1.5" />
 						<span class="mb-0.5 uppercase">{{ t('page.github') }}</span>
-						<external-link-icon class="w-5 h-5 ml-auto" />
+						<icon-external-link class="w-5 h-5 ml-auto" />
 					</a>
 				</div>
 				<footer class="mt-auto text-sm text-blade-500">
 					<div class="flex justify-center items-center gap-1">
 						<span>{{ t('app.created.0') }}</span>
-						<heart-icon class="w-5 h-5 stroke-1.5" />
+						<icon-heart class="w-5 h-5 stroke-1.5" />
 						<span>{{ t('app.created.1') }}</span>
 						<a href="https://devmount.de" target="_blank">
 							<svg class="w-6 h-6 fill-transparent stroke-10 stroke-current" viewBox="0 0 234 234">
@@ -133,7 +133,7 @@
 					</div>
 					<div class="flex justify-center items-center gap-1">
 						<span>2016–{{ (new Date()).getFullYear() }}</span>
-						<license-icon class="w-5 h-5 fill-transparent stroke-1.5 stroke-current" />
+						<icon-license class="w-5 h-5 fill-transparent stroke-1.5 stroke-current" />
 						<a href="https://github.com/devmount/SongDrive/blob/main/LICENSE" target="_blank">
 							{{ t('app.license') }}
 						</a>
@@ -206,7 +206,7 @@
 					<div class="flex justify-between">
 						<div class="text-lg font-semibold">{{ props.item.title }}</div>
 						<button aria-label="Close" @click="props.close">
-							<x-icon class="w-6 h-6" />
+							<icon-x class="w-6 h-6" />
 						</button>
 					</div>
 					<div v-html="props.item.text"></div>
@@ -277,21 +277,21 @@ import UserUnverified from '@/partials/UserUnverified';
 
 // icons
 import {
-	BookIcon,
-	BrandGithubIcon,
-	BulbIcon,
-	ExternalLinkIcon,
-	HeartIcon,
-	LayoutGridIcon,
-	LicenseIcon,
-	LogoutIcon,
-	Menu2Icon,
-	MusicIcon,
-	PlaylistIcon,
-	PlusIcon,
-	SettingsIcon,
-	XIcon,
-} from 'vue-tabler-icons';
+	IconBook,
+	IconBrandGithub,
+	IconBulb,
+	IconExternalLink,
+	IconHeart,
+	IconLayoutGrid,
+	IconLicense,
+	IconLogout,
+	IconMenu2,
+	IconMusic,
+	IconPlaylist,
+	IconPlus,
+	IconSettings,
+	IconX,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

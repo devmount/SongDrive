@@ -11,7 +11,7 @@
 			<!-- profile -->
 			<panel>
 				<div class="flex flex-col items-center">
-					<user-icon class="w-8 h-8 stroke-1.5 mb-2" />
+					<icon-user class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ t('page.profile') }}</div>
 					<div class="text-blade-500">{{ t('text.customizeProfile') }}</div>
 				</div>
@@ -28,10 +28,10 @@
 						<div class="flex gap-4">
 							<span>{{ t('field.email') }}</span>
 							<span v-if="userObject.emailVerified" class="flex items-center gap-1 text-spring-600">
-								<check-icon class="stroke-1.5" /> {{ t('text.verified') }}
+								<icon-check class="stroke-1.5" /> {{ t('text.verified') }}
 							</span>
 							<span v-else class="flex items-center gap-1 text-rose-500">
-								<x-icon class="stroke-1.5" /> {{ t('text.unverified') }}
+								<icon-x class="stroke-1.5" /> {{ t('text.unverified') }}
 							</span>
 						</div>
 						<div class="flex">
@@ -49,8 +49,8 @@
 								@click="!verificationResend ? resendEmailVerification() : null"
 							>
 								{{ t('button.verify') }}
-								<send-icon v-if="!verificationResend" class="stroke-1.5" />
-								<check-icon v-else class="stroke-1.5" />
+								<icon-send v-if="!verificationResend" class="stroke-1.5" />
+								<icon-check v-else class="stroke-1.5" />
 							</secondary-button>
 						</div>
 					</label>
@@ -69,13 +69,13 @@
 				</div>
 				<secondary-button @click="updateProfile" class="mt-auto self-start">
 					{{ t('button.saveProfile') }}
-					<device-floppy-icon class="w-6 h-6 stroke-1.5" />
+					<icon-device-floppy class="w-6 h-6 stroke-1.5" />
 				</secondary-button>
 			</panel>
 			<!-- SongDrive UI -->
 			<panel v-if="ready.languages">
 				<div class="flex flex-col items-center">
-					<palette-icon class="w-8 h-8 stroke-1.5 mb-2" />
+					<icon-palette class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.appearance') }}</div>
 					<div class="text-blade-500">{{ t('text.customizeUi') }}</div>
 				</div>
@@ -93,7 +93,7 @@
 			<!-- account -->
 			<panel>
 				<div class="flex flex-col items-center">
-					<key-icon class="w-8 h-8 stroke-1.5 mb-2" />
+					<icon-key class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ t('divider.account') }}</div>
 					<div class="text-blade-500">{{ t('text.changeAccount') }}</div>
 				</div>
@@ -103,7 +103,7 @@
 						<div class="text-blade-500">{{ t('text.renewYourPassword') }}</div>
 						<secondary-button @click="modal.passwordchange = true" class="mt-2">
 							{{ t('button.changePassword') }}
-							<key-icon class="w-6 h-6 stroke-1.5" />
+							<icon-key class="w-6 h-6 stroke-1.5" />
 						</secondary-button>
 					</div>
 					<zone-danger :label="t('text.dangerZone')">
@@ -112,7 +112,7 @@
 							<div class="text-blade-500">{{ t('text.changeToAnotherEmail') }}</div>
 							<secondary-button @click="modal.emailchange = true" type="danger" class="mt-2">
 								{{ t('button.changeEmail') }}
-								<key-icon class="w-6 h-6 stroke-1.5" />
+								<icon-key class="w-6 h-6 stroke-1.5" />
 							</secondary-button>
 						</div>
 						<div>
@@ -120,7 +120,7 @@
 							<div class="text-blade-500">{{ t('text.deleteYourAccount') }}</div>
 							<secondary-button @click="modal.accountdelete = true" type="danger" class="mt-2">
 								{{ t('button.deleteAccount') }}
-								<trash-icon class="w-6 h-6 stroke-1.5" />
+								<icon-trash class="w-6 h-6 stroke-1.5" />
 							</secondary-button>
 						</div>
 					</zone-danger>
@@ -138,7 +138,7 @@
 			<!-- user administration -->
 			<panel>
 				<div class="relative flex flex-col items-center">
-					<users-icon class="w-8 h-8 stroke-1.5 mb-2" />
+					<icon-users class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ Object.keys(users).length }} {{ t('widget.users') }}</div>
 					<div class="text-blade-500">{{ t('text.manageConfirmedUsers') }}</div>
 					<secondary-button
@@ -146,7 +146,7 @@
 						:title="t('modal.addUser')"
 						@click="addUser"
 					>
-						<plus-icon class="w-6 h-6 stroke-1.5" />
+						<icon-plus class="w-6 h-6 stroke-1.5" />
 					</secondary-button>
 				</div>
 				<div class="flex flex-col">
@@ -167,14 +167,14 @@
 							class="flex items-center text-spring-600 hover:bg-opacity-80"
 							:title="t('tooltip.sendConfirmationMail')"
 						>
-							<mail-icon class="w-5 h-5 stroke-1.5" />
+							<icon-mail class="w-5 h-5 stroke-1.5" />
 						</a>
 						<button
 							class="flex items-center text-spring-600 hover:bg-opacity-80"
 							:title="t('modal.editUser')"
 							@click.prevent="editUser(u)"
 						>
-							<edit-icon class="w-5 h-5 stroke-1.5" />
+							<icon-edit class="w-5 h-5 stroke-1.5" />
 						</button>
 						<button
 							v-if="numberOfUsers > 1"
@@ -182,12 +182,12 @@
 							:title="t('modal.deleteUser')"
 							@click.prevent="active.user=u; active.key=u.id; active.approved=true; modal.userdelete=true"
 						>
-							<user-minus-icon class="w-5 h-5 stroke-1.5" />
+							<icon-user-minus class="w-5 h-5 stroke-1.5" />
 						</button>
 					</div>
 				</div>
 				<div v-if="Object.keys(registrations).length == 0" class="flex flex-col justify-center items-center gap-2">
-					<checkbox-icon class="text-blade-500 w-12 h-12 stroke-1" />
+					<icon-checkbox class="text-blade-500 w-12 h-12 stroke-1" />
 					<p class="text-xl uppercase font-light tracking-widest">{{ t('text.noUnconfirmedUsers') }}</p>
 					<p class="text-blade-500">{{ t('text.goodWork') }}</p>
 				</div>
@@ -215,14 +215,14 @@
 							:title="t('tooltip.approveUser')"
 							@click.prevent="addRegistration"
 						>
-							<user-plus-icon class="w-5 h-5 stroke-1.5" />
+							<icon-user-plus class="w-5 h-5 stroke-1.5" />
 						</button>
 						<button
 							class="flex items-center text-rose-600 hover:bg-opacity-80"
 							:title="t('modal.deleteUser')"
 							@click.prevent="active.user=r; active.key=k; active.approved=false; modal.userdelete=true"
 						>
-							<user-minus-icon class="w-5 h-5 stroke-1.5" />
+							<icon-user-minus class="w-5 h-5 stroke-1.5" />
 						</button>
 					</div>
 				</div>
@@ -230,7 +230,7 @@
 			<!-- language administration -->
 			<panel>
 				<div class="relative flex flex-col items-center">
-					<language-icon class="w-8 h-8 stroke-1.5 mb-2" />
+					<icon-language class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">
 						{{ t('widget.languages', numberOfLanguages, [numberOfLanguages]) }}
 					</div>
@@ -240,7 +240,7 @@
 						:title="t('modal.addLanguage')"
 						@click="active.language={ label: '' }; active.key=''; active.existing=false; modal.languageset=true"
 					>
-						<plus-icon class="w-6 h-6 stroke-1.5" />
+						<icon-plus class="w-6 h-6 stroke-1.5" />
 					</secondary-button>
 				</div>
 				<div class="flex flex-col">
@@ -262,14 +262,14 @@
 							:title="t('modal.editLanguage')"
 							@click="active.language=l; active.key=key; active.existing=true; modal.languageset=true"
 						>
-							<edit-icon class="w-5 h-5 stroke-1.5" />
+							<icon-edit class="w-5 h-5 stroke-1.5" />
 						</button>
 						<button
 							class="flex items-center text-rose-600 hover:bg-opacity-80"
 							:title="t('modal.deleteLanguage')"
 							@click="active.language=l; active.key=key; modal.languagedelete=true;"
 						>
-							<trash-icon class="w-5 h-5 stroke-1.5" />
+							<icon-trash class="w-5 h-5 stroke-1.5" />
 						</button>
 					</div>
 				</div>
@@ -277,7 +277,7 @@
 			<!-- tag administration -->
 			<panel>
 				<div class="relative flex flex-col items-center">
-					<tags-icon class="w-8 h-8 stroke-1.5 mb-2" />
+					<icon-tags class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">
 						{{ t('widget.tags', numberOfTags, [numberOfTags]) }}
 					</div>
@@ -287,7 +287,7 @@
 						:title="t('modal.addTag')"
 						@click="active.tag={ key: '' }; active.key=''; active.existing=false; modal.tagset=true"
 					>
-						<plus-icon class="w-6 h-6 stroke-1.5" />
+						<icon-plus class="w-6 h-6 stroke-1.5" />
 					</secondary-button>
 				</div>
 				<div class="flex flex-wrap justify-start items-center gap-2">
@@ -301,7 +301,7 @@
 			<!-- configuration -->
 			<panel>
 				<div class="relative flex flex-col items-center">
-					<settings-icon class="w-8 h-8 stroke-1.5 mb-2" />
+					<icon-settings class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.configuration') }}</div>
 					<div class="text-blade-500">{{ t('text.configureApp') }}</div>
 				</div>
@@ -317,13 +317,13 @@
 				</div>
 				<secondary-button @click="updateConfig" class="mt-auto self-start">
 					{{ t('button.saveConfig') }}
-					<device-floppy-icon class="w-6 h-6 stroke-1.5" />
+					<icon-device-floppy class="w-6 h-6 stroke-1.5" />
 				</secondary-button>
 			</panel>
 			<!-- backup administration -->
 			<panel>
 				<div class="flex flex-col items-center">
-					<server-bolt-icon class="w-8 h-8 stroke-1.5 mb-2" />
+					<icon-server-bolt class="w-8 h-8 stroke-1.5 mb-2" />
 					<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.backup') }}</div>
 					<div class="text-blade-500">{{ t('text.exportImportData') }}</div>
 				</div>
@@ -333,7 +333,7 @@
 						<div class="text-blade-500">{{ t('text.saveAll')}}</div>
 						<secondary-button @click="exportDb" class="mt-2">
 							{{ t('button.export') }}
-							<archive-icon class="w-6 h-6 stroke-1.5" />
+							<icon-archive class="w-6 h-6 stroke-1.5" />
 						</secondary-button>
 					</div>
 					<zone-danger :label="t('text.dangerZone')">
@@ -342,7 +342,7 @@
 							<div class="text-blade-500">{{ t('text.importAndOverwrite')}}</div>
 							<secondary-button @click="modal.importdata=true" type="danger" class="mt-2">
 								{{ t('button.import') }}
-								<download-icon class="w-6 h-6 stroke-1.5" />
+								<icon-download class="w-6 h-6 stroke-1.5" />
 							</secondary-button>
 						</div>
 					</zone-danger>
@@ -440,28 +440,28 @@ import ZoneDanger from '@/elements/ZoneDanger';
 
 // icons
 import {
-	ArchiveIcon,
-	CheckboxIcon,
-	CheckIcon,
-	DeviceFloppyIcon,
-	DownloadIcon,
-	EditIcon,
-	KeyIcon,
-	LanguageIcon,
-	MailIcon,
-	PaletteIcon,
-	PlusIcon,
-	SendIcon,
-	ServerBoltIcon,
-	SettingsIcon,
-	TagsIcon,
-	TrashIcon,
-	UserIcon,
-	UserMinusIcon,
-	UserPlusIcon,
-	UsersIcon,
-	XIcon,
-} from 'vue-tabler-icons';
+	IconArchive,
+	IconCheckbox,
+	IconCheck,
+	IconDeviceFloppy,
+	IconDownload,
+	IconEdit,
+	IconKey,
+	IconLanguage,
+	IconMail,
+	IconPalette,
+	IconPlus,
+	IconSend,
+	IconServerBolt,
+	IconSettings,
+	IconTags,
+	IconTrash,
+	IconUser,
+	IconUserMinus,
+	IconUserPlus,
+	IconUsers,
+	IconX,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t, locale, availableLocales } = useI18n({ useScope: 'global' });

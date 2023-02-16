@@ -18,7 +18,7 @@
 			<!-- pagination -->
 			<div class="flex items-center flex-nowrap gap-2 mr-16 lg:mr-0">
 				<secondary-button @click="!isFirstPage ? page-- : null" :disabled="isFirstPage">
-					<chevron-left-icon class="w-5 h-5 stroke-1.5" />
+					<icon-chevron-left class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 				<div
 					v-for="(p, i) in pageCount" :key="i"
@@ -36,7 +36,7 @@
 					<div v-show="showLastEllipsis(p)">&hellip;</div>
 				</div>
 				<secondary-button @click="!isLastPage ? page++ : null" :disabled="isLastPage">
-					<chevron-right-icon class="w-5 h-5 stroke-1.5" />
+					<icon-chevron-right class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 			</div>
 		</div>	
@@ -66,11 +66,11 @@
 						<div v-if="col !== 'private'" class="flex items-center gap-2" :class="{ 'justify-center': col === 'songs' }">
 							<span :class="{ 'md:hidden': col === 'date' }">{{ t('field.' + col) }}</span>
 							<span v-if="col === 'date'" class="hidden md:inline">{{ t('field.dateOfEvent') }}</span>
-							<sort-ascending-icon
+							<icon-sort-ascending
 								v-if="order.field == col && !order.ascending"
 								class="w-5 h-5 stroke-1.5 stroke-spring-600"
 							/>
-							<sort-descending-icon
+							<icon-sort-descending
 								v-if="order.field == col && order.ascending"
 								class="w-5 h-5 stroke-1.5 stroke-spring-600"
 							/>
@@ -85,14 +85,14 @@
 							class="cursor-pointer py-1.5 border border-blade-400 dark:border-black dark:bg-blade-900 dark:text-blade-100 hover:border-spring-600"
 							@click="toggleFilter('active')"
 						>
-							<filter-icon v-if="filter.active === null" class="w-5 h-5 stroke-1.5 text-blade-500 mx-auto my-0.5" />
-							<circle-dot-icon v-if="filter.active === true" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" />
-							<circle-dotted-icon v-if="filter.active === false" class="w-6 h-6 stroke-1.5 mx-auto" />
+							<icon-filter v-if="filter.active === null" class="w-5 h-5 stroke-1.5 text-blade-500 mx-auto my-0.5" />
+							<icon-circle-dot v-if="filter.active === true" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" />
+							<icon-circle-dotted v-if="filter.active === false" class="w-6 h-6 stroke-1.5 mx-auto" />
 						</div>
 					</td>
 					<td class="w-24 md:w-auto">
 						<label class="relative">
-							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<input
 								type="search"
 								v-model="filter.date"
@@ -105,14 +105,14 @@
 							class="cursor-pointer py-1.5 border border-blade-400 dark:border-black dark:bg-blade-900 dark:text-blade-100 hover:border-spring-600"
 							@click="toggleFilter('private')"
 						>
-							<filter-icon v-if="filter.private === null" class="w-5 h-5 stroke-1.5 text-blade-500 mx-auto my-0.5" />
-							<lock-icon v-if="filter.private === true" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" />
-							<lock-open-icon v-if="filter.private === false" class="w-6 h-6 stroke-1.5 mx-auto" />
+							<icon-filter v-if="filter.private === null" class="w-5 h-5 stroke-1.5 text-blade-500 mx-auto my-0.5" />
+							<icon-lock v-if="filter.private === true" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" />
+							<icon-lock-open v-if="filter.private === false" class="w-6 h-6 stroke-1.5 mx-auto" />
 						</div>
 					</td>
 					<td>
 						<label class="relative">
-							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<input
 								type="search"
 								ref="searchInput"
@@ -123,7 +123,7 @@
 					</td>
 					<td class="hidden xl:table-cell">
 						<label class="relative">
-							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<select v-model="filter.creator" class="w-full pl-8">
 								<option v-for="(name, id) in creators" :key="id" :value="id">
 									{{ name }}
@@ -133,7 +133,7 @@
 					</td>
 					<td class="hidden sm:table-cell w-24">
 						<label class="relative">
-							<filter-icon class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<input
 								type="search"
 								v-model="filter.songs"
@@ -143,7 +143,7 @@
 					</td>
 					<td class="w-11">
 						<secondary-button @click="resetFilter" :disabled="!isFiltered">
-							<filter-off-icon class="w-5 h-5 stroke-1.5" />
+							<icon-filter-off class="w-5 h-5 stroke-1.5" />
 						</secondary-button>
 					</td>
 				</tr>
@@ -154,8 +154,8 @@
 					class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900"
 				>
 					<td>
-						<circle-dot-icon v-if="setlist.active" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" :title="t('tooltip.syncActive')" />
-						<circle-dotted-icon v-else class="w-6 h-6 stroke-1.5 mx-auto" />
+						<icon-circle-dot v-if="setlist.active" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" :title="t('tooltip.syncActive')" />
+						<icon-circle-dotted v-else class="w-6 h-6 stroke-1.5 mx-auto" />
 					</td>
 					<td
 						class="cursor-pointer p-3 max-w-0"
@@ -165,8 +165,8 @@
 						<div class="truncate md:hidden">{{ humanDate(setlist.date, locale, false, true) }}</div>
 					</td>
 					<td class="hidden xs:table-cell">
-						<lock-icon v-if="setlist.private" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" :title="t('tooltip.setlistPrivate')" />
-						<lock-open-icon v-else class="w-6 h-6 stroke-1.5 stroke-blade-500 mx-auto" />
+						<icon-lock v-if="setlist.private" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" :title="t('tooltip.setlistPrivate')" />
+						<icon-lock-open v-else class="w-6 h-6 stroke-1.5 stroke-blade-500 mx-auto" />
 					</td>
 					<td
 						class="cursor-pointer p-3 max-w-0"
@@ -193,7 +193,7 @@
 									:to="{ name: 'setlist-show', params: { id: setlist.id }}"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								>
-									<eye-icon class="w-5 h-5 stroke-1.5" />
+									<icon-eye class="w-5 h-5 stroke-1.5" />
 									{{ t('button.show') }}
 								</router-link>
 								<button
@@ -201,7 +201,7 @@
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 									@click.prevent="emit('editSetlist', { data: setlist, id: setlist.id, exists: true })"
 								>
-									<edit-icon class="w-5 h-5 stroke-1.5" />
+									<icon-edit class="w-5 h-5 stroke-1.5" />
 									{{ t('button.edit') }}
 								</button>
 								<button
@@ -209,7 +209,7 @@
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 									@click.prevent="emit('editSetlist', { data: setlist, id: setlist.id, exists: false })"
 								>
-									<copy-icon class="w-5 h-5 stroke-1.5" />
+									<icon-copy class="w-5 h-5 stroke-1.5" />
 									{{ t('button.duplicate') }}
 								</button>
 								<button
@@ -217,7 +217,7 @@
 									class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
 									@click.prevent="deleteDialog(setlist)"
 								>
-									<trash-icon class="w-5 h-5 stroke-1.5" />
+									<icon-trash class="w-5 h-5 stroke-1.5" />
 									{{ t('button.delete') }}
 								</button>
 							</template>
@@ -247,21 +247,21 @@ import SetlistDelete from '@/modals/SetlistDelete';
 
 // icons
 import { 
-	ChevronLeftIcon,
-	ChevronRightIcon,
-	CircleDotIcon,
-	CircleDottedIcon,
-	CopyIcon,
-	EditIcon,
-	EyeIcon,
-	FilterIcon,
-	FilterOffIcon,
-	LockIcon,
-	LockOpenIcon,
-	SortAscendingIcon,
-	SortDescendingIcon,
-	TrashIcon,
-} from 'vue-tabler-icons';
+	IconChevronLeft,
+	IconChevronRight,
+	IconCircleDot,
+	IconCircleDotted,
+	IconCopy,
+	IconEdit,
+	IconEye,
+	IconFilter,
+	IconFilterOff,
+	IconLock,
+	IconLockOpen,
+	IconSortAscending,
+	IconSortDescending,
+	IconTrash,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t, locale } = useI18n();

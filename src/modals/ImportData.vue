@@ -4,8 +4,8 @@
 			<!-- file selection -->
 			<div class="flex gap-4">
 				<div class="flex flex-col items-center">
-					<circle-check-icon v-if="fileSelected" class="w-6 h-6 text-spring-600" />
-					<circle-dashed-icon v-else class="w-6 h-6 text-spring-700" />
+					<icon-circle-check v-if="fileSelected" class="w-6 h-6 text-spring-600" />
+					<icon-circle-dashed v-else class="w-6 h-6 text-spring-700" />
 					<div
 						class="w-px mt-1 grow -mb-3"
 						:class="{ 'bg-spring-700': fileSelected, 'bg-blade-700': !fileSelected }
@@ -27,8 +27,8 @@
 			<!-- start import -->
 			<div class="flex gap-4">
 				<div class="flex flex-col items-center">
-					<circle-check-icon v-if="progress.started" class="w-6 h-6 text-spring-600" />
-					<circle-dashed-icon v-else class="w-6 h-6 text-spring-700" />
+					<icon-circle-check v-if="progress.started" class="w-6 h-6 text-spring-600" />
+					<icon-circle-dashed v-else class="w-6 h-6 text-spring-700" />
 					<div
 						class="w-px mt-1 grow -mb-3"
 						:class="{ 'bg-spring-700': progress.started, 'bg-blade-700': !progress.started }
@@ -46,8 +46,8 @@
 			<!-- import progress and result -->
 			<div class="flex gap-4">
 				<div class="flex flex-col items-center">
-					<circle-check-icon v-if="progress.finished" class="w-6 h-6 text-spring-600" />
-					<circle-dashed-icon v-else class="w-6 h-6 text-spring-700" />
+					<icon-circle-check v-if="progress.finished" class="w-6 h-6 text-spring-600" />
+					<icon-circle-dashed v-else class="w-6 h-6 text-spring-700" />
 				</div>
 				<div class="flex flex-col gap-2 w-full">
 					<div :class="{ 'text-blade-600': !progress.started }">{{ t('text.importResult', [progress.imported]) }}</div>
@@ -65,7 +65,7 @@
 			</button>
 			<primary-button :disabled="!progress.finished" @click="emit('closed')">
 				{{ t('button.done') }}
-				<check-icon class="w-6 h-6 stroke-1.5" />
+				<icon-check class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -80,10 +80,10 @@ import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
 import { 
-	CheckIcon,
-	CircleCheckIcon,
-	CircleDashedIcon,
-} from 'vue-tabler-icons';
+	IconCheck,
+	IconCircleCheck,
+	IconCircleDashed,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

@@ -29,7 +29,7 @@
 				<div class="text-lg uppercase font-medium">{{ title }}</div>
 				<slot name="close">
 					<button aria-label="Close" @click="emit('closed')">
-						<x-icon class="w-6 h-6 stroke-1.5" />
+						<icon-x class="w-6 h-6 stroke-1.5" />
 					</button>
 				</slot>
 			</div>
@@ -44,7 +44,7 @@ import TransitionFade from '@/elements/TransitionFade';
 import TransitionScale from '@/elements/TransitionScale';
 
 // icons
-import { XIcon } from 'vue-tabler-icons';
+import { IconX } from '@tabler/icons-vue';
 
 // component properties
 const props = defineProps({

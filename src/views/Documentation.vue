@@ -7,7 +7,7 @@
 				class="py-1 px-2 rounded-md hover:bg-blade-800 flex justify-start items-center gap-2 mb-4"
 				@click="scrollTo('start')"
 			>
-				<arrow-up-icon class="w-5 h-5 stroke-1.5" />
+				<icon-arrow-up class="w-5 h-5 stroke-1.5" />
 				<span>{{ t('button.top') }}</span>
 			</button>
 			<!-- table of contents -->
@@ -17,7 +17,7 @@
 				class="py-1 px-2 rounded-md hover:bg-blade-800 flex justify-start items-center gap-2"
 				@click="scrollTo(dashCase(t.text))"
 			>
-				<bookmark-icon class="w-5 h-5 stroke-1.5" />
+				<icon-bookmark class="w-5 h-5 stroke-1.5" />
 				<span>{{ t.text }}</span>
 			</button>
 		</div>
@@ -34,17 +34,17 @@
 				<!-- features -->
 				<div class="grid grid-cols-3 gap-8">
 					<div class="flex flex-col justify-start items-center gap-4">
-						<bolt-icon class="w-12 h-12 stroke-1" />
+						<icon-bolt class="w-12 h-12 stroke-1" />
 						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.0.title') }}</div>
 						<div class="text-center">{{ t('docu.features.0.description') }}</div>
 					</div>
 					<div class="flex flex-col justify-center items-center gap-4">
-						<microphone-icon class="w-12 h-12 stroke-1" />
+						<icon-microphone class="w-12 h-12 stroke-1" />
 						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.1.title') }}</div>
 						<div class="text-center">{{ t('docu.features.1.description') }}</div>
 					</div>
 					<div class="flex flex-col justify-center items-center gap-4">
-						<tools-icon class="w-12 h-12 stroke-1" />
+						<icon-tools class="w-12 h-12 stroke-1" />
 						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.2.title') }}</div>
 						<div class="text-center">{{ t('docu.features.2.description') }}</div>
 					</div>
@@ -61,18 +61,18 @@
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						target="_blank"
 					>
-						<notes-icon class="w-5 h-5 stroke-1.5" />
+						<icon-notes class="w-5 h-5 stroke-1.5" />
 						<span class="mr-2">{{ t('button.docsOnGithub') }}</span>
-						<external-link-icon class="w-5 h-5 stroke-1.5" />
+						<icon-external-link class="w-5 h-5 stroke-1.5" />
 					</secondary-button>
 					<secondary-button
 						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
 						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						target="_blank"
 					>
-						<pencil-icon class="w-5 h-5 stroke-1.5" />
+						<icon-pencil class="w-5 h-5 stroke-1.5" />
 						<span class="mr-2">{{ t('button.editThis') }}</span>
-						<external-link-icon class="w-5 h-5 stroke-1.5" />
+						<icon-external-link class="w-5 h-5 stroke-1.5" />
 					</secondary-button>
 				</div>
 			</div>
@@ -89,15 +89,15 @@ import SecondaryButton from '@/elements/SecondaryButton';
 
 // icons
 import {
-	ArrowUpIcon,
-	BookmarkIcon,
-	NotesIcon,
-	ExternalLinkIcon,
-	PencilIcon,
-	ToolsIcon,
-	BoltIcon,
-	MicrophoneIcon,
-} from 'vue-tabler-icons';
+	IconArrowUp,
+	IconBookmark,
+	IconNotes,
+	IconExternalLink,
+	IconPencil,
+	IconTools,
+	IconBolt,
+	IconMicrophone,
+} from '@tabler/icons-vue';
 
 // component constants
 const { marked } = require('marked');

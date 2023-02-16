@@ -48,7 +48,7 @@
 			</button>
 			<primary-button class="grow" type="danger" @click="setEmail">
 				{{ t('button.changeEmail') }}
-				<device-floppy-icon class="w-6 h-6 stroke-1.5" />
+				<icon-device-floppy class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -65,7 +65,7 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { DeviceFloppyIcon } from 'vue-tabler-icons';
+import { IconDeviceFloppy } from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

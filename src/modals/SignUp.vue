@@ -57,7 +57,7 @@
 			</button>
 			<primary-button class="grow" @click="signUp">
 				{{ $t('button.signUp') }}
-				<user-plus-icon class="w-6 h-6 stroke-1.5" />
+				<icon-user-plus class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -71,7 +71,7 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { UserPlusIcon } from 'vue-tabler-icons';
+import { IconUserPlus } from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

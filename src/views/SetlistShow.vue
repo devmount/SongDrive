@@ -25,15 +25,15 @@
 					class="text-spring-600 flex items-center gap-2"
 					:title="t('tooltip.setlistPrivate')"
 				>
-					<lock-icon />
+					<icon-lock />
 					{{ t('option.private') }}
 				</div>
 				<div class="text-blade-500 flex items-center gap-2">
-					<calendar-event-icon />
+					<icon-calendar-event />
 					{{ humanDate(setlist.date, locale) }}
 				</div>
 				<div v-if="ready.users && users[setlist.creator]" class="text-blade-500 flex items-center gap-2">
-					<user-icon />
+					<icon-user />
 					{{ users[setlist.creator].name }}
 				</div>
 			</div>
@@ -42,7 +42,7 @@
 		<div class="flex justify-between align-center w-full bg-blade-200 dark:bg-blade-900 rounded-lg p-2 gap-1">
 			<div class="flex align-center gap-1">
 				<secondary-button :title="t('button.back')" @click="router.go(-1)">
-					<arrow-left-icon />
+					<icon-arrow-left />
 					<span class="hidden xl:inline">{{ t('button.back') }}</span>
 				</secondary-button>
 			</div>
@@ -52,23 +52,23 @@
 					:title="setlist.active ? t('tooltip.syncOn') : t('tooltip.syncOff')"
 					@click="updateActive"
 				>
-					<refresh-icon v-if="setlist.active === true" class="stroke-spring-400" />
-					<refresh-off-icon v-else />
+					<icon-refresh v-if="setlist.active === true" class="stroke-spring-400" />
+					<icon-refresh-off v-else />
 					<span class="hidden xl:inline">{{ t('switch.sync') }}</span>
 				</secondary-button>
 				<secondary-button
 					:title="chords ? t('tooltip.chordsHide') : t('tooltip.chordsShow')"
 					@click="chords = !chords"
 				>
-					<music-icon v-if="chords" class="stroke-spring-400" />
-					<music-off-icon v-else />
+					<icon-music v-if="chords" class="stroke-spring-400" />
+					<icon-music-off v-else />
 					<span class="hidden xl:inline">{{ t('switch.chords') }}</span>
 				</secondary-button>
 				<secondary-button
 					:title="t('tooltip.startFullscreen')"
 					@click="modal.present=true"
 				>
-					<presentation-icon />
+					<icon-presentation />
 					<span class="hidden xl:inline">{{ t('button.present') }}</span>
 				</secondary-button>
 				<router-link
@@ -77,7 +77,7 @@
 					:title="t('tooltip.openInNewTab')"
 				>
 					<secondary-button>
-						<external-link-icon />
+						<icon-external-link />
 						<span class="hidden xl:inline">{{ t('button.open') }}</span>
 					</secondary-button>
 				</router-link>
@@ -87,9 +87,9 @@
 					<dropdown>
 						<template #trigger>
 							<secondary-button class="h-full" :title="t('tooltip.copySetlist')">
-								<clipboard-icon class="w-5 h-5 stroke-1.5" />
+								<icon-clipboard class="w-5 h-5 stroke-1.5" />
 								<span class="hidden xl:inline">{{ t('button.copy') }}</span>
-								<chevron-down-icon class="w-5 h-5 stroke-1.5" />
+								<icon-chevron-down class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
 						</template>
 						<template #default>
@@ -97,21 +97,21 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="copyList('plain')"
 							>
-								<txt-icon class="w-5 h-5 stroke-1.5" />
+								<icon-txt class="w-5 h-5 stroke-1.5" />
 								{{ t('button.formatPlain') }}
 							</button>
 							<button
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="copyList('markdown')"
 							>
-								<markdown-icon class="w-5 h-5 stroke-1.5" />
+								<icon-markdown class="w-5 h-5 stroke-1.5" />
 								{{ t('button.formatMarkdown') }}
 							</button>
 							<button
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="copyList('slack')"
 							>
-								<brand-slack-icon class="w-5 h-5 stroke-1.5" />
+								<icon-brand-slack class="w-5 h-5 stroke-1.5" />
 								{{ t('button.formatSlack') }}
 							</button>
 						</template>
@@ -121,9 +121,9 @@
 					<dropdown>
 						<template #trigger>
 							<secondary-button class="h-full" :title="t('tooltip.downloadSetlist')">
-								<download-icon class="w-5 h-5 stroke-1.5" />
+								<icon-download class="w-5 h-5 stroke-1.5" />
 								<span class="hidden xl:inline">{{ t('button.download') }}</span>
-								<chevron-down-icon class="w-5 h-5 stroke-1.5" />
+								<icon-chevron-down class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
 						</template>
 						<template #default>
@@ -131,14 +131,14 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="exportPdf('list')"
 							>
-								<file-text-icon class="w-5 h-5 stroke-1.5" />
+								<icon-file-text class="w-5 h-5 stroke-1.5" />
 								{{ t('button.exportSetlistList') }}
 							</button>
 							<button
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="exportPdf('sheets')"
 							>
-								<files-icon class="w-5 h-5 stroke-1.5" />
+								<icon-files class="w-5 h-5 stroke-1.5" />
 								{{ t('button.exportSetlistSheets') }}
 							</button>
 						</template>
@@ -151,7 +151,7 @@
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 							@click.stop="emit('editSetlist', { data: setlist, id: setlistKey, exists: true })"
 						>
-							<edit-icon class="w-5 h-5 stroke-1.5" />
+							<icon-edit class="w-5 h-5 stroke-1.5" />
 							{{ t('button.edit') }}
 						</button>
 						<button
@@ -159,7 +159,7 @@
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 							@click.prevent="emit('editSetlist', { data: setlist, id: setlistKey, exists: false })"
 						>
-							<copy-icon class="w-5 h-5 stroke-1.5" />
+							<icon-copy class="w-5 h-5 stroke-1.5" />
 							{{ t('button.duplicate') }}
 						</button>
 						<button
@@ -167,42 +167,42 @@
 							class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
 							@click.prevent="deleteDialog(setlist)"
 						>
-							<trash-icon class="w-5 h-5 stroke-1.5" />
+							<icon-trash class="w-5 h-5 stroke-1.5" />
 							{{ t('button.delete') }}
 						</button>
 						<button
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
 							@click="copyList('plain')"
 						>
-							<txt-icon class="w-5 h-5 stroke-1.5" />
+							<icon-txt class="w-5 h-5 stroke-1.5" />
 							{{ t('button.formatPlain') }}
 						</button>
 						<button
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
 							@click="copyList('markdown')"
 						>
-							<markdown-icon class="w-5 h-5 stroke-1.5" />
+							<icon-markdown class="w-5 h-5 stroke-1.5" />
 							{{ t('button.formatMarkdown') }}
 						</button>
 						<button
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
 							@click="copyList('slack')"
 						>
-							<brand-slack-icon class="w-5 h-5 stroke-1.5" />
+							<icon-brand-slack class="w-5 h-5 stroke-1.5" />
 							{{ t('button.formatSlack') }}
 						</button>
 						<button
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
 							@click="exportPdf('list')"
 						>
-							<file-text-icon class="w-5 h-5 stroke-1.5" />
+							<icon-file-text class="w-5 h-5 stroke-1.5" />
 							{{ t('button.exportSetlistList') }}
 						</button>
 						<button
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
 							@click="exportPdf('sheets')"
 						>
-							<files-icon class="w-5 h-5 stroke-1.5" />
+							<icon-files class="w-5 h-5 stroke-1.5" />
 							{{ t('button.exportSetlistSheets') }}
 						</button>
 					</dropdown>
@@ -231,7 +231,7 @@
 					class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900 transition-all"
 				>
 					<td v-if="user && role > 1" class="cursor-grab active:cursor-grabbing text-center text-blade-500">
-						<menu-order-icon class="handle inline" />
+						<icon-menu-order class="handle inline" />
 					</td>
 					<template v-if="songs[song.id]">
 						<td
@@ -256,7 +256,7 @@
 									class="!px-2"
 									@click.prevent="transposeDown(songs[song.id], i)"
 								>
-									<arrow-left-icon class="w-5 h-5" />
+									<icon-arrow-left class="w-5 h-5" />
 								</secondary-button>
 								<div class="font-mono font-semibold text-xl w-6 text-center">
 									{{ song.tuning ? song.tuning : songs[song.id].tuning }}
@@ -266,7 +266,7 @@
 									class="!px-2"
 									@click.prevent="transposeUp(songs[song.id], i)"
 								>
-									<arrow-right-icon class="w-5 h-5" />
+									<icon-arrow-right class="w-5 h-5" />
 								</secondary-button>
 							</div>
 						</td>
@@ -300,7 +300,7 @@
 								:to="{ name: 'song-show', params: { id: song.id }}"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 							>
-								<eye-icon class="w-5 h-5 stroke-1.5" />
+								<icon-eye class="w-5 h-5 stroke-1.5" />
 								{{ t('button.show') }}
 							</router-link>
 							<button
@@ -308,7 +308,7 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click.prevent="emit('editSong', { data: songs[song.id], id: song.id, exists: true })"
 							>
-								<edit-icon class="w-5 h-5 stroke-1.5" />
+								<icon-edit class="w-5 h-5 stroke-1.5" />
 								{{ t('button.edit') }}
 							</button>
 							<button
@@ -316,16 +316,16 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click.prevent="emit('editSong', { data: songs[song.id], id: song.id, exists: false })"
 							>
-								<copy-icon class="w-5 h-5 stroke-1.5" />
+								<icon-copy class="w-5 h-5 stroke-1.5" />
 								{{ t('button.duplicate') }}
 							</button>
 						</dropdown>
 						<secondary-button
 							v-else
-							class="flex items-center text-rose-600 hover:bg-opacity-80"
+							class="flex items-center !text-rose-600 hover:bg-opacity-80"
 							@click.prevent="removeSong(song.id)"
 						>
-							<trash-icon class="w-5 h-5" />
+							<icon-trash class="w-5 h-5" />
 						</secondary-button>
 					</td>
 				</tr>
@@ -336,7 +336,7 @@
 			v-if="ready.songs && ready.setlists && setlist && setlist.songs.length == 0"
 			class="flex flex-col items-center gap-8 mt-4"
 		>
-			<playlist-icon class="w-12 h-12 stroke-1 text-blade-500" />
+			<icon-playlist class="w-12 h-12 stroke-1 text-blade-500" />
 			<div class="text-center">
 				<div class="text-lg">{{ t('text.emptySetlist') }}</div>
 				<div class="text-blade-500">{{ t('text.editSetlistAddSongs') }}</div>
@@ -347,7 +347,7 @@
 				class="mt-4"
 			>
 				{{ t('modal.editSetlist') }}
-				<edit-icon class="w-6 h-6 stroke-1.5" />
+				<icon-edit class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 		<!-- stats -->
@@ -357,7 +357,7 @@
 		>
 			<div class="w-64 max-w-full">
 				<div class="flex justify-center items-center gap-2 text-2xl">
-					<world-icon />
+					<icon-world />
 					{{ t('widget.languages', 2) }}
 				</div>
 				<doughnut-chart
@@ -371,7 +371,7 @@
 			</div>
 			<div class="w-64 max-w-full">
 				<div class="flex justify-center items-center gap-2 text-2xl">
-					<music-icon />
+					<icon-music />
 					{{ t('widget.keys') }}
 				</div>
 				<doughnut-chart
@@ -387,26 +387,26 @@
 	</div>
 	<!-- access to non-existing setlist -->
 	<div v-if="setlistNotFound" class="flex flex-col items-center gap-8 mt-4">
-		<error404-icon class="w-12 h-12 stroke-1 text-blade-500" />
+		<icon-error-404 class="w-12 h-12 stroke-1 text-blade-500" />
 		<div class="text-center">
 			<div class="text-lg">{{ t('text.setlistNotFound') }}</div>
 			<div class="text-blade-500">{{ t('text.setlistDeletedOrBrokenLink') }}</div>
 		</div>
 		<primary-button @click="router.push({ name: 'setlists' })" class="mt-4">
 			{{ t('widget.showAllSetlists') }}
-			<playlist-icon class="stroke-1.5" />
+			<icon-playlist class="stroke-1.5" />
 		</primary-button>
 	</div>
 	<!-- unauthorized access -->
 	<div v-else-if="!setlistAccess" class="flex flex-col items-center gap-8 mt-4">
-		<lock-icon class="w-12 h-12 stroke-1 text-blade-500" />
+		<icon-lock class="w-12 h-12 stroke-1 text-blade-500" />
 		<div class="text-center">
 			<div class="text-lg">{{ t('text.privateSetlist') }}</div>
 			<div class="text-blade-500">{{ t('text.setlistVisibleForCreator') }}</div>
 		</div>
 		<primary-button @click="router.push({ name: 'setlists' })" class="mt-4">
 			{{ t('widget.showAllSetlists') }}
-			<playlist-icon class="stroke-1.5" />
+			<icon-playlist class="stroke-1.5" />
 		</primary-button>
 	</div>
 	<!-- modals -->
@@ -450,34 +450,34 @@ import SetlistPresent from '@/modals/SetlistPresent';
 
 // icons
 import {
-	ArrowLeftIcon,
-	ArrowRightIcon,
-	BrandSlackIcon,
-	CalendarEventIcon,
-	ChevronDownIcon,
-	ClipboardIcon,
-	CopyIcon,
-	DownloadIcon,
-	EditIcon,
-	Error404Icon,
-	ExternalLinkIcon,
-	EyeIcon,
-	FilesIcon,
-	FileTextIcon,
-	LockIcon,
-	MarkdownIcon,
-	MenuOrderIcon,
-	MusicIcon,
-	MusicOffIcon,
-	PlaylistIcon,
-	PresentationIcon,
-	RefreshIcon,
-	RefreshOffIcon,
-	TrashIcon,
-	TxtIcon,
-	UserIcon,
-	WorldIcon,
-} from 'vue-tabler-icons';
+	IconArrowLeft,
+	IconArrowRight,
+	IconBrandSlack,
+	IconCalendarEvent,
+	IconChevronDown,
+	IconClipboard,
+	IconCopy,
+	IconDownload,
+	IconEdit,
+	IconError404,
+	IconExternalLink,
+	IconEye,
+	IconFiles,
+	IconFileText,
+	IconLock,
+	IconMarkdown,
+	IconMenuOrder,
+	IconMusic,
+	IconMusicOff,
+	IconPlaylist,
+	IconPresentation,
+	IconRefresh,
+	IconRefreshOff,
+	IconTrash,
+	IconTxt,
+	IconUser,
+	IconWorld,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t, locale } = useI18n();

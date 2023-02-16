@@ -56,7 +56,7 @@
 					title="Previous Song"
 					@click="presentation.prev()"
 				>
-					<arrow-left-icon />
+					<icon-arrow-left />
 					<div v-if="currentPosition > 0" class="flex items-center gap-2">
 						<div class="max-w-3xs truncate">
 							{{ songs[currentPosition-1].title }}
@@ -81,7 +81,7 @@
 							{{ songs[currentPosition+1].customTuning }}
 						</div>
 					</div>
-					<arrow-right-icon />
+					<icon-arrow-right />
 				</secondary-button>
 				<!-- live clock -->
 				<div class="font-mono text-2xl px-4">{{ timeonly }}</div>
@@ -91,38 +91,38 @@
 					:title="tooltip('info')"
 					@click="songs[currentPosition].note ? showModal.infosongdata = true : null"
 				>
-					<info-circle-icon :class="{ 'stroke-spring-400': showModal.infosongdata }" />
+					<icon-info-circle :class="{ 'stroke-spring-400': showModal.infosongdata }" />
 				</secondary-button>
 				<!-- toggle synchronisation -->
 				<secondary-button
 					:title="tooltip('sync')"
 					@click="autoSync = !autoSync"
 				>
-					<refresh-icon v-if="autoSync" class="stroke-spring-400" />
-					<refresh-off-icon v-else />
+					<icon-refresh v-if="autoSync" class="stroke-spring-400" />
+					<icon-refresh-off v-else />
 				</secondary-button>
 				<!-- toggle content visibility -->
 				<secondary-button
 					:title="tooltip('display')"
 					@click="hide = !hide"
 				>
-					<eye-icon v-if="!hide" class="stroke-spring-400" />
-					<eye-off-icon v-else />
+					<icon-eye v-if="!hide" class="stroke-spring-400" />
+					<icon-eye-off v-else />
 				</secondary-button>
 				<!-- toggle theme -->
 				<secondary-button
 					:title="tooltip('invert')"
 					@click="dark = !dark"
 				>
-					<brightness-icon :class="{ 'stroke-spring-400': !dark }" />
+					<icon-brightness :class="{ 'stroke-spring-400': !dark }" />
 				</secondary-button>
 				<!-- toggle chords -->
 				<secondary-button
 					:title="tooltip('chords')"
 					@click="emit('chords')"
 				>
-					<music-icon v-if="chords" class="stroke-spring-400" />
-					<music-off-icon v-else />
+					<icon-music v-if="chords" class="stroke-spring-400" />
+					<icon-music-off v-else />
 				</secondary-button>
 				<!-- exist presentation -->
 				<button
@@ -130,7 +130,7 @@
 					:title="tooltip('close')"
 					@click="emit('closed')"
 				>
-					<x-icon />
+					<icon-x />
 				</button>
 				<!-- remote toolbar -->
 				<div
@@ -142,21 +142,21 @@
 						:title="tooltip('remoteDisplay')"
 						@click="emit('updateHide', !remoteHide)"
 					>
-						<eye-icon v-if="!remoteHide" class="stroke-spring-400" />
-						<eye-off-icon v-else />
+						<icon-eye v-if="!remoteHide" class="stroke-spring-400" />
+						<icon-eye-off v-else />
 					</secondary-button>
 					<secondary-button
 						:title="tooltip('remoteInvert')"
 						@click="emit('updateDark', !remoteLight)"
 					>
-						<brightness-icon :class="{ 'stroke-spring-400': remoteLight }" />
+						<icon-brightness :class="{ 'stroke-spring-400': remoteLight }" />
 					</secondary-button>
 					<secondary-button
 						:title="tooltip('remoteChords')"
 						@click="emit('updateChords', !remoteText)"
 					>
-						<music-icon v-if="!remoteText" class="stroke-spring-400" />
-						<music-off-icon v-else />
+						<icon-music v-if="!remoteText" class="stroke-spring-400" />
+						<icon-music-off v-else />
 					</secondary-button>
 				</div>
 			</div>
@@ -182,18 +182,18 @@ import SongContent from '@/partials/SongContent';
 
 // icons
 import {
-	ArrowLeftIcon,
-	ArrowRightIcon,
-	BrightnessIcon,
-	EyeIcon,
-	EyeOffIcon,
-	InfoCircleIcon,
-	MusicIcon,
-	MusicOffIcon,
-	RefreshIcon,
-	RefreshOffIcon,
-	XIcon,
-} from 'vue-tabler-icons';
+	IconArrowLeft,
+	IconArrowRight,
+	IconBrightness,
+	IconEye,
+	IconEyeOff,
+	IconInfoCircle,
+	IconMusic,
+	IconMusicOff,
+	IconRefresh,
+	IconRefreshOff,
+	IconX,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

@@ -3,7 +3,7 @@
 		<div v-if="showBadge" class="w-3 h-3 rounded-full bg-spring-700 border-2 border-blade-100 dark:border-blade-900 absolute -top-1 -right-1"></div>
 		<slot name="trigger">
 			<secondary-button class="h-full">
-				<dots-icon class="w-5 h-5 stroke-1.5" />
+				<icon-dots class="w-5 h-5 stroke-1.5" />
 			</secondary-button>
 		</slot>
 	</div>
@@ -22,7 +22,7 @@ import SecondaryButton from '@/elements/SecondaryButton';
 import TransitionScale from '@/elements/TransitionScale';
 
 // icons
-import { DotsIcon } from 'vue-tabler-icons';
+import { IconDots } from '@tabler/icons-vue';
 
 // component properties
 const props = defineProps({

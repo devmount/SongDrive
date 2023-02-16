@@ -12,11 +12,11 @@
 			<div class="flex gap-2 w-full">
 				<secondary-button @click="mailto(config.contact.email)" class="grow">
 					{{ t('button.contactUs') }}
-					<send-icon class="w-6 h-6 stroke-1.5" />
+					<icon-send class="w-6 h-6 stroke-1.5" />
 				</secondary-button>
 				<secondary-button @click="emit('signOut')" class="grow">
 					{{ t('button.signOut') }}
-					<logout-icon class="w-6 h-6 stroke-1.5" />
+					<icon-logout class="w-6 h-6 stroke-1.5" />
 				</secondary-button>
 			</div>
 		</panel>
@@ -24,14 +24,14 @@
 </template>
 
 <script setup>
-import { mailto } from "@/utils";
+import { mailto } from '@/utils';
 import { useI18n } from 'vue-i18n';
 import Logo from '@/partials/Logo';
 import Panel from '@/elements/Panel';
 import SecondaryButton from '@/elements/SecondaryButton';
 
 // icons
-import { LogoutIcon, SendIcon } from 'vue-tabler-icons';
+import { IconLogout, IconSend } from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

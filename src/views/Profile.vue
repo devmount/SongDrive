@@ -20,16 +20,16 @@
 					</div>
 				</div>
 				<div v-if="users[user].email" class="flex items-center gap-2">
-					<mail-icon class="w-6 h-6 stroke-1.5" :title="t('field.email')" />
+					<icon-mail class="w-6 h-6 stroke-1.5" :title="t('field.email')" />
 					<div>{{ users[user].email }}</div>
 				</div>
 				<div v-if="users[user].photo" class="flex items-center gap-2">
-					<camera-icon class="w-6 h-6 stroke-1.5" :title="t('field.photo')" />
+					<icon-camera class="w-6 h-6 stroke-1.5" :title="t('field.photo')" />
 					<div class="truncate">{{ users[user].photo }}</div>
 				</div>
 				<link-button v-if="role" @click="router.push({ name: 'settings' })">
 					{{ t('widget.showAllSettings') }}
-					<arrow-right-icon />
+					<icon-arrow-right />
 				</link-button>
 			</panel>
 			<div v-if="role > 1" class="flex flex-wrap gap-8 w-full justify-evenly col-span-2">
@@ -66,10 +66,10 @@ import Panel from '@/elements/Panel';
 
 // icons
 import {
-	ArrowRightIcon,
-	CameraIcon,
-	MailIcon
-} from 'vue-tabler-icons';
+	IconArrowRight,
+	IconCamera,
+	IconMail
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();

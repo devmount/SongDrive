@@ -9,9 +9,9 @@
 				target="_blank"
 			>
 				<tag>
-					<brand-youtube-icon class="shrink-0 w-4 h-4 stroke-1.5" />
+					<icon-brand-youtube class="shrink-0 w-4 h-4 stroke-1.5" />
 					{{ t('field.youtube') }}
-					<external-link-icon class="shrink-0 w-4 h-4 stroke-1.5" />
+					<icon-external-link class="shrink-0 w-4 h-4 stroke-1.5" />
 				</tag>
 			</a>
 			<!-- ccli -->
@@ -22,7 +22,7 @@
 			>
 				<tag>
 					{{ t('field.ccli') }}
-					<external-link-icon class="shrink-0 w-4 h-4 stroke-1.5" />
+					<icon-external-link class="shrink-0 w-4 h-4 stroke-1.5" />
 				</tag>
 			</a>
 			<!-- tags -->
@@ -50,9 +50,9 @@ import Tag from '@/elements/Tag';
 
 // icons
 import {
-	BrandYoutubeIcon,
-	ExternalLinkIcon
-} from 'vue-tabler-icons';
+	IconBrandYoutube,
+	IconExternalLink
+} from '@tabler/icons-vue';
 
 // component constants
 const { t, locale } = useI18n();

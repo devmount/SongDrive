@@ -19,7 +19,7 @@
 			</button>
 			<primary-button class="grow" @click="passwordReset">
 				{{ $t('button.sendPasswordResetEmail') }}
-				<send-icon class="w-6 h-6 stroke-1.5" />
+				<icon-send class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -32,7 +32,7 @@ import PrimaryButton from '@/elements/PrimaryButton';
 import Modal from '@/elements/Modal';
 
 // icons
-import { SendIcon } from 'vue-tabler-icons';
+import { IconSend } from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
