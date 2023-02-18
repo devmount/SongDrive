@@ -19,8 +19,8 @@
     "changePassword": "Change Password",
     "chooseFile": "Choose File",
     "close": "Close",
-    "copy": "Copy",
     "contactUs": "Contact Us",
+    "copy": "Copy",
     "createSetlist": "Create Setlist",
     "createSong": "Create Song",
     "delete": "Delete",
@@ -99,8 +99,8 @@
     "passwordTooShort": "The password is too short.",
     "passwordsDontMatch": "The passwords don't match.",
     "requiredContent": "The song content is missing.",
-    "requiredEmail": "An email address is required.",
     "requiredDate": "An event date is required.",
+    "requiredEmail": "An email address is required.",
     "requiredFile": "A file must be selected.",
     "requiredIsocode": "An ISO code is required.",
     "requiredJsonFormat": "The file must be in JSON format.",
@@ -117,6 +117,7 @@
   "field": {
     "authors": "Authors",
     "ccli": "CCLI",
+    "colorScheme": "Color scheme",
     "content": "Content",
     "creator": "Creator",
     "date": "Date",
@@ -189,6 +190,9 @@
     "song": "No Songs | One Song | {n} Songs"
   },
   "option": {
+    "auto": "Auto",
+    "dark": "Dark",
+    "light": "Light",
     "private": "Private",
     "public": "Public"
   },

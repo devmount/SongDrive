@@ -19,8 +19,8 @@
     "changePassword": "Passwort ändern",
     "chooseFile": "Datei auswählen",
     "close": "Schließen",
-    "copy": "Kopieren",
     "contactUs": "Kontaktiere uns",
+    "copy": "Kopieren",
     "createSetlist": "Setliste Erstellen",
     "createSong": "Song Erstellen",
     "delete": "Löschen",
@@ -117,6 +117,7 @@
   "field": {
     "authors": "Autoren",
     "ccli": "CCLI",
+    "colorScheme": "Farbschema",
     "content": "Inhalt",
     "creator": "Ersteller",
     "date": "Datum",
@@ -189,6 +190,9 @@
     "song": "Keine Lieder | Ein Lied | {n} Lieder"
   },
   "option": {
+    "auto": "Automatisch",
+    "dark": "Dunkel",
+    "light": "Hell",
     "private": "Privat",
     "public": "Öffentlich"
   },

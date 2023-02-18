@@ -88,6 +88,14 @@
 							</option>
 						</select>
 					</label>
+					<label class="flex flex-col gap-1">
+						{{ t('field.colorScheme') }}
+						<select v-model="theme">
+							<option v-for="(key, label) in colorSchemes" :key="key" :value="key">
+								{{ t('option.' + label) }}
+							</option>
+						</select>
+					</label>
 				</div>
 			</panel>
 			<!-- account -->
@@ -662,8 +670,39 @@ const uiLanguages = computed(() => {
 		if (props.languages[key]) {
 			uiLanguages[key] = props.languages[key].label;
 		}
-	})
+	});
 	return uiLanguages;
+});
+
+// handle theme mode
+const colorSchemes = {
+	auto:  1,
+	dark:  2,
+	light: 3,
+};
+const initialTheme = !('theme' in localStorage) ? colorSchemes.auto : colorSchemes[localStorage.theme]
+const theme = ref(initialTheme);
+watch(theme, (newValue) => {
+	switch (newValue) {
+		case colorSchemes.dark:
+			localStorage.theme = 'dark';
+			document.documentElement.classList.add('dark');
+			break;
+		case colorSchemes.light:
+			localStorage.theme = 'light';
+			document.documentElement.classList.remove('dark');
+			break;
+		case colorSchemes.auto:
+			localStorage.removeItem('theme');
+			if (!window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.classList.remove('dark');
+			} else {
+				document.documentElement.classList.add('dark');
+			}
+			break;
+		default:
+			break;
+	}
 });
 
 // total number of song tags
