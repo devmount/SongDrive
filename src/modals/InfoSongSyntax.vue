@@ -1,5 +1,11 @@
 <template>
-	<modal :active="active" :title="t('modal.songSyntaxCheatsheet')" size="xl2" @closed="emit('closed')">
+	<modal
+		:active="active"
+		:title="t('modal.songSyntaxCheatsheet')"
+		size="xl2"
+		:child="true"
+		@closed="emit('closed')"
+	>
 		<div class="markdown overflow-y-scroll" v-html="content"></div>
 	</modal>
 </template>

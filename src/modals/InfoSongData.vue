@@ -2,6 +2,7 @@
 	<modal
 		:active="active"
 		:title="t('modal.songInfo')"
+		:child="true"
 		@closed="emit('closed')"
 	>
 		<div v-if="song.note">

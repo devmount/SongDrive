@@ -1,5 +1,11 @@
 <template>
-	<modal :active="active" :title="t('modal.translations')" size="xl3" @closed="emit('closed')">
+	<modal
+		:active="active"
+		:title="t('modal.translations')"
+		size="xl3"
+		:child="true"
+		@closed="emit('closed')"
+	>
 		<div class="grow grid grid-cols-1 grid-rows-2 xs:grid-cols-2 xs:grid-rows-1 gap-4">
 			<div class="max-h-[calc(50vh_-_6rem)] xs:max-h-[calc(66.666667vh_-_8.25rem)] flex flex-col gap-4">
 				<label class="relative">

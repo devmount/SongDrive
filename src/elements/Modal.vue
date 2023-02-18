@@ -52,6 +52,7 @@ const props = defineProps({
 	theme:  String,  // theme mode (optional), black|white
   title:  String,  // title to display on top
   size:   String,  // maximum width for modal
+	child:  Boolean, // true if modal is called from within another modal
 });
 
 // emits
@@ -60,10 +61,10 @@ const emit = defineEmits(['closed']);
 watch(
 	() => props.active,
 	(newValue) => {
-		if (newValue && !document.body.classList.contains('overflow-y-hidden')) {
+		if (newValue && !props.child) {
 			document.body.classList.add('overflow-y-hidden');
 		}
-		else if (!newValue && document.body.classList.contains('overflow-y-hidden')) {
+		else if (!newValue && !props.child) {
 			document.body.classList.remove('overflow-y-hidden');
 		}
 	}
