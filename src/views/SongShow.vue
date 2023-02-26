@@ -1,17 +1,5 @@
 <template>
-	<div
-		class="flex flex-col gap-6 w-full focus:outline-none"
-		ref="container"
-		tabindex="0"
-		@keydown.up.exact="chords ? tuning-- : null"
-		@keydown.left.exact="chords ? tuning-- : null"
-		@keydown.down.exact="chords ? tuning++ : null"
-		@keydown.right.exact="chords ? tuning++ : null"
-		@keydown.ctrl.k.prevent="chords = !chords"
-		@keydown.ctrl.r.prevent="chords ? tuning=0 : null"
-		@keydown.ctrl.p.prevent="modal.present=true"
-		@keydown.esc.exact="modal.delete=false; modal.present=false; container.focus()"
-	>
+	<div class="flex flex-col gap-6 w-full">
 		<!-- page heading -->
 		<div class="flex flex-col justify-between items-stretch gap-4">
 			<!-- title and song count -->
@@ -222,10 +210,12 @@
 
 <script setup>
 import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
+import { logicAnd, logicOr } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, watch, onMounted } from 'vue';
+import { ref, reactive, computed, watch, onMounted, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
+import { whenever } from '@vueuse/core';
 import Dropdown from '@/elements/Dropdown';
 import SecondaryButton from '@/elements/SecondaryButton';
 import SongContent from '@/partials/SongContent';
@@ -257,6 +247,16 @@ const route = useRoute();
 const router = useRouter();
 const songId = route.params.id;
 const songKey = route.params.key;
+
+// handle hotkeys for this component
+const hkChords = inject('hkChords');
+const hkBack = inject('hkBack');
+const hkForward = inject('hkForward');
+const hkUp = inject('hkUp');
+const hkDown = inject('hkDown');
+const hkReset = inject('hkReset');
+const hkPresent = inject('hkPresent');
+const noActiveModal = inject('noActiveModal');
 
 // pdf creation
 const EOL = '\n';
@@ -299,13 +299,8 @@ const modal = reactive({
 	present: false,
 });
 
-// template references
-const container = ref(null);
-
 // mounted
 onMounted(() => {
-	// focus component area for shortcuts
-	container.value.focus();
 	// set custom tuning when loading this component and songKey is given
 	tuning.value = props.song && songKey ? urlKeyDiff() : 0;
 });
@@ -539,14 +534,35 @@ const deleteDialog = () => {
 	modal.delete = true;
 };
 
-// watcher
+// adjust song key if it's set by url parameter and song was loaded
 watch (
 	song,
 	() => {
-		// adjust song key if it's set by url parameter and song was loaded
 		if (songKey && song.value) {
 			tuning.value = urlKeyDiff();
 		}
 	}
+);
+
+// component shortcuts
+whenever(
+	logicAnd(logicOr(hkUp, hkForward), noActiveModal),
+	() => chords.value ? tuning.value++ : null
+);
+whenever(
+	logicAnd(logicOr(hkDown, hkBack), noActiveModal),
+	() => chords.value ? tuning.value-- : null
+);
+whenever(
+	logicAnd(hkChords, noActiveModal),
+	() => chords.value = !chords.value
+);
+whenever(
+	logicAnd(hkReset, noActiveModal),
+	() => chords.value ? tuning.value = 0 : null
+);
+whenever(
+	logicAnd(hkPresent, noActiveModal),
+	() => modal.present = true
 );
 </script>

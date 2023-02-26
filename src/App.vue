@@ -257,7 +257,8 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, inject, onMounted } from 'vue';
+import { ref, reactive, computed, inject, provide, onMounted } from 'vue';
+import { useActiveElement, useMagicKeys } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { userRoles, throwError } from '@/utils.js';
@@ -292,6 +293,51 @@ import {
 	IconSettings,
 	IconX,
 } from '@tabler/icons-vue';
+
+// hotkeys
+const {
+	arrowdown,
+	arrowleft,
+	arrowright,
+	arrowup,
+	ctrl_b,
+	ctrl_f,
+	ctrl_i,
+	ctrl_l,
+	ctrl_k,
+	ctrl_p,
+	ctrl_r,
+	ctrl_s,
+	enter,
+	escape,
+} = useMagicKeys({
+  passive: false,
+  onEventFired: (e) => {
+    if (e.ctrlKey && ['f','k','p','r','i','l','s','b'].includes(e.key) && e.type === 'keydown') {
+			e.preventDefault();
+		}
+  },
+});
+const activeElement = useActiveElement();
+const noActiveInput = computed(() =>
+  activeElement.value?.tagName !== 'INPUT'
+  && activeElement.value?.tagName !== 'TEXTAREA',
+);
+provide('hkBack',    arrowleft );
+provide('hkCancel',  escape    );
+provide('hkChords',  ctrl_k    );
+provide('hkDown',    arrowdown );
+provide('hkForward', arrowright);
+provide('hkGo',      enter     );
+provide('hkHide',    ctrl_b    );
+provide('hkInfo',    ctrl_i    );
+provide('hkPresent', ctrl_p    );
+provide('hkReset',   ctrl_r    );
+provide('hkSearch',  ctrl_f    );
+provide('hkSync',    ctrl_s    );
+provide('hkTheme',   ctrl_l    );
+provide('hkUp',      arrowup   );
+provide('noActiveInput', noActiveInput);
 
 // component constants
 const { t } = useI18n();
@@ -371,6 +417,10 @@ const showModal = reactive({
 	signup:        false,
 	passwordreset: false,
 });
+const noActiveModal = computed(() => {
+	return !showModal.songset && !showModal.setlistset && !showModal.signup && !showModal.passwordreset;
+});
+provide('noActiveModal', noActiveModal);
 
 // add and edit songs
 const songSetModalData = reactive({

@@ -7,14 +7,7 @@
 		@closed="emit('closed')"
 	>
 		<template #close><i></i></template>
-		<div
-			ref="containerRef"
-			tabindex="0"
-			class="h-full overflow-y-auto pb-12 xs:pb-0"
-			@keydown.ctrl.i.prevent="song.note ? showModal.infosongdata = !showModal.infosongdata : null"
-			@keydown.ctrl.l.prevent="dark = !dark"
-			@keydown.esc.exact="emit('closed')"
-		>
+		<div class="h-full overflow-y-auto pb-12 xs:pb-0">
 			<!-- song contnt -->
 			<song-content
 				:content="song.content"
@@ -64,7 +57,8 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch, onMounted, onUnmounted, nextTick } from 'vue';
+import { reactive, ref, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
+import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import InfoSongData from '@/modals/InfoSongData';
 import Modal from '@/elements/Modal';
@@ -82,6 +76,11 @@ import {
 
 // component constants
 const { t } = useI18n();
+
+// handle hotkeys for this component
+const hkInfo = inject('hkInfo');
+const hkTheme = inject('hkTheme');
+const hkCancel = inject('hkCancel');
 
 // inherited properties
 const props = defineProps({
@@ -102,7 +101,6 @@ const dark = ref(true);
 // timeouts for resize debouncing
 const resizeTimeout = ref(null);
 const songContentRef = ref(null);
-const containerRef = ref(null);
 
 // emits
 const emit = defineEmits(['chords', 'closed']);
@@ -150,10 +148,22 @@ watch (
 onMounted(() => {
 	// handle viewport resizes
 	window.addEventListener('resize', resizeHandler);
-	// focus container to properly target keyboard shortcuts
-	containerRef.value?.focus();
 });
 onUnmounted(() => {
 	window.removeEventListener('resize', resizeHandler);
 });
+
+// component shortcuts
+whenever(
+	hkInfo,
+	() => props.song.note ? showModal.infosongdata = !showModal.infosongdata : null
+);
+whenever(
+	hkTheme,
+	() => dark.value = !dark.value
+);
+whenever(
+	hkCancel,
+	() => emit('closed')
+);
 </script>

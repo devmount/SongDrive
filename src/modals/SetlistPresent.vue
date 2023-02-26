@@ -6,20 +6,7 @@
 		@closed="emit('closed')"
 	>
 		<template #close><i></i></template>
-		<div
-			ref="containerRef"
-			tabindex="0"
-			class="h-full !w-full overflow-y-auto pb-12 xs:pb-0"
-			@keydown.up.exact="presentation.prev()"
-			@keydown.left.exact="presentation.prev()"
-			@keydown.down.exact="presentation.next()"
-			@keydown.right.exact="presentation.next()"
-			@keydown.ctrl.i.prevent="songs[currentPosition].note ? showModal.infosongdata = !showModal.infosongdata : null"
-			@keydown.ctrl.s.prevent="autoSync = !autoSync"
-			@keydown.ctrl.b.prevent="hide = !hide"
-			@keydown.ctrl.l.prevent="dark = !dark"
-			@keydown.esc.exact="emit('closed')"
-		>
+		<div class="h-full !w-full overflow-y-auto pb-12 xs:pb-0">
 			<div
 				v-if="songs && songs.length > 0"
 				class="transition-opacity h-full"
@@ -173,7 +160,9 @@
 <script setup>
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
-import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
+import { logicAnd, logicOr } from '@vueuse/math';
+import { whenever } from '@vueuse/core';
+import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import InfoSongData from '@/modals/InfoSongData';
 import Modal from '@/elements/Modal';
@@ -198,6 +187,18 @@ import {
 // component constants
 const { t } = useI18n();
 
+// handle hotkeys for this component
+const hkBack = inject('hkBack');
+const hkForward = inject('hkForward');
+const hkUp = inject('hkUp');
+const hkDown = inject('hkDown');
+const hkInfo = inject('hkInfo');
+const hkSync = inject('hkSync');
+const hkHide = inject('hkHide');
+const hkTheme = inject('hkTheme');
+const hkChords = inject('hkChords');
+const hkCancel = inject('hkCancel');
+
 // inherited properties
 const props = defineProps({
 	active:      Boolean, // state of modal display, true to show modal
@@ -214,7 +215,6 @@ const props = defineProps({
 const showModal = reactive({
 	infosongdata: false
 });
-const containerRef = ref(null);
 const presentation = ref(null);
 const songContentRef = ref([]);
 const currentPosition = ref(0);
@@ -335,10 +335,39 @@ onMounted(() => {
 	setInterval(() => {
 		presentation.value?.updateSlideWidth();
 	}, 0);
-	// focus container to properly target keyboard shortcuts
-	containerRef.value?.focus();
 });
 onUnmounted(() => {
 	window.removeEventListener('resize', resizeHandler);
 });
+
+
+// component shortcuts
+whenever(
+	logicOr(hkUp, hkBack),
+	() => presentation.value?.prev()
+);
+whenever(
+	logicOr(hkDown, hkForward),
+	() => presentation.value?.next()
+);
+whenever(
+	hkInfo,
+	() => props.songs[currentPosition.value].note ? showModal.infosongdata = !showModal.infosongdata : null
+);
+whenever(
+	hkSync,
+	() => autoSync.value = !autoSync.value
+);
+whenever(
+	hkHide,
+	() => hide.value = !hide.value
+);
+whenever(
+	hkTheme,
+	() => dark.value = !dark.value
+);
+whenever(
+	hkCancel,
+	() => emit('closed')
+);
 </script>

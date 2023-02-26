@@ -1,13 +1,5 @@
 <template>
-	<div
-		class="flex flex-col gap-6 w-full focus:outline-none"
-		ref="container"
-		tabindex="0"
-		@keydown.left.exact="!isFirstPage && !noSetlists ? page-- : null"
-		@keydown.right.exact="!isLastPage && !noSetlists ? page++ : null"
-		@keydown.ctrl.f.prevent="!noSetlists ? searchInput.focus() : null"
-		@keydown.esc.exact="resetFilter"
-	>
+	<div class="flex flex-col gap-6 w-full">
 		<!-- page heading -->
 		<div class="flex flex-col sm:flex-row justify-between items-stretch gap-4">
 			<!-- title -->
@@ -238,9 +230,11 @@
 
 <script setup>
 import { humanDate } from '@/utils.js';
-import { ref, reactive, onMounted, computed, watch } from 'vue';
+import { logicAnd } from '@vueuse/math';
+import { ref, reactive, computed, watch, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import { whenever } from '@vueuse/core';
 import Dropdown from '@/elements/Dropdown';
 import SecondaryButton from '@/elements/SecondaryButton';
 import SetlistDelete from '@/modals/SetlistDelete';
@@ -267,6 +261,14 @@ import {
 const { t, locale } = useI18n();
 const router = useRouter();
 
+// handle hotkeys for this component
+const hkSearch = inject('hkSearch');
+const hkBack = inject('hkBack');
+const hkForward = inject('hkForward');
+const hkCancel = inject('hkCancel');
+const noActiveInput = inject('noActiveInput');
+const noActiveModal = inject('noActiveModal');
+
 // inherited properties
 const props = defineProps({
   songs:     Object,
@@ -280,7 +282,6 @@ const props = defineProps({
 });
 
 // template references
-const container   = ref(null);
 const searchInput = ref(null);
 
 // injects and emits
@@ -317,11 +318,6 @@ const listLength = 16;
 const order = reactive({ 
 	field: 'date',
 	ascending: false
-});
-
-// focus container on mount
-onMounted(() => {
-	container.value.focus();
 });
 
 // computed
@@ -492,6 +488,24 @@ const deleteDialog = (setlist) => {
 	showModal.delete = true;
 };
 
-// watcher
+// reset page when filter changes
 watch (filter, () => { page.value = 0 });
+
+// component shortcuts
+whenever(
+	logicAnd(hkSearch, noActiveModal),
+	() => !noSetlists.value ? searchInput.value.focus() : null
+);
+whenever(
+	logicAnd(hkCancel, noActiveModal),
+	() => resetFilter()
+);
+whenever(
+	logicAnd(hkBack, noActiveInput, noActiveModal),
+	() => !isFirstPage.value && !noSetlists.value ? page.value-- : null
+);
+whenever(
+	logicAnd(hkForward, noActiveInput, noActiveModal),
+	() => !isLastPage.value && !noSetlists.value ? page.value++ : null
+);
 </script>

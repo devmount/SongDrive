@@ -9,18 +9,20 @@
 				<input
 					type="email"
 					v-model="email"
+					:class="{ '!border-rose-600': error.email }"
 					:placeholder="t('field.email')"
-					@keydown.enter="emit('signIn', email, password)"
+					required
 				/>
 				<input
 					type="password"
 					v-model="password"
+					:class="{ '!border-rose-600': error.password }"
 					:placeholder="t('field.password')"
-					@keydown.enter="emit('signIn', email, password)"
+					required
 				/>
 			</div>
 			<div class="mt-3">
-				<primary-button class="w-full" @click="emit('signIn', email, password)">
+				<primary-button class="w-full" @click="signIn">
 					{{ t('button.signIn') }}
 					<icon-login class="w-6 h-6 stroke-1.5" />
 				</primary-button>
@@ -40,7 +42,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { logicAnd } from '@vueuse/math';
+import { ref, inject, reactive, computed } from 'vue';
+import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import LinkButton from '@/elements/LinkButton';
 import Logo from '@/partials/Logo';
@@ -59,4 +63,26 @@ const emit = defineEmits(['signIn', 'signUp', 'resetPassword']);
 // input data
 const email    = ref('');
 const password = ref('');
+
+// check if form errors occured
+const error = reactive({
+	email: false,
+	password: false,
+});
+const errors = computed(() => {
+	return (error.email || error.password);
+});
+// check sign in data
+const signIn = () => {
+	error.email = email.value == '';
+	error.password = password.value == '';
+	if (!errors.value) {
+		emit('signIn', email.value, password.value)
+	}
+};
+
+// component shortcuts
+const hkGo = inject('hkGo');
+const noActiveModal = inject('noActiveModal');
+whenever(logicAnd(hkGo, noActiveModal), () => signIn());
 </script>

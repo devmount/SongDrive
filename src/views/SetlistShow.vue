@@ -2,12 +2,6 @@
 	<div
 		v-if="setlistAccess"
 		class="flex flex-col gap-6 w-full focus:outline-none"
-		ref="container"
-		tabindex="0"
-		@keydown.ctrl.s.prevent="!modal.present ? updateActive() : null"
-		@keydown.ctrl.k.prevent="chords = !chords"
-		@keydown.ctrl.p.prevent="modal.present=true"
-		@keydown.esc.exact="modal.set=false; modal.delete=false; modal.present=false; container?.focus();"
 	>
 		<!-- page heading -->
 		<div class="flex flex-col justify-between items-stretch gap-4">
@@ -436,10 +430,12 @@
 
 <script setup>
 import { keyScale, parsedContent, humanDate, throwError } from '@/utils.js';
+import { logicAnd } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, inject, onMounted } from 'vue';
+import { ref, reactive, computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
+import { whenever } from '@vueuse/core';
 import DoughnutChart from '@/charts/DoughnutChart';
 import Dropdown from '@/elements/Dropdown';
 import firebase from 'firebase/compat/app';
@@ -485,6 +481,12 @@ const route = useRoute();
 const router = useRouter();
 const setlistKey = route.params.id;
 
+// handle hotkeys for this component
+const hkChords = inject('hkChords');
+const hkSync = inject('hkSync');
+const hkPresent = inject('hkPresent');
+const noActiveModal = inject('noActiveModal');
+
 // pdf creation
 var pdfMake = require('pdfmake/build/pdfmake');
 pdfMake.fonts = {
@@ -518,21 +520,11 @@ const props = defineProps({
 });
 
 // reactive data
-const existing = ref(true);
-const chords   = ref(true);
+const chords = ref(true);
 const modal = reactive({
 	set: false,
 	delete: false,
 	present: false,
-});
-
-// template references
-const container = ref(null);
-
-// focus container on mount to target shortcuts
-onMounted(() => {
-	// focus component area for shortcuts
-	container.value?.focus();
 });
 
 // retrieve setlist object to show
@@ -941,4 +933,18 @@ const getPdfSongsheets = () => {
 	}
 	return sheets;
 };
+
+// component shortcuts
+whenever(
+	logicAnd(hkChords, noActiveModal),
+	() => chords.value = !chords.value
+);
+whenever(
+	logicAnd(hkSync, noActiveModal),
+	() => !modal.present ? updateActive() : null
+);
+whenever(
+	logicAnd(hkPresent, noActiveModal),
+	() => modal.present = true
+);
 </script>
