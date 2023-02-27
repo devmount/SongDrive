@@ -31,7 +31,7 @@
 	"dependencies": {
 		"@kyvg/vue3-notification": "^2.3.4",
 		"@tabler/icons-vue": "^2.4.0",
-		"@vuepic/vue-datepicker": "^3.2.2",
+		"@vuepic/vue-datepicker": "^4.0.1",
 		"@vueuse/core": "^9.13.0",
 		"@vueuse/math": "^9.13.0",
 		"chart.js": "^4.0.1",
@@ -46,7 +46,6 @@
 		"vue-i18n": "^9.1.10",
 		"vue-prism-editor": "^2.0.0-alpha.2",
 		"vue-router": "^4.0.16",
-		"vue-tabler-icons": "^2.18.0",
 		"vue3-carousel": "^0.2.0"
 	},
 	"devDependencies": {
