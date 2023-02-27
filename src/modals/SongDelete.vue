@@ -1,33 +1,42 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.deleteSong') }}</div>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<p>{{ t('text.reallyDeleteSong', { title: title }) }}</p>
-					<p>{{ t('text.cannotBeUndone') }}</p>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
+	<modal :active="active" :title="t('modal.deleteSong')" @closed="emit('closed')">
+		<div class="flex flex-col gap-2">
+			<div>{{ t('text.reallyDeleteSong', { title: title }) }}</div>
+			<div class="text-rose-600">{{ t('text.cannotBeUndone') }}</div>
+			<label class="flex items-center gap-3 mt-4">
+				<input v-model="agreed" :value="true" type="checkbox" class="w-6 h-6" />
+				{{ t('text.yesIUnderstand') }}
+			</label>
+			<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+				<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-error ml-2" @click="deleteSong">{{ t('button.delete') }}</button>
+				</button>
+				<primary-button
+					type="danger"
+					:disabled="!agreed"
+					@click="agreed ? deleteSong() : null"
+				>
+					{{ t('button.delete') }}
+					<icon-trash class="w-6 h-6 stroke-1.5" />
+				</primary-button>
 			</div>
 		</div>
-	</div>
+	</modal>
 </template>
 
 <script setup>
-import { inject } from 'vue';
-import { useI18n } from "vue-i18n";
+import { inject, ref } from 'vue';
 import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
+import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router'
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { IconTrash } from '@tabler/icons-vue';
+
+// component constants
 const { t } = useI18n();
 const route = useRoute()
 const router = useRouter()
@@ -35,17 +44,21 @@ const router = useRouter()
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active: Boolean, // state of modal display, true to show modal
-	title: String,   // title of setlist to delete
-	id: String,      // id of setlist to delete
-	songs: Object,   // list of songs assigned to this setlist
+	title:  String,  // title of setlist to delete
+	id:     String,  // id of setlist to delete
+	songs:  Object,  // list of songs assigned to this setlist
 });
+
+// user input properties
+const agreed = ref(false);
 
 // emits
 const emit = defineEmits(['closed']);
 
+// execute song deletion
 const deleteSong = () => {
 	db.collection('songs').doc(props.id).delete().then(() => {
 		emit('closed');

@@ -1,62 +1,62 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">
-					<span v-if="!existing">{{ t('modal.addTag') }}</span>
-					<span v-else>{{ t('modal.editTag') }}</span>
-				</div>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<label class="form-label" for="key">{{ t('field.key') }} <span class="text-error">*</span></label>
-					<input
-						id="key"
-						type="text"
-						v-model="key"
-						class="form-input mb-1"
-						:class="{ 'is-error': errorKey }"
-						:placeholder="t('placeholder.exampleTagKey')"
-						:disabled="existing"
-					/>
-					<p v-if="errorKey" class="form-input-hint">{{ t('error.requiredTagKey') }}</p>
-					<template v-for="(label, key) in uiLanguages" :key="key">
-						<label class="form-label" for="key">{{ label }}</label>
-						<input
-							:id="key"
-							type="text"
-							v-model="languages[key]"
-							class="form-input mb-1"
-						/>
-					</template>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
-					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-primary ml-2" @click="setTag">
-					<span v-if="!existing">{{ t('button.addTag') }}</span>
-					<span v-else>{{ t('button.updateTag') }}</span>
-				</button>
-			</div>
+	<modal
+		:active="active"
+		:title="!existing ? t('modal.addTag') : t('modal.editTag')"
+		@closed="emit('closed')"
+	>
+		<div class="flex flex-col gap-2">
+			<!-- tag key -->
+			<label class="flex flex-col gap-1">
+				<div>{{ t('field.key') }} <span class="text-rose-600">*</span></div>
+				<input
+					type="text"
+					v-model="key"
+					:class="{ 'border-rose-600': errorKey }"
+					:placeholder="t('placeholder.exampleTagKey')"
+					:disabled="existing"
+				/>
+			</label>
+			<div v-if="errorKey" class="text-rose-600">{{ t('error.requiredTagKey') }}</div>
+			<!-- tag labels for each language -->
+			<template v-for="(label, key) in uiLanguages" :key="key">
+				<label class="flex flex-col gap-1">
+					<div>{{ label }}</div>
+					<input type="text" v-model="languages[key]" />
+				</label>
+			</template>
 		</div>
-	</div>
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button class="grow" @click="setTag">
+				<span v-if="!existing">{{ t('button.addTag') }}</span>
+				<span v-else>{{ t('button.updateTag') }}</span>
+				<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
+				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+			</primary-button>
+		</div>
+	</modal>
 </template>
 
 <script setup>
-import { ref, inject } from 'vue';
-import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
+import { ref, inject, onMounted, watch } from 'vue';
 import { throwError } from '@/utils.js';
+import { useI18n } from 'vue-i18n';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { IconPlus, IconDeviceFloppy } from '@tabler/icons-vue';
+
+// component constants
 const { t } = useI18n();
 
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active:      Boolean, // state of modal display, true to show modal
 	existing:    Boolean, // tag already exists
@@ -65,13 +65,23 @@ const props = defineProps({
 	uiLanguages: Object,  // list of all available languages
 });
 
-// reactive data
-let langs = {};
-for (const k in props.uiLanguages) {
-	langs[k] = props.initialTag[k];
-}
-const key = ref(props.tagKey);
-const languages = ref(langs);
+// input data
+const key = ref('');
+const languages = ref([]);
+const initInput = () => {
+	// init tag key
+	key.value = props.tagKey;
+	// init tag translations
+	let langs = {};
+	for (const k in props.uiLanguages) {
+		langs[k] = props.initialTag[k];
+	}
+	languages.value = langs;
+};
+onMounted(() => initInput());
+watch(() => props.active, () => initInput());
+
+// posssible form errors
 const errorKey = ref(false);
 
 // emits

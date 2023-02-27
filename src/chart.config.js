@@ -13,7 +13,7 @@ import {
 	BarController,
 	ArcElement,
 	DoughnutController
-} from "chart.js";
+} from 'chart.js';
 
 // register chart components
 Chart.register(

@@ -1,59 +1,71 @@
 <template>
-	<footer v-if="song">
-		<div class="column col-6 col-md-12 text-small">
-			<p>{{ song.authors }}</p>
-			<p>
-				<!-- youtube -->
-				<a
-					v-if="song.youtube"
-					:href="'https://youtu.be/' + song.youtube"
-					class="mr-2"
-					target="_blank"
-				>
-					<span class="label px-2 py-1">
-						<ion-icon :icon="logoYoutube" class="icon-sm mr-1"></ion-icon>
-						{{ t('field.youtube') }}
-						<ion-icon :icon="openOutline" class="icon-sm ml-1"></ion-icon>
-					</span>
-				</a>
-				<!-- ccli -->
-				<a
-					v-if="song.ccli"
-					:href="'https://songselect.ccli.com/Songs/' + song.ccli"
-					class="mr-4"
-					target="_blank"
-				>
-					<span class="label px-2 py-1">
-						{{ t('field.ccli') }}
-						<ion-icon :icon="openOutline" class="icon-sm ml-1"></ion-icon>
-					</span>
-				</a>
-				<!-- tags -->
+	<footer v-if="song" class="flex flex-col gap-4">
+		<div class="text-sm">{{ song.authors }}</div>
+		<div class="flex flex-wrap gap-2">
+			<!-- youtube -->
+			<a
+				v-if="song.youtube"
+				:href="'https://youtu.be/' + song.youtube"
+				target="_blank"
+			>
+				<tag>
+					<icon-brand-youtube class="shrink-0 w-4 h-4 stroke-1.5" />
+					{{ t('field.youtube') }}
+					<icon-external-link class="shrink-0 w-4 h-4 stroke-1.5" />
+				</tag>
+			</a>
+			<!-- ccli -->
+			<a
+				v-if="song.ccli"
+				:href="'https://songselect.ccli.com/Songs/' + song.ccli"
+				target="_blank"
+			>
+				<tag>
+					{{ t('field.ccli') }}
+					<icon-external-link class="shrink-0 w-4 h-4 stroke-1.5" />
+				</tag>
+			</a>
+			<!-- tags -->
+			<div class="flex flex-wrap gap-1">
 				<router-link
-					v-for="tag in song.tags"
-					:key="tag"
-					:to="{ name: 'songs-tag', params: { tag: tag }}"
-					class="mr-2"
+					v-for="tag in sortedTags" :key="tag.key"
+					:to="{ name: 'songs-tag', params: { tag: tag.key }}"
 				>
-					<span class="label px-2 py-1">
-						<ion-icon :icon="pricetagOutline" class="icon-sm mr-1"></ion-icon>
-						{{ tags[tag][locale] ? tags[tag][locale] : tag }}
-					</span>
+					<tag :tag="tag" />
 				</router-link>
-			</p>
-			<p class="text-gray text-breaks">&copy; {{ song.year }} {{ song.publisher }}</p>
+			</div>
 		</div>
-		<div v-if="song.note" class="column col-6 col-md-12 text-breaks">{{ song.note }}</div>
+		<div class="text-sm text-blade-500">
+			&copy; {{ song.year }} {{ song.publisher }}
+		</div>
+		<div v-if="song.note">{{ song.note }}</div>
 	</footer>
 </template>
 
 <script setup>
-import { useI18n } from "vue-i18n";
-import { logoYoutube, openOutline, pricetagOutline } from 'ionicons/icons';
+import { computed } from 'vue';
+import { sortTags } from '@/utils';
+import { useI18n } from 'vue-i18n';
+import Tag from '@/elements/Tag';
+
+// icons
+import {
+	IconBrandYoutube,
+	IconExternalLink
+} from '@tabler/icons-vue';
+
+// component constants
 const { t, locale } = useI18n();
 
+// component properties
 const props = defineProps({
 	song: Object,
 	tags: Object,
+});
+
+// sort tag list
+const sortedTags = computed(() => {
+	const songTags = props.song.tags.map(t => props.tags[t]);
+	return sortTags(songTags, locale.value);
 });
 </script>

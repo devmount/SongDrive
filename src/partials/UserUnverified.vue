@@ -1,68 +1,65 @@
 <template>
-	<div class="user-unverified">
+	<div class="h-screen flex flex-col justify-center items-center gap-12 px-2">
 		<!-- heading -->
-		<div class="column col-12">
-			<Logo class="featured hide-version" />
-		</div>
+		<logo :featured="true" :show-version="false" />
 		<!-- unverified message -->
-		<div class="message">
-			<h3>{{ $t('text.waitingForVerification') }}</h3>
-			<p>{{ $t('text.notVerifiedYet') }}</p>
-			<p v-if="ready.config && config.contact.email" v-html="$t('text.unverifiedHelp', [config.contact.email])"></p>
-			<button v-if="!resend" class="btn btn-primary d-block stretch mt-4" @click="resendVerification()">
-				{{ $t('tooltip.resendVerification') }} <ion-icon :icon="sendOutline" class="icon-right"></ion-icon>
-			</button>
-			<p v-else>
-				{{ $t('toast.verficationSentText') }}
-			</p>
-			<div class="d-flex g-4 mt-4">
-				<button class="btn btn-secondary d-block" @click="$router.go()">
-					{{ $t('button.recheck') }} <ion-icon :icon="refreshOutline" class="icon-right"></ion-icon>
-				</button>
-				<button class="btn btn-secondary d-block" @click="$emit('signOut')">
-					{{ $t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
-				</button>
+		<panel class="max-w-sm w-full flex flex-col gap-6">
+			<div class="text-2xl text-center">{{ t('text.waitingForVerification') }}</div>
+			<div>{{ t('text.notVerifiedYet') }}</div>
+			<div v-if="ready.config && config.contact.email">
+				{{ t('text.unverifiedHelp') }}
 			</div>
-		</div>
+			<secondary-button v-if="!resend" @click="resendVerification()">
+				{{ t('tooltip.resendVerification') }}
+				<icon-send class="w-6 h-6 stroke-1.5" />
+			</secondary-button>
+			<p v-else>
+				{{ t('toast.verficationSentText') }}
+			</p>
+			<div class="flex gap-4">
+				<secondary-button @click="router.go()">
+					{{ t('button.recheck') }}
+					<icon-refresh class="w-6 h-6 stroke-1.5" />
+				</secondary-button>
+				<secondary-button @click="emit('signOut')">
+					{{ t('button.signOut') }}
+					<icon-logout class="w-6 h-6 stroke-1.5" />
+				</secondary-button>
+			</div>
+		</panel>
 	</div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router'
 import Logo from '@/partials/Logo';
-import { sendOutline, refreshOutline, logOutOutline } from 'ionicons/icons';
+import Panel from '@/elements/Panel';
+import SecondaryButton from '@/elements/SecondaryButton';
+import { ref } from 'vue';
 
+// icons
+import { IconSend, IconRefresh, IconLogout } from '@tabler/icons-vue';
+
+// component constants
+const { t } = useI18n();
+const router = useRouter();
+
+// component properties
 const props = defineProps({
   ready: Object,
   config: Object,
 });
-const emit = defineEmits();
 
-// reactive data
+// emits
+const emit = defineEmits(['resendEmailVerification', 'signOut']);
+
+// prevent directly sending multiple emails
 const resend = ref(false);
 
-// methods
+// trigger sending verification email
 const resendVerification = () => {
 	resend.value = true;
 	emit('resendEmailVerification');
 }
 </script>
-
-<style lang="scss">
-.user-unverified {
-	display: flex;
-	flex-direction: column;
-	gap: 2.5rem;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-
-	.message {
-		max-width: 400px;
-
-		h3 {
-			text-align: center;
-		}
-	}
-}
-</style>

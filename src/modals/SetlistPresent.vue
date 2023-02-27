@@ -1,224 +1,222 @@
 <template>
-	<div
-		class="modal modal-lg modal-full modal-setlist-presentation"
-		:class="{ active: active, light: !dark }"
-		ref="container"
-		tabindex="0"
-		@keydown.up.exact="presentation.prev()"
-		@keydown.left.exact="presentation.prev()"
-		@keydown.down.exact="presentation.next()"
-		@keydown.right.exact="presentation.next()"
-		@keydown.ctrl.i.prevent="songs[currentPosition].note ? modal.infosongdata = !modal.infosongdata : null"
-		@keydown.ctrl.s.prevent="autoSync = !autoSync"
-		@keydown.ctrl.b.prevent="hide = !hide"
-		@keydown.ctrl.l.prevent="dark = !dark"
-		@keydown.esc.exact="emit('closed')"
+	<modal
+		:active="active"
+		:theme="dark ? 'black' : 'white'"
+		size="full"
+		@closed="emit('closed')"
 	>
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<transition name="fade">
-			<div v-if="hide" class="hide"></div>
-		</transition>
-		<div class="modal-container">
-			<div v-if="songs && songs.length > 0" class="modal-body">
-				<Carousel
+		<template #close><i></i></template>
+		<div class="h-full !w-full overflow-y-auto pb-12 xs:pb-0">
+			<div
+				v-if="songs && songs.length > 0"
+				class="transition-opacity h-full"
+				:class="{ 'opacity-0': hide }"
+			>
+				<carousel
 					ref="presentation"
-					class="presentation"
-					id="presentation"
+					class="!w-full h-full bg-transparent"
 					v-model="currentPosition"
-					@updated="maximizeFontsize"
 				>
-					<Slide v-for="(song, i) in songs" :key="i" :index="i">
-						<SongContent
+					<slide v-for="(song, i) in songs" :key="i" :index="i" class="!items-start text-left">
+						<song-content
 							:content="song.content"
 							:chords="chords"
 							:tuning="song.customTuningDelta"
 							:presentation="true"
-							ref="slides"
+							ref="songContentRef"
 						/>
-					</Slide>
+					</slide>
 					<template #addons>
-						<Pagination />
+						<pagination class="absolute z-50 bottom-0 left-2 !m-0 gap-2" />
 					</template>
-				</Carousel>
+				</carousel>
 			</div>
-			<div class="modal-footer" :class="{ 'hidden': !chords}">
-				<div class="navigation-prev">
-					<a
-						class="btn btn-secondary btn-xl btn-gray px-3"
-						:class="{ disabled: currentPosition == 0 }"
-						href="#"
-						aria-label="Previous Song"
-						@click.prevent="presentation.prev()"
-					>
-						<ion-icon :icon="arrowBack" class="icon-1-5x"></ion-icon>
-						<span v-if="currentPosition > 0" class="ml-2">
+			<!-- toolbar -->
+			<div
+				class="group fixed z-40 bottom-2 right-2 w-full flex justify-end items-center gap-1 transition-opacity"
+				:class="{ 'opacity-0 hover:opacity-100': !chords }"
+			>
+				<!-- back navigation -->
+				<secondary-button
+					class="absolute bottom-0 right-1/2 flex items-center gap-1 mr-0.5"
+					:disabled="currentPosition == 0"
+					title="Previous Song"
+					@click="presentation.prev()"
+				>
+					<icon-arrow-left />
+					<div v-if="currentPosition > 0" class="flex items-center gap-2">
+						<div class="max-w-3xs truncate">
 							{{ songs[currentPosition-1].title }}
-							<span class="chords ml-2">{{ songs[currentPosition-1].customTuning }}</span>
-						</span>
-					</a>
-				</div>
-				<div class="navigation-next">
-					<a
-						class="btn btn-secondary btn-xl btn-gray px-3 ml-1"
-						:class="{ disabled: currentPosition == songs.length-1 }"
-						href="#"
-						aria-label="Next Song"
-						@click.prevent="presentation.next()"
-					>
-						<span v-if="currentPosition < songs.length-1" class="mr-3">
+						</div>
+						<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
+							{{ songs[currentPosition-1].customTuning }}
+						</div>
+					</div>
+				</secondary-button>
+				<!-- forward navigation -->
+				<secondary-button
+					class="absolute bottom-0 left-1/2 flex items-center gap-1 ml-0.5"
+					:disabled="currentPosition == songs.length-1"
+					title="Next Song"
+					@click="presentation.next()"
+				>
+					<div v-if="currentPosition < songs.length-1" class="flex items-center gap-2">
+						<div class="max-w-3xs truncate">
 							{{ songs[currentPosition+1].title }}
-							<span class="chords ml-2">{{ songs[currentPosition+1].customTuning }}</span>
-						</span>
-						<ion-icon :icon="arrowForward" class="icon-1-5x"></ion-icon>
-					</a>
-				</div>
-				<span class="clock px-4">{{ timeonly }}</span>
-				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-4"
-					:class="{
-						'btn-secondary': !modal.infosongdata,
-						'btn-primary': modal.infosongdata,
-						'disabled': !songs[currentPosition].note
-					}"
-					href="#"
-					aria-label="Song Data"
-					@click="songs[currentPosition].note ? modal.infosongdata = true : null"
-					:data-tooltip="tooltip('info')"
+						</div>
+						<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
+							{{ songs[currentPosition+1].customTuning }}
+						</div>
+					</div>
+					<icon-arrow-right />
+				</secondary-button>
+				<!-- live clock -->
+				<div class="font-mono text-2xl px-4">{{ timeonly }}</div>
+				<!-- song info -->
+				<secondary-button
+					:disabled="!songs[currentPosition].note"
+					:title="tooltip('info')"
+					@click="songs[currentPosition].note ? showModal.infosongdata = true : null"
 				>
-					<ion-icon :icon="informationOutline" class="icon-1-5x"></ion-icon>
-				</a>
-				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
-					:class="{ 'btn-secondary': !autoSync, 'btn-primary': autoSync }"
-					href="#"
-					aria-label="AutoSync"
-					@click.prevent="autoSync = !autoSync"
-					:data-tooltip="tooltip('sync')"
+					<icon-info-circle :class="{ 'stroke-spring-400': showModal.infosongdata }" />
+				</secondary-button>
+				<!-- toggle synchronisation -->
+				<secondary-button
+					:title="tooltip('sync')"
+					@click="autoSync = !autoSync"
 				>
-					<ion-icon :icon="sync" class="icon-1-5x"></ion-icon>
-				</a>
-				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip tooltip-left ml-1"
-					:class="{ 'btn-secondary': !hide, 'btn-primary': hide }"
-					href="#"
-					aria-label="Hide"
-					@click.prevent="hide = !hide"
-					:data-tooltip="tooltip('display')"
+					<icon-refresh v-if="autoSync" class="stroke-spring-400" />
+					<icon-refresh-off v-else />
+				</secondary-button>
+				<!-- toggle content visibility -->
+				<secondary-button
+					:title="tooltip('display')"
+					@click="hide = !hide"
 				>
-					<ion-icon :icon="eyeOffOutline" class="icon-1-5x"></ion-icon>
-				</a>
-				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip tooltip-left ml-1"
-					:class="{ 'btn-secondary': dark, 'btn-primary': !dark }"
-					href="#"
-					aria-label="Light mode"
-					@click.prevent="dark = !dark"
-					:data-tooltip="tooltip('invert')"
+					<icon-eye v-if="!hide" class="stroke-spring-400" />
+					<icon-eye-off v-else />
+				</secondary-button>
+				<!-- toggle theme -->
+				<secondary-button
+					:title="tooltip('invert')"
+					@click="dark = !dark"
 				>
-					<ion-icon :icon="contrastOutline" class="icon-1-5x"></ion-icon>
-				</a>
-				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip tooltip-left ml-1"
-					:class="{ 'btn-secondary': !chords, 'btn-primary': chords }"
-					href="#"
-					aria-label="Chords"
-					@click.prevent="emit('chords')"
-					:data-tooltip="tooltip('chords')"
+					<icon-brightness :class="{ 'stroke-spring-400': !dark }" />
+				</secondary-button>
+				<!-- toggle chords -->
+				<secondary-button
+					:title="tooltip('chords')"
+					@click="emit('chords')"
 				>
-					<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
-				</a>
-				<a
-					class="btn btn-secondary btn-xl btn-fw btn-gray tooltip ml-1"
-					href="#"
-					aria-label="Cancel"
-					@click.prevent="emit('closed')"
-					:data-tooltip="tooltip('close')"
+					<icon-music v-if="chords" class="stroke-spring-400" />
+					<icon-music-off v-else />
+				</secondary-button>
+				<!-- exist presentation -->
+				<button
+					class="p-2 text-blade-500"
+					:title="tooltip('close')"
+					@click="emit('closed')"
 				>
-					<ion-icon :icon="close" class="icon-1-5x"></ion-icon>
-				</a>
-				<div v-if="sync && !autoSync" class="remote-control">
+					<icon-x />
+				</button>
+				<!-- remote toolbar -->
+				<div
+					v-if="sync && !autoSync"
+					class="flex items-center gap-1 p-1 absolute -top-8 right-10 opacity-0 transition-all group-hover:-top-12 group-hover:opacity-100"
+				>
 					<span class="text-uppercase mr-2">{{ t('text.remoteControl') }}</span>
-					<a
-						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
-						:class="{ 'btn-secondary': !remoteHide, 'btn-primary': remoteHide }"
-						href="#"
-						:data-tooltip="tooltip('remoteDisplay')"
-						@click.prevent="emit('updateHide', !remoteHide)"
+					<secondary-button
+						:title="tooltip('remoteDisplay')"
+						@click="emit('updateHide', !remoteHide)"
 					>
-						<ion-icon :icon="eyeOffOutline" class="icon-1-5x"></ion-icon>
-					</a>
-					<a
-						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
-						:class="{ 'btn-secondary': !remoteLight, 'btn-primary': remoteLight }"
-						href="#"
-						:data-tooltip="tooltip('remoteInvert')"
-						@click.prevent="emit('updateDark', !remoteLight)"
+						<icon-eye v-if="!remoteHide" class="stroke-spring-400" />
+						<icon-eye-off v-else />
+					</secondary-button>
+					<secondary-button
+						:title="tooltip('remoteInvert')"
+						@click="emit('updateDark', !remoteLight)"
 					>
-						<ion-icon :icon="contrastOutline" class="icon-1-5x"></ion-icon>
-					</a>
-					<a
-						class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
-						:class="{ 'btn-secondary': remoteText, 'btn-primary': !remoteText }"
-						href="#"
-						:data-tooltip="tooltip('remoteChords')"
-						@click.prevent="emit('updateChords', !remoteText)"
+						<icon-brightness :class="{ 'stroke-spring-400': remoteLight }" />
+					</secondary-button>
+					<secondary-button
+						:title="tooltip('remoteChords')"
+						@click="emit('updateChords', !remoteText)"
 					>
-						<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
-					</a>
+						<icon-music v-if="!remoteText" class="stroke-spring-400" />
+						<icon-music-off v-else />
+					</secondary-button>
 				</div>
 			</div>
 		</div>
-		<!-- modal: info song note -->
-		<InfoSongData
-			v-if="modal.infosongdata"
-			:active="modal.infosongdata"
-			:song="songs[currentPosition]"
-			@closed="modal.infosongdata = false"
-		/>
-	</div>
+	</modal>
+	<!-- modal: info song note -->
+	<info-song-data
+		:active="showModal.infosongdata"
+		:song="songs[currentPosition]"
+		@closed="showModal.infosongdata = false"
+	/>
 </template>
 
 <script setup>
-import { reactive, ref, computed, inject, watch, onMounted, onUnmounted, nextTick } from 'vue';
-import { useI18n } from "vue-i18n";
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
-import SongContent from '@/partials/SongContent';
+import { logicAnd, logicOr } from '@vueuse/math';
+import { whenever } from '@vueuse/core';
+import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
+import { useI18n } from 'vue-i18n';
 import InfoSongData from '@/modals/InfoSongData';
+import Modal from '@/elements/Modal';
+import SecondaryButton from '@/elements/SecondaryButton';
+import SongContent from '@/partials/SongContent';
+
+// icons
 import {
-	arrowBack,
-	arrowForward,
-	close,
-	contrastOutline,
-	eyeOffOutline,
-	informationOutline,
-	musicalNotes,
-	sync
-} from 'ionicons/icons';
+	IconArrowLeft,
+	IconArrowRight,
+	IconBrightness,
+	IconEye,
+	IconEyeOff,
+	IconInfoCircle,
+	IconMusic,
+	IconMusicOff,
+	IconRefresh,
+	IconRefreshOff,
+	IconX,
+} from '@tabler/icons-vue';
+
+// component constants
 const { t } = useI18n();
 
-// global properties
-const db = inject('db');
+// handle hotkeys for this component
+const hkBack = inject('hkBack');
+const hkForward = inject('hkForward');
+const hkUp = inject('hkUp');
+const hkDown = inject('hkDown');
+const hkInfo = inject('hkInfo');
+const hkSync = inject('hkSync');
+const hkHide = inject('hkHide');
+const hkTheme = inject('hkTheme');
+const hkChords = inject('hkChords');
+const hkCancel = inject('hkCancel');
 
 // inherited properties
 const props = defineProps({
-	active: Boolean,      // state of modal display, true to show modal
-	songs: Array,         // list of songs to present
-	sync: Boolean,        // true if setlist should send sync signals
-	position: Number,     // list position of current song in the presentation
-	chords: Boolean,      // true if chords shall be rendered
-	remoteHide: Boolean,  // true if synced presentation should fade ouot
+	active:      Boolean, // state of modal display, true to show modal
+	chords:      Boolean, // true if chords shall be rendered
+	position:    Number,  // list position of current song in the presentation
+	remoteHide:  Boolean, // true if synced presentation should fade ouot
 	remoteLight: Boolean, // true if synced presentation should show up in light mde
-	remoteText: Boolean,  // true if synced presentation should be rendered without chords
+	remoteText:  Boolean, // true if synced presentation should be rendered without chords
+	songs:       Array,   // list of songs to present
+	sync:        Boolean, // true if setlist should send sync signals
 });
 
 // reactive data
-const modal = reactive({
+const showModal = reactive({
 	infosongdata: false
 });
-const container = ref(null);
 const presentation = ref(null);
-const slides = ref(null);
+const songContentRef = ref([]);
 const currentPosition = ref(0);
 const autoSync = ref(false);
 const hide = ref(false);
@@ -241,8 +239,8 @@ const maximizeFontsize = () => {
 	// wait for dom to be ready
 	nextTick(() => {
 		// maximize content of each song/slide
-		for (let i = 0; i < slides.value.length; i++) {
-			slides.value[i]?.maximizeFontsize();
+		for (let i = 0; i < songContentRef.value.length; i++) {
+			songContentRef.value[i].maximizeFontsize();
 		}
 	});
 };
@@ -295,8 +293,10 @@ watch (autoSync, () => {
 	}
 });
 // watcher: maximize fontsize again when chords are toggled or songs change
-watch (() => props.chords, () => maximizeFontsize());
-watch (() => props.songs, () => maximizeFontsize());
+watch (
+	[() => props.active, () => props.chords, () => props.songs],
+	() => maximizeFontsize()
+);
 // watcher: update local position if autoSync is on and remote position was updated
 watch (() => props.position, () => {
 	if (autoSync.value) {
@@ -331,11 +331,43 @@ onMounted(() => {
 	}, 1000);
 	// handle viewport resizes
 	window.addEventListener('resize', resizeHandler);
-	// initially fit presentation into viewport
-	maximizeFontsize();
-	container.value.focus();
+	// TODO: workaround for initial slide width
+	setInterval(() => {
+		presentation.value?.updateSlideWidth();
+	}, 0);
 });
 onUnmounted(() => {
 	window.removeEventListener('resize', resizeHandler);
 });
+
+
+// component shortcuts
+whenever(
+	logicOr(hkUp, hkBack),
+	() => presentation.value?.prev()
+);
+whenever(
+	logicOr(hkDown, hkForward),
+	() => presentation.value?.next()
+);
+whenever(
+	hkInfo,
+	() => props.songs[currentPosition.value].note ? showModal.infosongdata = !showModal.infosongdata : null
+);
+whenever(
+	hkSync,
+	() => autoSync.value = !autoSync.value
+);
+whenever(
+	hkHide,
+	() => hide.value = !hide.value
+);
+whenever(
+	hkTheme,
+	() => dark.value = !dark.value
+);
+whenever(
+	hkCancel,
+	() => emit('closed')
+);
 </script>

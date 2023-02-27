@@ -1,189 +1,177 @@
 <template>
-	<div class="shortcuts">
-		<div class="container no-sidebar">
-			<div class="columns">
-				<!-- heading -->
-				<div class="column col-12">
-					<h2 class="view-title">
-						{{ t('page.shortcuts') }}
-					</h2>
+	<div class="flex flex-col gap-6 w-full">
+		<!-- page heading -->
+		<div class="text-3xl uppercase font-thin tracking-wider">
+			{{ t('page.shortcuts')}}
+		</div>
+		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
+			<panel class="flex flex-col gap-4">
+				<div class="text-2xl">
+					{{ t('page.songs', 2) }} / {{ t('page.setlists', 2) }}
 				</div>
-				<div class="column col-4 col-xl-6 col-sm-12 mt-4">
-					<div class="panel">
-						<div class="panel-header">
-							<div class="panel-title h5">{{ t('page.songs') }} / {{ t('page.setlists') }}</div>
-						</div>
-						<div class="panel-body text-center pb-3">
-							<table class="table">
-								<tbody>
-									<tr>
-										<td>
-											<kbd><ion-icon :icon="arrowBack"></ion-icon></kbd> /
-											<kbd><ion-icon :icon="arrowForward"></ion-icon></kbd>
-										</td>
-										<td></td>
-										<td>{{ t('tooltip.pagination') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.F') }}</kbd></td>
-										<td><ion-icon :icon="search"></ion-icon></td>
-										<td>{{ t('tooltip.search') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.esc') }}</kbd></td>
-										<td><ion-icon :icon="closeOutline"></ion-icon></td>
-										<td>{{ t('tooltip.clear') }}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
+				<table class="table-auto border-separate border-spacing-4">
+					<tbody>
+						<tr>
+							<td>
+								<kbd><icon-arrow-left /></kbd> /
+								<kbd><icon-arrow-right /></kbd>
+							</td>
+							<td></td>
+							<td>{{ t('tooltip.pagination') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.F') }}</kbd></td>
+							<td><icon-search /></td>
+							<td>{{ t('tooltip.search') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.esc') }}</kbd></td>
+							<td><icon-x /></td>
+							<td>{{ t('tooltip.clear') }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</panel>
+			<panel class="flex flex-col gap-4">
+				<div class="text-2xl">
+					{{ t('widget.songView') }}
 				</div>
-				<div class="column col-4 col-xl-6 col-sm-12 mt-4">
-					<div class="panel">
-						<div class="panel-header">
-							<div class="panel-title h5">{{ t('widget.songView') }}</div>
-						</div>
-						<div class="panel-body text-center pb-3">
-							<table class="table">
-								<tbody>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.K') }}</kbd></td>
-										<td><ion-icon :icon="musicalNotes"></ion-icon></td>
-										<td>{{ t('tooltip.chordsShow') }} / {{ t('tooltip.chordsHide') }}</td>
-									</tr>
-									<tr>
-										<td>
-											<kbd><ion-icon :icon="arrowForward"></ion-icon></kbd> /
-											<kbd><ion-icon :icon="arrowUp"></ion-icon></kbd>
-										</td>
-										<td></td>
-										<td>{{ t('tooltip.transposeUp') }}</td>
-									</tr>
-									<tr>
-										<td>
-											<kbd><ion-icon :icon="arrowBack"></ion-icon></kbd> /
-											<kbd><ion-icon :icon="arrowDown"></ion-icon></kbd>
-										</td>
-										<td></td>
-										<td>{{ t('tooltip.transposeDown') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.R') }}</kbd></td>
-										<td><ion-icon :icon="musicalNote"></ion-icon></td>
-										<td>{{ t('tooltip.keyReset') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.P') }}</kbd></td>
-										<td><ion-icon :icon="videocamOutline"></ion-icon></td>
-										<td>{{ t('tooltip.presentationStart') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
-										<td><ion-icon :icon="informationOutline"></ion-icon></td>
-										<td>{{ t('tooltip.infoSongData') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
-										<td><ion-icon :icon="contrastOutline"></ion-icon></td>
-										<td>{{ t('tooltip.invertColors') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.esc') }}</kbd></td>
-										<td><ion-icon :icon="close"></ion-icon></td>
-										<td>{{ t('tooltip.presentationClose') }}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
+				<table class="table-auto border-separate border-spacing-4">
+					<tbody>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.K') }}</kbd></td>
+							<td><icon-music /></td>
+							<td>{{ t('tooltip.chordsShow') }} / {{ t('tooltip.chordsHide') }}</td>
+						</tr>
+						<tr>
+							<td>
+								<kbd><icon-arrow-right /></kbd> /
+								<kbd><icon-arrow-up /></kbd>
+							</td>
+							<td></td>
+							<td>{{ t('tooltip.transposeUp') }}</td>
+						</tr>
+						<tr>
+							<td>
+								<kbd><icon-arrow-left /></kbd> /
+								<kbd><icon-arrow-down /></kbd>
+							</td>
+							<td></td>
+							<td>{{ t('tooltip.transposeDown') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.R') }}</kbd></td>
+							<td><icon-reload /></td>
+							<td>{{ t('tooltip.keyReset') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.P') }}</kbd></td>
+							<td><icon-presentation /></td>
+							<td>{{ t('tooltip.presentationStart') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
+							<td><icon-info-circle /></td>
+							<td>{{ t('tooltip.infoSongData') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
+							<td><icon-brightness /></td>
+							<td>{{ t('tooltip.invertColors') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.esc') }}</kbd></td>
+							<td><icon-x /></td>
+							<td>{{ t('tooltip.presentationClose') }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</panel>
+			<panel class="flex flex-col gap-4">
+				<div class="text-2xl">
+					{{ t('widget.setlistView') }}
 				</div>
-				<div class="column col-4 col-xl-6 col-sm-12 mt-4">
-					<div class="panel">
-						<div class="panel-header">
-							<div class="panel-title h5">{{ t('widget.setlistView') }}</div>
-						</div>
-						<div class="panel-body text-center pb-3">
-							<table class="table">
-								<tbody>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.S') }}</kbd></td>
-										<td><ion-icon :icon="sync"></ion-icon></td>
-										<td>{{ t('tooltip.syncOn') }} / {{ t('tooltip.syncOff') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.K') }}</kbd></td>
-										<td><ion-icon :icon="musicalNotes"></ion-icon></td>
-										<td>{{ t('tooltip.chordsShow') }} / {{ t('tooltip.chordsHide') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.P') }}</kbd></td>
-										<td><ion-icon :icon="videocamOutline"></ion-icon></td>
-										<td>{{ t('tooltip.presentationStart') }}</td>
-									</tr>
-									<tr>
-										<td>
-											<kbd><ion-icon :icon="arrowForward"></ion-icon></kbd> /
-											<kbd><ion-icon :icon="arrowDown"></ion-icon></kbd>
-										</td>
-										<td></td>
-										<td>{{ t('tooltip.nextSlide') }}</td>
-									</tr>
-									<tr>
-										<td>
-											<kbd><ion-icon :icon="arrowBack"></ion-icon></kbd> /
-											<kbd><ion-icon :icon="arrowUp"></ion-icon></kbd>
-										</td>
-										<td></td>
-										<td>{{ t('tooltip.previousSlide') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.B') }}</kbd></td>
-										<td><ion-icon :icon="eyeOffOutline"></ion-icon></td>
-										<td>{{ t('tooltip.presentationShow') }} / {{ t('tooltip.presentationHide') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
-										<td><ion-icon :icon="informationOutline"></ion-icon></td>
-										<td>{{ t('tooltip.infoSongData') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
-										<td><ion-icon :icon="contrastOutline"></ion-icon></td>
-										<td>{{ t('tooltip.invertColors') }}</td>
-									</tr>
-									<tr>
-										<td><kbd>{{ t('key.esc') }}</kbd></td>
-										<td><ion-icon :icon="close"></ion-icon></td>
-										<td>{{ t('tooltip.presentationClose') }}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
+				<table class="table-auto border-separate border-spacing-4">
+					<tbody>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.S') }}</kbd></td>
+							<td><icon-refresh /></td>
+							<td>{{ t('tooltip.syncOn') }} / {{ t('tooltip.syncOff') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.K') }}</kbd></td>
+							<td><icon-music /></td>
+							<td>{{ t('tooltip.chordsShow') }} / {{ t('tooltip.chordsHide') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.P') }}</kbd></td>
+							<td><icon-presentation /></td>
+							<td>{{ t('tooltip.presentationStart') }}</td>
+						</tr>
+						<tr>
+							<td>
+								<kbd><icon-arrow-right /></kbd> /
+								<kbd><icon-arrow-down /></kbd>
+							</td>
+							<td></td>
+							<td>{{ t('tooltip.nextSlide') }}</td>
+						</tr>
+						<tr>
+							<td>
+								<kbd><icon-arrow-left /></kbd> /
+								<kbd><icon-arrow-up /></kbd>
+							</td>
+							<td></td>
+							<td>{{ t('tooltip.previousSlide') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.B') }}</kbd></td>
+							<td><icon-eye-off /></td>
+							<td>{{ t('tooltip.presentationShow') }} / {{ t('tooltip.presentationHide') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
+							<td><icon-info-circle /></td>
+							<td>{{ t('tooltip.infoSongData') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
+							<td><icon-brightness /></td>
+							<td>{{ t('tooltip.invertColors') }}</td>
+						</tr>
+						<tr>
+							<td><kbd>{{ t('key.esc') }}</kbd></td>
+							<td><icon-x /></td>
+							<td>{{ t('tooltip.presentationClose') }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</panel>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
+import Panel from '@/elements/Panel';
+
+// icons
 import {
-	arrowBack,
-	arrowDown,
-	arrowForward,
-	arrowUp,
-	close,
-	closeOutline,
-	contrastOutline,
-	eyeOffOutline,
-	informationOutline,
-	musicalNote,
-	musicalNotes,
-	search,
-	sync,
-	videocamOutline
-} from 'ionicons/icons';
+	IconArrowDown,
+	IconArrowLeft,
+	IconArrowRight,
+	IconArrowUp,
+	IconBrightness,
+	IconEyeOff,
+	IconInfoCircle,
+	IconMusic,
+	IconPresentation,
+	IconRefresh,
+	IconReload,
+	IconSearch,
+	IconX,
+} from '@tabler/icons-vue';
+
+// component constants
 const { t } = useI18n();
 </script>

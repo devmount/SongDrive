@@ -20,10 +20,10 @@ const keyScale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'
    x        create, edit and delete users               
 */
 const userRoles = {
-  reader: 1,
+  reader:    1,
   performer: 2,
-  editor: 3,
-  admin: 4,
+  editor:    3,
+  admin:     4,
 };
 
 // identify chord lines
@@ -112,7 +112,7 @@ const parsedContent = (content, tuning, showChords, twoColumns) => {
       switch (line.charAt(2).toLowerCase()) {
         case 'v':
           types.push('v');
-          classes.push('verse ' + ((!isNaN(parseInt(line.trim().charAt(3)))) ? 'part' + line.trim().charAt(3) : ''));
+          classes.push('verse');
           numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
           break;
         case 'p':
@@ -209,11 +209,11 @@ const download = (data, filename) => {
 };
 
 // format human readable date
-const humanDate = (d, locale, showWeekdate=true) => {
+const humanDate = (d, locale, showWeekdate=true, short=false) => {
   if (!d) return '';
   let options = showWeekdate
     ? { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-    : { year: 'numeric', month: 'long', day: 'numeric' };
+    : { year: short ? '2-digit' : 'numeric', month: short ? 'numeric' : 'long', day: 'numeric' };
   return (new Date(d)).toLocaleDateString(locale + '-' + locale.toUpperCase(), options);
 };
 
@@ -242,11 +242,11 @@ const sdHighlight = (code) => {
   code.split('\n').forEach(line => {
     // check for marker
     if (line.substring(0,2) === '--') {
-      parsedCode.push('<span class="text-gray">' + line + '</span>');
+      parsedCode.push('<span class="sd-marker">' + line + '</span>');
     } else
     // check for chords
     if (line.slice(-2) === '  ') {
-      parsedCode.push('<span class="text-primary">' + line + '</span>');
+      parsedCode.push('<span class="sd-chords">' + line + '</span>');
     }
     // lyrics
     else {
@@ -305,6 +305,22 @@ const urlify = (s) => {
     .replace(/³/g, '3');
 }
 
+// get the first key of given object that points to given value
+const keyByValue = (o, v) => Object.keys(o).find(k => o[k]===v);
+
+// sort tags by locale
+const sortTags = (tags, locale) => tags.sort(
+  (a,b) => a[locale] && b[locale]
+    ? a[locale].localeCompare(b[locale])
+    : a.localeCompare(b)
+);
+
+// true if browser uses a dark color scheme
+const browserPrefersDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+// trigger mailto
+const mailto = (address) => window.location.href = 'mailto:' + address;
+
 export {
   keyScale,
   userRoles,
@@ -317,5 +333,9 @@ export {
   initials,
   throwError,
   randomString,
-  urlify
+  urlify,
+  keyByValue,
+  sortTags,
+  browserPrefersDark,
+  mailto,
 }

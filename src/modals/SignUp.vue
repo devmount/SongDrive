@@ -1,100 +1,99 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.signUp') }}</div>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<p>{{ t('text.createNewAccount') }}</p>
-					<label class="form-label" for="name">
-						{{ t('field.name') }} <span class="text-error">*</span>
-					</label>
-					<input
-						id="name"
-						type="text"
-						v-model="auth.name"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.name }"
-						:placeholder="t('placeholder.exampleUserName')"
-					/>
-					<p v-if="error.name" class="form-input-hint">{{ t('error.requiredName') }}</p>
-					<label class="form-label" for="email">
-						{{ t('field.email') }} <span class="text-error">*</span>
-					</label>
-					<input
-						id="email"
-						type="email"
-						v-model="auth.email"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.email }"
-						:placeholder="t('placeholder.exampleUserEmail')"
-					/>
-					<p v-if="error.email" class="form-input-hint">{{ t('error.requiredEmail') }}</p>
-					<label class="form-label" for="password">
-						{{ t('field.password') }} <span class="text-error">*</span>
-						<span class="float-right" :class="{ 'text-error': auth.password.length < 8 }">
-							{{ auth.password.length }}<span v-if="auth.password.length < 8"> / 8</span>
-						</span>
-					</label>
-					<input
-						id="password"
-						type="password"
-						v-model="auth.password"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.password.missing || error.password.mismatch || error.password.tooshort }"
-						:placeholder="t('placeholder.examplePassword', { p: examplePassword })"
-					/>
-					<input
-						type="password"
-						v-model="auth.repeat"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.password.missing || error.password.mismatch || error.password.tooshort }"
-						:placeholder="t('placeholder.repeatPassword')"
-					/>
-					<p
-						v-if="error.password.missing || error.password.mismatch || error.password.tooshort"
-						class="form-input-hint"
-					>
-						<span v-if="error.password.missing">{{ t('error.requiredPassword') }}</span>
-						<span v-if="error.password.mismatch"> {{ t('error.passwordsDontMatch') }}</span>
-						<span v-if="error.password.tooshort"> {{ t('error.passwordTooShort') }}</span>
-					</p>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
-					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-primary ml-2" @click="signUp">{{ t('button.signUp') }}</button>
+	<modal :active="active" :title="t('modal.signUp')" @closed="emit('closed')">
+		<div>{{ t('text.createNewAccount') }}</div>
+		<div class="flex flex-col gap-2">
+			<label class="flex flex-col gap-1">
+				<span>{{ t('field.name') }} <span class="text-rose-600">*</span></span>
+				<input
+					type="text"
+					v-model="auth.name"
+					:class="{ '!border-rose-600': error.name }"
+					:placeholder="t('placeholder.exampleUserName')"
+				/>
+			</label>
+			<div v-if="error.name" class="text-rose-600">{{ t('error.requiredName') }}</div>
+			<label class="flex flex-col gap-1">
+				<span>{{ t('field.email') }} <span class="text-rose-600">*</span></span>
+				<input
+					type="email"
+					v-model="auth.email"
+					:class="{ '!border-rose-600': error.email }"
+					:placeholder="t('placeholder.exampleUserEmail')"
+				/>
+			</label>
+			<div v-if="error.email" class="text-rose-600">{{ t('error.requiredEmail') }}</div>
+			<label class="flex flex-col gap-1">
+				<span class="flex justify-between">
+					<span>{{ t('field.password') }} <span class="text-rose-600">*</span></span>
+					<span :class="{ 'text-rose-600': auth.password.length < 8 }">
+						{{ auth.password.length }}<span v-if="auth.password.length < 8"> / 8</span>
+					</span>
+				</span>
+				<input
+					type="password"
+					v-model="auth.password"
+					:class="{ '!border-rose-600': errorsPassword }"
+					:placeholder="t('placeholder.examplePassword', { p: examplePassword })"
+				/>
+				<input
+					type="password"
+					v-model="auth.repeat"
+					:class="{ '!border-rose-600': errorsPassword }"
+					:placeholder="t('placeholder.repeatPassword')"
+				/>
+			</label>
+			<div
+				v-if="errorsPassword"
+				class="text-rose-600"
+			>
+				<span v-if="error.password.missing">{{ t('error.requiredPassword') }}&nbsp;</span>
+				<span v-if="error.password.mismatch">{{ t('error.passwordsDontMatch') }}&nbsp;</span>
+				<span v-if="error.password.tooshort">{{ t('error.passwordTooShort') }}</span>
 			</div>
 		</div>
-	</div>
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button class="grow" @click="signUp">
+				{{ $t('button.signUp') }}
+				<icon-user-plus class="w-6 h-6 stroke-1.5" />
+			</primary-button>
+		</div>
+	</modal>
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue';
-import { useI18n } from "vue-i18n";
 import { randomString } from '@/utils.js';
+import { reactive, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { IconUserPlus } from '@tabler/icons-vue';
+
+// component constants
 const { t } = useI18n();
+const examplePassword = randomString(8);
 
 // inherited properties
 const props = defineProps({
 	active: Boolean // state of modal display, true to show modal
 });
 
-// non reactive data
-const examplePassword = randomString(8);
-
-// reactive data
+// input data
 const auth = reactive({
 	name: '',
 	email: '',
 	password: '',
 	repeat: '',
 });
+
+// emits
+const emit = defineEmits(['submitted', 'closed']);
+
+// possible form errors
 const error = reactive({
 	name: false,
 	email: false,
@@ -104,19 +103,18 @@ const error = reactive({
 		tooshort: false,
 	}
 });
-
-// emits
-const emit = defineEmits(['submitted', 'closed']);
-
-// computed: calculate wether form errors occured
-const errors = computed(() => (
-	error.name ||
-	error.email ||
+const errorsPassword = computed(() => (
 	error.password.missing ||
 	error.password.mismatch ||
 	error.password.tooshort
 ));
+const errors = computed(() => (
+	error.name ||
+	error.email ||
+	errorsPassword.value
+));
 
+// sign current user up
 const signUp = () => {
 	// first check for form errors
 	error.name = auth.name == '';

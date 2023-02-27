@@ -40,11 +40,11 @@ This is how the SongDrive Dashboard currently looks like.
     git clone https://github.com/devmount/SongDrive
     ```
 
-2. Install all dependencies using [Yarn](https://yarnpkg.com)
+2. Install all dependencies
 
     ```bash
     cd SongDrive
-    yarn
+    npm install
     ```
 
 3. Create an environment configuration file `.env` from the existing example configuration in the root directory:
@@ -67,13 +67,13 @@ This is how the SongDrive Dashboard currently looks like.
 10. Now your app is ready to be launched. Either start the development server with hot reload at `localhost:8080` ...
 
     ```bash
-    yarn serve
+    npm run serve
     ```
 
 11. ... or create an optimized production build with minification. All build files can be found in the `dist` directory.
 
     ```bash
-    yarn build
+    npm run build
     ```
 
 12. (optional) You can import demo content if you don't like to start from scratch. First download the [demo data file](https://raw.githubusercontent.com/devmount/SongDrive/main/demo.import.json) from the repository. Sign in to SongDrive with your admin user, go to Settings > Import, select the downloaded demo file and import it. You can now have a look at 8 public domain songs, one demo setlist, several song tags, English and German languages and an additional test user.

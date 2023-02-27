@@ -1,103 +1,54 @@
 <template>
-	<div class="profile">
-		<div class="container no-sidebar">
-			<div class="columns">
-				<!-- heading -->
-				<div class="column">
-					<h2 class="view-title">
-						{{ t('page.profile') }}
-					</h2>
-				</div>
-			</div>
-			<div v-if="ready.users && user" class="columns">
-				<div class="column col-4 col-xl-6 col-sm-12 mt-4">
-					<div class="panel">
-						<div class="panel-header text-center">
-							<div class="mb-3">
-								<figure v-if="users[user].photo" id="preview" class="avatar avatar-xxl">
-									<img :src="users[user].photo" alt="Avatar" />
-								</figure>
-								<figure
-									v-else-if="users[user].name"
-									id="preview"
-									class="avatar avatar-xxl"
-									:data-initial="initials(users[user].name)"
-								></figure>
-								<span v-else class="avatar avatar-xxl flex-center">
-									<ion-icon :icon="person" class="icon-2x"></ion-icon>
-								</span>
-							</div>
-							<div v-if="users[user].name" class="panel-title h5">{{ users[user].name }}</div>
-							<div v-if="roleName" class="panel-subtitle text-gray">{{ t('role.' + roleName) }}</div>
-						</div>
-						<div class="panel-body">
-							<div v-if="users[user].email" class="tile tile-centered mb-2">
-								<div class="tile-content">
-									<div class="tile-title text-bold">{{ t('field.email') }}</div>
-									<div class="tile-subtitle text-gray">{{ users[user].email }}</div>
-								</div>
-								<div class="tile-icon text-gray">
-									<ion-icon :icon="mailOutline" class="icon-1-5x"></ion-icon>
-								</div>
-							</div>
-							<div v-if="users[user].photo" class="tile tile-centered mb-2">
-								<div class="tile-content">
-									<div class="tile-title text-bold">{{ t('field.photo') }}</div>
-									<div class="tile-subtitle text-gray">{{ users[user].photo.substr(0,40) }}...</div>
-								</div>
-								<div class="tile-icon text-gray">
-									<ion-icon :icon="cameraOutline" class="icon-1-5x"></ion-icon>
-								</div>
-							</div>
-						</div>
-						<div v-if="role" class="panel-link mt-4">
-							<router-link to="/settings" class="btn btn-link btn-block">
-								{{ t('widget.goToSettings') }}
-								<ion-icon :icon="arrowForward" class="ml-4"></ion-icon>
-							</router-link>
-						</div>
+	<div class="flex flex-col gap-6 w-full">
+		<!-- page heading -->
+		<div class="text-3xl uppercase font-thin tracking-wider">
+				{{ t('page.account') }}
+		</div>
+		<div
+			v-if="ready.users && user"
+			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+		>
+			<!-- profile card -->
+			<panel>
+				<div class="flex flex-col justify-center items-center">
+					<avatar :photo-url="users[user].photo" :name="users[user].name" size="lg" />
+					<div v-if="users[user].name" class="text-xl uppercase font-light mt-4">
+						{{ users[user].name }}
+					</div>
+					<div v-if="roleName" class="text-blade-500">
+						{{ t('role.' + roleName) }}
 					</div>
 				</div>
-				<div v-if="role > 1" class="column col-4 col-xl-6 col-sm-12 mt-4">
-					<div class="columns">
-						<div class="column col-12">
-							<div class="panel">
-								<div class="panel-body text-center pb-3">
-									<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
-									<div v-else class="text-huge">{{ Object.keys(setlistsFromUser).length }}</div>
-									<div class="panel-title h5">
-										<ion-icon :icon="list" class="mr-2"></ion-icon>
-										{{ t('widget.setlistsCreated')}}
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="column col-12 mt-4">
-							<div class="panel">
-								<div class="panel-body text-center pb-3">
-									<div v-if="!ready.setlists" class="loading loading-xl d-block text-huge">&nbsp;</div>
-									<div v-else class="text-huge">
-										<span class="text-gray">~</span>{{ songsFromUser }}<span class="text-transparent">~</span>
-									</div>
-									<div class="panel-title h5">
-										<ion-icon :icon="musicalNotes" class="mr-2"></ion-icon>
-										{{ t('widget.songsPerformed') }}
-									</div>
-								</div>
-							</div>
-						</div>
+				<div v-if="users[user].email" class="flex items-center gap-2">
+					<icon-mail class="w-6 h-6 stroke-1.5" :title="t('field.email')" />
+					<div>{{ users[user].email }}</div>
+				</div>
+				<div v-if="users[user].photo" class="flex items-center gap-2">
+					<icon-camera class="w-6 h-6 stroke-1.5" :title="t('field.photo')" />
+					<div class="truncate">{{ users[user].photo }}</div>
+				</div>
+				<link-button v-if="role" @click="router.push({ name: 'settings' })">
+					{{ t('widget.showAllSettings') }}
+					<icon-arrow-right />
+				</link-button>
+			</panel>
+			<div v-if="role > 1" class="flex flex-wrap gap-8 w-full justify-evenly col-span-2">
+				<!-- stored setlists count -->
+				<div class="flex flex-col items-center">
+					<div class="text-4xl sm:text-6xl font-thin">
+						{{ Object.keys(setlistsFromUser).length }}
+					</div>
+					<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
+						{{ t('widget.mySetlists') }}
 					</div>
 				</div>
-			</div>
-			<!-- not logged in -->
-			<div v-if="ready.users && !user" class="columns">
-				<div class="column col-">
-					<div class="empty">
-						<div class="empty-icon">
-							<ion-icon :icon="eyeOffOutline" class="icon-4x"></ion-icon>
-						</div>
-						<p class="empty-title h5">{{ t('text.pageNotAvailable') }}</p>
-						<p class="empty-subtitle">{{ t('text.signInForAccess') }}</p>
+				<!-- performed songs count -->
+				<div class="flex flex-col items-center">
+					<div class="text-4xl sm:text-6xl font-thin">
+						<span class="text-blade-500">~</span>{{ songsFromUser }}
+					</div>
+					<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
+						{{ t('widget.mySongsPerformed') }}
 					</div>
 				</div>
 			</div>
@@ -107,20 +58,24 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useI18n } from "vue-i18n";
-import { initials } from '@/utils.js';
-import { 
-	arrowForward,
-	cameraOutline,
-	eyeOffOutline,
-	list,
-	mailOutline,
-	musicalNotes,
-	person
-} from 'ionicons/icons';
-const { t } = useI18n();
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import Avatar from '@/elements/Avatar';
+import LinkButton from '@/elements/LinkButton';
+import Panel from '@/elements/Panel';
 
-// inherited properties
+// icons
+import {
+	IconArrowRight,
+	IconCamera,
+	IconMail
+} from '@tabler/icons-vue';
+
+// component constants
+const { t } = useI18n();
+const router = useRouter();
+
+// component properties
 const props = defineProps({
   setlists: Object,
   user:     String,
@@ -130,8 +85,10 @@ const props = defineProps({
   ready:    Object,
 });
 
-// computed
+// number of setlists owned by current user
 const setlistsFromUser = computed(() => Object.filter(props.setlists, s => s.creator == props.user));
+
+// number of songs on those setlists
 const songsFromUser = computed(() => {
 	let list = setlistsFromUser.value;
 	return Object.keys(list).reduce((previous, key) => previous + list[key].songs.length, 0);

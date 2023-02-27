@@ -1,86 +1,94 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.changeEmail') }}</div>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<!-- email -->
-					<label class="form-label" for="newemail">
-						{{ t('field.newEmail') }} <span class="text-error">*</span>
-					</label>
-					<input
-						id="newemail"
-						type="email"
-						v-model="user.email"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.email.missing || error.email.mismatch || error.email.notchanged }"
-						:placeholder="t('placeholder.exampleUserEmail')"
-					/>
-					<input
-						type="email"
-						v-model="user.repeat"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.email.missing || error.email.mismatch || error.email.notchanged }"
-						:placeholder="t('placeholder.repeatEmail')"
-					/>
-					<p
-						v-if="error.email.missing || error.email.mismatch || error.email.notchanged"
-						class="form-input-hint"
-					>
-						<span v-if="error.email.missing">{{ t('error.requiredEmail') }}</span>
-						<span v-if="error.email.mismatch"> {{ t('error.emailsDontMatch') }}</span>
-						<span v-if="error.email.notchanged"> {{ t('error.emailNotChanged') }}</span>
-					</p>
-				</div>
-				<!-- user password reauthentification -->
-				<hr />
-				<label class="form-label" for="currentpassword">{{ t('text.confirmWithCurrentPassword') }} <span class="text-error">*</span></label>
+	<modal :active="active" :title="t('modal.changeEmail')" @closed="emit('closed')">
+		<div class="flex flex-col gap-2">
+			<!-- email -->
+			<label class="flex flex-col gap-1">
+				<div>{{ t('field.newEmail') }} <span class="text-rose-600">*</span></div>
 				<input
-					id="currentpassword"
+					type="email"
+					v-model="user.email"
+					:class="{ 'border-rose-600': error.email.missing || error.email.mismatch || error.email.notchanged }"
+					:placeholder="t('placeholder.exampleUserEmail')"
+				/>
+				<input
+					type="email"
+					v-model="user.repeat"
+					:class="{ 'border-rose-600': error.email.missing || error.email.mismatch || error.email.notchanged }"
+					:placeholder="t('placeholder.repeatEmail')"
+				/>
+			</label>
+			<div
+				v-if="error.email.missing || error.email.mismatch || error.email.notchanged"
+				class="text-rose-600"
+			>
+				<span v-if="error.email.missing">{{ t('error.requiredEmail') }}&nbsp;</span>
+				<span v-if="error.email.mismatch"> {{ t('error.emailsDontMatch') }}&nbsp;</span>
+				<span v-if="error.email.notchanged"> {{ t('error.emailNotChanged') }}</span>
+			</div>
+			<divider-horizontal />
+			<!-- user password reauthentification -->
+			<label class="flex flex-col gap-1">
+				<div>{{ t('text.confirmWithCurrentPassword') }} <span class="text-rose-600">*</span></div>
+				<input
 					type="password"
 					v-model="user.currentpassword"
-					class="form-input mb-1"
-					:class="{ 'is-error': error.currentpassword.missing || error.currentpassword.wrong }"
+					:class="{ 'border-rose-600': error.currentpassword.missing || error.currentpassword.wrong }"
 				/>
-				<p v-if="error.currentpassword.missing" class="form-input-hint">{{ t('error.requiredPassword') }}</p>
-				<p v-if="error.currentpassword.wrong" class="form-input-hint">{{ t('error.wrongPassword') }}</p>
+			</label>
+			<div v-if="error.currentpassword.missing" class="text-rose-600">
+				{{ t('error.requiredPassword') }}
 			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
-					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-primary ml-2" @click="setEmail">{{ t('button.changeEmail') }}</button>
+			<div v-if="error.currentpassword.wrong" class="text-rose-600">
+				{{ t('error.wrongPassword') }}
 			</div>
 		</div>
-	</div>
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button class="grow" type="danger" @click="setEmail">
+				{{ t('button.changeEmail') }}
+				<icon-device-floppy class="w-6 h-6 stroke-1.5" />
+			</primary-button>
+		</div>
+	</modal>
 </template>
 
 <script setup>
-import { reactive, computed, inject } from 'vue';
-import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
-import firebase from 'firebase/compat/app';
+import { reactive, computed, inject } from 'vue';
 import { throwError } from '@/utils.js';
+import { useI18n } from 'vue-i18n';
+import DividerHorizontal from '@/elements/DividerHorizontal';
+import firebase from 'firebase/compat/app';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { IconDeviceFloppy } from '@tabler/icons-vue';
+
+// component constants
 const { t } = useI18n();
 
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active: Boolean // state of modal display, true to show modal
 });
 
-// reactive data
+// user input data
 const user = reactive({
 	email: '',
 	repeat: '',
 	currentpassword: ''
 });
+
+// emits
+const emit = defineEmits(['closed']);
+
+// calculate wether form errors occured
 const error = reactive({
 	email: {
 		missing: false,
@@ -92,12 +100,6 @@ const error = reactive({
 		wrong: false,
 	}
 });
-
-// emits
-const emit = defineEmits(['closed']);
-
-// computed
-// calculate wether form errors occured
 const errors = computed(() => (
 	error.email.missing ||
 	error.email.mismatch ||
@@ -105,7 +107,6 @@ const errors = computed(() => (
 	error.currentpassword.missing
 ));
 
-// methods
 // save user object to database
 const setEmail = () => {
 	const currentUser = firebase.auth().currentUser;

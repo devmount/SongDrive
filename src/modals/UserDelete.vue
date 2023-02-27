@@ -1,38 +1,43 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t(approved ? 'modal.deleteUser' : 'modal.deleteRegistration') }}</div>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<p>{{ t('text.reallyDeleteUser', { name: userName }) }}</p>
-					<p>{{ t('text.cannotBeUndone') }}</p>
-					<p>{{ t('text.selectUserForTransfer', { name: userName }) }}</p>
-					<select v-model="transferUser" class="form-select">
-						<option v-for="(user, key) in assignableUsers" :key="key" :value="key">
-							{{ user.name }}
-						</option>
-					</select>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
-					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-error ml-2" :class="{ disabled: !transferUser }" @click="deleteUser">{{ t('button.delete') }}</button>
-			</div>
+	<modal
+		:active="active"
+		:title="approved ? t('modal.deleteUser') : t('modal.deleteRegistration')"
+		@closed="emit('closed')"
+	>
+		<div class="flex flex-col gap-2">
+			<div>{{ t('text.reallyDeleteUser', { name: userName }) }}</div>
+			<div class="text-rose-600">{{ t('text.cannotBeUndone') }}</div>
+			<div>{{ t('text.selectUserForTransfer', { name: userName }) }}</div>
+			<select v-model="transferUser" class="form-select">
+				<option v-for="(user, key) in assignableUsers" :key="key" :value="key">
+					{{ user.name }}
+				</option>
+			</select>
 		</div>
-	</div>
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button class="grow" type="danger" :disabled="!transferUser" @click="deleteUser">
+				{{ t('button.delete') }}
+				<icon-trash class="w-6 h-6 stroke-1.5" />
+			</primary-button>
+		</div>
+	</modal>
 </template>
 
 <script setup>
-import { ref, computed, inject } from 'vue';
-import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
+import { ref, computed, inject } from 'vue';
 import { throwError } from '@/utils.js';
+import { useI18n } from 'vue-i18n';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { IconTrash } from '@tabler/icons-vue';
+
+// component constants
 const { t } = useI18n();
 
 // global properties
@@ -54,16 +59,17 @@ const transferUser = ref(null);
 // emits
 const emit = defineEmits(['closed']);
 
-// computed: list of users that can be an assignment target
+// list of users that can be an assignment target
 const assignableUsers = computed(() => {
 	let users = JSON.parse(JSON.stringify(props.users));
 	delete users[props.userKey];
 	return users;
 });
-// computed: total number of users
+
+// total number of users
 const numberOfUsers = computed(() => Object.keys(props.users).length);
 
-// delete user if there are more than one
+// delete user if at least one user is left afterwards
 const deleteUser = () => {
 	if (numberOfUsers.value > 1) {
 		// delete approved user (living in users table) or unapproved user (living in registrations table)

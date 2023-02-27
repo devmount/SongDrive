@@ -1,16 +1,29 @@
 <template>
-	<div class="content song-content columns">
+	<div
+		class="w-full flex flex-wrap overflow-y-auto"
+		:class="{
+			'flex-row gap-8': !presentation,
+			'flex-col xs:flex-row gap-7 xs:gap-0': presentation
+		}"
+	>
 		<div
-			class="column col-6"
-			:class="{ 'present': presentation, 'text': !chords, 'col-2x-12': !presentation }"
-			v-for="(parts, i) in parsedContent(content, tuning, chords, true)"
-			:key="i"
+			v-for="(parts, i) in parsedContent(content, tuning, chords, true)" :key="i"
+			class="flex flex-col gap-7 items-start"
+			:class="{ 'present w-full xs:w-1/2 overflow-x-visible': presentation }"
 		>
-			<pre v-for="(part, j) in parts" :key="j" :class="part.class"><!--
-				--><span v-for="(line, l) in part.content.split('\n')" :key="l" :class="{ chords: isChordLine(line) }"><!--
-					-->{{ line }}<!--
-				--></span><!--
-			--></pre>
+			<pre
+				v-for="(part, j) in parts" :key="j"
+				:part="part.number"
+				class="relative overflow-visible"
+				:class="{
+					'relative pl-8 before:absolute before:top-2 before:left-1 before:text-4xl before:font-fira before:font-light before:content-[attr(part)]': part.class === 'verse' && part.number > 0,
+					'font-fira text-2xl': !chords,
+					'inline-block leading-[1.4] xs:before:text-5xl before:-left-0.5': presentation,
+				}"
+			><div
+				v-for="(line, l) in part.content.split('\n')" :key="l"
+				:class="{ 'text-spring-600 -mb-1': isChordLine(line) }"
+			>{{ line }}</div></pre>
 		</div>
 	</div>
 </template>
@@ -19,17 +32,17 @@
 import { isChordLine, parsedContent } from '@/utils.js';
 
 const props = defineProps({
-	content: String,
-	chords: Boolean,
-	tuning: Number,
-	presentation: Boolean
+	content:      String,  // actual song content to display
+	chords:       Boolean, // true if chords shall be rendered
+	tuning:       Number,  // key to present song in
+	presentation: Boolean, // flag if song is displayed in presentation mode
 });
 
 // methods
 const maximizeFontsize = () => {
 	// config
-	const WIDTH_MARGIN = 40;
-	const HEIGHT_MARGIN = 40;
+	const WIDTH_MARGIN = 20;
+	const HEIGHT_MARGIN = 30;
 	const MAX_FONTSIZE = 48;
 	// all parent elements
 	for (let a of document.querySelectorAll('.present')) {

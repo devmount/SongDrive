@@ -1,63 +1,65 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">
-					<span v-if="!existing">{{ t('modal.addLanguage') }}</span>
-					<span v-else>{{ t('modal.editLanguage') }}</span>
-				</div>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<label class="form-label" for="isocode">{{ t('field.isocode') }} <span class="text-error">*</span></label>
-					<input
-						id="isocode"
-						type="text"
-						v-model="isocode"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.isocode }"
-						:placeholder="t('placeholder.exampleLanguageIsocode')"
-						:disabled="existing"
-					/>
-					<p v-if="error.isocode" class="form-input-hint">{{ t('error.requiredIsocode') }}</p>
-					<label class="form-label" for="label">{{ t('field.label') }} <span class="text-error">*</span></label>
-					<input
-						id="label"
-						type="text"
-						v-model="language.label"
-						class="form-input mb-1"
-						:class="{ 'is-error': error.label }"
-						:placeholder="t('placeholder.exampleLanguageLabel')"
-					/>
-					<p v-if="error.label" class="form-input-hint">{{ t('error.requiredLabel') }}</p>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
-					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-primary ml-2" @click="setLanguage">
-					<span v-if="!existing">{{ t('button.addLanguage') }}</span>
-					<span v-else>{{ t('button.updateLanguage') }}</span>
-				</button>
-			</div>
+	<modal
+		:active="active"
+		:title="!existing ? t('modal.addLanguage') : t('modal.editLanguage')"
+		@closed="emit('closed')"
+	>
+		<div class="flex flex-col gap-2">
+			<!-- isocode -->
+			<label class="flex flex-col gap-1">
+				<div>{{ t('field.isocode') }} <span class="text-rose-600">*</span></div>
+				<input
+					type="text"
+					v-model="isocode"
+					:class="{ 'text-rose-600': error.isocode }"
+					:placeholder="t('placeholder.exampleLanguageIsocode')"
+					:disabled="existing"
+				/>
+			</label>
+			<div v-if="error.isocode" class="text-rose-600">{{ t('error.requiredIsocode') }}</div>
+			<label class="flex flex-col gap-1">
+				<div>{{ t('field.label') }} <span class="text-rose-600">*</span></div>
+				<input
+					type="text"
+					v-model="language.label"
+					:class="{ 'text-rose-600': error.label }"
+					:placeholder="t('placeholder.exampleLanguageLabel')"
+				/>
+			</label>
+			<div v-if="error.label" class="text-rose-600">{{ t('error.requiredLabel') }}</div>
 		</div>
-	</div>
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button class="grow" @click="setLanguage">
+				<span v-if="!existing">{{ t('button.addLanguage') }}</span>
+				<span v-else>{{ t('button.updateLanguage') }}</span>
+				<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
+				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+			</primary-button>
+		</div>
+	</modal>
 </template>
 
 <script setup>
-import { ref, reactive, computed, inject } from 'vue';
-import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
+import { ref, reactive, computed, inject, onMounted, watch } from 'vue';
 import { throwError } from '@/utils.js';
+import { useI18n } from 'vue-i18n';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { IconPlus, IconDeviceFloppy } from '@tabler/icons-vue';
+
+// component constants
 const { t } = useI18n();
 
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active: Boolean,         // state of modal display, true to show modal
 	initialLanguage: Object, // initial language object to fill with data
@@ -65,20 +67,27 @@ const props = defineProps({
 	languageKey: String,     // language code
 });
 
-// reactive data
-const isocode = ref(props.languageKey);
-const language = ref(JSON.parse(JSON.stringify(props.initialLanguage)));
-const error = reactive({
-	label: false,
-	isocode: false,
-});
+// language input data
+const isocode = ref('');
+const language = ref({});
+const initInput = () => {
+	isocode.value = props.languageKey;
+	language.value = {...props.initialLanguage};
+};
+onMounted(() => initInput());
+watch(() => props.active, () => initInput());
 
 // emits
 const emit = defineEmits(['closed']);
 
 // computed: calculate wether form errors occured
+const error = reactive({
+	label: false,
+	isocode: false,
+});
 const errors = computed(() => (error.label || error.isocode));
 
+// save changes
 const setLanguage = () => {
 	// first check for form errors
 	error.label = language.value.label == '';

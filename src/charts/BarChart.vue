@@ -1,11 +1,15 @@
 <template>
-<div class="chart">
-	<h2 v-if="title" class="text-center">{{ title }}</h2>
-	<p v-if="description" class="text-gray text-center">{{ description }}</p>
-	<div class="chart-container">
-		<canvas :id="id"></canvas>
+	<div class="flex flex-col">
+		<h2 v-if="title" class="flex-initial text-center">
+			{{ title }}
+		</h2>
+		<div v-if="description" class="flex-initial text-blade-500 text-center">
+			{{ description }}
+		</div>
+		<div class="relative flex-auto">
+			<canvas :id="id"></canvas>
+		</div>
 	</div>
-</div>
 </template>
 
 <script setup>
@@ -132,17 +136,3 @@ onMounted(() => {
 	}
 });
 </script>
-
-<style lang="scss">
-.chart {
-	display: flex;
-	flex-flow: column;
-	&>h2, &>p {
-		flex: 0 1 auto;
-	}
-	&>.chart-container {
-		position: relative;
-		flex: 1 1 auto;
-	}
-}
-</style>

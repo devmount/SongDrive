@@ -1,316 +1,344 @@
 <template>
-	<div class="songs">
-		<div
-			class="container no-sidebar"
-			ref="container"
-			tabindex="0"
-			@keydown.left.exact="!isFirstPage && !noSongs ? page-- : null"
-			@keydown.right.exact="!isLastPage && !noSongs ? page++ : null"
-			@keydown.ctrl.f.prevent="!noSongs ? searchInput.focus() : null"
-			@keydown.esc.exact="search=''; filter=''; tuning=''"
-		>
-			<div class="columns">
-				<!-- heading -->
-				<div class="column col-12">
-					<h2 class="view-title">
-						<span v-if="ready.songs" class="text-bold">{{ Object.keys(filteredSongs).length }}</span>
-						<div v-else class="loading loading-lg d-inline-block mr-3 px-3"></div>
-						{{ t('page.songs') }}
-					</h2>
-				</div>
+	<div class="flex flex-col gap-6 w-full">
+		<!-- page heading -->
+		<div class="flex flex-col sm:flex-row justify-between items-stretch gap-4">
+			<!-- title -->
+			<div v-if="ready.songs" class="text-3xl uppercase font-thin tracking-wider">
+				<span class="font-semibold">{{ Object.keys(filteredSongs).length }}</span>
+				{{ t('page.songs', Object.keys(filteredSongs).length) }}
 			</div>
-
-			<div v-if="noSongs" class="columns mt-2">
-				<!-- heading -->
-				<div class="column col-12">
-					<span v-if="user && role">{{ t('text.noSongsAvailableSignedIn') }}</span>
-					<span v-else>{{ t('text.noSongsAvailableSignedOut') }}</span>
-				</div>
-			</div>
-
-			<div v-if="ready.songs && !noSongs" class="columns mt-2 mb-3">
-				<!-- pagination -->
-				<div class="column col-3 col-xl-6 col-md-9 col-sm-12 col-mx-auto">
-					<ul class="pagination">
-						<li class="page-item" :class="{ disabled: isFirstPage }">
-							<a class="btn btn-secondary" @click="!isFirstPage ? page-- : null">
-								<ion-icon :icon="arrowBack"></ion-icon>
-							</a>
-						</li>
-						<li
-							class="page-item"
-							:class="{ active: (p-1) == page }"
-							v-for="(p, i) in pageCount"
-							:key="i"
-							v-show="showPageItem(p)"
-						>
-							<span v-show="showFirstEllipsis(p)">...</span>
-							<a
-								class="c-hand"
-								v-show="showPageItemLink(p)"
-								@click="page = p-1"
-							>
-								{{ p }}
-							</a>
-							<span v-show="showLastEllipsis(p)">...</span>
-						</li>
-						<li class="page-item" :class="{ disabled: isLastPage }">
-							<a class="btn btn-secondary" @click="!isLastPage ? page++ : null">
-								<ion-icon :icon="arrowForward"></ion-icon>
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="column col-1 hide-xl"></div>
-				<!-- search and filter -->
-				<div class="column col-8 col-xl-12">
-					<div class="input-group filter">
-						<!-- search title, subtitles -->
-						<span class="input-group-addon addon-lg"><ion-icon :icon="searchIcon"></ion-icon></span>
-						<input
-							type="search"
-							ref="searchInput"
-							v-model="search"
-							class="form-input input-lg"
-							:placeholder="t('placeholder.searchSongTitle')"
-						/>
-						<div class="dropdown dropdown-right">
-							<div class="btn-group">
-								<a
-									class="btn input-group-btn btn-secondary btn-lg dropdown-toggle"
-									:class="{ 'badge': filter!=''||tuning!=''||language!=''}"
-									tabindex="0"
-								>
-									<ion-icon :icon="filterSharp"></ion-icon>
-								</a>
-								<ul class="menu text-left">
-									<li class="menu-item">
-										<!-- filter tag -->
-										<select v-model="filter" class="form-select select-lg filter">
-											<option value="" disabled selected>{{ t('placeholder.tag') }}</option>
-											<option v-for="tag in tags" :key="tag.key" :value="tag.key">
-												{{ tag[locale] ? tag[locale] : tag.key }}
-											</option>
-										</select>
-									</li>
-									<li class="menu-item">
-										<!-- filter key -->
-										<select v-model="tuning" class="form-select select-lg filter">
-											<option value="" disabled selected>{{ t('placeholder.tuning') }}</option>
-											<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
-										</select>
-									</li>
-									<li class="menu-item">
-										<!-- filter language -->
-										<select v-model="language" class="form-select select-lg filter">
-											<option value="" disabled selected>{{ t('placeholder.language') }}</option>
-											<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
-										</select>
-									</li>
-									<li class="menu-item">
-										<!-- reset filter -->
-										<button
-											class="btn input-group-btn btn-lg btn-error-secondary stretch"
-											@click="search=''; filter=''; tuning=''; language=''"
-										>
-											<ion-icon :icon="close"></ion-icon>
-											{{ t('button.reset') }}
-										</button>
-									</li>
-								</ul>
-							</div>
-						</div>
+			<!-- pagination -->
+			<div class="flex items-center flex-nowrap gap-2 mr-16 lg:mr-0">
+				<secondary-button @click="!isFirstPage ? page-- : null" :disabled="isFirstPage">
+					<icon-chevron-left class="w-5 h-5 stroke-1.5" />
+				</secondary-button>
+				<div
+					v-for="(p, i) in pageCount" :key="i"
+					v-show="showPageItem(p)"
+				>
+					<div v-show="showFirstEllipsis(p)">&hellip;</div>
+					<div
+						class="transition-colors cursor-pointer rounded-sm px-2 py-1 hover:bg-blade-300 dark:hover:bg-blade-750"
+						:class="{ 'bg-spring-400 dark:bg-spring-700': (p-1) == page }"
+						v-show="showPageItemLink(p)"
+						@click="page = p-1"
+					>
+						{{ p }}
 					</div>
+					<div v-show="showLastEllipsis(p)">&hellip;</div>
 				</div>
+				<secondary-button @click="!isLastPage ? page++ : null" :disabled="isLastPage">
+					<icon-chevron-right class="w-5 h-5 stroke-1.5" />
+				</secondary-button>
 			</div>
-		
-			<!-- song list -->
-			<table v-if="ready.songs && !noSongs" class="table table-striped table-hover">
-				<thead>
-					<tr>
-						<th
-							v-for="col in ['title', 'subtitle', 'authors', 'year', 'tuning']"
-							:key="col"
-							class="c-hand"
-							:class="{
-								'bg-primary-dark': order.field == col,
-								'hide-md': col == 'authors',
-								'hide-xl': col == 'subtitle' || col == 'year'
-							}"
-							@click="sortList(col)"
+		</div>	
+
+		<!-- empty songs collection -->
+		<div v-if="noSongs" class="text-blade-500">
+			{{ t('text.noSongsAvailable') }}
+		</div>
+
+		<!-- song list -->
+		<table v-if="ready.songs && !noSongs" class="w-full">
+			<thead>
+				<!-- column titles -->
+				<tr>
+					<th
+						v-for="col in ['title', 'authors', 'tags', 'language', 'year', 'tuning']"
+						:key="col"
+						class="cursor-pointer uppercase p-2 font-normal"
+						:class="{
+							'hidden 3xl:table-cell': col === 'tags',
+							'hidden xl:table-cell': col === 'authors',
+							'hidden md:table-cell w-24': ['language', 'year'].includes(col),
+							'hidden xs:table-cell w-24': col === 'tuning',
+						}"
+						@click="sortList(col)"
+					>
+						<div
+							class="flex items-center gap-2"
+							:class="{ 'justify-center': ['language', 'year', 'tuning'].includes(col) }"
 						>
 							{{ t('field.' + col) }}
-							<ion-icon :icon="caretDown" v-if="order.field == col && !order.ascending" class="icon-right"></ion-icon>
-							<ion-icon :icon="caretUp" v-if="order.field == col && order.ascending" class="icon-right"></ion-icon>
-						</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="(song, i) in pagedSongs" :key="i">
-						<td class="c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.title }} <div class="show-xl text-gray">{{ song.subtitle }}</div>
-						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.subtitle }}
-						</td>
-						<td class="hide-md c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.authors }}
-						</td>
-						<td class="hide-xl c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.year }}
-						</td>
-						<td class="text-center c-hand" @click="$router.push({ name: 'song-show', params: { id: song.id }})">
-							{{ song.tuning }}
-						</td>
-						<td class="text-right">
-							<div class="dropdown dropdown-right">
-								<div class="btn-group">
-									<a class="btn btn-primary dropdown-toggle" tabindex="0">
-										<ion-icon :icon="ellipsisHorizontalOutline"></ion-icon>
-									</a>
-									<ul class="menu text-left">
-										<li class="menu-item">
-											<router-link :to="{ name: 'song-show', params: { id: song.id }}" class="py-3 px-3">
-												<ion-icon :icon="eyeOutline" class="mr-2"></ion-icon> {{ t('button.show') }}
-											</router-link>
-										</li>
-										<li v-if="user && role > 1" class="menu-item">
-											<a
-												href="#"
-												class="py-3 px-3"
-												@click.prevent="editDialog(song, true)"
-											>
-												<ion-icon :icon="createOutline" class="mr-2"></ion-icon> {{ t('button.edit') }}
-											</a>
-										</li>
-										<li v-if="user && role > 1" class="menu-item">
-											<a
-												href="#"
-												class="py-3 px-3"
-												@click.prevent="editDialog(song, false)"
-											>
-												<ion-icon :icon="copyOutline" class="mr-2"></ion-icon> {{ t('button.duplicate') }}
-											</a>
-										</li>
-										<li v-if="user && role > 2" class="menu-item">
-											<a
-												href="#"
-												class="py-3 px-3 text-error"
-												@click.prevent="deleteDialog(song)"
-											>
-												<ion-icon :icon="trashOutline" class="mr-2"></ion-icon> {{ t('button.delete') }}
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<!-- modals -->
-			<SongSet
-				v-if="modal.set"
-				:active="modal.set"
-				:existing="active.existing"
-				:initialSong="active.song"
-				:songKey="active.key"
-				:songs="songs"
-				:setlists="setlists"
-				:tags="tags"
-				:languages="languages"
-				:ready="ready"
-				@closed="modal.set = false"
-			/>
-			<SongDelete
-				v-if="modal.delete"
-				:active="modal.delete"
-				:title="active.title"
-				:id="active.key"
-				:songs="songs"
-				@closed="modal.delete = false"
-			/>
-		</div>
+							<icon-sort-ascending
+								v-if="order.field == col && !order.ascending"
+								class="w-5 h-5 stroke-1.5 stroke-spring-600"
+							/>
+							<icon-sort-descending
+								v-if="order.field == col && order.ascending"
+								class="w-5 h-5 stroke-1.5 stroke-spring-600"
+							/>
+						</div>
+					</th>
+					<th class="w-11"></th>
+				</tr>
+				<!-- column filters -->
+				<tr>
+					<td>
+						<label class="relative">
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<input
+								type="search"
+								ref="searchInput"
+								v-model="filter.fulltext"
+								class="w-full pl-8"
+								:placeholder="t('placeholder.searchSongTitle')"
+							/>
+						</label>
+					</td>
+					<td class="hidden xl:table-cell">
+						<label class="relative">
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<input
+								type="search"
+								v-model="filter.authors"
+								class="w-full pl-8"
+							/>
+						</label>
+					</td>
+					<td class="hidden 3xl:table-cell">
+						<label class="relative">
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<select v-model="filter.tag" class="w-full pl-8">
+								<option v-for="tag in tags" :key="tag.key" :value="tag.key">
+									{{ tag[locale] ? tag[locale] : tag.key }}
+								</option>
+							</select>
+						</label>
+					</td>
+					<td class="hidden md:table-cell">
+						<label class="relative">
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<select v-model="filter.language" class="w-full pl-8">
+								<option v-for="(l, k) in languages" :key="k" :value="k">{{ l.label }}</option>
+							</select>
+						</label>
+					</td>
+					<td class="hidden md:table-cell">
+						<label class="relative">
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<input
+								type="search"
+								v-model="filter.year"
+								class="w-full pl-8"
+							/>
+						</label>
+					</td>
+					<td class="hidden xs:table-cell">
+						<label class="relative">
+							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
+							<select v-model="filter.key" class="w-full pl-8">
+								<option v-for="t in keyScale" :key="t" :value="t">{{ t }}</option>
+							</select>
+						</label>
+					</td>
+					<td>
+						<secondary-button @click="resetFilter" :disabled="!isFiltered">
+							<icon-filter-off class="w-5 h-5 stroke-1.5" />
+						</secondary-button>
+					</td>
+				</tr>
+			</thead>
+			<tbody v-if="ready.songs">
+				<tr
+					v-for="(song, i) in pagedSongs" :key="i"
+					class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900"
+				>
+					<td
+						class="cursor-pointer p-3 max-w-0"
+						@click="router.push({ name: 'song-show', params: { id: song.id }})"
+					>
+						<div class="truncate">
+							{{ song.title }}
+							<span class="text-blade-500 ml-2">{{ song.subtitle }}</span>
+						</div>
+					</td>
+					<td
+						class="cursor-pointer p-3 max-w-0 hidden xl:table-cell"
+						@click="router.push({ name: 'song-show', params: { id: song.id }})"
+					>
+						<div class="truncate">{{ song.authors }}</div>
+					</td>
+					<td class="cursor-pointer p-3 max-w-0 hidden 3xl:table-cell">
+						<div v-if="ready.tags" class="flex flex-nowrap gap-1">
+							<tag
+								v-for="tag in sortedTags(song.tags).slice(0, 3)" :key="tag.key"
+								:tag="tag"
+								@click="router.push({ name: 'songs-tag', params: { tag: tag.key }})"
+							/>
+							<span v-if="song.tags.length > 3">&hellip;</span>
+						</div>
+					</td>
+					<td
+						class="cursor-pointer p-3 text-center uppercase hidden md:table-cell"
+						@click="router.push({ name: 'song-show', params: { id: song.id }})"
+					>
+						{{ song.language }}
+					</td>
+					<td
+						class="cursor-pointer p-3 text-center hidden md:table-cell"
+						@click="router.push({ name: 'song-show', params: { id: song.id }})"
+					>
+						{{ song.year }}
+					</td>
+					<td
+						class="cursor-pointer p-3 text-center hidden xs:table-cell"
+						@click="router.push({ name: 'song-show', params: { id: song.id }})"
+					>
+						{{ song.tuning }}
+					</td>
+					<td>
+						<dropdown>
+							<router-link
+								:to="{ name: 'song-show', params: { id: song.id }}"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+							>
+								<icon-eye class="w-5 h-5 stroke-1.5" />
+								{{ t('button.show') }}
+							</router-link>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click="emit('editSong', { data: song, id: song.id, exists: true })"
+							>
+								<icon-edit class="w-5 h-5 stroke-1.5" />
+								{{ t('button.edit') }}
+							</button>
+							<button
+								v-if="user && role > 1"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click="emit('editSong', { data: song, id: song.id, exists: false })"
+							>
+								<icon-copy class="w-5 h-5 stroke-1.5" />
+								{{ t('button.duplicate') }}
+							</button>
+							<button
+								v-if="user && role > 2"
+								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+								@click="deleteDialog(song)"
+							>
+								<icon-trash class="w-5 h-5 stroke-1.5" />
+								{{ t('button.delete') }}
+							</button>
+						</dropdown>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
+	<!-- modals -->
+	<song-delete
+		:active="showModal.delete"
+		:title="songDeleteModalData.title"
+		:id="songDeleteModalData.key"
+		:songs="songs"
+		@closed="showModal.delete = false"
+	/>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed, watch } from 'vue';
-import { useI18n } from "vue-i18n";
-import { useRoute } from 'vue-router'
-import { keyScale } from '@/utils.js';
-import SongSet from '@/modals/SongSet';
+import { ref, reactive, computed, watch, inject } from 'vue';
+import { logicAnd } from '@vueuse/math';
+import { keyScale, sortTags } from '@/utils.js';
+import { useI18n } from 'vue-i18n';
+import { whenever } from '@vueuse/core';
+import { useRoute, useRouter } from 'vue-router'
+import Dropdown from '@/elements/Dropdown';
+import SecondaryButton from '@/elements/SecondaryButton';
 import SongDelete from '@/modals/SongDelete';
-import {
-	arrowBack,
-	arrowForward,
-	caretDown,
-	caretUp,
-	close,
-	copyOutline,
-	createOutline,
-	ellipsisHorizontalOutline,
-	eyeOutline,
-	filterSharp,
-	search as searchIcon,
-	trashOutline
-} from 'ionicons/icons';
-const { t, locale } = useI18n();
-const route = useRoute()
+import Tag from '@/elements/Tag';
 
-// inherited properties
+// icons
+import {
+	IconChevronLeft,
+	IconChevronRight,
+	IconCopy,
+	IconEdit,
+	IconEye,
+	IconFilter,
+	IconFilterOff,
+	IconSortAscending,
+	IconSortDescending,
+	IconTrash,
+} from '@tabler/icons-vue';
+
+// component constantes
+const { t, locale } = useI18n();
+const route = useRoute();
+const router = useRouter();
+
+// handle hotkeys for this component
+const hkSearch = inject('hkSearch');
+const hkBack = inject('hkBack');
+const hkForward = inject('hkForward');
+const hkCancel = inject('hkCancel');
+const noActiveInput = inject('noActiveInput');
+const noActiveModal = inject('noActiveModal');
+
+// component properties
 const props = defineProps({
-  songs:     Object,
-  setlists:  Object,
-  tags:      Object,
-  languages: Object,
-  user:      String,
-  role:      Number,
-  ready:     Object,
+  config:        Object,
+  languages:     Object,
+  permissions:   Object,
+  ready:         Object,
+  registrations: Object,
+  role:          Number,
+  roleName:      String,
+  setlists:      Object,
+  songs:         Object,
+  tags:          Object,
+  user:          String,
+  userObject:    Object,
+  users:         Object,
 });
 
 // template references
-const container   = ref(null);
 const searchInput = ref(null);
 
-// reactive data
-const search     = ref('');
-const filter     = ref(route.params.tag ? route.params.tag : '');
-const tuning     = ref('');
-const language   = ref('');
-const page       = ref(0);
-const listLength = ref(12);
-const order = reactive({ 
-	field: 'date',
-	ascending: true
+// injects and emits
+const emit = defineEmits(['started', 'editSong', 'editSetlist']);
+
+// table filter
+const filter = reactive({
+	fulltext: null,
+	authors: null,
+	tag: route.params.tag ?? null,
+	language: null,
+	key: null,
+	year: null,
 });
-const modal = reactive({
-	set: false,
-	delete: false,
-});
-const active = reactive({
-	title: '',
-	key: '',
-	song: {},
-	existing: true
+const resetFilter = () => {
+	for (const field in filter) {
+		if (Object.hasOwnProperty.call(filter, field)) {
+			filter[field] = null;
+		}
+	}
+};
+const isFiltered = computed(() => {
+	return filter.fulltext || filter.authors || filter.tag || filter.language || filter.key || filter.year;
 });
 
-// mounted
-onMounted(() => {
-	container.value.focus();
+// pagination and sorting
+const page       = ref(0);
+const listLength = 16;
+const order = reactive({ 
+	field: 'title',
+	ascending: true
 });
 
 // computed
 const songsArray = computed(() => {
-	let songs = Object.keys(props.songs).map((key) => {
-		let song = props.songs[key];
-		song['id'] = key;
-		return song;
-	})
+	const songs = [];
+	for (const key in props.songs) {
+		if (Object.hasOwnProperty.call(props.songs, key)) {
+			const element = props.songs[key];
+			element['id'] = key;
+			songs.push(element);
+		}
+	}
 	songs.sort((a, b) => {
-		var propA = String(a[order.field]).toLowerCase().trim();
-		var propB = String(b[order.field]).toLowerCase().trim();
+		let propA = String(a[order.field]).toLowerCase().trim();
+		let propB = String(b[order.field]).toLowerCase().trim();
 		if (order.ascending) {
 			if (propA < propB) { return -1 };
 			if (propA > propB) { return 1 };
@@ -323,32 +351,44 @@ const songsArray = computed(() => {
 	return songs;
 });
 const filteredSongs = computed(() => {
-	var songs = songsArray.value;
-	if (search.value != '') {
+	let songs = songsArray.value;
+	if (filter.fulltext) {
+		// filter fields: title, subtitle, content
 		songs = songs.filter(song => {
-			// filter fields: title, subtitle
-			var key = search.value;
+			let key = filter.fulltext;
 			return song.title.toLowerCase().indexOf(key) !== -1
 				|| song.subtitle.toLowerCase().indexOf(key) !== -1
 				|| song.content.toLowerCase().indexOf(key) !== -1
 		});
 	}
-	if (filter.value != '') {
+	if (filter.authors) {
+		// filter field: authors
 		songs = songs.filter(song => {
-			// filter field: tags
-			return song.tags.indexOf(filter.value) !== -1;
+			return song.authors.toLowerCase().indexOf(filter.authors) !== -1;
 		});
 	}
-	if (tuning.value != '') {
+	if (filter.tag) {
+		// filter field: tags
 		songs = songs.filter(song => {
-			// filter field: tuning
-			return song.tuning.indexOf(tuning.value) !== -1;
+			return song.tags.indexOf(filter.tag) !== -1;
 		});
 	}
-	if (language.value != '') {
+	if (filter.language) {
+		// filter field: language
 		songs = songs.filter(song => {
-			// filter field: language
-			return song.language.indexOf(language.value) !== -1;
+			return song.language.indexOf(filter.language) !== -1;
+		});
+	}
+	if (filter.year) {
+		// filter field: year
+		songs = songs.filter(song => {
+			return String(song.year).indexOf(filter.year) !== -1;
+		});
+	}
+	if (filter.key) {
+		// filter field: key
+		songs = songs.filter(song => {
+			return song.tuning.indexOf(filter.key) !== -1;
 		});
 	}
 	return songs
@@ -357,7 +397,7 @@ const noSongs = computed(() => {
 	return props.ready.songs && songsArray.value.length == 0;
 });
 const pagedSongs = computed(() => {
-	return filteredSongs.value.slice(page.value*listLength.value, (page.value+1)*listLength.value);
+	return filteredSongs.value.slice(page.value*listLength, (page.value+1)*listLength);
 });
 const isFirstPage = computed(() => {
 	return page.value == 0;
@@ -366,7 +406,7 @@ const isLastPage = computed(() => {
 	return page.value == pageCount.value-1;
 });
 const pageCount = computed(() => {
-	return Math.ceil(filteredSongs.value.length/listLength.value);
+	return Math.ceil(filteredSongs.value.length/listLength);
 });
 
 // methods
@@ -406,19 +446,47 @@ const showPageItemLink = (p) => {
 const showLastEllipsis = (p) => {
 	return pageCount.value >= 6 && page.value < pageCount.value-3 && p == pageCount.value-1;
 };
-const editDialog = (song, existing) => {
-	active.title = song.title;
-	active.song = song;
-	active.key = song.id;
-	active.existing = existing;
-	modal.set = true;
-};
+
+// handle modals
+const showModal = reactive({
+	delete: false,
+});
+
+// delete song
+const songDeleteModalData = reactive({
+	title: '',
+	key:   '',
+});
 const deleteDialog = (song) => {
-	active.title = song.title;
-	active.key = song.id;
-	modal.delete = true;
+	songDeleteModalData.title = song.title;
+	songDeleteModalData.key   = song.id;
+	showModal.delete          = true;
 };
 
-// watcher
-watch ([search, filter, tuning, language], () => { page.value = 0 });
+// sort song tags alphabetically
+const sortedTags = (tagKeys) => {
+	const tags = tagKeys.map(t => props.tags[t]);
+	return sortTags(tags, locale.value);
+};
+
+// reset page when filter changes
+watch (filter, () => { page.value = 0 });
+
+// component shortcuts
+whenever(
+	logicAnd(hkSearch, noActiveModal),
+	() => !noSongs.value ? searchInput.value.focus() : null
+);
+whenever(
+	logicAnd(hkCancel, noActiveModal),
+	() => resetFilter()
+);
+whenever(
+	logicAnd(hkBack, noActiveInput, noActiveModal),
+	() => !isFirstPage.value && !noSongs.value ? page.value-- : null
+);
+whenever(
+	logicAnd(hkForward, noActiveInput, noActiveModal),
+	() => !isLastPage.value && !noSongs.value ? page.value++ : null
+);
 </script>

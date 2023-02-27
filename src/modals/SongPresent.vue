@@ -1,115 +1,106 @@
 <template>
-	<div
-		class="modal modal-lg modal-full modal-presentation"
-		:class="{ active: active, light: !dark }"
-		ref="container"
-		tabindex="0"
-		@keydown.ctrl.i.prevent="song.note ? modal.infosongdata = !modal.infosongdata : null"
-		@keydown.ctrl.l.prevent="dark = !dark"
-		@keydown.esc.exact="emit('closed')"
+	<modal
+		:active="active"
+		:title="song.title"
+		:theme="dark ? 'black' : 'white'"
+		size="full"
+		@closed="emit('closed')"
 	>
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container p-0">
-			<div class="modal-header">
-				<div class="modal-title h5 text-center">
-					{{ song.title }}
-					<span class="modal-subtitle h6 text-gray ml-3">{{ song.subtitle }}</span>
-				</div>
-			</div>
-			<div v-if="song.content" class="modal-body">
-				<SongContent
-					:content="song.content"
-					:chords="chords"
-					:tuning="tuning"
-					:presentation="true"
-					ref="songcontent"
-				/>
-			</div>
-			<div class="modal-footer">
-				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
-					:class="{
-						'btn-secondary': !modal.infosongdata,
-						'btn-primary': modal.infosongdata ,
-						'disabled': !song.note
-					}"
-					href="#"
-					aria-label="Song Data"
-					@click="song.note ? modal.infosongdata = true : null"
-					:data-tooltip="tooltip('info')"
+		<template #close><i></i></template>
+		<div class="h-full overflow-y-auto pb-12 xs:pb-0">
+			<!-- song contnt -->
+			<song-content
+				:content="song.content"
+				:chords="chords"
+				:tuning="tuning"
+				:presentation="true"
+				ref="songContentRef"
+			/>
+			<!-- toolbar -->
+			<div class="fixed bottom-2 right-2 flex gap-2">
+				<secondary-button
+					:disabled="!song.note"
+					:title="tooltip('info')"
+					@click="song.note ? showModal.infosongdata = true : null"
 				>
-					<ion-icon :icon="informationOutline" class="icon-1-5x"></ion-icon>
-				</a>
-				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
-					:class="{ 'btn-secondary': dark, 'btn-primary': !dark }"
-					href="#"
-					aria-label="Light mode"
+					<icon-info-circle :class="{ 'stroke-spring-400': showModal.infosongdata }" />
+				</secondary-button>
+				<secondary-button
+					:title="tooltip('lightMode')"
 					@click.prevent="dark = !dark"
-					:data-tooltip="tooltip('lightMode')"
 				>
-					<ion-icon :icon="contrastOutline" class="icon-1-5x"></ion-icon>
-				</a>
-				<a
-					class="btn btn-xl btn-fw btn-gray btn-toggle tooltip ml-1"
-					:class="{ 'btn-secondary': !chords, 'btn-primary': chords }"
-					href="#"
-					aria-label="Chords"
+					<icon-brightness :class="{ 'stroke-spring-400': !dark }" />
+				</secondary-button>
+				<secondary-button
+					:title="tooltip('chords')"
 					@click.prevent="emit('chords')"
-					:data-tooltip="tooltip('chords')"
 				>
-					<ion-icon :icon="musicalNotes" class="icon-1-5x"></ion-icon>
-				</a>
-				<a
-					class="btn btn-secondary btn-xl btn-fw btn-gray tooltip ml-1"
-					href="#"
-					aria-label="Cancel"
+					<icon-music v-if="chords" class="stroke-spring-400" />
+					<icon-music-off v-else />
+				</secondary-button>
+				<button
+					class="p-2 text-blade-500"
+					:title="tooltip('close')"
 					@click.prevent="emit('closed')"
-					:data-tooltip="tooltip('close')"
 				>
-					<ion-icon :icon="close" class="icon-1-5x"></ion-icon>
-				</a>
+					<icon-x />
+				</button>
 			</div>
 		</div>
-		<!-- modal: info song note -->
-		<InfoSongData
-			v-if="modal.infosongdata"
-			:active="modal.infosongdata"
-			:song="song"
-			@closed="modal.infosongdata = false"
-		/>
-	</div>
+	</modal>
+	<!-- modal: info song note -->
+	<info-song-data
+		:active="showModal.infosongdata"
+		:song="song"
+		@closed="showModal.infosongdata = false"
+	/>
 </template>
 
 <script setup>
-import { reactive, ref, inject, watch, onMounted, onUnmounted, nextTick } from 'vue';
-import { useI18n } from "vue-i18n";
-import SongContent from '@/partials/SongContent';
+import { reactive, ref, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
+import { whenever } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
 import InfoSongData from '@/modals/InfoSongData';
+import Modal from '@/elements/Modal';
+import SecondaryButton from '@/elements/SecondaryButton';
+import SongContent from '@/partials/SongContent';
+
+// icons
 import {
-	close,
-	contrastOutline,
-	informationOutline,
-	musicalNotes
-} from 'ionicons/icons';
+	IconBrightness,
+	IconInfoCircle,
+	IconMusic,
+	IconMusicOff,
+	IconX,
+} from '@tabler/icons-vue';
+
+// component constants
 const { t } = useI18n();
+
+// handle hotkeys for this component
+const hkInfo = inject('hkInfo');
+const hkTheme = inject('hkTheme');
+const hkCancel = inject('hkCancel');
 
 // inherited properties
 const props = defineProps({
-	active: Boolean,  // state of modal display, true to show modal
-	song: Object,     // single song to present
-	chords: Boolean,  // true if chords shall be rendered
-	tuning: Number,   // key to present song in
+	active: Boolean, // state of modal display, true to show modal
+	chords: Boolean, // true if chords shall be rendered
+	song:   Object,  // single song to present
+	tuning: Number,  // key to present song in
 });
 
 // reactive data
-const modal = reactive({
+const showModal = reactive({
 	infosongdata: false
 });
-const container = ref(null);
-const songcontent = ref(null);
+
+// manual theme selection
 const dark = ref(true);
+
+// timeouts for resize debouncing
 const resizeTimeout = ref(null);
+const songContentRef = ref(null);
 
 // emits
 const emit = defineEmits(['chords', 'closed']);
@@ -119,12 +110,12 @@ const maximizeFontsize = () => {
 	// wait for dom to be ready
 	nextTick(() => {
 		// maximize content of presented song
-		songcontent.value?.maximizeFontsize();
+		songContentRef.value?.maximizeFontsize();
 	});
 };
 // handle viewport resize
 const resizeHandler = () => {
-	clearTimeout(resizeTimeout.value);
+	clearTimeout(resizeTimeout.value); // debounce resize event
 	resizeTimeout.value = setTimeout(() => {
 		maximizeFontsize();
 	}, 500);
@@ -147,18 +138,32 @@ const tooltip = (target) => {
 	}
 };
 
-// watcher: maximize fontsize again when chords are toggled
-watch (() => props.chords, () => maximizeFontsize());
+// maximize fontsize initially and when chords are toggled
+watch (
+	[() => props.active, () => props.chords],
+	() => maximizeFontsize()
+);
 
 // handle mount / unmount hooks
 onMounted(() => {
 	// handle viewport resizes
 	window.addEventListener('resize', resizeHandler);
-	// initially fit presentation into viewport
-	maximizeFontsize();
-	container.value.focus();
 });
 onUnmounted(() => {
 	window.removeEventListener('resize', resizeHandler);
 });
+
+// component shortcuts
+whenever(
+	hkInfo,
+	() => props.song.note ? showModal.infosongdata = !showModal.infosongdata : null
+);
+whenever(
+	hkTheme,
+	() => dark.value = !dark.value
+);
+whenever(
+	hkCancel,
+	() => emit('closed')
+);
 </script>

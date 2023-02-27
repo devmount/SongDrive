@@ -1,6 +1,6 @@
 // init app
 import { createApp } from 'vue';
-import App from '@/App.vue';
+import App from '@/App';
 const app = createApp(App);
 
 // init router
@@ -21,10 +21,6 @@ let firebaseApp = firebase.initializeApp(conf);
 // set global properties
 app.provide('db', firebaseApp.firestore());
 app.provide('version', process.env.VUE_APP_VERSION);
-
-// ionicons
-import { IonIcon } from '@ionic/vue';
-app.component('ion-icon', IonIcon);
 
 // vue-notification
 import Notifications from '@kyvg/vue3-notification';
@@ -57,6 +53,9 @@ Object.filter = (obj, predicate) =>
 	Object.keys(obj)
 		.filter(key => predicate(obj[key]))
 		.reduce((res, key) => (res[key] = obj[key], res), {});
+
+// init basic css with tailwind imports
+import '@/assets/main.css';
 
 // ready? let's go!
 app.mount('#app');

@@ -1,43 +1,44 @@
 <template>
-	<div class="modal modal-sm" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.deleteLanguage') }}</div>
-			</div>
-			<div class="modal-body">
-				<div v-if="!languageInUse" class="content">
-					<p>{{ t('text.reallyDeleteLanguage', { name: languageName }) }}</p>
-					<p>{{ t('text.cannotBeUndone') }}</p>
-				</div>
-				<div v-else class="content">
-					<p>{{ t('text.languageInUse') }}</p>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a class="btn btn-link btn-gray" href="#" aria-label="Cancel" @click.prevent="emit('closed')">
-					{{ t('button.cancel') }}
-				</a>
-				<button class="btn btn-error ml-2" :class="{ disabled: languageInUse }" @click="deleteLanguage">
-					{{ t('button.delete') }}
-				</button>
-			</div>
+	<modal :active="active" :title="t('modal.deleteLanguage')" @closed="emit('closed')">
+		<div class="flex flex-col gap-2">
+			<template v-if="!languageInUse">
+				<div>{{ t('text.reallyDeleteLanguage', { name: languageName }) }}</div>
+				<div class="text-rose-600">{{ t('text.cannotBeUndone') }}</div>
+			</template>
+			<template v-else>
+				<div>{{ t('text.languageInUse') }}</div>
+			</template>
 		</div>
-	</div>
+		<div class="flex flex-col justify-end items-center gap-4 mt-4 2xs:flex-row">
+			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
+				{{ t('button.cancel') }}
+			</button>
+			<primary-button class="grow" type="danger" :disabled="languageInUse" @click="deleteLanguage">
+				{{ t('button.delete') }}
+				<icon-trash class="w-6 h-6 stroke-1.5" />
+			</primary-button>
+		</div>
+	</modal>
 </template>
 
 <script setup>
 import { computed, inject } from 'vue';
-import { useI18n } from "vue-i18n";
 import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
+import { useI18n } from 'vue-i18n';
+import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton';
+
+// icons
+import { IconTrash } from '@tabler/icons-vue';
+
+// component constants
 const { t } = useI18n();
 
 // global properties
 const db = inject('db');
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active: Boolean,      // state of modal display, true to show modal
 	languageName: String, // name of language to delete
@@ -48,7 +49,7 @@ const props = defineProps({
 // emits
 const emit = defineEmits(['closed']);
 
-// computed
+// true if there are still songs assigned to this language
 const languageInUse = computed(() => {
 	for (const id in props.songs) {
 		if (Object.hasOwnProperty.call(props.songs, id)) {
@@ -60,7 +61,7 @@ const languageInUse = computed(() => {
 	return false;
 });
 
-// methods
+// remove language from collection
 const deleteLanguage = () => {
 	if (!languageInUse.value) {
 		db.collection('languages').doc(props.languageKey).delete().then(() => {

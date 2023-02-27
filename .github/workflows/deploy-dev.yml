@@ -17,12 +17,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 17.x
-    - name: Build app using Yarn
+    - name: Build app via NPM
       run: |
         printf "VUE_APP_FB_API_KEY=${{ secrets.VUE_APP_FB_API_KEY_DEV }}\nVUE_APP_FB_PROJECT_ID=${{ secrets.VUE_APP_FB_PROJECT_ID_DEV }}" >> .env.production.local
-        npm install -g yarn
-        yarn install
-        yarn build
+        npm install
+        npm run build
     - name: Push Build files to testing environment
       uses: burnett01/rsync-deployments@5.2
       with:

@@ -1,156 +1,159 @@
 <template>
-	<div id="app">
+	<div class="bg-blade-100 text-blade-600 dark:bg-blade-850 dark:text-blade-300 overflow-x-hidden">
 		<!-- logged in, confirmed and verified -->
 		<div
 			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && c.users[auth.user] && ready.permissions && c.permissions[auth.user] && !loading"
-			class="off-canvas off-canvas-sidebar-show"
+			class="lg:flex min-h-screen"
 		>
-			<!-- off-screen toggle button -->
-			<a class="off-canvas-toggle btn btn-primary btn-action" @click="open = true">
-				<ion-icon :icon="menu" size="large"></ion-icon>
-			</a>
+			<!-- menu toggle button -->
+			<button class="fixed lg:hidden transition-all top-2 right-2 lg:top-4 lg:right-4 px-2 py-1 z-10 flex items-center" :class="{ 'right-64 mr-4': open }" @click="open = true">
+				<icon-menu2 class="w-8 h-8 stroke-2" />
+			</button>
 
-			<!-- off-screen sidebar -->
-			<div id="sidebar-id" class="off-canvas-sidebar" :class="{ active: open }">
-				<div class="sidebar-wrapper">
-					<div class="brand text-center mt-2">
-						<router-link to="/">
-							<Logo />
-						</router-link>
-					</div>
-					<ul class="menu text-uppercase">
-						<li class="divider text-center" :data-content="t('divider.start')"></li>
-						<li class="menu-item">
-							<router-link to="/" class="py-2" @click="open = false">
-								<ion-icon :icon="appsSharp" class="mr-2"></ion-icon> {{ t('page.dashboard') }}
-							</router-link>
-						</li>
-						<li class="menu-item">
-							<router-link to="/songs" class="py-2" @click="open = false">
-								<ion-icon :icon="musicalNotesSharp" class="mr-2"></ion-icon> {{ t('page.songs') }}
-							</router-link>
-							<div class="menu-badge">
-								<label v-if="ready.songs" class="label py-1">{{ Object.keys(c.songs).length }}</label>
-								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button
-									v-if="userRoles[c.permissions[auth.user].role] > 2"
-									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
-									:data-tooltip="t('tooltip.songAdd')"
-									@click="modal.addsong = true"
-								>
-									<ion-icon :icon="addSharp"></ion-icon>
-								</button>
-							</div>
-						</li>
-						<li class="menu-item">
-							<router-link to="/setlists" class="py-2" @click="open = false">
-								<ion-icon :icon="list" class="mr-2"></ion-icon> {{ t('page.setlists') }}
-							</router-link>
-							<div class="menu-badge">
-								<label v-if="ready.setlists" class="label py-1">{{ setlistCount }}</label>
-								<label v-else class="label py-1"><div class="loading d-inline-block px-2"></div></label>
-								<button
-									v-if="userRoles[c.permissions[auth.user].role] > 1"
-									class="btn btn-secondary btn-action btn-sm mx-2 tooltip tooltip-left"
-									:data-tooltip="t('tooltip.setlistAdd')"
-									@click="modal.addsetlist = true"
-								>
-									<ion-icon :icon="addSharp"></ion-icon>
-								</button>
-							</div>
-						</li>
-						<li class="divider text-center" :data-content="t('divider.account')"></li>
-						<li class="menu-item pt-2 pb-2">
-							<router-link to="/profile" class="py-2" @click="open = false">
-								<div class="tile tile-centered">
-									<div class="tile-icon mr-2 ml-1">
-										<img v-if="c.users[auth.user].photo" class="avatar" :src="c.users[auth.user].photo" alt="Avatar">
-										<figure
-											v-else-if="userName"
-											class="avatar"
-											:data-initial="initials(userName)"
-											alt="Avatar"
-										></figure>
-										<span v-else class="avatar flex-center">
-											<ion-icon :icon="person"></ion-icon>
-										</span>
-									</div>
-									<div class="tile-content">
-										{{ userName }}
-										<div class="text-gray text-small">
-											{{ t('role.' + c.permissions[auth.user].role) }}
-										</div>
-									</div>
-								</div>
-							</router-link>
-						</li>
-						<li class="menu-item">
-							<router-link to="/settings" class="py-2" :class="{ badge: registrationsExist && userRoles[c.permissions[auth.user].role] > 3 }" @click="open = false">
-								<ion-icon :icon="optionsOutline" class="mr-2"></ion-icon> {{ t('page.settings') }}
-							</router-link>
-						</li>
-						<li class="menu-item">
-							<button class="btn btn-secondary d-block stretch mt-3" @click="signOut">
-								{{ t('button.signOut') }} <ion-icon :icon="logOutOutline" class="icon-right"></ion-icon>
-							</button>
-						</li>
-					</ul>
-					<ul class="menu text-uppercase">
-						<li class="divider text-center" :data-content="t('divider.info')"></li>
-						<li class="menu-item">
-							<router-link to="/shortcuts" class="py-2" @click="open = false">
-								<ion-icon :icon="bulbOutline" class="mr-2"></ion-icon> {{ t('page.shortcuts') }}
-							</router-link>
-						</li>
-						<li class="menu-item">
-							<router-link to="/documentation" class="py-2" @click="open = false">
-								<ion-icon :icon="bookOutline" class="mr-2"></ion-icon> {{ t('page.docu') }}
-							</router-link>
-						</li>
-						<li class="menu-item">
-							<a href="https://github.com/devmount/SongDrive" class="py-2" target="_blank">
-								<ion-icon :icon="logoGithub" class="mr-2"></ion-icon>
-								{{ t('page.github') }}
-								<ion-icon :icon="openOutline" class="icon-right"></ion-icon>
-							</a>
-						</li>
-					</ul>
-					<footer>
-						<div class="text-center text-small text-gray">
-							<span>
-								{{ t('app.created.0') }}
-								<ion-icon :icon='heartOutline'></ion-icon>
-								{{ t('app.created.1') }}
-							</span>
-							<a href="https://devmount.de" target="_blank">
-								<svg class="logo-devmount ml-1" x="0px" y="0px" viewBox="0 0 234 234">
-									<path class="st0" d="M6.9,140.6L87.1,40.2l78.2,77.6"/>
-									<path class="st0" d="M40.4,193.8l62.1-77.8l35.9,35.4l48.8-60.6l39.8,39.5"/>
-								</svg>
-							</a>
+			<!-- menu sidebar -->
+			<div
+				class="fixed shrink-0 -right-64 lg:left-0 lg:right-auto top-0 transition-all z-30 min-h-screen w-64 flex flex-col px-2 py-8 bg-blade-200 dark:bg-blade-900"
+				:class="{ '!right-0': open }"
+			>
+				<router-link to="/" class="flex flex-col w-max mx-auto mb-4 no-active">
+					<logo :featured="false" :show-version="true" />
+				</router-link>
+				<div class="flex flex-col gap-1 mt-1">
+					<router-link
+						to="/"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<icon-layout-grid class="w-5 h-5 stroke-1.5" />
+						<span class="mb-0.5 uppercase">{{ t('page.dashboard') }}</span>
+					</router-link>
+					<router-link
+						to="/songs"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<icon-music class="w-5 h-5 stroke-1.5" />
+						<span class="mb-0.5 uppercase">{{ t('page.songs', Object.keys(c.songs)?.length) }}</span>
+						<div class="flex items-center gap-4 ml-auto">
+							<div v-if="ready.songs" class="font-bold">{{ Object.keys(c.songs).length }}</div>
+							<secondary-button
+								v-if="userRoles[c.permissions[auth.user].role] > 2"
+								class="!p-1 tooltip tooltip-left"
+								:data-tooltip="t('tooltip.songAdd')"
+								@click.stop.prevent="createNewSong"
+							>
+								<icon-plus class="w-5 h-5 stroke-1.5" />
+							</secondary-button>
 						</div>
-						<div class="text-center text-small text-gray">
-							2016–{{ (new Date()).getFullYear() }}
-							<svg class="legal" viewBox="0 0 14 16">
-								<path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path>
-							</svg>
-							<a href="https://github.com/devmount/SongDrive/blob/main/LICENSE" target="_blank">
-								{{ t('app.license') }}
-							</a>
+					</router-link>
+					<router-link
+						to="/setlists"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<icon-playlist class="w-5 h-5 stroke-1.5" />
+						<span class="mb-0.5 uppercase">{{ t('page.setlists', setlistCount) }}</span>
+						<div class="flex items-center gap-4 ml-auto">
+							<label v-if="ready.setlists" class="font-bold">{{ setlistCount }}</label>
+							<secondary-button
+								v-if="userRoles[c.permissions[auth.user].role] > 1"
+								class="!p-1 tooltip tooltip-left"
+								:data-tooltip="t('tooltip.setlistAdd')"
+								@click.stop.prevent="createNewSetlist"
+							>
+								<icon-plus class="w-5 h-5 stroke-1.5" />
+							</secondary-button>
 						</div>
-					</footer>
+					</router-link>
+					<divider-horizontal :label="t('divider.account')" />
+					<router-link
+						to="/profile"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<avatar :photo-url="c.users[auth.user].photo" :name="userName" size="md" />
+						<div class="flex flex-col">
+							<div class="leading-5 uppercase">{{ userName }}</div>
+							<div class="text-gray-500 text-sm">
+								{{ t('role.' + c.permissions[auth.user].role) }}
+							</div>
+						</div>
+					</router-link>
+					<router-link
+						to="/settings"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<icon-settings class="w-5 h-5 stroke-1.5" />
+						<span class="mb-0.5 uppercase">{{ t('page.settings') }}</span>
+						<indicator-pulse v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3" class="ml-auto" />
+					</router-link>
+					<secondary-button class="mt-2" @click="signOut">
+						{{ t('button.signOut') }}
+						<icon-logout class="w-6 h-6 stroke-1.5" />
+					</secondary-button>
+					<divider-horizontal :label="t('divider.info')" />
+					<router-link
+						to="/shortcuts"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<icon-bulb class="w-5 h-5 stroke-1.5" />
+						<span class="mb-0.5 uppercase">{{ t('page.shortcuts') }}</span>
+					</router-link>
+					<router-link
+						to="/documentation"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						@click="open = false"
+					>
+						<icon-book class="w-5 h-5 stroke-1.5" />
+						<span class="mb-0.5 uppercase">{{ t('page.docu') }}</span>
+					</router-link>
+					<a
+						href="https://github.com/devmount/SongDrive"
+						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						target="_blank"
+					>
+						<icon-brand-github class="w-5 h-5 stroke-1.5" />
+						<span class="mb-0.5 uppercase">{{ t('page.github') }}</span>
+						<icon-external-link class="w-5 h-5 ml-auto" />
+					</a>
 				</div>
+				<footer class="mt-auto text-sm text-blade-500">
+					<div class="flex justify-center items-center gap-1">
+						<span>{{ t('app.created.0') }}</span>
+						<icon-heart class="w-5 h-5 stroke-1.5" />
+						<span>{{ t('app.created.1') }}</span>
+						<a href="https://devmount.de" target="_blank">
+							<svg class="w-6 h-6 fill-transparent stroke-10 stroke-current" viewBox="0 0 234 234">
+								<path d="M6.9,140.6L87.1,40.2l78.2,77.6" />
+								<path d="M40.4,193.8l62.1-77.8l35.9,35.4l48.8-60.6l39.8,39.5" />
+							</svg>
+						</a>
+					</div>
+					<div class="flex justify-center items-center gap-1">
+						<span>2016–{{ (new Date()).getFullYear() }}</span>
+						<icon-license class="w-5 h-5 fill-transparent stroke-1.5 stroke-current" />
+						<a href="https://github.com/devmount/SongDrive/blob/main/LICENSE" target="_blank">
+							{{ t('app.license') }}
+						</a>
+					</div>
+				</footer>
 			</div>
-			<a class="off-canvas-overlay" @click="open = false"></a>
+			<div
+				class="fixed top-0 left-0 z-20 w-screen h-screen bg-blade-800/50 lg:hidden"
+				:class="{ 'hidden': !open }"
+				@click="open = false"
+			></div>
 
 			<!-- off-screen content -->
-			<div class="off-canvas-content">
+			<div class="w-full p-3 sm:p-6 lg:ml-64">
 				<router-view
 					:key="route.fullPath"
 					:user="auth.user"
-					:userObject="auth.userObject"
+					:user-object="auth.userObject"
 					:role="userRoles[c.permissions[auth.user].role]"
-					:roleName="c.permissions[auth.user].role"
+					:role-name="c.permissions[auth.user].role"
 					:ready="ready"
 					:config="c.config"
 					:languages="c.languages"
@@ -161,127 +164,189 @@
 					:tags="c.tags"
 					:users="c.users"
 					@started="loading=true"
-				></router-view>
+					@edit-song="editExistingSong"
+					@edit-setlist="editExistingSetlist"
+				/>
 			</div>
 		</div>
 		<!-- logged in but not confimed yet -->
 		<div v-if="auth.ready && auth.user && auth.confirmed === false && !loading">
-			<UserUnconfirmed :config="c.config" :ready="ready" @signOut="signOut" />
+			<user-unconfirmed :config="c.config" :ready="ready" @signOut="signOut" />
 		</div>
 		<!-- logged in, confimed but not verified yet -->
 		<div v-if="auth.ready && auth.user && auth.confirmed && !auth.userObject.emailVerified && !loading">
-			<UserUnverified :config="c.config" :ready="ready" @signOut="signOut" @resendEmailVerification="resendEmailVerification()" />
+			<user-unverified :config="c.config" :ready="ready" @signOut="signOut" @resendEmailVerification="resendEmailVerification()" />
 		</div>
 		<!-- login screen -->
 		<div v-if="auth.ready && !auth.user && !loading">
-			<Login
-				@signIn="signIn"
-				@signUp="modal.signup = true"
-				@resetPassword="modal.passwordreset = true"
+			<login
+				@sign-in="signIn"
+				@sign-up="showModal.signup = true"
+				@reset-password="showModal.passwordreset = true"
 			/>
 		</div>
 		<!-- loading screen -->
-		<div v-if="!auth.ready || !auth.user || auth.confirmed === null || loading" class="full-viewport d-flex justify-center align-center">
-			<div class="loading loading-xl"></div>
+		<div
+			v-if="!auth.ready || ((!auth.user || auth.confirmed === null) && loading)"
+			class="w-screen h-screen flex justify-center items-center"
+		>
+			<div class="animate-spin w-16 h-16 rounded-full border-4 border-transparent border-t-spring-600"></div>
 		</div>
-
-		<!-- modals -->
-		<SongSet
-			v-if="modal.addsong"
-			:active="modal.addsong"
-			:existing="false"
-			:initialSong="newSong"
-			songKey=""
-			:songs="c.songs"
-			:setlists="c.setlists"
-			:tags="c.tags"
-			:languages="c.languages"
-			:ready="ready"
-			@closed="modal.addsong = false"
-			@reset="resetSong"
-		/>
-		<SetlistSet
-			v-if="modal.addsetlist"
-			:active="modal.addsetlist"
-			:existing="false"
-			:initialSetlist="newSetlist"
-			setlistKey=""
-			:user="auth.user"
-			:songs="c.songs"
-			:setlists="c.setlists"
-			:tags="c.tags"
-			:languages="c.languages"
-			:ready="ready"
-			@closed="modal.addsetlist = false"
-			@reset="resetSetlist"
-		/>
-		<SignUp
-			v-if="modal.signup"
-			:active="modal.signup"
-			@closed="modal.signup = false"
-			@submitted="signUp"
-		/>
-		<PasswordReset
-			v-if="modal.passwordreset"
-			:active="modal.passwordreset"
-			@closed="modal.passwordreset = false"
-			@submitted="sendPasswordReset"
-		/>
 
 		<!-- notifications -->
 		<notifications position="bottom right" :duration="5000" :width="400">
 			<template #body="props">
-				<div :class="'toast toast-' + props.item.type">
-					<ion-icon :icon="close" class="float-right c-hand icon-1-5x" @click="props.close"></ion-icon>
-					<h5>{{ props.item.title }}</h5>
-					<p v-html="props.item.text"></p>
+				<div
+					class="mb-2 mr-2 py-2 px-3 rounded-sm text-white"
+					:class="{
+						'bg-spring-700': props.item.type === 'primary',
+						'bg-rose-700': props.item.type === 'error',
+					}"
+				>
+					<div class="flex justify-between">
+						<div class="text-lg font-semibold">{{ props.item.title }}</div>
+						<button aria-label="Close" @click="props.close">
+							<icon-x class="w-6 h-6" />
+						</button>
+					</div>
+					<div v-html="props.item.text"></div>
 				</div>
 			</template>
 		</notifications>
 	</div>
+	<!-- modals -->
+	<song-set
+		:active="showModal.songset"
+		:existing="songSetModalData.existing"
+		:initial-song="songSetModalData.song"
+		:id="songSetModalData.id"
+		:songs="c.songs"
+		:setlists="c.setlists"
+		:tags="c.tags"
+		:languages="c.languages"
+		:ready="ready"
+		@closed="showModal.songset = false"
+	/>
+	<setlist-set
+		:active="showModal.setlistset"
+		:existing="setlistSetModalData.existing"
+		:initial-setlist="setlistSetModalData.setlist"
+		:id="setlistSetModalData.id"
+		:user="auth.user"
+		:songs="c.songs"
+		:setlists="c.setlists"
+		:tags="c.tags"
+		:languages="c.languages"
+		:ready="ready"
+		@closed="showModal.setlistset = false"
+	/>
+	<sign-up
+		:active="showModal.signup"
+		@closed="showModal.signup = false"
+		@submitted="doSignUp"
+	/>
+	<password-reset
+		:active="showModal.passwordreset"
+		@closed="showModal.passwordreset = false"
+		@submitted="sendPasswordReset"
+	/>
 </template>
 
 <script setup>
-import { ref, reactive, computed, inject, onMounted } from 'vue';
-import { useI18n } from "vue-i18n";
-import { useRoute } from 'vue-router';
-import { notify } from '@kyvg/vue3-notification';
-import { userRoles, initials, throwError } from '@/utils.js';
-import Logo from '@/partials/Logo';
-import Login from '@/partials/Login';
-import SignUp from '@/modals/SignUp';
-import PasswordReset from '@/modals/PasswordReset';
-import UserUnconfirmed from '@/partials/UserUnconfirmed';
-import UserUnverified from '@/partials/UserUnverified';
-import SongSet from '@/modals/SongSet';
-import SetlistSet from '@/modals/SetlistSet';
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from 'firebase/firestore';
+import { notify } from '@kyvg/vue3-notification';
+import { ref, reactive, computed, inject, provide, onMounted } from 'vue';
+import { useActiveElement, useMagicKeys } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { userRoles, throwError } from '@/utils.js';
+import Avatar from '@/elements/Avatar';
+import DividerHorizontal from '@/elements/DividerHorizontal';
+import firebase from 'firebase/compat/app';
+import IndicatorPulse from '@/elements/IndicatorPulse';
+import Login from '@/partials/Login';
+import Logo from '@/partials/Logo';
+import PasswordReset from '@/modals/PasswordReset';
+import SecondaryButton from '@/elements/SecondaryButton';
+import SetlistSet from '@/modals/SetlistSet';
+import SignUp from '@/modals/SignUp';
+import SongSet from '@/modals/SongSet';
+import UserUnconfirmed from '@/partials/UserUnconfirmed';
+import UserUnverified from '@/partials/UserUnverified';
+
+// icons
 import {
-	appsSharp,
-	addSharp,
-	bookOutline,
-	bulbOutline,
-	close,
-	heartOutline,
-	list,
-	logoGithub,
-	logOutOutline,
-	menu,
-	musicalNotesSharp,
-	openOutline,
-	optionsOutline,
-	person
-} from 'ionicons/icons';
+	IconBook,
+	IconBrandGithub,
+	IconBulb,
+	IconExternalLink,
+	IconHeart,
+	IconLayoutGrid,
+	IconLicense,
+	IconLogout,
+	IconMenu2,
+	IconMusic,
+	IconPlaylist,
+	IconPlus,
+	IconSettings,
+	IconX,
+} from '@tabler/icons-vue';
+
+// hotkeys
+const {
+	arrowdown,
+	arrowleft,
+	arrowright,
+	arrowup,
+	ctrl_b,
+	ctrl_f,
+	ctrl_i,
+	ctrl_l,
+	ctrl_k,
+	ctrl_p,
+	ctrl_r,
+	ctrl_s,
+	enter,
+	escape,
+} = useMagicKeys({
+	passive: false,
+	onEventFired: (e) => {
+		if (e.ctrlKey && ['f','k','p','r','i','l','s','b'].includes(e.key) && e.type === 'keydown') {
+			e.preventDefault();
+		}
+	},
+});
+const activeElement = useActiveElement();
+const noActiveInput = computed(() =>
+	activeElement.value?.tagName !== 'INPUT'
+	&& activeElement.value?.tagName !== 'TEXTAREA',
+);
+provide('hkBack',    arrowleft );
+provide('hkCancel',  escape    );
+provide('hkChords',  ctrl_k    );
+provide('hkDown',    arrowdown );
+provide('hkForward', arrowright);
+provide('hkGo',      enter     );
+provide('hkHide',    ctrl_b    );
+provide('hkInfo',    ctrl_i    );
+provide('hkPresent', ctrl_p    );
+provide('hkReset',   ctrl_r    );
+provide('hkSearch',  ctrl_f    );
+provide('hkSync',    ctrl_s    );
+provide('hkTheme',   ctrl_l    );
+provide('hkUp',      arrowup   );
+provide('noActiveInput', noActiveInput);
+
+// component constants
 const { t } = useI18n();
 const route = useRoute();
 
 // global properties
 const db = inject('db');
 
-// reactive data: db tables / collections
+// db table collections
 const c = reactive({
 	config: {},
 	languages: {},
@@ -292,6 +357,7 @@ const c = reactive({
 	tags: {},
 	users: {},
 });
+
 // db table ready state
 const ready = reactive({
 	config: false,
@@ -303,6 +369,7 @@ const ready = reactive({
 	tags: false,
 	users: false,
 });
+
 // db table listeners
 const listener = reactive({
 	config: null,
@@ -314,43 +381,93 @@ const listener = reactive({
 	tags: null,
 	users: null,
 });
-// modals
+
+// mobile menu state
 const open = ref(false);
-const modal = reactive({
-	addsong: false,
-	addsetlist: false,
-	signup: false,
-	passwordreset: false,
-});
-// objects to save
-const newSong = reactive({
-	authors: '',
-	ccli: '',
-	content: '',
-	language: '',
-	note: '',
-	publisher: '',
-	subtitle: '',
-	tags: [],
-	title: '',
-	translations: [],
-	tuning: '',
-	year: '',
-	youtube: '',
-});
-const newSetlist = reactive({
+
+// setlist object
+const initialSetlist = {
 	title: '',
 	private: false,
 	date: '',
 	songs: [],
+};
+
+// song object
+const initialSong = {
+	authors:      '',
+	ccli:         '',
+	content:      '',
+	language:     '',
+	note:         '',
+	publisher:    '',
+	subtitle:     '',
+	tags:         [],
+	title:        '',
+	translations: [],
+	tuning:       '',
+	year:         '',
+	youtube:      '',
+};
+
+// modals
+const showModal = reactive({
+	songset:       false,
+	setlistset:    false,
+	signup:        false,
+	passwordreset: false,
 });
-// authentification
+const noActiveModal = computed(() => {
+	return !showModal.songset && !showModal.setlistset && !showModal.signup && !showModal.passwordreset;
+});
+provide('noActiveModal', noActiveModal);
+
+// add and edit songs
+const songSetModalData = reactive({
+	song:     structuredClone(initialSong),
+	existing: false,
+	id:       null,
+});
+const createNewSong = () => {
+	songSetModalData.song     = structuredClone(initialSong);
+	songSetModalData.existing = false;
+	songSetModalData.id       = null;
+	showModal.songset         = true;
+};
+const editExistingSong = ({data, id, exists}) => {
+	songSetModalData.song     = data;
+	songSetModalData.existing = exists;
+	songSetModalData.id       = id;
+	showModal.songset         = true;
+};
+
+// add and edit setlists
+const setlistSetModalData = reactive({
+	setlist:  structuredClone(initialSetlist),
+	existing: false,
+	id:       null,
+});
+const createNewSetlist = () => {
+	setlistSetModalData.setlist  = structuredClone(initialSetlist);
+	setlistSetModalData.existing = false;
+	setlistSetModalData.id       = null;
+	showModal.setlistset         = true;
+};
+const editExistingSetlist = ({data, id, exists}) => {
+	setlistSetModalData.setlist  = data;
+	setlistSetModalData.existing = exists;
+	setlistSetModalData.id       = id;
+	showModal.setlistset         = true;
+};
+
+// authentication
 const auth = reactive({
 	confirmed: null,
 	ready: false,
 	user: '',
 	userObject: null,
 });
+
 // explicit loading indication
 // currently used for switching profiles on user creation
 const loading = ref(false);
@@ -405,27 +522,7 @@ const loadConfig = () => {
 		}
 	}).catch((error) => throwError(error));
 };
-// set all newSong values to default
-const resetSong = () => {
-	newSong.authors = '';
-	newSong.ccli = '';
-	newSong.content = '';
-	newSong.language = '';
-	newSong.note = '';
-	newSong.publisher = '';
-	newSong.subtitle = '';
-	newSong.tags = [];
-	newSong.title = '';
-	newSong.translations = [];
-	newSong.tuning = '';
-	newSong.year = '';
-};
-// set all newSetlist values to default
-const resetSetlist = () => {
-	newSetlist.title = '';
-	newSetlist.date = '';
-	newSetlist.songs = [];
-};
+
 // execute sign in on Firebase backend
 const signIn = (email, password) => {
 	firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
@@ -463,7 +560,7 @@ const signOut = () => {
 	}).catch((error) => throwError(error));
 };
 // execute user creation on firebase backend
-const signUp = (user) => {
+const doSignUp = (user) => {
 	firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
 		// sign-up successful
 		auth.user = firebase.auth().currentUser.uid
@@ -511,9 +608,9 @@ const sendPasswordReset = (email) => {
 	}).catch((error) => throwError(error));
 };
 
-// handle mount hooks
+// initially check authentication
 onMounted(() => {
-	// add listener for authentification state
+	// add listener for authentication state
 	firebase.auth().onAuthStateChanged(user => {
 		if (user) {
 			// load app config on auth change only when not explicitly loading
@@ -547,8 +644,3 @@ onMounted(() => {
 	});
 });
 </script>
-
-<style lang="scss">
-// apply all global styles
-@import "@/assets/global";
-</style>

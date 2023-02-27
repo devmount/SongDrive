@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  input, select, textarea {
+    @apply transition-all !py-1.5 border-blade-400 dark:border-black focus:!ring-4 focus:!ring-spring-400/20 hover:!border-spring-400 focus:!border-spring-600 dark:!bg-blade-900 dark:!text-blade-100 hover:disabled:!border-black;
+  }
+  button, a {
+    @apply transition-all;
+  }
+  kbd {
+    @apply font-mono rounded text-blade-600 dark:text-blade-200 bg-blade-300 dark:bg-blade-900 border border-b-4 border-blade-400 dark:border-blade-700 px-2 py-1
+  }
+  th {
+    @apply text-left
+  }
+
+  @font-face {
+    font-family: 'Fira Mono';
+    src: url('./fonts/FiraMono-Regular.ttf');
+    font-weight: 400;
+  }
+}
+
+@layer components {
+  /* centering absolute or fixed positioned elements */
+  .position-center {
+    @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+}
+
+/* generated router links */
+.router-link-active:not(.no-active) {
+  @apply bg-blade-300 dark:bg-blade-800
+}
+
+/* key caps */
+kbd > * {
+  @apply align-middle inline
+}
+
+/* generated markdown */
+.markdown h2 {
+  @apply text-3xl uppercase font-light tracking-widest mt-8 mb-4
+}
+.markdown h3 {
+  @apply text-xl uppercase tracking-widest mt-6 mb-4
+}
+.markdown h4 {
+  @apply text-lg font-semibold tracking-widest mt-4 mb-1
+}
+.markdown table {
+  @apply mt-4 border-collapse divide-y
+}
+.markdown table th, .markdown table td {
+  @apply py-1.5 px-3
+}
+.markdown table tbody {
+  @apply divide-y divide-blade-600
+}
+.markdown p {
+  @apply mb-4
+}
+.markdown ul {
+  @apply pl-6 mb-4
+}
+.markdown ul li {
+  @apply list-item list-disc pl-2
+}
+.markdown a {
+  @apply text-spring-600 hover:text-white
+}
+.markdown code {
+  @apply rounded-sm bg-blade-750 px-1.5 py-0.5 text-sm
+}
+.markdown pre code {
+  @apply bg-blade-900 mb-4
+}
+.markdown blockquote {
+  @apply border-l-2 border-blade-700 pl-4 py-1 mb-4
+}
+.markdown blockquote p:last-child {
+  @apply mb-0
+}
+
+/* songdrive syntax and prism editor */
+.language-songdrive .sd-marker,
+.prism-editor__editor .sd-marker {
+  @apply text-blade-500
+}
+.language-songdrive .sd-chords,
+.prism-editor__editor .sd-chords {
+  @apply text-spring-600
+}
+.prism-editor__container {
+  @apply min-h-full
+}
+
+/* prism editor */
+#song-content {
+  @apply transition-all p-1.5 border border-blade-400 dark:border-black focus:ring-4 focus:ring-spring-400/20 hover:border-spring-400 focus:border-spring-600 dark:bg-blade-900 dark:text-blade-100 hover:disabled:border-black;
+}
+.prism-editor__textarea {
+  @apply !p-0
+}
+.prism-editor__textarea:focus {
+  @apply outline-none
+}
+
+/* date picker */
+.dp__theme_dark {
+  --dp-background-color: theme(colors.blade.900);
+  --dp-text-color: theme(colors.inherit);
+  --dp-hover-color: theme(colors.blade.700);
+  --dp-hover-text-color: theme(colors.white);
+  --dp-hover-icon-color: theme(colors.white);
+  --dp-primary-color: theme(colors.spring.600);
+  --dp-primary-text-color: theme(colors.white);
+  --dp-secondary-color: theme(colors.blade.500);
+  --dp-border-color: theme(colors.black);
+  --dp-menu-border-color: theme(colors.black);
+  --dp-icon-color: theme(colors.inherit);
+}
+.dp__theme_light {
+  --dp-text-color: theme(colors.inherit);
+  --dp-primary-color: theme(colors.spring.700);
+  --dp-primary-text-color: theme(colors.white);
+  --dp-icon-color: theme(colors.inherit);
+}
+.dp__menu,
+.dp__calendar,
+.dp__calendar_header {
+  @apply w-full
+}
+.dp__calendar_header_item {
+  @apply font-normal uppercase text-sm
+}
+.dp__calendar_item,
+.dp__calendar_header_item {
+  @apply flex-1
+}
+.dp__calendar_row {
+  @apply gap-1
+}
+.dp__cell_inner,
+.dp__calendar_header_item {
+  @apply h-10 w-auto !rounded-sm
+}
+
+/* carousel */
+.carousel__pagination-button {
+	@apply w-6 h-6 rounded-full !p-0 !bg-blade-300 dark:!bg-blade-700
+}
+.carousel__pagination-button::after {
+	@apply !hidden
+}
+.carousel__pagination-button--active {
+  @apply !bg-spring-600
+}

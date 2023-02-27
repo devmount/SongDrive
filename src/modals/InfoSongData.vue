@@ -1,30 +1,28 @@
 <template>
-	<div class="modal modal-md" :class="{ active: active }">
-		<a href="#" class="modal-overlay" aria-label="Close" @click.prevent="emit('closed')"></a>
-		<div class="modal-container">
-			<div class="modal-header">
-				<a href="#" class="btn btn-clear float-right" aria-label="Close" @click.prevent="emit('closed')"></a>
-				<div class="modal-title h5">{{ t('modal.songInfo') }}</div>
-			</div>
-			<div class="modal-body">
-				<div v-if="song.note">
-					<div class="text-bold">{{ t('field.note') }}</div>
-					<p v-html="song.note"></p>
-				</div>
-			</div>
-			<div class="modal-footer"></div>
+	<modal
+		:active="active"
+		:title="t('modal.songInfo')"
+		:child="true"
+		@closed="emit('closed')"
+	>
+		<div v-if="song.note">
+			<div class="font-bold">{{ t('field.note') }}</div>
+			<p v-html="song.note"></p>
 		</div>
-	</div>
+	</modal>
 </template>
 
 <script setup>
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
+import Modal from '@/elements/Modal';
+
+// component constants
 const { t } = useI18n();
 
-// inherited properties
+// component properties
 const props = defineProps({
 	active: Boolean, // state of modal display, true to show modal
-	song: Object     // song to show information for
+	song:   Object,  // song to show information for
 });
 
 // emits

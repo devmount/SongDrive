@@ -1,22 +1,26 @@
 <template>
-<div class="chart">
-	<h2 v-if="title" class="text-center">{{ title }}</h2>
-	<p v-if="description" class="text-gray text-center">{{ description }}</p>
-	<div
-		class="chart-container"
-		:style="{
-			width: width ? width : 'auto',
-			height: height ? height : 'auto'
-		}"
-	>
-		<canvas :id="id"></canvas>
+	<div class="flex flex-col">
+		<h2 v-if="title" class="flex-initial text-center">
+			{{ title }}
+		</h2>
+		<div v-if="description" class="flex-initial text-blade-500 text-center">
+			{{ description }}
+		</div>
+		<div
+			class="relative flex-auto"
+			:style="{
+				width: width ? width : 'auto',
+				height: height ? height : 'auto'
+			}"
+		>
+			<canvas :id="id"></canvas>
+		</div>
 	</div>
-</div>
 </template>
 
 <script setup>
 import { computed, watch, onMounted } from 'vue';
-import { Chart, transparentGradientLine } from '../chart.config'
+import { Chart, transparentGradientLine } from '@/chart.config';
 
 // inherited properties
 const props = defineProps({
@@ -58,7 +62,7 @@ const processedDatasets = computed(() => {
 		};
 		// dashed line for last segment
 		d.segment = {
-			borderDash: ctx => this.unfinished && ctx.p0?.parsed.x == d.data.length-2 ? [10, 5] : undefined
+			borderDash: ctx => props.unfinished && ctx.p0?.parsed.x == d.data.length-2 ? [10, 5] : undefined
 		};
 	})
 	return datasets;
@@ -149,17 +153,3 @@ onMounted(() => {
 	}
 });
 </script>
-
-<style lang="scss">
-.chart {
-	display: flex;
-	flex-flow: column;
-	&>h2, &>p {
-		flex: 0 1 auto;
-	}
-	&>.chart-container {
-		position: relative;
-		flex: 1 1 auto;
-	}
-}
-</style>
