@@ -50,8 +50,8 @@ import { IconX } from '@tabler/icons-vue';
 const props = defineProps({
 	active: Boolean, // state of modal display, true to show modal
 	theme:  String,  // theme mode (optional), black|white
-  title:  String,  // title to display on top
-  size:   String,  // maximum width for modal
+	title:  String,  // title to display on top
+	size:   String,  // maximum width for modal
 	child:  Boolean, // true if modal is called from within another modal
 });
 

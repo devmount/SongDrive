@@ -311,17 +311,17 @@ const {
 	enter,
 	escape,
 } = useMagicKeys({
-  passive: false,
-  onEventFired: (e) => {
-    if (e.ctrlKey && ['f','k','p','r','i','l','s','b'].includes(e.key) && e.type === 'keydown') {
+	passive: false,
+	onEventFired: (e) => {
+		if (e.ctrlKey && ['f','k','p','r','i','l','s','b'].includes(e.key) && e.type === 'keydown') {
 			e.preventDefault();
 		}
-  },
+	},
 });
 const activeElement = useActiveElement();
 const noActiveInput = computed(() =>
-  activeElement.value?.tagName !== 'INPUT'
-  && activeElement.value?.tagName !== 'TEXTAREA',
+	activeElement.value?.tagName !== 'INPUT'
+	&& activeElement.value?.tagName !== 'TEXTAREA',
 );
 provide('hkBack',    arrowleft );
 provide('hkCancel',  escape    );
