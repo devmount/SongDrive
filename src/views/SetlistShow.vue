@@ -838,8 +838,10 @@ const getPdfSetlist = () => {
 		{ text: setlist.value.title.toUpperCase(), style: 'header' },
 		{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
 		{
-			text: (new Date(setlist.value.date)).toLocaleDateString("de-DE",
-			{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+			text: (new Date(setlist.value.date)).toLocaleDateString(
+				locale.value,
+				{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+			),
 			style: 'subtitle',
 			margin: [ 0, 6, 0, 0 ]
 		},

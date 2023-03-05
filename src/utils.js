@@ -214,7 +214,7 @@ const humanDate = (d, locale, showWeekdate=true, short=false) => {
   let options = showWeekdate
     ? { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
     : { year: short ? '2-digit' : 'numeric', month: short ? 'numeric' : 'long', day: 'numeric' };
-  return (new Date(d)).toLocaleDateString(locale + '-' + locale.toUpperCase(), options);
+  return (new Date(d)).toLocaleDateString(locale, options);
 };
 
 // format human readable file sizes
@@ -310,9 +310,9 @@ const keyByValue = (o, v) => Object.keys(o).find(k => o[k]===v);
 
 // sort tags by locale
 const sortTags = (tags, locale) => tags.sort(
-  (a,b) => a[locale] && b[locale]
+  (a, b) => {console.log(a,b); return a[locale] && b[locale]
     ? a[locale].localeCompare(b[locale])
-    : a.localeCompare(b)
+    : a.key.localeCompare(b.key)}
 );
 
 // true if browser uses a dark color scheme

@@ -84,7 +84,6 @@ const router = useRouter();
 
 // component properties
 const props = defineProps({
-  songs: Array,
   setlists: Array,
 });
 
