@@ -310,9 +310,9 @@ const keyByValue = (o, v) => Object.keys(o).find(k => o[k]===v);
 
 // sort tags by locale
 const sortTags = (tags, locale) => tags.sort(
-  (a, b) => {console.log(a,b); return a[locale] && b[locale]
+  (a, b) => a[locale] && b[locale]
     ? a[locale].localeCompare(b[locale])
-    : a.key.localeCompare(b.key)}
+    : a.key.localeCompare(b.key)
 );
 
 // true if browser uses a dark color scheme

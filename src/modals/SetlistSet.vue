@@ -198,7 +198,7 @@
 				<div v-else>
 					<div class="text-center">{{ setlist.songs?.length }} {{ t('text.selected') }}</div>
 					<div
-						v-sortable="{ onEnd: reorder, handle: '.handle' }"
+						v-sortable="{ onUpdate: reorder, handle: '.handle' }"
 						class="overflow-y-scroll h-full flex flex-col gap-1 mt-3"
 					>
 						<div

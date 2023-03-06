@@ -219,7 +219,7 @@
 					<th class="w-11"></th>
 				</tr>
 			</thead>
-			<tbody v-sortable="{ onEnd: reorder, handle: '.handle' }">
+			<tbody v-sortable="{ onUpdate: reorder, handle: '.handle' }">
 				<tr
 					v-for="(song, i) in setlist.songs" :key="song.id"
 					class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900 transition-all"
