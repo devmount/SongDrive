@@ -197,54 +197,51 @@
 				</div>
 				<div v-else>
 					<div class="text-center">{{ setlist.songs?.length }} {{ t('text.selected') }}</div>
-					<div
-						v-sortable="{
-							onUpdate: reorder,
-							handle: '.handle',
-							animation: 150,
-							delay: 500,
-							delayOnTouchOnly: true,
-							touchStartThreshold: 3
-						}"
+					<draggable
+						v-model="setlist.songs"
+						item-key="id"
+						handle=".handle"
+						ghost-class="!bg-blade-950"
 						class="overflow-y-scroll h-full flex flex-col gap-1 mt-3"
 					>
-						<div
-							v-for="(song, i) in setlist.songs" :key="song.id"
-							class="flex items-center gap-2 p-1 hover:bg-blade-200 dark:hover:bg-blade-800"
-						>
-							<button class="p-1 cursor-grab active:cursor-grabbing text-blade-500">
-								<icon-menu-order class="handle w-5 h-5" />
-							</button>
-							<div class="flex items-center">
-								<secondary-button @click.prevent="tuneDown(i)" class="w-6 h-6 !p-1">
-									<icon-arrow-left class="w-4 h-4 stroke-2 shrink-0" />
-								</secondary-button>
-								<figure
-									class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
-									:title="t('title.songTuning')"
-								>
-									<div class="-mt-0.5">{{ song.tuning ? song.tuning : songs[song.id].tuning }}</div>
-								</figure>
-								<secondary-button @click.prevent="tuneUp(i)" class="w-6 h-6 !p-1">
-									<icon-arrow-right class="w-4 h-4 stroke-2 shrink-0" />
-								</secondary-button>
-							</div>
-							<div class="flex flex-col overflow-hidden">
-								<div class="-mt-1 truncate">
-									{{ songs[song.id].title }}
-								</div>
-								<div class="text-sm text-blade-500 -mt-1 truncate">
-									{{ songs[song.id].subtitle }}
-								</div>
-							</div>
-							<button
-								class="ml-auto p-1 text-blade-500"
-								@click="setlistSongs = setlistSongs.filter(k => k !== song.id)"
+						<template #item="{ element }">
+							<div
+								class="flex items-center gap-2 p-1 hover:bg-blade-200 dark:hover:bg-blade-800"
 							>
-								<icon-x class="w-4 h-4" />
-							</button>
-						</div>
-					</div>
+								<button class="p-1 cursor-grab active:cursor-grabbing text-blade-500">
+									<icon-menu-order class="handle w-5 h-5" />
+								</button>
+								<div class="flex items-center">
+									<secondary-button @click.prevent="tuneDown(i)" class="w-6 h-6 !p-1">
+										<icon-arrow-left class="w-4 h-4 stroke-2 shrink-0" />
+									</secondary-button>
+									<figure
+										class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
+										:title="t('title.songTuning')"
+									>
+										<div class="-mt-0.5">{{ element.tuning ? element.tuning : songs[element.id].tuning }}</div>
+									</figure>
+									<secondary-button @click.prevent="tuneUp(i)" class="w-6 h-6 !p-1">
+										<icon-arrow-right class="w-4 h-4 stroke-2 shrink-0" />
+									</secondary-button>
+								</div>
+								<div class="flex flex-col overflow-hidden">
+									<div class="-mt-1 truncate">
+										{{ songs[element.id].title }}
+									</div>
+									<div class="text-sm text-blade-500 -mt-1 truncate">
+										{{ songs[element.id].subtitle }}
+									</div>
+								</div>
+								<button
+									class="ml-auto p-1 text-blade-500"
+									@click="setlistSongs = setlistSongs.filter(k => k !== element.id)"
+								>
+									<icon-x class="w-4 h-4" />
+								</button>
+							</div>
+						</template>
+					</draggable>
 				</div>
 			</div>
 		</div>
@@ -271,6 +268,7 @@ import { ref, reactive, computed, inject, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import Datepicker from '@vuepic/vue-datepicker';
+import draggable from 'vuedraggable';
 import Dropdown from '@/elements/Dropdown';
 import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';

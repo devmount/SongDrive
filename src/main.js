@@ -26,12 +26,6 @@ app.provide('version', process.env.VUE_APP_VERSION);
 import Notifications from '@kyvg/vue3-notification';
 app.use(Notifications);
 
-// vue-sortable
-import Sortable from 'sortablejs';
-app.directive('sortable', (el, binding) => {
-	new Sortable(el, binding.value || {});
-});
-
 // vue-i18n
 import { createI18n } from 'vue-i18n';
 const messages = {

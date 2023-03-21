@@ -219,119 +219,118 @@
 					<th class="w-11"></th>
 				</tr>
 			</thead>
-			<tbody v-sortable="{
-				onUpdate: reorder,
-				handle: '.handle',
-				animation: 150,
-				ghostClass: '!bg-blade-950',
-				delay: 500,
-				delayOnTouchOnly: true,
-				touchStartThreshold: 3,
-			}">
-				<tr
-					v-for="(song, i) in setlist.songs" :key="song.id"
-					class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900 transition-all"
-				>
-					<td v-if="user && role > 1" class="cursor-grab active:cursor-grabbing text-center text-blade-500">
-						<icon-menu-order class="handle inline" />
-					</td>
-					<template v-if="songs[song.id]">
-						<td
-							class="cursor-pointer px-3 py-2 max-w-0"
-							@click="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})"
-						>
-							<div class="truncate">
-								<span>{{ songs[song.id].title }}</span>
-								<span class="text-blade-500 ml-3">{{ songs[song.id].subtitle }}</span>
-							</div>
+			<draggable
+				v-model="setlist.songs"
+				tag="tbody"
+				item-key="id"
+				handle=".handle"
+				ghost-class="!bg-blade-950"
+			>
+				<template #item="{ element }">
+					<tr
+						class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900 transition-all"
+					>
+						<td v-if="user && role > 1" class="cursor-grab active:cursor-grabbing text-center text-blade-500">
+							<icon-menu-order class="handle inline" />
 						</td>
-						<td
-							class="cursor-pointer px-3 py-2 max-w-0 hidden 2xl:table-cell"
-							@click="router.push({ name: 'song-show', params: { id: song.id, key: song.tuning ? song.tuning : songs[song.id].tuning }})"
-						>
-							<div class="truncate">{{ songs[song.id].authors }}</div>
-						</td>
-						<td class="px-3 py-2">
-							<div class="flex justify-center items-center gap-3">
-								<secondary-button
-									v-if="user && role > 1"
-									class="!px-2"
-									@click.prevent="transposeDown(songs[song.id], i)"
-								>
-									<icon-arrow-left class="w-5 h-5" />
-								</secondary-button>
-								<div class="font-mono font-semibold text-xl w-6 text-center">
-									{{ song.tuning ? song.tuning : songs[song.id].tuning }}
+						<template v-if="songs[element.id]">
+							<td
+								class="cursor-pointer px-3 py-2 max-w-0"
+								@click="router.push({ name: 'song-show', params: { id: element.id, key: element.tuning ? element.tuning : songs[element.id].tuning }})"
+							>
+								<div class="truncate">
+									<span>{{ songs[element.id].title }}</span>
+									<span class="text-blade-500 ml-3">{{ songs[element.id].subtitle }}</span>
 								</div>
-								<secondary-button
-									v-if="user && role > 1"
-									class="!px-2"
-									@click.prevent="transposeUp(songs[song.id], i)"
+							</td>
+							<td
+								class="cursor-pointer px-3 py-2 max-w-0 hidden 2xl:table-cell"
+								@click="router.push({ name: 'song-show', params: { id: element.id, key: element.tuning ? element.tuning : songs[element.id].tuning }})"
+							>
+								<div class="truncate">{{ songs[element.id].authors }}</div>
+							</td>
+							<td class="px-3 py-2">
+								<div class="flex justify-center items-center gap-3">
+									<secondary-button
+										v-if="user && role > 1"
+										class="!px-2"
+										@click.prevent="transposeDown(songs[element.id], i)"
+									>
+										<icon-arrow-left class="w-5 h-5" />
+									</secondary-button>
+									<div class="font-mono font-semibold text-xl w-6 text-center">
+										{{ element.tuning ? element.tuning : songs[element.id].tuning }}
+									</div>
+									<secondary-button
+										v-if="user && role > 1"
+										class="!px-2"
+										@click.prevent="transposeUp(songs[element.id], i)"
+									>
+										<icon-arrow-right class="w-5 h-5" />
+									</secondary-button>
+								</div>
+							</td>
+							<td class="px-3 py-2 hidden xl:table-cell text-center">
+								<div class="uppercase">{{ songs[element.id].language }}</div>
+							</td>
+							<td class="px-3 py-2 hidden md:table-cell">
+								<a
+									class="text-spring-600"
+									:href="'https://songselect.ccli.com/Songs/' + songs[element.id].ccli"
+									target="_blank"
 								>
-									<icon-arrow-right class="w-5 h-5" />
-								</secondary-button>
-							</div>
-						</td>
-						<td class="px-3 py-2 hidden xl:table-cell text-center">
-							<div class="uppercase">{{ songs[song.id].language }}</div>
-						</td>
-						<td class="px-3 py-2 hidden md:table-cell">
-							<a
-								class="text-spring-600"
-								:href="'https://songselect.ccli.com/Songs/' + songs[song.id].ccli"
-								target="_blank"
+									{{ songs[element.id].ccli }}
+								</a>
+							</td>
+						</template>
+						<template v-else>
+							<td colspan="2" class="px-3 py-2 max-w-0">
+								<div class="truncate">
+									<span class="text-rose-600">{{ t('toast.songDeleted') }}</span>
+									<span class="text-blade-500 font-mono text-sm ml-3">{{ element.id }}</span>
+								</div>
+							</td>
+							<td class="hidden 2xl:table-cell"></td>
+							<td class="hidden xl:table-cell"></td>
+							<td class="hidden md:table-cell"></td>
+						</template>
+						<td class="px-1 py-2">
+							<dropdown v-if="songs[element.id]">
+								<router-link
+									:to="{ name: 'song-show', params: { id: element.id }}"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								>
+									<icon-eye class="w-5 h-5 stroke-1.5" />
+									{{ t('button.show') }}
+								</router-link>
+								<button
+									v-if="user && role > 1"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click.prevent="emit('editSong', { data: songs[element.id], id: element.id, exists: true })"
+								>
+									<icon-edit class="w-5 h-5 stroke-1.5" />
+									{{ t('button.edit') }}
+								</button>
+								<button
+									v-if="user && role > 1"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click.prevent="emit('editSong', { data: songs[element.id], id: element.id, exists: false })"
+								>
+									<icon-copy class="w-5 h-5 stroke-1.5" />
+									{{ t('button.duplicate') }}
+								</button>
+							</dropdown>
+							<secondary-button
+								v-else
+								class="flex items-center !text-rose-600 hover:bg-opacity-80"
+								@click.prevent="removeSong(element.id)"
 							>
-								{{ songs[song.id].ccli }}
-							</a>
+								<icon-trash class="w-5 h-5" />
+							</secondary-button>
 						</td>
-					</template>
-					<template v-else>
-						<td colspan="2" class="px-3 py-2 max-w-0">
-							<div class="truncate">
-								<span class="text-rose-600">{{ t('toast.songDeleted') }}</span>
-								<span class="text-blade-500 font-mono text-sm ml-3">{{ song.id }}</span>
-							</div>
-						</td>
-						<td class="hidden 2xl:table-cell"></td>
-						<td class="hidden xl:table-cell"></td>
-						<td class="hidden md:table-cell"></td>
-					</template>
-					<td class="px-1 py-2">
-						<dropdown v-if="songs[song.id]">
-							<router-link
-								:to="{ name: 'song-show', params: { id: song.id }}"
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-							>
-								<icon-eye class="w-5 h-5 stroke-1.5" />
-								{{ t('button.show') }}
-							</router-link>
-							<button
-								v-if="user && role > 1"
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.prevent="emit('editSong', { data: songs[song.id], id: song.id, exists: true })"
-							>
-								<icon-edit class="w-5 h-5 stroke-1.5" />
-								{{ t('button.edit') }}
-							</button>
-							<button
-								v-if="user && role > 1"
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click.prevent="emit('editSong', { data: songs[song.id], id: song.id, exists: false })"
-							>
-								<icon-copy class="w-5 h-5 stroke-1.5" />
-								{{ t('button.duplicate') }}
-							</button>
-						</dropdown>
-						<secondary-button
-							v-else
-							class="flex items-center !text-rose-600 hover:bg-opacity-80"
-							@click.prevent="removeSong(song.id)"
-						>
-							<icon-trash class="w-5 h-5" />
-						</secondary-button>
-					</td>
-				</tr>
-			</tbody>
+					</tr>
+				</template>
+			</draggable>
 		</table>
 		<!-- setlist without songs -->
 		<div
@@ -445,6 +444,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
 import DoughnutChart from '@/charts/DoughnutChart';
+import draggable from 'vuedraggable';
 import Dropdown from '@/elements/Dropdown';
 import firebase from 'firebase/compat/app';
 import PrimaryButton from '@/elements/PrimaryButton';
