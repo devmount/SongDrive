@@ -3,7 +3,7 @@
 		class="w-full flex flex-wrap overflow-y-auto"
 		:class="{
 			'flex-row gap-8': !presentation,
-			'flex-col xs:flex-row gap-7 xs:gap-0': presentation
+			'flex-col xs:flex-row gap-7 xs:gap-0 pb-10 xs:pb-0': presentation
 		}"
 	>
 		<div
@@ -16,9 +16,10 @@
 				:part="part.number"
 				class="relative overflow-visible"
 				:class="{
-					'relative pl-8 before:absolute before:top-2 before:left-1 before:text-4xl before:font-fira before:font-light before:content-[attr(part)]': part.class === 'verse' && part.number > 0,
+					'relative before:absolute before:top-1 before:font-fira before:font-light before:content-[attr(part)]': part.class === 'verse' && part.number > 0,
 					'font-fira text-2xl': !chords,
-					'inline-block leading-[1.4] xs:before:text-5xl before:-left-0.5': presentation,
+					'pl-8 before:text-4xl before:left-1': !presentation,
+					'inline-block leading-[1.4] pl-6 md:pl-8 before:left-0 md:before:left-1 before:text-3xl md:before:text-4xl before:-left-0.5': presentation,
 				}"
 			><div
 				v-for="(line, l) in part.content.split('\n')" :key="l"
@@ -41,9 +42,9 @@ const props = defineProps({
 // methods
 const maximizeFontsize = () => {
 	// config
-	const WIDTH_MARGIN = 20;
+	const WIDTH_MARGIN  = 20;
 	const HEIGHT_MARGIN = 30;
-	const MAX_FONTSIZE = 48;
+	const MAX_FONTSIZE  = 48;
 	// all parent elements
 	for (let a of document.querySelectorAll('.present')) {
 		// all child elements
