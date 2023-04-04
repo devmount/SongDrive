@@ -150,7 +150,15 @@ kbd > * {
 
 /* carousel */
 .carousel__pagination-button {
-	@apply w-6 h-6 rounded-full !p-0 !bg-blade-300 dark:!bg-blade-700
+	@apply w-full h-0.5 !p-0 bg-blade-300 dark:bg-blade-700
+}
+.carousel__pagination-item {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .carousel__pagination-button {
+    @apply w-6 h-6 rounded-full
+  }
 }
 .carousel__pagination-button::after {
 	@apply !hidden

@@ -27,7 +27,9 @@
 						/>
 					</slide>
 					<template #addons>
-						<pagination class="absolute z-50 bottom-0 left-2 !m-0 gap-2" />
+						<pagination
+							class="fixed md:absolute w-screen md:w-auto z-50 bottom-0 left-0 md:left-2 !m-0 md:gap-2"
+						/>
 					</template>
 				</carousel>
 			</div>
@@ -38,13 +40,13 @@
 			>
 				<!-- back navigation -->
 				<secondary-button
-					class="absolute bottom-0 right-1/2 flex items-center gap-1 mr-0.5"
+					class="absolute bottom-0 left-4 md:left-auto md:right-1/2 flex items-center gap-1 mr-0.5"
 					:disabled="currentPosition == 0"
 					title="Previous Song"
 					@click="presentation.prev()"
 				>
 					<icon-arrow-left />
-					<div v-if="currentPosition > 0" class="flex items-center gap-2">
+					<div v-if="currentPosition > 0" class="hidden lg:flex items-center gap-2">
 						<div class="max-w-3xs truncate">
 							{{ songs[currentPosition-1].title }}
 						</div>
@@ -55,12 +57,12 @@
 				</secondary-button>
 				<!-- forward navigation -->
 				<secondary-button
-					class="absolute bottom-0 left-1/2 flex items-center gap-1 ml-0.5"
+					class="absolute bottom-0 left-16 md:left-1/2 flex items-center gap-1 ml-0.5"
 					:disabled="currentPosition == songs.length-1"
 					title="Next Song"
 					@click="presentation.next()"
 				>
-					<div v-if="currentPosition < songs.length-1" class="flex items-center gap-2">
+					<div v-if="currentPosition < songs.length-1" class="hidden lg:flex items-center gap-2">
 						<div class="max-w-3xs truncate">
 							{{ songs[currentPosition+1].title }}
 						</div>
@@ -74,6 +76,7 @@
 				<div class="font-mono text-2xl px-4">{{ timeonly }}</div>
 				<!-- song info -->
 				<secondary-button
+					class="hidden md:block"
 					:disabled="!songs[currentPosition].note"
 					:title="tooltip('info')"
 					@click="songs[currentPosition].note ? showModal.infosongdata = true : null"
@@ -82,6 +85,7 @@
 				</secondary-button>
 				<!-- toggle synchronisation -->
 				<secondary-button
+					class="hidden md:block"
 					:title="tooltip('sync')"
 					@click="autoSync = !autoSync"
 				>
@@ -90,6 +94,7 @@
 				</secondary-button>
 				<!-- toggle content visibility -->
 				<secondary-button
+					class="hidden md:block"
 					:title="tooltip('display')"
 					@click="hide = !hide"
 				>
@@ -98,6 +103,7 @@
 				</secondary-button>
 				<!-- toggle theme -->
 				<secondary-button
+					class="hidden md:block"
 					:title="tooltip('invert')"
 					@click="dark = !dark"
 				>
@@ -105,13 +111,62 @@
 				</secondary-button>
 				<!-- toggle chords -->
 				<secondary-button
+					class="hidden md:block"
 					:title="tooltip('chords')"
 					@click="emit('chords')"
 				>
 					<icon-music v-if="chords" class="stroke-spring-400" />
 					<icon-music-off v-else />
 				</secondary-button>
-				<!-- exist presentation -->
+				<!-- dropdown for small viewports -->
+				<div class="md:hidden">
+					<dropdown position="up">
+						<button
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+							:disabled="!songs[currentPosition].note"
+							@click="songs[currentPosition].note ? showModal.infosongdata = true : null"
+						>
+							<icon-info-circle :class="{ 'stroke-spring-400': showModal.infosongdata }" />
+							{{ songs[currentPosition].note ? t('tooltip.infoSongData') : t('tooltip.noSongInfo') }}
+						</button>
+						<!-- toggle synchronisation -->
+						<button
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+							@click="autoSync = !autoSync"
+						>
+							<icon-refresh v-if="autoSync" class="stroke-spring-400" />
+							<icon-refresh-off v-else />
+							{{ t('tooltip.sync' + (!autoSync ? 'On' : 'Off')) }}
+						</button>
+						<!-- toggle content visibility -->
+						<button
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+							@click="hide = !hide"
+						>
+							<icon-eye v-if="!hide" class="stroke-spring-400" />
+							<icon-eye-off v-else />
+							{{ t('tooltip.presentation' + (hide ? 'Show' : 'Hide')) }}
+						</button>
+						<!-- toggle theme -->
+						<button
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+							@click="dark = !dark"
+						>
+							<icon-brightness :class="{ 'stroke-spring-400': !dark }" />
+							{{ t('tooltip.invertColors') }}
+						</button>
+						<!-- toggle chords -->
+						<button
+							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+							@click="emit('chords')"
+						>
+							<icon-music v-if="chords" class="stroke-spring-400" />
+							<icon-music-off v-else />
+							{{ t('tooltip.chords' + (!chords ? 'Show' : 'Hide')) }}
+						</button>
+					</dropdown>
+				</div>
+				<!-- exit presentation -->
 				<button
 					class="p-2 text-blade-500"
 					:title="tooltip('close')"
@@ -160,10 +215,11 @@
 <script setup>
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
-import { logicAnd, logicOr } from '@vueuse/math';
+import { logicOr } from '@vueuse/math';
 import { whenever } from '@vueuse/core';
 import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
+import Dropdown from '@/elements/Dropdown';
 import InfoSongData from '@/modals/InfoSongData';
 import Modal from '@/elements/Modal';
 import SecondaryButton from '@/elements/SecondaryButton';
