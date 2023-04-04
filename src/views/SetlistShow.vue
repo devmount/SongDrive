@@ -44,6 +44,7 @@
 				<secondary-button
 					v-if="setlist && user && role > 1"
 					:title="setlist.active ? t('tooltip.syncOn') : t('tooltip.syncOff')"
+					:disabled="noSongs"
 					@click="updateActive"
 				>
 					<icon-refresh v-if="setlist.active === true" class="stroke-spring-400" />
@@ -60,6 +61,7 @@
 				</secondary-button>
 				<secondary-button
 					:title="t('tooltip.startFullscreen')"
+					:disabled="noSongs"
 					@click="modal.present=true"
 				>
 					<icon-presentation />
@@ -334,7 +336,7 @@
 		</table>
 		<!-- setlist without songs -->
 		<div
-			v-if="ready.songs && ready.setlists && setlist && setlist.songs.length == 0"
+			v-if="noSongs"
 			class="flex flex-col items-center gap-8 mt-4"
 		>
 			<icon-playlist class="w-12 h-12 stroke-1 text-blade-500" />
@@ -611,6 +613,11 @@ const setlistAccess = computed(() => {
 // true if this setlist is not part in collection
 const setlistNotFound = computed(() => {
 	return props.ready.setlists && !(setlistKey in props.setlists);
+});
+
+// true if this setlist is not part in collection
+const noSongs = computed(() => {
+	return props.ready.songs && props.ready.setlists && setlist.value && setlist.value.songs.length == 0;
 });
 
 // handle drag and drop reorder event and save new order for setlist
