@@ -83,6 +83,9 @@
 <script setup>
 import 'highlight.js/styles/github-dark.css';
 import { computed } from 'vue';
+import { default as de } from "@/docs/syntax-cheatsheet.de.md";
+import { default as en } from "@/docs/syntax-cheatsheet.en.md";
+import { marked } from 'marked';
 import { sdHighlight } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import SecondaryButton from '@/elements/SecondaryButton';
@@ -100,17 +103,14 @@ import {
 } from '@tabler/icons-vue';
 
 // component constants
-const { marked } = require('marked');
 const { t, locale } = useI18n();
 
 // markdown parser
 const hljs = require('highlight.js');
 
 // documentation contents
-const docs = {
-	de: require("@/docs/docs.de.md").default,
-	en: require("@/docs/docs.en.md").default,
-};
+const docs = { de, en };
+const lang = ['de', 'en'].includes(locale.value) ? locale.value : 'en';
 
 // convert spaces to dashes
 const dashCase = (text) => {
@@ -124,13 +124,13 @@ const scrollTo = (id) => {
 
 // generate table of contents from h2's
 const toc = computed(
-	() => marked.lexer(docs[locale.value]).filter(t => t.type === 'heading' && t.depth === 2)
+	() => marked.lexer(docs[lang]).filter(t => t.type === 'heading' && t.depth === 2)
 );
 
 // parse documentation markdown content
 const content = computed(
 	() => marked.parse(
-		docs[locale.value],
+		docs[lang],
 		{
 			renderer: new marked.Renderer(),
 			highlight: (code, lang) => {

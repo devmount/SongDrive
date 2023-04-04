@@ -13,6 +13,8 @@
 <script setup>
 import 'highlight.js/styles/github-dark.css';
 import { computed } from 'vue';
+import { default as de } from "@/docs/syntax-cheatsheet.de.md";
+import { default as en } from "@/docs/syntax-cheatsheet.en.md";
 import { marked } from 'marked';
 import { sdHighlight } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
@@ -24,10 +26,8 @@ const { t, locale } = useI18n();
 const hljs = require('highlight.js'); // markdown parser
 
 // cheatsheet contents
-const cheatsheets = {
-	de: require("@/docs/syntax-cheatsheet.de.md").default,
-	en: require("@/docs/syntax-cheatsheet.en.md").default,
-};
+const cheatsheets = { de, en };
+const lang = ['de', 'en'].includes(locale.value) ? locale.value : 'en';
 
 // component properties
 const props = defineProps({
@@ -39,7 +39,7 @@ const emit = defineEmits(['closed']);
 
 // parse content of cheatsheet markdown file
 const content = computed(() => marked.parse(
-	cheatsheets[locale.value],
+	cheatsheets[lang],
 	{
 		renderer: new marked.Renderer(),
 		highlight: (code, lang) => {
