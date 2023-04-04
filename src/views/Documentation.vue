@@ -83,8 +83,8 @@
 <script setup>
 import 'highlight.js/styles/github-dark.css';
 import { computed } from 'vue';
-import { default as de } from "@/docs/syntax-cheatsheet.de.md";
-import { default as en } from "@/docs/syntax-cheatsheet.en.md";
+import { default as de } from "@/docs/docs.de.md";
+import { default as en } from "@/docs/docs.en.md";
 import { marked } from 'marked';
 import { sdHighlight } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
