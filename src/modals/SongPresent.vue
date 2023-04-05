@@ -1,5 +1,6 @@
 <template>
 	<modal
+		v-if="song"
 		:active="active"
 		:title="song.title"
 		:theme="dark ? 'black' : 'white'"

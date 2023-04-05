@@ -35,7 +35,7 @@
 				</router-link>
 			</div>
 		</div>
-		<div class="text-sm text-blade-500">
+		<div v-if="song.year || song.publisher" class="text-sm text-blade-500">
 			&copy; {{ song.year }} {{ song.publisher }}
 		</div>
 		<div v-if="song.note">{{ song.note }}</div>

@@ -1,9 +1,9 @@
 <template>
-	<div class="flex flex-col gap-6 w-full">
+	<div v-if="ready.songs && song" class="flex flex-col gap-6 w-full">
 		<!-- page heading -->
 		<div class="flex flex-col justify-between items-stretch gap-4">
 			<!-- title and song count -->
-			<div v-if="ready.songs && song" class="flex gap-6 text-3xl uppercase font-thin tracking-wider">
+			<div class="flex gap-6 text-3xl uppercase font-thin tracking-wider">
 				<span class="font-semibold">{{ song.title }}</span>
 				{{ showTuning.current }}
 			</div>
@@ -184,7 +184,7 @@
 		/>
 		<!-- song footer with info and data about the song -->
 		<song-footer
-			v-if="ready.songs && song && ready.tags"
+			v-if="ready.tags"
 			class="columns mt-4 pt-4"
 			:song="song"
 			:tags="tags"
@@ -193,7 +193,7 @@
 	<!-- modals -->
 	<song-delete
 		:active="modal.delete"
-		:title="song ? song.title : ''"
+		:title="song?.title"
 		:id="songId"
 		:songs="songs"
 		@closed="modal.delete = false"
