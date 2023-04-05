@@ -43,11 +43,11 @@
 			<div class="flex items-center gap-1">
 				<secondary-button
 					v-if="setlist && user && role > 1"
-					:title="setlist.active ? t('tooltip.syncOn') : t('tooltip.syncOff')"
+					:title="setlist?.active ? t('tooltip.syncOn') : t('tooltip.syncOff')"
 					:disabled="noSongs"
 					@click="updateActive"
 				>
-					<icon-refresh v-if="setlist.active === true" class="stroke-spring-400" />
+					<icon-refresh v-if="setlist?.active === true" class="stroke-spring-400" />
 					<icon-refresh-off v-else />
 					<span class="hidden xl:inline">{{ t('switch.sync') }}</span>
 				</secondary-button>
@@ -415,19 +415,19 @@
 	<!-- modals -->
 	<setlist-delete
 		:active="modal.delete"
-		:title="setlist ? setlist.title : ''"
+		:title="setlist?.title"
 		:id="setlistKey"
 		@closed="modal.delete = false"
 	/>
 	<setlist-present
 		:active="modal.present"
 		:songs="setlistSongs"
-		:sync="setlist.active"
-		:position="setlist.position"
+		:sync="setlist?.active"
+		:position="setlist?.position"
 		:chords="chords"
-		:remote-hide="setlist.remoteHide"
-		:remote-light="setlist.remoteLight"
-		:remote-text="setlist.remoteText"
+		:remote-hide="setlist?.remoteHide"
+		:remote-light="setlist?.remoteLight"
+		:remote-text="setlist?.remoteText"
 		@chords="chords = !chords"
 		@closed="modal.present = false"
 		@update-position="updatePosition"
