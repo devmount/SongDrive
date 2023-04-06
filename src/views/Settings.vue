@@ -69,7 +69,8 @@
 				</div>
 				<secondary-button @click="updateProfile" class="mt-auto self-start">
 					{{ t('button.saveProfile') }}
-					<icon-device-floppy class="w-6 h-6 stroke-1.5" />
+					<icon-loader2 v-if="busy.profile" class="w-6 h-6 stroke-1.5 animate-spin" />
+					<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
 				</secondary-button>
 			</panel>
 			<!-- SongDrive UI -->
@@ -325,7 +326,8 @@
 				</div>
 				<secondary-button @click="updateConfig" class="mt-auto self-start">
 					{{ t('button.saveConfig') }}
-					<icon-device-floppy class="w-6 h-6 stroke-1.5" />
+					<icon-loader2 v-if="busy.config" class="w-6 h-6 stroke-1.5 animate-spin" />
+					<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
 				</secondary-button>
 			</panel>
 			<!-- backup administration -->
@@ -341,7 +343,8 @@
 						<div class="text-blade-500">{{ t('text.saveAll')}}</div>
 						<secondary-button @click="exportDb" class="mt-2">
 							{{ t('button.export') }}
-							<icon-archive class="w-6 h-6 stroke-1.5" />
+							<icon-loader2 v-if="busy.export" class="w-6 h-6 stroke-1.5 animate-spin" />
+							<icon-archive v-else class="w-6 h-6 stroke-1.5" />
 						</secondary-button>
 					</div>
 					<zone-danger :label="t('text.dangerZone')">
@@ -456,6 +459,7 @@ import {
 	IconEdit,
 	IconKey,
 	IconLanguage,
+	IconLoader2,
 	IconMail,
 	IconPalette,
 	IconPlus,
@@ -542,6 +546,13 @@ const active = reactive({
 	approved: true
 });
 
+// busy indicators
+const busy = reactive({
+	profile: false,
+	config: false,
+	export: false,
+});
+
 // emits
 const emit = defineEmits(['started', 'editSong', 'editSetlist']);
 
@@ -574,6 +585,7 @@ const resendEmailVerification = () => {
 
 // save profile data
 const updateProfile = () => {
+	busy.profile = true;
 	props.userObject.updateProfile({
 			displayName: profile.name,
 			email: profile.email
@@ -588,6 +600,7 @@ const updateProfile = () => {
 					text: t('toast.userUpdatedText'),
 					type: 'primary'
 				});
+				busy.profile = false;
 			}).catch((error) => throwError(error));
 		}).catch((error) => throwError(error));
 	}, (error) => throwError(error));
@@ -595,6 +608,7 @@ const updateProfile = () => {
 
 // save configration
 const updateConfig = () => {
+	busy.config = true;
 	db.collection('config').doc('contact').update({
 		email: configuration.contact.email
 	}).then(() => {
@@ -604,6 +618,7 @@ const updateConfig = () => {
 			text: t('toast.configUpdatedText'),
 			type: 'primary'
 		});
+		busy.config = false;
 	}).catch((error) => throwError(error));
 };
 
@@ -645,6 +660,7 @@ const addRegistration = (user, id) => {
 
 // show modal to export database colections
 const exportDb = () => {
+	busy.export = true;
 	let data = {
 		'config': configuration,
 		'songs': props.songs,
@@ -661,6 +677,7 @@ const exportDb = () => {
 		text: t('toast.databaseExportedText'),
 		type: 'primary'
 	});
+	busy.export = false;
 };
 
 // get ui language code and names
