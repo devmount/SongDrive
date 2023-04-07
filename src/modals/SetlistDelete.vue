@@ -9,7 +9,8 @@
 				</button>
 				<primary-button type="danger" @click="deleteSetlist">
 					{{ t('button.delete') }}
-					<icon-trash class="w-6 h-6 stroke-1.5" />
+					<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+					<icon-trash v-else class="w-6 h-6 stroke-1.5" />
 				</primary-button>
 			</div>
 		</div>
@@ -17,7 +18,7 @@
 </template>
 
 <script setup>
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
@@ -26,7 +27,10 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { IconTrash } from '@tabler/icons-vue';
+import {
+	IconLoader2,
+	IconTrash,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
@@ -47,7 +51,9 @@ const props = defineProps({
 const emit = defineEmits(['closed']);
 
 // execute setlist deletion
+const busy = ref(false);
 const deleteSetlist = () => {
+	busy.value = true;
 	db.collection('setlists').doc(props.id).delete().then(() => {
 		emit('closed');
 		if (route.name != 'setlists') {
@@ -59,6 +65,7 @@ const deleteSetlist = () => {
 			text: t('toast.setlistDeletedText'),
 			type: 'primary'
 		});
+		busy.value = false;
 	}).catch((error) => throwError(error));
 };
 </script>

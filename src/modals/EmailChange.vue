@@ -46,9 +46,10 @@
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>
-			<primary-button class="grow" type="danger" @click="setEmail">
+			<primary-button type="danger" @click="setEmail">
 				{{ t('button.changeEmail') }}
-				<icon-device-floppy class="w-6 h-6 stroke-1.5" />
+				<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -56,7 +57,7 @@
 
 <script setup>
 import { notify } from '@kyvg/vue3-notification';
-import { reactive, computed, inject } from 'vue';
+import { reactive, computed, inject, ref, watch } from 'vue';
 import { throwError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import DividerHorizontal from '@/elements/DividerHorizontal';
@@ -65,7 +66,10 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { IconDeviceFloppy } from '@tabler/icons-vue';
+import {
+	IconDeviceFloppy,
+	IconLoader2,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
@@ -101,13 +105,14 @@ const error = reactive({
 	}
 });
 const errors = computed(() => (
-	error.email.missing ||
-	error.email.mismatch ||
-	error.email.notchanged ||
-	error.currentpassword.missing
+	error.email.missing
+	|| error.email.mismatch
+	|| error.email.notchanged
+	|| error.currentpassword.missing
 ));
 
 // save user object to database
+const busy = ref(false);
 const setEmail = () => {
 	const currentUser = firebase.auth().currentUser;
 	// first check for form errors
@@ -117,6 +122,7 @@ const setEmail = () => {
 	error.currentpassword.missing = user.currentpassword == '';
 	// no errors: send submitted user data and close modal
 	if (!errors.value) {
+		busy.value = true;
 		// first reauthenticate user
 		const credential = firebase.auth.EmailAuthProvider.credential(
 			currentUser.email, 
@@ -136,6 +142,7 @@ const setEmail = () => {
 							text: t('toast.verficationSentText'),
 							type: 'primary'
 						});
+						busy.value = false;
 					}).catch((error) => throwError(error));
 				}).catch((error) => throwError(error));
 			}).catch((error) => throwError(error));
@@ -146,7 +153,22 @@ const setEmail = () => {
 				text: t('toast.passwordWrongText'),
 				type: 'error'
 			});
+			busy.value = false;
 		});
 	}
 };
+
+// reset input when reopen modal
+watch (() => props.active, (newActive) => {
+	if (newActive) {
+		user.email = '';
+		user.repeat = '';
+		user.currentpassword = '';
+		error.email.missing = false;
+		error.email.mismatch = false;
+		error.email.notchanged = false;
+		error.currentpassword.missing = false;
+		error.currentpassword.wrong = false;
+	}
+});
 </script>

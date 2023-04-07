@@ -17,7 +17,8 @@
 					@click="agreed ? deleteSong() : null"
 				>
 					{{ t('button.delete') }}
-					<icon-trash class="w-6 h-6 stroke-1.5" />
+					<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+					<icon-trash v-else class="w-6 h-6 stroke-1.5" />
 				</primary-button>
 			</div>
 		</div>
@@ -34,7 +35,10 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { IconTrash } from '@tabler/icons-vue';
+import {
+	IconLoader2,
+	IconTrash,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
@@ -59,7 +63,9 @@ const agreed = ref(false);
 const emit = defineEmits(['closed']);
 
 // execute song deletion
+const busy = ref(false);
 const deleteSong = () => {
+	busy.value = true;
 	db.collection('songs').doc(props.id).delete().then(() => {
 		emit('closed');
 		// check existing song translations for this song id and delete corresponding references
@@ -84,6 +90,7 @@ const deleteSong = () => {
 			text: t('toast.songDeletedText'),
 			type: 'primary'
 		});
+		busy.value = false;
 	}).catch((error) => throwError(error));
 };
 </script>

@@ -29,11 +29,14 @@
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>
-			<primary-button class="grow" @click="setTag">
+			<primary-button @click="setTag">
 				<span v-if="!existing">{{ t('button.addTag') }}</span>
 				<span v-else>{{ t('button.updateTag') }}</span>
-				<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
-				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+				<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+				<template v-else>
+					<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
+					<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+				</template>
 			</primary-button>
 		</div>
 	</modal>
@@ -48,7 +51,11 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { IconPlus, IconDeviceFloppy } from '@tabler/icons-vue';
+import {
+	IconDeviceFloppy,
+	IconLoader2,
+	IconPlus,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
@@ -88,11 +95,13 @@ const errorKey = ref(false);
 const emit = defineEmits(['closed']);
 
 // add or save edits of tag to db 
+const busy = ref(false);
 const setTag = () => {
 	// first check for errors
 	errorKey.value = key.value == '';
 	// no errors: send submitted tag data and close modal
 	if (!errorKey.value) {
+		busy.value = true;
 		// tag already exists
 		if (props.existing) {
 			db.collection('tags').doc(key.value).update({
@@ -106,6 +115,7 @@ const setTag = () => {
 					text: t('toast.tagSavedText'),
 					type: 'primary'
 				});
+				busy.value = false;
 			}).catch((error) => throwError(error));
 		}
 		// tag doesn't exist yet
@@ -121,6 +131,7 @@ const setTag = () => {
 					text: t('toast.tagSavedText'),
 					type: 'primary'
 				});
+				busy.value = false;
 			}).catch((error) => throwError(error));
 		}
 	}

@@ -32,11 +32,14 @@
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>
-			<primary-button class="grow" @click="setLanguage">
+			<primary-button @click="setLanguage">
 				<span v-if="!existing">{{ t('button.addLanguage') }}</span>
 				<span v-else>{{ t('button.updateLanguage') }}</span>
-				<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
-				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+				<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+				<template v-else>
+					<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
+					<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+				</template>
 			</primary-button>
 		</div>
 	</modal>
@@ -51,7 +54,11 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { IconPlus, IconDeviceFloppy } from '@tabler/icons-vue';
+import {
+	IconDeviceFloppy,
+	IconLoader2,
+	IconPlus,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
@@ -88,12 +95,14 @@ const error = reactive({
 const errors = computed(() => (error.label || error.isocode));
 
 // save changes
+const busy = ref(false);
 const setLanguage = () => {
 	// first check for form errors
 	error.label = language.value.label == '';
 	error.isocode = isocode.value == '';
 	// no errors: send submitted language data and close modal
 	if (!errors.value) {
+		busy.value = true;
 		// language already exists
 		if (props.existing) {
 			db.collection('languages').doc(isocode.value).update({
@@ -106,6 +115,7 @@ const setLanguage = () => {
 					text: t('toast.languageSavedText'),
 					type: 'primary'
 				});
+				busy.value = false;
 			}).catch((error) => throwError(error));
 		}
 		// language doesn't exist yet
@@ -120,6 +130,7 @@ const setLanguage = () => {
 					text: t('toast.languageSavedText'),
 					type: 'primary'
 				});
+				busy.value = false;
 			}).catch((error) => throwError(error));
 		}
 	}

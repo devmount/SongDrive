@@ -202,8 +202,11 @@
 			<primary-button @click="setSong">
 				<span v-if="!existing">{{ t('button.createSong') }}</span>
 				<span v-else>{{ t('button.updateSong') }}</span>
-				<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
-				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+				<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+				<template v-else>
+					<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
+					<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+				</template>
 			</primary-button>
 		</div>
 	</modal>
@@ -253,6 +256,7 @@ import {
 	IconBook,
 	IconDeviceFloppy,
 	IconInfoCircle,
+	IconLoader2,
 	IconNumber,
 	IconPlus,
 	IconX,
@@ -332,6 +336,7 @@ const createSlug = () => {
 };
 
 // add or save edits of song to db 
+const busy = ref(false);
 const setSong = () => {
 	const slug = createSlug();
 	// first check for form errors
@@ -341,6 +346,7 @@ const setSong = () => {
 	error.slug = props.existing && props.id == slug ? false : props.songs.hasOwnProperty(slug);
 	// no errors: start saving song data
 	if (!errors.value) {
+		busy.value = true;
 		let processedSong = structuredClone(song.value);
 		processedSong.ccli = processedSong.ccli ? parseInt(processedSong.ccli) : '';
 		processedSong.year = processedSong.year ? parseInt(processedSong.year) : '';
@@ -368,6 +374,7 @@ const setSong = () => {
 					text: t('toast.songSavedText'),
 					type: 'primary'
 				});
+				busy.value = false;
 			}).catch((error) => throwError(error));
 		}
 		// existing song should be updated
@@ -402,6 +409,7 @@ const setSong = () => {
 						text: t('toast.songSavedText'),
 						type: 'primary'
 					});
+					busy.value = false;
 				}).catch((error) => throwError(error));
 			} else {
 				// update key by adding a new song, removing the old one and update references in other fields
@@ -459,6 +467,7 @@ const setSong = () => {
 						text: t('toast.songSavedText'),
 						type: 'primary'
 					});
+					busy.value = false;
 				}).catch((error) => throwError(error));
 			}
 		}

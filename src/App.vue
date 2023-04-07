@@ -188,9 +188,9 @@
 		<!-- loading screen -->
 		<div
 			v-if="!auth.ready || ((!auth.user || auth.confirmed === null) && loading)"
-			class="w-screen h-screen flex justify-center items-center"
+			class="w-screen h-screen flex justify-center items-center text-spring-600"
 		>
-			<div class="animate-spin w-16 h-16 rounded-full border-4 border-transparent border-t-spring-600"></div>
+			<icon-loader2 class="w-16 h-16 stroke-1.5 animate-spin" />
 		</div>
 
 		<!-- notifications -->
@@ -285,6 +285,7 @@ import {
 	IconHeart,
 	IconLayoutGrid,
 	IconLicense,
+	IconLoader2,
 	IconLogout,
 	IconMenu2,
 	IconMusic,

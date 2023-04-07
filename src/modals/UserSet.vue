@@ -81,11 +81,14 @@
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>
-			<primary-button class="grow" @click="setUser">
+			<primary-button @click="setUser">
 				<span v-if="state !== 'confirmed'">{{ t('button.addUser') }}</span>
 				<span v-else>{{ t('button.updateUser') }}</span>
-				<icon-plus v-if="state !== 'confirmed'" class="w-6 h-6 stroke-1.5" />
-				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+				<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+				<template v-else>
+					<icon-plus v-if="state !== 'confirmed'" class="w-6 h-6 stroke-1.5" />
+					<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+				</template>
 			</primary-button>
 		</div>
 	</modal>
@@ -93,7 +96,7 @@
 
 <script setup>
 import { notify } from '@kyvg/vue3-notification';
-import { reactive, computed, inject, onMounted, watch } from 'vue';
+import { reactive, computed, inject, onMounted, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { userRoles, throwError, randomString } from '@/utils.js';
 import DividerHorizontal from '@/elements/DividerHorizontal';
@@ -102,7 +105,11 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { IconPlus, IconDeviceFloppy } from '@tabler/icons-vue';
+import {
+	IconDeviceFloppy,
+	IconLoader2,
+	IconPlus,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
@@ -173,6 +180,7 @@ const errors = computed(() => (
 ));
 
 // save user object to database
+const busy = ref(false);
 const setUser = () => {
 	// first check for form errors
 	error.name = user.name == '';
@@ -183,6 +191,7 @@ const setUser = () => {
 	error.currentpassword.missing = props.state == 'new' && admin.password == '';
 	// no errors: send submitted user data and close modal
 	if (!errors.value) {
+		busy.value = true;
 		// user exists and is confirmed
 		if (props.state == 'confirmed') {
 			// first set permissions
@@ -198,6 +207,7 @@ const setUser = () => {
 						text: t('toast.userSavedText'),
 						type: 'primary'
 					});
+					busy.value = false;
 				}).catch((error) => throwError(error));
 			}).catch((error) => throwError(error));
 		}
@@ -218,6 +228,7 @@ const setUser = () => {
 							text: t('toast.userSavedText'),
 							type: 'primary'
 						});
+						busy.value = false;
 					}).catch((error) => throwError(error));
 				}).catch((error) => throwError(error));
 			}).catch((error) => throwError(error));
@@ -253,6 +264,7 @@ const setUser = () => {
 											text: t('toast.userAddedText'),
 											type: 'primary'
 										});
+										busy.value = false;
 									}).catch((error) => throwError(error));
 								}).catch((error) => throwError(error));
 							}).catch((error) => throwError(error));
@@ -266,6 +278,7 @@ const setUser = () => {
 					text: t('toast.passwordWrongText'),
 					type: 'error'
 				});
+				busy.value = false;
 			});
 		}
 	}

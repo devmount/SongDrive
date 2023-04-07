@@ -13,16 +13,17 @@
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>
-			<primary-button class="grow" type="danger" :disabled="languageInUse" @click="deleteLanguage">
+			<primary-button type="danger" :disabled="languageInUse" @click="deleteLanguage">
 				{{ t('button.delete') }}
-				<icon-trash class="w-6 h-6 stroke-1.5" />
+				<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+				<icon-trash v-else class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
 </template>
 
 <script setup>
-import { computed, inject } from 'vue';
+import { computed, inject, ref } from 'vue';
 import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
@@ -30,7 +31,10 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { IconTrash } from '@tabler/icons-vue';
+import {
+	IconLoader2,
+	IconTrash,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
@@ -62,8 +66,10 @@ const languageInUse = computed(() => {
 });
 
 // remove language from collection
+const busy = ref(false);
 const deleteLanguage = () => {
 	if (!languageInUse.value) {
+		busy.value = true;
 		db.collection('languages').doc(props.languageKey).delete().then(() => {
 			emit('closed');
 			// toast success message
@@ -72,6 +78,7 @@ const deleteLanguage = () => {
 				text: t('toast.languageDeletedText'),
 				type: 'primary'
 			});
+			busy.value = false;
 		}).catch((error) => throwError(error));
 	} else {
 		throwError({
