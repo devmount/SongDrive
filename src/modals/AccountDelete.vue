@@ -30,13 +30,13 @@
 				{{ t('button.cancel') }}
 			</button>
 			<primary-button
-				class="grow"
 				type="danger"
 				@click="user.agreed ? deleteAccount() : null"
 				:disabled="!user.agreed"
 			>
 				{{ t('button.delete') }}
-				<icon-trash class="w-6 h-6 stroke-1.5" />
+				<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+				<icon-trash v-else class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -44,7 +44,7 @@
 
 <script setup>
 import { notify } from '@kyvg/vue3-notification';
-import { reactive, computed, inject } from 'vue';
+import { reactive, computed, inject, ref, watch } from 'vue';
 import { throwError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import DividerHorizontal from '@/elements/DividerHorizontal';
@@ -53,7 +53,10 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { IconTrash } from '@tabler/icons-vue';
+import {
+	IconLoader2,
+	IconTrash,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
@@ -85,12 +88,14 @@ const error = reactive({
 const errors = computed(() => error.currentpassword.missing);
 
 // delete user account
+const busy = ref(false);
 const deleteAccount = () => {
 	const currentUser = firebase.auth().currentUser;
 	// first check for form errors
 	error.currentpassword.missing = user.currentpassword == '';
 	// no errors: send submitted user data and close modal
 	if (!errors.value) {
+		busy.value = true;
 		// first reauthenticate user
 		const credential = firebase.auth.EmailAuthProvider.credential(
 			currentUser.email, 
@@ -108,6 +113,7 @@ const deleteAccount = () => {
 						text: t('toast.accountDeletedText'),
 						type: 'primary'
 					});
+					busy.value = false;
 				}).catch((error) => throwError(error));
 			}).catch((error) => throwError(error));
 		}).catch(() => {
@@ -117,7 +123,18 @@ const deleteAccount = () => {
 				text: t('toast.passwordWrongText'),
 				type: 'error'
 			});
+			busy.value = false;
 		});
 	}
-}
+};
+
+// reset input when reopen modal
+watch (() => props.active, (newActive) => {
+	if (newActive) {
+		user.agreed = false;
+		user.currentpassword = '';
+		error.currentpassword.missing = false;
+		error.currentpassword.wrong = false;
+	}
+});
 </script>
