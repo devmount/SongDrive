@@ -222,7 +222,7 @@
 						<button
 							class="flex items-center text-spring-600 hover:bg-opacity-80"
 							:title="t('tooltip.approveUser')"
-							@click.prevent="addRegistration"
+							@click.prevent="addRegistration(r, k)"
 						>
 							<icon-user-plus class="w-5 h-5 stroke-1.5" />
 						</button>
