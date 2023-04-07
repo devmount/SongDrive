@@ -18,9 +18,10 @@
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>
-			<primary-button class="grow" type="danger" :disabled="!transferUser" @click="deleteUser">
+			<primary-button type="danger" :disabled="!transferUser" @click="deleteUser">
 				{{ t('button.delete') }}
-				<icon-trash class="w-6 h-6 stroke-1.5" />
+				<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+				<icon-trash v-else class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -35,7 +36,10 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { IconTrash } from '@tabler/icons-vue';
+import {
+	IconLoader2,
+	IconTrash,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
@@ -70,8 +74,10 @@ const assignableUsers = computed(() => {
 const numberOfUsers = computed(() => Object.keys(props.users).length);
 
 // delete user if at least one user is left afterwards
+const busy = ref(false);
 const deleteUser = () => {
 	if (numberOfUsers.value > 1) {
+		busy.value = true;
 		// delete approved user (living in users table) or unapproved user (living in registrations table)
 		db.collection(props.approved ? 'users' : 'registrations').doc(props.userKey).delete().then(() => {
 			if (props.approved) {
@@ -93,6 +99,7 @@ const deleteUser = () => {
 				text: t('toast.userDeletedText'),
 				type: 'primary'
 			});
+			busy.value = false;
 		}).catch((error) => throwError(error));
 	}
 };
