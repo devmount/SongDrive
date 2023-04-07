@@ -51,9 +51,10 @@
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>
-			<primary-button class="grow" @click="setPassword">
+			<primary-button @click="setPassword">
 				{{ t('button.changePassword') }}
-				<icon-device-floppy class="w-6 h-6 stroke-1.5" />
+				<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
 	</modal>
@@ -61,7 +62,7 @@
 
 <script setup>
 import { notify } from '@kyvg/vue3-notification';
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref, watch } from 'vue';
 import { throwError, randomString } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import DividerHorizontal from '@/elements/DividerHorizontal';
@@ -70,7 +71,10 @@ import Modal from '@/elements/Modal';
 import PrimaryButton from '@/elements/PrimaryButton';
 
 // icons
-import { IconDeviceFloppy } from '@tabler/icons-vue';
+import {
+	IconDeviceFloppy,
+	IconLoader2,
+} from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
@@ -85,7 +89,7 @@ const props = defineProps({
 const user = reactive({
 	password: '',
 	repeat: '',
-	currentpassword: ''
+	currentpassword: '',
 });
 
 // emits
@@ -107,10 +111,11 @@ const errors = computed(() => (
 	error.password.missing
 	|| error.password.mismatch
 	|| error.password.tooshort
-	|| error.currentpassword
+	|| error.currentpassword.missing
 ));
 
 // save new password for current user
+const busy = ref(false);
 const setPassword = () => {
 	// first check for form errors
 	error.password.missing = user.password == '';
@@ -119,6 +124,7 @@ const setPassword = () => {
 	error.currentpassword.missing = user.currentpassword == '';
 	// no errors: send submitted user data and close modal
 	if (!errors.value) {
+		busy.value = true;
 		// first reauthenticate user
 		const currentUser = firebase.auth().currentUser;
 		const credential = firebase.auth.EmailAuthProvider.credential(
@@ -134,6 +140,7 @@ const setPassword = () => {
 					text: t('toast.userUpdatedText'),
 					type: 'primary'
 				});
+				busy.value = false;
 			}).catch((error) => throwError(error));
 		}).catch(() => {
 			error.currentpassword.wrong = true;
@@ -142,7 +149,22 @@ const setPassword = () => {
 				text: t('toast.passwordWrongText'),
 				type: 'error'
 			});
+			busy.value = false;
 		});
 	}
 };
+
+// reset input when reopen modal
+watch (() => props.active, (newActive) => {
+	if (newActive) {
+		user.password = '';
+		user.repeat = '';
+		user.currentpassword = '';
+		error.password.missing = false;
+		error.password.mismatch = false;
+		error.password.tooshort = false;
+		error.currentpassword.missing = false;
+		error.currentpassword.wrong = false;
+	}
+});
 </script>
