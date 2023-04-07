@@ -252,8 +252,11 @@
 			<primary-button @click="setSetlist">
 				<span v-if="!existing">{{ t('button.createSetlist') }}</span>
 				<span v-else>{{ t('button.updateSetlist') }}</span>
-				<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
-				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+				<icon-loader2 v-if="busy" class="w-6 h-6 stroke-1.5 animate-spin" />
+				<template v-else>
+					<icon-plus v-if="!existing" class="w-6 h-6 stroke-1.5" />
+					<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+				</template>
 			</primary-button>
 		</div>
 	</modal>
@@ -282,6 +285,7 @@ import {
 	IconCalendar,
 	IconDeviceFloppy,
 	IconFilter,
+	IconLoader2,
 	IconMenuOrder,
 	IconMusic,
 	IconPlaylist,
@@ -469,7 +473,8 @@ const createSlug = () => {
 	return setlist.value.date.replace(/-/g, '') + '-' + urlify(setlist.value.title);
 };
 
-// add or save edits of setlist to db 
+// add or save edits of setlist to db
+const busy = ref(false);
 const setSetlist = () => {
 	const slug = createSlug();
 	// first check for form errors
@@ -478,6 +483,7 @@ const setSetlist = () => {
 	error.slug = props.existing && props.id == slug ? false : props.setlists.hasOwnProperty(slug);
 	// no errors: start saving song data
 	if (!errors.value) {
+		busy.value = true;
 		var processedSetlist = {
 			active:   false,
 			creator:  !props.existing ? props.user : setlist.value.creator,
@@ -499,6 +505,7 @@ const setSetlist = () => {
 					text:  t('toast.setlistSavedText'),
 					type:  'primary'
 				});
+				busy.value = false;
 			}).catch((error) => throwError(error));
 		}
 		// existing setlist should be updated
@@ -515,6 +522,7 @@ const setSetlist = () => {
 						text:  t('toast.setlistSavedText'),
 						type:  'primary'
 					});
+					busy.value = false;
 				}).catch((error) => throwError(error));
 			} else {
 				// update key by adding a new setlist and removing the old one
@@ -529,6 +537,7 @@ const setSetlist = () => {
 						text:  t('toast.setlistSavedText'),
 						type:  'primary'
 					});
+					busy.value = false;
 				}).catch((error) => throwError(error));
 			}
 		}
