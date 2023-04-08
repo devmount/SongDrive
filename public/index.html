@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="color-scheme:dark">
 	<head>
 		<title>SongDrive</title>
 		<meta charset="utf-8">
@@ -11,8 +11,10 @@
 			// handle theme color scheme
 			if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 				document.documentElement.classList.add('dark');
+				document.documentElement.style.colorScheme = 'dark';
 			} else {
 				document.documentElement.classList.remove('dark');
+				document.documentElement.style.colorScheme = 'light';
 			}
 		</script>
 	</head>

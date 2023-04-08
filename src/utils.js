@@ -316,7 +316,12 @@ const sortTags = (tags, locale) => tags.sort(
 );
 
 // true if browser uses a dark color scheme
-const browserPrefersDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+const browserPrefersDark = () => {
+  return localStorage.theme === 'dark' || (
+    (!('theme' in localStorage) || localStorage.theme === 'auto')
+    && window.matchMedia('(prefers-color-scheme: dark)').matches
+  );
+};
 
 // trigger mailto
 const mailto = (address) => window.location.href = 'mailto:' + address;

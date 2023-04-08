@@ -187,7 +187,7 @@
 		</div>
 		<!-- loading screen -->
 		<div
-			v-if="!auth.ready || ((!auth.user || auth.confirmed === null) && loading)"
+			v-if="!auth.ready || !ready.songs || !ready.setlists || loading"
 			class="w-screen h-screen flex justify-center items-center text-spring-600"
 		>
 			<icon-loader2 class="w-16 h-16 stroke-1.5 animate-spin" />

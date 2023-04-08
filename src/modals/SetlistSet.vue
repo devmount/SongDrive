@@ -59,7 +59,7 @@
 						:class="{ 'border !border-rose-600': error.date & !setlist.date }"
 						inline
 						auto-apply
-						:dark="browserPrefersDark()"
+						:dark="isDark"
 						:enable-time-picker="false"
 						:locale="locale"
 						:format-locale="calendarLanguage[locale]"
@@ -319,6 +319,13 @@ const props = defineProps({
 	languages:      Object,  // list of all available languages
 	ready:          Object,  // object holding information about the retrieval state of collections
 });
+
+// check if browser prefers dark
+const isDark = ref(false);
+watch(
+	() => props.active,
+	() => { isDark.value = browserPrefersDark(); }
+);
 
 // check if errors occured
 const error = reactive({
