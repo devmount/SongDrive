@@ -14,7 +14,7 @@
 
 <script setup>
 import { computed, watch, onMounted } from 'vue';
-import { Chart, transparentGradientBar } from '@/chart.config';
+import { Chart, transparentGradientBar } from '@/chart.config.js';
 
 // inherited properties
 const props = defineProps({

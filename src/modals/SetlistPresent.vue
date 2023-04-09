@@ -219,11 +219,11 @@ import { logicOr } from '@vueuse/math';
 import { whenever } from '@vueuse/core';
 import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Dropdown from '@/elements/Dropdown';
-import InfoSongData from '@/modals/InfoSongData';
-import Modal from '@/elements/Modal';
-import SecondaryButton from '@/elements/SecondaryButton';
-import SongContent from '@/partials/SongContent';
+import Dropdown from '@/elements/Dropdown.vue';
+import InfoSongData from '@/modals/InfoSongData.vue';
+import Modal from '@/elements/Modal.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SongContent from '@/partials/SongContent.vue';
 
 // icons
 import {

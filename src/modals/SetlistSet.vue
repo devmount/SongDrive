@@ -272,11 +272,11 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import Datepicker from '@vuepic/vue-datepicker';
 import draggable from 'vuedraggable';
-import Dropdown from '@/elements/Dropdown';
-import Modal from '@/elements/Modal';
-import PrimaryButton from '@/elements/PrimaryButton';
-import SecondaryButton from '@/elements/SecondaryButton';
-import Tag from '@/elements/Tag';
+import Dropdown from '@/elements/Dropdown.vue';
+import Modal from '@/elements/Modal.vue';
+import PrimaryButton from '@/elements/PrimaryButton.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import Tag from '@/elements/Tag.vue';
 
 // icons
 import {
@@ -350,7 +350,7 @@ const setlistSongs = ref(null);
 const initInput = () => {
 	resetErrors();
 	resetFilter();
-	const sl = structuredClone(props.initialSetlist);
+	const sl = props.initialSetlist;
 	// only show undeleted songs
 	sl.songs = sl.songs.filter(s => s.id in props.songs);
 	// init visibility state if not existing
@@ -384,7 +384,7 @@ const emit = defineEmits(['closed']);
 
 // filter song list by search query and other filter fields
 const filteredSongs = computed(() => {
-	let songs = structuredClone(props.songs);
+	let songs = {...props.songs};
 	if (filter.fulltext) {
 		// filter fields: title, subtitle, content
 		let key = filter.fulltext;

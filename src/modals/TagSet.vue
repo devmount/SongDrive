@@ -47,8 +47,8 @@ import { notify } from '@kyvg/vue3-notification';
 import { ref, inject, onMounted, watch } from 'vue';
 import { throwError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
-import Modal from '@/elements/Modal';
-import PrimaryButton from '@/elements/PrimaryButton';
+import Modal from '@/elements/Modal.vue';
+import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons
 import {

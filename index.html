@@ -5,11 +5,14 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width,initial-scale=1.0">
-		<link rel="icon" href="<%= BASE_URL %>favicon.ico">
+		<link rel="icon" href="/favicon.ico">
 		<meta name="apple-mobile-web-app-status-bar" content="#88b544" />
 		<script>
 			// handle theme color scheme
-			if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+			if (
+				localStorage.theme === 'dark'
+				|| (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+			) {
 				document.documentElement.classList.add('dark');
 				document.documentElement.style.colorScheme = 'dark';
 			} else {
@@ -20,8 +23,13 @@
 	</head>
 	<body class="bg-blade-100 text-blade-600 dark:bg-blade-850 dark:text-blade-300 overflow-x-hidden">
 		<noscript>
-			<strong>We're sorry but SongDrive doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+			<strong>
+				We're sorry but SongDrive doesn't work properly without JavaScript enabled.
+				Please enable it to continue.
+			</strong>
 		</noscript>
 		<div id="app"></div>
+		<!-- built files -->
+		<script type="module" src="/src/main.js"></script>
 	</body>
 </html>

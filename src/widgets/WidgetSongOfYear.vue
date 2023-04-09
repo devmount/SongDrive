@@ -58,9 +58,9 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import LinkButton from '@/elements/LinkButton';
-import Panel from '@/elements/Panel';
-import SecondaryButton from '@/elements/SecondaryButton';
+import LinkButton from '@/elements/LinkButton.vue';
+import Panel from '@/elements/Panel.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
 
 // icons
 import {

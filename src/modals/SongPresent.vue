@@ -61,10 +61,10 @@
 import { reactive, ref, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
 import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import InfoSongData from '@/modals/InfoSongData';
-import Modal from '@/elements/Modal';
-import SecondaryButton from '@/elements/SecondaryButton';
-import SongContent from '@/partials/SongContent';
+import InfoSongData from '@/modals/InfoSongData.vue';
+import Modal from '@/elements/Modal.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SongContent from '@/partials/SongContent.vue';
 
 // icons
 import {

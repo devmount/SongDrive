@@ -46,10 +46,10 @@ import { logicAnd } from '@vueuse/math';
 import { ref, inject, reactive, computed } from 'vue';
 import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import LinkButton from '@/elements/LinkButton';
-import Logo from '@/partials/Logo';
-import Panel from '@/elements/Panel';
-import PrimaryButton from '@/elements/PrimaryButton';
+import LinkButton from '@/elements/LinkButton.vue';
+import Logo from '@/partials/Logo.vue';
+import Panel from '@/elements/Panel.vue';
+import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons
 import { IconLogin } from '@tabler/icons-vue';

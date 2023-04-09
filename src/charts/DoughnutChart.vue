@@ -22,7 +22,7 @@
 
 <script setup>
 import { watch, onMounted } from 'vue';
-import { Chart } from '@/chart.config';
+import { Chart } from '@/chart.config.js';
 
 // inherited properties
 const props = defineProps({

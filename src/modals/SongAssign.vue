@@ -73,8 +73,8 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Modal from '@/elements/Modal';
-import PrimaryButton from '@/elements/PrimaryButton';
+import Modal from '@/elements/Modal.vue';
+import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons
 import {

@@ -240,16 +240,16 @@ import 'vue-prism-editor/dist/prismeditor.min.css';
 import { keyScale, sdHighlight, throwError, urlify } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { PrismEditor } from 'vue-prism-editor';
-import { ref, reactive, computed, inject, onMounted, watch } from 'vue';
+import { ref, reactive, computed, inject, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import InfoSongSyntax from '@/modals/InfoSongSyntax';
-import Modal from '@/elements/Modal';
-import PrimaryButton from '@/elements/PrimaryButton';
-import SecondaryButton from '@/elements/SecondaryButton';
-import SongAssign from '@/modals/SongAssign';
-import Tag from '@/elements/Tag';
-import TagAssign from '@/modals/TagAssign';
+import InfoSongSyntax from '@/modals/InfoSongSyntax.vue';
+import Modal from '@/elements/Modal.vue';
+import PrimaryButton from '@/elements/PrimaryButton.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SongAssign from '@/modals/SongAssign.vue';
+import Tag from '@/elements/Tag.vue';
+import TagAssign from '@/modals/TagAssign.vue';
 
 // icons
 import {
@@ -304,7 +304,7 @@ const resetErrors = () => {
 const song = ref({});
 const initInput = () => {
 	resetErrors();
-	song.value = structuredClone(props.initialSong);
+	song.value = {...props.initialSong};
 };
 watch(() => props.active, () => initInput());
 
@@ -347,7 +347,7 @@ const setSong = () => {
 	// no errors: start saving song data
 	if (!errors.value) {
 		busy.value = true;
-		let processedSong = structuredClone(song.value);
+		let processedSong = song.value;
 		processedSong.ccli = processedSong.ccli ? parseInt(processedSong.ccli) : '';
 		processedSong.year = processedSong.year ? parseInt(processedSong.year) : '';
 		processedSong.youtube = processedSong.youtube ? processedSong.youtube : '';
@@ -379,7 +379,7 @@ const setSong = () => {
 		}
 		// existing song should be updated
 		else {
-			const initialSong = structuredClone(props.initialSong); // remember initial song data before update
+			const initialSong = props.initialSong; // remember initial song data before update
 			// check if key remained (no title or language changes)
 			if (props.id == slug) {
 				// just update the existing song

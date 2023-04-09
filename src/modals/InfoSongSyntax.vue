@@ -13,17 +13,17 @@
 <script setup>
 import 'highlight.js/styles/github-dark.css';
 import { computed } from 'vue';
-import { default as de } from "@/docs/syntax-cheatsheet.de.md";
-import { default as en } from "@/docs/syntax-cheatsheet.en.md";
 import { marked } from 'marked';
 import { sdHighlight } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
-import Modal from '@/elements/Modal';
+import de from "@/docs/syntax-cheatsheet.de.md?raw";
+import en from "@/docs/syntax-cheatsheet.en.md?raw";
+import hljs from 'highlight.js';
+import Modal from '@/elements/Modal.vue';
 
 
 // component constants
 const { t, locale } = useI18n();
-const hljs = require('highlight.js'); // markdown parser
 
 // cheatsheet contents
 const cheatsheets = { de, en };

@@ -25,8 +25,9 @@
 	"bugs": "https://github.com/devmount/SongDrive/issues",
 	"browser": "./dist/index.html",
 	"scripts": {
-		"serve": "vue-cli-service serve",
-		"build": "vue-cli-service build"
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite preview"
 	},
 	"dependencies": {
 		"@kyvg/vue3-notification": "^2.3.4",
@@ -48,17 +49,13 @@
 		"vuedraggable": "^4.1.0"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.20.7",
 		"@tailwindcss/forms": "^0.5.3",
 		"@types/marked": "^4.0.8",
-		"@vue/cli-plugin-babel": "^5.0.8",
-		"@vue/cli-plugin-pwa": "^5.0.8",
-		"@vue/cli-plugin-router": "^5.0.8",
-		"@vue/cli-service": "^5.0.8",
+		"@vitejs/plugin-vue": "^4.1.0",
 		"autoprefixer": "^10.4.13",
 		"postcss": "^8.4.20",
-		"raw-loader": "^4.0.2",
-		"tailwindcss": "^3.2.4"
+		"tailwindcss": "^3.2.4",
+		"vite": "^4.2.1"
 	},
 	"postcss": {
 		"plugins": {
@@ -71,10 +68,5 @@
 		"last 2 versions",
 		"not dead",
 		"not ie 11"
-	],
-	"babel": {
-		"presets": [
-			"@vue/cli-plugin-babel/preset"
-		]
-	}
+	]
 }

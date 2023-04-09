@@ -33,9 +33,9 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router'
-import Logo from '@/partials/Logo';
-import Panel from '@/elements/Panel';
-import SecondaryButton from '@/elements/SecondaryButton';
+import Logo from '@/partials/Logo.vue';
+import Panel from '@/elements/Panel.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
 import { ref } from 'vue';
 
 // icons

@@ -153,7 +153,7 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n';
-import Panel from '@/elements/Panel';
+import Panel from '@/elements/Panel.vue';
 
 // icons
 import {
