@@ -262,19 +262,19 @@ import { useActiveElement, useMagicKeys } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { userRoles, throwError } from '@/utils.js';
-import Avatar from '@/elements/Avatar';
-import DividerHorizontal from '@/elements/DividerHorizontal';
+import Avatar from '@/elements/Avatar.vue';
+import DividerHorizontal from '@/elements/DividerHorizontal.vue';
 import firebase from 'firebase/compat/app';
-import IndicatorPulse from '@/elements/IndicatorPulse';
-import Login from '@/partials/Login';
-import Logo from '@/partials/Logo';
-import PasswordReset from '@/modals/PasswordReset';
-import SecondaryButton from '@/elements/SecondaryButton';
-import SetlistSet from '@/modals/SetlistSet';
-import SignUp from '@/modals/SignUp';
-import SongSet from '@/modals/SongSet';
-import UserUnconfirmed from '@/partials/UserUnconfirmed';
-import UserUnverified from '@/partials/UserUnverified';
+import IndicatorPulse from '@/elements/IndicatorPulse.vue';
+import Login from '@/partials/Login.vue';
+import Logo from '@/partials/Logo.vue';
+import PasswordReset from '@/modals/PasswordReset.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SetlistSet from '@/modals/SetlistSet.vue';
+import SignUp from '@/modals/SignUp.vue';
+import SongSet from '@/modals/SongSet.vue';
+import UserUnconfirmed from '@/partials/UserUnconfirmed.vue';
+import UserUnverified from '@/partials/UserUnverified.vue';
 
 // icons
 import {

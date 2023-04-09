@@ -235,9 +235,9 @@ import { ref, reactive, computed, watch, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
-import Dropdown from '@/elements/Dropdown';
-import SecondaryButton from '@/elements/SecondaryButton';
-import SetlistDelete from '@/modals/SetlistDelete';
+import Dropdown from '@/elements/Dropdown.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SetlistDelete from '@/modals/SetlistDelete.vue';
 
 // icons
 import { 
@@ -356,13 +356,13 @@ const setlistsArray = computed(() => {
 const filteredSetlists = computed(() => {
 	let setlists = setlistsArray.value.filter(s => !s.private || s.private && s.creator==props.user);
 	if (filter.active !== null) {
-		// filter fields: date
+		// filter fields: sync
 		setlists = setlists.filter(s => {
 			return s.active === filter.active;
 		})
 	}
 	if (filter.private !== null) {
-		// filter fields: date
+		// filter fields: private
 		setlists = setlists.filter(s => {
 			return s.private === filter.private || (!filter.private && !s.private);
 		})

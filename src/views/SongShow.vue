@@ -216,12 +216,13 @@ import { ref, reactive, computed, watch, onMounted, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
-import Dropdown from '@/elements/Dropdown';
-import SecondaryButton from '@/elements/SecondaryButton';
-import SongContent from '@/partials/SongContent';
-import SongDelete from '@/modals/SongDelete';
-import SongFooter from '../partials/SongFooter';
-import SongPresent from '@/modals/SongPresent';
+import Dropdown from '@/elements/Dropdown.vue';
+import pdfMake from "pdfmake/build/pdfmake";
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SongContent from '@/partials/SongContent.vue';
+import SongDelete from '@/modals/SongDelete.vue';
+import SongFooter from '@/partials/SongFooter.vue';
+import SongPresent from '@/modals/SongPresent.vue';
 
 // icons
 import {
@@ -260,7 +261,6 @@ const noActiveModal = inject('noActiveModal');
 
 // pdf creation
 const EOL = '\n';
-var pdfMake = require('pdfmake/build/pdfmake');
 pdfMake.fonts = {
 	FiraMono: {
 		normal: window.location.origin + '/fonts/FiraMono-Regular.ttf',

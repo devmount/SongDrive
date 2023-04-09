@@ -56,24 +56,26 @@
 			<div class="max-w-lg mx-auto text-blade-500 flex flex-col gap-4">
 				<div class="text-center">{{ t('text.foundABug') }}</div>
 				<div class="flex gap-4 justify-center items-center">
-					<secondary-button
+					<a
 						:href="'https://github.com/devmount/SongDrive/blob/main/src/docs/docs.' + locale + '.md'"
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						target="_blank"
 					>
-						<icon-notes class="w-5 h-5 stroke-1.5" />
-						<span class="mr-2">{{ t('button.docsOnGithub') }}</span>
-						<icon-external-link class="w-5 h-5 stroke-1.5" />
-					</secondary-button>
-					<secondary-button
+						<secondary-button>
+							<icon-notes class="w-5 h-5 stroke-1.5" />
+							<span class="mr-2">{{ t('button.docsOnGithub') }}</span>
+							<icon-external-link class="w-5 h-5 stroke-1.5" />
+						</secondary-button>
+					</a>
+					<a
 						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
-						class="btn btn-secondary d-block stretch text-uppercase tooltip tooltip-right tooltip-lg mb-1"
 						target="_blank"
 					>
-						<icon-pencil class="w-5 h-5 stroke-1.5" />
-						<span class="mr-2">{{ t('button.editThis') }}</span>
-						<icon-external-link class="w-5 h-5 stroke-1.5" />
-					</secondary-button>
+						<secondary-button>
+							<icon-pencil class="w-5 h-5 stroke-1.5" />
+							<span class="mr-2">{{ t('button.editThis') }}</span>
+							<icon-external-link class="w-5 h-5 stroke-1.5" />
+						</secondary-button>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -83,12 +85,13 @@
 <script setup>
 import 'highlight.js/styles/github-dark.css';
 import { computed } from 'vue';
-import { default as de } from "@/docs/docs.de.md";
-import { default as en } from "@/docs/docs.en.md";
 import { marked } from 'marked';
 import { sdHighlight } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
-import SecondaryButton from '@/elements/SecondaryButton';
+import de from "@/docs/docs.de.md?raw";
+import en from "@/docs/docs.en.md?raw";
+import hljs from 'highlight.js';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
 
 // icons
 import {
@@ -104,9 +107,6 @@ import {
 
 // component constants
 const { t, locale } = useI18n();
-
-// markdown parser
-const hljs = require('highlight.js');
 
 // documentation contents
 const docs = { de, en };

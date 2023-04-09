@@ -24,11 +24,11 @@
 </template>
 
 <script setup>
-import { mailto } from '@/utils';
+import { mailto } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
-import Logo from '@/partials/Logo';
-import Panel from '@/elements/Panel';
-import SecondaryButton from '@/elements/SecondaryButton';
+import Logo from '@/partials/Logo.vue';
+import Panel from '@/elements/Panel.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
 
 // icons
 import { IconLogout, IconSend } from '@tabler/icons-vue';

@@ -433,21 +433,21 @@ import { download, throwError } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import AccountDelete from '@/modals/AccountDelete';
-import Avatar from '@/elements/Avatar';
-import EmailChange from '@/modals/EmailChange';
+import AccountDelete from '@/modals/AccountDelete.vue';
+import Avatar from '@/elements/Avatar.vue';
+import EmailChange from '@/modals/EmailChange.vue';
 import firebase from 'firebase/compat/app';
-import ImportData from '@/modals/ImportData';
-import LanguageDelete from '@/modals/LanguageDelete';
-import LanguageSet from '@/modals/LanguageSet';
-import Panel from '@/elements/Panel';
-import PasswordChange from '@/modals/PasswordChange';
-import SecondaryButton from '@/elements/SecondaryButton';
-import Tag from '@/elements/Tag';
-import TagSet from '@/modals/TagSet';
-import UserDelete from '@/modals/UserDelete';
-import UserSet from '@/modals/UserSet';
-import ZoneDanger from '@/elements/ZoneDanger';
+import ImportData from '@/modals/ImportData.vue';
+import LanguageDelete from '@/modals/LanguageDelete.vue';
+import LanguageSet from '@/modals/LanguageSet.vue';
+import Panel from '@/elements/Panel.vue';
+import PasswordChange from '@/modals/PasswordChange.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import Tag from '@/elements/Tag.vue';
+import TagSet from '@/modals/TagSet.vue';
+import UserDelete from '@/modals/UserDelete.vue';
+import UserSet from '@/modals/UserSet.vue';
+import ZoneDanger from '@/elements/ZoneDanger.vue';
 
 // icons
 import {

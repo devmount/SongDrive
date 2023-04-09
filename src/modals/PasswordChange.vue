@@ -65,10 +65,10 @@ import { notify } from '@kyvg/vue3-notification';
 import { reactive, computed, ref, watch } from 'vue';
 import { throwError, randomString } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
-import DividerHorizontal from '@/elements/DividerHorizontal';
+import DividerHorizontal from '@/elements/DividerHorizontal.vue';
 import firebase from 'firebase/compat/app';
-import Modal from '@/elements/Modal';
-import PrimaryButton from '@/elements/PrimaryButton';
+import Modal from '@/elements/Modal.vue';
+import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons
 import {

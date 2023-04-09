@@ -101,12 +101,12 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import BarChart  from '@/charts/BarChart';
-import LineChart from '@/charts/LineChart';
-import Panel from '@/elements/Panel';
-import WidgetSetlistList from '@/widgets/WidgetSetlistList';
-import WidgetSongList from '@/widgets/WidgetSongList';
-import WidgetSongOfYear from '@/widgets/WidgetSongOfYear';
+import BarChart  from '@/charts/BarChart.vue';
+import LineChart from '@/charts/LineChart.vue';
+import Panel from '@/elements/Panel.vue';
+import WidgetSetlistList from '@/widgets/WidgetSetlistList.vue';
+import WidgetSongList from '@/widgets/WidgetSongList.vue';
+import WidgetSongOfYear from '@/widgets/WidgetSongOfYear.vue';
 
 // icons
 import {

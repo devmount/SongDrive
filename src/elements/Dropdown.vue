@@ -24,8 +24,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import SecondaryButton from '@/elements/SecondaryButton';
-import TransitionScale from '@/elements/TransitionScale';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import TransitionScale from '@/elements/TransitionScale.vue';
 
 // icons
 import { IconDots } from '@tabler/icons-vue';

@@ -445,14 +445,15 @@ import { ref, reactive, computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
-import DoughnutChart from '@/charts/DoughnutChart';
+import DoughnutChart from '@/charts/DoughnutChart.vue';
 import draggable from 'vuedraggable';
-import Dropdown from '@/elements/Dropdown';
+import Dropdown from '@/elements/Dropdown.vue';
 import firebase from 'firebase/compat/app';
-import PrimaryButton from '@/elements/PrimaryButton';
-import SecondaryButton from '@/elements/SecondaryButton';
-import SetlistDelete from '@/modals/SetlistDelete';
-import SetlistPresent from '@/modals/SetlistPresent';
+import pdfMake from "pdfmake/build/pdfmake";
+import PrimaryButton from '@/elements/PrimaryButton.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SetlistDelete from '@/modals/SetlistDelete.vue';
+import SetlistPresent from '@/modals/SetlistPresent.vue';
 
 // icons
 import {
@@ -498,7 +499,6 @@ const hkPresent = inject('hkPresent');
 const noActiveModal = inject('noActiveModal');
 
 // pdf creation
-var pdfMake = require('pdfmake/build/pdfmake');
 pdfMake.fonts = {
 	FiraMono: {
 		normal: window.location.origin + '/fonts/FiraMono-Regular.ttf',

@@ -44,9 +44,9 @@
 
 <script setup>
 import { computed } from 'vue';
-import { sortTags } from '@/utils';
+import { sortTags } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
-import Tag from '@/elements/Tag';
+import Tag from '@/elements/Tag.vue';
 
 // icons
 import {

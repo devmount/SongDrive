@@ -28,8 +28,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import PrimaryButton from '@/elements/PrimaryButton';
-import Modal from '@/elements/Modal';
+import PrimaryButton from '@/elements/PrimaryButton.vue';
+import Modal from '@/elements/Modal.vue';
 
 // icons
 import { IconSend } from '@tabler/icons-vue';

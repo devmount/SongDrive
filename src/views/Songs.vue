@@ -243,10 +243,10 @@ import { keyScale, sortTags } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import { whenever } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router'
-import Dropdown from '@/elements/Dropdown';
-import SecondaryButton from '@/elements/SecondaryButton';
-import SongDelete from '@/modals/SongDelete';
-import Tag from '@/elements/Tag';
+import Dropdown from '@/elements/Dropdown.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
+import SongDelete from '@/modals/SongDelete.vue';
+import Tag from '@/elements/Tag.vue';
 
 // icons
 import {
