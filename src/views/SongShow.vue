@@ -97,6 +97,13 @@
 							</button>
 							<button
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click="exportXml"
+							>
+								<icon-file-code class="w-5 h-5 stroke-1.5" />
+								{{ t('button.filetypeXml') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="exportSng"
 							>
 								<icon-file-music class="w-5 h-5 stroke-1.5" />
@@ -232,6 +239,7 @@ import {
 	IconCopy,
 	IconDownload,
 	IconEdit,
+	IconFileCode,
 	IconFileMusic,
 	IconFilePencil,
 	IconFileText,
@@ -243,11 +251,12 @@ import {
 } from '@tabler/icons-vue';
 
 // component constants
-const { t } = useI18n();
+const { t, availableLocales } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const songId = route.params.id;
 const songKey = route.params.key;
+const version = inject('version');
 
 // handle hotkeys for this component
 const hkChords = inject('hkChords');
@@ -315,7 +324,7 @@ const song = computed(() => {
 // array of tuples (song id, language) for all existing translations of this song
 const showLanguages = computed(() => {
 	if (props.ready.songs && song.value?.translations?.length > 0) {
-		var languages = [[route.params.id, song.value.language]];
+		var languages = [[songId, song.value.language]];
 		for (const id in song.value.translations) {
 			if (song.value.translations.hasOwnProperty(id)) {
 				const sId = song.value.translations[id];
@@ -391,8 +400,8 @@ const exportSng = () => {
 	var content =
 		'#LangCount=1' + EOL
 		+ '#Title=' + song.value.title + EOL
-		+ '#Author=' + song.value.authors
-		+ '#Melody=' + song.value.authors
+		+ '#Author=' + song.value.authors + EOL
+		+ '#Melody=' + song.value.authors + EOL
 		+ '#(c)=' + (song.value.year ? song.value.year + ' ' : '') + song.value.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + EOL
 		+ '#Key=' + keyScale[(12 + keyScale.indexOf(song.value.tuning) + (tuning.value % 12)) % 12] + EOL
 		+ '#CCLI=' + song.value.ccli + EOL
@@ -419,6 +428,47 @@ const exportSng = () => {
 	notify({
 		title: t('toast.exportedSng'),
 		text: t('toast.exportedSongSngText'),
+		type: 'primary'
+	});
+};
+// export song in OpenLyrics XML format
+const exportXml = () => {
+	// add header
+	const timestamp = (new Date()).toISOString().slice(0, -5);
+	const title = `<title>${song.value.title}</title>`;
+	const subtitle = song.value.subtitle ? `<title>${song.value.subtitle}</title>` : '';
+	const year = song.value.year ? `<released>${song.value.year}</released>` : '';
+	const copyright = song.value.year || song.value.publisher
+		? '<copyright>' + song.value.year + ' ' + song.value.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '</copyright>'
+		: '';
+	const ccli = song.value.ccli ? `<ccliNo>${song.value.ccli}</ccliNo>` : '';
+	const authors = song.value.authors
+		? '<authors>' + song.value.authors.split('|').map(a => `<author>${a.trim()}</author>`).join('') + '</authors>'
+		: '';
+	const tags = song.value.tags
+		? '<themes>' + song.value.tags.map(
+				tag => availableLocales.map(l =>`<theme lang="${l}">${props.tags[tag][l] ?? tag.key}</theme>`).join('')
+			).join('') + '</themes>'
+		: '';
+	const lyrics = parsedContent(song.value.content, song.value.tuning, false, false).map(p => {
+		const num = p.number > 0 ? p.number : '1';
+		return `<verse name="${p.type}${num}"><lines>` + p.content.replace(/\n/g, "<br />") + '</lines></verse>'
+	}).join('');
+	const content = `<?xml version='1.0' encoding='UTF-8'?>
+		<song xmlns="http://openlyrics.info/namespace/2009/song" version="0.9" createdIn="SongDrive ${version}" modifiedIn="SongDrive ${version}" modifiedDate="${timestamp}">
+			<properties>
+				<titles>${title}${subtitle}</titles>
+				${copyright}${year}${ccli}${authors}${tags}
+			</properties>
+			<lyrics>${lyrics}</lyrics>
+		</song>
+	`;
+	// start download
+	download(content, songId + '.xml');
+	// toast success message
+	notify({
+		title: t('toast.exportedXml'),
+		text: t('toast.exportedSongXmlText'),
 		type: 'primary'
 	});
 };
@@ -457,7 +507,7 @@ const exportPdf = () => {
 			}
 		}
 	};
-	pdfMake.createPdf(doc).download(route.params.id + '.pdf');
+	pdfMake.createPdf(doc).download(songId + '.pdf');
 	// toast success message
 	notify({
 		title: t('toast.exportedPdf'),
