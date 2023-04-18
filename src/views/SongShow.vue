@@ -391,8 +391,8 @@ const exportSng = () => {
 	var content =
 		'#LangCount=1' + EOL
 		+ '#Title=' + song.value.title + EOL
-		+ '#Author=' + song.value.authors
-		+ '#Melody=' + song.value.authors
+		+ '#Author=' + song.value.authors + EOL
+		+ '#Melody=' + song.value.authors + EOL
 		+ '#(c)=' + (song.value.year ? song.value.year + ' ' : '') + song.value.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + EOL
 		+ '#Key=' + keyScale[(12 + keyScale.indexOf(song.value.tuning) + (tuning.value % 12)) % 12] + EOL
 		+ '#CCLI=' + song.value.ccli + EOL
