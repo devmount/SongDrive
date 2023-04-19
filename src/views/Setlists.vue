@@ -2,10 +2,22 @@
 	<div class="flex flex-col gap-6 w-full">
 		<!-- page heading -->
 		<div class="flex flex-col sm:flex-row justify-between items-stretch gap-4">
-			<!-- title -->
-			<div v-if="ready.setlists" class="text-3xl uppercase font-thin tracking-wider">
-				<span class="font-semibold">{{ Object.keys(filteredSetlists).length }}</span>
-				{{ t('page.setlists', Object.keys(filteredSetlists).length) }}
+			<!-- title and search trigger -->
+			<div
+				v-if="ready.setlists"
+				class="flex gap-4 sm:gap-6 text-3xl uppercase font-thin tracking-wider"
+			>
+				<div class="whitespace-nowrap">
+					<span class="font-semibold">{{ Object.keys(filteredSetlists).length }}</span>
+					{{ t('page.setlists', Object.keys(filteredSetlists).length) }}
+				</div>
+				<div
+					class="px-1 pt-0.5 flex items-center cursor-pointer text-blade-500"
+					@click="searchInput.focus()"
+					:title="t('placeholder.searchSetlistTitle')"
+				>
+					<icon-search class="w-7 h-7 stroke-1.5" />
+				</div>
 			</div>
 			<!-- pagination -->
 			<div class="flex items-center flex-nowrap gap-2 mr-16 lg:mr-0">
@@ -88,6 +100,7 @@
 							<input
 								type="search"
 								v-model="filter.date"
+								@input="e => filter.date = e.target.value"
 								class="w-full pl-8"
 							/>
 						</label>
@@ -109,6 +122,7 @@
 								type="search"
 								ref="searchInput"
 								v-model="filter.title"
+								@input="e => filter.title = e.target.value"
 								class="w-full pl-8"
 							/>
 						</label>
@@ -252,6 +266,7 @@ import {
 	IconFilterOff,
 	IconLock,
 	IconLockOpen,
+	IconSearch,
 	IconSortAscending,
 	IconSortDescending,
 	IconTrash,
@@ -370,14 +385,16 @@ const filteredSetlists = computed(() => {
 	if (filter.date) {
 		// filter fields: date
 		setlists = setlists.filter(s => {
-			return s.date.indexOf(filter.date) !== -1
-				|| humanDate(s.date, locale.value).toLowerCase().indexOf(filter.date) !== -1;
+			const key = filter.date.toLowerCase();
+			return s.date.indexOf(key) !== -1
+				|| humanDate(s.date, locale.value).toLowerCase().indexOf(key) !== -1;
 		})
 	}
 	if (filter.title) {
 		// filter fields: title
+		const key = filter.title.toLowerCase();
 		setlists = setlists.filter(s => {
-			return s.title.toLowerCase().indexOf(filter.title) !== -1;
+			return s.title.toLowerCase().indexOf(key) !== -1;
 		})
 	}
 	if (filter.creator) {
