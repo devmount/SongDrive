@@ -81,6 +81,7 @@
 								type="search"
 								ref="searchInput"
 								v-model="filter.fulltext"
+								@input="e => filter.fulltext = e.target.value"
 								class="w-full pl-8"
 								:placeholder="t('placeholder.searchSongTitle')"
 							/>
@@ -92,6 +93,7 @@
 							<input
 								type="search"
 								v-model="filter.authors"
+								@input="e => filter.authors = e.target.value"
 								class="w-full pl-8"
 							/>
 						</label>
@@ -120,6 +122,7 @@
 							<input
 								type="search"
 								v-model="filter.year"
+								@input="e => filter.year = e.target.value"
 								class="w-full pl-8"
 							/>
 						</label>
@@ -355,7 +358,7 @@ const filteredSongs = computed(() => {
 	if (filter.fulltext) {
 		// filter fields: title, subtitle, content
 		songs = songs.filter(song => {
-			let key = filter.fulltext;
+			const key = filter.fulltext.toLowerCase();
 			return song.title.toLowerCase().indexOf(key) !== -1
 				|| song.subtitle.toLowerCase().indexOf(key) !== -1
 				|| song.content.toLowerCase().indexOf(key) !== -1
@@ -364,7 +367,8 @@ const filteredSongs = computed(() => {
 	if (filter.authors) {
 		// filter field: authors
 		songs = songs.filter(song => {
-			return song.authors.toLowerCase().indexOf(filter.authors) !== -1;
+			const key = filter.authors.toLowerCase();
+			return song.authors.toLowerCase().indexOf(key) !== -1;
 		});
 	}
 	if (filter.tag) {

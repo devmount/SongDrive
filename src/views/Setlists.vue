@@ -88,6 +88,7 @@
 							<input
 								type="search"
 								v-model="filter.date"
+								@input="e => filter.date = e.target.value"
 								class="w-full pl-8"
 							/>
 						</label>
@@ -109,6 +110,7 @@
 								type="search"
 								ref="searchInput"
 								v-model="filter.title"
+								@input="e => filter.title = e.target.value"
 								class="w-full pl-8"
 							/>
 						</label>
@@ -370,14 +372,16 @@ const filteredSetlists = computed(() => {
 	if (filter.date) {
 		// filter fields: date
 		setlists = setlists.filter(s => {
-			return s.date.indexOf(filter.date) !== -1
-				|| humanDate(s.date, locale.value).toLowerCase().indexOf(filter.date) !== -1;
+			const key = filter.date.toLowerCase();
+			return s.date.indexOf(key) !== -1
+				|| humanDate(s.date, locale.value).toLowerCase().indexOf(key) !== -1;
 		})
 	}
 	if (filter.title) {
 		// filter fields: title
+		const key = filter.title.toLowerCase();
 		setlists = setlists.filter(s => {
-			return s.title.toLowerCase().indexOf(filter.title) !== -1;
+			return s.title.toLowerCase().indexOf(key) !== -1;
 		})
 	}
 	if (filter.creator) {
