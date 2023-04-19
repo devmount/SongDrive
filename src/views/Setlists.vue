@@ -2,10 +2,22 @@
 	<div class="flex flex-col gap-6 w-full">
 		<!-- page heading -->
 		<div class="flex flex-col sm:flex-row justify-between items-stretch gap-4">
-			<!-- title -->
-			<div v-if="ready.setlists" class="text-3xl uppercase font-thin tracking-wider">
-				<span class="font-semibold">{{ Object.keys(filteredSetlists).length }}</span>
-				{{ t('page.setlists', Object.keys(filteredSetlists).length) }}
+			<!-- title and search trigger -->
+			<div
+				v-if="ready.setlists"
+				class="flex gap-4 sm:gap-6 text-3xl uppercase font-thin tracking-wider"
+			>
+				<div>
+					<span class="font-semibold">{{ Object.keys(filteredSetlists).length }}</span>
+					{{ t('page.setlists', Object.keys(filteredSetlists).length) }}
+				</div>
+				<div
+					class="px-1 pt-0.5 flex items-center cursor-pointer text-blade-500"
+					@click="searchInput.focus()"
+					:title="t('placeholder.searchSetlistTitle')"
+				>
+					<icon-search class="w-7 h-7 stroke-1.5" />
+				</div>
 			</div>
 			<!-- pagination -->
 			<div class="flex items-center flex-nowrap gap-2 mr-16 lg:mr-0">
@@ -254,6 +266,7 @@ import {
 	IconFilterOff,
 	IconLock,
 	IconLockOpen,
+	IconSearch,
 	IconSortAscending,
 	IconSortDescending,
 	IconTrash,
