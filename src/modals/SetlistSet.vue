@@ -88,6 +88,7 @@
 						<input
 							type="search"
 							v-model="filter.fulltext"
+							@input="e => filter.fulltext = e.target.value"
 							class="w-full pl-8"
 							:placeholder="t('placeholder.searchSongTitle')"
 						/>
@@ -150,7 +151,7 @@
 						</dropdown>
 					</div>
 					<!-- reset filter -->
-					<button @click="resetFilter">
+					<button @click="resetFilter" :class="{ 'text-blade-500': !isFiltered }">
 						<icon-x class="w-4 h-4" />
 					</button>
 				</div>
@@ -387,7 +388,7 @@ const filteredSongs = computed(() => {
 	let songs = {...props.songs};
 	if (filter.fulltext) {
 		// filter fields: title, subtitle, content
-		let key = filter.fulltext;
+		const key = filter.fulltext.toLowerCase();
 		songs = Object.filter(
 			songs,
 			song => song.title.toLowerCase().indexOf(key) !== -1
