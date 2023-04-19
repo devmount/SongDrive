@@ -194,10 +194,10 @@
 		</div>
 
 		<!-- notifications -->
-		<notifications position="bottom right" :duration="5000" :width="400">
+		<notifications position="bottom right" :duration="5000" width="">
 			<template #body="props">
 				<div
-					class="mb-2 mr-2 py-2 px-3 rounded-sm text-white"
+					class="mb-1 mx-1 xs:mb-2 xs:mx-2 py-2 px-3 rounded-sm text-white"
 					:class="{
 						'bg-spring-700': props.item.type === 'primary',
 						'bg-rose-700': props.item.type === 'error',
