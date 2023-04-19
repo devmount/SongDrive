@@ -7,7 +7,7 @@
 				v-if="ready.songs"
 				class="flex gap-4 sm:gap-6 text-3xl uppercase font-thin tracking-wider"
 			>
-				<div>
+				<div class="whitespace-nowrap">
 					<span class="font-semibold">{{ Object.keys(filteredSongs).length }}</span>
 					{{ t('page.songs', Object.keys(filteredSongs).length) }}
 				</div>
