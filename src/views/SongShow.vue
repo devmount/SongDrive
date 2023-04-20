@@ -27,25 +27,28 @@
 				</secondary-button>
 			</div>
 			<div class="flex items-center gap-1">
-				<div class="group flex items-center gap-1 relative key-preview">
+				<div class="group flex items-center relative key-preview">
 					<secondary-button
+						class="!px-2 rounded-r-none"
 						:disabled="!chords"
 						:title="t('tooltip.transposeDown')"
-						@click="tuning--"
+						@click="transposeDown"
 					>
 						<icon-chevron-left />
 					</secondary-button>
 					<secondary-button
+						class="!px-2 border-x border-x-blade-500 dark:border-x-blade-800 rounded-none"
 						:disabled="!chords"
 						:title="t('tooltip.keyReset')"
-						@click="tuning = 0"
+						@click="transposeReset"
 					>
 						<icon-reload />
 					</secondary-button>
 					<secondary-button
+						class="!px-2 rounded-l-none"
 						:disabled="!chords"
 						:title="t('tooltip.transposeUp')"
-						@click="tuning++"
+						@click="transposeUp"
 					>
 						<icon-chevron-right />
 					</secondary-button>
@@ -301,8 +304,8 @@ const props = defineProps({
 const emit = defineEmits(['started', 'editSong', 'editSetlist']);
 
 // reactive data
-const chords   = ref(true);
-const tuning   = ref(0);
+const chords = ref(true);
+const tuning = ref(0);
 const modal = reactive({
 	song: {},
 	delete: false,
@@ -340,17 +343,31 @@ const showLanguages = computed(() => {
 	}
 });
 // show current key as well as previous and next key for transposing keys
+const keyIndexOnScale = (index) => {
+	return keyScale[(12 + keyScale.indexOf(song.value.tuning) + (index % 12)) % 12]
+};
 const showTuning = computed(() => {
 	if (song.value) {
 		return {
-			previous: keyScale[(12 + keyScale.indexOf(song.value.tuning) + (tuning.value-1 % 12)) % 12],
-			current: keyScale[(12 + keyScale.indexOf(song.value.tuning) + (tuning.value % 12)) % 12],
-			next: keyScale[(12 + keyScale.indexOf(song.value.tuning) + (tuning.value+1 % 12)) % 12],
+			previous: keyIndexOnScale(tuning.value-1),
+			current: keyIndexOnScale(tuning.value),
+			next: keyIndexOnScale(tuning.value+1),
 		};
 	} else {
 		return {}
 	}
 });
+
+// handle transposition
+const transposeDown = () => {
+	tuning.value--;
+};
+const transposeUp = () => {
+	tuning.value++;
+};
+const transposeReset = () => {
+	tuning.value = 0;
+};
 
 // calculates difference between song key and url key parameter and returns new key scale index
 const urlKeyDiff = () => {
