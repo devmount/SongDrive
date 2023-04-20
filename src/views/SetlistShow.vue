@@ -231,7 +231,7 @@
 				handle=".handle"
 				ghost-class="!bg-blade-950"
 			>
-				<template #item="{ element }">
+				<template #item="{ element, index }">
 					<tr
 						class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900 transition-all"
 					>
@@ -259,7 +259,7 @@
 									<secondary-button
 										v-if="user && role > 1"
 										class="!px-2"
-										@click.prevent="transposeDown(songs[element.id], i)"
+										@click.prevent="transposeDown(songs[element.id], index)"
 									>
 										<icon-chevron-left class="w-5 h-5" />
 									</secondary-button>
@@ -269,7 +269,7 @@
 									<secondary-button
 										v-if="user && role > 1"
 										class="!px-2"
-										@click.prevent="transposeUp(songs[element.id], i)"
+										@click.prevent="transposeUp(songs[element.id], index)"
 									>
 										<icon-chevron-right class="w-5 h-5" />
 									</secondary-button>
