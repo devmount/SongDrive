@@ -3,8 +3,8 @@
 		<!-- page heading -->
 		<div class="flex flex-col justify-between items-stretch gap-4">
 			<!-- title and song count -->
-			<div class="flex gap-6 text-3xl uppercase font-thin tracking-wider">
-				<span class="font-semibold">{{ song.title }}</span>
+			<div class="text-3xl uppercase font-thin tracking-wider">
+				<span class="font-semibold mr-4">{{ song.title }}</span>
 				{{ showTuning.current }}
 			</div>
 			<div class="text-blade-500 -mt-4">{{ song.subtitle }}</div>
@@ -33,7 +33,7 @@
 						:title="t('tooltip.transposeDown')"
 						@click="tuning--"
 					>
-						<icon-arrow-left />
+						<icon-chevron-left />
 					</secondary-button>
 					<secondary-button
 						:disabled="!chords"
@@ -47,7 +47,7 @@
 						:title="t('tooltip.transposeUp')"
 						@click="tuning++"
 					>
-						<icon-arrow-right />
+						<icon-chevron-right />
 					</secondary-button>
 					<div class="absolute top-11 left-1/2 -translate-x-1/2 w-40 flex justify-between p-1 rounded-lg bg-blade-200 dark:bg-blade-900 invisible group-hover:visible">
 						<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
@@ -234,8 +234,9 @@ import SongPresent from '@/modals/SongPresent.vue';
 // icons
 import {
 	IconArrowLeft,
-	IconArrowRight,
 	IconChevronDown,
+	IconChevronLeft,
+	IconChevronRight,
 	IconCopy,
 	IconDownload,
 	IconEdit,

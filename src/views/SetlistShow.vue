@@ -8,11 +8,14 @@
 			<!-- title and visible setlist count -->
 			<div
 				v-if="ready.setlists && setlist"
-				class="flex flex-col xs:flex-row gap-x-6 gap-y-0 text-3xl uppercase font-thin tracking-wider"
+				class="text-3xl uppercase font-thin tracking-wider"
 			>
-				<span class="font-semibold">{{ setlist.title }}</span>
-				{{ t('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
+				<span class="font-semibold mr-4">{{ setlist.title }}</span>
+				<span class="inline-block whitespace-nowrap">
+					{{ t('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
+				</span>
 			</div>
+			<!-- setlist meta data -->
 			<div class="flex flex-wrap gap-x-4 gap-y-2 -mt-2 -mb-2">
 				<div
 					v-if="setlist.private"
@@ -258,7 +261,7 @@
 										class="!px-2"
 										@click.prevent="transposeDown(songs[element.id], i)"
 									>
-										<icon-arrow-left class="w-5 h-5" />
+										<icon-chevron-left class="w-5 h-5" />
 									</secondary-button>
 									<div class="font-mono font-semibold text-xl w-6 text-center">
 										{{ element.tuning ? element.tuning : songs[element.id].tuning }}
@@ -268,7 +271,7 @@
 										class="!px-2"
 										@click.prevent="transposeUp(songs[element.id], i)"
 									>
-										<icon-arrow-right class="w-5 h-5" />
+										<icon-chevron-right class="w-5 h-5" />
 									</secondary-button>
 								</div>
 							</td>
@@ -458,10 +461,11 @@ import SetlistPresent from '@/modals/SetlistPresent.vue';
 // icons
 import {
 	IconArrowLeft,
-	IconArrowRight,
 	IconBrandSlack,
 	IconCalendarEvent,
 	IconChevronDown,
+	IconChevronLeft,
+	IconChevronRight,
 	IconClipboard,
 	IconCopy,
 	IconDownload,
