@@ -241,7 +241,14 @@
 						<template v-if="songs[element.id]">
 							<td
 								class="cursor-pointer px-3 py-2 max-w-0"
-								@click="router.push({ name: 'song-show', params: { id: element.id, key: element.tuning ? element.tuning : songs[element.id].tuning }})"
+								@click="router.push({
+									name: 'song-show',
+									params: {
+										id: element.id,
+										key: element.tuning ? element.tuning : songs[element.id].tuning,
+										setlist: setlistKey,
+									}
+								})"
 							>
 								<div class="truncate">
 									<span>{{ songs[element.id].title }}</span>

@@ -186,6 +186,58 @@
 				</div>
 			</div>
 		</div>
+		<!-- setlist navigation -->
+		<div class="flex justify-end">
+			<zone-info
+				v-if="urlSetlist && ready.setlists && ready.songs"
+				:label="'On Setlist: ' + setlists[urlSetlist].title"
+				@close="goToBasicSong"
+				closable
+			>
+				<div class="flex justify-end items-center gap-4">
+					<div>
+						Position {{ position+1 }}
+					</div>
+					<div class="flex gap-1">
+						<!-- back navigation -->
+						<secondary-button
+							class="flex items-center gap-1"
+							:disabled="position == 0"
+							title="Previous Song"
+							@click="goToPreviousSong"
+						>
+							<icon-arrow-left />
+							<div v-if="position > 0" class="hidden lg:flex items-center gap-2">
+								<div class="max-w-3xs truncate">
+									{{ songs[setlists[urlSetlist]?.songs[position-1]?.id]?.title }}
+								</div>
+								<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
+									{{ setlists[urlSetlist]?.songs[position-1]?.tuning }}
+								</div>
+							</div>
+						</secondary-button>
+						<!-- forward navigation -->
+						<secondary-button
+							class="flex items-center gap-1"
+							:disabled="position == setlists[urlSetlist].songs.length-1"
+							title="Next Song"
+							@click="goToNextSong"
+						>
+							<div v-if="position < setlists[urlSetlist].songs.length-1" class="hidden lg:flex items-center gap-2">
+								<div class="max-w-3xs truncate">
+									{{ songs[setlists[urlSetlist]?.songs[position+1]?.id]?.title }}
+								</div>
+								<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
+									{{ setlists[urlSetlist]?.songs[position+1]?.tuning }}
+								</div>
+							</div>
+							<icon-arrow-right />
+						</secondary-button>
+					</div>
+				</div>
+			</zone-info>
+		</div>
+		<!-- song content -->
 		<song-content
 			:content="song.content"
 			:chords="chords"
@@ -233,10 +285,12 @@ import SongContent from '@/partials/SongContent.vue';
 import SongDelete from '@/modals/SongDelete.vue';
 import SongFooter from '@/partials/SongFooter.vue';
 import SongPresent from '@/modals/SongPresent.vue';
+import ZoneInfo from '@/elements/ZoneInfo.vue';
 
 // icons
 import {
 	IconArrowLeft,
+	IconArrowRight,
 	IconChevronDown,
 	IconChevronLeft,
 	IconChevronRight,
@@ -256,20 +310,21 @@ import {
 
 // component constants
 const { t, availableLocales } = useI18n();
-const route = useRoute();
-const router = useRouter();
-const songId = route.params.id;
-const songKey = route.params.key;
-const version = inject('version');
+const route      = useRoute();
+const router     = useRouter();
+const songId     = route.params.id;
+const urlKey     = route.params.key;
+const urlSetlist = route.params.setlist;
+const version    = inject('version');
 
 // handle hotkeys for this component
-const hkChords = inject('hkChords');
-const hkBack = inject('hkBack');
-const hkForward = inject('hkForward');
-const hkUp = inject('hkUp');
-const hkDown = inject('hkDown');
-const hkReset = inject('hkReset');
-const hkPresent = inject('hkPresent');
+const hkChords      = inject('hkChords');
+const hkBack        = inject('hkBack');
+const hkForward     = inject('hkForward');
+const hkDown        = inject('hkDown');
+const hkUp          = inject('hkUp');
+const hkReset       = inject('hkReset');
+const hkPresent     = inject('hkPresent');
 const noActiveModal = inject('noActiveModal');
 
 // pdf creation
@@ -304,8 +359,9 @@ const props = defineProps({
 const emit = defineEmits(['started', 'editSong', 'editSetlist']);
 
 // reactive data
-const chords = ref(true);
-const tuning = ref(0);
+const chords   = ref(true);
+const tuning   = ref(0);
+const position = ref(null);
 const modal = reactive({
 	song: {},
 	delete: false,
@@ -314,8 +370,11 @@ const modal = reactive({
 
 // mounted
 onMounted(() => {
-	// set custom tuning when loading this component and songKey is given
-	tuning.value = props.song && songKey ? urlKeyDiff() : 0;
+	// set custom tuning when loading this component and urlKey is given
+	tuning.value   = props.song && urlKey ? urlKeyDiff() : 0;
+	position.value = props.ready.setlists && urlSetlist && urlKey
+		? props.setlists[urlSetlist]?.songs.findIndex(s => s.id === songId )
+		: null;
 });
 
 // get song object from db as soon as songs have finished loading
@@ -325,6 +384,7 @@ const song = computed(() => {
 	}
 	return null;
 });
+
 // array of tuples (song id, language) for all existing translations of this song
 const showLanguages = computed(() => {
 	if (props.ready.songs && song.value?.translations?.length > 0) {
@@ -342,6 +402,7 @@ const showLanguages = computed(() => {
 		return [[songId, song.value?.language]];
 	}
 });
+
 // show current key as well as previous and next key for transposing keys
 const keyIndexOnScale = (index) => {
 	return keyScale[(12 + keyScale.indexOf(song.value.tuning) + (index % 12)) % 12]
@@ -371,7 +432,7 @@ const transposeReset = () => {
 
 // calculates difference between song key and url key parameter and returns new key scale index
 const urlKeyDiff = () => {
-	return (12 + keyScale.indexOf(songKey) - keyScale.indexOf(song.value.tuning)) % 12;
+	return (12 + keyScale.indexOf(urlKey) - keyScale.indexOf(song.value.tuning)) % 12;
 };
 // export song in text format
 const exportTxt = () => {
@@ -602,11 +663,47 @@ const deleteDialog = () => {
 	modal.delete = true;
 };
 
+// navigation to previous setlist song (if setlist is set)
+const goToPreviousSong = () => {
+	const previousSongId  = props.setlists[urlSetlist].songs[position.value-1].id;
+	const previousSongKey = props.setlists[urlSetlist].songs[position.value-1].tuning;
+	router.push({
+		name: 'song-show',
+		params: {
+			id: previousSongId,
+			key: previousSongKey ? previousSongKey : props.songs[previousSongId].tuning,
+			setlist: urlSetlist,
+		}
+	});
+};
+
+// navigation to next setlist song (if setlist is set)
+const goToNextSong = () => {
+	const nextSongId  = props.setlists[urlSetlist].songs[position.value+1].id;
+	const nextSongKey = props.setlists[urlSetlist].songs[position.value+1].tuning;
+	router.push({
+		name: 'song-show',
+		params: {
+			id: nextSongId,
+			key: nextSongKey ? nextSongKey : props.songs[nextSongId].tuning,
+			setlist: urlSetlist,
+		}
+	});
+};
+
+// navigation to song without setlist information
+const goToBasicSong = () => {
+	router.push({
+		name: 'song-show',
+		params: { id: songId, key: showTuning.value.current }
+	});
+};
+
 // adjust song key if it's set by url parameter and song was loaded
 watch (
 	song,
 	() => {
-		if (songKey && song.value) {
+		if (urlKey && song.value) {
 			tuning.value = urlKeyDiff();
 		}
 	}
