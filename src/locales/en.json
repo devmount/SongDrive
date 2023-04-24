@@ -404,6 +404,7 @@
     "copySetlist": "Copy list to clipboard",
     "downloadSetlist": "Download list or songsheets",
     "downloadSong": "Download songsheet",
+    "hideThisSection": "Hide this section",
     "infoSongData": "Show Song Information",
     "invertColors": "Invert Colors",
     "keyReset": "Reset to original key",

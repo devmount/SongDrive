@@ -190,14 +190,11 @@
 		<div class="flex justify-end">
 			<zone-info
 				v-if="urlSetlist && ready.setlists && ready.songs"
-				:label="'On Setlist: ' + setlists[urlSetlist].title"
+				:label="`${t('page.setlists', 1)}: ${setlists[urlSetlist].title}, song #${position+1}`"
 				@close="goToBasicSong"
 				closable
 			>
-				<div class="flex justify-end items-center gap-4">
-					<div>
-						Position {{ position+1 }}
-					</div>
+				<div class="flex justify-end items-center">
 					<div class="flex gap-1">
 						<!-- back navigation -->
 						<secondary-button
@@ -207,7 +204,7 @@
 							@click="goToPreviousSong"
 						>
 							<icon-arrow-left />
-							<div v-if="position > 0" class="hidden lg:flex items-center gap-2">
+							<div v-if="position > 0" class="hidden sm:flex items-center gap-2">
 								<div class="max-w-3xs truncate">
 									{{ songs[setlists[urlSetlist]?.songs[position-1]?.id]?.title }}
 								</div>
@@ -223,7 +220,7 @@
 							title="Next Song"
 							@click="goToNextSong"
 						>
-							<div v-if="position < setlists[urlSetlist].songs.length-1" class="hidden lg:flex items-center gap-2">
+							<div v-if="position < setlists[urlSetlist].songs.length-1" class="hidden sm:flex items-center gap-2">
 								<div class="max-w-3xs truncate">
 									{{ songs[setlists[urlSetlist]?.songs[position+1]?.id]?.title }}
 								</div>
