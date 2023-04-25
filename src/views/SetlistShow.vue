@@ -230,6 +230,7 @@
 				item-key="id"
 				handle=".handle"
 				ghost-class="!bg-blade-950"
+				@end="saveOrder"
 			>
 				<template #item="{ element, index }">
 					<tr
@@ -631,10 +632,8 @@ const noSongs = computed(() => {
 	return props.ready.songs && props.ready.setlists && setlist.value && setlist.value.songs.length == 0;
 });
 
-// handle drag and drop reorder event and save new order for setlist
-const reorder = ({oldIndex, newIndex}) => {
-	const movedItem = setlist.value.songs.splice(oldIndex, 1)[0];
-	setlist.value.songs.splice(newIndex, 0, movedItem);
+// save new song order for setlist
+const saveOrder = () => {
 	db.collection('setlists').doc(route.params.id).set(
 		{ songs: setlist.value.songs },
 		{ merge: true }
