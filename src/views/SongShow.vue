@@ -271,7 +271,7 @@
 import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
 import { logicAnd, logicOr } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, watch, inject } from 'vue';
+import { ref, reactive, computed, inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
@@ -363,7 +363,8 @@ const modal = reactive({
 	present: false,
 });
 
-const tuning = computed(() => props.song && urlKey ? urlKeyDiff() : 0);
+const tuning = ref(0);
+onMounted(() => { tuning.value = urlKey ? urlKeyDiff.value : 0; });
 const position = computed(() => props.ready.setlists && urlSetlist && urlKey
 	? props.setlists[urlSetlist]?.songs.findIndex(s => s.id === songId )
 	: null);
@@ -422,9 +423,9 @@ const transposeReset = () => {
 };
 
 // calculates difference between song key and url key parameter and returns new key scale index
-const urlKeyDiff = () => {
+const urlKeyDiff = computed(() => {
 	return (12 + keyScale.indexOf(urlKey) - keyScale.indexOf(song.value.tuning)) % 12;
-};
+});
 // export song in text format
 const exportTxt = () => {
 	// add header
@@ -661,30 +662,34 @@ const songInUrlSetlist = computed(() => {
 
 // navigation to previous setlist song (if setlist is set)
 const goToPreviousSong = () => {
-	const previousSongId  = props.setlists[urlSetlist].songs[position.value-1].id;
-	const previousSongKey = props.setlists[urlSetlist].songs[position.value-1].tuning;
-	router.push({
-		name: 'song-show',
-		params: {
-			id: previousSongId,
-			key: previousSongKey ? previousSongKey : props.songs[previousSongId].tuning,
-			setlist: urlSetlist,
-		}
-	});
+	if (position.value > 0) {
+		const previousSongId  = props.setlists[urlSetlist].songs[position.value-1].id;
+		const previousSongKey = props.setlists[urlSetlist].songs[position.value-1].tuning;
+		router.push({
+			name: 'song-show',
+			params: {
+				id: previousSongId,
+				key: previousSongKey ? previousSongKey : props.songs[previousSongId].tuning,
+				setlist: urlSetlist,
+			}
+		});
+	}
 };
 
 // navigation to next setlist song (if setlist is set)
 const goToNextSong = () => {
-	const nextSongId  = props.setlists[urlSetlist].songs[position.value+1].id;
-	const nextSongKey = props.setlists[urlSetlist].songs[position.value+1].tuning;
-	router.push({
-		name: 'song-show',
-		params: {
-			id: nextSongId,
-			key: nextSongKey ? nextSongKey : props.songs[nextSongId].tuning,
-			setlist: urlSetlist,
-		}
-	});
+	if (position.value < props.setlists[urlSetlist].songs.length) {
+		const nextSongId  = props.setlists[urlSetlist].songs[position.value+1].id;
+		const nextSongKey = props.setlists[urlSetlist].songs[position.value+1].tuning;
+		router.push({
+			name: 'song-show',
+			params: {
+				id: nextSongId,
+				key: nextSongKey ? nextSongKey : props.songs[nextSongId].tuning,
+				setlist: urlSetlist,
+			}
+		});
+	}
 };
 
 // navigation to song without setlist information
@@ -694,16 +699,6 @@ const goToBasicSong = () => {
 		params: { id: songId, key: showTuning.value.current }
 	});
 };
-
-// adjust song key if it's set by url parameter and song was loaded
-watch (
-	song,
-	() => {
-		if (urlKey && song.value) {
-			tuning.value = urlKeyDiff();
-		}
-	}
-);
 
 // component shortcuts
 whenever(
