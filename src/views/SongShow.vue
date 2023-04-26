@@ -189,7 +189,7 @@
 		<!-- setlist navigation -->
 		<div class="flex justify-end">
 			<zone-info
-				v-if="urlSetlist && ready.setlists && ready.songs"
+				v-if="urlSetlist && ready.setlists && ready.songs && songInUrlSetlist"
 				:label="`${t('page.setlists', 1)}: ${setlists[urlSetlist].title}, song #${position+1}`"
 				@close="goToBasicSong"
 				closable
@@ -271,7 +271,7 @@
 import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
 import { logicAnd, logicOr } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, watch, onMounted, inject } from 'vue';
+import { ref, reactive, computed, watch, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
@@ -356,23 +356,17 @@ const props = defineProps({
 const emit = defineEmits(['started', 'editSong', 'editSetlist']);
 
 // reactive data
-const chords   = ref(true);
-const tuning   = ref(0);
-const position = ref(null);
+const chords = ref(true);
 const modal = reactive({
 	song: {},
 	delete: false,
 	present: false,
 });
 
-// mounted
-onMounted(() => {
-	// set custom tuning when loading this component and urlKey is given
-	tuning.value   = props.song && urlKey ? urlKeyDiff() : 0;
-	position.value = props.ready.setlists && urlSetlist && urlKey
-		? props.setlists[urlSetlist]?.songs.findIndex(s => s.id === songId )
-		: null;
-});
+const tuning = computed(() => props.song && urlKey ? urlKeyDiff() : 0);
+const position = computed(() => props.ready.setlists && urlSetlist && urlKey
+	? props.setlists[urlSetlist]?.songs.findIndex(s => s.id === songId )
+	: null);
 
 // get song object from db as soon as songs have finished loading
 const song = computed(() => {
@@ -659,6 +653,11 @@ const getPdfSongContent = () => {
 const deleteDialog = () => {
 	modal.delete = true;
 };
+
+// check if song is part of setlist given via url
+const songInUrlSetlist = computed(() => {
+	return position.value !== null && props.setlists[urlSetlist]?.songs.map(s => s.id).includes(songId);
+});
 
 // navigation to previous setlist song (if setlist is set)
 const goToPreviousSong = () => {
