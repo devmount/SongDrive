@@ -187,12 +187,8 @@
 			</div>
 		</div>
 		<!-- setlist navigation -->
-		<div class="flex justify-end">
-			<zone-info
-				v-if="urlSetlist && ready.setlists && ready.songs && songInUrlSetlist"
-				@close="goToBasicSong"
-				closable
-			>
+		<div v-if="urlSetlist && ready.setlists && ready.songs && songInUrlSetlist" class="flex justify-end">
+			<zone-info @close="goToBasicSong" closable>
 				<template #label>
 					<router-link
 						class="text-blade-600 dark:text-blade-400 mr-1"
