@@ -253,6 +253,18 @@
 			:tags="tags"
 		/>
 	</div>
+	<!-- access to non-existing song -->
+	<div v-if="songNotFound" class="flex flex-col items-center gap-8 mt-4">
+		<icon-error-404 class="w-14 h-14 stroke-1 text-blade-500" />
+		<div class="text-center">
+			<div class="text-lg">{{ t('text.songNotFound') }}</div>
+			<div class="text-blade-500">{{ t('text.songDeletedOrBrokenLink') }}</div>
+		</div>
+		<primary-button @click="router.push({ name: 'songs' })" class="mt-4">
+			{{ t('widget.showAllSongs') }}
+			<icon-music class="stroke-1.5" />
+		</primary-button>
+	</div>
 	<!-- modals -->
 	<song-delete
 		:active="modal.delete"
@@ -281,6 +293,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
 import Dropdown from '@/elements/Dropdown.vue';
 import pdfMake from "pdfmake/build/pdfmake";
+import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent.vue';
 import SongDelete from '@/modals/SongDelete.vue';
@@ -298,6 +311,7 @@ import {
 	IconCopy,
 	IconDownload,
 	IconEdit,
+	IconError404,
 	IconFileCode,
 	IconFileMusic,
 	IconFilePencil,
@@ -430,6 +444,12 @@ const transposeReset = () => {
 const urlKeyDiff = computed(() => {
 	return (12 + keyScale.indexOf(urlKey) - keyScale.indexOf(song.value.tuning)) % 12;
 });
+
+// true if this setlist is not part in collection
+const songNotFound = computed(() => {
+	return props.ready.songs && !(songId in props.songs);
+});
+
 // export song in text format
 const exportTxt = () => {
 	// add header

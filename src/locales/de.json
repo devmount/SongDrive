@@ -313,6 +313,8 @@
     "setlistVisibleForCreator": "Diese Setlist ist nur für ihre Erstellerin / ihren Ersteller sichtbar.",
     "signInForAccess": "Bitte melde dich mit deinem Benutzerkonto an, um auf diese Seite zuzugreifen.",
     "signInToSongDrive": "Melde Dich bei SongDrive an",
+    "songDeletedOrBrokenLink": "Dieser Song existiert nicht. Er wurde möglicherweise gelöscht oder der Link ist kaputt.",
+    "songNotFound": "Song nicht gefunden",
     "songsheets": "Liedzettel",
     "syncedDevices": "Synchronisierte Geräte:",
     "unconfirmedMistake": "Wenn du denkst, dass hier ein Fehler vorliegt, kontaktiere uns bitte.",

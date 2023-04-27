@@ -401,7 +401,7 @@
 	</div>
 	<!-- access to non-existing setlist -->
 	<div v-if="setlistNotFound" class="flex flex-col items-center gap-8 mt-4">
-		<icon-error-404 class="w-12 h-12 stroke-1 text-blade-500" />
+		<icon-error-404 class="w-14 h-14 stroke-1 text-blade-500" />
 		<div class="text-center">
 			<div class="text-lg">{{ t('text.setlistNotFound') }}</div>
 			<div class="text-blade-500">{{ t('text.setlistDeletedOrBrokenLink') }}</div>
