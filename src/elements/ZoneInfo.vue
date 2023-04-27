@@ -7,7 +7,9 @@
   <div class="
     -mt-7 px-1.5 -ml-1.5 inline-block uppercase max-w-max tracking-widest text-sm
     bg-blade-100 dark:bg-blade-850 text-blade-500
-  ">{{ label }}</div>
+  ">
+    <slot name="label"></slot>
+  </div>
   <!-- close button -->
   <div
     v-if="closable"
@@ -33,7 +35,6 @@ const { t } = useI18n();
 
 // component properties
 defineProps({
-  label:    String,
   closable: Boolean,
 });
 

@@ -190,10 +190,18 @@
 		<div class="flex justify-end">
 			<zone-info
 				v-if="urlSetlist && ready.setlists && ready.songs && songInUrlSetlist"
-				:label="`${t('page.setlists', 1)}: ${setlists[urlSetlist].title}, song #${position+1}`"
 				@close="goToBasicSong"
 				closable
 			>
+				<template #label>
+					<router-link
+						class="text-blade-600 dark:text-blade-400 mr-1"
+						:to="{ name: 'setlist-show', params: { id: urlSetlist }}"
+					>
+						{{ t('page.setlists', 1) }}: {{ setlists[urlSetlist].title }}
+					</router-link>
+					{{ t('page.songs', 1) }} #{{ position+1 }}
+				</template>
 				<div class="flex justify-end items-center">
 					<div class="flex gap-1">
 						<!-- back navigation -->
