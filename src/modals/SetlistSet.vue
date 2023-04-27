@@ -205,7 +205,7 @@
 						ghost-class="!bg-blade-950"
 						class="overflow-y-scroll h-full flex flex-col gap-1 mt-3"
 					>
-						<template #item="{ element }">
+						<template #item="{ element, index }">
 							<div
 								class="flex items-center gap-2 p-1 hover:bg-blade-200 dark:hover:bg-blade-800"
 							>
@@ -213,8 +213,8 @@
 									<icon-menu-order class="handle w-5 h-5" />
 								</button>
 								<div class="flex items-center">
-									<secondary-button @click.prevent="tuneDown(i)" class="w-6 h-6 !p-1">
-										<icon-arrow-left class="w-4 h-4 stroke-2 shrink-0" />
+									<secondary-button @click.prevent="tuneDown(index)" class="w-6 h-6 !p-1">
+										<icon-chevron-left class="w-4 h-4 stroke-2 shrink-0" />
 									</secondary-button>
 									<figure
 										class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
@@ -222,8 +222,8 @@
 									>
 										<div class="-mt-0.5">{{ element.tuning ? element.tuning : songs[element.id].tuning }}</div>
 									</figure>
-									<secondary-button @click.prevent="tuneUp(i)" class="w-6 h-6 !p-1">
-										<icon-arrow-right class="w-4 h-4 stroke-2 shrink-0" />
+									<secondary-button @click.prevent="tuneUp(index)" class="w-6 h-6 !p-1">
+										<icon-chevron-right class="w-4 h-4 stroke-2 shrink-0" />
 									</secondary-button>
 								</div>
 								<div class="flex flex-col overflow-hidden">
@@ -284,6 +284,8 @@ import {
 	IconArrowLeft,
 	IconArrowRight,
 	IconCalendar,
+	IconChevronLeft,
+	IconChevronRight,
 	IconDeviceFloppy,
 	IconFilter,
 	IconLoader2,

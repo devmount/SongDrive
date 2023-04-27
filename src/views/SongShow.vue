@@ -3,8 +3,8 @@
 		<!-- page heading -->
 		<div class="flex flex-col justify-between items-stretch gap-4">
 			<!-- title and song count -->
-			<div class="flex gap-6 text-3xl uppercase font-thin tracking-wider">
-				<span class="font-semibold">{{ song.title }}</span>
+			<div class="text-3xl uppercase font-thin tracking-wider">
+				<span class="font-semibold mr-4">{{ song.title }}</span>
 				{{ showTuning.current }}
 			</div>
 			<div class="text-blade-500 -mt-4">{{ song.subtitle }}</div>
@@ -27,27 +27,30 @@
 				</secondary-button>
 			</div>
 			<div class="flex items-center gap-1">
-				<div class="group flex items-center gap-1 relative key-preview">
+				<div class="group flex items-center relative key-preview">
 					<secondary-button
+						class="!px-2 rounded-r-none"
 						:disabled="!chords"
 						:title="t('tooltip.transposeDown')"
-						@click="tuning--"
+						@click="transposeDown"
 					>
-						<icon-arrow-left />
+						<icon-chevron-left />
 					</secondary-button>
 					<secondary-button
+						class="!px-2 border-x border-x-blade-500 dark:border-x-blade-800 rounded-none"
 						:disabled="!chords"
 						:title="t('tooltip.keyReset')"
-						@click="tuning = 0"
+						@click="transposeReset"
 					>
 						<icon-reload />
 					</secondary-button>
 					<secondary-button
+						class="!px-2 rounded-l-none"
 						:disabled="!chords"
 						:title="t('tooltip.transposeUp')"
-						@click="tuning++"
+						@click="transposeUp"
 					>
-						<icon-arrow-right />
+						<icon-chevron-right />
 					</secondary-button>
 					<div class="absolute top-11 left-1/2 -translate-x-1/2 w-40 flex justify-between p-1 rounded-lg bg-blade-200 dark:bg-blade-900 invisible group-hover:visible">
 						<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
@@ -183,6 +186,59 @@
 				</div>
 			</div>
 		</div>
+		<!-- setlist navigation -->
+		<div v-if="urlSetlist && ready.setlists && ready.songs && songInUrlSetlist" class="flex justify-end">
+			<zone-info @close="goToBasicSong" closable>
+				<template #label>
+					<router-link
+						class="text-blade-600 dark:text-blade-400 mr-1"
+						:to="{ name: 'setlist-show', params: { id: urlSetlist }}"
+					>
+						{{ t('page.setlists', 1) }}: {{ setlists[urlSetlist].title }}
+					</router-link>
+					{{ t('page.songs', 1) }} #{{ position+1 }}
+				</template>
+				<div class="flex justify-end items-center">
+					<div class="flex gap-1">
+						<!-- back navigation -->
+						<secondary-button
+							class="flex items-center gap-1"
+							:disabled="position == 0"
+							title="Previous Song"
+							@click="goToPreviousSong"
+						>
+							<icon-arrow-left />
+							<div v-if="position > 0" class="hidden sm:flex items-center gap-2">
+								<div class="max-w-3xs truncate">
+									{{ songs[setlists[urlSetlist]?.songs[position-1]?.id]?.title }}
+								</div>
+								<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
+									{{ setlists[urlSetlist]?.songs[position-1]?.tuning }}
+								</div>
+							</div>
+						</secondary-button>
+						<!-- forward navigation -->
+						<secondary-button
+							class="flex items-center gap-1"
+							:disabled="position == setlists[urlSetlist].songs.length-1"
+							title="Next Song"
+							@click="goToNextSong"
+						>
+							<div v-if="position < setlists[urlSetlist].songs.length-1" class="hidden sm:flex items-center gap-2">
+								<div class="max-w-3xs truncate">
+									{{ songs[setlists[urlSetlist]?.songs[position+1]?.id]?.title }}
+								</div>
+								<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
+									{{ setlists[urlSetlist]?.songs[position+1]?.tuning }}
+								</div>
+							</div>
+							<icon-arrow-right />
+						</secondary-button>
+					</div>
+				</div>
+			</zone-info>
+		</div>
+		<!-- song content -->
 		<song-content
 			:content="song.content"
 			:chords="chords"
@@ -219,7 +275,7 @@
 import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
 import { logicAnd, logicOr } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, watch, onMounted, inject } from 'vue';
+import { ref, reactive, computed, inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
@@ -230,12 +286,15 @@ import SongContent from '@/partials/SongContent.vue';
 import SongDelete from '@/modals/SongDelete.vue';
 import SongFooter from '@/partials/SongFooter.vue';
 import SongPresent from '@/modals/SongPresent.vue';
+import ZoneInfo from '@/elements/ZoneInfo.vue';
 
 // icons
 import {
 	IconArrowLeft,
 	IconArrowRight,
 	IconChevronDown,
+	IconChevronLeft,
+	IconChevronRight,
 	IconCopy,
 	IconDownload,
 	IconEdit,
@@ -252,20 +311,21 @@ import {
 
 // component constants
 const { t, availableLocales } = useI18n();
-const route = useRoute();
-const router = useRouter();
-const songId = route.params.id;
-const songKey = route.params.key;
-const version = inject('version');
+const route      = useRoute();
+const router     = useRouter();
+const songId     = route.params.id;
+const urlKey     = route.params.key;
+const urlSetlist = route.params.setlist;
+const version    = inject('version');
 
 // handle hotkeys for this component
-const hkChords = inject('hkChords');
-const hkBack = inject('hkBack');
-const hkForward = inject('hkForward');
-const hkUp = inject('hkUp');
-const hkDown = inject('hkDown');
-const hkReset = inject('hkReset');
-const hkPresent = inject('hkPresent');
+const hkChords      = inject('hkChords');
+const hkBack        = inject('hkBack');
+const hkForward     = inject('hkForward');
+const hkDown        = inject('hkDown');
+const hkUp          = inject('hkUp');
+const hkReset       = inject('hkReset');
+const hkPresent     = inject('hkPresent');
 const noActiveModal = inject('noActiveModal');
 
 // pdf creation
@@ -300,19 +360,18 @@ const props = defineProps({
 const emit = defineEmits(['started', 'editSong', 'editSetlist']);
 
 // reactive data
-const chords   = ref(true);
-const tuning   = ref(0);
+const chords = ref(true);
 const modal = reactive({
 	song: {},
 	delete: false,
 	present: false,
 });
 
-// mounted
-onMounted(() => {
-	// set custom tuning when loading this component and songKey is given
-	tuning.value = props.song && songKey ? urlKeyDiff() : 0;
-});
+const tuning = ref(0);
+onMounted(() => { tuning.value = urlKey ? urlKeyDiff.value : 0; });
+const position = computed(() => props.ready.setlists && urlSetlist && urlKey
+	? props.setlists[urlSetlist]?.songs.findIndex(s => s.id === songId )
+	: null);
 
 // get song object from db as soon as songs have finished loading
 const song = computed(() => {
@@ -321,6 +380,7 @@ const song = computed(() => {
 	}
 	return null;
 });
+
 // array of tuples (song id, language) for all existing translations of this song
 const showLanguages = computed(() => {
 	if (props.ready.songs && song.value?.translations?.length > 0) {
@@ -338,23 +398,38 @@ const showLanguages = computed(() => {
 		return [[songId, song.value?.language]];
 	}
 });
+
 // show current key as well as previous and next key for transposing keys
+const keyIndexOnScale = (index) => {
+	return keyScale[(12 + keyScale.indexOf(song.value.tuning) + (index % 12)) % 12]
+};
 const showTuning = computed(() => {
 	if (song.value) {
 		return {
-			previous: keyScale[(12 + keyScale.indexOf(song.value.tuning) + (tuning.value-1 % 12)) % 12],
-			current: keyScale[(12 + keyScale.indexOf(song.value.tuning) + (tuning.value % 12)) % 12],
-			next: keyScale[(12 + keyScale.indexOf(song.value.tuning) + (tuning.value+1 % 12)) % 12],
+			previous: keyIndexOnScale(tuning.value-1),
+			current: keyIndexOnScale(tuning.value),
+			next: keyIndexOnScale(tuning.value+1),
 		};
 	} else {
 		return {}
 	}
 });
 
-// calculates difference between song key and url key parameter and returns new key scale index
-const urlKeyDiff = () => {
-	return (12 + keyScale.indexOf(songKey) - keyScale.indexOf(song.value.tuning)) % 12;
+// handle transposition
+const transposeDown = () => {
+	tuning.value--;
 };
+const transposeUp = () => {
+	tuning.value++;
+};
+const transposeReset = () => {
+	tuning.value = 0;
+};
+
+// calculates difference between song key and url key parameter and returns new key scale index
+const urlKeyDiff = computed(() => {
+	return (12 + keyScale.indexOf(urlKey) - keyScale.indexOf(song.value.tuning)) % 12;
+});
 // export song in text format
 const exportTxt = () => {
 	// add header
@@ -584,15 +659,50 @@ const deleteDialog = () => {
 	modal.delete = true;
 };
 
-// adjust song key if it's set by url parameter and song was loaded
-watch (
-	song,
-	() => {
-		if (songKey && song.value) {
-			tuning.value = urlKeyDiff();
-		}
+// check if song is part of setlist given via url
+const songInUrlSetlist = computed(() => {
+	return position.value !== null && props.setlists[urlSetlist]?.songs.map(s => s.id).includes(songId);
+});
+
+// navigation to previous setlist song (if setlist is set)
+const goToPreviousSong = () => {
+	if (position.value > 0) {
+		const previousSongId  = props.setlists[urlSetlist].songs[position.value-1].id;
+		const previousSongKey = props.setlists[urlSetlist].songs[position.value-1].tuning;
+		router.push({
+			name: 'song-show',
+			params: {
+				id: previousSongId,
+				key: previousSongKey ? previousSongKey : props.songs[previousSongId].tuning,
+				setlist: urlSetlist,
+			}
+		});
 	}
-);
+};
+
+// navigation to next setlist song (if setlist is set)
+const goToNextSong = () => {
+	if (position.value < props.setlists[urlSetlist].songs.length) {
+		const nextSongId  = props.setlists[urlSetlist].songs[position.value+1].id;
+		const nextSongKey = props.setlists[urlSetlist].songs[position.value+1].tuning;
+		router.push({
+			name: 'song-show',
+			params: {
+				id: nextSongId,
+				key: nextSongKey ? nextSongKey : props.songs[nextSongId].tuning,
+				setlist: urlSetlist,
+			}
+		});
+	}
+};
+
+// navigation to song without setlist information
+const goToBasicSong = () => {
+	router.push({
+		name: 'song-show',
+		params: { id: songId, key: showTuning.value.current }
+	});
+};
 
 // component shortcuts
 whenever(

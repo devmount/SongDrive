@@ -8,11 +8,14 @@
 			<!-- title and visible setlist count -->
 			<div
 				v-if="ready.setlists && setlist"
-				class="flex flex-col xs:flex-row gap-x-6 gap-y-0 text-3xl uppercase font-thin tracking-wider"
+				class="text-3xl uppercase font-thin tracking-wider"
 			>
-				<span class="font-semibold">{{ setlist.title }}</span>
-				{{ t('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
+				<span class="font-semibold mr-4">{{ setlist.title }}</span>
+				<span class="inline-block whitespace-nowrap">
+					{{ t('object.song', setlist.songs.length, { n: setlist.songs.length }) }}
+				</span>
 			</div>
+			<!-- setlist meta data -->
 			<div class="flex flex-wrap gap-x-4 gap-y-2 -mt-2 -mb-2">
 				<div
 					v-if="setlist.private"
@@ -227,8 +230,9 @@
 				item-key="id"
 				handle=".handle"
 				ghost-class="!bg-blade-950"
+				@end="saveOrder"
 			>
-				<template #item="{ element }">
+				<template #item="{ element, index }">
 					<tr
 						class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900 transition-all"
 					>
@@ -238,7 +242,14 @@
 						<template v-if="songs[element.id]">
 							<td
 								class="cursor-pointer px-3 py-2 max-w-0"
-								@click="router.push({ name: 'song-show', params: { id: element.id, key: element.tuning ? element.tuning : songs[element.id].tuning }})"
+								@click="router.push({
+									name: 'song-show',
+									params: {
+										id: element.id,
+										key: element.tuning ? element.tuning : songs[element.id].tuning,
+										setlist: setlistKey,
+									}
+								})"
 							>
 								<div class="truncate">
 									<span>{{ songs[element.id].title }}</span>
@@ -256,9 +267,9 @@
 									<secondary-button
 										v-if="user && role > 1"
 										class="!px-2"
-										@click.prevent="transposeDown(songs[element.id], i)"
+										@click.prevent="transposeDown(songs[element.id], index)"
 									>
-										<icon-arrow-left class="w-5 h-5" />
+										<icon-chevron-left class="w-5 h-5" />
 									</secondary-button>
 									<div class="font-mono font-semibold text-xl w-6 text-center">
 										{{ element.tuning ? element.tuning : songs[element.id].tuning }}
@@ -266,9 +277,9 @@
 									<secondary-button
 										v-if="user && role > 1"
 										class="!px-2"
-										@click.prevent="transposeUp(songs[element.id], i)"
+										@click.prevent="transposeUp(songs[element.id], index)"
 									>
-										<icon-arrow-right class="w-5 h-5" />
+										<icon-chevron-right class="w-5 h-5" />
 									</secondary-button>
 								</div>
 							</td>
@@ -458,10 +469,11 @@ import SetlistPresent from '@/modals/SetlistPresent.vue';
 // icons
 import {
 	IconArrowLeft,
-	IconArrowRight,
 	IconBrandSlack,
 	IconCalendarEvent,
 	IconChevronDown,
+	IconChevronLeft,
+	IconChevronRight,
 	IconClipboard,
 	IconCopy,
 	IconDownload,
@@ -620,10 +632,8 @@ const noSongs = computed(() => {
 	return props.ready.songs && props.ready.setlists && setlist.value && setlist.value.songs.length == 0;
 });
 
-// handle drag and drop reorder event and save new order for setlist
-const reorder = ({oldIndex, newIndex}) => {
-	const movedItem = setlist.value.songs.splice(oldIndex, 1)[0];
-	setlist.value.songs.splice(newIndex, 0, movedItem);
+// save new song order for setlist
+const saveOrder = () => {
 	db.collection('setlists').doc(route.params.id).set(
 		{ songs: setlist.value.songs },
 		{ merge: true }
