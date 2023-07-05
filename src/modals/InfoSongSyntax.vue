@@ -11,14 +11,10 @@
 </template>
 
 <script setup>
-import 'highlight.js/styles/github-dark.css';
-import { computed } from 'vue';
-import { marked } from 'marked';
-import { sdHighlight } from '@/utils.js';
+import { computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import de from "@/docs/syntax-cheatsheet.de.md?raw";
 import en from "@/docs/syntax-cheatsheet.en.md?raw";
-import hljs from 'highlight.js';
 import Modal from '@/elements/Modal.vue';
 
 
@@ -38,19 +34,11 @@ const props = defineProps({
 const emit = defineEmits(['closed']);
 
 // parse content of cheatsheet markdown file
+const marked = inject('marked');
 const content = computed(() => marked.parse(
 	cheatsheets[lang],
 	{
 		renderer: new marked.Renderer(),
-		highlight: (code, lang) => {
-			if (lang == 'songdrive') {
-				return sdHighlight(code);
-			} else {
-				const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-				return hljs.highlight(code, { language }).value;
-			}
-		},
-		langPrefix: 'hljs language-',
 		pedantic: false,
 		gfm: true,
 		breaks: true,

@@ -83,14 +83,10 @@
 </template>
 
 <script setup>
-import 'highlight.js/styles/github-dark.css';
-import { computed } from 'vue';
-import { marked } from 'marked';
-import { sdHighlight } from '@/utils.js';
+import { computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import de from "@/docs/docs.de.md?raw";
 import en from "@/docs/docs.en.md?raw";
-import hljs from 'highlight.js';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 
 // icons
@@ -127,21 +123,13 @@ const toc = computed(
 	() => marked.lexer(docs[lang]).filter(t => t.type === 'heading' && t.depth === 2)
 );
 
-// parse documentation markdown content
+// parse documentation markdown content with songdrive code highlight
+const marked = inject('marked');
 const content = computed(
 	() => marked.parse(
 		docs[lang],
 		{
 			renderer: new marked.Renderer(),
-			highlight: (code, lang) => {
-				if (lang == 'songdrive') {
-					return sdHighlight(code);
-				} else {
-					const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-					return hljs.highlight(code, { language }).value;
-				}
-			},
-			langPrefix: 'hljs language-',
 			pedantic: false,
 			gfm: true,
 			breaks: true,

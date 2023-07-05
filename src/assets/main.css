@@ -85,6 +85,9 @@ kbd > * {
 }
 
 /* songdrive syntax and prism editor */
+.language-songdrive {
+  @apply block !p-4
+}
 .language-songdrive .sd-marker,
 .prism-editor__editor .sd-marker {
   @apply text-blade-500

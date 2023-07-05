@@ -46,6 +46,28 @@ const i18n = createI18n({
 });
 app.use(i18n);
 
+// marked
+import { marked } from 'marked';
+import { markedHighlight } from "marked-highlight";
+import { sdHighlight } from '@/utils.js';
+import hljs from 'highlight.js';
+marked.use(markedHighlight({
+	langPrefix: 'hljs language-',
+	highlight: (code, lang) => {
+		if (lang == 'songdrive') {
+			return sdHighlight(code);
+		} else {
+			const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+			return hljs.highlight(code, { language }).value;
+		}
+	},
+}));
+marked.use({
+	mangle: false,
+  headerIds: false,
+});
+app.provide('marked', marked);
+
 // extend Object for filtering
 Object.filter = (obj, predicate) => 
 	Object.keys(obj)

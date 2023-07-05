@@ -40,6 +40,7 @@
 		"firebase": "^9.0.0",
 		"highlight.js": "^11.3.1",
 		"marked": "^5.1.0",
+		"marked-highlight": "^2.0.1",
 		"pdfmake": "^0.2.2",
 		"vue": "^3.2.37",
 		"vue-i18n": "^9.1.10",
