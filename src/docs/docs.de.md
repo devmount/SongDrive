@@ -123,7 +123,7 @@ Jedem Songabschnitt kann eine Nummer zu Aufzählung hinzugefügt werden, z.B. `-
 
 Beispiel mit drei verschiedenen Songabschnitten:
 
-```plain
+```songdrive
 --v
  G             C  
 Das ist die Strophe
@@ -145,7 +145,7 @@ Einfach ein Beispieltext
 
 Beispiel eines Songs mit zwei Strophen:
 
-```plain
+```songdrive
 --v1
   G       G7        C        G  
 Amazing grace how sweet the sound
