@@ -31,6 +31,7 @@ import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router'
+import { updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -66,7 +67,7 @@ const emit = defineEmits(['closed']);
 const busy = ref(false);
 const deleteSong = () => {
 	busy.value = true;
-	db.collection('songs').doc(props.id).delete().then(() => {
+	deleteDoc(doc(db, `songs/${props.id}`)).then(() => {
 		emit('closed');
 		// check existing song translations for this song id and delete corresponding references
 		for (const songId in props.songs) {
@@ -77,7 +78,7 @@ const deleteSong = () => {
 			});
 			if (existingSongKey !== null) {
 				let updatedTranslationsList = song.translations.filter(t => t != props.id);
-				db.collection('songs').doc(songId).update({ translations: updatedTranslationsList });
+				updateDoc(doc(db, `songs/${songId}`), { translations: updatedTranslationsList });
 			}
 		}
 		// go back to songs list if not already there

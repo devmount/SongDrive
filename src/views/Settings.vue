@@ -436,7 +436,8 @@ import { useI18n } from 'vue-i18n';
 import AccountDelete from '@/modals/AccountDelete.vue';
 import Avatar from '@/elements/Avatar.vue';
 import EmailChange from '@/modals/EmailChange.vue';
-import firebase from 'firebase/compat/app';
+import { updateDoc, doc } from 'firebase/firestore';
+import { getAuth, sendEmailVerification, updateProfile as fbUpdateProfile } from "firebase/auth";
 import ImportData from '@/modals/ImportData.vue';
 import LanguageDelete from '@/modals/LanguageDelete.vue';
 import LanguageSet from '@/modals/LanguageSet.vue';
@@ -479,7 +480,9 @@ import {
 const { t, locale, availableLocales } = useI18n({ useScope: 'global' });
 
 // global properties
+const fb = inject('firebaseApp');
 const db = inject('db');
+const fbAuth = getAuth(fb);
 
 // component properties
 const props = defineProps({
@@ -573,7 +576,7 @@ const loadProfile = () => {
 
 // resend email with verification link to currently logged in user
 const resendEmailVerification = () => {
-	firebase.auth().currentUser.sendEmailVerification().then(() => {
+	sendEmailVerification(fbAuth.currentUser).then(() => {
 		notify({
 			title: t('toast.verficationSent'),
 			text: t('toast.verficationSentText'),
@@ -586,14 +589,14 @@ const resendEmailVerification = () => {
 // save profile data
 const updateProfile = () => {
 	busy.profile = true;
-	props.userObject.updateProfile({
+	fbUpdateProfile(props.userObject, {
 			displayName: profile.name,
-			email: profile.email
+			photoUrl: profile.photo,
 	}).then(() => {
 		// first update user object
-		db.collection('users').doc(props.user).update(profile).then(() => {
+		updateDoc(doc(db, `users/${props.user}`), profile).then(() => {
 			// then update permissions for this user
-			db.collection('permissions').doc(props.user).update(permission).then(() => {
+			updateDoc(doc(db, `permissions/${props.user}`), permission).then(() => {
 				// updated successfully
 				notify({
 					title: t('toast.userUpdated'),
@@ -609,9 +612,7 @@ const updateProfile = () => {
 // save configration
 const updateConfig = () => {
 	busy.config = true;
-	db.collection('config').doc('contact').update({
-		email: configuration.contact.email
-	}).then(() => {
+	updateDoc(doc(db, `config/contact`), { email: configuration.contact.email }).then(() => {
 		// Config updated successfully!
 		notify({
 			title: t('toast.configUpdated'),

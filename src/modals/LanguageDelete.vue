@@ -27,6 +27,7 @@ import { computed, inject, ref } from 'vue';
 import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
+import { deleteDoc, doc } from 'firebase/firestore';
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -70,7 +71,7 @@ const busy = ref(false);
 const deleteLanguage = () => {
 	if (!languageInUse.value) {
 		busy.value = true;
-		db.collection('languages').doc(props.languageKey).delete().then(() => {
+		deleteDoc(doc(db, `languages/${props.languageKey}`)).then(() => {
 			emit('closed');
 			// toast success message
 			notify({

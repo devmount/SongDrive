@@ -271,6 +271,7 @@ import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, inject, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import { setDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import Datepicker from '@vuepic/vue-datepicker';
 import draggable from 'vuedraggable';
 import Dropdown from '@/elements/Dropdown.vue';
@@ -348,7 +349,7 @@ const resetErrors = () => {
 };
 
 // setlist input data
-const setlist = ref({});
+const setlist = ref(null);
 const setlistSongs = ref(null);
 const initInput = () => {
 	resetErrors();
@@ -505,7 +506,7 @@ const setSetlist = () => {
 		};
 		// new setlist should be created
 		if (!props.existing) {
-			db.collection('setlists').doc(slug).set(processedSetlist).then(() => {
+			setDoc(doc(db `setlists/${slug}`), processedSetlist).then(() => {
 				emit('closed');
 				processedSetlist = {};
 				router.push({ name: 'setlist-show', params: { id: slug }});
@@ -523,7 +524,7 @@ const setSetlist = () => {
 			// check if key remained (no title or date change)
 			if (props.id == slug) {
 				// just update the existing setlist
-				db.collection('setlists').doc(props.id).update(processedSetlist).then(() => {
+				updateDoc(doc(db, `setlists/${props.id}`), processedSetlist).then(() => {
 					emit('closed');
 					processedSetlist = {};
 					// toast success update message
@@ -536,18 +537,19 @@ const setSetlist = () => {
 				}).catch((error) => throwError(error));
 			} else {
 				// update key by adding a new setlist and removing the old one
-				db.collection('setlists').doc(props.id).delete();
-				db.collection('setlists').doc(slug).set(processedSetlist).then(() => {
-					emit('closed');
-					processedSetlist = {};
-					router.push({ name: 'setlist-show', params: { id: slug }});
-					// toast success update message
-					notify({
-						title: t('toast.setlistUpdated'),
-						text:  t('toast.setlistSavedText'),
-						type:  'primary'
-					});
-					busy.value = false;
+				deleteDoc(doc(db, `setlists/${props.id}`)).then(() => {
+					setDoc(doc(db, `setlists/${slug}`), processedSetlist).then(() => {
+						emit('closed');
+						processedSetlist = {};
+						router.push({ name: 'setlist-show', params: { id: slug }});
+						// toast success update message
+						notify({
+							title: t('toast.setlistUpdated'),
+							text:  t('toast.setlistSavedText'),
+							type:  'primary'
+						});
+						busy.value = false;
+					}).catch((error) => throwError(error));
 				}).catch((error) => throwError(error));
 			}
 		}

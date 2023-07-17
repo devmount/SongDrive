@@ -23,6 +23,7 @@ import { useI18n } from 'vue-i18n';
 import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
 import { useRoute, useRouter } from 'vue-router'
+import { deleteDoc, doc } from 'firebase/firestore';
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -54,7 +55,7 @@ const emit = defineEmits(['closed']);
 const busy = ref(false);
 const deleteSetlist = () => {
 	busy.value = true;
-	db.collection('setlists').doc(props.id).delete().then(() => {
+	deleteDoc(doc(db, `setlists/${props.id}`)).then(() => {
 		emit('closed');
 		if (route.name != 'setlists') {
 			router.push({ name: 'setlists' });

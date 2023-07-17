@@ -459,7 +459,7 @@ import { whenever } from '@vueuse/core';
 import DoughnutChart from '@/charts/DoughnutChart.vue';
 import draggable from 'vuedraggable';
 import Dropdown from '@/elements/Dropdown.vue';
-import firebase from 'firebase/compat/app';
+import { setDoc, updateDoc, doc, FieldValue } from 'firebase/firestore';
 import pdfMake from "pdfmake/build/pdfmake";
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
@@ -634,7 +634,8 @@ const noSongs = computed(() => {
 
 // save new song order for setlist
 const saveOrder = () => {
-	db.collection('setlists').doc(route.params.id).set(
+	setDoc(
+		doc(db, `setlists/${route.params.id}`),
 		{ songs: setlist.value.songs },
 		{ merge: true }
 	).then(() => {
@@ -659,7 +660,7 @@ const transposeUp = (song, songPosition) => {
 	}
 	// save tuning in setlist
 	songs[songPosition].tuning = tone;
-	db.collection('setlists').doc(route.params.id).set({ songs: songs }, { merge: true });
+	setDoc(doc(db, `setlists/${route.params.id}`), { songs: songs }, { merge: true });
 };
 
 // transpose key of given song down and save new key for setlist
@@ -675,13 +676,13 @@ const transposeDown = (song, songPosition) => {
 	}
 	// save tuning in setlist
 	songs[songPosition].tuning = tone;
-	db.collection('setlists').doc(route.params.id).set({ songs: songs }, { merge: true });
+	setDoc(doc(db, `setlists/${route.params.id}`), { songs: songs }, { merge: true });
 };
 
 // remove a song from setlist, currently used only for deleted songs
 const removeSong = (songId) => {
 	let songs = setlist.value.songs.filter(s => s.id != songId);
-	db.collection('setlists').doc(route.params.id).update({ songs: songs }).then(() => {
+	updateDoc(doc(db, `setlists/${route.params.id}`), { songs: songs }).then(() => {
 		// toast success update message
 		notify({
 			title: t('toast.setlistUpdated'),
@@ -695,7 +696,7 @@ const removeSong = (songId) => {
 const updateActive = () => {
 	setlist.value.active = !setlist.value.active;
 	const sync = setlist.value.active;
-	db.collection('setlists').doc(route.params.id).set({ active: sync }, { merge: true }).then(() => {
+	setDoc(doc(db, `setlists/${route.params.id}`), { active: sync }, { merge: true }).then(() => {
 		notify({
 			title: t('toast.sync' + (sync ? 'Activated' : 'Deactivated')),
 			text: t('toast.setlistStatusSavedText'),
@@ -705,13 +706,13 @@ const updateActive = () => {
 	// remove remote props when sync is disabled
 	if (!sync) {
 		if (setlist.value.hasOwnProperty('remoteText')) {
-			db.collection('setlists').doc(route.params.id).update({ remoteText: firebase.firestore.FieldValue.delete() });
+			updateDoc(doc(db, `setlists/${route.params.id}`), { remoteText: FieldValue.delete() });
 		}
 		if (setlist.value.hasOwnProperty('remoteLight')) {
-			db.collection('setlists').doc(route.params.id).update({ remoteLight: firebase.firestore.FieldValue.delete() });
+			updateDoc(doc(db, `setlists/${route.params.id}`), { remoteLight: FieldValue.delete() });
 		}
 		if (setlist.value.hasOwnProperty('remoteHide')) {
-			db.collection('setlists').doc(route.params.id).update({ remoteHide: firebase.firestore.FieldValue.delete() });
+			updateDoc(doc(db, `setlists/${route.params.id}`), { remoteHide: FieldValue.delete() });
 		}
 	}
 };
@@ -719,28 +720,28 @@ const updateActive = () => {
 // save setlist presentation slide position when sync is enabled
 const updatePosition = (val) => {
 	if (setlist.value.active) {
-		db.collection('setlists').doc(route.params.id).set({ position: val }, { merge: true });
+		updateDoc(doc(db, `setlists/${route.params.id}`), { position: val });
 	}
 };
 
 // save setlist chords visibility when sync is enabled
 const updateChords = (val) => {
 	if (setlist.value.active) {
-		db.collection('setlists').doc(route.params.id).set({ remoteText: val }, { merge: true });
+		updateDoc(doc(db, `setlists/${route.params.id}`), { remoteText: val });
 	}
 };
 
 // save setlist theme mode when sync enabled
 const updateDark = (val) => {
 	if (setlist.value.active) {
-		db.collection('setlists').doc(route.params.id).set({ remoteLight: val }, { merge: true });
+		updateDoc(doc(db, `setlists/${route.params.id}`), { remoteLight: val });
 	}
 };
 
 // save setlist content visibility when sync enabled
 const updateHide = (val) => {
 	if (setlist.value.active) {
-		db.collection('setlists').doc(route.params.id).set({ remoteHide: val }, { merge: true });
+		updateDoc(doc(db, `setlists/${route.params.id}`), { remoteHide: val });
 	}
 };
 

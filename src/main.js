@@ -8,7 +8,8 @@ import router from '@/router.js'
 app.use(router);
 
 // set firebase db config
-import firebase from 'firebase/compat/app';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 const API_KEY = import.meta.env.VITE_FB_API_KEY;
 const PROJECT_ID = import.meta.env.VITE_FB_PROJECT_ID;
 const conf = {
@@ -18,10 +19,11 @@ const conf = {
 	projectId:     String(PROJECT_ID),
 	storageBucket: PROJECT_ID + '.appspot.com'
 };
-let firebaseApp = firebase.initializeApp(conf);
+let firebaseApp = initializeApp(conf);
 
 // set global properties
-app.provide('db', firebaseApp.firestore());
+app.provide('firebaseApp', firebaseApp);
+app.provide('db', getFirestore(firebaseApp));
 app.provide('version', APP_VERSION);
 
 // vue-notification

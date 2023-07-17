@@ -61,7 +61,8 @@ import { reactive, computed, inject, ref, watch } from 'vue';
 import { throwError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
-import firebase from 'firebase/compat/app';
+import { setDoc, doc } from 'firebase/firestore';
+import { getAuth, reauthenticateWithCredential, EmailAuthProvider, sendEmailVerification, updateEmail } from "firebase/auth";
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -75,7 +76,9 @@ import {
 const { t } = useI18n();
 
 // global properties
+const fb = inject('firebaseApp');
 const db = inject('db');
+const fbAuth = getAuth(fb);
 
 // component properties
 const props = defineProps({
@@ -114,7 +117,7 @@ const errors = computed(() => (
 // save user object to database
 const busy = ref(false);
 const setEmail = () => {
-	const currentUser = firebase.auth().currentUser;
+	const currentUser = fbAuth.currentUser;
 	// first check for form errors
 	error.email.missing = user.email == '';
 	error.email.mismatch = user.email != user.repeat;
@@ -124,18 +127,18 @@ const setEmail = () => {
 	if (!errors.value) {
 		busy.value = true;
 		// first reauthenticate user
-		const credential = firebase.auth.EmailAuthProvider.credential(
-			currentUser.email, 
+		const credential = EmailAuthProvider.credential(
+			currentUser.email,
 			user.currentpassword
 		);
-		currentUser.reauthenticateWithCredential(credential).then(() => {
+		reauthenticateWithCredential(currentUser, credential).then(() => {
 			// successfully reauthenticated, now update email address ...
-			db.collection('users').doc(currentUser.uid).update({
+			setDoc(doc(db, `users/${currentUser.uid}`), {
 				email: user.email,
 			}).then(() => {
-				currentUser.updateEmail(user.email).then(() => {
+				updateEmail(currentUser, user.email).then(() => {
 					// ... and send verification email
-					currentUser.sendEmailVerification().then(() => {
+					sendEmailVerification(currentUser).then(() => {
 						emit('closed');
 						notify({
 							title: t('toast.verficationSent'),
