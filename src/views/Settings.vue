@@ -137,11 +137,11 @@
 			</panel>
 		</div>
 		<!-- administration settings -->
-		<div class="text-3xl uppercase font-thin tracking-wider">
+		<div v-if="isAdmin" class="text-3xl uppercase font-thin tracking-wider">
 			{{ t('page.administration') }}
 		</div>
 		<div
-			v-if="ready.users && ready.permissions && user && userObject && role > 1"
+			v-if="isAdmin"
 			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
 		>
 			<!-- user administration -->
@@ -562,6 +562,11 @@ const emit = defineEmits(['started', 'editSong', 'editSetlist']);
 // initially load profile data
 onMounted(() => {
 	loadProfile();
+});
+
+// check user role
+const isAdmin = computed(() => {
+	return props.ready.users && props.ready.permissions && props.user && props.userObject && props.role === 4
 });
 
 // load profile data
