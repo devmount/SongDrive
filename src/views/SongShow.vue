@@ -122,11 +122,11 @@
 						</template>
 					</dropdown>
 				</div>
-				<div class="h-full">
+				<div class="h-full" :class="{ 'sm:hidden': user && role <= 2 }">
 					<dropdown>
 						<template #default>
 							<button
-								v-if="user && role > 1"
+								v-if="user && role > 2"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="emit('editSong', { data: song, id: song.id, exists: true })"
 							>
@@ -134,7 +134,7 @@
 								{{ t('button.edit') }}
 							</button>
 							<button
-								v-if="user && role > 1"
+								v-if="user && role > 2"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="emit('editSong', { data: song, id: song.id, exists: false })"
 							>
