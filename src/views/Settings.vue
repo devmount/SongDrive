@@ -598,18 +598,15 @@ const updateProfile = () => {
 			displayName: profile.name,
 			photoUrl: profile.photo,
 	}).then(() => {
-		// first update user object
+		// update user object
 		updateDoc(doc(db, `users/${props.user}`), profile).then(() => {
-			// then update permissions for this user
-			updateDoc(doc(db, `permissions/${props.user}`), permission).then(() => {
-				// updated successfully
-				notify({
-					title: t('toast.userUpdated'),
-					text: t('toast.userUpdatedText'),
-					type: 'primary'
-				});
-				busy.profile = false;
-			}).catch((error) => throwError(error));
+			// updated successfully
+			notify({
+				title: t('toast.userUpdated'),
+				text: t('toast.userUpdatedText'),
+				type: 'primary'
+			});
+			busy.profile = false;
 		}).catch((error) => throwError(error));
 	}, (error) => throwError(error));
 };
