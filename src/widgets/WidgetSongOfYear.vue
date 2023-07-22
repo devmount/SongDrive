@@ -1,6 +1,6 @@
 <template>
 	<panel v-if="songs && setlists.length > 0">
-		<div class="flex justify-between">
+		<div class="flex justify-between items-start">
 			<div class="text-2xl">
 				{{ t('widget.songOfYear') }}
 			</div>
