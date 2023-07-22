@@ -38,7 +38,9 @@ const messages = {
 	'de': de, // German
 	'en': en, // English
 };
-const loc = navigator.language || navigator.userLanguage;
+const loc = !('lang' in localStorage)
+	? navigator.language || navigator.userLanguage
+	: localStorage.getItem('lang');
 const i18n = createI18n({
 	legacy: false,
 	globalInjection: true,

@@ -83,7 +83,7 @@
 				<div class="flex flex-col gap-2">
 					<label class="flex flex-col gap-1">
 						{{ t('field.language') }}
-						<select v-model="locale">
+						<select v-model="lang">
 							<option v-for="(label, key) in uiLanguages" :key="key" :value="key">
 								{{ label }}
 							</option>
@@ -692,6 +692,12 @@ const uiLanguages = computed(() => {
 		}
 	});
 	return uiLanguages;
+});
+const initLang = !('lang' in localStorage) ? locale.value : localStorage.getItem('lang');
+const lang = ref(initLang);
+watch(lang, (newValue) => {
+	locale.value = newValue;
+	localStorage.setItem('lang', newValue);
 });
 
 // handle theme mode
