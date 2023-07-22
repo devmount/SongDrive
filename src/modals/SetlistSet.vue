@@ -506,7 +506,7 @@ const setSetlist = () => {
 		};
 		// new setlist should be created
 		if (!props.existing) {
-			setDoc(doc(db `setlists/${slug}`), processedSetlist).then(() => {
+			setDoc(doc(db, `setlists/${slug}`), processedSetlist).then(() => {
 				emit('closed');
 				processedSetlist = {};
 				router.push({ name: 'setlist-show', params: { id: slug }});
