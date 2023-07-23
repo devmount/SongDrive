@@ -101,9 +101,9 @@
 									<icon-tags class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
-							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 !p-2 text-sm">
+							<div class="max-h-80 overflow-y-scroll flex flex-col gap-0.5 !p-2 text-sm">
 								<tag
-									v-for="tag in tags" :key="tag.key"
+									v-for="tag in sortTags(tags, locale)" :key="tag.key"
 									:tag="tag"
 									@click="filter.tag = tag.key"
 									class="cursor-pointer"
@@ -124,6 +124,7 @@
 								<secondary-button
 									v-for="t in keyScale" :key="t"
 									@click="filter.key = t"
+									class="!px-6"
 									:class="{ '!bg-spring-700': t === filter.key }"
 								>
 									{{ t }}
@@ -266,7 +267,7 @@
 <script setup>
 import '@vuepic/vue-datepicker/dist/main.css';
 import { enGB, de } from 'date-fns/locale';
-import { keyScale, humanDate, throwError, urlify, browserPrefersDark } from '@/utils.js';
+import { keyScale, humanDate, throwError, urlify, browserPrefersDark, sortTags } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, inject, watch } from 'vue';
 import { useI18n } from 'vue-i18n';

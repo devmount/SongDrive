@@ -309,11 +309,15 @@ const urlify = (s) => {
 const keyByValue = (o, v) => Object.keys(o).find(k => o[k]===v);
 
 // sort tags by locale
-const sortTags = (tags, locale) => tags.sort(
-  (a, b) => a[locale] && b[locale]
-    ? a[locale].localeCompare(b[locale])
-    : a.key.localeCompare(b.key)
-);
+const sortTags = (tags, locale) => {
+  if (typeof tags === 'object') tags = Object.values(tags);
+  tags.sort(
+    (a, b) => a[locale] && b[locale]
+      ? a[locale].localeCompare(b[locale])
+      : a.key.localeCompare(b.key)
+  );
+  return tags;
+};
 
 // true if browser uses a dark color scheme
 const browserPrefersDark = () => {

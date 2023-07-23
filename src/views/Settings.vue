@@ -301,8 +301,9 @@
 				</div>
 				<div class="flex flex-wrap justify-start items-center gap-2">
 					<tag
-						v-for="tag in tags" :key="tag.key"
+						v-for="tag in sortTags(tags, locale)" :key="tag.key"
 						:tag="tag"
+						class="cursor-pointer hover:bg-spring-400 hover:dark:!bg-spring-700"
 						@click="active.tag=tag; active.key=tag.key; active.existing=true; modal.tagset=true"
 					/>
 				</div>
@@ -429,7 +430,7 @@
 </template>
 
 <script setup>
-import { download, throwError } from '@/utils.js';
+import { download, throwError, sortTags } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
