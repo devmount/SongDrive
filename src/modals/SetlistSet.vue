@@ -508,7 +508,6 @@ const setSetlist = () => {
 		// new setlist should be created
 		if (!props.existing) {
 			setDoc(doc(db, `setlists/${slug}`), processedSetlist).then(() => {
-				emit('closed');
 				processedSetlist = {};
 				router.push({ name: 'setlist-show', params: { id: slug }});
 				// toast success creation message
@@ -518,6 +517,7 @@ const setSetlist = () => {
 					type:  'primary'
 				});
 				busy.value = false;
+				emit('closed');
 			}).catch((error) => throwError(error));
 		}
 		// existing setlist should be updated
@@ -526,7 +526,6 @@ const setSetlist = () => {
 			if (props.id == slug) {
 				// just update the existing setlist
 				updateDoc(doc(db, `setlists/${props.id}`), processedSetlist).then(() => {
-					emit('closed');
 					processedSetlist = {};
 					// toast success update message
 					notify({
@@ -535,12 +534,12 @@ const setSetlist = () => {
 						type:  'primary'
 					});
 					busy.value = false;
+					emit('closed');
 				}).catch((error) => throwError(error));
 			} else {
 				// update key by adding a new setlist and removing the old one
 				deleteDoc(doc(db, `setlists/${props.id}`)).then(() => {
 					setDoc(doc(db, `setlists/${slug}`), processedSetlist).then(() => {
-						emit('closed');
 						processedSetlist = {};
 						router.push({ name: 'setlist-show', params: { id: slug }});
 						// toast success update message
@@ -550,6 +549,7 @@ const setSetlist = () => {
 							type:  'primary'
 						});
 						busy.value = false;
+						emit('closed');
 					}).catch((error) => throwError(error));
 				}).catch((error) => throwError(error));
 			}

@@ -366,7 +366,6 @@ const setSong = () => {
 						}
 					});
 				}
-				emit('closed');
 				processedSong = {};
 				router.push({ name: 'song-show', params: { id: slug }});
 				// toast success creation message
@@ -376,6 +375,7 @@ const setSong = () => {
 					type: 'primary'
 				});
 				busy.value = false;
+				emit('closed');
 			}).catch((error) => throwError(error));
 		}
 		// existing song should be updated
@@ -402,7 +402,6 @@ const setSong = () => {
 							}
 						});
 					}
-					emit('closed');
 					processedSong = {};
 					// toast success update message
 					notify({
@@ -411,6 +410,7 @@ const setSong = () => {
 						type: 'primary'
 					});
 					busy.value = false;
+					emit('closed');
 				}).catch((error) => throwError(error));
 			} else {
 				// update key by adding a new song, removing the old one and update references in other fields
@@ -459,7 +459,6 @@ const setSong = () => {
 							}
 						});
 					}
-					emit('closed');
 					processedSong = {};
 					router.push({ name: 'song-show', params: { id: slug }});
 					// toast success update message
@@ -469,6 +468,7 @@ const setSong = () => {
 						type: 'primary'
 					});
 					busy.value = false;
+					emit('closed');
 				}).catch((error) => throwError(error));
 			}
 		}
