@@ -11,8 +11,17 @@
 					<span class="font-semibold">{{ Object.keys(filteredSetlists).length }}</span>
 					{{ t('page.setlists', Object.keys(filteredSetlists).length) }}
 				</div>
+				<secondary-button
+					@click="emit('addSetlist')"
+					:title="t('tooltip.setlistAdd')"
+				>
+					<icon-plus class="w-5 h-5 stroke-1.5" />
+				</secondary-button>
 				<div
-					class="px-1 pt-0.5 flex items-center cursor-pointer text-blade-500"
+					class="
+						px-1 pt-0.5 flex items-center cursor-pointer
+						text-blade-500 hover:text-spring-600 transition-colors
+					"
 					@click="searchInput.focus()"
 					:title="t('placeholder.searchSetlistTitle')"
 				>
@@ -266,6 +275,7 @@ import {
 	IconFilterOff,
 	IconLock,
 	IconLockOpen,
+	IconPlus,
 	IconSearch,
 	IconSortAscending,
 	IconSortDescending,
@@ -286,21 +296,19 @@ const noActiveModal = inject('noActiveModal');
 
 // inherited properties
 const props = defineProps({
-  songs:     Object,
-  setlists:  Object,
-  tags:      Object,
-  languages: Object,
-  users:     Object,
-  user:      String,
-  role:      Number,
   ready:     Object,
+  role:      Number,
+  setlists:  Object,
+  songs:     Object,
+  user:      String,
+  users:     Object,
 });
 
 // template references
 const searchInput = ref(null);
 
 // injects and emits
-const emit = defineEmits(['started', 'editSong', 'editSetlist']);
+const emit = defineEmits(['addSetlist', 'editSetlist']);
 
 // table filter
 const filter = reactive({

@@ -1,432 +1,434 @@
 <template>
-	<div class="flex flex-col gap-6 w-full">
-		<!-- normal user settings -->
-		<div class="text-3xl uppercase font-thin tracking-wider">
-			{{ t('page.settings') }}
-		</div>
-		<div
-			v-if="ready.users && user"
-			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
-		>
-			<!-- profile -->
-			<panel>
-				<div class="flex flex-col items-center">
-					<icon-user class="w-8 h-8 stroke-1.5 mb-2" />
-					<div class="text-xl uppercase font-light tracking-widest">{{ t('page.profile') }}</div>
-					<div class="text-blade-500">{{ t('text.customizeProfile') }}</div>
-				</div>
-				<div class="flex flex-col gap-2">
-					<label class="flex flex-col gap-1">
-						<span>{{ t('field.name') }}</span>
-						<input
-							type="text"
-							v-model="profile.name"
-							placeholder="john doe"
-						/>
-					</label>
-					<label class="flex flex-col gap-1">
-						<div class="flex gap-4">
-							<span>{{ t('field.email') }}</span>
-							<span v-if="userObject.emailVerified" class="flex items-center gap-1 text-spring-600">
-								<icon-check class="stroke-1.5" /> {{ t('text.verified') }}
-							</span>
-							<span v-else class="flex items-center gap-1 text-rose-500">
-								<icon-x class="stroke-1.5" /> {{ t('text.unverified') }}
-							</span>
-						</div>
-						<div class="flex">
-							<input
-								type="text"
-								v-model="profile.email"
-								class="grow"
-								placeholder="john@doe.com"
-								disabled
-							/>
-							<secondary-button
-								v-if="!userObject.emailVerified"
-								:class="{ disabled: verificationResend }"
-								:title="!verificationResend ? t('tooltip.resendVerification') : t('tooltip.verificationAlreadySent')"
-								@click="!verificationResend ? resendEmailVerification() : null"
-							>
-								{{ t('button.verify') }}
-								<icon-send v-if="!verificationResend" class="stroke-1.5" />
-								<icon-check v-else class="stroke-1.5" />
-							</secondary-button>
-						</div>
-					</label>
-					<label class="flex flex-col gap-1">
-						{{ t('field.photo') }}
-						<div class="flex items-center gap-2">
-							<input
-								type="text"
-								v-model="profile.photo"
-								class="grow"
-								placeholder="https://your-photo.link/image.png"
-							/>
-							<avatar :photo-url="profile.photo" :name="profile.name" size="md" />
-						</div>
-					</label>
-				</div>
-				<secondary-button @click="updateProfile" class="mt-auto self-start">
-					{{ t('button.saveProfile') }}
-					<icon-loader2 v-if="busy.profile" class="w-6 h-6 stroke-1.5 animate-spin" />
-					<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
-				</secondary-button>
-			</panel>
-			<!-- SongDrive UI -->
-			<panel v-if="ready.languages">
-				<div class="flex flex-col items-center">
-					<icon-palette class="w-8 h-8 stroke-1.5 mb-2" />
-					<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.appearance') }}</div>
-					<div class="text-blade-500">{{ t('text.customizeUi') }}</div>
-				</div>
-				<div class="flex flex-col gap-2">
-					<label class="flex flex-col gap-1">
-						{{ t('field.language') }}
-						<select v-model="lang">
-							<option v-for="(label, key) in uiLanguages" :key="key" :value="key">
-								{{ label }}
-							</option>
-						</select>
-					</label>
-					<label class="flex flex-col gap-1">
-						{{ t('field.colorScheme') }}
-						<select v-model="theme">
-							<option v-for="(key, label) in colorSchemes" :key="key" :value="key">
-								{{ t('option.' + label) }}
-							</option>
-						</select>
-					</label>
-				</div>
-			</panel>
-			<!-- account -->
-			<panel>
-				<div class="flex flex-col items-center">
-					<icon-key class="w-8 h-8 stroke-1.5 mb-2" />
-					<div class="text-xl uppercase font-light tracking-widest">{{ t('divider.account') }}</div>
-					<div class="text-blade-500">{{ t('text.changeAccount') }}</div>
-				</div>
-				<div class="flex flex-col gap-8">
-					<div>
-						<div>{{ t('button.changePassword') }}</div>
-						<div class="text-blade-500">{{ t('text.renewYourPassword') }}</div>
-						<secondary-button @click="modal.passwordchange = true" class="mt-2">
-							{{ t('button.changePassword') }}
-							<icon-key class="w-6 h-6 stroke-1.5" />
-						</secondary-button>
+	<div>
+		<div class="flex flex-col gap-6 w-full">
+			<!-- normal user settings -->
+			<div class="text-3xl uppercase font-thin tracking-wider">
+				{{ t('page.settings') }}
+			</div>
+			<div
+				v-if="ready.users && user"
+				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+			>
+				<!-- profile -->
+				<panel>
+					<div class="flex flex-col items-center">
+						<icon-user class="w-8 h-8 stroke-1.5 mb-2" />
+						<div class="text-xl uppercase font-light tracking-widest">{{ t('page.profile') }}</div>
+						<div class="text-blade-500">{{ t('text.customizeProfile') }}</div>
 					</div>
-					<zone-danger :label="t('text.dangerZone')">
+					<div class="flex flex-col gap-2">
+						<label class="flex flex-col gap-1">
+							<span>{{ t('field.name') }}</span>
+							<input
+								type="text"
+								v-model="profile.name"
+								placeholder="john doe"
+							/>
+						</label>
+						<label class="flex flex-col gap-1">
+							<div class="flex gap-4">
+								<span>{{ t('field.email') }}</span>
+								<span v-if="userObject.emailVerified" class="flex items-center gap-1 text-spring-600">
+									<icon-check class="stroke-1.5" /> {{ t('text.verified') }}
+								</span>
+								<span v-else class="flex items-center gap-1 text-rose-500">
+									<icon-x class="stroke-1.5" /> {{ t('text.unverified') }}
+								</span>
+							</div>
+							<div class="flex">
+								<input
+									type="text"
+									v-model="profile.email"
+									class="grow"
+									placeholder="john@doe.com"
+									disabled
+								/>
+								<secondary-button
+									v-if="!userObject.emailVerified"
+									:class="{ disabled: verificationResend }"
+									:title="!verificationResend ? t('tooltip.resendVerification') : t('tooltip.verificationAlreadySent')"
+									@click="!verificationResend ? resendEmailVerification() : null"
+								>
+									{{ t('button.verify') }}
+									<icon-send v-if="!verificationResend" class="stroke-1.5" />
+									<icon-check v-else class="stroke-1.5" />
+								</secondary-button>
+							</div>
+						</label>
+						<label class="flex flex-col gap-1">
+							{{ t('field.photo') }}
+							<div class="flex items-center gap-2">
+								<input
+									type="text"
+									v-model="profile.photo"
+									class="grow"
+									placeholder="https://your-photo.link/image.png"
+								/>
+								<avatar :photo-url="profile.photo" :name="profile.name" size="md" />
+							</div>
+						</label>
+					</div>
+					<secondary-button @click="updateProfile" class="mt-auto self-start">
+						{{ t('button.saveProfile') }}
+						<icon-loader2 v-if="busy.profile" class="w-6 h-6 stroke-1.5 animate-spin" />
+						<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+					</secondary-button>
+				</panel>
+				<!-- SongDrive UI -->
+				<panel v-if="ready.languages">
+					<div class="flex flex-col items-center">
+						<icon-palette class="w-8 h-8 stroke-1.5 mb-2" />
+						<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.appearance') }}</div>
+						<div class="text-blade-500">{{ t('text.customizeUi') }}</div>
+					</div>
+					<div class="flex flex-col gap-2">
+						<label class="flex flex-col gap-1">
+							{{ t('field.language') }}
+							<select v-model="lang">
+								<option v-for="(label, key) in uiLanguages" :key="key" :value="key">
+									{{ label }}
+								</option>
+							</select>
+						</label>
+						<label class="flex flex-col gap-1">
+							{{ t('field.colorScheme') }}
+							<select v-model="theme">
+								<option v-for="(key, label) in colorSchemes" :key="key" :value="key">
+									{{ t('option.' + label) }}
+								</option>
+							</select>
+						</label>
+					</div>
+				</panel>
+				<!-- account -->
+				<panel>
+					<div class="flex flex-col items-center">
+						<icon-key class="w-8 h-8 stroke-1.5 mb-2" />
+						<div class="text-xl uppercase font-light tracking-widest">{{ t('divider.account') }}</div>
+						<div class="text-blade-500">{{ t('text.changeAccount') }}</div>
+					</div>
+					<div class="flex flex-col gap-8">
 						<div>
-							<div>{{ t('button.changeEmail') }}</div>
-							<div class="text-blade-500">{{ t('text.changeToAnotherEmail') }}</div>
-							<secondary-button @click="modal.emailchange = true" type="danger" class="mt-2">
-								{{ t('button.changeEmail') }}
+							<div>{{ t('button.changePassword') }}</div>
+							<div class="text-blade-500">{{ t('text.renewYourPassword') }}</div>
+							<secondary-button @click="modal.passwordchange = true" class="mt-2">
+								{{ t('button.changePassword') }}
 								<icon-key class="w-6 h-6 stroke-1.5" />
 							</secondary-button>
 						</div>
-						<div>
-							<div>{{ t('button.deleteAccount') }}</div>
-							<div class="text-blade-500">{{ t('text.deleteYourAccount') }}</div>
-							<secondary-button @click="modal.accountdelete = true" type="danger" class="mt-2">
-								{{ t('button.deleteAccount') }}
-								<icon-trash class="w-6 h-6 stroke-1.5" />
-							</secondary-button>
-						</div>
-					</zone-danger>
-				</div>
-			</panel>
-		</div>
-		<!-- administration settings -->
-		<div v-if="isAdmin" class="text-3xl uppercase font-thin tracking-wider">
-			{{ t('page.administration') }}
-		</div>
-		<div
-			v-if="isAdmin"
-			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
-		>
-			<!-- user administration -->
-			<panel>
-				<div class="relative flex flex-col items-center">
-					<icon-users class="w-8 h-8 stroke-1.5 mb-2" />
-					<div class="text-xl uppercase font-light tracking-widest">{{ Object.keys(users).length }} {{ t('widget.users') }}</div>
-					<div class="text-blade-500">{{ t('text.manageConfirmedUsers') }}</div>
-					<secondary-button
-						class="absolute top-0 right-0"
-						:title="t('modal.addUser')"
-						@click="addUser"
-					>
-						<icon-plus class="w-6 h-6 stroke-1.5" />
-					</secondary-button>
-				</div>
-				<div class="flex flex-col">
-					<div
-						v-for="u in sortedUsers" :key="u.id"
-						class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
-					>
-						<avatar class="shrink-0" :photo-url="u.photo" :name="u.name" size="md" />
-						<div class="flex flex-col overflow-hidden mr-auto">
-							<div class="-mt-1 truncate">{{ u.name }}</div>
-							<div class="text-sm text-blade-500 -mt-1 truncate">{{ u.email }}</div>
-						</div>
-						<div v-if="permissions[u.id]" class="self-center rounded-sm bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
-							{{ t('role.' + permissions[u.id].role) }}
-						</div>
-						<a
-							:href="'mailto:' + u.email + '?' + confirmationMail(u.name)"
-							class="flex items-center text-spring-600 hover:bg-opacity-80"
-							:title="t('tooltip.sendConfirmationMail')"
-						>
-							<icon-mail class="w-5 h-5 stroke-1.5" />
-						</a>
-						<button
-							class="flex items-center text-spring-600 hover:bg-opacity-80"
-							:title="t('modal.editUser')"
-							@click.prevent="editUser(u)"
-						>
-							<icon-edit class="w-5 h-5 stroke-1.5" />
-						</button>
-						<button
-							v-if="numberOfUsers > 1"
-							class="flex items-center text-rose-600 hover:bg-opacity-80"
-							:title="t('modal.deleteUser')"
-							@click.prevent="active.user=u; active.key=u.id; active.approved=true; modal.userdelete=true"
-						>
-							<icon-user-minus class="w-5 h-5 stroke-1.5" />
-						</button>
+						<zone-danger :label="t('text.dangerZone')">
+							<div>
+								<div>{{ t('button.changeEmail') }}</div>
+								<div class="text-blade-500">{{ t('text.changeToAnotherEmail') }}</div>
+								<secondary-button @click="modal.emailchange = true" type="danger" class="mt-2">
+									{{ t('button.changeEmail') }}
+									<icon-key class="w-6 h-6 stroke-1.5" />
+								</secondary-button>
+							</div>
+							<div>
+								<div>{{ t('button.deleteAccount') }}</div>
+								<div class="text-blade-500">{{ t('text.deleteYourAccount') }}</div>
+								<secondary-button @click="modal.accountdelete = true" type="danger" class="mt-2">
+									{{ t('button.deleteAccount') }}
+									<icon-trash class="w-6 h-6 stroke-1.5" />
+								</secondary-button>
+							</div>
+						</zone-danger>
 					</div>
-				</div>
-				<div v-if="Object.keys(registrations).length == 0" class="flex flex-col justify-center items-center gap-2">
-					<icon-checkbox class="text-blade-500 w-12 h-12 stroke-1" />
-					<p class="text-xl uppercase font-light tracking-widest">{{ t('text.noUnconfirmedUsers') }}</p>
-					<p class="text-blade-500">{{ t('text.goodWork') }}</p>
-				</div>
-				<div v-else class="flex flex-col items-center">
-					<div class="text-xl uppercase font-light tracking-widest">
-						{{ Object.keys(registrations).length }} {{ t('widget.registrations') }}
-					</div>
-					<div class="text-blade-500">{{ t('text.manageUnconfirmedUsers') }}</div>
-				</div>
-				<div class="flex flex-col">
-					<div
-						v-for="(r, k) in registrations" :key="k"
-						class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
-					>
-						<avatar class="shrink-0" size="md" />
-						<div class="flex flex-col overflow-hidden mr-auto">
-							<div class="-mt-1 truncate">{{ r.name }}</div>
-							<div class="text-sm text-blade-500 -mt-1 truncate">{{ r.email }}</div>
-						</div>
-						<div class="self-center rounded-sm bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
-							{{ t('role.unconfirmed') }}
-						</div>
-						<button
-							class="flex items-center text-spring-600 hover:bg-opacity-80"
-							:title="t('tooltip.approveUser')"
-							@click.prevent="addRegistration(r, k)"
+				</panel>
+			</div>
+			<!-- administration settings -->
+			<div v-if="isAdmin" class="text-3xl uppercase font-thin tracking-wider">
+				{{ t('page.administration') }}
+			</div>
+			<div
+				v-if="isAdmin"
+				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+			>
+				<!-- user administration -->
+				<panel>
+					<div class="relative flex flex-col items-center">
+						<icon-users class="w-8 h-8 stroke-1.5 mb-2" />
+						<div class="text-xl uppercase font-light tracking-widest">{{ Object.keys(users).length }} {{ t('widget.users') }}</div>
+						<div class="text-blade-500">{{ t('text.manageConfirmedUsers') }}</div>
+						<secondary-button
+							class="absolute top-0 right-0"
+							:title="t('modal.addUser')"
+							@click="addUser"
 						>
-							<icon-user-plus class="w-5 h-5 stroke-1.5" />
-						</button>
-						<button
-							class="flex items-center text-rose-600 hover:bg-opacity-80"
-							:title="t('modal.deleteUser')"
-							@click.prevent="active.user=r; active.key=k; active.approved=false; modal.userdelete=true"
-						>
-							<icon-user-minus class="w-5 h-5 stroke-1.5" />
-						</button>
-					</div>
-				</div>
-			</panel>
-			<!-- language administration -->
-			<panel>
-				<div class="relative flex flex-col items-center">
-					<icon-language class="w-8 h-8 stroke-1.5 mb-2" />
-					<div class="text-xl uppercase font-light tracking-widest">
-						{{ t('widget.languages', numberOfLanguages, [numberOfLanguages]) }}
-					</div>
-					<div class="text-blade-500">{{ t('text.manageLanguages') }}</div>
-					<secondary-button
-						class="absolute top-0 right-0"
-						:title="t('modal.addLanguage')"
-						@click="active.language={ label: '' }; active.key=''; active.existing=false; modal.languageset=true"
-					>
-						<icon-plus class="w-6 h-6 stroke-1.5" />
-					</secondary-button>
-				</div>
-				<div class="flex flex-col">
-					<div
-						v-for="(l, key) in languages" :key="key"
-						class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
-					>
-						<figure
-							class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 px-2"
-							alt="Avatar"
-						>
-							{{ key.substring(0,2).toUpperCase()}}
-						</figure>
-						<div class="self-center flex flex-col overflow-hidden mr-auto">
-							<div class="truncate">{{ l.label }}</div>
-						</div>
-						<button
-							class="flex items-center text-spring-600 hover:bg-opacity-80"
-							:title="t('modal.editLanguage')"
-							@click="active.language=l; active.key=key; active.existing=true; modal.languageset=true"
-						>
-							<icon-edit class="w-5 h-5 stroke-1.5" />
-						</button>
-						<button
-							class="flex items-center text-rose-600 hover:bg-opacity-80"
-							:title="t('modal.deleteLanguage')"
-							@click="active.language=l; active.key=key; modal.languagedelete=true;"
-						>
-							<icon-trash class="w-5 h-5 stroke-1.5" />
-						</button>
-					</div>
-				</div>
-			</panel>
-			<!-- tag administration -->
-			<panel>
-				<div class="relative flex flex-col items-center">
-					<icon-tags class="w-8 h-8 stroke-1.5 mb-2" />
-					<div class="text-xl uppercase font-light tracking-widest">
-						{{ t('widget.tags', numberOfTags, [numberOfTags]) }}
-					</div>
-					<div class="text-blade-500">{{ t('text.manageTags') }}</div>
-					<secondary-button
-						class="absolute top-0 right-0"
-						:title="t('modal.addTag')"
-						@click="active.tag={ key: '' }; active.key=''; active.existing=false; modal.tagset=true"
-					>
-						<icon-plus class="w-6 h-6 stroke-1.5" />
-					</secondary-button>
-				</div>
-				<div class="flex flex-wrap justify-start items-center gap-2">
-					<tag
-						v-for="tag in sortTags(tags, locale)" :key="tag.key"
-						:tag="tag"
-						class="cursor-pointer hover:bg-spring-400 hover:dark:!bg-spring-700"
-						@click="active.tag=tag; active.key=tag.key; active.existing=true; modal.tagset=true"
-					/>
-				</div>
-			</panel>
-			<!-- configuration -->
-			<panel>
-				<div class="relative flex flex-col items-center">
-					<icon-settings class="w-8 h-8 stroke-1.5 mb-2" />
-					<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.configuration') }}</div>
-					<div class="text-blade-500">{{ t('text.configureApp') }}</div>
-				</div>
-				<div v-if="ready.config" class="flex flex-col gap-2">
-					<label class="flex flex-col gap-1">
-						<span>{{ t('field.supportEmail') }}</span>
-						<input
-							type="text"
-							v-model="configuration.contact.email"
-							placeholder="support@domain.tld"
-						/>
-					</label>
-				</div>
-				<secondary-button @click="updateConfig" class="mt-auto self-start">
-					{{ t('button.saveConfig') }}
-					<icon-loader2 v-if="busy.config" class="w-6 h-6 stroke-1.5 animate-spin" />
-					<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
-				</secondary-button>
-			</panel>
-			<!-- backup administration -->
-			<panel>
-				<div class="flex flex-col items-center">
-					<icon-server-bolt class="w-8 h-8 stroke-1.5 mb-2" />
-					<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.backup') }}</div>
-					<div class="text-blade-500">{{ t('text.exportImportData') }}</div>
-				</div>
-				<div class="flex flex-col gap-8">
-					<div>
-						<div>{{ t('text.exportData') }}</div>
-						<div class="text-blade-500">{{ t('text.saveAll')}}</div>
-						<secondary-button @click="exportDb" class="mt-2">
-							{{ t('button.export') }}
-							<icon-loader2 v-if="busy.export" class="w-6 h-6 stroke-1.5 animate-spin" />
-							<icon-archive v-else class="w-6 h-6 stroke-1.5" />
+							<icon-plus class="w-6 h-6 stroke-1.5" />
 						</secondary-button>
 					</div>
-					<zone-danger :label="t('text.dangerZone')">
+					<div class="flex flex-col">
+						<div
+							v-for="u in sortedUsers" :key="u.id"
+							class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
+						>
+							<avatar class="shrink-0" :photo-url="u.photo" :name="u.name" size="md" />
+							<div class="flex flex-col overflow-hidden mr-auto">
+								<div class="-mt-1 truncate">{{ u.name }}</div>
+								<div class="text-sm text-blade-500 -mt-1 truncate">{{ u.email }}</div>
+							</div>
+							<div v-if="permissions[u.id]" class="self-center rounded-sm bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
+								{{ t('role.' + permissions[u.id].role) }}
+							</div>
+							<a
+								:href="'mailto:' + u.email + '?' + confirmationMail(u.name)"
+								class="flex items-center text-spring-600 hover:bg-opacity-80"
+								:title="t('tooltip.sendConfirmationMail')"
+							>
+								<icon-mail class="w-5 h-5 stroke-1.5" />
+							</a>
+							<button
+								class="flex items-center text-spring-600 hover:bg-opacity-80"
+								:title="t('modal.editUser')"
+								@click.prevent="editUser(u)"
+							>
+								<icon-edit class="w-5 h-5 stroke-1.5" />
+							</button>
+							<button
+								v-if="numberOfUsers > 1"
+								class="flex items-center text-rose-600 hover:bg-opacity-80"
+								:title="t('modal.deleteUser')"
+								@click.prevent="active.user=u; active.key=u.id; active.approved=true; modal.userdelete=true"
+							>
+								<icon-user-minus class="w-5 h-5 stroke-1.5" />
+							</button>
+						</div>
+					</div>
+					<div v-if="Object.keys(registrations).length == 0" class="flex flex-col justify-center items-center gap-2">
+						<icon-checkbox class="text-blade-500 w-12 h-12 stroke-1" />
+						<p class="text-xl uppercase font-light tracking-widest">{{ t('text.noUnconfirmedUsers') }}</p>
+						<p class="text-blade-500">{{ t('text.goodWork') }}</p>
+					</div>
+					<div v-else class="flex flex-col items-center">
+						<div class="text-xl uppercase font-light tracking-widest">
+							{{ Object.keys(registrations).length }} {{ t('widget.registrations') }}
+						</div>
+						<div class="text-blade-500">{{ t('text.manageUnconfirmedUsers') }}</div>
+					</div>
+					<div class="flex flex-col">
+						<div
+							v-for="(r, k) in registrations" :key="k"
+							class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
+						>
+							<avatar class="shrink-0" size="md" />
+							<div class="flex flex-col overflow-hidden mr-auto">
+								<div class="-mt-1 truncate">{{ r.name }}</div>
+								<div class="text-sm text-blade-500 -mt-1 truncate">{{ r.email }}</div>
+							</div>
+							<div class="self-center rounded-sm bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
+								{{ t('role.unconfirmed') }}
+							</div>
+							<button
+								class="flex items-center text-spring-600 hover:bg-opacity-80"
+								:title="t('tooltip.approveUser')"
+								@click.prevent="addRegistration(r, k)"
+							>
+								<icon-user-plus class="w-5 h-5 stroke-1.5" />
+							</button>
+							<button
+								class="flex items-center text-rose-600 hover:bg-opacity-80"
+								:title="t('modal.deleteUser')"
+								@click.prevent="active.user=r; active.key=k; active.approved=false; modal.userdelete=true"
+							>
+								<icon-user-minus class="w-5 h-5 stroke-1.5" />
+							</button>
+						</div>
+					</div>
+				</panel>
+				<!-- language administration -->
+				<panel>
+					<div class="relative flex flex-col items-center">
+						<icon-language class="w-8 h-8 stroke-1.5 mb-2" />
+						<div class="text-xl uppercase font-light tracking-widest">
+							{{ t('widget.languages', numberOfLanguages, [numberOfLanguages]) }}
+						</div>
+						<div class="text-blade-500">{{ t('text.manageLanguages') }}</div>
+						<secondary-button
+							class="absolute top-0 right-0"
+							:title="t('modal.addLanguage')"
+							@click="active.language={ label: '' }; active.key=''; active.existing=false; modal.languageset=true"
+						>
+							<icon-plus class="w-6 h-6 stroke-1.5" />
+						</secondary-button>
+					</div>
+					<div class="flex flex-col">
+						<div
+							v-for="(l, key) in languages" :key="key"
+							class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
+						>
+							<figure
+								class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 px-2"
+								alt="Avatar"
+							>
+								{{ key.substring(0,2).toUpperCase()}}
+							</figure>
+							<div class="self-center flex flex-col overflow-hidden mr-auto">
+								<div class="truncate">{{ l.label }}</div>
+							</div>
+							<button
+								class="flex items-center text-spring-600 hover:bg-opacity-80"
+								:title="t('modal.editLanguage')"
+								@click="active.language=l; active.key=key; active.existing=true; modal.languageset=true"
+							>
+								<icon-edit class="w-5 h-5 stroke-1.5" />
+							</button>
+							<button
+								class="flex items-center text-rose-600 hover:bg-opacity-80"
+								:title="t('modal.deleteLanguage')"
+								@click="active.language=l; active.key=key; modal.languagedelete=true;"
+							>
+								<icon-trash class="w-5 h-5 stroke-1.5" />
+							</button>
+						</div>
+					</div>
+				</panel>
+				<!-- tag administration -->
+				<panel>
+					<div class="relative flex flex-col items-center">
+						<icon-tags class="w-8 h-8 stroke-1.5 mb-2" />
+						<div class="text-xl uppercase font-light tracking-widest">
+							{{ t('widget.tags', numberOfTags, [numberOfTags]) }}
+						</div>
+						<div class="text-blade-500">{{ t('text.manageTags') }}</div>
+						<secondary-button
+							class="absolute top-0 right-0"
+							:title="t('modal.addTag')"
+							@click="active.tag={ key: '' }; active.key=''; active.existing=false; modal.tagset=true"
+						>
+							<icon-plus class="w-6 h-6 stroke-1.5" />
+						</secondary-button>
+					</div>
+					<div class="flex flex-wrap justify-start items-center gap-2">
+						<tag
+							v-for="tag in sortTags(tags, locale)" :key="tag.key"
+							:tag="tag"
+							class="cursor-pointer hover:bg-spring-400 hover:dark:!bg-spring-700"
+							@click="active.tag=tag; active.key=tag.key; active.existing=true; modal.tagset=true"
+						/>
+					</div>
+				</panel>
+				<!-- configuration -->
+				<panel>
+					<div class="relative flex flex-col items-center">
+						<icon-settings class="w-8 h-8 stroke-1.5 mb-2" />
+						<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.configuration') }}</div>
+						<div class="text-blade-500">{{ t('text.configureApp') }}</div>
+					</div>
+					<div v-if="ready.config" class="flex flex-col gap-2">
+						<label class="flex flex-col gap-1">
+							<span>{{ t('field.supportEmail') }}</span>
+							<input
+								type="text"
+								v-model="configuration.contact.email"
+								placeholder="support@domain.tld"
+							/>
+						</label>
+					</div>
+					<secondary-button @click="updateConfig" class="mt-auto self-start">
+						{{ t('button.saveConfig') }}
+						<icon-loader2 v-if="busy.config" class="w-6 h-6 stroke-1.5 animate-spin" />
+						<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
+					</secondary-button>
+				</panel>
+				<!-- backup administration -->
+				<panel>
+					<div class="flex flex-col items-center">
+						<icon-server-bolt class="w-8 h-8 stroke-1.5 mb-2" />
+						<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.backup') }}</div>
+						<div class="text-blade-500">{{ t('text.exportImportData') }}</div>
+					</div>
+					<div class="flex flex-col gap-8">
 						<div>
-							<div>{{ t('text.importData') }}</div>
-							<div class="text-blade-500">{{ t('text.importAndOverwrite')}}</div>
-							<secondary-button @click="modal.importdata=true" type="danger" class="mt-2">
-								{{ t('button.import') }}
-								<icon-download class="w-6 h-6 stroke-1.5" />
+							<div>{{ t('text.exportData') }}</div>
+							<div class="text-blade-500">{{ t('text.saveAll')}}</div>
+							<secondary-button @click="exportDb" class="mt-2">
+								{{ t('button.export') }}
+								<icon-loader2 v-if="busy.export" class="w-6 h-6 stroke-1.5 animate-spin" />
+								<icon-archive v-else class="w-6 h-6 stroke-1.5" />
 							</secondary-button>
 						</div>
-					</zone-danger>
-				</div>
-			</panel>
+						<zone-danger :label="t('text.dangerZone')">
+							<div>
+								<div>{{ t('text.importData') }}</div>
+								<div class="text-blade-500">{{ t('text.importAndOverwrite')}}</div>
+								<secondary-button @click="modal.importdata=true" type="danger" class="mt-2">
+									{{ t('button.import') }}
+									<icon-download class="w-6 h-6 stroke-1.5" />
+								</secondary-button>
+							</div>
+						</zone-danger>
+					</div>
+				</panel>
+			</div>
 		</div>
+		<!-- modal: change password -->
+		<password-change
+			:active="modal.passwordchange"
+			@closed="modal.passwordchange = false"
+		/>
+		<!-- modal: change email -->
+		<email-change
+			:active="modal.emailchange"
+			@closed="modal.emailchange = false"
+		/>
+		<!-- modal: delete own account -->
+		<account-delete
+			:active="modal.accountdelete"
+			@closed="modal.accountdelete = false"
+		/>
+		<!-- modal: set user -->
+		<user-set
+			:active="modal.userset"
+			:user-id="active.userId"
+			:initial-user="active.user"
+			:role="active.role"
+			:state="active.state"
+			@started="emit('started')"
+			@closed="modal.userset = false"
+		/>
+		<!-- modal: delete user -->
+		<user-delete
+			:active="modal.userdelete"
+			:user-name="active.user.name"
+			:user-key="active.key"
+			:approved="active.approved"
+			:users="users"
+			:setlists="setlists"
+			@closed="modal.userdelete = false"
+		/>
+		<!-- modal: set language -->
+		<language-set
+			:active="modal.languageset"
+			:existing="active.existing"
+			:initial-language="active.language"
+			:language-key="active.key"
+			@closed="modal.languageset = false"
+		/>
+		<!-- modal: delete language -->
+		<language-delete
+			:active="modal.languagedelete"
+			:language-name="active.language.label"
+			:language-key="active.key"
+			:songs="songs"
+			@closed="modal.languagedelete = false"
+		/>
+		<!-- modal: set tag -->
+		<tag-set
+			:active="modal.tagset"
+			:existing="active.existing"
+			:initial-tag="active.tag"
+			:tag-key="active.key"
+			:ui-languages="uiLanguages"
+			@closed="modal.tagset = false"
+		/>
+		<!-- modal: import data -->
+		<import-data
+			:active="modal.importdata"
+			@closed="modal.importdata = false"
+		/>
 	</div>
-	<!-- modal: change password -->
-	<password-change
-		:active="modal.passwordchange"
-		@closed="modal.passwordchange = false"
-	/>
-	<!-- modal: change email -->
-	<email-change
-		:active="modal.emailchange"
-		@closed="modal.emailchange = false"
-	/>
-	<!-- modal: delete own account -->
-	<account-delete
-		:active="modal.accountdelete"
-		@closed="modal.accountdelete = false"
-	/>
-	<!-- modal: set user -->
-	<user-set
-		:active="modal.userset"
-		:user-id="active.userId"
-		:initial-user="active.user"
-		:role="active.role"
-		:state="active.state"
-		@started="emit('started')"
-		@closed="modal.userset = false"
-	/>
-	<!-- modal: delete user -->
-	<user-delete
-		:active="modal.userdelete"
-		:user-name="active.user.name"
-		:user-key="active.key"
-		:approved="active.approved"
-		:users="users"
-		:setlists="setlists"
-		@closed="modal.userdelete = false"
-	/>
-	<!-- modal: set language -->
-	<language-set
-		:active="modal.languageset"
-		:existing="active.existing"
-		:initial-language="active.language"
-		:language-key="active.key"
-		@closed="modal.languageset = false"
-	/>
-	<!-- modal: delete language -->
-	<language-delete
-		:active="modal.languagedelete"
-		:language-name="active.language.label"
-		:language-key="active.key"
-		:songs="songs"
-		@closed="modal.languagedelete = false"
-	/>
-	<!-- modal: set tag -->
-	<tag-set
-		:active="modal.tagset"
-		:existing="active.existing"
-		:initial-tag="active.tag"
-		:tag-key="active.key"
-		:ui-languages="uiLanguages"
-		@closed="modal.tagset = false"
-	/>
-	<!-- modal: import data -->
-	<import-data
-		:active="modal.importdata"
-		@closed="modal.importdata = false"
-	/>
 </template>
 
 <script setup>
@@ -490,7 +492,6 @@ const props = defineProps({
   user:           String,
   userObject:     Object,
   ready:          Object,
-  roleName:       String,
   role:           Number,
   config:         Object,
   languages:      Object,
@@ -558,7 +559,7 @@ const busy = reactive({
 });
 
 // emits
-const emit = defineEmits(['started', 'editSong', 'editSetlist']);
+const emit = defineEmits(['started']);
 
 // initially load profile data
 onMounted(() => {
