@@ -259,7 +259,14 @@
 								</td>
 								<td
 									class="cursor-pointer px-3 py-2 max-w-0 hidden 2xl:table-cell"
-									@click="router.push({ name: 'song-show', params: { id: element.id, key: element.tuning ? element.tuning : songs[element.id].tuning }})"
+									@click="router.push({
+										name: 'song-show',
+										params: {
+											id: element.id,
+											key: element.tuning ? element.tuning : songs[element.id].tuning,
+											setlist: setlistKey,
+										}
+									})"
 								>
 									<div class="truncate">{{ songs[element.id].authors }}</div>
 								</td>
