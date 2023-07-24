@@ -1,286 +1,288 @@
 <template>
-	<div v-if="ready.songs && song" class="flex flex-col gap-6 w-full">
-		<!-- page heading -->
-		<div class="flex flex-col justify-between items-stretch gap-4">
-			<!-- title and song count -->
-			<div class="text-3xl uppercase font-thin tracking-wider">
-				<span class="font-semibold mr-4">{{ song.title }}</span>
-				{{ showTuning.current }}
+	<div>
+		<div v-if="ready.songs && song" class="flex flex-col gap-6 w-full">
+			<!-- page heading -->
+			<div class="flex flex-col justify-between items-stretch gap-4">
+				<!-- title and song count -->
+				<div class="text-3xl uppercase font-thin tracking-wider">
+					<span class="font-semibold mr-4">{{ song.title }}</span>
+					{{ showTuning.current }}
+				</div>
+				<div class="text-blade-500 -mt-4">{{ song.subtitle }}</div>
 			</div>
-			<div class="text-blade-500 -mt-4">{{ song.subtitle }}</div>
-		</div>
-		<!-- toolbar -->
-		<div class="flex justify-between align-center w-full bg-blade-200 dark:bg-blade-900 rounded-lg p-2 gap-1">
-			<div class="flex align-center gap-1">
-				<secondary-button :title="t('button.back')" @click="router.go(-1)">
-					<icon-arrow-left />
-					<span class="hidden xl:inline">{{ t('button.back') }}</span>
-				</secondary-button>
-				<secondary-button
-					v-for="([id, lang], i) in showLanguages" :key="i"
-					:title="t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
-					@click="router.push({ name: 'song-show', params: { id: id }})"
-					class="uppercase hidden sm:inline"
-					:disabled="!id || songId == id"
-				>
-					{{ lang }}
-				</secondary-button>
-			</div>
-			<div class="flex items-center gap-1">
-				<div class="group flex items-center relative key-preview">
-					<secondary-button
-						class="!px-2 rounded-r-none"
-						:disabled="!chords"
-						:title="t('tooltip.transposeDown')"
-						@click="transposeDown"
-					>
-						<icon-chevron-left />
+			<!-- toolbar -->
+			<div class="flex justify-between align-center w-full bg-blade-200 dark:bg-blade-900 rounded-lg p-2 gap-1">
+				<div class="flex align-center gap-1">
+					<secondary-button :title="t('button.back')" @click="router.go(-1)">
+						<icon-arrow-left />
+						<span class="hidden xl:inline">{{ t('button.back') }}</span>
 					</secondary-button>
 					<secondary-button
-						class="!px-2 border-x border-x-blade-500 dark:border-x-blade-800 rounded-none"
-						:disabled="!chords"
-						:title="t('tooltip.keyReset')"
-						@click="transposeReset"
+						v-for="([id, lang], i) in showLanguages" :key="i"
+						:title="t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
+						@click="router.push({ name: 'song-show', params: { id: id }})"
+						class="uppercase hidden sm:inline"
+						:disabled="!id || songId == id"
 					>
-						<icon-reload />
+						{{ lang }}
 					</secondary-button>
-					<secondary-button
-						class="!px-2 rounded-l-none"
-						:disabled="!chords"
-						:title="t('tooltip.transposeUp')"
-						@click="transposeUp"
-					>
-						<icon-chevron-right />
-					</secondary-button>
-					<div class="absolute top-11 left-1/2 -translate-x-1/2 w-40 flex justify-between p-1 rounded-lg bg-blade-200 dark:bg-blade-900 invisible group-hover:visible">
-						<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
-							{{ showTuning.previous }}
-						</div>
-						<div class="flex-auto basis-0 font-mono rounded-xl text-center text-xl font-semibold px-3">
-							{{ showTuning.current }}
-						</div>
-						<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
-							{{ showTuning.next }}
+				</div>
+				<div class="flex items-center gap-1">
+					<div class="group flex items-center relative key-preview">
+						<secondary-button
+							class="!px-2 rounded-r-none"
+							:disabled="!chords"
+							:title="t('tooltip.transposeDown')"
+							@click="transposeDown"
+						>
+							<icon-chevron-left />
+						</secondary-button>
+						<secondary-button
+							class="!px-2 border-x border-x-blade-500 dark:border-x-blade-800 rounded-none"
+							:disabled="!chords"
+							:title="t('tooltip.keyReset')"
+							@click="transposeReset"
+						>
+							<icon-reload />
+						</secondary-button>
+						<secondary-button
+							class="!px-2 rounded-l-none"
+							:disabled="!chords"
+							:title="t('tooltip.transposeUp')"
+							@click="transposeUp"
+						>
+							<icon-chevron-right />
+						</secondary-button>
+						<div class="absolute top-11 left-1/2 -translate-x-1/2 w-40 flex justify-between p-1 rounded-lg bg-blade-200 dark:bg-blade-900 invisible group-hover:visible">
+							<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
+								{{ showTuning.previous }}
+							</div>
+							<div class="flex-auto basis-0 font-mono rounded-xl text-center text-xl font-semibold px-3">
+								{{ showTuning.current }}
+							</div>
+							<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
+								{{ showTuning.next }}
+							</div>
 						</div>
 					</div>
+					<secondary-button
+						:title="chords ? t('tooltip.chordsHide') : t('tooltip.chordsShow')"
+						@click="chords = !chords"
+					>
+						<icon-music v-if="chords" class="stroke-spring-400" />
+						<icon-music-off v-else />
+						<span class="hidden xl:inline">{{ t('switch.chords') }}</span>
+					</secondary-button>
+					<secondary-button
+						:title="t('tooltip.startFullscreen')"
+						@click="modal.present=true"
+					>
+						<icon-presentation />
+						<span class="hidden xl:inline">{{ t('button.present') }}</span>
+					</secondary-button>
 				</div>
-				<secondary-button
-					:title="chords ? t('tooltip.chordsHide') : t('tooltip.chordsShow')"
-					@click="chords = !chords"
-				>
-					<icon-music v-if="chords" class="stroke-spring-400" />
-					<icon-music-off v-else />
-					<span class="hidden xl:inline">{{ t('switch.chords') }}</span>
-				</secondary-button>
-				<secondary-button
-					:title="t('tooltip.startFullscreen')"
-					@click="modal.present=true"
-				>
-					<icon-presentation />
-					<span class="hidden xl:inline">{{ t('button.present') }}</span>
-				</secondary-button>
-			</div>
-			<div class="flex align-center gap-1">
-				<div class="hidden sm:block">
-					<dropdown>
-						<template #trigger>
-							<secondary-button class="h-full">
-								<icon-download class="w-5 h-5 stroke-1.5" />
-								<span class="hidden xl:inline">{{ t('button.download') }}</span>
-								<icon-chevron-down class="w-5 h-5 stroke-1.5" />
-							</secondary-button>
-						</template>
-						<template #default>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click="exportTxt"
-							>
-								<icon-file-pencil class="w-5 h-5 stroke-1.5" />
-								{{ t('button.filetypeTxt') }}
-							</button>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click="exportXml"
-							>
-								<icon-file-code class="w-5 h-5 stroke-1.5" />
-								{{ t('button.filetypeXml') }}
-							</button>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click="exportSng"
-							>
-								<icon-file-music class="w-5 h-5 stroke-1.5" />
-								{{ t('button.filetypeSng') }}
-							</button>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click="exportPdf"
-							>
-								<icon-file-text class="w-5 h-5 stroke-1.5" />
-								{{ t('button.filetypePdf') }}
-							</button>
-						</template>
-					</dropdown>
-				</div>
-				<div class="h-full" :class="{ 'sm:hidden': user && role <= 2 }">
-					<dropdown>
-						<template #default>
-							<button
-								v-if="user && role > 2"
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click="emit('editSong', { data: song, id: song.id, exists: true })"
-							>
-								<icon-edit class="w-5 h-5 stroke-1.5" />
-								{{ t('button.edit') }}
-							</button>
-							<button
-								v-if="user && role > 2"
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click="emit('editSong', { data: song, id: song.id, exists: false })"
-							>
-								<icon-copy class="w-5 h-5 stroke-1.5" />
-								{{ t('button.duplicate') }}
-							</button>
-							<button
-								v-if="user && role > 2"
-								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
-								@click="deleteDialog(song)"
-							>
-								<icon-trash class="w-5 h-5 stroke-1.5" />
-								{{ t('button.delete') }}
-							</button>
-							<div class="flex gap-1 sm:hidden">
-								<secondary-button
-									v-for="([id, lang], i) in showLanguages" :key="i"
-									:title="t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
-									@click="router.push({ name: 'song-show', params: { id: id }})"
-									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 uppercase"
-									:disabled="!id || songId == id"
-								>
-									{{ lang }}
+				<div class="flex align-center gap-1">
+					<div class="hidden sm:block">
+						<dropdown>
+							<template #trigger>
+								<secondary-button class="h-full">
+									<icon-download class="w-5 h-5 stroke-1.5" />
+									<span class="hidden xl:inline">{{ t('button.download') }}</span>
+									<icon-chevron-down class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
-							</div>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
-								@click="exportTxt"
-							>
-								<icon-file-pencil class="w-5 h-5 stroke-1.5" />
-								{{ t('button.filetypeTxt') }}
-							</button>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
-								@click="exportSng"
-							>
-								<icon-file-music class="w-5 h-5 stroke-1.5" />
-								{{ t('button.filetypeSng') }}
-							</button>
-							<button
-								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
-								@click="exportPdf"
-							>
-								<icon-file-text class="w-5 h-5 stroke-1.5" />
-								{{ t('button.filetypePdf') }}
-							</button>
-						</template>
-					</dropdown>
-				</div>
-			</div>
-		</div>
-		<!-- setlist navigation -->
-		<div v-if="urlSetlist && ready.setlists && ready.songs && songInUrlSetlist" class="flex justify-end">
-			<zone-info @close="goToBasicSong" closable>
-				<template #label>
-					<router-link
-						class="text-blade-600 dark:text-blade-400 mr-1"
-						:to="{ name: 'setlist-show', params: { id: urlSetlist }}"
-					>
-						{{ t('page.setlists', 1) }}: {{ setlists[urlSetlist].title }}
-					</router-link>
-					{{ t('page.songs', 1) }} #{{ position+1 }}
-				</template>
-				<div class="flex justify-end items-center">
-					<div class="flex gap-1">
-						<!-- back navigation -->
-						<secondary-button
-							class="flex items-center gap-1"
-							:disabled="position == 0"
-							title="Previous Song"
-							@click="goToPreviousSong"
-						>
-							<icon-arrow-left />
-							<div v-if="position > 0" class="hidden sm:flex items-center gap-2">
-								<div class="max-w-3xs truncate">
-									{{ songs[setlists[urlSetlist]?.songs[position-1]?.id]?.title }}
+							</template>
+							<template #default>
+								<button
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click="exportTxt"
+								>
+									<icon-file-pencil class="w-5 h-5 stroke-1.5" />
+									{{ t('button.filetypeTxt') }}
+								</button>
+								<button
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click="exportXml"
+								>
+									<icon-file-code class="w-5 h-5 stroke-1.5" />
+									{{ t('button.filetypeXml') }}
+								</button>
+								<button
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click="exportSng"
+								>
+									<icon-file-music class="w-5 h-5 stroke-1.5" />
+									{{ t('button.filetypeSng') }}
+								</button>
+								<button
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click="exportPdf"
+								>
+									<icon-file-text class="w-5 h-5 stroke-1.5" />
+									{{ t('button.filetypePdf') }}
+								</button>
+							</template>
+						</dropdown>
+					</div>
+					<div class="h-full" :class="{ 'sm:hidden': user && role <= 2 }">
+						<dropdown>
+							<template #default>
+								<button
+									v-if="user && role > 2"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click="emit('editSong', { data: song, id: song.id, exists: true })"
+								>
+									<icon-edit class="w-5 h-5 stroke-1.5" />
+									{{ t('button.edit') }}
+								</button>
+								<button
+									v-if="user && role > 2"
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click="emit('editSong', { data: song, id: song.id, exists: false })"
+								>
+									<icon-copy class="w-5 h-5 stroke-1.5" />
+									{{ t('button.duplicate') }}
+								</button>
+								<button
+									v-if="user && role > 2"
+									class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+									@click="deleteDialog(song)"
+								>
+									<icon-trash class="w-5 h-5 stroke-1.5" />
+									{{ t('button.delete') }}
+								</button>
+								<div class="flex gap-1 sm:hidden">
+									<secondary-button
+										v-for="([id, lang], i) in showLanguages" :key="i"
+										:title="t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
+										@click="router.push({ name: 'song-show', params: { id: id }})"
+										class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 uppercase"
+										:disabled="!id || songId == id"
+									>
+										{{ lang }}
+									</secondary-button>
 								</div>
-								<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-									{{ setlists[urlSetlist]?.songs[position-1]?.tuning }}
-								</div>
-							</div>
-						</secondary-button>
-						<!-- forward navigation -->
-						<secondary-button
-							class="flex items-center gap-1"
-							:disabled="position == setlists[urlSetlist].songs.length-1"
-							title="Next Song"
-							@click="goToNextSong"
-						>
-							<div v-if="position < setlists[urlSetlist].songs.length-1" class="hidden sm:flex items-center gap-2">
-								<div class="max-w-3xs truncate">
-									{{ songs[setlists[urlSetlist]?.songs[position+1]?.id]?.title }}
-								</div>
-								<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-									{{ setlists[urlSetlist]?.songs[position+1]?.tuning }}
-								</div>
-							</div>
-							<icon-arrow-right />
-						</secondary-button>
+								<button
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+									@click="exportTxt"
+								>
+									<icon-file-pencil class="w-5 h-5 stroke-1.5" />
+									{{ t('button.filetypeTxt') }}
+								</button>
+								<button
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+									@click="exportSng"
+								>
+									<icon-file-music class="w-5 h-5 stroke-1.5" />
+									{{ t('button.filetypeSng') }}
+								</button>
+								<button
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+									@click="exportPdf"
+								>
+									<icon-file-text class="w-5 h-5 stroke-1.5" />
+									{{ t('button.filetypePdf') }}
+								</button>
+							</template>
+						</dropdown>
 					</div>
 				</div>
-			</zone-info>
+			</div>
+			<!-- setlist navigation -->
+			<div v-if="urlSetlist && ready.setlists && ready.songs && songInUrlSetlist" class="flex justify-end">
+				<zone-info @close="goToBasicSong" closable>
+					<template #label>
+						<router-link
+							class="text-blade-600 dark:text-blade-400 mr-1"
+							:to="{ name: 'setlist-show', params: { id: urlSetlist }}"
+						>
+							{{ t('page.setlists', 1) }}: {{ setlists[urlSetlist].title }}
+						</router-link>
+						{{ t('page.songs', 1) }} #{{ position+1 }}
+					</template>
+					<div class="flex justify-end items-center">
+						<div class="flex gap-1">
+							<!-- back navigation -->
+							<secondary-button
+								class="flex items-center gap-1"
+								:disabled="position == 0"
+								title="Previous Song"
+								@click="goToPreviousSong"
+							>
+								<icon-arrow-left />
+								<div v-if="position > 0" class="hidden sm:flex items-center gap-2">
+									<div class="max-w-3xs truncate">
+										{{ songs[setlists[urlSetlist]?.songs[position-1]?.id]?.title }}
+									</div>
+									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
+										{{ setlists[urlSetlist]?.songs[position-1]?.tuning }}
+									</div>
+								</div>
+							</secondary-button>
+							<!-- forward navigation -->
+							<secondary-button
+								class="flex items-center gap-1"
+								:disabled="position == setlists[urlSetlist].songs.length-1"
+								title="Next Song"
+								@click="goToNextSong"
+							>
+								<div v-if="position < setlists[urlSetlist].songs.length-1" class="hidden sm:flex items-center gap-2">
+									<div class="max-w-3xs truncate">
+										{{ songs[setlists[urlSetlist]?.songs[position+1]?.id]?.title }}
+									</div>
+									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
+										{{ setlists[urlSetlist]?.songs[position+1]?.tuning }}
+									</div>
+								</div>
+								<icon-arrow-right />
+							</secondary-button>
+						</div>
+					</div>
+				</zone-info>
+			</div>
+			<!-- song content -->
+			<song-content
+				:content="song.content"
+				:chords="chords"
+				:tuning="tuning"
+				:presentation="false"
+			/>
+			<!-- song footer with info and data about the song -->
+			<song-footer
+				v-if="ready.tags"
+				class="columns mt-4 pt-4"
+				:song="song"
+				:tags="tags"
+			/>
 		</div>
-		<!-- song content -->
-		<song-content
-			:content="song.content"
+		<!-- access to non-existing song -->
+		<div v-if="songNotFound" class="flex flex-col items-center gap-8 mt-4">
+			<icon-error-404 class="w-14 h-14 stroke-1 text-blade-500" />
+			<div class="text-center">
+				<div class="text-lg">{{ t('text.songNotFound') }}</div>
+				<div class="text-blade-500">{{ t('text.songDeletedOrBrokenLink') }}</div>
+			</div>
+			<primary-button @click="router.push({ name: 'songs' })" class="mt-4">
+				{{ t('widget.showAllSongs') }}
+				<icon-music class="stroke-1.5" />
+			</primary-button>
+		</div>
+		<!-- modals -->
+		<song-delete
+			:active="modal.delete"
+			:title="song?.title"
+			:id="songId"
+			:songs="songs"
+			@closed="modal.delete = false"
+		/>
+		<song-present
+			:active="modal.present"
+			:song="song"
 			:chords="chords"
 			:tuning="tuning"
-			:presentation="false"
-		/>
-		<!-- song footer with info and data about the song -->
-		<song-footer
-			v-if="ready.tags"
-			class="columns mt-4 pt-4"
-			:song="song"
-			:tags="tags"
+			@chords="chords = !chords"
+			@closed="modal.present = false"
 		/>
 	</div>
-	<!-- access to non-existing song -->
-	<div v-if="songNotFound" class="flex flex-col items-center gap-8 mt-4">
-		<icon-error-404 class="w-14 h-14 stroke-1 text-blade-500" />
-		<div class="text-center">
-			<div class="text-lg">{{ t('text.songNotFound') }}</div>
-			<div class="text-blade-500">{{ t('text.songDeletedOrBrokenLink') }}</div>
-		</div>
-		<primary-button @click="router.push({ name: 'songs' })" class="mt-4">
-			{{ t('widget.showAllSongs') }}
-			<icon-music class="stroke-1.5" />
-		</primary-button>
-	</div>
-	<!-- modals -->
-	<song-delete
-		:active="modal.delete"
-		:title="song?.title"
-		:id="songId"
-		:songs="songs"
-		@closed="modal.delete = false"
-	/>
-	<song-present
-		:active="modal.present"
-		:song="song"
-		:chords="chords"
-		:tuning="tuning"
-		@chords="chords = !chords"
-		@closed="modal.present = false"
-	/>
 </template>
 
 <script setup>
@@ -355,23 +357,17 @@ pdfMake.fonts = {
 
 // component properties
 const props = defineProps({
-  config:        Object,
   languages:     Object,
-  permissions:   Object,
   ready:         Object,
-  registrations: Object,
   role:          Number,
-  roleName:      String,
   setlists:      Object,
   songs:         Object,
   tags:          Object,
   user:          String,
-  userObject:    Object,
-  users:         Object,
 });
 
 // emits
-const emit = defineEmits(['started', 'editSong', 'editSetlist']);
+const emit = defineEmits(['editSong']);
 
 // reactive data
 const chords = ref(true);
@@ -570,7 +566,6 @@ const exportXml = () => {
 // export song sheet as PDF
 const exportPdf = () => {
 	var content = getPdfSongContent();
-	// return page configuration with computed content
 	var doc = {
 		pageSize: 'A4',
 		pageMargins: [ 50, 50, 40, 30 ],

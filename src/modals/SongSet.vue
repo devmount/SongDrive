@@ -176,7 +176,7 @@
 					<div>{{ t('field.content') }} <span class="text-rose-600">*</span></div>
 					<secondary-button
 						class="!p-1"
-						:data-tooltip="t('modal.songSyntaxCheatsheet')"
+						:title="t('modal.songSyntaxCheatsheet')"
 						@click="showModal.infosongsyntax = true"
 					>
 						<icon-book class="w-4 h-4 stroke-1.5" />

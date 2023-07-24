@@ -6,7 +6,14 @@
 			class="lg:flex min-h-screen"
 		>
 			<!-- menu toggle button -->
-			<button class="fixed lg:hidden transition-all top-2 right-2 lg:top-4 lg:right-4 px-2 py-1 z-10 flex items-center" :class="{ 'right-64 mr-4': open }" @click="open = true">
+			<button
+				class="
+					fixed lg:hidden transition-all top-2 right-2 lg:top-4 lg:right-4 px-2 py-1 z-10 flex items-center rounded
+					bg-blade-100/75 dark:bg-blade-850/75
+				"
+				:class="{ 'right-64 mr-4': open }"
+				@click="open = true"
+			>
 				<icon-menu2 class="w-8 h-8 stroke-2" />
 			</button>
 
@@ -38,8 +45,8 @@
 							<div v-if="ready.songs" class="font-bold">{{ Object.keys(c.songs).length }}</div>
 							<secondary-button
 								v-if="userRoles[c.permissions[auth.user].role] > 2"
-								class="!p-1 tooltip tooltip-left"
-								:data-tooltip="t('tooltip.songAdd')"
+								class="!p-1"
+								:title="t('tooltip.songAdd')"
 								@click.stop.prevent="createNewSong"
 							>
 								<icon-plus class="w-5 h-5 stroke-1.5" />
@@ -57,8 +64,8 @@
 							<label v-if="ready.setlists" class="font-bold">{{ setlistCount }}</label>
 							<secondary-button
 								v-if="userRoles[c.permissions[auth.user].role] > 1"
-								class="!p-1 tooltip tooltip-left"
-								:data-tooltip="t('tooltip.setlistAdd')"
+								class="!p-1"
+								:title="t('tooltip.setlistAdd')"
 								@click.stop.prevent="createNewSetlist"
 							>
 								<icon-plus class="w-5 h-5 stroke-1.5" />
@@ -164,7 +171,9 @@
 					:tags="c.tags"
 					:users="c.users"
 					@started="loading=true"
+					@add-song="createNewSong"
 					@edit-song="editExistingSong"
+					@add-setlist="createNewSetlist"
 					@edit-setlist="editExistingSetlist"
 				/>
 			</div>
