@@ -37,7 +37,7 @@
 		"@vueuse/math": "^10.2.1",
 		"chart.js": "^4.0.1",
 		"date-fns": "^2.29.1",
-		"firebase": "^9.0.0",
+		"firebase": "^10.0.0",
 		"highlight.js": "^11.3.1",
 		"marked": "^5.1.0",
 		"marked-highlight": "^2.0.1",

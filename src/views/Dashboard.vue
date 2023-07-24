@@ -49,7 +49,7 @@
 
 		<div
 			v-if="ready.songs && ready.setlists"
-			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+			class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full"
 		>
 			<!-- song list -->
 			<widget-song-list :songs="songsArray" :setlists="setlistsArray" />

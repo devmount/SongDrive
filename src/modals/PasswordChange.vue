@@ -62,11 +62,11 @@
 
 <script setup>
 import { notify } from '@kyvg/vue3-notification';
-import { reactive, computed, ref, watch } from 'vue';
+import { reactive, computed, ref, watch, inject } from 'vue';
 import { throwError, randomString } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
-import firebase from 'firebase/compat/app';
+import { getAuth, reauthenticateWithCredential, updatePassword, EmailAuthProvider } from "firebase/auth";
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -79,6 +79,8 @@ import {
 // component constants
 const { t } = useI18n();
 const examplePassword = randomString(8);
+const fb = inject('firebaseApp');
+const fbAuth = getAuth(fb);
 
 // inherited properties
 const props = defineProps({
@@ -126,14 +128,14 @@ const setPassword = () => {
 	if (!errors.value) {
 		busy.value = true;
 		// first reauthenticate user
-		const currentUser = firebase.auth().currentUser;
-		const credential = firebase.auth.EmailAuthProvider.credential(
-			currentUser.email, 
+		const currentUser = fbAuth.currentUser;
+		const credential = EmailAuthProvider.credential(
+			currentUser.email,
 			user.currentpassword
 		);
-		currentUser.reauthenticateWithCredential(credential).then(() => {
+		reauthenticateWithCredential(currentUser, credential).then(() => {
 			// successfully reauthenticated, now update password
-			currentUser.updatePassword(user.password).then(() => {
+			updatePassword(currentUser, user.password).then(() => {
 				emit('closed');
 				notify({
 					title: t('toast.userUpdated'),

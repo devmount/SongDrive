@@ -100,7 +100,16 @@ import { reactive, computed, inject, onMounted, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { userRoles, throwError, randomString } from '@/utils.js';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
-import firebase from 'firebase/compat/app';
+import { setDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import {
+	getAuth,
+	reauthenticateWithCredential,
+	createUserWithEmailAndPassword,
+	sendEmailVerification,
+	signInWithEmailAndPassword,
+	signOut,
+	EmailAuthProvider
+} from "firebase/auth";
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -116,7 +125,9 @@ const { t } = useI18n();
 const examplePassword = randomString(8);
 
 // global properties
+const fb = inject('firebaseApp');
 const db = inject('db');
+const fbAuth = getAuth(fb);
 
 // component properties
 const props = defineProps({
@@ -195,9 +206,9 @@ const setUser = () => {
 		// user exists and is confirmed
 		if (props.state == 'confirmed') {
 			// first set permissions
-			db.collection('permissions').doc(props.userId).update(permission).then(() => {
+			updateDoc(doc(db, `permissions/${props.userId}`), permission).then(() => {
 				// permissions updated successfully, now update user
-				db.collection('users').doc(props.userId).update({
+				updateDoc(doc(db, `users/${props.userId}`), {
 					name: user.name,
 					email: user.email,
 				}).then(() => {
@@ -214,14 +225,14 @@ const setUser = () => {
 		// user is not yet confirmed
 		if (props.state == 'registered') {
 			// first set permissions
-			db.collection('permissions').doc(props.userId).set(permission).then(() => {
+			setDoc(doc(db, `permissions/${props.userId}`), permission).then(() => {
 				// permissions updated successfully, now create user
-				db.collection('users').doc(props.userId).set({
+				setDoc(doc(db, `users/${props.userId}`), {
 					name: user.name,
 					email: user.email,
 				}).then(() => {
 					// user created successfully, now delete registration
-					db.collection('registrations').doc(props.userId).delete().then(() => {
+					deleteDoc(doc(db, `registrations/${props.userId}`)).then(() => {
 						emit('closed');
 						notify({
 							title: t('toast.userAdded'),
@@ -235,25 +246,25 @@ const setUser = () => {
 		}
 		// user doesn't exist
 		if (props.state == 'new') {
-			const adminUser = firebase.auth().currentUser;
-			const credential = firebase.auth.EmailAuthProvider.credential(adminUser.email, admin.password);
+			const adminUser = fbAuth.currentUser;
+			const credential = EmailAuthProvider.credential(adminUser.email, admin.password);
 			// first check if admin is authentic
-			adminUser.reauthenticateWithCredential(credential).then(() => {
+			reauthenticateWithCredential(adminUser, credential).then(() => {
 				emit('started');
 				// create firebase user, this automatically signs in as the new user
-				firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
+				createUserWithEmailAndPassword(fbAuth, user.email, user.password).then(() => {
 					// get new user id as long as still logged in as the new user
-					const userId = firebase.auth().currentUser.uid;
+					const userId = fbAuth.currentUser.uid;
 					// send verification email to new user
-					firebase.auth().currentUser.sendEmailVerification().then(() => {
+					sendEmailVerification(fbAuth.currentUser).then(() => {
 						// now sign the new user out ...
-						firebase.auth().signOut().then(() => {
+						signOut(fbAuth).then(() => {
 							// ... and relogin with own admin user profile again
-							firebase.auth().signInWithEmailAndPassword(adminUser.email, admin.password).then(() => {
+							signInWithEmailAndPassword(fbAuth, adminUser.email, admin.password).then(() => {
 								// now save permissions for new user (which is only possible cause you're admin again)
-								db.collection('permissions').doc(userId).set(permission).then(() => {
+								setDoc(doc(db, `permissions/${userId}`), permission).then(() => {
 									// permissions created successfully, now create user doc in users collection
-									db.collection('users').doc(userId).set({
+									setDoc(doc(db, `users/${userId}`), {
 										name: user.name,
 										email: user.email,
 									}).then(() => {

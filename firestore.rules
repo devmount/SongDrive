@@ -21,10 +21,10 @@ service cloud.firestore {
     }
     match /permissions/{user} {
       allow write: if get(/databases/$(database)/documents/permissions/$(request.auth.uid)).data.role == "admin"
-                   && request.auth.uid != '' && request.auth.token.email_verified == true;
+                   && request.auth.uid != '' && request.auth.token.email_verified;
     }
     match /users/{user} {
-      allow read, write: if request.auth.uid != '' && user == request.auth.uid && request.auth.token.email_verified == true;
+      allow read, write: if request.auth.uid != '' && user == request.auth.uid && request.auth.token.email_verified;
     }
     match /config/{category} {
       allow read: if request.auth.uid != '';

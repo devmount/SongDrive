@@ -243,6 +243,7 @@ import { PrismEditor } from 'vue-prism-editor';
 import { ref, reactive, computed, inject, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import { setDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import InfoSongSyntax from '@/modals/InfoSongSyntax.vue';
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
@@ -353,19 +354,18 @@ const setSong = () => {
 		processedSong.youtube = processedSong.youtube ? processedSong.youtube : '';
 		// new song should be created
 		if (!props.existing) {
-			db.collection('songs').doc(slug).set(processedSong).then(() => {
+			setDoc(doc(db, `songs/${slug}`), processedSong).then(() => {
 				// persist translation references
 				if (processedSong.translations.length > 0) {
 					processedSong.translations.forEach(t => {
 						if (t in props.songs) {
 							let tsong = props.songs[t];
 							if (!tsong.translations.includes(slug)) {
-								db.collection('songs').doc(t).update({ translations: tsong.translations.concat([slug]) });
+								updateDoc(doc(db, `songs/${t}`), { translations: tsong.translations.concat([slug]) });
 							}
 						}
 					});
 				}
-				emit('closed');
 				processedSong = {};
 				router.push({ name: 'song-show', params: { id: slug }});
 				// toast success creation message
@@ -375,6 +375,7 @@ const setSong = () => {
 					type: 'primary'
 				});
 				busy.value = false;
+				emit('closed');
 			}).catch((error) => throwError(error));
 		}
 		// existing song should be updated
@@ -383,12 +384,12 @@ const setSong = () => {
 			// check if key remained (no title or language changes)
 			if (props.id == slug) {
 				// just update the existing song
-				db.collection('songs').doc(slug).update(processedSong).then(() => {
+				updateDoc(doc(db, `songs/${slug}`), processedSong).then(() => {
 					// persist translation references by removing and adding them
 					let translationDiff = initialSong.translations.filter(t => !processedSong.translations.includes(t));
 					if (translationDiff.length > 0) {
 						translationDiff.forEach(s => {
-							db.collection('songs').doc(s).update({ translations: props.songs[s].translations.filter(t => t != slug) });
+							updateDoc(doc(db, `songs/${s}`), { translations: props.songs[s].translations.filter(t => t != slug) });
 						});
 					}
 					if (processedSong.translations.length > 0) {
@@ -396,12 +397,11 @@ const setSong = () => {
 							if (t in props.songs) {
 								let tsong = props.songs[t];
 								if (!tsong.translations.includes(slug)) {
-									db.collection('songs').doc(t).update({ translations: tsong.translations.concat([slug]) });
+									updateDoc(doc(db, `songs/${t}`), { translations: tsong.translations.concat([slug]) });
 								}
 							}
 						});
 					}
-					emit('closed');
 					processedSong = {};
 					// toast success update message
 					notify({
@@ -410,11 +410,12 @@ const setSong = () => {
 						type: 'primary'
 					});
 					busy.value = false;
+					emit('closed');
 				}).catch((error) => throwError(error));
 			} else {
 				// update key by adding a new song, removing the old one and update references in other fields
-				db.collection('songs').doc(slug).set(processedSong).then(() => {
-					db.collection('songs').doc(props.id).delete();
+				setDoc(doc(db, `songs/${slug}`), processedSong).then(() => {
+					deleteDoc(doc(db, `songs/${props.id}`));
 					// check existing setlists for this song id and update to new slug
 					for (const setlistId in props.setlists) {
 						const setlist = props.setlists[setlistId];
@@ -425,7 +426,7 @@ const setSong = () => {
 						if (existingSongKey !== null) {
 							let updatedSongList = setlist.songs;
 							updatedSongList[existingSongKey].id = slug;
-							db.collection('setlists').doc(setlistId).update({ songs: updatedSongList });
+							updateDoc(doc(db, `setlists/${setlistId}`), { songs: updatedSongList });
 						}
 					}
 					// check existing song translations for this song id and update to new slug
@@ -438,14 +439,14 @@ const setSong = () => {
 						if (existingSongKey !== null) {
 							let updatedTranslationsList = esong.translations;
 							updatedTranslationsList[existingSongKey] = slug;
-							db.collection('songs').doc(songId).update({ translations: updatedTranslationsList });
+							updateDoc(doc(db, `songs/${songId}`), { translations: updatedTranslationsList });
 						}
 					}
 					// persist translation references by removing and adding them
 					let translationDiff = initialSong.translations.filter(t => !processedSong.translations.includes(t));
 					if (translationDiff.length > 0) {
 						translationDiff.forEach(s => {
-							db.collection('songs').doc(s).update({ translations: props.songs[s].translations.filter(t => t != slug) });
+							updateDoc(doc(db, `songs/${s}`), { translations: props.songs[s].translations.filter(t => t != slug) });
 						});
 					}
 					if (processedSong.translations.length > 0) {
@@ -453,12 +454,11 @@ const setSong = () => {
 							if (t in props.songs) {
 								let tsong = props.songs[t];
 								if (!tsong.translations.includes(slug)) {
-									db.collection('songs').doc(t).update({ translations: tsong.translations.concat([slug]) });
+									updateDoc(doc(db, `songs/${t}`), { translations: tsong.translations.concat([slug]) });
 								}
 							}
 						});
 					}
-					emit('closed');
 					processedSong = {};
 					router.push({ name: 'song-show', params: { id: slug }});
 					// toast success update message
@@ -468,6 +468,7 @@ const setSong = () => {
 						type: 'primary'
 					});
 					busy.value = false;
+					emit('closed');
 				}).catch((error) => throwError(error));
 			}
 		}

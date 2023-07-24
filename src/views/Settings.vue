@@ -83,7 +83,7 @@
 				<div class="flex flex-col gap-2">
 					<label class="flex flex-col gap-1">
 						{{ t('field.language') }}
-						<select v-model="locale">
+						<select v-model="lang">
 							<option v-for="(label, key) in uiLanguages" :key="key" :value="key">
 								{{ label }}
 							</option>
@@ -137,11 +137,11 @@
 			</panel>
 		</div>
 		<!-- administration settings -->
-		<div class="text-3xl uppercase font-thin tracking-wider">
+		<div v-if="isAdmin" class="text-3xl uppercase font-thin tracking-wider">
 			{{ t('page.administration') }}
 		</div>
 		<div
-			v-if="ready.users && ready.permissions && user && userObject && role > 1"
+			v-if="isAdmin"
 			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
 		>
 			<!-- user administration -->
@@ -301,8 +301,9 @@
 				</div>
 				<div class="flex flex-wrap justify-start items-center gap-2">
 					<tag
-						v-for="tag in tags" :key="tag.key"
+						v-for="tag in sortTags(tags, locale)" :key="tag.key"
 						:tag="tag"
+						class="cursor-pointer hover:bg-spring-400 hover:dark:!bg-spring-700"
 						@click="active.tag=tag; active.key=tag.key; active.existing=true; modal.tagset=true"
 					/>
 				</div>
@@ -429,14 +430,15 @@
 </template>
 
 <script setup>
-import { download, throwError } from '@/utils.js';
+import { download, throwError, sortTags } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AccountDelete from '@/modals/AccountDelete.vue';
 import Avatar from '@/elements/Avatar.vue';
 import EmailChange from '@/modals/EmailChange.vue';
-import firebase from 'firebase/compat/app';
+import { updateDoc, doc } from 'firebase/firestore';
+import { getAuth, sendEmailVerification, updateProfile as fbUpdateProfile } from "firebase/auth";
 import ImportData from '@/modals/ImportData.vue';
 import LanguageDelete from '@/modals/LanguageDelete.vue';
 import LanguageSet from '@/modals/LanguageSet.vue';
@@ -479,7 +481,9 @@ import {
 const { t, locale, availableLocales } = useI18n({ useScope: 'global' });
 
 // global properties
+const fb = inject('firebaseApp');
 const db = inject('db');
+const fbAuth = getAuth(fb);
 
 // component properties
 const props = defineProps({
@@ -561,6 +565,11 @@ onMounted(() => {
 	loadProfile();
 });
 
+// check user role
+const isAdmin = computed(() => {
+	return props.ready.users && props.ready.permissions && props.user && props.userObject && props.role === 4
+});
+
 // load profile data
 const loadProfile = () => {
 	if (props.ready.users && props.user) {
@@ -573,7 +582,7 @@ const loadProfile = () => {
 
 // resend email with verification link to currently logged in user
 const resendEmailVerification = () => {
-	firebase.auth().currentUser.sendEmailVerification().then(() => {
+	sendEmailVerification(fbAuth.currentUser).then(() => {
 		notify({
 			title: t('toast.verficationSent'),
 			text: t('toast.verficationSentText'),
@@ -586,22 +595,19 @@ const resendEmailVerification = () => {
 // save profile data
 const updateProfile = () => {
 	busy.profile = true;
-	props.userObject.updateProfile({
+	fbUpdateProfile(props.userObject, {
 			displayName: profile.name,
-			email: profile.email
+			photoUrl: profile.photo,
 	}).then(() => {
-		// first update user object
-		db.collection('users').doc(props.user).update(profile).then(() => {
-			// then update permissions for this user
-			db.collection('permissions').doc(props.user).update(permission).then(() => {
-				// updated successfully
-				notify({
-					title: t('toast.userUpdated'),
-					text: t('toast.userUpdatedText'),
-					type: 'primary'
-				});
-				busy.profile = false;
-			}).catch((error) => throwError(error));
+		// update user object
+		updateDoc(doc(db, `users/${props.user}`), profile).then(() => {
+			// updated successfully
+			notify({
+				title: t('toast.userUpdated'),
+				text: t('toast.userUpdatedText'),
+				type: 'primary'
+			});
+			busy.profile = false;
 		}).catch((error) => throwError(error));
 	}, (error) => throwError(error));
 };
@@ -609,9 +615,7 @@ const updateProfile = () => {
 // save configration
 const updateConfig = () => {
 	busy.config = true;
-	db.collection('config').doc('contact').update({
-		email: configuration.contact.email
-	}).then(() => {
+	updateDoc(doc(db, `config/contact`), { email: configuration.contact.email }).then(() => {
 		// Config updated successfully!
 		notify({
 			title: t('toast.configUpdated'),
@@ -689,6 +693,12 @@ const uiLanguages = computed(() => {
 		}
 	});
 	return uiLanguages;
+});
+const initLang = !('lang' in localStorage) ? locale.value : localStorage.getItem('lang');
+const lang = ref(initLang);
+watch(lang, (newValue) => {
+	locale.value = newValue;
+	localStorage.setItem('lang', newValue);
 });
 
 // handle theme mode

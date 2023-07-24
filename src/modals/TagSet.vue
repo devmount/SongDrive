@@ -47,6 +47,7 @@ import { notify } from '@kyvg/vue3-notification';
 import { ref, inject, onMounted, watch } from 'vue';
 import { throwError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
+import { setDoc, updateDoc, doc } from 'firebase/firestore';
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -104,7 +105,7 @@ const setTag = () => {
 		busy.value = true;
 		// tag already exists
 		if (props.existing) {
-			db.collection('tags').doc(key.value).update({
+			updateDoc(doc(db, `tags/${key.value}`), {
 				key: key.value,
 				...languages.value
 			}).then(() => {
@@ -120,7 +121,7 @@ const setTag = () => {
 		}
 		// tag doesn't exist yet
 		else {
-			db.collection('tags').doc(key.value).set({
+			setDoc(doc(db, `tags/${key.value}`), {
 				key: key.value,
 				...languages.value
 			}).then(() => {

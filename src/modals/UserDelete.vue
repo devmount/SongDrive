@@ -32,6 +32,7 @@ import { notify } from '@kyvg/vue3-notification';
 import { ref, computed, inject } from 'vue';
 import { throwError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
+import { updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -79,16 +80,16 @@ const deleteUser = () => {
 	if (numberOfUsers.value > 1) {
 		busy.value = true;
 		// delete approved user (living in users table) or unapproved user (living in registrations table)
-		db.collection(props.approved ? 'users' : 'registrations').doc(props.userKey).delete().then(() => {
+		deleteDoc(doc(db, props.approved ? `users/${props.userKey}` : `registrations/${props.userKey}`)).then(() => {
 			if (props.approved) {
-				db.collection('permissions').doc(props.userKey).delete();
+				deleteDoc(doc(db, `permissions/${props.userKey}`));
 			}
 			// transfer content to selected user
 			for (const setlistKey in props.setlists) {
 				if (Object.hasOwnProperty.call(props.setlists, setlistKey)) {
 					const setlist = props.setlists[setlistKey];
 					if (setlist.creator == props.userKey) {
-						db.collection('setlists').doc(setlistKey).update({ creator: transferUser.value });
+						updateDoc(doc(db, `setlists/${setlistKey}`), { creator: transferUser.value });
 					}
 				}
 			}

@@ -75,6 +75,7 @@
 import { humanFileSize } from '@/utils.js';
 import { ref, reactive, computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { setDoc, doc } from 'firebase/firestore';
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -155,7 +156,7 @@ const importData = async () => {
 						// iterate all data objects
 						const keys = Object.keys(objects);
 						await Promise.all(keys.map(async key => {
-							await db.collection(collection).doc(key).set(objects[key]);
+							await setDoc(doc(db, `${collection}/${key}`), objects[key]);
 							progress.imported++
 						}));
 					}));

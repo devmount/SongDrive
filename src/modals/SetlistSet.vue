@@ -101,9 +101,9 @@
 									<icon-tags class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
-							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 !p-2 text-sm">
+							<div class="max-h-80 overflow-y-scroll flex flex-col gap-0.5 !p-2 text-sm">
 								<tag
-									v-for="tag in tags" :key="tag.key"
+									v-for="tag in sortTags(tags, locale)" :key="tag.key"
 									:tag="tag"
 									@click="filter.tag = tag.key"
 									class="cursor-pointer"
@@ -124,6 +124,7 @@
 								<secondary-button
 									v-for="t in keyScale" :key="t"
 									@click="filter.key = t"
+									class="!px-6"
 									:class="{ '!bg-spring-700': t === filter.key }"
 								>
 									{{ t }}
@@ -266,11 +267,12 @@
 <script setup>
 import '@vuepic/vue-datepicker/dist/main.css';
 import { enGB, de } from 'date-fns/locale';
-import { keyScale, humanDate, throwError, urlify, browserPrefersDark } from '@/utils.js';
+import { keyScale, humanDate, throwError, urlify, browserPrefersDark, sortTags } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, inject, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import { setDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import Datepicker from '@vuepic/vue-datepicker';
 import draggable from 'vuedraggable';
 import Dropdown from '@/elements/Dropdown.vue';
@@ -348,7 +350,7 @@ const resetErrors = () => {
 };
 
 // setlist input data
-const setlist = ref({});
+const setlist = ref(null);
 const setlistSongs = ref(null);
 const initInput = () => {
 	resetErrors();
@@ -505,8 +507,7 @@ const setSetlist = () => {
 		};
 		// new setlist should be created
 		if (!props.existing) {
-			db.collection('setlists').doc(slug).set(processedSetlist).then(() => {
-				emit('closed');
+			setDoc(doc(db, `setlists/${slug}`), processedSetlist).then(() => {
 				processedSetlist = {};
 				router.push({ name: 'setlist-show', params: { id: slug }});
 				// toast success creation message
@@ -516,6 +517,7 @@ const setSetlist = () => {
 					type:  'primary'
 				});
 				busy.value = false;
+				emit('closed');
 			}).catch((error) => throwError(error));
 		}
 		// existing setlist should be updated
@@ -523,8 +525,7 @@ const setSetlist = () => {
 			// check if key remained (no title or date change)
 			if (props.id == slug) {
 				// just update the existing setlist
-				db.collection('setlists').doc(props.id).update(processedSetlist).then(() => {
-					emit('closed');
+				updateDoc(doc(db, `setlists/${props.id}`), processedSetlist).then(() => {
 					processedSetlist = {};
 					// toast success update message
 					notify({
@@ -533,21 +534,23 @@ const setSetlist = () => {
 						type:  'primary'
 					});
 					busy.value = false;
+					emit('closed');
 				}).catch((error) => throwError(error));
 			} else {
 				// update key by adding a new setlist and removing the old one
-				db.collection('setlists').doc(props.id).delete();
-				db.collection('setlists').doc(slug).set(processedSetlist).then(() => {
-					emit('closed');
-					processedSetlist = {};
-					router.push({ name: 'setlist-show', params: { id: slug }});
-					// toast success update message
-					notify({
-						title: t('toast.setlistUpdated'),
-						text:  t('toast.setlistSavedText'),
-						type:  'primary'
-					});
-					busy.value = false;
+				deleteDoc(doc(db, `setlists/${props.id}`)).then(() => {
+					setDoc(doc(db, `setlists/${slug}`), processedSetlist).then(() => {
+						processedSetlist = {};
+						router.push({ name: 'setlist-show', params: { id: slug }});
+						// toast success update message
+						notify({
+							title: t('toast.setlistUpdated'),
+							text:  t('toast.setlistSavedText'),
+							type:  'primary'
+						});
+						busy.value = false;
+						emit('closed');
+					}).catch((error) => throwError(error));
 				}).catch((error) => throwError(error));
 			}
 		}

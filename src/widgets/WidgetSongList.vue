@@ -1,6 +1,6 @@
 <template>
 	<panel v-if="songs?.length > 0">
-		<div class="flex justify-between">
+		<div class="flex justify-between items-start">
 			<div class="text-2xl">
 				{{ t('widget.' + keyByValue(sortBy, order)) }} {{ t('page.songs', 2) }}
 			</div>

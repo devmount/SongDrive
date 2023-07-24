@@ -50,6 +50,7 @@ import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, inject, onMounted, watch } from 'vue';
 import { throwError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
+import { setDoc, updateDoc, doc } from 'firebase/firestore';
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -105,7 +106,7 @@ const setLanguage = () => {
 		busy.value = true;
 		// language already exists
 		if (props.existing) {
-			db.collection('languages').doc(isocode.value).update({
+			updateDoc(doc(db, `languages/${isocode.value}`), {
 				label: language.value.label,
 			}).then(() => {
 				emit('closed');
@@ -120,7 +121,7 @@ const setLanguage = () => {
 		}
 		// language doesn't exist yet
 		else {
-			db.collection('languages').doc(isocode.value).set({
+			setDoc(doc(db, `languages/${isocode.value}`), {
 				label: language.value.label,
 			}).then(() => {
 				emit('closed');

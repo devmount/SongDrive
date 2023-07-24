@@ -48,7 +48,8 @@ import { reactive, computed, inject, ref, watch } from 'vue';
 import { throwError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
-import firebase from 'firebase/compat/app';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { getAuth, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -62,7 +63,9 @@ import {
 const { t } = useI18n();
 
 // global properties
+const fb = inject('firebaseApp');
 const db = inject('db');
+const fbAuth = getAuth(fb);
 
 // component properties
 const props = defineProps({
@@ -90,20 +93,20 @@ const errors = computed(() => error.currentpassword.missing);
 // delete user account
 const busy = ref(false);
 const deleteAccount = () => {
-	const currentUser = firebase.auth().currentUser;
+	const currentUser = fbAuth.currentUser;
 	// first check for form errors
 	error.currentpassword.missing = user.currentpassword == '';
 	// no errors: send submitted user data and close modal
 	if (!errors.value) {
 		busy.value = true;
 		// first reauthenticate user
-		const credential = firebase.auth.EmailAuthProvider.credential(
-			currentUser.email, 
+		const credential = EmailAuthProvider.credential(
+			currentUser.email,
 			user.currentpassword
 		);
-		currentUser.reauthenticateWithCredential(credential).then(() => {
+		reauthenticateWithCredential(currentUser, credential).then(() => {
 			// delete user record in users collection
-			db.collection('users').doc(currentUser.uid).delete().then(() => {
+			deleteDoc(doc(db, `users/${currentUser.uid}`)).then(() => {
 				// delete user account
 				currentUser.delete().then(() => {
 					emit('closed');

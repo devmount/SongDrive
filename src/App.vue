@@ -253,9 +253,17 @@
 </template>
 
 <script setup>
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, getDoc, doc, setDoc } from 'firebase/firestore';
+import {
+	getAuth,
+	signInWithEmailAndPassword,
+	signOut as fbSignOut,
+	createUserWithEmailAndPassword,
+	sendEmailVerification,
+	sendPasswordResetEmail,
+	onAuthStateChanged,
+	updateProfile
+} from "firebase/auth";
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, inject, provide, onMounted } from 'vue';
 import { useActiveElement, useMagicKeys } from '@vueuse/core';
@@ -264,7 +272,6 @@ import { useRoute } from 'vue-router';
 import { userRoles, throwError } from '@/utils.js';
 import Avatar from '@/elements/Avatar.vue';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
-import firebase from 'firebase/compat/app';
 import IndicatorPulse from '@/elements/IndicatorPulse.vue';
 import Login from '@/partials/Login.vue';
 import Logo from '@/partials/Logo.vue';
@@ -345,7 +352,9 @@ const { t } = useI18n();
 const route = useRoute();
 
 // global properties
+const fb = inject('firebaseApp');
 const db = inject('db');
+const fbAuth = getAuth(fb);
 
 // db table collections
 const c = reactive({
@@ -515,8 +524,7 @@ const unlisten = () => {
 };
 // loads configuration without listener
 const loadConfig = () => {
-	let contactRef = db.collection("config").doc("contact");
-	contactRef.get().then(doc => {
+	getDoc(doc(db, "config/contact")).then(doc => {
 		if (doc.exists) {
 			c.config.contact = doc.data();
 			ready.config = true;
@@ -526,9 +534,9 @@ const loadConfig = () => {
 
 // execute sign in on Firebase backend
 const signIn = (email, password) => {
-	firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+	signInWithEmailAndPassword(fbAuth, email, password).then(() => {
 		// login successful
-		const user = firebase.auth().currentUser;
+		const user = fbAuth.currentUser;
 		auth.user = user.uid;
 		auth.userObject = user;
 		// load general app config
@@ -547,7 +555,7 @@ const signIn = (email, password) => {
 };
 // execute sign out on firebase backend
 const signOut = () => {
-	firebase.auth().signOut().then(() => {
+	fbSignOut(fbAuth).then(() => {
 		// sign-out successful
 		if (auth.confirmed) {
 			unlisten();
@@ -562,15 +570,15 @@ const signOut = () => {
 };
 // execute user creation on firebase backend
 const doSignUp = (user) => {
-	firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
+	createUserWithEmailAndPassword(fbAuth, user.email, user.password).then(() => {
 		// sign-up successful
-		auth.user = firebase.auth().currentUser.uid
+		auth.user = fbAuth.currentUser.uid
 		// load general app config
 		loadConfig();
 		// create registration for admin approval
-		db.collection('registrations').doc(auth.user).set({ email: user.email, name: user.name }).then(() => {
-			auth.userObject = firebase.auth().currentUser
-			auth.userObject.updateProfile({ displayName: user.name })
+		setDoc(doc(db, `registrations/${auth.user}`), { email: user.email, name: user.name }).then(() => {
+			auth.userObject = fbAuth.currentUser;
+			updateProfile(auth.userObject, { displayName: user.name });
 			notify({
 				title: t('toast.signedUp'),
 				text: t('toast.signedUpText', { name: user.name }),
@@ -578,7 +586,7 @@ const doSignUp = (user) => {
 			});
 		}).catch((error) => throwError(error));
 		// send verification email
-		firebase.auth().currentUser.sendEmailVerification().then(() => {
+		sendEmailVerification(fbAuth.currentUser).then(() => {
 			// Verification email sent
 			notify({
 				title:  t('toast.verficationSent'),
@@ -590,7 +598,7 @@ const doSignUp = (user) => {
 };
 // resend email with verification link to currently logged in user
 const resendEmailVerification = () => {
-	firebase.auth().currentUser.sendEmailVerification().then(() => {
+	sendEmailVerification(fbAuth.currentUser).then(() => {
 		notify({
 			title: t('toast.verficationSent'),
 			text: t('toast.verficationSentText'),
@@ -600,7 +608,7 @@ const resendEmailVerification = () => {
 };
 // send password reset email
 const sendPasswordReset = (email) => {
-	firebase.auth().sendPasswordResetEmail(email).then(() => {
+	sendPasswordResetEmail(fbAuth, email).then(() => {
 		notify({
 			title: t('toast.passwordResetSent'),
 			text: t('toast.passwordResetSentText'),
@@ -612,7 +620,7 @@ const sendPasswordReset = (email) => {
 // initially check authentication
 onMounted(() => {
 	// add listener for authentication state
-	firebase.auth().onAuthStateChanged(user => {
+	onAuthStateChanged(fbAuth, user => {
 		if (user) {
 			// load app config on auth change only when not explicitly loading
 			if (!loading.value) {
@@ -620,8 +628,7 @@ onMounted(() => {
 			}
 			auth.user = user.uid;
 			auth.userObject = user;
-			let userRef = db.collection("users").doc(user.uid);
-			userRef.get().then((userEntry) => {
+			getDoc(doc(db, `users/${user.id}`)).then((userEntry) => {
 				if (userEntry.exists) {
 					auth.confirmed = true;
 					if (user.emailVerified) {
