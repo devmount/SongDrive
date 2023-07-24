@@ -315,7 +315,7 @@ const props = defineProps({
 const searchInput = ref(null);
 
 // injects and emits
-const emit = defineEmits(['started', 'addSong', 'editSong', 'editSetlist']);
+const emit = defineEmits(['addSong', 'editSong']);
 
 // table filter
 const filter = reactive({
