@@ -11,8 +11,17 @@
 					<span class="font-semibold">{{ Object.keys(filteredSongs).length }}</span>
 					{{ t('page.songs', Object.keys(filteredSongs).length) }}
 				</div>
+				<secondary-button
+					@click="emit('addSong')"
+					:title="t('tooltip.songAdd')"
+				>
+					<icon-plus class="w-5 h-5 stroke-1.5" />
+				</secondary-button>
 				<div
-					class="px-1 pt-0.5 flex items-center cursor-pointer text-blade-500"
+					class="
+						px-1 pt-0.5 flex items-center cursor-pointer
+						text-blade-500 hover:text-spring-600 transition-colors
+					"
 					@click="searchInput.focus()"
 					:title="t('placeholder.searchSongTitle')"
 				>
@@ -240,15 +249,15 @@
 				</tr>
 			</tbody>
 		</table>
+		<!-- modals -->
+		<song-delete
+			:active="showModal.delete"
+			:title="songDeleteModalData.title"
+			:id="songDeleteModalData.key"
+			:songs="songs"
+			@closed="showModal.delete = false"
+		/>
 	</div>
-	<!-- modals -->
-	<song-delete
-		:active="showModal.delete"
-		:title="songDeleteModalData.title"
-		:id="songDeleteModalData.key"
-		:songs="songs"
-		@closed="showModal.delete = false"
-	/>
 </template>
 
 <script setup>
@@ -272,6 +281,7 @@ import {
 	IconEye,
 	IconFilter,
 	IconFilterOff,
+	IconPlus,
 	IconSearch,
 	IconSortAscending,
 	IconSortDescending,
@@ -293,26 +303,19 @@ const noActiveModal = inject('noActiveModal');
 
 // component properties
 const props = defineProps({
-  config:        Object,
   languages:     Object,
-  permissions:   Object,
   ready:         Object,
-  registrations: Object,
   role:          Number,
-  roleName:      String,
-  setlists:      Object,
   songs:         Object,
   tags:          Object,
   user:          String,
-  userObject:    Object,
-  users:         Object,
 });
 
 // template references
 const searchInput = ref(null);
 
 // injects and emits
-const emit = defineEmits(['started', 'editSong', 'editSetlist']);
+const emit = defineEmits(['started', 'addSong', 'editSong', 'editSetlist']);
 
 // table filter
 const filter = reactive({
