@@ -79,7 +79,7 @@ const maximizeFontsize = () => {
 		// decrease font size of parts in columns with a greater height than viewport
 		// as long as the sum of the heights of the parts is greater than the viewport height with a max of 50 iterations
 		let n = 50;
-		while (parts.map(o => o.height).reduce((p,c) => p + c) > vh && n > 0) {
+		while (parts.map(o => o.height).reduce((p,c) => p + c, 0) > vh && n > 0) {
 			parts.sort((a, b) => b.size - a.size);
 			if (parts.length > 0) {
 				parts[0].part.style.fontSize = (parts[0].size - 3) + 'px';
