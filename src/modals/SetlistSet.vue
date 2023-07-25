@@ -15,7 +15,6 @@
 						v-model="setlist.title"
 						:class="{ '!border-rose-600': (error.title & !setlist.title) || error.slug }"
 						:placeholder="t('placeholder.exampleSetlistTitle')"
-						:disabled="existing"
 						required
 					/>
 					<div v-if="error.title & !setlist.title" class="text-rose-600">
@@ -355,7 +354,7 @@ const setlistSongs = ref(null);
 const initInput = () => {
 	resetErrors();
 	resetFilter();
-	const sl = props.initialSetlist;
+	const sl = {...props.initialSetlist};
 	// only show undeleted songs
 	sl.songs = sl.songs.filter(s => s.id in props.songs);
 	// init visibility state if not existing
