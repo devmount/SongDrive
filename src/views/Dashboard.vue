@@ -1,11 +1,5 @@
 <template>
 	<div class="flex flex-col gap-6 w-full">
-		<!-- page heading -->
-		<div class="flex flex-col justify-center items-center gap-4 mt-4 py-4">
-			<img class="w-24 md:w-32" src="@/assets/logo.svg" alt="SongDrive Song Management Tool" />
-			<div class="text-3xl uppercase text-spring-600">{{ t('app.name') }}</div>
-			<div class="text-lg md:text-2xl text-center">{{ t('app.summary') }}</div>
-		</div>
 		<div class="flex flex-wrap gap-8 py-4 w-full justify-evenly" v-if="ready.songs && ready.setlists">
 			<!-- stored songs count -->
 			<div class="flex flex-col items-center">
