@@ -355,7 +355,7 @@ const setlistSongs = ref(null);
 const initInput = () => {
 	resetErrors();
 	resetFilter();
-	const sl = props.initialSetlist;
+	const sl = {...props.initialSetlist};
 	// only show undeleted songs
 	sl.songs = sl.songs.filter(s => s.id in props.songs);
 	// init visibility state if not existing
