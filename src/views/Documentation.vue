@@ -12,10 +12,10 @@
 			</button>
 			<!-- table of contents -->
 			<button
-				v-for="t in toc"
+				v-for="(t, i) in toc"
 				:key="t"
 				class="py-1 px-2 rounded-md hover:bg-blade-800 flex justify-start items-center gap-2"
-				@click="scrollTo(dashCase(t.text))"
+				@click="scrollTo(null, i)"
 			>
 				<icon-bookmark class="w-5 h-5 stroke-1.5" />
 				<span>{{ t.text }}</span>
@@ -27,25 +27,31 @@
 			<div class="flex flex-col gap-12">
 				<!-- heading -->
 				<div class="flex flex-col justify-center items-center gap-4">
-					<img class="w-32" src="@/assets/logo.svg" alt="SongDrive Song Management Tool" />
+					<img class="w-24 md:w-32" src="@/assets/logo.svg" alt="SongDrive Song Management Tool" />
 					<div class="text-3xl uppercase text-spring-600">{{ t('app.name') }}</div>
-					<div class="text-2xl">{{ t('app.summary') }}</div>
+					<div class="text-lg md:text-2xl text-center">{{ t('app.summary') }}</div>
 				</div>
 				<!-- features -->
-				<div class="grid grid-cols-3 gap-8">
+				<div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
 					<div class="flex flex-col justify-start items-center gap-4">
 						<icon-bolt class="w-12 h-12 stroke-1" />
-						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.0.title') }}</div>
+						<div class="text-xl uppercase tracking-widest text-center">
+							{{ t('docu.features.0.title') }}
+						</div>
 						<div class="text-center">{{ t('docu.features.0.description') }}</div>
 					</div>
 					<div class="flex flex-col justify-center items-center gap-4">
 						<icon-microphone class="w-12 h-12 stroke-1" />
-						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.1.title') }}</div>
+						<div class="text-xl uppercase tracking-widest text-center">
+							{{ t('docu.features.1.title') }}
+						</div>
 						<div class="text-center">{{ t('docu.features.1.description') }}</div>
 					</div>
 					<div class="flex flex-col justify-center items-center gap-4">
 						<icon-tools class="w-12 h-12 stroke-1" />
-						<div class="text-xl uppercase tracking-widest">{{ t('docu.features.2.title') }}</div>
+						<div class="text-xl uppercase tracking-widest text-center">
+							{{ t('docu.features.2.title') }}
+						</div>
 						<div class="text-center">{{ t('docu.features.2.description') }}</div>
 					</div>
 				</div>
@@ -114,8 +120,12 @@ const dashCase = (text) => {
 };
 
 // scroll to element of given id
-const scrollTo = (id) => {
-	document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+const scrollTo = (id, h2=null) => {
+	if (id) {
+		document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+	} else {
+		document.querySelectorAll('h2')[h2].scrollIntoView({ behavior: "smooth" });
+	}
 };
 
 // generate table of contents from h2's
