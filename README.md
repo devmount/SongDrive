@@ -12,7 +12,7 @@ A song management web application to store, sync and present songs and setlists,
 
 This is how the SongDrive Dashboard currently looks like.
 
-![20211105_songdrive_dashboard](https://user-images.githubusercontent.com/5441654/140494330-9022aa11-7513-4feb-b0e0-4f0f95f5a759.png)
+![20230725_songdrive_dashboard](https://github.com/devmount/SongDrive/assets/5441654/7a33ddd8-29a9-4c31-bb4e-c435776a6ef7)
 
 *A demo page is planned.*
 
