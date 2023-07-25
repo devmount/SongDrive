@@ -1,7 +1,7 @@
 {
 	"name": "songdrive",
 	"description": "A song management tool to store, synchronize and present songs and setlists. Built with Vue.js and Firebase.",
-	"version": "2.1.1",
+	"version": "3.0.0",
 	"license": "MIT",
 	"author": {
 		"name": "Andreas Müller",
