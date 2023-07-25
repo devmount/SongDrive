@@ -15,7 +15,6 @@
 						v-model="setlist.title"
 						:class="{ '!border-rose-600': (error.title & !setlist.title) || error.slug }"
 						:placeholder="t('placeholder.exampleSetlistTitle')"
-						:disabled="existing"
 						required
 					/>
 					<div v-if="error.title & !setlist.title" class="text-rose-600">
