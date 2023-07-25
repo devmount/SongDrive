@@ -22,7 +22,7 @@ jobs:
       run: |
         printf "VITE_FB_API_KEY=${{ secrets.VUE_APP_FB_API_KEY_PROD }}\nVITE_FB_PROJECT_ID=${{ secrets.VUE_APP_FB_PROJECT_ID_PROD }}" >> .env.production.local
         npm install
-        npm run build build
+        npm run build
     - name: Push Build files to production environment
       uses: burnett01/rsync-deployments@5.2
       with:
