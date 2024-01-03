@@ -755,39 +755,30 @@ const deleteDialog = () => {
 
 // copy list to clipboard in given format (plain|markdown|slack)
 const copyList = (format) => {
-	// build text list
-	let list = [], label = '';
 	// only export existing songs
-	let songs = setlist.value.songs.filter(s => s.id in props.songs);
-	switch (format) {
-		case 'plain':
-			list = songs.map(
-				(s, i) => (i+1) + '. ' + props.songs[s.id].title + ' (' + props.songs[s.id].subtitle + ')'
-				+ ' [' + (props.songs[s.id].customTuning ? props.songs[s.id].customTuning : props.songs[s.id].tuning) + ']'
-			);
-			label = 'plain text';
-			break;
-		case 'markdown':
-			list = songs.map(
-				(s, i) => (i+1) + '. **' + props.songs[s.id].title + '** – _' + props.songs[s.id].subtitle + '_'
-				+ ' [**`' + (props.songs[s.id].customTuning ? props.songs[s.id].customTuning : props.songs[s.id].tuning) + '`**]'
-			);
-			label = 'markdown';
-			break;
-		case 'slack':
-			list = songs.map(
-				(s, i) => (i+1) + '. *' + props.songs[s.id].title + '* – _' + props.songs[s.id].subtitle + '_'
-				+ ' `' + (props.songs[s.id].customTuning ? props.songs[s.id].customTuning : props.songs[s.id].tuning) + '`'
-			);
-			label = 'slack';
-			break;
-		default:
-			break;
-	}
+	const songs = setlist.value.songs.filter(s => s.id in props.songs);
+	const list = songs.map(
+		(s, i) => {
+			const title = props.songs[s.id].title;
+			const subtitle = props.songs[s.id].subtitle;
+			const key = props.songs[s.id].customTuning ? props.songs[s.id].customTuning : props.songs[s.id].tuning;
+			let link = props.songs[s.id].youtube ? ` ([YouTube](https://youtu.be/${props.songs[s.id].youtube}))` : '';
+			switch (format) {
+				case 'plain':
+				default:
+					link = props.songs[s.id].youtube ? ` https://youtu.be/${props.songs[s.id].youtube}` : '';
+					return `${i+1}. ${title} (${subtitle}) [${key}]${link}`;
+				case 'markdown':
+					return `${i+1}. **${title}**  – _${subtitle}_ **\`${key}\`**${link}`;
+				case 'slack':
+					return `${i+1}. *${title}* – _${subtitle}_ \`${key}\`${link}`;
+			}
+		}
+	);
 	navigator.clipboard.writeText(list.join('\n'));
 	notify({
 		title: t('toast.copiedToClipboard'),
-		text: t('toast.setlistFormatCopiedText', { format: label }),
+		text: t('toast.setlistFormatCopiedText', { format: format }),
 		type: 'primary'
 	});
 };
