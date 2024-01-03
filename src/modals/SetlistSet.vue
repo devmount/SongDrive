@@ -2,7 +2,7 @@
 	<modal
 		:active="active"
 		:title="!existing ? t('modal.newSetlist') : t('modal.editSetlist') + ' «' + setlist.title + '»'"
-		size="xl6"
+		size="xl7"
 		@closed="emit('closed')"
 	>
 		<div class="flex flex-col lg:grid lg:grid-cols-3 gap-4 overflow-y-auto h-full">
