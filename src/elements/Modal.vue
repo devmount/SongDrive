@@ -21,6 +21,7 @@
 				'!max-w-3xl h-screen xs:h-2/3v': size === sizes.xl3,
 				'!max-w-5xl h-screen md:h-3/4v': size === sizes.xl5,
 				'!max-w-6xl h-screen lg:h-4/5v': size === sizes.xl6,
+				'!max-w-7xl h-screen lg:h-4/5v': size === sizes.xl7,
 				'!max-w-none w-screen h-screen': size === sizes.full,
 			}"
 			@click.stop="null"
@@ -79,6 +80,7 @@ const sizes = {
 	xl3: 'xl3',
 	xl5: 'xl5',
 	xl6: 'xl6',
+	xl7: 'xl7',
 	full: 'full',
 }
 

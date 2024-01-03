@@ -2,7 +2,7 @@
 	<modal
 		:active="active"
 		:title="!existing ? t('modal.newSetlist') : t('modal.editSetlist') + ' «' + setlist.title + '»'"
-		size="xl6"
+		size="xl7"
 		@closed="emit('closed')"
 	>
 		<div class="flex flex-col lg:grid lg:grid-cols-3 gap-4 overflow-y-auto h-full">
@@ -175,11 +175,14 @@
 								<div class="-mt-0.5">{{ fsong.tuning }}</div>
 							</figure>
 						</div>
-						<div class="flex flex-col overflow-hidden">
+						<div
+							class="flex flex-col overflow-hidden"
+							:title="performedSongs[key] ? `${t('title.lastPerformed')} ${performedSongs[key]}`: ''"
+						>
 							<div class="-mt-1 truncate">{{ fsong.title }}</div>
 							<div class="text-sm text-blade-500 -mt-1 truncate">
 								{{ fsong.subtitle }}
-								<span v-if="performedSongs[key]" class="text-blade-700" :title="t('title.lastPerformed')">
+								<span v-if="performedSongs[key]" class="text-blade-700">
 									{{ performedSongs[key] }}
 								</span>
 							</div>
