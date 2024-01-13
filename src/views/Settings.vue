@@ -439,7 +439,7 @@ import { useI18n } from 'vue-i18n';
 import AccountDelete from '@/modals/AccountDelete.vue';
 import Avatar from '@/elements/Avatar.vue';
 import EmailChange from '@/modals/EmailChange.vue';
-import { updateDoc, doc } from 'firebase/firestore';
+import { updateDoc, doc, setDoc } from 'firebase/firestore';
 import { getAuth, sendEmailVerification, updateProfile as fbUpdateProfile } from "firebase/auth";
 import ImportData from '@/modals/ImportData.vue';
 import LanguageDelete from '@/modals/LanguageDelete.vue';
@@ -616,7 +616,7 @@ const updateProfile = () => {
 // save configration
 const updateConfig = () => {
 	busy.config = true;
-	updateDoc(doc(db, `config/contact`), { email: configuration.contact.email }).then(() => {
+	setDoc(doc(db, `config/contact`), { email: configuration.contact.email }).then(() => {
 		// Config updated successfully!
 		notify({
 			title: t('toast.configUpdated'),

@@ -6,7 +6,7 @@
 		<panel class="max-w-sm w-full flex flex-col gap-6">
 			<div class="text-2xl text-center">{{ t('text.waitingForVerification') }}</div>
 			<div>{{ t('text.notVerifiedYet') }}</div>
-			<div v-if="ready.config && config.contact.email">
+			<div v-if="ready.config && config?.contact?.email">
 				{{ t('text.unverifiedHelp') }}
 			</div>
 			<secondary-button v-if="!resend" @click="resendVerification()">
