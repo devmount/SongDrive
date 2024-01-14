@@ -218,7 +218,7 @@
 							<icon-x class="w-6 h-6" />
 						</button>
 					</div>
-					<div v-html="props.item.text"></div>
+					<div>{{ props.item.text }}</div>
 				</div>
 			</template>
 		</notifications>
