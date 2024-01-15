@@ -1,7 +1,7 @@
 <template>
 	<modal
 		:active="active"
-		:title="!existing ? t('modal.newSetlist') : t('modal.editSetlist') + ' «' + setlist.title + '»'"
+		:title="!existing ? t('modal.newSetlist') : t('modal.editSetlist') + ' «' + setlist?.title + '»'"
 		size="xl7"
 		@closed="emit('closed')"
 	>
@@ -162,8 +162,8 @@
 						class="flex items-center gap-2 cursor-pointer p-0.5 hover:bg-blade-200 dark:hover:bg-blade-800"
 					>
 						<input
-							v-model="setlistSongs"
-							:value="key"
+							:checked="idExists(key)"
+							@input="e => songSelection(key, e.target.checked)"
 							type="checkbox"
 							class="w-6 h-6 ml-2"
 						/>
@@ -192,7 +192,7 @@
 			</div>
 			<!-- song preview -->
 			<div class="max-h-[calc(50vh_-_6rem)] lg:max-h-[calc(80vh_-_8.25rem)] flex flex-col gap-1">
-				<div v-if="setlist.songs && setlist.songs.length == 0" class="flex flex-col items-center gap-8 mt-4">
+				<div v-if="setlist.songs?.length === 0" class="flex flex-col items-center gap-8 mt-4">
 					<icon-playlist class="w-12 h-12 stroke-1 text-blade-500" />
 					<div class="text-center">
 						<div class="text-lg">{{ t('text.noSongsSelected') }}</div>
@@ -223,7 +223,7 @@
 										class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
 										:title="t('title.songTuning')"
 									>
-										<div class="-mt-0.5">{{ element.tuning ? element.tuning : songs[element.id].tuning }}</div>
+										<div class="-mt-0.5">{{ element.tuning ?? songs[element.id].tuning }}</div>
 									</figure>
 									<secondary-button @click.prevent="tuneUp(index)" class="w-6 h-6 !p-1">
 										<icon-chevron-right class="w-4 h-4 stroke-2 shrink-0" />
@@ -239,7 +239,7 @@
 								</div>
 								<button
 									class="ml-auto p-1 text-blade-500"
-									@click="setlistSongs = setlistSongs.filter(k => k !== element.id)"
+									@click="removeSong(element.id)"
 								>
 									<icon-x class="w-4 h-4" />
 								</button>
@@ -357,7 +357,7 @@ const setlistSongs = ref(null);
 const initInput = () => {
 	resetErrors();
 	resetFilter();
-	const sl = {...props.initialSetlist};
+	const sl = { ...props.initialSetlist };
 	// only show undeleted songs
 	sl.songs = sl.songs.filter(s => s.id in props.songs);
 	// init visibility state if not existing
@@ -366,7 +366,29 @@ const initInput = () => {
 	setlist.value = sl;
 	setlistSongs.value = sl.songs.map(s => s.id);
 };
-watch(() => props.active, () => initInput());
+watch(() => props.active === true, () => initInput());
+
+// add song to current song selection
+const addSong = (id) => {
+	setlist.value.songs.push({ id: id, tuning: props.songs[id]?.tuning });
+};
+
+// remove song from current song selection
+const removeSong = (id) => {
+	setlist.value.songs = setlist.value.songs.filter((s) => s.id !== id);
+};
+
+// check if given song exists on current song selection
+const idExists = (id) => setlist.value?.songs.some((s) => s.id === id);
+
+// add or remove song of given id
+const songSelection = (id, addition) => {
+	if (addition) {
+		addSong(id);
+	} else {
+		removeSong(id);
+	}
+};
 
 // filter input
 const filter = reactive({
@@ -391,7 +413,7 @@ const emit = defineEmits(['closed']);
 
 // filter song list by search query and other filter fields
 const filteredSongs = computed(() => {
-	let songs = {...props.songs};
+	let songs = { ...props.songs };
 	if (filter.fulltext) {
 		// filter fields: title, subtitle, content
 		const key = filter.fulltext.toLowerCase();
@@ -481,7 +503,6 @@ const tuneDown = (position) => {
 	setlist.value.songs[position].tuning = tone;
 };
 
-
 // create a human readable record key of format YYYYMMDD-the-setlist-title
 const createSlug = () => {
 	return setlist.value.date.replace(/-/g, '') + '-' + urlify(setlist.value.title);
@@ -558,25 +579,4 @@ const setSetlist = () => {
 		}
 	}
 };
-
-// sync selected songs with setlist assigned songs
-watch (setlistSongs, (newList, oldList) => {
-	if (oldList !== null) {
-		// song was added
-		if (newList.length > oldList.length) {
-			let songAdded = newList.filter(x => !oldList.includes(x))[0];
-			setlist.value.songs.push({ id: songAdded, tuning: props.songs[songAdded]?.tuning });
-		}
-		// song was removed
-		else {
-			let songRemoved = oldList.filter(x => !newList.includes(x))[0], newSongs = [];
-			for (var i in setlist.value.songs) {
-				if (setlist.value.songs[i].id != songRemoved) {
-					newSongs.push({ id: setlist.value.songs[i].id, tuning: setlist.value.songs[i]?.tuning });
-				}
-			}
-			setlist.value.songs = newSongs;
-		}
-	}
-});
 </script>
