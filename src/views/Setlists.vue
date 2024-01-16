@@ -256,7 +256,7 @@ import { humanDate } from '@/utils.js';
 import { logicAnd } from '@vueuse/math';
 import { ref, reactive, computed, watch, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { whenever } from '@vueuse/core';
 import Dropdown from '@/elements/Dropdown.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
@@ -285,6 +285,7 @@ import {
 // component constants
 const { t, locale } = useI18n();
 const router = useRouter();
+const route = useRoute();
 
 // handle hotkeys for this component
 const hkSearch = inject('hkSearch');
@@ -316,9 +317,10 @@ const filter = reactive({
 	private: null,
 	date:    null,
 	title:   null,
-	creator: null,
+	creator: route.params.creator,
 	songs:   null,
 });
+
 const resetFilter = () => {
 	for (const field in filter) {
 		if (Object.hasOwnProperty.call(filter, field)) {

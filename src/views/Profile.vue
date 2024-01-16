@@ -41,7 +41,7 @@
 					<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
 						{{ t('widget.setlistsCreatedByMe') }}
 					</div>
-					<link-button v-if="role" @click="router.push({ name: 'setlists' })">
+					<link-button v-if="role" @click="router.push({ name: 'setlists', params: { creator: user } })">
 						{{ t('widget.mySetlists') }}
 						<icon-arrow-right />
 					</link-button>
