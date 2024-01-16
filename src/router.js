@@ -8,13 +8,11 @@ import SetlistShow from '@/views/SetlistShow.vue';
 export default createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
-		{ path: '/',                         name: 'dashboard',     component: Dashboard   },
-		{ path: '/songs',                    name: 'songs',         component: Songs       },
-		{ path: '/songs/:tag',               name: 'songs-tag',     component: Songs       },
-		{ path: '/song/:id/:key?/:setlist?', name: 'song-show',     component: SongShow    },
-		{ path: '/setlists',                 name: 'setlists',      component: Setlists    },
-		{ path: '/setlists/:year',           name: 'setlists-year', component: Setlists    },
-		{ path: '/setlist/:id',              name: 'setlist-show',  component: SetlistShow },
+		{ path: '/',                         name: 'dashboard',    component: Dashboard   },
+		{ path: '/songs/:tag?',              name: 'songs',        component: Songs       },
+		{ path: '/song/:id/:key?/:setlist?', name: 'song-show',    component: SongShow    },
+		{ path: '/setlists/:author?',        name: 'setlists',     component: Setlists    },
+		{ path: '/setlist/:id',              name: 'setlist-show', component: SetlistShow },
 		// lazy load all other routes
 		{ path: '/profile',       name: 'profile',       component: () => import('@/views/Profile.vue')       },
 		{ path: '/settings',      name: 'settings',      component: () => import('@/views/Settings.vue')      },

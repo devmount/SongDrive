@@ -29,7 +29,7 @@
 			<div class="flex flex-wrap gap-1">
 				<router-link
 					v-for="tag in sortedTags" :key="tag.key"
-					:to="{ name: 'songs-tag', params: { tag: tag.key }}"
+					:to="{ name: 'songs', params: { tag: tag.key }}"
 				>
 					<tag :tag="tag" />
 				</router-link>

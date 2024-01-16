@@ -22,12 +22,12 @@
 				class="fixed shrink-0 -right-64 lg:left-0 lg:right-auto top-0 transition-all z-30 min-h-screen w-64 flex flex-col px-2 py-8 bg-blade-200 dark:bg-blade-900"
 				:class="{ '!right-0': open }"
 			>
-				<router-link to="/" class="flex flex-col w-max mx-auto mb-4 no-active">
+				<router-link :to="{ name: 'dashboard' }" class="flex flex-col w-max mx-auto mb-4 no-active">
 					<logo :featured="false" :show-version="true" />
 				</router-link>
 				<div class="flex flex-col gap-1 mt-1">
 					<router-link
-						to="/"
+						:to="{ name: 'dashboard' }"
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
@@ -35,7 +35,7 @@
 						<span class="mb-0.5 uppercase">{{ t('page.dashboard') }}</span>
 					</router-link>
 					<router-link
-						to="/songs"
+						:to="{ name: 'songs' }"
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
@@ -54,7 +54,7 @@
 						</div>
 					</router-link>
 					<router-link
-						to="/setlists"
+						:to="{ name: 'setlists' }"
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
@@ -74,7 +74,7 @@
 					</router-link>
 					<divider-horizontal :label="t('divider.account')" />
 					<router-link
-						to="/profile"
+						:to="{ name: 'profile' }"
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
@@ -87,7 +87,7 @@
 						</div>
 					</router-link>
 					<router-link
-						to="/settings"
+						:to="{ name: 'settings' }"
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
@@ -101,7 +101,7 @@
 					</secondary-button>
 					<divider-horizontal :label="t('divider.info')" />
 					<router-link
-						to="/shortcuts"
+						:to="{ name: 'shortcuts' }"
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
@@ -109,7 +109,7 @@
 						<span class="mb-0.5 uppercase">{{ t('page.shortcuts') }}</span>
 					</router-link>
 					<router-link
-						to="/documentation"
+						:to="{ name: 'documentation' }"
 						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
