@@ -188,7 +188,7 @@
 							<tag
 								v-for="tag in sortedTags(song.tags).slice(0, 3)" :key="tag.key"
 								:tag="tag"
-								@click="router.push({ name: 'songs-tag', params: { tag: tag.key }})"
+								@click="router.push({ name: 'songs', params: { tag: tag.key }})"
 							/>
 							<span v-if="song.tags.length > 3">&hellip;</span>
 						</div>

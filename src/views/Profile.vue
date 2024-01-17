@@ -39,8 +39,12 @@
 						{{ Object.keys(setlistsFromUser).length }}
 					</div>
 					<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-						{{ t('widget.mySetlists') }}
+						{{ t('widget.setlistsCreatedByMe') }}
 					</div>
+					<link-button v-if="role" @click="router.push({ name: 'setlists', params: { creator: user } })">
+						{{ t('widget.mySetlists') }}
+						<icon-arrow-right />
+					</link-button>
 				</div>
 				<!-- performed songs count -->
 				<div class="flex flex-col items-center">
@@ -48,7 +52,7 @@
 						<span class="text-blade-500">~</span>{{ songsFromUser }}
 					</div>
 					<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-						{{ t('widget.mySongsPerformed') }}
+						{{ t('widget.songsPerformedByMe') }}
 					</div>
 				</div>
 			</div>
