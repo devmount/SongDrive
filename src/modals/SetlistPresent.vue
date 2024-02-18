@@ -46,8 +46,8 @@
 					@click="presentation.prev()"
 				>
 					<icon-arrow-left />
-					<div v-if="currentPosition > 0" class="hidden lg:flex items-center gap-2">
-						<div class="max-w-3xs truncate">
+					<div v-if="currentPosition > 0" class="hidden md:flex items-center gap-2">
+						<div class="hidden 2xl:block max-w-3xs truncate">
 							{{ songs[currentPosition-1].title }}
 						</div>
 						<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
@@ -62,8 +62,8 @@
 					title="Next Song"
 					@click="presentation.next()"
 				>
-					<div v-if="currentPosition < songs.length-1" class="hidden lg:flex items-center gap-2">
-						<div class="max-w-3xs truncate">
+					<div v-if="currentPosition < songs.length-1" class="hidden md:flex items-center gap-2">
+						<div class="hidden 2xl:block max-w-3xs truncate">
 							{{ songs[currentPosition+1].title }}
 						</div>
 						<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
@@ -76,7 +76,7 @@
 				<div class="font-mono text-2xl px-4">{{ timeonly }}</div>
 				<!-- song info -->
 				<secondary-button
-					class="hidden md:block"
+					class="hidden lg:block"
 					:disabled="!songs[currentPosition].note"
 					:title="tooltip('info')"
 					@click="songs[currentPosition].note ? showModal.infosongdata = true : null"
@@ -85,7 +85,7 @@
 				</secondary-button>
 				<!-- toggle synchronisation -->
 				<secondary-button
-					class="hidden md:block"
+					class="hidden lg:block"
 					:title="tooltip('sync')"
 					@click="autoSync = !autoSync"
 				>
@@ -94,7 +94,7 @@
 				</secondary-button>
 				<!-- toggle content visibility -->
 				<secondary-button
-					class="hidden md:block"
+					class="hidden lg:block"
 					:title="tooltip('display')"
 					@click="hide = !hide"
 				>
@@ -103,7 +103,7 @@
 				</secondary-button>
 				<!-- toggle theme -->
 				<secondary-button
-					class="hidden md:block"
+					class="hidden lg:block"
 					:title="tooltip('invert')"
 					@click="dark = !dark"
 				>
@@ -111,7 +111,7 @@
 				</secondary-button>
 				<!-- toggle chords -->
 				<secondary-button
-					class="hidden md:block"
+					class="hidden lg:block"
 					:title="tooltip('chords')"
 					@click="emit('chords')"
 				>
@@ -119,7 +119,7 @@
 					<icon-music-off v-else />
 				</secondary-button>
 				<!-- dropdown for small viewports -->
-				<div class="md:hidden">
+				<div class="lg:hidden">
 					<dropdown position="up">
 						<button
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
