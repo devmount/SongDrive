@@ -107,7 +107,7 @@
 					<label class="flex flex-col gap-1">
 						<div class="flex gap-2">
 							{{ t('field.ccli') }}
-							<icon-number class="stroke-1.5 mt-0.5" />
+							<icon-number class="w-5 h-5 stroke-1.5 mt-0.5" />
 						</div>
 						<input
 							type="number"
@@ -143,9 +143,9 @@
 					<div>{{ t('field.translations') }}</div>
 					<div
 						v-if="song.translations && song.translations.length == 0"
-						class="flex gap-1 text-blade-500"
+						class="flex gap-1 items-center text-blade-500"
 					>
-						<icon-info-circle />
+						<icon-info-circle class="w-5 h-5 stroke-1.5" />
 						{{ t('text.noTranslations') }}
 					</div>
 					<div v-else class="flex flex-col gap-1">

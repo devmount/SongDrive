@@ -9,13 +9,13 @@
 					:disabled="isFirstPage"
 					@click="!isFirstPage ? page-- : null"
 				>
-					<icon-arrow-left />
+					<icon-arrow-left class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 				<secondary-button
 					:disabled="isLastPage"
 					@click="!isLastPage ? page++ : null"
 				>
-					<icon-arrow-right />
+					<icon-arrow-right class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 			</div>
 		</div>
@@ -49,7 +49,7 @@
 		</div>
 		<link-button class="mt-auto" @click="router.push({ name: 'songs' })">
 			{{ t('widget.showAllSongs') }}
-			<icon-arrow-right />
+			<icon-arrow-right class="w-5 h-5 stroke-1.5" />
 		</link-button>
 	</panel>
 </template>

@@ -29,7 +29,7 @@
 				</div>
 				<link-button v-if="role" @click="router.push({ name: 'settings' })">
 					{{ t('widget.showAllSettings') }}
-					<icon-arrow-right />
+					<icon-arrow-right class="w-6 h-6 stroke-1.5" />
 				</link-button>
 			</panel>
 			<div v-if="role > 1" class="flex flex-wrap gap-8 w-full justify-evenly col-span-2">
@@ -43,7 +43,7 @@
 					</div>
 					<link-button v-if="role" @click="router.push({ name: 'setlists', params: { creator: user } })">
 						{{ t('widget.mySetlists') }}
-						<icon-arrow-right />
+						<icon-arrow-right class="w-6 h-6 stroke-1.5" />
 					</link-button>
 				</div>
 				<!-- performed songs count -->

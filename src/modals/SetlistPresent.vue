@@ -45,7 +45,7 @@
 					title="Previous Song"
 					@click="presentation.prev()"
 				>
-					<icon-arrow-left />
+					<icon-arrow-left class="w-5 h-5 stroke-1.5" />
 					<div v-if="currentPosition > 0" class="hidden md:flex items-center gap-2">
 						<div class="hidden 2xl:block max-w-3xs truncate">
 							{{ songs[currentPosition-1].title }}
@@ -70,7 +70,7 @@
 							{{ songs[currentPosition+1].customTuning }}
 						</div>
 					</div>
-					<icon-arrow-right />
+					<icon-arrow-right class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 				<!-- live clock -->
 				<div class="font-mono text-2xl px-4">{{ timeonly }}</div>
@@ -81,7 +81,7 @@
 					:title="tooltip('info')"
 					@click="songs[currentPosition].note ? showModal.infosongdata = true : null"
 				>
-					<icon-info-circle :class="{ 'stroke-spring-400': showModal.infosongdata }" />
+					<icon-info-circle class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': showModal.infosongdata }" />
 				</secondary-button>
 				<!-- toggle synchronisation -->
 				<secondary-button
@@ -89,8 +89,8 @@
 					:title="tooltip('sync')"
 					@click="autoSync = !autoSync"
 				>
-					<icon-refresh v-if="autoSync" class="stroke-spring-400" />
-					<icon-refresh-off v-else />
+					<icon-refresh v-if="autoSync" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+					<icon-refresh-off v-else class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 				<!-- toggle content visibility -->
 				<secondary-button
@@ -98,8 +98,8 @@
 					:title="tooltip('display')"
 					@click="hide = !hide"
 				>
-					<icon-eye v-if="!hide" class="stroke-spring-400" />
-					<icon-eye-off v-else />
+					<icon-eye v-if="!hide" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+					<icon-eye-off v-else class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 				<!-- toggle theme -->
 				<secondary-button
@@ -107,7 +107,7 @@
 					:title="tooltip('invert')"
 					@click="dark = !dark"
 				>
-					<icon-brightness :class="{ 'stroke-spring-400': !dark }" />
+					<icon-brightness class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': !dark }" />
 				</secondary-button>
 				<!-- toggle chords -->
 				<secondary-button
@@ -115,8 +115,8 @@
 					:title="tooltip('chords')"
 					@click="emit('chords')"
 				>
-					<icon-music v-if="chords" class="stroke-spring-400" />
-					<icon-music-off v-else />
+					<icon-music v-if="chords" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+					<icon-music-off v-else class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 				<!-- dropdown for small viewports -->
 				<div class="lg:hidden">
@@ -126,7 +126,7 @@
 							:disabled="!songs[currentPosition].note"
 							@click="songs[currentPosition].note ? showModal.infosongdata = true : null"
 						>
-							<icon-info-circle :class="{ 'stroke-spring-400': showModal.infosongdata }" />
+							<icon-info-circle class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': showModal.infosongdata }" />
 							{{ songs[currentPosition].note ? t('tooltip.infoSongData') : t('tooltip.noSongInfo') }}
 						</button>
 						<!-- toggle synchronisation -->
@@ -134,8 +134,8 @@
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 							@click="autoSync = !autoSync"
 						>
-							<icon-refresh v-if="autoSync" class="stroke-spring-400" />
-							<icon-refresh-off v-else />
+							<icon-refresh v-if="autoSync" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+							<icon-refresh-off v-else class="w-5 h-5 stroke-1.5" />
 							{{ t('tooltip.sync' + (!autoSync ? 'On' : 'Off')) }}
 						</button>
 						<!-- toggle content visibility -->
@@ -143,8 +143,8 @@
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 							@click="hide = !hide"
 						>
-							<icon-eye v-if="!hide" class="stroke-spring-400" />
-							<icon-eye-off v-else />
+							<icon-eye v-if="!hide" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+							<icon-eye-off v-else class="w-5 h-5 stroke-1.5" />
 							{{ t('tooltip.presentation' + (hide ? 'Show' : 'Hide')) }}
 						</button>
 						<!-- toggle theme -->
@@ -152,7 +152,7 @@
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 							@click="dark = !dark"
 						>
-							<icon-brightness :class="{ 'stroke-spring-400': !dark }" />
+							<icon-brightness class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': !dark }" />
 							{{ t('tooltip.invertColors') }}
 						</button>
 						<!-- toggle chords -->
@@ -160,8 +160,8 @@
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 							@click="emit('chords')"
 						>
-							<icon-music v-if="chords" class="stroke-spring-400" />
-							<icon-music-off v-else />
+							<icon-music v-if="chords" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+							<icon-music-off v-else class="w-5 h-5 stroke-1.5" />
 							{{ t('tooltip.chords' + (!chords ? 'Show' : 'Hide')) }}
 						</button>
 					</dropdown>
@@ -172,7 +172,7 @@
 					:title="tooltip('close')"
 					@click="emit('closed')"
 				>
-					<icon-x />
+					<icon-x class="w-5 h-5 stroke-1.5" />
 				</button>
 				<!-- remote toolbar -->
 				<div
@@ -184,21 +184,21 @@
 						:title="tooltip('remoteDisplay')"
 						@click="emit('updateHide', !remoteHide)"
 					>
-						<icon-eye v-if="!remoteHide" class="stroke-spring-400" />
-						<icon-eye-off v-else />
+						<icon-eye v-if="!remoteHide" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+						<icon-eye-off v-else class="w-5 h-5 stroke-1.5" />
 					</secondary-button>
 					<secondary-button
 						:title="tooltip('remoteInvert')"
 						@click="emit('updateDark', !remoteLight)"
 					>
-						<icon-brightness :class="{ 'stroke-spring-400': remoteLight }" />
+						<icon-brightness class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': remoteLight }" />
 					</secondary-button>
 					<secondary-button
 						:title="tooltip('remoteChords')"
 						@click="emit('updateChords', !remoteText)"
 					>
-						<icon-music v-if="!remoteText" class="stroke-spring-400" />
-						<icon-music-off v-else />
+						<icon-music v-if="!remoteText" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+						<icon-music-off v-else class="w-5 h-5 stroke-1.5" />
 					</secondary-button>
 				</div>
 			</div>

@@ -13,20 +13,20 @@
 					<tbody>
 						<tr>
 							<td>
-								<kbd><icon-arrow-left /></kbd> /
-								<kbd><icon-arrow-right /></kbd>
+								<kbd><icon-arrow-left class="w-5 h-5 stroke-1.5" /></kbd> /
+								<kbd><icon-arrow-right class="w-5 h-5 stroke-1.5" /></kbd>
 							</td>
 							<td></td>
 							<td>{{ t('tooltip.pagination') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.F') }}</kbd></td>
-							<td><icon-search /></td>
+							<td><icon-search class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.search') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.esc') }}</kbd></td>
-							<td><icon-x /></td>
+							<td><icon-x class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.clear') }}</td>
 						</tr>
 					</tbody>
@@ -40,48 +40,48 @@
 					<tbody>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.K') }}</kbd></td>
-							<td><icon-music /></td>
+							<td><icon-music class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.chordsShow') }} / {{ t('tooltip.chordsHide') }}</td>
 						</tr>
 						<tr>
 							<td>
-								<kbd><icon-arrow-right /></kbd> /
-								<kbd><icon-arrow-up /></kbd>
+								<kbd><icon-arrow-right class="w-5 h-5 stroke-1.5" /></kbd> /
+								<kbd><icon-arrow-up class="w-5 h-5 stroke-1.5" /></kbd>
 							</td>
 							<td></td>
 							<td>{{ t('tooltip.transposeUp') }}</td>
 						</tr>
 						<tr>
 							<td>
-								<kbd><icon-arrow-left /></kbd> /
-								<kbd><icon-arrow-down /></kbd>
+								<kbd><icon-arrow-left class="w-5 h-5 stroke-1.5" /></kbd> /
+								<kbd><icon-arrow-down class="w-5 h-5 stroke-1.5" /></kbd>
 							</td>
 							<td></td>
 							<td>{{ t('tooltip.transposeDown') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.R') }}</kbd></td>
-							<td><icon-reload /></td>
+							<td><icon-reload class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.keyReset') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.P') }}</kbd></td>
-							<td><icon-presentation /></td>
+							<td><icon-presentation class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.presentationStart') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
-							<td><icon-info-circle /></td>
+							<td><icon-info-circle class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.infoSongData') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
-							<td><icon-brightness /></td>
+							<td><icon-brightness class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.invertColors') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.esc') }}</kbd></td>
-							<td><icon-x /></td>
+							<td><icon-x class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.presentationClose') }}</td>
 						</tr>
 					</tbody>
@@ -95,53 +95,53 @@
 					<tbody>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.S') }}</kbd></td>
-							<td><icon-refresh /></td>
+							<td><icon-refresh class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.syncOn') }} / {{ t('tooltip.syncOff') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.K') }}</kbd></td>
-							<td><icon-music /></td>
+							<td><icon-music class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.chordsShow') }} / {{ t('tooltip.chordsHide') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.P') }}</kbd></td>
-							<td><icon-presentation /></td>
+							<td><icon-presentation class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.presentationStart') }}</td>
 						</tr>
 						<tr>
 							<td>
-								<kbd><icon-arrow-right /></kbd> /
-								<kbd><icon-arrow-down /></kbd>
+								<kbd><icon-arrow-right class="w-5 h-5 stroke-1.5" /></kbd> /
+								<kbd><icon-arrow-down class="w-5 h-5 stroke-1.5" /></kbd>
 							</td>
 							<td></td>
 							<td>{{ t('tooltip.nextSlide') }}</td>
 						</tr>
 						<tr>
 							<td>
-								<kbd><icon-arrow-left /></kbd> /
-								<kbd><icon-arrow-up /></kbd>
+								<kbd><icon-arrow-left class="w-5 h-5 stroke-1.5" /></kbd> /
+								<kbd><icon-arrow-up class="w-5 h-5 stroke-1.5" /></kbd>
 							</td>
 							<td></td>
 							<td>{{ t('tooltip.previousSlide') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.B') }}</kbd></td>
-							<td><icon-eye-off /></td>
+							<td><icon-eye-off class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.presentationShow') }} / {{ t('tooltip.presentationHide') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
-							<td><icon-info-circle /></td>
+							<td><icon-info-circle class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.infoSongData') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
-							<td><icon-brightness /></td>
+							<td><icon-brightness class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.invertColors') }}</td>
 						</tr>
 						<tr>
 							<td><kbd>{{ t('key.esc') }}</kbd></td>
-							<td><icon-x /></td>
+							<td><icon-x class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.presentationClose') }}</td>
 						</tr>
 					</tbody>
