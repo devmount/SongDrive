@@ -23,15 +23,15 @@
 						class="text-spring-600 flex items-center gap-2"
 						:title="t('tooltip.setlistPrivate')"
 					>
-						<icon-lock />
+						<icon-lock class="w-5 h-5 stroke-1.5" />
 						{{ t('option.private') }}
 					</div>
 					<div class="text-blade-500 flex items-center gap-2">
-						<icon-calendar-event />
+						<icon-calendar-event class="w-5 h-5 stroke-1.5" />
 						{{ humanDate(setlist.date, locale) }}
 					</div>
 					<div v-if="ready.users && users[setlist.creator]" class="text-blade-500 flex items-center gap-2">
-						<icon-user />
+						<icon-user class="w-5 h-5 stroke-1.5" />
 						{{ users[setlist.creator].name }}
 					</div>
 				</div>
@@ -40,7 +40,7 @@
 			<div class="flex justify-between align-center w-full bg-blade-200 dark:bg-blade-900 rounded-lg p-2 gap-1">
 				<div class="flex align-center gap-1">
 					<secondary-button :title="t('button.back')" @click="router.go(-1)">
-						<icon-arrow-left />
+						<icon-arrow-left class="w-5 h-5 stroke-1.5" />
 						<span class="hidden xl:inline">{{ t('button.back') }}</span>
 					</secondary-button>
 				</div>
@@ -51,16 +51,16 @@
 						:disabled="noSongs"
 						@click="updateActive"
 					>
-						<icon-refresh v-if="setlist?.active === true" class="stroke-spring-400" />
-						<icon-refresh-off v-else />
+						<icon-refresh v-if="setlist?.active === true" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+						<icon-refresh-off v-else class="w-5 h-5 stroke-1.5" />
 						<span class="hidden xl:inline">{{ t('switch.sync') }}</span>
 					</secondary-button>
 					<secondary-button
 						:title="chords ? t('tooltip.chordsHide') : t('tooltip.chordsShow')"
 						@click="chords = !chords"
 					>
-						<icon-music v-if="chords" class="stroke-spring-400" />
-						<icon-music-off v-else />
+						<icon-music v-if="chords" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+						<icon-music-off v-else class="w-5 h-5 stroke-1.5" />
 						<span class="hidden xl:inline">{{ t('switch.chords') }}</span>
 					</secondary-button>
 					<secondary-button
@@ -68,7 +68,7 @@
 						:disabled="noSongs"
 						@click="modal.present=true"
 					>
-						<icon-presentation />
+						<icon-presentation class="w-5 h-5 stroke-1.5" />
 						<span class="hidden xl:inline">{{ t('button.present') }}</span>
 					</secondary-button>
 					<router-link
@@ -77,7 +77,7 @@
 						:title="t('tooltip.openInNewTab')"
 					>
 						<secondary-button>
-							<icon-external-link />
+							<icon-external-link class="w-5 h-5 stroke-1.5" />
 							<span class="hidden xl:inline">{{ t('button.open') }}</span>
 						</secondary-button>
 					</router-link>
@@ -238,7 +238,7 @@
 							class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900 transition-all"
 						>
 							<td v-if="user && role > 1" class="cursor-grab active:cursor-grabbing text-center text-blade-500">
-								<icon-menu-order class="handle inline" />
+								<icon-menu-order class="w-5 h-5 stroke-1.5 handle inline" />
 							</td>
 							<template v-if="songs[element.id]">
 								<td
@@ -277,7 +277,7 @@
 											class="!px-2"
 											@click.prevent="transposeDown(songs[element.id], index)"
 										>
-											<icon-chevron-left class="w-5 h-5" />
+											<icon-chevron-left class="w-5 h-5 stroke-1.5" />
 										</secondary-button>
 										<div class="font-mono font-semibold text-xl w-6 text-center">
 											{{ element.tuning ? element.tuning : songs[element.id].tuning }}
@@ -287,7 +287,7 @@
 											class="!px-2"
 											@click.prevent="transposeUp(songs[element.id], index)"
 										>
-											<icon-chevron-right class="w-5 h-5" />
+											<icon-chevron-right class="w-5 h-5 stroke-1.5" />
 										</secondary-button>
 									</div>
 								</td>
@@ -379,7 +379,7 @@
 			>
 				<div class="w-64 max-w-full">
 					<div class="flex justify-center items-center gap-2 text-2xl">
-						<icon-world />
+						<icon-world class="w-6 h-6 stroke-1.5" />
 						{{ t('widget.languages', 2) }}
 					</div>
 					<doughnut-chart
@@ -393,7 +393,7 @@
 				</div>
 				<div class="w-64 max-w-full">
 					<div class="flex justify-center items-center gap-2 text-2xl">
-						<icon-music />
+						<icon-music class="w-6 h-6 stroke-1.5" />
 						{{ t('widget.keys') }}
 					</div>
 					<doughnut-chart
@@ -416,7 +416,7 @@
 			</div>
 			<primary-button @click="router.push({ name: 'setlists' })" class="mt-4">
 				{{ t('widget.showAllSetlists') }}
-				<icon-playlist class="stroke-1.5" />
+				<icon-playlist class="w-5 h-5 stroke-1.5" />
 			</primary-button>
 		</div>
 		<!-- unauthorized access -->
@@ -428,7 +428,7 @@
 			</div>
 			<primary-button @click="router.push({ name: 'setlists' })" class="mt-4">
 				{{ t('widget.showAllSetlists') }}
-				<icon-playlist class="stroke-1.5" />
+				<icon-playlist class="w-5 h-5 stroke-1.5" />
 			</primary-button>
 		</div>
 		<!-- modals -->

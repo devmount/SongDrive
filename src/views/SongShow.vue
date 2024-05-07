@@ -14,7 +14,7 @@
 			<div class="flex justify-between align-center w-full bg-blade-200 dark:bg-blade-900 rounded-lg p-2 gap-1">
 				<div class="flex align-center gap-1">
 					<secondary-button :title="t('button.back')" @click="router.go(-1)">
-						<icon-arrow-left />
+						<icon-arrow-left class="w-5 h-5 stroke-1.5" />
 						<span class="hidden xl:inline">{{ t('button.back') }}</span>
 					</secondary-button>
 					<secondary-button
@@ -27,15 +27,15 @@
 						{{ lang }}
 					</secondary-button>
 				</div>
-				<div class="flex items-center gap-1">
-					<div class="group flex items-center relative key-preview">
+				<div class="flex items-stretch gap-1">
+					<div class="group flex items-stretch relative key-preview">
 						<secondary-button
 							class="!px-2 rounded-r-none"
 							:disabled="!chords"
 							:title="t('tooltip.transposeDown')"
 							@click="transposeDown"
 						>
-							<icon-chevron-left />
+							<icon-chevron-left class="w-5 h-5 stroke-1.5" />
 						</secondary-button>
 						<secondary-button
 							class="!px-2 border-x border-x-blade-500 dark:border-x-blade-800 rounded-none"
@@ -43,7 +43,7 @@
 							:title="t('tooltip.keyReset')"
 							@click="transposeReset"
 						>
-							<icon-reload />
+							<icon-reload class="w-5 h-5 stroke-1.5" />
 						</secondary-button>
 						<secondary-button
 							class="!px-2 rounded-l-none"
@@ -51,7 +51,7 @@
 							:title="t('tooltip.transposeUp')"
 							@click="transposeUp"
 						>
-							<icon-chevron-right />
+							<icon-chevron-right class="w-5 h-5 stroke-1.5" />
 						</secondary-button>
 						<div class="absolute top-11 left-1/2 -translate-x-1/2 w-40 flex justify-between p-1 rounded-lg bg-blade-200 dark:bg-blade-900 invisible group-hover:visible">
 							<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
@@ -69,15 +69,15 @@
 						:title="chords ? t('tooltip.chordsHide') : t('tooltip.chordsShow')"
 						@click="chords = !chords"
 					>
-						<icon-music v-if="chords" class="stroke-spring-400" />
-						<icon-music-off v-else />
+						<icon-music v-if="chords" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+						<icon-music-off v-else class="w-5 h-5 stroke-1.5" />
 						<span class="hidden xl:inline">{{ t('switch.chords') }}</span>
 					</secondary-button>
 					<secondary-button
 						:title="t('tooltip.startFullscreen')"
 						@click="modal.present=true"
 					>
-						<icon-presentation />
+						<icon-presentation class="w-5 h-5 stroke-1.5" />
 						<span class="hidden xl:inline">{{ t('button.present') }}</span>
 					</secondary-button>
 				</div>
@@ -208,7 +208,7 @@
 								title="Previous Song"
 								@click="goToPreviousSong"
 							>
-								<icon-arrow-left />
+								<icon-arrow-left class="w-5 h-5 stroke-1.5" />
 								<div v-if="position > 0" class="hidden sm:flex items-center gap-2">
 									<div class="max-w-3xs truncate">
 										{{ songs[setlists[urlSetlist]?.songs[position-1]?.id]?.title }}
@@ -233,7 +233,7 @@
 										{{ setlists[urlSetlist]?.songs[position+1]?.tuning }}
 									</div>
 								</div>
-								<icon-arrow-right />
+								<icon-arrow-right class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
 						</div>
 					</div>
@@ -263,7 +263,7 @@
 			</div>
 			<primary-button @click="router.push({ name: 'songs' })" class="mt-4">
 				{{ t('widget.showAllSongs') }}
-				<icon-music class="stroke-1.5" />
+				<icon-music class="w-5 h-5 stroke-1.5" />
 			</primary-button>
 		</div>
 		<!-- modals -->

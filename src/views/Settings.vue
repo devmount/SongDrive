@@ -29,10 +29,10 @@
 							<div class="flex gap-4">
 								<span>{{ t('field.email') }}</span>
 								<span v-if="userObject.emailVerified" class="flex items-center gap-1 text-spring-600">
-									<icon-check class="stroke-1.5" /> {{ t('text.verified') }}
+									<icon-check class="w-5 h-5 stroke-1.5" /> {{ t('text.verified') }}
 								</span>
 								<span v-else class="flex items-center gap-1 text-rose-500">
-									<icon-x class="stroke-1.5" /> {{ t('text.unverified') }}
+									<icon-x class="w-5 h-5 stroke-1.5" /> {{ t('text.unverified') }}
 								</span>
 							</div>
 							<div class="flex">
@@ -50,8 +50,8 @@
 									@click="!verificationResend ? resendEmailVerification() : null"
 								>
 									{{ t('button.verify') }}
-									<icon-send v-if="!verificationResend" class="stroke-1.5" />
-									<icon-check v-else class="stroke-1.5" />
+									<icon-send v-if="!verificationResend" class="w-5 h-5 stroke-1.5" />
+									<icon-check v-else class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</div>
 						</label>

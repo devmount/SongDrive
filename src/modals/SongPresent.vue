@@ -24,27 +24,27 @@
 					:title="tooltip('info')"
 					@click="song.note ? showModal.infosongdata = true : null"
 				>
-					<icon-info-circle :class="{ 'stroke-spring-400': showModal.infosongdata }" />
+					<icon-info-circle class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': showModal.infosongdata }" />
 				</secondary-button>
 				<secondary-button
 					:title="tooltip('lightMode')"
 					@click.prevent="dark = !dark"
 				>
-					<icon-brightness :class="{ 'stroke-spring-400': !dark }" />
+					<icon-brightness class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': !dark }" />
 				</secondary-button>
 				<secondary-button
 					:title="tooltip('chords')"
 					@click.prevent="emit('chords')"
 				>
-					<icon-music v-if="chords" class="stroke-spring-400" />
-					<icon-music-off v-else />
+					<icon-music v-if="chords" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
+					<icon-music-off v-else class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 				<button
 					class="p-2 text-blade-500"
 					:title="tooltip('close')"
 					@click.prevent="emit('closed')"
 				>
-					<icon-x />
+					<icon-x class="w-5 h-5 stroke-1.5" />
 				</button>
 			</div>
 		</div>

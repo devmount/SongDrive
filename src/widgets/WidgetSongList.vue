@@ -9,13 +9,13 @@
 					:disabled="isFirstPage"
 					@click="!isFirstPage ? page-- : null"
 				>
-					<icon-arrow-left />
+					<icon-arrow-left class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 				<secondary-button
 					:disabled="isLastPage"
 					@click="!isLastPage ? page++ : null"
 				>
-					<icon-arrow-right />
+					<icon-arrow-right class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 			</div>
 		</div>
@@ -56,25 +56,25 @@
 		</div>
 		<div class="flex flex-wrap gap-1">
 			<secondary-button @click="shuffleSongs">
-				<icon-arrows-shuffle />
+				<icon-arrows-shuffle class="w-5 h-5 stroke-1.5" />
 				{{ t('button.shuffle') }}
 			</secondary-button>
 			<secondary-button v-if="order != sortBy.newest" @click="newestSongs">
-				<icon-arrow-up />
+				<icon-arrow-up class="w-5 h-5 stroke-1.5" />
 				{{ t('widget.newest') }}
 			</secondary-button>
 			<secondary-button v-if="order == sortBy.newest" @click="oldestSongs">
-				<icon-arrow-down />
+				<icon-arrow-down class="w-5 h-5 stroke-1.5" />
 				{{ t('widget.oldest') }}
 			</secondary-button>
 			<secondary-button v-if="setlists?.length > 0" @click="popularSongs">
-				<icon-trending-up />
+				<icon-trending-up class="w-5 h-5 stroke-1.5" />
 				{{ t('widget.popular') }}
 			</secondary-button>
 		</div>
 		<link-button class="mt-auto" @click="router.push({ name: 'songs' })">
 			{{ t('widget.showAllSongs') }}
-			<icon-arrow-right />
+			<icon-arrow-right class="w-5 h-5 stroke-1.5" />
 		</link-button>
 	</panel>
 </template>
