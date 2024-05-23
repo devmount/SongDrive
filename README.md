@@ -1,4 +1,4 @@
-# ![SongDrive Logo Title](https://user-images.githubusercontent.com/5441654/147848659-8cbc8ac6-d7d8-4c56-a36d-ce904da2bd5a.png)
+# ![SongDrive Logo Title](https://github.com/devmount/SongDrive/assets/5441654/77b68e2d-a877-4855-bece-c067f2219e71)
 
 [![Release](https://img.shields.io/github/v/tag/devmount/SongDrive.svg?label=release&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/releases)
 [![Last Updated](https://img.shields.io/github/last-commit/devmount/SongDrive?label=updated&color=88b544&style=flat-square)](https://github.com/devmount/SongDrive/commits/main)
@@ -7,6 +7,12 @@
 [![Contribution Guidlines](https://img.shields.io/badge/contributions-welcome-88b544.svg?style=flat-square)](./.github/CONTRIBUTING.md)
 
 A song management web application to store, sync and present songs and setlists, based on [Vue.js](//vuejs.org) and [Firebase](//firebase.google.com). Head over to the docs ([EN](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md), [DE](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md)) for more information about SongDrive and how to get started.
+
+> <picture>
+> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/info.svg">
+> <img alt="Info" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/info.svg">
+> </picture><br>
+> SongDrive is currently being restructured to have its own backend with database, authentication and API endpoints for the frontend. Find more information about this in https://github.com/devmount/SongDrive/issues/213.
 
 ## Preview
 
@@ -32,51 +38,12 @@ This is how the SongDrive Dashboard currently looks like.
 - Users can [manage their own profile](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md#account), change email and password or delete their account.
 - Many admin functions including export and Import of complete SongDrive data and managing users with [different roles](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md#user-roles)
 
-## Installation for developers
+## Code structure
 
-1. Get all files from repository
+SongDrive is divided into frontend and backend. The goal is to make both parts independent from each other. The restructuring is still work in progress. You can find documentation in the corresponding directory:
 
-    ```bash
-    git clone https://github.com/devmount/SongDrive
-    ```
-
-2. Install all dependencies
-
-    ```bash
-    cd SongDrive
-    npm install
-    ```
-
-3. Create an environment configuration file `.env` from the existing example configuration in the root directory:
-
-    ```bash
-    cp .env.example .env
-    ```
-
-4. Log in to your [Firebase account](https://console.firebase.google.com), hit the "Add a project" button and set up a project name and a server location
-5. Now you can add an app by clicking the "Web" button, choose a nickname and click "Next"
-6. Copy *API key* and *project ID* into your `.env` file
-7. Go back to your Firebase console, and click *Create Database* under Develop > Database. Choose *Start in production mode* and paste the security rules that you can copy frome the [firestore.rules](./firestore.rules) file.
-8. Create the first user in the Firebase console under Build > Authentification > Add user. After that you'll see the User UID in the table. Copy that UID, navigate to Build > Firestore Database > + Start collection. Input *users* as Collection ID and click Next. Insert the copied UID as Document ID and add the following fields to the document:
-    - `email` = string | *your email address*
-    - `name` = string | *your name*
-
-9. To give necessary permisstions, click + Start collection again. Input *permissions* as Collection ID and click Next. Insert the copied UID as Document ID and add the following field to the document:
-    - `role` = string | `admin`
-
-10. Now your app is ready to be launched. Either start the development server with hot reload at `localhost:8080` ...
-
-    ```bash
-    npm run serve
-    ```
-
-11. ... or create an optimized production build with minification. All build files can be found in the `dist` directory.
-
-    ```bash
-    npm run build
-    ```
-
-12. (optional) You can import demo content if you don't like to start from scratch. First download the [demo data file](https://raw.githubusercontent.com/devmount/SongDrive/main/demo.import.json) from the repository. Sign in to SongDrive with your admin user, go to Settings > Import, select the downloaded demo file and import it. You can now have a look at 8 public domain songs, one demo setlist, several song tags, English and German languages and an additional test user.
+- [Frontend docs](./frontend/README.md)
+- [Backend docs](./backend/README.md)
 
 ## License
 
