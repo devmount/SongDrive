@@ -337,7 +337,7 @@ const openLyricsXML = (song, version, locales = [], allTags = null) => {
 	const subtitle = song.subtitle ? `<title>${song.subtitle}</title>` : '';
 	const year = song.year ? `<released>${song.year}</released>` : '';
 	const copyright = song.year || song.publisher
-		? '<copyright>' + song.year + ' ' + song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '</copyright>'
+		? '<copyright>' + song.year + ' ' + song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ').replace(/&/gi, '&amp;') + '</copyright>'
 		: '';
 	const ccli = song.ccli ? `<ccliNo>${song.ccli}</ccliNo>` : '';
 	const authors = song.authors
@@ -349,18 +349,12 @@ const openLyricsXML = (song, version, locales = [], allTags = null) => {
 			).join('') + '</themes>'
 		: '';
 	const lyrics = parsedContent(song.content, song.tuning, false, false).map(p => {
+		const type = p.type ? p.type.toUpperCase() : 'V';
 		const num = p.number > 0 ? p.number : '1';
-		return `<verse name="${p.type ? p.type.toUpperCase() : 'V'}${num}"><lines>` + p.content.replace(/\n/g, "<br />") + '</lines></verse>'
+		return `<verse name='${type}${num}'><lines>` + p.content.replace(/\n/g, "<br />") + '</lines></verse>'
 	}).join('');
 
-	return `<?xml version='1.0' encoding='UTF-8'?>
-		<song xmlns="http://openlyrics.info/namespace/2009/song" version="0.9" createdIn="SongDrive ${version}" modifiedIn="SongDrive ${version}" modifiedDate="${timestamp}">
-			<properties>
-				<titles>${title}${subtitle}</titles>
-				${copyright}${year}${ccli}${authors}${tags}
-			</properties>
-			<lyrics>${lyrics}</lyrics>
-		</song>`;
+	return `<?xml version='1.0' encoding='UTF-8'?><song xmlns='http://openlyrics.info/namespace/2009/song' version='0.9' createdIn='SongDrive ${version}' modifiedIn='SongDrive ${version}' modifiedDate='${timestamp}'><properties><titles>${title}${subtitle}</titles>${copyright}${year}${ccli}${authors}${tags}</properties><lyrics>${lyrics}</lyrics></song>`;
 };
 
 export {
