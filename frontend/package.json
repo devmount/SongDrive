@@ -35,6 +35,7 @@
 		"@vuepic/vue-datepicker": "^8.1.1",
 		"@vueuse/core": "^10.2.1",
 		"@vueuse/math": "^10.2.1",
+		"@zip.js/zip.js": "^2.7.45",
 		"chart.js": "^4.0.1",
 		"date-fns": "^3.2.0",
 		"firebase": "^10.0.0",

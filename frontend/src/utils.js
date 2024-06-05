@@ -187,9 +187,9 @@ const parsedContent = (content, tuning, showChords, twoColumns) => {
 };
 
 // file download
-const download = (data, filename) => {
+const download = (data, filename, isBlob = false) => {
   var a = document.createElement('a');
-  var file = new Blob([data], { type:'text/plain;charset=UTF-8' });
+  var file = isBlob ? data : new Blob([data], { type:'text/plain;charset=UTF-8' });
   // IE10+
   if (window.navigator.msSaveOrOpenBlob) {
     window.navigator.msSaveOrOpenBlob(file, filename);
@@ -330,6 +330,39 @@ const browserPrefersDark = () => {
 // trigger mailto
 const mailto = (address) => window.location.href = 'mailto:' + address;
 
+// build OpenLyrics XML for given song
+const openLyricsXML = (song, version, locales = [], allTags = null) => {
+	const timestamp = (new Date()).toISOString().slice(0, -5);
+	const title = `<title>${song.title}</title>`;
+	const subtitle = song.subtitle ? `<title>${song.subtitle}</title>` : '';
+	const year = song.year ? `<released>${song.year}</released>` : '';
+	const copyright = song.year || song.publisher
+		? '<copyright>' + song.year + ' ' + song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '</copyright>'
+		: '';
+	const ccli = song.ccli ? `<ccliNo>${song.ccli}</ccliNo>` : '';
+	const authors = song.authors
+		? '<authors>' + song.authors.split('|').map(a => `<author>${a.trim()}</author>`).join('') + '</authors>'
+		: '';
+	const tags = song.tags && locales && allTags
+		? '<themes>' + song.tags.map(
+				tag => locales.map(l =>`<theme lang="${l}">${allTags[tag][l] ?? tag.key}</theme>`).join('')
+			).join('') + '</themes>'
+		: '';
+	const lyrics = parsedContent(song.content, song.tuning, false, false).map(p => {
+		const num = p.number > 0 ? p.number : '1';
+		return `<verse name="${p.type ? p.type.toUpperCase() : 'V'}${num}"><lines>` + p.content.replace(/\n/g, "<br />") + '</lines></verse>'
+	}).join('');
+
+	return `<?xml version='1.0' encoding='UTF-8'?>
+		<song xmlns="http://openlyrics.info/namespace/2009/song" version="0.9" createdIn="SongDrive ${version}" modifiedIn="SongDrive ${version}" modifiedDate="${timestamp}">
+			<properties>
+				<titles>${title}${subtitle}</titles>
+				${copyright}${year}${ccli}${authors}${tags}
+			</properties>
+			<lyrics>${lyrics}</lyrics>
+		</song>`;
+};
+
 export {
   keyScale,
   userRoles,
@@ -347,4 +380,5 @@ export {
   sortTags,
   browserPrefersDark,
   mailto,
+  openLyricsXML,
 }

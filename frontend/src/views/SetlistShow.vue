@@ -141,6 +141,13 @@
 									<icon-files class="w-5 h-5 stroke-1.5" />
 									{{ t('button.exportSetlistSheets') }}
 								</button>
+								<button
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click="exportOsz()"
+								>
+									<icon-file class="w-5 h-5 stroke-1.5" />
+									{{ t('button.filetypeOsz') }}
+								</button>
 							</template>
 						</dropdown>
 					</div>
@@ -458,7 +465,7 @@
 </template>
 
 <script setup>
-import { keyScale, parsedContent, humanDate, throwError } from '@/utils.js';
+import { keyScale, parsedContent, humanDate, throwError, download, openLyricsXML } from '@/utils.js';
 import { logicAnd } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, inject } from 'vue';
@@ -469,7 +476,8 @@ import DoughnutChart from '@/charts/DoughnutChart.vue';
 import draggable from 'vuedraggable';
 import Dropdown from '@/elements/Dropdown.vue';
 import { setDoc, updateDoc, doc, FieldValue } from 'firebase/firestore';
-import pdfMake from "pdfmake/build/pdfmake";
+import { BlobWriter, ZipWriter, TextReader } from '@zip.js/zip.js';
+import pdfMake from 'pdfmake/build/pdfmake';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistDelete from '@/modals/SetlistDelete.vue';
@@ -491,6 +499,7 @@ import {
 	IconExternalLink,
 	IconEye,
 	IconFiles,
+	IconFile,
 	IconFileText,
 	IconLock,
 	IconMarkdown,
@@ -518,6 +527,7 @@ const hkChords = inject('hkChords');
 const hkSync = inject('hkSync');
 const hkPresent = inject('hkPresent');
 const noActiveModal = inject('noActiveModal');
+const version = inject('version');
 
 // pdf creation
 pdfMake.fonts = {
@@ -954,6 +964,85 @@ const getPdfSongsheets = () => {
 		}
 	}
 	return sheets;
+};
+
+const exportOsz = async () => {
+	// initialize file content of service data osj file for OpenLP
+	const content = [{
+    'openlp_core': {
+      'lite-service': false,
+      'service-theme': null,
+      'openlp-servicefile-version': 3
+    }
+	}];
+
+	// add service items, one per song
+	for (const key in setlist.value.songs) {
+		if (setlist.value.songs.hasOwnProperty(key) && setlist.value.songs[key].id in props.songs) {
+			// get song object
+			const song = props.songs[setlist.value.songs[key].id];
+			// handle song content parts
+			let itemData = [];
+			let parts = parsedContent(song.content, 0, false, false);
+			parts.forEach((part) => {
+				itemData.push({
+					'raw_slide': part.content,
+					'verseTag': (part.type ? part.type.toUpperCase() : 'V') + (part.number > 0 ? part.number.toString() : '1'),
+				});
+			});
+			content.push({
+				'serviceitem': {
+					'header': {
+						'name': 'songs',
+						'plugin': 'songs',
+						'theme': null,
+						'title': song.title,
+						'footer': [
+							song.title,
+							`${t('field.authors')}: ${song.authors}`
+						],
+						'type': 1,
+						'audit': [song.title, song.authors ? song.authors.split(' | ') : [], song.publisher, song.ccli.toString()],
+						'notes': '',
+						'from_plugin': false,
+						'capabilities': [2, 1, 5, 8, 9, 13, 22],
+						'search': '',
+						'data': {
+							'title': `${song.title.toLowerCase()}@${song.subtitle.toLowerCase()}`,
+							'alternate_title': song.subtitle,
+							'authors': song.authors,
+							'ccli_number': song.ccli,
+							'copyright': song.publisher
+						},
+						'xml_version': openLyricsXML(song, version),
+						'auto_play_slides_once': false,
+						'auto_play_slides_loop': false,
+						'timed_slide_interval': 0,
+						'start_time': 0,
+						'end_time': 0,
+						'media_length': 0,
+						'background_audio': [],
+						'theme_overwritten': false,
+						'will_auto_start': false,
+						'processor': null,
+						'metadata': [],
+						'sha256_file_hash': null,
+						'stored_filename': null
+					},
+					'data': itemData
+				}
+			});
+		}
+	}
+
+	// do export
+	console.log(content);
+	const blobWriter = new BlobWriter('application/zip');
+	const writer = new ZipWriter(blobWriter);
+	await writer.add('service_data.osj', new TextReader(JSON.stringify(content)));
+	await writer.close();
+	const blob = await blobWriter.getData();
+	download(blob, `${setlistKey}.osz`, true)
 };
 
 // component shortcuts
