@@ -1036,7 +1036,6 @@ const exportOsz = async () => {
 	}
 
 	// do export
-	console.log(content);
 	const blobWriter = new BlobWriter('application/zip');
 	const writer = new ZipWriter(blobWriter);
 	await writer.add('service_data.osj', new TextReader(JSON.stringify(content)));
