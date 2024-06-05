@@ -38,6 +38,7 @@
     "filetypeSng": "SongBeamer-Datei [.sng]",
     "filetypeTxt": "Text-Datei [.txt]",
     "filetypeXml": "OpenLyrics-Datei [.xml]",
+    "filetypeOsz": "OpenLP Service [.osz]",
     "formatMarkdown": "Als Markdown formatiert",
     "formatPlain": "Reines Textformat",
     "formatSlack": "Für Slack formatiert",

@@ -286,7 +286,7 @@
 </template>
 
 <script setup>
-import { keyScale, isChordLine, parsedContent, download } from '@/utils.js';
+import { keyScale, isChordLine, parsedContent, download, openLyricsXML } from '@/utils.js';
 import { logicAnd, logicOr } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, inject, onMounted } from 'vue';
@@ -524,38 +524,8 @@ const exportSng = () => {
 };
 // export song in OpenLyrics XML format
 const exportXml = () => {
-	// add header
-	const timestamp = (new Date()).toISOString().slice(0, -5);
-	const title = `<title>${song.value.title}</title>`;
-	const subtitle = song.value.subtitle ? `<title>${song.value.subtitle}</title>` : '';
-	const year = song.value.year ? `<released>${song.value.year}</released>` : '';
-	const copyright = song.value.year || song.value.publisher
-		? '<copyright>' + song.value.year + ' ' + song.value.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + '</copyright>'
-		: '';
-	const ccli = song.value.ccli ? `<ccliNo>${song.value.ccli}</ccliNo>` : '';
-	const authors = song.value.authors
-		? '<authors>' + song.value.authors.split('|').map(a => `<author>${a.trim()}</author>`).join('') + '</authors>'
-		: '';
-	const tags = song.value.tags
-		? '<themes>' + song.value.tags.map(
-				tag => availableLocales.map(l =>`<theme lang="${l}">${props.tags[tag][l] ?? tag.key}</theme>`).join('')
-			).join('') + '</themes>'
-		: '';
-	const lyrics = parsedContent(song.value.content, song.value.tuning, false, false).map(p => {
-		const num = p.number > 0 ? p.number : '1';
-		return `<verse name="${p.type}${num}"><lines>` + p.content.replace(/\n/g, "<br />") + '</lines></verse>'
-	}).join('');
-	const content = `<?xml version='1.0' encoding='UTF-8'?>
-		<song xmlns="http://openlyrics.info/namespace/2009/song" version="0.9" createdIn="SongDrive ${version}" modifiedIn="SongDrive ${version}" modifiedDate="${timestamp}">
-			<properties>
-				<titles>${title}${subtitle}</titles>
-				${copyright}${year}${ccli}${authors}${tags}
-			</properties>
-			<lyrics>${lyrics}</lyrics>
-		</song>
-	`;
 	// start download
-	download(content, songId + '.xml');
+	download(openLyricsXML(song.value, version, availableLocales, props.tags), songId + '.xml');
 	// toast success message
 	notify({
 		title: t('toast.exportedXml'),
