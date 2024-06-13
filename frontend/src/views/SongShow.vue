@@ -525,7 +525,7 @@ const exportSng = () => {
 // export song in OpenLyrics XML format
 const exportXml = () => {
 	// start download
-	download(openLyricsXML(song.value, version, availableLocales, props.tags), songId + '.xml');
+	download(openLyricsXML(song.value, version, null, availableLocales, props.tags), songId + '.xml');
 	// toast success message
 	notify({
 		title: t('toast.exportedXml'),
