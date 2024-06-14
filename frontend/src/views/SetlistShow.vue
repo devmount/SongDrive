@@ -994,7 +994,7 @@ const exportOsz = async () => {
 			const tParts = tSong ? parsedContent(tSong.content, 0, false, false) : [];
 			parts.forEach((part, i) => {
 				itemData.push({
-					'raw_slide': (i in tParts) ? part.content + "\n\n" + tParts[i].content : part.content,
+					'raw_slide': (i in tParts) ? `${part.content}\n\n{it}{gr}{fd}${tParts[i].content}{/fd}{/it}{/gr}` : part.content,
 					'verseTag': (part.type ? part.type.toUpperCase() : 'V') + (part.number > 0 ? part.number.toString() : '1'),
 				});
 			});

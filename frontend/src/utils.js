@@ -331,6 +331,7 @@ const browserPrefersDark = () => {
 const mailto = (address) => window.location.href = 'mailto:' + address;
 
 // build OpenLyrics XML for given song
+// see https://manual.openlp.org/display_tags.html#configuring-formatting-tags
 const openLyricsXML = (song, version, translatedSong = null, locales = [], allTags = null) => {
 	const timestamp = (new Date()).toISOString().slice(0, -5);
 	const title = `<title>${song.title}</title>`;
@@ -345,16 +346,18 @@ const openLyricsXML = (song, version, translatedSong = null, locales = [], allTa
 		: '';
 	const tags = song.tags && locales && allTags
 		? '<themes>' + song.tags.map(
-				tag => locales.map(l =>`<theme lang="${l}">${allTags[tag][l] ?? tag.key}</theme>`).join('')
+				tag => locales.map(l =>`<theme lang='${l}'>${allTags[tag][l] ?? tag.key}</theme>`).join('')
 			).join('') + '</themes>'
 		: '';
-  const format = translatedSong ? `<format><tags application='OpenLP'><tag name='it'><open>&lt;em&gt;</open><close>&lt;/em&gt;</close><hidden>False</hidden></tag><tag name='gr'><open>&lt;span style='-webkit-text-fill-color:#c2c2a3'&gt;</open><close>&lt;/span&gt;</close><hidden>False</hidden></tag></tags></format>` : '';
+  const format = translatedSong
+    ? `<format><tags application='OpenLP'><tag name='it'><open><![CDATA[<em>]]></open><close><![CDATA[</em>]]></close><hidden><![CDATA[False]]></hidden></tag><tag name='gr'><open><![CDATA[<span style='-webkit-text-fill-color:grey'>]]></open><close><![CDATA[</span>]]></close><hidden><![CDATA[True]]></hidden></tag><tag name='fd'><open><![CDATA[<small>]]></open><close><![CDATA[</small>]]></close><hidden><![CDATA[True]]></hidden></tag></tags></format>`
+    : '';
   const tParts = translatedSong ? parsedContent(translatedSong.content, 0, false, false) : [];
 	const lyrics = parsedContent(song.content, 0, false, false).map((p, i) => {
 		const type = p.type ? p.type.toUpperCase() : 'V';
 		const num = p.number > 0 ? p.number : '1';
     const tContent = (i in tParts)
-      ? `<br/><br/><tag name='it'><tag name='gr'>${tParts[i].content.replace(/\n/g, "<br />")}</tag></tag>`
+      ? `<br/><br/><tag name='it'><tag name='gr'><tag name='fd'>${tParts[i].content.replace(/\n/g, "<br />")}</tag></tag></tag>`
       : '';
 		return `<verse name='${type}${num}'><lines>${p.content.replace(/\n/g, "<br />")}${tContent}</lines></verse>`;
 	}).join('');
