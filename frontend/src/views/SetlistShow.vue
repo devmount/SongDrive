@@ -545,13 +545,13 @@ const emit = defineEmits(['editSong', 'editSetlist']);
 
 // component properties
 const props = defineProps({
-  languages:     Object,
-  ready:         Object,
-  role:          Number,
-  setlists:      Object,
-  songs:         Object,
-  user:          String,
-  users:         Object,
+  languages: Object,
+  ready:     Object,
+  role:      Number,
+  setlists:  Object,
+  songs:     Object,
+  user:      String,
+  users:     Object,
 });
 
 // reactive data
@@ -981,12 +981,20 @@ const exportOsz = async () => {
 		if (setlist.value.songs.hasOwnProperty(key) && setlist.value.songs[key].id in props.songs) {
 			// get song object
 			const song = props.songs[setlist.value.songs[key].id];
+			// check for translations
+			const lang = !('lang' in localStorage) ? locale.value : localStorage.getItem('lang');
+			let tSong = null;
+			if (lang !== song.language && song.translations.length > 0) {
+				const tKey = song.translations.find((t) => t.endsWith(`-${lang}`));
+				tSong = props.songs[tKey];
+			}
 			// handle song content parts
-			let itemData = [];
-			let parts = parsedContent(song.content, 0, false, false);
-			parts.forEach((part) => {
+			const itemData = [];
+			const parts = parsedContent(song.content, 0, false, false);
+			const tParts = tSong ? parsedContent(tSong.content, 0, false, false) : [];
+			parts.forEach((part, i) => {
 				itemData.push({
-					'raw_slide': part.content,
+					'raw_slide': (i in tParts) ? `${part.content}\n\n{it}{gr}{fd}${tParts[i].content}{/fd}{/it}{/gr}` : part.content,
 					'verseTag': (part.type ? part.type.toUpperCase() : 'V') + (part.number > 0 ? part.number.toString() : '1'),
 				});
 			});
@@ -1014,7 +1022,7 @@ const exportOsz = async () => {
 							'ccli_number': song.ccli,
 							'copyright': song.publisher
 						},
-						'xml_version': openLyricsXML(song, version),
+						'xml_version': openLyricsXML(song, version, tSong),
 						'auto_play_slides_once': false,
 						'auto_play_slides_loop': false,
 						'timed_slide_interval': 0,

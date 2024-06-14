@@ -331,7 +331,8 @@ const browserPrefersDark = () => {
 const mailto = (address) => window.location.href = 'mailto:' + address;
 
 // build OpenLyrics XML for given song
-const openLyricsXML = (song, version, locales = [], allTags = null) => {
+// see https://manual.openlp.org/display_tags.html#configuring-formatting-tags
+const openLyricsXML = (song, version, translatedSong = null, locales = [], allTags = null) => {
 	const timestamp = (new Date()).toISOString().slice(0, -5);
 	const title = `<title>${song.title}</title>`;
 	const subtitle = song.subtitle ? `<title>${song.subtitle}</title>` : '';
@@ -345,16 +346,23 @@ const openLyricsXML = (song, version, locales = [], allTags = null) => {
 		: '';
 	const tags = song.tags && locales && allTags
 		? '<themes>' + song.tags.map(
-				tag => locales.map(l =>`<theme lang="${l}">${allTags[tag][l] ?? tag.key}</theme>`).join('')
+				tag => locales.map(l =>`<theme lang='${l}'>${allTags[tag][l] ?? tag.key}</theme>`).join('')
 			).join('') + '</themes>'
 		: '';
-	const lyrics = parsedContent(song.content, song.tuning, false, false).map(p => {
+  const format = translatedSong
+    ? `<format><tags application='OpenLP'><tag name='it'><open><![CDATA[<em>]]></open><close><![CDATA[</em>]]></close><hidden><![CDATA[False]]></hidden></tag><tag name='gr'><open><![CDATA[<span style='-webkit-text-fill-color:grey'>]]></open><close><![CDATA[</span>]]></close><hidden><![CDATA[True]]></hidden></tag><tag name='fd'><open><![CDATA[<small>]]></open><close><![CDATA[</small>]]></close><hidden><![CDATA[True]]></hidden></tag></tags></format>`
+    : '';
+  const tParts = translatedSong ? parsedContent(translatedSong.content, 0, false, false) : [];
+	const lyrics = parsedContent(song.content, 0, false, false).map((p, i) => {
 		const type = p.type ? p.type.toUpperCase() : 'V';
 		const num = p.number > 0 ? p.number : '1';
-		return `<verse name='${type}${num}'><lines>` + p.content.replace(/\n/g, "<br />") + '</lines></verse>'
+    const tContent = (i in tParts)
+      ? `<br/><br/><tag name='it'><tag name='gr'><tag name='fd'>${tParts[i].content.replace(/\n/g, "<br />")}</tag></tag></tag>`
+      : '';
+		return `<verse name='${type}${num}'><lines>${p.content.replace(/\n/g, "<br />")}${tContent}</lines></verse>`;
 	}).join('');
 
-	return `<?xml version='1.0' encoding='UTF-8'?><song xmlns='http://openlyrics.info/namespace/2009/song' version='0.9' createdIn='SongDrive ${version}' modifiedIn='SongDrive ${version}' modifiedDate='${timestamp}'><properties><titles>${title}${subtitle}</titles>${copyright}${year}${ccli}${authors}${tags}</properties><lyrics>${lyrics}</lyrics></song>`;
+	return `<?xml version='1.0' encoding='UTF-8'?><song xmlns='http://openlyrics.info/namespace/2009/song' version='0.9' createdIn='SongDrive ${version}' modifiedIn='SongDrive ${version}' modifiedDate='${timestamp}'><properties><titles>${title}${subtitle}</titles>${copyright}${year}${ccli}${authors}${tags}</properties>${format}<lyrics>${lyrics}</lyrics></song>`;
 };
 
 export {

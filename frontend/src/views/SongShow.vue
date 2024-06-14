@@ -524,8 +524,15 @@ const exportSng = () => {
 };
 // export song in OpenLyrics XML format
 const exportXml = () => {
+	// check for translations
+	const lang = !('lang' in localStorage) ? locale.value : localStorage.getItem('lang');
+	let tSong = null;
+	if (lang !== song.value.language && song.value.translations.length > 0) {
+		const tKey = song.value.translations.find((t) => t.endsWith(`-${lang}`));
+		tSong = props.songs[tKey];
+	}
 	// start download
-	download(openLyricsXML(song.value, version, availableLocales, props.tags), songId + '.xml');
+	download(openLyricsXML(song.value, version, tSong, availableLocales, props.tags), songId + '.xml');
 	// toast success message
 	notify({
 		title: t('toast.exportedXml'),
