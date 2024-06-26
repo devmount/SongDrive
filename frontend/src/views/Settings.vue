@@ -259,7 +259,7 @@
 							class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
 						>
 							<figure
-								class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 px-2"
+								class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-mono py-1 px-2"
 								alt="Avatar"
 							>
 								{{ key.substring(0,2).toUpperCase()}}

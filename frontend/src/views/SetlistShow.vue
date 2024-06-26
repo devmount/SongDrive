@@ -228,6 +228,7 @@
 						<th class="uppercase p-2 font-normal w-96 hidden 2xl:table-cell">{{ t('field.authors') }}</th>
 						<th class="uppercase p-2 font-normal w-20 text-center">{{ t('field.tuning') }}</th>
 						<th class="uppercase p-2 font-normal w-20 hidden xl:table-cell">{{ t('field.language') }}</th>
+						<th class="uppercase p-2 font-normal w-20 hidden md:table-cell">{{ t('field.youtube') }}</th>
 						<th class="uppercase p-2 font-normal w-20 hidden md:table-cell">{{ t('field.ccli') }}</th>
 						<th class="w-11"></th>
 					</tr>
@@ -301,8 +302,19 @@
 								<td class="px-3 py-2 hidden xl:table-cell text-center">
 									<div class="uppercase">{{ songs[element.id].language }}</div>
 								</td>
+								<td class="px-3 py-2 hidden md:table-cell text-center">
+									<a
+										v-if="songs[element.id].youtube"
+										class="text-red-600 inline-flex align-middle"
+										:href="'https://youtu.be/' + songs[element.id].youtube"
+										target="_blank"
+									>
+										<icon-brand-youtube class="w-6 h-6 stroke-1.5" />
+									</a>
+								</td>
 								<td class="px-3 py-2 hidden md:table-cell">
 									<a
+										v-if="songs[element.id].ccli"
 										class="text-spring-600"
 										:href="'https://songselect.ccli.com/Songs/' + songs[element.id].ccli"
 										target="_blank"
@@ -514,6 +526,7 @@ import {
 	IconTxt,
 	IconUser,
 	IconWorld,
+	IconBrandYoutube,
 } from '@tabler/icons-vue';
 
 // component constants
