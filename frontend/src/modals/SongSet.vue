@@ -346,7 +346,6 @@ const setSong = () => {
 	error.language = song.value.language == '';
 	error.content = song.value.content == '';
 	error.slug = props.existing && props.id == slug ? false : props.songs.hasOwnProperty(slug);
-	console.log(slug, props.existing, props.id, props.songs.hasOwnProperty(slug));
 	// no errors: start saving song data
 	if (!errors.value) {
 		busy.value = true;
