@@ -385,8 +385,8 @@ const position = computed(() => props.ready.setlists && urlSetlist && urlKey
 
 // get song object from db as soon as songs have finished loading
 const song = computed(() => {
-	if (props.ready.songs) {
-		return props.songs[songId];
+	if (songId && props.ready.songs) {
+		return { ...props.songs[songId], id: songId };
 	}
 	return null;
 });
@@ -401,7 +401,7 @@ const showLanguages = computed(() => {
 				languages.push([sId, props.songs[sId].language]);
 			}
 		}
-		return languages.sort((a, b) => { 
+		return languages.sort((a, b) => {
 			return a[1] > b[1] ? 1 : -1;
 		})
 	} else {
