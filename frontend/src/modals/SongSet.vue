@@ -240,7 +240,7 @@ import 'vue-prism-editor/dist/prismeditor.min.css';
 import { keyScale, sdHighlight, throwError, urlify } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { PrismEditor } from 'vue-prism-editor';
-import { ref, reactive, computed, inject, watch } from 'vue';
+import { ref, reactive, computed, inject, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { setDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
@@ -308,6 +308,7 @@ const initInput = () => {
 	song.value = {...props.initialSong};
 };
 watch(() => props.active, () => initInput());
+onMounted(() => initInput());
 
 // active modals state
 const showModal = reactive({
@@ -336,7 +337,7 @@ const createSlug = () => {
 	return urlify(song.value.title) + '-' + song.value.language;
 };
 
-// add or save edits of song to db 
+// add or save edits of song to db
 const busy = ref(false);
 const setSong = () => {
 	const slug = createSlug();
@@ -345,6 +346,7 @@ const setSong = () => {
 	error.language = song.value.language == '';
 	error.content = song.value.content == '';
 	error.slug = props.existing && props.id == slug ? false : props.songs.hasOwnProperty(slug);
+	console.log(slug, props.existing, props.id, props.songs.hasOwnProperty(slug));
 	// no errors: start saving song data
 	if (!errors.value) {
 		busy.value = true;

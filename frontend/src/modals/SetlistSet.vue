@@ -140,7 +140,7 @@
 								</secondary-button>
 							</template>
 							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 !p-2 text-sm">
-								<secondary-button 
+								<secondary-button
 									v-for="(l, k) in languages" :key="k"
 									@click="filter.language = k"
 									:class="{ '!bg-spring-700': k === filter.language }"
