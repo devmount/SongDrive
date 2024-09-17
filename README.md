@@ -51,4 +51,4 @@ This project is licensed under the [MIT License](./LICENSE).
 
 ---
 
-SongDrive is completely free to use. If it's useful for you and you enjoy it, please consider [contributing](./.github/CONTRIBUTING.md) or [donating via Paypal](https://paypal.me/devmount) to support further development. 💚
+SongDrive is completely free to use. If it's useful for you and you enjoy it, please consider [contributing](./.github/CONTRIBUTING.md), [sponsoring me](https://github.com/sponsors/devmount) or [donating via Paypal](https://paypal.me/devmount) to support further development. 💚
