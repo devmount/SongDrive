@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/license-MIT-88b544.svg?style=flat-square)](./LICENSE)
 [![Contribution Guidlines](https://img.shields.io/badge/contributions-welcome-88b544.svg?style=flat-square)](./.github/CONTRIBUTING.md)
 
-A song management web application to store, sync and present songs and setlists, based on [Vue.js](//vuejs.org) and [Firebase](//firebase.google.com). Head over to the docs ([EN](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md), [DE](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md)) for more information about SongDrive and how to get started.
+A song management web application to store, sync and present songs and setlists, based on [Vue.js](//vuejs.org) and [Firebase](//firebase.google.com). Head over to the docs ([EN](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md), [DE](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md)) for more information about SongDrive and how to get started.
 
 > <picture>
 > <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/info.svg">
@@ -24,7 +24,7 @@ This is how the SongDrive Dashboard currently looks like.
 
 ## Features
 
-- Create and edit songtexts with chords using a [simple syntax](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md#song-syntax)
+- Create and edit songtexts with chords using a [simple syntax](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md#song-syntax)
 - Show single songs with a lot of tools or in a viewport optimized fullscreen view
 - Maintain song translations and wwitch song languages with a single click
 - Live-search through songs and setlists or filter by tags and by key
@@ -35,8 +35,8 @@ This is how the SongDrive Dashboard currently looks like.
 - Use Hotkeys for almost anything (hotkey cheatsheet included)
 - Analyze general, setlist and user specific stats
 - UI supports multiple languages (currently: EN, DE)
-- Users can [manage their own profile](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md#account), change email and password or delete their account.
-- Many admin functions including export and Import of complete SongDrive data and managing users with [different roles](https://github.com/devmount/SongDrive/blob/main/src/docs/docs.en.md#user-roles)
+- Users can [manage their own profile](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md#account), change email and password or delete their account.
+- Many admin functions including export and Import of complete SongDrive data and managing users with [different roles](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md#user-roles)
 
 ## Code structure
 

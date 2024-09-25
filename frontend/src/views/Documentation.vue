@@ -63,7 +63,7 @@
 				<div class="text-center">{{ t('text.foundABug') }}</div>
 				<div class="flex gap-4 justify-center items-center">
 					<a
-						:href="'https://github.com/devmount/SongDrive/blob/main/src/docs/docs.' + locale + '.md'"
+						:href="'https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.' + locale + '.md'"
 						target="_blank"
 					>
 						<secondary-button>
@@ -73,7 +73,7 @@
 						</secondary-button>
 					</a>
 					<a
-						:href="'https://github.com/devmount/SongDrive/edit/main/src/docs/docs.' + locale + '.md'"
+						:href="'https://github.com/devmount/SongDrive/edit/main/frontend/src/docs/docs.' + locale + '.md'"
 						target="_blank"
 					>
 						<secondary-button>

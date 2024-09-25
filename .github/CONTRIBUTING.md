@@ -50,7 +50,7 @@ You can als add a new translation for the documentation in the `src/docs/` direc
 
 ## Improving the docs
 
-You can contribute to the docs by editing the [documentation Markdown files](https://github.com/devmount/SongDrive/tree/main/src/docs) und and create a corresponding PR. SongDrive is currently available in the following languages:
+You can contribute to the docs by editing the [documentation Markdown files](https://github.com/devmount/SongDrive/tree/main/frontend/src/docs) und and create a corresponding PR. SongDrive is currently available in the following languages:
 
-- [English (`docs.en.md`)](https://github.com/devmount/SongDrive/edit/main/src/docs/docs.en.md)
-- [German (`docs.de.md`)](https://github.com/devmount/SongDrive/edit/main/src/docs/docs.de.md)
+- [English (`docs.en.md`)](https://github.com/devmount/SongDrive/edit/main/frontend/src/docs/docs.en.md)
+- [German (`docs.de.md`)](https://github.com/devmount/SongDrive/edit/main/frontend/src/docs/docs.de.md)
