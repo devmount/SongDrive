@@ -32,31 +32,31 @@
 	"dependencies": {
 		"@kyvg/vue3-notification": "^3.1.3",
 		"@tabler/icons-vue": "^3.3.0",
-		"@vuepic/vue-datepicker": "^9.0.0",
-		"@vueuse/core": "^11.0.0",
-		"@vueuse/math": "^11.0.0",
+		"@vuepic/vue-datepicker": "^10.0.0",
+		"@vueuse/core": "^12.3.0",
+		"@vueuse/math": "^12.3.0",
 		"@zip.js/zip.js": "^2.7.45",
 		"chart.js": "^4.0.1",
 		"date-fns": "^4.0.0",
 		"firebase": "^10.0.0",
 		"highlight.js": "^11.3.1",
-		"marked": "^14.0.0",
+		"marked": "^15.0.6",
 		"marked-highlight": "^2.1.0",
 		"pdfmake": "^0.2.2",
 		"vue": "^3.2.37",
-		"vue-i18n": "^10.0.0",
+		"vue-i18n": "^11.0.1",
 		"vue-prism-editor": "^2.0.0-alpha.2",
 		"vue-router": "^4.0.16",
-		"vue3-carousel": "^0.3.1",
+		"vue3-carousel": "^0.12.0",
 		"vuedraggable": "^4.1.0"
 	},
 	"devDependencies": {
-		"@tailwindcss/forms": "^0.5.3",
+		"@tailwindcss/forms": "^0.5.10",
 		"@vitejs/plugin-vue": "^5.0.3",
 		"autoprefixer": "^10.4.13",
 		"postcss": "^8.4.20",
 		"tailwindcss": "^3.2.4",
-		"vite": "^5.0.10"
+		"vite": "^6.0.7"
 	},
 	"postcss": {
 		"plugins": {

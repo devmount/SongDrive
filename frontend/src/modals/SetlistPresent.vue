@@ -27,9 +27,7 @@
 						/>
 					</slide>
 					<template #addons>
-						<pagination
-							class="fixed md:absolute w-screen md:w-auto z-50 bottom-0 left-0 md:left-2 !m-0 md:gap-2"
-						/>
+						<pagination class="hidden md:flex z-50 bottom-0 !m-0 left-0 translate-x-0 gap-2" />
 					</template>
 				</carousel>
 			</div>
@@ -77,7 +75,7 @@
 				<!-- song info -->
 				<secondary-button
 					class="hidden lg:block"
-					:disabled="!songs[currentPosition].note"
+					:disabled="!songs[currentPosition]?.note"
 					:title="tooltip('info')"
 					@click="songs[currentPosition].note ? showModal.infosongdata = true : null"
 				>
@@ -217,7 +215,7 @@ import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
 import { logicOr } from '@vueuse/math';
 import { whenever } from '@vueuse/core';
-import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
+import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick, inject, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Dropdown from '@/elements/Dropdown.vue';
 import InfoSongData from '@/modals/InfoSongData.vue';
@@ -271,7 +269,7 @@ const props = defineProps({
 const showModal = reactive({
 	infosongdata: false
 });
-const presentation = ref(null);
+const presentation = ref();
 const songContentRef = ref([]);
 const currentPosition = ref(0);
 const autoSync = ref(false);
@@ -310,7 +308,7 @@ const resizeHandler = () => {
 // handle tooltips
 const tooltip = (target) => {
 	switch (target) {
-		case 'info': return props.songs[currentPosition.value].note
+		case 'info': return props.songs[currentPosition.value]?.note
 			? t('tooltip.infoSongData') + '\n' + t('key.ctrl') + ' + ' + t('key.I')
 			: t('tooltip.noSongInfo');
 		case 'sync':
@@ -389,7 +387,7 @@ onMounted(() => {
 	window.addEventListener('resize', resizeHandler);
 	// TODO: workaround for initial slide width
 	setInterval(() => {
-		presentation.value?.updateSlideWidth();
+		presentation.value?.updateSlideSize();
 	}, 0);
 });
 onUnmounted(() => {
