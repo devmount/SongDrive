@@ -39,7 +39,7 @@
 				<!-- back navigation -->
 				<secondary-button
 					class="absolute bottom-0 left-4 md:left-auto md:right-1/2 flex items-center gap-1 mr-0.5"
-					:disabled="currentPosition == 0"
+					:disabled="currentPosition <= 0"
 					title="Previous Song"
 					@click="presentation.prev()"
 				>
@@ -56,7 +56,7 @@
 				<!-- forward navigation -->
 				<secondary-button
 					class="absolute bottom-0 left-16 md:left-1/2 flex items-center gap-1 ml-0.5"
-					:disabled="currentPosition == songs.length-1"
+					:disabled="currentPosition >= songs.length-1"
 					title="Next Song"
 					@click="presentation.next()"
 				>
@@ -215,7 +215,7 @@ import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination } from 'vue3-carousel';
 import { logicOr } from '@vueuse/math';
 import { whenever } from '@vueuse/core';
-import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick, inject, watchEffect } from 'vue';
+import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Dropdown from '@/elements/Dropdown.vue';
 import InfoSongData from '@/modals/InfoSongData.vue';
@@ -398,11 +398,19 @@ onUnmounted(() => {
 // component shortcuts
 whenever(
 	logicOr(hkUp, hkBack),
-	() => presentation.value?.prev()
+	() => {
+		if (props.active && currentPosition.value > 0) {
+			presentation.value?.prev();
+		}
+	}
 );
 whenever(
 	logicOr(hkDown, hkForward),
-	() => presentation.value?.next()
+	() => {
+		if (props.active && currentPosition.value < props.songs.length-1) {
+			presentation.value?.next();
+		}
+	}
 );
 whenever(
 	hkInfo,
