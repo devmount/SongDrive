@@ -27,9 +27,7 @@
 						/>
 					</slide>
 					<template #addons>
-						<pagination
-							class="fixed md:absolute w-screen md:w-auto z-50 bottom-0 left-0 md:left-2 !m-0 md:gap-2"
-						/>
+						<pagination class="hidden md:flex z-50 bottom-0 !m-0 left-0 translate-x-0 gap-2" />
 					</template>
 				</carousel>
 			</div>
@@ -41,7 +39,7 @@
 				<!-- back navigation -->
 				<secondary-button
 					class="absolute bottom-0 left-4 md:left-auto md:right-1/2 flex items-center gap-1 mr-0.5"
-					:disabled="currentPosition == 0"
+					:disabled="currentPosition <= 0"
 					title="Previous Song"
 					@click="presentation.prev()"
 				>
@@ -58,7 +56,7 @@
 				<!-- forward navigation -->
 				<secondary-button
 					class="absolute bottom-0 left-16 md:left-1/2 flex items-center gap-1 ml-0.5"
-					:disabled="currentPosition == songs.length-1"
+					:disabled="currentPosition >= songs.length-1"
 					title="Next Song"
 					@click="presentation.next()"
 				>
@@ -77,7 +75,7 @@
 				<!-- song info -->
 				<secondary-button
 					class="hidden lg:block"
-					:disabled="!songs[currentPosition].note"
+					:disabled="!songs[currentPosition]?.note"
 					:title="tooltip('info')"
 					@click="songs[currentPosition].note ? showModal.infosongdata = true : null"
 				>
@@ -271,7 +269,7 @@ const props = defineProps({
 const showModal = reactive({
 	infosongdata: false
 });
-const presentation = ref(null);
+const presentation = ref();
 const songContentRef = ref([]);
 const currentPosition = ref(0);
 const autoSync = ref(false);
@@ -310,7 +308,7 @@ const resizeHandler = () => {
 // handle tooltips
 const tooltip = (target) => {
 	switch (target) {
-		case 'info': return props.songs[currentPosition.value].note
+		case 'info': return props.songs[currentPosition.value]?.note
 			? t('tooltip.infoSongData') + '\n' + t('key.ctrl') + ' + ' + t('key.I')
 			: t('tooltip.noSongInfo');
 		case 'sync':
@@ -389,7 +387,7 @@ onMounted(() => {
 	window.addEventListener('resize', resizeHandler);
 	// TODO: workaround for initial slide width
 	setInterval(() => {
-		presentation.value?.updateSlideWidth();
+		presentation.value?.updateSlideSize();
 	}, 0);
 });
 onUnmounted(() => {
@@ -400,11 +398,19 @@ onUnmounted(() => {
 // component shortcuts
 whenever(
 	logicOr(hkUp, hkBack),
-	() => presentation.value?.prev()
+	() => {
+		if (props.active && currentPosition.value > 0) {
+			presentation.value?.prev();
+		}
+	}
 );
 whenever(
 	logicOr(hkDown, hkForward),
-	() => presentation.value?.next()
+	() => {
+		if (props.active && currentPosition.value < props.songs.length-1) {
+			presentation.value?.next();
+		}
+	}
 );
 whenever(
 	hkInfo,
