@@ -34,10 +34,10 @@ This directory contains all frontend functionality of SongDrive.
 9. To give necessary permisstions, click + Start collection again. Input *permissions* as Collection ID and click Next. Insert the copied UID as Document ID and add the following field to the document:
     - `role` = string | `admin`
 
-10. Now your app is ready to be launched. Either start the development server with hot reload at `localhost:8080` ...
+10. Now your app is ready to be launched. Either start the development server with hot reload at `localhost:5173` ...
 
     ```bash
-    npm run serve
+    npm run dev
     ```
 
 11. ... or create an optimized production build with minification. All build files can be found in the `dist` directory.
