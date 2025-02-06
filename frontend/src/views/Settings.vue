@@ -481,6 +481,7 @@ import {
 
 // component constants
 const { t, locale, availableLocales } = useI18n({ useScope: 'global' });
+const loc = locale.value.substring(0, 2);
 
 // global properties
 const fb = inject('firebaseApp');
@@ -695,11 +696,11 @@ const uiLanguages = computed(() => {
 	});
 	return uiLanguages;
 });
-const initLang = !('lang' in localStorage) ? locale.value : localStorage.getItem('lang');
+const initLang = !('lang' in localStorage) ? loc : localStorage.getItem('lang');
 const lang = ref(initLang);
 watch(lang, (newValue) => {
 	locale.value = newValue;
-	localStorage.setItem('lang', newValue);
+	localStorage.setItem('lang', newValue.substring(0, 2));
 });
 
 // handle theme mode

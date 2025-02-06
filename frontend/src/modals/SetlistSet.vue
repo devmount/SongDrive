@@ -47,7 +47,7 @@
 						class="lg:hidden"
 						pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
 					/>
-					<div class="text-blade-500">{{ humanDate(setlist.date, locale) }}</div>
+					<div class="text-blade-500">{{ humanDate(setlist.date, loc) }}</div>
 					<div v-if="error.date & !setlist.date" class="text-rose-600">
 						{{ t('error.requiredDate') }}
 					</div>
@@ -60,8 +60,8 @@
 						auto-apply
 						:dark="isDark"
 						:enable-time-picker="false"
-						:locale="locale"
-						:format-locale="calendarLanguage[locale]"
+						:locale="loc"
+						:format-locale="calendarLanguage[loc]"
 						@update:model-value="updateDate"
 					>
 						<template #arrow-left>
@@ -102,7 +102,7 @@
 							</template>
 							<div class="max-h-80 overflow-y-scroll flex flex-col gap-0.5 !p-2 text-sm">
 								<tag
-									v-for="tag in sortTags(tags, locale)" :key="tag.key"
+									v-for="tag in sortTags(tags, loc)" :key="tag.key"
 									:tag="tag"
 									@click="filter.tag = tag.key"
 									class="cursor-pointer"
@@ -304,6 +304,8 @@ import {
 
 // component constants
 const { t, locale } = useI18n();
+const loc = locale.value.substring(0, 2);
+
 const calendarLanguage = {
 	en: enGB,
 	de: de
@@ -455,7 +457,7 @@ const performedSongs = computed(() => {
 	setlists.forEach(setlist => {
 		setlist.songs.forEach(song => {
 			if (!(song.id in songs)) {
-				songs[song.id] = humanDate(setlist.date, locale.value, false);
+				songs[song.id] = humanDate(setlist.date, loc, false);
 			}
 		});
 	});

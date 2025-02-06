@@ -5,7 +5,7 @@
 		<slot>
 			<icon-tag class="shrink-0 w-4 h-4 stroke-1.5" />
 			<div v-if="tag" class="whitespace-nowrap">
-				{{ tag[locale] ? tag[locale] : tag.key }}
+				{{ tag[loc] ? tag[loc] : tag.key }}
 			</div>
 			<icon-x v-if="closable" class="cursor-pointer w-4 h-4 stroke-1.5"  @click="emit('close')" />
 		</slot>
@@ -20,6 +20,7 @@ import { IconTag, IconX } from '@tabler/icons-vue';
 
 // component constants
 const { locale } = useI18n({ useScope: 'global' });
+const loc = locale.value.substring(0, 2);
 
 // component properties
 const props = defineProps({
