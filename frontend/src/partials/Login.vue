@@ -11,6 +11,7 @@
 					v-model="email"
 					:class="{ '!border-rose-600': error.email }"
 					:placeholder="t('field.email')"
+					autocomplete="email"
 					required
 				/>
 				<input

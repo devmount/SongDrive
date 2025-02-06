@@ -63,7 +63,7 @@
 				<div class="text-center">{{ t('text.foundABug') }}</div>
 				<div class="flex gap-4 justify-center items-center">
 					<a
-						:href="'https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.' + locale + '.md'"
+						:href="'https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.' + loc + '.md'"
 						target="_blank"
 					>
 						<secondary-button>
@@ -73,7 +73,7 @@
 						</secondary-button>
 					</a>
 					<a
-						:href="'https://github.com/devmount/SongDrive/edit/main/frontend/src/docs/docs.' + locale + '.md'"
+						:href="'https://github.com/devmount/SongDrive/edit/main/frontend/src/docs/docs.' + loc + '.md'"
 						target="_blank"
 					>
 						<secondary-button>
@@ -109,10 +109,11 @@ import {
 
 // component constants
 const { t, locale } = useI18n();
+const loc = locale.value.substring(0, 2);
 
 // documentation contents
 const docs = { de, en };
-const lang = ['de', 'en'].includes(locale.value) ? locale.value : 'en';
+const lang = ['de', 'en'].includes(loc) ? loc : 'en';
 
 // convert spaces to dashes
 const dashCase = (text) => {

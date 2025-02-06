@@ -39,7 +39,7 @@ const messages = {
 	'en': en, // English
 };
 const loc = !('lang' in localStorage)
-	? navigator.language || navigator.userLanguage
+	? navigator.language.substring(0, 2) || navigator.userLanguage.substring(0, 2)
 	: localStorage.getItem('lang');
 const i18n = createI18n({
 	legacy: false,
@@ -73,7 +73,7 @@ marked.use({
 app.provide('marked', marked);
 
 // extend Object for filtering
-Object.filter = (obj, predicate) => 
+Object.filter = (obj, predicate) =>
 	Object.keys(obj)
 		.filter(key => predicate(obj[key]))
 		.reduce((res, key) => (res[key] = obj[key], res), {});
