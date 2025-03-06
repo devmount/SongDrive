@@ -800,7 +800,7 @@ const copyList = (format) => {
 		}
 	);
 	// Add link to list
-	list.push(...['', format === 'markdown' ? `<${window.location}>` : window.location]);
+	list.push(...['', format === 'markdown' ? `<${window.location.href}>` : window.location.href]);
 
 	// Copy to clipboard
 	navigator.clipboard.writeText(list.join('\n'));
@@ -837,6 +837,13 @@ const exportPdf = (mode) => {
 				lineHeight: 1.4,
 				margin: [ 0, 30, 0, 5 ]
 			},
+			link: {
+				font: 'FiraSans',
+				fontSize: 11,
+				lineHeight: 1.4,
+				color: '#759B3B',
+				margin: [ 0, 20, 0, 0 ],
+			},
 			partnumber: {
 				font: 'FiraSans',
 				fontSize: 24,
@@ -859,12 +866,11 @@ const exportPdf = (mode) => {
 			}
 		}
 	};
-	pdfMake.createPdf(doc).download(
-		route.params.id
-		+ '-'
-		+ (mode == 'sheets' ? t('text.songsheets') : t('text.list')).toLowerCase()
-		+ '.pdf'
-	);
+
+	// Trigger download
+	const type = (mode == 'sheets' ? t('text.songsheets') : t('text.list')).toLowerCase();
+	pdfMake.createPdf(doc).download(`${route.params.id}-${type}.pdf`);
+
 	// toast success message
 	notify({
 		title: t('toast.exportedPdf'),
@@ -893,7 +899,8 @@ const getPdfSetlist = () => {
 			style: 'subtitle',
 			margin: [ 0, 6, 0, 0 ]
 		},
-		{ ol: songs, style: 'list'}
+		{ ol: songs, style: 'list'},
+		{ text: window.location.href, link: window.location.href, style: 'link' },
 	];
 };
 
