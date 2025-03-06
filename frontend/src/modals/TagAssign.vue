@@ -25,7 +25,7 @@
 							type="checkbox"
 							class="w-6 h-6 ml-2"
 						/>
-						{{ tag[locale] ? tag[locale] : tag.key }}
+						{{ tag[loc] ? tag[loc] : tag.key }}
 					</label>
 				</div>
 			</div>
@@ -39,7 +39,7 @@
 					<div class="text-lg text-center mb-2">{{ t('text.selection') }}</div>
 					<div v-for="tag in sortedSelectedTags" :key="tag" class="flex items-center gap-2">
 						<icon-tag class="w-4 h-4" />
-						{{ tags[tag][locale] ? tags[tag][locale] : tag }}
+						{{ tags[tag][loc] ? tags[tag][loc] : tag }}
 						<button
 							class="ml-auto"
 							@click="selectedTags = selectedTags.filter(k => k !== tag)"
@@ -79,6 +79,7 @@ import {
 
 // component constants
 const { t, locale } = useI18n();
+const loc = locale.value.substring(0, 2);
 
 // user input properties
 const selectedTags = ref([]);
@@ -109,7 +110,7 @@ const filteredTags = computed(() => {
 				const tag = props.tags[key];
 				let search = searchInput.value.toLowerCase();
 				// search in tag labels
-				let label = tag[locale.value] ? tag[locale.value] : key;
+				let label = tag[loc] ? tag[loc] : key;
 				if (label.toLowerCase().indexOf(search) !== -1) {
 					tags[key] = tag;
 				}

@@ -294,7 +294,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
 import Dropdown from '@/elements/Dropdown.vue';
-import pdfMake from "pdfmake/build/pdfmake";
+import pdfMake, { log } from "pdfmake/build/pdfmake";
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent.vue';
@@ -327,6 +327,8 @@ import {
 
 // component constants
 const { t, availableLocales } = useI18n();
+console.log(availableLocales);
+
 const route      = useRoute();
 const router     = useRouter();
 const songId     = route.params.id;

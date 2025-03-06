@@ -56,6 +56,7 @@ import {
 
 // component constants
 const { t, locale } = useI18n();
+const loc = locale.value.substring(0, 2);
 
 // component properties
 const props = defineProps({
@@ -66,6 +67,6 @@ const props = defineProps({
 // sort tag list
 const sortedTags = computed(() => {
 	const songTags = props.song.tags.map(t => props.tags[t]);
-	return sortTags(songTags, locale.value);
+	return sortTags(songTags, loc);
 });
 </script>

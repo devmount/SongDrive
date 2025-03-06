@@ -1,7 +1,7 @@
 {
 	"name": "songdrive",
 	"description": "A song management tool to store, synchronize and present songs and setlists. Built with Vue.js and Firebase.",
-	"version": "3.1.2",
+	"version": "3.1.4",
 	"license": "MIT",
 	"author": {
 		"name": "Andreas Müller",
@@ -32,7 +32,7 @@
 	"dependencies": {
 		"@kyvg/vue3-notification": "^3.1.3",
 		"@tabler/icons-vue": "^3.3.0",
-		"@vuepic/vue-datepicker": "^10.0.0",
+		"@vuepic/vue-datepicker": "^11.0.0",
 		"@vueuse/core": "^12.3.0",
 		"@vueuse/math": "^12.3.0",
 		"@zip.js/zip.js": "^2.7.45",
@@ -47,7 +47,7 @@
 		"vue-i18n": "^11.0.1",
 		"vue-prism-editor": "^2.0.0-alpha.2",
 		"vue-router": "^4.0.16",
-		"vue3-carousel": "^0.12.0",
+		"vue3-carousel": "^0.13.0",
 		"vuedraggable": "^4.1.0"
 	},
 	"devDependencies": {

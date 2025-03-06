@@ -531,6 +531,7 @@ import {
 
 // component constants
 const { t, locale } = useI18n();
+const loc = locale.value.substring(0, 2);
 const route = useRoute();
 const router = useRouter();
 const setlistKey = route.params.id;
@@ -995,7 +996,7 @@ const exportOsz = async () => {
 			// get song object
 			const song = props.songs[setlist.value.songs[key].id];
 			// check for translations
-			const lang = !('lang' in localStorage) ? locale.value : localStorage.getItem('lang');
+			const lang = !('lang' in localStorage) ? loc : localStorage.getItem('lang');
 			let tSong = null;
 			if (lang !== song.language && song.translations.length > 0) {
 				const tKey = song.translations.find((t) => t.endsWith(`-${lang}`));

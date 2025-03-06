@@ -52,7 +52,7 @@
 					<icon-chevron-right class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
 			</div>
-		</div>	
+		</div>
 
 		<!-- empty songs collection -->
 		<div v-if="noSongs" class="text-blade-500">
@@ -124,7 +124,7 @@
 							<icon-filter class="absolute top-0 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 							<select v-model="filter.tag" class="w-full pl-8">
 								<option v-for="tag in tags" :key="tag.key" :value="tag.key">
-									{{ tag[locale] ? tag[locale] : tag.key }}
+									{{ tag[loc] ? tag[loc] : tag.key }}
 								</option>
 							</select>
 						</label>
@@ -290,6 +290,7 @@ import {
 
 // component constantes
 const { t, locale } = useI18n();
+const loc = locale.value.substring(0, 2);
 const route = useRoute();
 const router = useRouter();
 
@@ -340,7 +341,7 @@ const isFiltered = computed(() => {
 // pagination and sorting
 const page       = ref(0);
 const listLength = 16;
-const order = reactive({ 
+const order = reactive({
 	field: 'title',
 	ascending: true
 });

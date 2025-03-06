@@ -20,10 +20,11 @@ import Modal from '@/elements/Modal.vue';
 
 // component constants
 const { t, locale } = useI18n();
+const loc = locale.value.substring(0, 2);
 
 // cheatsheet contents
 const cheatsheets = { de, en };
-const lang = ['de', 'en'].includes(locale.value) ? locale.value : 'en';
+const lang = ['de', 'en'].includes(loc) ? loc : 'en';
 
 // component properties
 const props = defineProps({
