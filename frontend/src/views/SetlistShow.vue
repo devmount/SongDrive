@@ -799,6 +799,10 @@ const copyList = (format) => {
 			}
 		}
 	);
+	// Add link to list
+	list.push(...['', format === 'markdown' ? `<${window.location}>` : window.location]);
+
+	// Copy to clipboard
 	navigator.clipboard.writeText(list.join('\n'));
 	notify({
 		title: t('toast.copiedToClipboard'),
