@@ -50,7 +50,7 @@ const maximizeFontsize = () => {
 		// all child elements
 		for (let b of a.querySelectorAll('pre')) {
 			let fontSize = parseInt(getComputedStyle(b).fontSize.match(/\d+/)[0]);
-			// increase font size as long as the child is still smaller than parent and not greater than max fontsize 
+			// increase font size as long as the child is still smaller than parent and not greater than max fontsize
 			let n1 = 100; // max of 100 iterations for performance reasons
 			while (b.offsetWidth < a.offsetWidth - WIDTH_MARGIN && n1 > 0 && fontSize <= MAX_FONTSIZE) {
 				b.style.fontSize = (fontSize += 2) + 'px';
