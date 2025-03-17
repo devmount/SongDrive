@@ -9,20 +9,20 @@
 	<transition-scale>
 		<div
 			v-if="active"
-			class="fixed z-40 position-center rounded-sm shadow-l w-full max-w-sm p-4 flex flex-col gap-4"
+			class="fixed z-40 position-center rounded-xs shadow-l w-full max-w-sm p-4 flex flex-col gap-4"
 			:class="{
 				'bg-blade-100 dark:bg-blade-850': !theme,
 				'bg-white text-black': theme === themes.white,
 				'bg-black text-white': theme === themes.black,
-				'!max-w-md': size === sizes.md,
-				'!max-w-lg': size === sizes.lg,
-				'!max-w-xl': size === sizes.xl,
-				'!max-w-2xl h-screen xs:h-2/3v': size === sizes.xl2,
-				'!max-w-3xl h-screen xs:h-2/3v': size === sizes.xl3,
-				'!max-w-5xl h-screen md:h-3/4v': size === sizes.xl5,
-				'!max-w-6xl h-screen lg:h-4/5v': size === sizes.xl6,
-				'!max-w-7xl h-screen lg:h-4/5v': size === sizes.xl7,
-				'!max-w-none w-screen h-screen': size === sizes.full,
+				'max-w-md!': size === sizes.md,
+				'max-w-lg!': size === sizes.lg,
+				'max-w-xl!': size === sizes.xl,
+				'max-w-2xl! h-screen xs:h-2/3v': size === sizes.xl2,
+				'max-w-3xl! h-screen xs:h-2/3v': size === sizes.xl3,
+				'max-w-5xl! h-screen md:h-3/4v': size === sizes.xl5,
+				'max-w-6xl! h-screen lg:h-4/5v': size === sizes.xl6,
+				'max-w-7xl! h-screen lg:h-4/5v': size === sizes.xl7,
+				'max-w-none! w-screen h-screen': size === sizes.full,
 			}"
 			@click.stop="null"
 		>

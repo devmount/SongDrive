@@ -169,7 +169,7 @@
 								<div class="-mt-1 truncate">{{ u.name }}</div>
 								<div class="text-sm text-blade-500 -mt-1 truncate">{{ u.email }}</div>
 							</div>
-							<div v-if="permissions[u.id]" class="self-center rounded-sm bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
+							<div v-if="permissions[u.id]" class="self-center rounded-xs bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
 								{{ t('role.' + permissions[u.id].role) }}
 							</div>
 							<a
@@ -217,7 +217,7 @@
 								<div class="-mt-1 truncate">{{ r.name }}</div>
 								<div class="text-sm text-blade-500 -mt-1 truncate">{{ r.email }}</div>
 							</div>
-							<div class="self-center rounded-sm bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
+							<div class="self-center rounded-xs bg-blade-300 dark:bg-blade-700 py-0.5 px-1.5">
 								{{ t('role.unconfirmed') }}
 							</div>
 							<button
@@ -304,7 +304,7 @@
 						<tag
 							v-for="tag in sortTags(tags, locale)" :key="tag.key"
 							:tag="tag"
-							class="cursor-pointer hover:bg-spring-400 hover:dark:!bg-spring-700"
+							class="cursor-pointer hover:bg-spring-400 dark:hover:bg-spring-700!"
 							@click="active.tag=tag; active.key=tag.key; active.existing=true; modal.tagset=true"
 						/>
 					</div>

@@ -39,7 +39,7 @@
 				>
 					<div v-show="showFirstEllipsis(p)">&hellip;</div>
 					<div
-						class="transition-colors cursor-pointer rounded-sm px-2 py-1 hover:bg-blade-300 dark:hover:bg-blade-750"
+						class="transition-colors cursor-pointer rounded-xs px-2 py-1 hover:bg-blade-300 dark:hover:bg-blade-750"
 						:class="{ 'bg-spring-400 dark:bg-spring-700': (p-1) == page }"
 						v-show="showPageItemLink(p)"
 						@click="page = p-1"
@@ -166,7 +166,7 @@
 			<tbody v-if="ready.setlists">
 				<tr
 					v-for="(setlist, i) in pagedSetlists" :key="i"
-					class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900"
+					class="even:bg-blade-200/50 dark:even:bg-blade-900/50 hover:bg-blade-200 dark:hover:bg-blade-900"
 				>
 					<td>
 						<icon-circle-dot v-if="setlist.active" class="w-6 h-6 stroke-1.5 text-spring-600 mx-auto" :title="t('tooltip.syncActive')" />

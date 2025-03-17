@@ -13,7 +13,7 @@
 					<input
 						type="text"
 						v-model="song.title"
-						:class="{ '!border-rose-600': (error.title & !song.title) || error.slug }"
+						:class="{ 'border-rose-600!': (error.title & !song.title) || error.slug }"
 						:placeholder="t('placeholder.exampleSongTitle')"
 						:disabled="existing"
 					/>
@@ -37,7 +37,7 @@
 					<!-- language -->
 					<label v-if="ready.languages" class="flex flex-col gap-1">
 						<div>{{ t('field.language') }} <span class="text-rose-600">*</span></div>
-						<select v-model="song.language" :class="{ '!border-rose-600': error.language & !song.language }">
+						<select v-model="song.language" :class="{ 'border-rose-600!': error.language & !song.language }">
 							<option value="">{{ t('placeholder.select') }}</option>
 							<option v-for="(l, key) in languages" :value="key" :key="key">
 								{{ l.label }}
@@ -78,7 +78,7 @@
 									@close="song.tags = song.tags.filter(k => k !== tag)"
 									closable
 								/>
-							<secondary-button class="!p-0.5" @click="showModal.tags = true">
+							<secondary-button class="p-0.5!" @click="showModal.tags = true">
 								<icon-plus class="w-5 h-5 stroke-1.5" />
 							</secondary-button>
 						</div>
@@ -165,7 +165,7 @@
 							</button>
 						</div>
 					</div>
-					<secondary-button class="!p-1 self-start" @click="showModal.translations = true">
+					<secondary-button class="p-1! self-start" @click="showModal.translations = true">
 						<icon-plus class="w-5 h-5 stroke-1.5" />
 					</secondary-button>
 				</label>
@@ -175,7 +175,7 @@
 				<label class="flex justify-between" for="song-content">
 					<div>{{ t('field.content') }} <span class="text-rose-600">*</span></div>
 					<secondary-button
-						class="!p-1"
+						class="p-1!"
 						:title="t('modal.songSyntaxCheatsheet')"
 						@click="showModal.infosongsyntax = true"
 					>
@@ -185,7 +185,7 @@
 				<prism-editor
 					id="song-content"
 					class="font-mono text-sm leading-4 p-1.5"
-					:class="{ '!border-rose-600': error.content & !song.content }"
+					:class="{ 'border-rose-600!': error.content & !song.content }"
 					v-model="song.content"
 					:highlight="sdHighlight"
 					:placeholder="t('placeholder.exampleSongContent')"

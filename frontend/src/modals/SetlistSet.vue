@@ -13,7 +13,7 @@
 					<input
 						type="text"
 						v-model="setlist.title"
-						:class="{ '!border-rose-600': (error.title & !setlist.title) || error.slug }"
+						:class="{ 'border-rose-600!': (error.title & !setlist.title) || error.slug }"
 						:placeholder="t('placeholder.exampleSetlistTitle')"
 						required
 					/>
@@ -55,7 +55,7 @@
 						:model-value="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 						format="yyyy-MM-dd"
 						class="hidden lg:block"
-						:class="{ 'border !border-rose-600': error.date & !setlist.date }"
+						:class="{ 'border border-rose-600!': error.date & !setlist.date }"
 						inline
 						auto-apply
 						:dark="isDark"
@@ -100,13 +100,13 @@
 									<icon-tags class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
-							<div class="max-h-80 overflow-y-scroll flex flex-col gap-0.5 !p-2 text-sm">
+							<div class="max-h-80 overflow-y-scroll flex flex-col gap-0.5 p-2! text-sm">
 								<tag
 									v-for="tag in sortTags(tags, loc)" :key="tag.key"
 									:tag="tag"
 									@click="filter.tag = tag.key"
 									class="cursor-pointer"
-									:class="{ '!bg-spring-700': tag.key === filter.tag }"
+									:class="{ 'bg-spring-700!': tag.key === filter.tag }"
 								/>
 							</div>
 						</dropdown>
@@ -119,12 +119,12 @@
 									<icon-music class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
-							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 !p-2 text-sm font-mono">
+							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 p-2! text-sm font-mono">
 								<secondary-button
 									v-for="t in keyScale" :key="t"
 									@click="filter.key = t"
-									class="!px-6"
-									:class="{ '!bg-spring-700': t === filter.key }"
+									class="px-6!"
+									:class="{ 'bg-spring-700!': t === filter.key }"
 								>
 									{{ t }}
 								</secondary-button>
@@ -139,11 +139,11 @@
 									<icon-world class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
-							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 !p-2 text-sm">
+							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 p-2! text-sm">
 								<secondary-button
 									v-for="(l, k) in languages" :key="k"
 									@click="filter.language = k"
-									:class="{ '!bg-spring-700': k === filter.language }"
+									:class="{ 'bg-spring-700!': k === filter.language }"
 								>
 									{{ l.label }}
 								</secondary-button>
@@ -205,7 +205,7 @@
 						v-model="setlist.songs"
 						item-key="id"
 						handle=".handle"
-						ghost-class="!bg-blade-950"
+						ghost-class="bg-blade-950!"
 						class="overflow-y-scroll h-full flex flex-col gap-1 mt-3"
 					>
 						<template #item="{ element, index }">
@@ -216,7 +216,7 @@
 									<icon-menu-order class="handle w-5 h-5" />
 								</button>
 								<div class="flex items-center">
-									<secondary-button @click.prevent="tuneDown(index)" class="w-6 h-6 !p-1">
+									<secondary-button @click.prevent="tuneDown(index)" class="w-6 h-6 p-1!">
 										<icon-chevron-left class="w-4 h-4 stroke-2 shrink-0" />
 									</secondary-button>
 									<figure
@@ -225,7 +225,7 @@
 									>
 										<div class="-mt-0.5">{{ element.tuning ?? songs[element.id].tuning }}</div>
 									</figure>
-									<secondary-button @click.prevent="tuneUp(index)" class="w-6 h-6 !p-1">
+									<secondary-button @click.prevent="tuneUp(index)" class="w-6 h-6 p-1!">
 										<icon-chevron-right class="w-4 h-4 stroke-2 shrink-0" />
 									</secondary-button>
 								</div>

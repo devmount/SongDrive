@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="rounded text-sm flex items-center bg-blade-300 dark:bg-blade-750 hover:bg-spring-700 gap-2 py-0.5 px-2"
+		class="rounded-sm text-sm flex items-center bg-blade-300 dark:bg-blade-750 hover:bg-spring-700 gap-2 py-0.5 px-2"
 	>
 		<slot>
 			<icon-tag class="shrink-0 w-4 h-4 stroke-1.5" />
