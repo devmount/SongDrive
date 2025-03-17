@@ -26,17 +26,30 @@
 							ref="songContentRef"
 						/>
 					</slide>
-					<template #addons>
-						<pagination class="hidden md:flex z-50 bottom-0 !m-0 left-0 translate-x-0 gap-2" />
-					</template>
 				</carousel>
 			</div>
-			<!-- toolbar -->
+
+			<!-- Toolbar -->
 			<div
 				class="group fixed z-40 bottom-2 right-2 w-full flex justify-end items-center gap-1 transition-opacity"
 				:class="{ 'opacity-0 hover:opacity-100': !chords }"
 			>
-				<!-- back navigation -->
+				<!-- Pagination -->
+				<div class="hidden md:flex mr-auto ml-6 gap-2">
+					<secondary-button
+						v-for="(song, i) in songs"
+						:key="i"
+						class="w-8 h-8 !rounded-full"
+						:class="{
+							'!bg-spring-600': i === presentation?.data.currentSlide
+						}"
+						@click="presentation.slideTo(i)"
+					>
+						<span v-if="chords">{{ song.customTuning }}</span>
+					</secondary-button>
+				</div>
+
+				<!-- Back navigation -->
 				<secondary-button
 					class="absolute bottom-0 left-4 md:left-auto md:right-1/2 flex items-center gap-1 mr-0.5"
 					:disabled="currentPosition <= 0"
@@ -48,12 +61,13 @@
 						<div class="hidden 2xl:block max-w-3xs truncate">
 							{{ songs[currentPosition-1].title }}
 						</div>
-						<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
+						<div v-if="chords" class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
 							{{ songs[currentPosition-1].customTuning }}
 						</div>
 					</div>
 				</secondary-button>
-				<!-- forward navigation -->
+
+				<!-- Forward navigation -->
 				<secondary-button
 					class="absolute bottom-0 left-16 md:left-1/2 flex items-center gap-1 ml-0.5"
 					:disabled="currentPosition >= songs.length-1"
@@ -64,15 +78,17 @@
 						<div class="hidden 2xl:block max-w-3xs truncate">
 							{{ songs[currentPosition+1].title }}
 						</div>
-						<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
+						<div v-if="chords" class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
 							{{ songs[currentPosition+1].customTuning }}
 						</div>
 					</div>
 					<icon-arrow-right class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
-				<!-- live clock -->
+
+				<!-- Live clock -->
 				<div class="font-mono text-2xl px-4">{{ timeonly }}</div>
-				<!-- song info -->
+
+				<!-- Song info -->
 				<secondary-button
 					class="hidden lg:block"
 					:disabled="!songs[currentPosition]?.note"
@@ -81,7 +97,7 @@
 				>
 					<icon-info-circle class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': showModal.infosongdata }" />
 				</secondary-button>
-				<!-- toggle synchronisation -->
+				<!-- Toggle synchronisation -->
 				<secondary-button
 					class="hidden lg:block"
 					:title="tooltip('sync')"
@@ -90,7 +106,7 @@
 					<icon-refresh v-if="autoSync" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
 					<icon-refresh-off v-else class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
-				<!-- toggle content visibility -->
+				<!-- Toggle content visibility -->
 				<secondary-button
 					class="hidden lg:block"
 					:title="tooltip('display')"
@@ -99,7 +115,7 @@
 					<icon-eye v-if="!hide" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
 					<icon-eye-off v-else class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
-				<!-- toggle theme -->
+				<!-- Toggle theme -->
 				<secondary-button
 					class="hidden lg:block"
 					:title="tooltip('invert')"
@@ -107,7 +123,7 @@
 				>
 					<icon-brightness class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': !dark }" />
 				</secondary-button>
-				<!-- toggle chords -->
+				<!-- Toggle chords -->
 				<secondary-button
 					class="hidden lg:block"
 					:title="tooltip('chords')"
@@ -116,7 +132,8 @@
 					<icon-music v-if="chords" class="w-5 h-5 stroke-1.5 stroke-spring-400" />
 					<icon-music-off v-else class="w-5 h-5 stroke-1.5" />
 				</secondary-button>
-				<!-- dropdown for small viewports -->
+
+				<!-- Dropdown for small viewports -->
 				<div class="lg:hidden">
 					<dropdown position="up">
 						<button
@@ -164,7 +181,7 @@
 						</button>
 					</dropdown>
 				</div>
-				<!-- exit presentation -->
+				<!-- Exit presentation -->
 				<button
 					class="p-2 text-blade-500"
 					:title="tooltip('close')"
@@ -172,7 +189,8 @@
 				>
 					<icon-x class="w-5 h-5 stroke-1.5" />
 				</button>
-				<!-- remote toolbar -->
+
+				<!-- Remote toolbar -->
 				<div
 					v-if="sync && !autoSync"
 					class="flex items-center gap-1 p-1 absolute -top-8 right-10 opacity-0 transition-all group-hover:-top-12 group-hover:opacity-100"
@@ -202,7 +220,8 @@
 			</div>
 		</div>
 	</modal>
-	<!-- modal: info song note -->
+
+	<!-- Modal: info song note -->
 	<info-song-data
 		:active="showModal.infosongdata"
 		:song="songs[currentPosition]"
@@ -212,7 +231,7 @@
 
 <script setup>
 import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide, Pagination } from 'vue3-carousel';
+import { Carousel, Slide } from 'vue3-carousel';
 import { logicOr } from '@vueuse/math';
 import { whenever } from '@vueuse/core';
 import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
