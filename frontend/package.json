@@ -1,74 +1,67 @@
 {
-	"name": "songdrive",
-	"description": "A song management tool to store, synchronize and present songs and setlists. Built with Vue.js and Firebase.",
-	"version": "3.1.4",
-	"license": "MIT",
-	"author": {
-		"name": "Andreas Müller",
-		"url": "https://devmount.de"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/devmount/SongDrive.git"
-	},
-	"homepage": "https://github.com/devmount/SongDrive",
-	"keywords": [
-		"firebase",
-		"firestore",
-		"music",
-		"song-management",
-		"vue",
-		"songs",
-		"setlists",
-		"presentation"
-	],
-	"bugs": "https://github.com/devmount/SongDrive/issues",
-	"browser": "./dist/index.html",
-	"scripts": {
-		"dev": "vite",
-		"build": "vite build",
-		"serve": "vite preview"
-	},
-	"dependencies": {
-		"@kyvg/vue3-notification": "^3.1.3",
-		"@tabler/icons-vue": "^3.3.0",
-		"@vuepic/vue-datepicker": "^11.0.0",
-		"@vueuse/core": "^12.3.0",
-		"@vueuse/math": "^12.3.0",
-		"@zip.js/zip.js": "^2.7.45",
-		"chart.js": "^4.0.1",
-		"date-fns": "^4.0.0",
-		"firebase": "^10.0.0",
-		"highlight.js": "^11.3.1",
-		"marked": "^15.0.6",
-		"marked-highlight": "^2.1.0",
-		"pdfmake": "^0.2.2",
-		"vue": "^3.2.37",
-		"vue-i18n": "^11.0.1",
-		"vue-prism-editor": "^2.0.0-alpha.2",
-		"vue-router": "^4.0.16",
-		"vue3-carousel": "^0.14.0",
-		"vuedraggable": "^4.1.0"
-	},
-	"devDependencies": {
-		"@tailwindcss/forms": "^0.5.10",
-		"@vitejs/plugin-vue": "^5.0.3",
-		"autoprefixer": "^10.4.13",
-		"postcss": "^8.4.20",
-		"tailwindcss": "^3.2.4",
-		"vite": "^6.0.7"
-	},
-	"postcss": {
-		"plugins": {
-			"tailwindcss": {},
-			"autoprefixer": {}
-		}
-	},
-	"browserslist": [
-		"> 1%",
-		"last 2 versions",
-		"not dead",
-		"not ie 11"
-	],
-	"type": "module"
+  "name": "songdrive",
+  "description": "A song management tool to store, synchronize and present songs and setlists. Built with Vue.js and Firebase.",
+  "version": "3.1.4",
+  "license": "MIT",
+  "author": {
+    "name": "Andreas Müller",
+    "url": "https://devmount.de"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devmount/SongDrive.git"
+  },
+  "homepage": "https://github.com/devmount/SongDrive",
+  "keywords": [
+    "firebase",
+    "firestore",
+    "music",
+    "song-management",
+    "vue",
+    "songs",
+    "setlists",
+    "presentation"
+  ],
+  "bugs": "https://github.com/devmount/SongDrive/issues",
+  "browser": "./dist/index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@kyvg/vue3-notification": "^3.1.3",
+    "@tabler/icons-vue": "^3.3.0",
+    "@vuepic/vue-datepicker": "^11.0.0",
+    "@vueuse/core": "^13.0.0",
+    "@vueuse/math": "^13.0.0",
+    "@zip.js/zip.js": "^2.7.45",
+    "chart.js": "^4.0.1",
+    "date-fns": "^4.0.0",
+    "firebase": "^10.0.0",
+    "highlight.js": "^11.3.1",
+    "marked": "^15.0.6",
+    "marked-highlight": "^2.1.0",
+    "pdfmake": "^0.2.2",
+    "vue": "^3.2.37",
+    "vue-i18n": "^11.0.1",
+    "vue-prism-editor": "^2.0.0-alpha.2",
+    "vue-router": "^4.0.16",
+    "vue3-carousel": "^0.14.0",
+    "vuedraggable": "^4.1.0"
+  },
+  "devDependencies": {
+		"@tailwindcss/vite": "^4.0.14",
+    "@tailwindcss/forms": "^0.5.10",
+    "@vitejs/plugin-vue": "^5.0.3",
+    "tailwindcss": "^4.0.14",
+    "vite": "^6.0.7"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "type": "module"
 }

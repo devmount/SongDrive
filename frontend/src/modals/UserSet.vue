@@ -39,7 +39,7 @@
 					<input
 						type="password"
 						v-model="user.password"
-						:class="{ '!border-rose-600': errorsPassword }"
+						:class="{ 'border-rose-600!': errorsPassword }"
 						:placeholder="t('placeholder.examplePassword', { p: examplePassword })"
 					/>
 				</label>

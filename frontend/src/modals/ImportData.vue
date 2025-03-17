@@ -51,8 +51,8 @@
 				</div>
 				<div class="flex flex-col gap-2 w-full">
 					<div :class="{ 'text-blade-600': !progress.started }">{{ t('text.importResult', [progress.imported]) }}</div>
-					<div class="h-2 bg-blade-750 rounded-sm">
-						<div class="h-2 bg-spring-700 rounded-sm" role="progressbar" :style="{ width: percentageImported + '%' }"></div>
+					<div class="h-2 bg-blade-750 rounded-xs">
+						<div class="h-2 bg-spring-700 rounded-xs" role="progressbar" :style="{ width: percentageImported + '%' }"></div>
 					</div>
 				</div>
 			</div>

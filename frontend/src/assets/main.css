@@ -1,16 +1,92 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/forms';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-*: initial;
+  --font-mono:
+    'Fira Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+  --font-fira:
+    'Fira Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --shadow-m: 0 4px 10px -4px rgb(0 0 0 / 0.5);
+  --shadow-l: 0 5px 20px -10px rgb(0 0 0 / 0.95);
+
+  --color-spring-400: #bbdd77;
+  --color-spring-600: #88b544;
+  --color-spring-700: #759b3b;
+
+  --color-zinc-750: #313137;
+  --color-zinc-850: #1f1f21;
+
+  --color-blade-50: #f9fafa;
+  --color-blade-100: #f4f5f6;
+  --color-blade-200: #e6e7ea;
+  --color-blade-300: #d3d6d9;
+  --color-blade-350: #bbbec3;
+  --color-blade-400: #a0a4ab;
+  --color-blade-500: #6f737b;
+  --color-blade-600: #50565e;
+  --color-blade-700: #3d434c;
+  --color-blade-750: #30343b;
+  --color-blade-800: #242a32;
+  --color-blade-850: #1e2229;
+  --color-blade-900: #161a22;
+  --color-blade-950: #0a0c0f;
+
+  --grid-template-columns-2\/1: minmax(0, 2fr) minmax(0, 1fr);
+
+  --container-3xs: 12rem;
+  --container-2xs: 16rem;
+
+  --breakpoint-2xs: 360px;
+  --breakpoint-xs: 480px;
+  --breakpoint-3xl: 1792px;
+
+  --height-2\/3v: 66.666667vh;
+  --height-3\/4v: 75vh;
+  --height-4\/5v: 80vh;
+
+  --stroke-width-10: 10;
+  --stroke-width-1_5: 1.5;
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@utility position-center {
+  /* centering absolute or fixed positioned elements */
+  @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
 
 @layer base {
   input, select, textarea {
-    @apply transition-all !py-1.5 border-blade-400 dark:border-black focus:!ring-4 focus:!ring-spring-400/20 hover:!border-spring-400 focus:!border-spring-600 dark:!bg-blade-900 dark:!text-blade-100 hover:disabled:!border-black;
+    @apply transition-all py-1.5! border-blade-400 dark:border-black focus:ring-4! focus:ring-spring-400/20! hover:border-spring-400! focus:border-spring-600! dark:bg-blade-900! dark:text-blade-100! hover:disabled:border-black!;
   }
   button, a {
-    @apply transition-all;
+    @apply cursor-pointer transition-all;
   }
   kbd {
-    @apply font-mono rounded text-blade-600 dark:text-blade-200 bg-blade-300 dark:bg-blade-900 border border-b-4 border-blade-400 dark:border-blade-700 px-2 py-1
+    @apply font-mono rounded-sm text-blade-600 dark:text-blade-200 bg-blade-300 dark:bg-blade-900 border border-b-4 border-blade-400 dark:border-blade-700 px-2 py-1
   }
   th {
     @apply text-left
@@ -20,13 +96,6 @@
     font-family: 'Fira Mono';
     src: url('./fonts/FiraMono-Regular.ttf');
     font-weight: 400;
-  }
-}
-
-@layer components {
-  /* centering absolute or fixed positioned elements */
-  .position-center {
-    @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
   }
 }
 
@@ -72,7 +141,7 @@ kbd > * {
   @apply text-spring-600 hover:text-white
 }
 .markdown code {
-  @apply rounded-sm bg-blade-750 px-1.5 py-0.5 text-sm
+  @apply rounded-xs bg-blade-750 px-1.5 py-0.5 text-sm
 }
 .markdown pre code {
   @apply bg-blade-900 mb-4
@@ -86,7 +155,7 @@ kbd > * {
 
 /* songdrive syntax and prism editor */
 .language-songdrive {
-  @apply block !p-4
+  @apply block p-4!
 }
 .language-songdrive .sd-marker,
 .prism-editor__editor .sd-marker {
@@ -105,31 +174,31 @@ kbd > * {
   @apply transition-all p-1.5 border border-blade-400 dark:border-black focus:ring-4 focus:ring-spring-400/20 hover:border-spring-400 focus:border-spring-600 dark:bg-blade-900 dark:text-blade-100 hover:disabled:border-black;
 }
 .prism-editor__textarea {
-  @apply !p-0
+  @apply p-0!
 }
 .prism-editor__textarea:focus {
-  @apply outline-none
+  @apply outline-hidden
 }
 
 /* date picker */
 .dp__theme_dark {
-  --dp-background-color: theme(colors.blade.900);
-  --dp-text-color: theme(colors.inherit);
-  --dp-hover-color: theme(colors.blade.700);
-  --dp-hover-text-color: theme(colors.white);
-  --dp-hover-icon-color: theme(colors.white);
-  --dp-primary-color: theme(colors.spring.600);
-  --dp-primary-text-color: theme(colors.white);
-  --dp-secondary-color: theme(colors.blade.500);
-  --dp-border-color: theme(colors.black);
-  --dp-menu-border-color: theme(colors.black);
-  --dp-icon-color: theme(colors.inherit);
+  --dp-background-color: var(--color-blade-900);
+  --dp-text-color: inherit;
+  --dp-hover-color: var(--color-blade-700);
+  --dp-hover-text-color: var(--color-white);
+  --dp-hover-icon-color: var(--color-white);
+  --dp-primary-color: var(--color-spring-600);
+  --dp-primary-text-color: var(--color-white);
+  --dp-secondary-color: var(--color-blade-500);
+  --dp-border-color: var(--color-black);
+  --dp-menu-border-color: var(--color-black);
+  --dp-icon-color: inherit;
 }
 .dp__theme_light {
-  --dp-text-color: theme(colors.inherit);
-  --dp-primary-color: theme(colors.spring.700);
-  --dp-primary-text-color: theme(colors.white);
-  --dp-icon-color: theme(colors.inherit);
+  --dp-text-color: inherit;
+  --dp-primary-color: var(--color-spring-700);
+  --dp-primary-text-color: var(--color-white);
+  --dp-icon-color: inherit;
 }
 .dp__menu,
 .dp__calendar,
@@ -148,5 +217,5 @@ kbd > * {
 }
 .dp__cell_inner,
 .dp__calendar_header_item {
-  @apply h-10 w-auto !rounded-sm
+  @apply h-10 w-auto rounded-xs!
 }

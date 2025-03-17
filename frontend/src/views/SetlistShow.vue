@@ -2,7 +2,7 @@
 	<div>
 		<div
 			v-if="setlistAccess"
-			class="flex flex-col gap-6 w-full focus:outline-none"
+			class="flex flex-col gap-6 w-full focus:outline-hidden"
 		>
 			<!-- page heading -->
 			<div class="flex flex-col justify-between items-stretch gap-4">
@@ -238,12 +238,12 @@
 					tag="tbody"
 					item-key="id"
 					handle=".handle"
-					ghost-class="!bg-blade-950"
+					ghost-class="bg-blade-950!"
 					@end="saveOrder"
 				>
 					<template #item="{ element, index }">
 						<tr
-							class="even:bg-blade-200/50 even:dark:bg-blade-900/50 hover:bg-blade-200 hover:dark:bg-blade-900 transition-all"
+							class="even:bg-blade-200/50 dark:even:bg-blade-900/50 hover:bg-blade-200 dark:hover:bg-blade-900 transition-all"
 						>
 							<td v-if="user && role > 1" class="cursor-grab active:cursor-grabbing text-center text-blade-500">
 								<icon-menu-order class="w-5 h-5 stroke-1.5 handle inline" />
@@ -282,7 +282,7 @@
 									<div class="flex justify-center items-center gap-3">
 										<secondary-button
 											v-if="user && role > 1"
-											class="!px-2"
+											class="px-2!"
 											@click.prevent="transposeDown(songs[element.id], index)"
 										>
 											<icon-chevron-left class="w-5 h-5 stroke-1.5" />
@@ -292,7 +292,7 @@
 										</div>
 										<secondary-button
 											v-if="user && role > 1"
-											class="!px-2"
+											class="px-2!"
 											@click.prevent="transposeUp(songs[element.id], index)"
 										>
 											<icon-chevron-right class="w-5 h-5 stroke-1.5" />
@@ -362,7 +362,7 @@
 								</dropdown>
 								<secondary-button
 									v-else
-									class="flex items-center !text-rose-600 hover:bg-opacity-80"
+									class="flex items-center text-rose-600! hover:bg-opacity-80"
 									@click.prevent="removeSong(element.id)"
 								>
 									<icon-trash class="w-5 h-5" />

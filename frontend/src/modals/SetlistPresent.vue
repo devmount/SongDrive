@@ -6,7 +6,7 @@
 		@closed="emit('closed')"
 	>
 		<template #close><i></i></template>
-		<div class="h-full !w-full overflow-y-auto pb-12 xs:pb-0">
+		<div class="h-full w-full! overflow-y-auto pb-12 xs:pb-0">
 			<div
 				v-if="songs && songs.length > 0"
 				class="transition-opacity h-full"
@@ -14,10 +14,10 @@
 			>
 				<carousel
 					ref="presentation"
-					class="!w-full h-full bg-transparent"
+					class="w-full! h-full bg-transparent"
 					v-model="currentPosition"
 				>
-					<slide v-for="(song, i) in songs" :key="i" :index="i" class="!items-start text-left">
+					<slide v-for="(song, i) in songs" :key="i" :index="i" class="items-start! text-left">
 						<song-content
 							:content="song.content"
 							:chords="chords"
@@ -39,9 +39,9 @@
 					<secondary-button
 						v-for="(song, i) in songs"
 						:key="i"
-						class="w-8 h-8 !rounded-full"
+						class="w-8 h-8 rounded-full!"
 						:class="{
-							'!bg-spring-600': i === presentation?.data.currentSlide
+							'bg-spring-600!': i === presentation?.data.currentSlide
 						}"
 						@click="presentation.slideTo(i)"
 					>

@@ -30,7 +30,7 @@
 				<div class="flex items-stretch gap-1">
 					<div class="group flex items-stretch relative key-preview">
 						<secondary-button
-							class="!px-2 rounded-r-none"
+							class="px-2! rounded-r-none"
 							:disabled="!chords"
 							:title="t('tooltip.transposeDown')"
 							@click="transposeDown"
@@ -38,7 +38,7 @@
 							<icon-chevron-left class="w-5 h-5 stroke-1.5" />
 						</secondary-button>
 						<secondary-button
-							class="!px-2 border-x border-x-blade-500 dark:border-x-blade-800 rounded-none"
+							class="px-2! border-x border-x-blade-500 dark:border-x-blade-800 rounded-none"
 							:disabled="!chords"
 							:title="t('tooltip.keyReset')"
 							@click="transposeReset"
@@ -46,7 +46,7 @@
 							<icon-reload class="w-5 h-5 stroke-1.5" />
 						</secondary-button>
 						<secondary-button
-							class="!px-2 rounded-l-none"
+							class="px-2! rounded-l-none"
 							:disabled="!chords"
 							:title="t('tooltip.transposeUp')"
 							@click="transposeUp"

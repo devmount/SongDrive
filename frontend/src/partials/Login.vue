@@ -9,7 +9,7 @@
 				<input
 					type="email"
 					v-model="email"
-					:class="{ '!border-rose-600': error.email }"
+					:class="{ 'border-rose-600!': error.email }"
 					:placeholder="t('field.email')"
 					autocomplete="email"
 					required
@@ -17,7 +17,7 @@
 				<input
 					type="password"
 					v-model="password"
-					:class="{ '!border-rose-600': error.password }"
+					:class="{ 'border-rose-600!': error.password }"
 					:placeholder="t('field.password')"
 					required
 				/>

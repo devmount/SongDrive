@@ -20,7 +20,7 @@
 			<!-- menu sidebar -->
 			<div
 				class="fixed shrink-0 -right-64 lg:left-0 lg:right-auto top-0 transition-all z-30 min-h-screen w-64 flex flex-col px-2 py-8 bg-blade-200 dark:bg-blade-900"
-				:class="{ '!right-0': open }"
+				:class="{ 'right-0!': open }"
 			>
 				<router-link :to="{ name: 'dashboard' }" class="flex flex-col w-max mx-auto mb-4 no-active">
 					<logo :featured="false" :show-version="true" />
@@ -45,7 +45,7 @@
 							<div v-if="ready.songs" class="font-bold">{{ Object.keys(c.songs).length }}</div>
 							<secondary-button
 								v-if="userRoles[c.permissions[auth.user].role] > 2"
-								class="!p-1"
+								class="p-1!"
 								:title="t('tooltip.songAdd')"
 								@click.stop.prevent="createNewSong"
 							>
@@ -64,7 +64,7 @@
 							<label v-if="ready.setlists" class="font-bold">{{ setlistCount }}</label>
 							<secondary-button
 								v-if="userRoles[c.permissions[auth.user].role] > 1"
-								class="!p-1"
+								class="p-1!"
 								:title="t('tooltip.setlistAdd')"
 								@click.stop.prevent="createNewSetlist"
 							>
@@ -206,7 +206,7 @@
 		<notifications position="bottom right" :duration="5000" width="">
 			<template #body="props">
 				<div
-					class="mb-1 mx-1 xs:mb-2 xs:mx-2 py-2 px-3 rounded-sm text-white"
+					class="mb-1 mx-1 xs:mb-2 xs:mx-2 py-2 px-3 rounded-xs text-white"
 					:class="{
 						'bg-spring-700': props.item.type === 'primary',
 						'bg-rose-700': props.item.type === 'error',

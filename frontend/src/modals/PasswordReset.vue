@@ -7,7 +7,7 @@
 				<input
 					type="email"
 					v-model="authEmail"
-					:class="{ '!border-rose-600': errorEmail }"
+					:class="{ 'border-rose-600!': errorEmail }"
 					:placeholder="t('placeholder.exampleUserEmail')"
 				/>
 			</label>

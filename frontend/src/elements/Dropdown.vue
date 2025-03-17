@@ -10,7 +10,7 @@
 	<transition-scale>
 		<div v-if="open" class="relative">
 			<div
-				class="absolute right-0 p-1 bg-blade-200 dark:bg-blade-900 z-10 w-max rounded-sm shadow-lg flex flex-col gap-1"
+				class="absolute right-0 p-1 bg-blade-200 dark:bg-blade-900 z-10 w-max rounded-xs shadow-lg flex flex-col gap-1"
 				:class="{
 					'top-0': !position || position === positions.down,
 					'bottom-10': position === positions.up,

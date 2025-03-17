@@ -7,7 +7,7 @@
 				<input
 					type="text"
 					v-model="auth.name"
-					:class="{ '!border-rose-600': error.name }"
+					:class="{ 'border-rose-600!': error.name }"
 					:placeholder="t('placeholder.exampleUserName')"
 				/>
 			</label>
@@ -17,7 +17,7 @@
 				<input
 					type="email"
 					v-model="auth.email"
-					:class="{ '!border-rose-600': error.email }"
+					:class="{ 'border-rose-600!': error.email }"
 					:placeholder="t('placeholder.exampleUserEmail')"
 				/>
 			</label>
@@ -32,13 +32,13 @@
 				<input
 					type="password"
 					v-model="auth.password"
-					:class="{ '!border-rose-600': errorsPassword }"
+					:class="{ 'border-rose-600!': errorsPassword }"
 					:placeholder="t('placeholder.examplePassword', { p: examplePassword })"
 				/>
 				<input
 					type="password"
 					v-model="auth.repeat"
-					:class="{ '!border-rose-600': errorsPassword }"
+					:class="{ 'border-rose-600!': errorsPassword }"
 					:placeholder="t('placeholder.repeatPassword')"
 				/>
 			</label>
