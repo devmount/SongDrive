@@ -4,6 +4,10 @@
 
 name: Build & Deploy (Production)
 
+permissions:
+  contents: read
+  pull-requests: write
+
 on:
   push:
     tags:
