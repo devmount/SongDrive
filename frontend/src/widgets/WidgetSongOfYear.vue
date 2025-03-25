@@ -80,7 +80,7 @@ const props = defineProps({
 });
 
 // list data
-const page       = ref(0);
+const page = ref(0);
 const listLength = 7;
 
 // build song of year list
@@ -93,10 +93,12 @@ const songOfYear = computed(() => {
 				list[year] = {};
 			}
 			setlist.songs.forEach(song => {
-				if (!list[year].hasOwnProperty(song.id)) {
-					list[year][song.id] = 1;
-				} else {
-					list[year][song.id]++;
+				if (props.songs.hasOwnProperty(song.id)) {
+					if (!list[year].hasOwnProperty(song.id)) {
+						list[year][song.id] = 1;
+					} else {
+						list[year][song.id]++;
+					}
 				}
 			});
 		}

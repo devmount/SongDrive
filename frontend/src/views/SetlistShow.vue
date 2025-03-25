@@ -324,7 +324,7 @@
 								</td>
 							</template>
 							<template v-else>
-								<td colspan="2" class="px-3 py-2 max-w-0">
+								<td colspan="3" class="px-3 py-2 max-w-0">
 									<div class="truncate">
 										<span class="text-rose-600">{{ t('toast.songDeleted') }}</span>
 										<span class="text-blade-500 font-mono text-sm ml-3">{{ element.id }}</span>
@@ -362,7 +362,8 @@
 								</dropdown>
 								<secondary-button
 									v-else
-									class="flex items-center text-rose-600! hover:bg-opacity-80"
+									class="flex items-center"
+									type="danger"
 									@click.prevent="removeSong(element.id)"
 								>
 									<icon-trash class="w-5 h-5" />

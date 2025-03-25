@@ -327,7 +327,6 @@ import {
 
 // component constants
 const { t, availableLocales } = useI18n();
-console.log(availableLocales);
 
 const route      = useRoute();
 const router     = useRouter();

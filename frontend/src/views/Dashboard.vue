@@ -6,8 +6,8 @@
 				<div class="text-4xl sm:text-6xl font-thin">
 					{{ Object.keys(songs).length }}
 				</div>
-				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<icon-music class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
+				<div class="text-xl text-blade-600 dark:text-blade-400 flex items-center gap-2">
+					<icon-music class="shrink-0 w-5 h-5 stroke-1.5" />
 					{{ t('widget.songsStored') }}
 				</div>
 			</div>
@@ -16,8 +16,8 @@
 				<div class="text-4xl sm:text-6xl font-thin">
 					{{ setlistCount }}
 				</div>
-				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<icon-playlist class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
+				<div class="text-xl text-blade-600 dark:text-blade-400 flex items-center gap-2">
+					<icon-playlist class="shrink-0 w-5 h-5 stroke-1.5" />
 					{{ t('widget.publicSetlists') }}
 				</div>
 			</div>
@@ -26,8 +26,8 @@
 				<div class="text-4xl sm:text-6xl font-thin">
 					<span class="text-blade-500">~</span>{{ songsPerformed }}
 				</div>
-				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<icon-microphone class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
+				<div class="text-xl text-blade-600 dark:text-blade-400 flex items-center gap-2">
+					<icon-microphone class="shrink-0 w-5 h-5 stroke-1.5" />
 					{{ t('widget.songsPerformed') }}
 				</div>
 			</div>
@@ -36,8 +36,8 @@
 				<div class="text-4xl sm:text-6xl font-thin">
 					{{ languagesUsed }}
 				</div>
-				<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
-					<icon-world class="shrink-0 w-5 h-5 mt-2 stroke-1.5" />
+				<div class="text-xl text-blade-600 dark:text-blade-400 flex items-center gap-2">
+					<icon-world class="shrink-0 w-5 h-5 stroke-1.5" />
 					{{ t('widget.languages', languagesUsed) }}
 				</div>
 			</div>
@@ -139,7 +139,7 @@ const songsArray = computed(() => {
 // true if song data collection is empty
 const noSongs = computed(() => props.ready.songs && songsArray.value.length == 0);
 
-// total number of song languages 
+// total number of song languages
 const languagesUsed = computed(() => {
 	let languages = [];
 	songsArray.value.forEach(song => {

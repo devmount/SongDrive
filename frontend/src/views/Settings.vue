@@ -174,13 +174,13 @@
 							</div>
 							<a
 								:href="'mailto:' + u.email + '?' + confirmationMail(u.name)"
-								class="flex items-center text-spring-600 hover:bg-opacity-80"
+								class="flex items-center text-spring-600 hover:opacity-80"
 								:title="t('tooltip.sendConfirmationMail')"
 							>
 								<icon-mail class="w-5 h-5 stroke-1.5" />
 							</a>
 							<button
-								class="flex items-center text-spring-600 hover:bg-opacity-80"
+								class="flex items-center text-spring-600 hover:opacity-80"
 								:title="t('modal.editUser')"
 								@click.prevent="editUser(u)"
 							>
@@ -188,7 +188,7 @@
 							</button>
 							<button
 								v-if="numberOfUsers > 1"
-								class="flex items-center text-rose-600 hover:bg-opacity-80"
+								class="flex items-center text-rose-600 hover:opacity-80"
 								:title="t('modal.deleteUser')"
 								@click.prevent="active.user=u; active.key=u.id; active.approved=true; modal.userdelete=true"
 							>
@@ -221,14 +221,14 @@
 								{{ t('role.unconfirmed') }}
 							</div>
 							<button
-								class="flex items-center text-spring-600 hover:bg-opacity-80"
+								class="flex items-center text-spring-600 hover:opacity-80"
 								:title="t('tooltip.approveUser')"
 								@click.prevent="addRegistration(r, k)"
 							>
 								<icon-user-plus class="w-5 h-5 stroke-1.5" />
 							</button>
 							<button
-								class="flex items-center text-rose-600 hover:bg-opacity-80"
+								class="flex items-center text-rose-600 hover:opacity-80"
 								:title="t('modal.deleteUser')"
 								@click.prevent="active.user=r; active.key=k; active.approved=false; modal.userdelete=true"
 							>
@@ -268,14 +268,14 @@
 								<div class="truncate">{{ l.label }}</div>
 							</div>
 							<button
-								class="flex items-center text-spring-600 hover:bg-opacity-80"
+								class="flex items-center text-spring-600 hover:opacity-80"
 								:title="t('modal.editLanguage')"
 								@click="active.language=l; active.key=key; active.existing=true; modal.languageset=true"
 							>
 								<icon-edit class="w-5 h-5 stroke-1.5" />
 							</button>
 							<button
-								class="flex items-center text-rose-600 hover:bg-opacity-80"
+								class="flex items-center text-rose-600 hover:opacity-80"
 								:title="t('modal.deleteLanguage')"
 								@click="active.language=l; active.key=key; modal.languagedelete=true;"
 							>

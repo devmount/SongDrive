@@ -37,7 +37,7 @@
 				<div class="flex flex-col overflow-hidden">
 					<div class="-mt-1 flex gap-1 items-center">
 						<div class="truncate">{{ setlist.title }}</div>
-						<icon-lock v-if="setlist.private" class="w-5 h-5 stroke-1.5 text-spring-600 mt-1" />
+						<icon-lock v-if="setlist.private" class="w-5 h-5 stroke-1.5 text-spring-600" />
 					</div>
 					<div class="text-sm text-blade-500 -mt-1 truncate">{{ humanDate(setlist.date, locale) }}</div>
 				</div>
