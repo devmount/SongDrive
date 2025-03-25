@@ -1,9 +1,9 @@
 <template>
 	<div
-    class="flex items-center gap-2 font-medium select-none"
+    class="flex font-medium select-none"
     :class="{
-      'flex-col 2xs:flex-row 2xs:items-baseline 2xs:font-normal': featured,
-      'items-baseline': !featured
+      'gap-3 flex-col 2xs:flex-row items-center 2xs:items-baseline 2xs:font-normal': featured,
+      'gap-2 items-baseline': !featured
     }"
   >
 		<img
@@ -12,13 +12,13 @@
       :class="featured ? 'w-12': 'w-8'"
     />
 		<div
-      class="text-spring-600 leading-5 tracking-wide uppercase"
-      :class="featured ? 'text-2xl 2xs:text-[2.1rem]': 'text-2xl'"
+      class="text-spring-600 tracking-wide uppercase text-2xl"
+      :class="{ '2xs:text-4xl': featured }"
     >
       {{ t('app.name') }}
     </div>
 	</div>
-  <div v-if="showVersion" class="text-xs text-blade-500 text-right font-medium mt-1 mr-0.5">
+  <div v-if="showVersion" class="text-xs text-blade-500 text-right font-medium mr-0.5">
     {{ version }}
   </div>
 </template>
