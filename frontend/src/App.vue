@@ -28,19 +28,19 @@
 				<div class="flex flex-col gap-1 mt-1">
 					<router-link
 						:to="{ name: 'dashboard' }"
-						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
 						<icon-layout-grid class="w-5 h-5 stroke-1.5" />
-						<span class="mb-0.5 uppercase">{{ t('page.dashboard') }}</span>
+						<span class="uppercase">{{ t('page.dashboard') }}</span>
 					</router-link>
 					<router-link
 						:to="{ name: 'songs' }"
-						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
 						<icon-music class="w-5 h-5 stroke-1.5" />
-						<span class="mb-0.5 uppercase">{{ t('page.songs', Object.keys(c.songs)?.length) }}</span>
+						<span class="uppercase">{{ t('page.songs', Object.keys(c.songs)?.length) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
 							<div v-if="ready.songs" class="font-bold">{{ Object.keys(c.songs).length }}</div>
 							<secondary-button
@@ -55,11 +55,11 @@
 					</router-link>
 					<router-link
 						:to="{ name: 'setlists' }"
-						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
 						<icon-playlist class="w-5 h-5 stroke-1.5" />
-						<span class="mb-0.5 uppercase">{{ t('page.setlists', setlistCount) }}</span>
+						<span class="uppercase">{{ t('page.setlists', setlistCount) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
 							<label v-if="ready.setlists" class="font-bold">{{ setlistCount }}</label>
 							<secondary-button
@@ -75,7 +75,7 @@
 					<divider-horizontal :label="t('divider.account')" />
 					<router-link
 						:to="{ name: 'profile' }"
-						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
 						<avatar :photo-url="c.users[auth.user].photo" :name="userName" size="md" />
@@ -88,11 +88,11 @@
 					</router-link>
 					<router-link
 						:to="{ name: 'settings' }"
-						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
 						<icon-settings class="w-5 h-5 stroke-1.5" />
-						<span class="mb-0.5 uppercase">{{ t('page.settings') }}</span>
+						<span class="uppercase">{{ t('page.settings') }}</span>
 						<indicator-pulse v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3" class="ml-auto" />
 					</router-link>
 					<secondary-button class="mt-2" @click="signOut">
@@ -102,27 +102,27 @@
 					<divider-horizontal :label="t('divider.info')" />
 					<router-link
 						:to="{ name: 'shortcuts' }"
-						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
 						<icon-bulb class="w-5 h-5 stroke-1.5" />
-						<span class="mb-0.5 uppercase">{{ t('page.shortcuts') }}</span>
+						<span class="uppercase">{{ t('page.shortcuts') }}</span>
 					</router-link>
 					<router-link
 						:to="{ name: 'documentation' }"
-						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
 						<icon-book class="w-5 h-5 stroke-1.5" />
-						<span class="mb-0.5 uppercase">{{ t('page.docu') }}</span>
+						<span class="uppercase">{{ t('page.docu') }}</span>
 					</router-link>
 					<a
 						href="https://github.com/devmount/SongDrive"
-						class="px-3 py-1.5 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						target="_blank"
 					>
 						<icon-brand-github class="w-5 h-5 stroke-1.5" />
-						<span class="mb-0.5 uppercase">{{ t('page.github') }}</span>
+						<span class="uppercase">{{ t('page.github') }}</span>
 						<icon-external-link class="w-5 h-5 ml-auto" />
 					</a>
 				</div>
