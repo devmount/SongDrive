@@ -2,11 +2,11 @@
   <button
     class="
       text-white py-2 px-3 rounded-sm shadow-m flex justify-center items-center gap-2
-      hover:!bg-opacity-80 hover:shadow-l disabled:opacity-30 disabled:shadow-none hover:disabled:bg-opacity-100
+      hover:shadow-l disabled:opacity-30 disabled:shadow-none
     "
     :class="{
-      'bg-spring-600 dark:bg-spring-700': !type,
-      'bg-rose-500': type === types.danger
+      'bg-spring-600 hover:bg-spring-600/75 hover:disabled:bg-spring-600 dark:bg-spring-700 hover:dark:bg-spring-700/75 hover:disabled:dark:bg-spring-700': !type,
+      'bg-rose-500 hover:bg-rose-500/75 hover:disabled:bg-rose-500': type === types.danger
     }"
   >
     <slot></slot>
