@@ -108,42 +108,43 @@ const parsedContent = (content, tuning, showChords, twoColumns) => {
     }
     // handle song part marker (e.g. --V1)
     else {
+			const n = line.trim().substring(3);
       // add class to part
       switch (line.charAt(2).toLowerCase()) {
         case 'v':
           types.push('v');
           classes.push('verse');
-          numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+          numbers.push((!isNaN(parseInt(n))) ? n : '0');
           break;
         case 'p':
           types.push('p');
           classes.push('prechorus');
-          numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+          numbers.push((!isNaN(parseInt(n))) ? n : '0');
           break;
         case 'c':
           types.push('c');
           classes.push('chorus');
-          numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+          numbers.push((!isNaN(parseInt(n))) ? n : '0');
           break;
         case 'b':
           types.push('b');
           classes.push('bridge');
-          numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+          numbers.push((!isNaN(parseInt(n))) ? n : '0');
           break;
         case 'i':
           types.push('i');
           classes.push('intro');
-          numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+          numbers.push((!isNaN(parseInt(n))) ? n : '0');
           break;
         case 'm':
           types.push('m');
           classes.push('mitro');
-          numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+          numbers.push((!isNaN(parseInt(n))) ? n : '0');
           break;
         case 'o':
           types.push('o');
           classes.push('outro');
-          numbers.push((!isNaN(parseInt(line.trim().charAt(3)))) ? line.trim().charAt(3) : '0');
+          numbers.push((!isNaN(parseInt(n))) ? n : '0');
           break;
         default:
           // a non existent part tag was found
