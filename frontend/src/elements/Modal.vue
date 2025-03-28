@@ -22,7 +22,7 @@
 				'max-w-5xl! h-screen md:h-3/4v': size === sizes.xl5,
 				'max-w-6xl! h-screen lg:h-4/5v': size === sizes.xl6,
 				'max-w-7xl! h-screen lg:h-4/5v': size === sizes.xl7,
-				'max-w-none! w-screen h-screen': size === sizes.full,
+				'max-w-none! w-screen h-screen px-0': size === sizes.full,
 			}"
 			@click.stop="null"
 		>
