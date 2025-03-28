@@ -17,7 +17,7 @@
 					class="w-full! h-full bg-transparent"
 					v-model="currentPosition"
 				>
-					<slide v-for="(song, i) in songs" :key="i" :index="i" class="items-start! text-left">
+					<slide v-for="(song, i) in songs" :key="i" :index="i" class="items-start! text-left px-4">
 						<song-content
 							:content="song.content"
 							:chords="chords"

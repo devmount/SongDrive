@@ -8,7 +8,7 @@
 		@closed="emit('closed')"
 	>
 		<template #close><i></i></template>
-		<div class="h-full overflow-y-auto pb-12 xs:pb-0">
+		<div class="h-full overflow-y-auto px-4 pb-12 xs:pb-0">
 			<!-- song contnt -->
 			<song-content
 				:content="song.content"
