@@ -1,0 +1,17 @@
+{
+  "name": "songdrive-backend",
+  "version": "1.0.0",
+  "description": "This directory contains all backend functionality of SongDrive.",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node index.js"
+  },
+  "dependencies": {
+    "amberbase": "^0.1.0-alpha.2",
+    "express": "^5.1.0"
+  }
+}
