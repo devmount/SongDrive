@@ -7,3 +7,15 @@ This directory contains all backend functionality of SongDrive.
 > <img alt="Info" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/info.svg">
 > </picture><br>
 > This is currently work in progress.
+
+## Get started
+
+Make sure, ddev is installed.
+
+```bash
+cd backend
+ddev start
+ddev npm run start
+```
+
+Now, the backend UI can be accessed via <https://songdrive.ddev.site:3000/amber/ui/login>.

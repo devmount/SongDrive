@@ -1,11 +1,16 @@
 import { amber } from "amberbase";
 
-const appInit =amber().withConfig({
-	db_host: 'localhost',
-	db_password: 'password',
-	db_username: 'admin',
-	db_name: 'songdrive',
-}).withPath('/amber').withCollection('songs').withUi();
+const appInit = amber()
+	.withConfig({
+		db_host: 'db',
+		db_password: 'root',
+		db_username: 'root',
+		db_name: 'db',
+		db_port: 3306,
+	})
+	.withPath('/amber')
+	.withCollection('songs')
+	.withUi();
 
 const app = await appInit.create();
 
