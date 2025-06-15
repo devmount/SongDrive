@@ -10,8 +10,21 @@ const appInit = amber()
 	})
 	.withPath('/amber')
 	.withCollection('songs')
-	.withUi();
+	.withUi({
+		availableRoles: ['editor', 'performer', 'reader'],
+		theme: 'dark',
+		loginTargetUrl: '/#/tenant={tenant}',
+		title: 'SongDrive Manager',
+	});
 
 const app = await appInit.create();
+
+app.auth.addUserIfNotExists(
+	'admin@songdrive.de',
+	'Admin',
+	'password',
+	'*', // global tenant admin
+	['admin', 'editor']
+);
 
 app.listen(3000, '0.0.0.0');
