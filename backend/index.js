@@ -1,4 +1,5 @@
 import { amber } from "amberbase";
+import express from 'express';
 
 const appInit = amber()
 	.withConfig({
@@ -17,7 +18,11 @@ const appInit = amber()
 		title: 'SongDrive Manager',
 	});
 
-const app = await appInit.create();
+const expressApp = express();
+const app = await appInit.create(expressApp);
+expressApp.get('/version', (_req, res) => {
+	res.send(`Version: 1.2.3`);
+});
 
 app.auth.addUserIfNotExists(
 	'admin@songdrive.de',
