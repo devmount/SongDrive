@@ -24,7 +24,7 @@ expressApp.get('/version', (_req, res) => {
 	res.send(`Version: 1.2.3`);
 });
 
-app.auth.addUserIfNotExists(
+app.auth.addUserToTenant(
 	'admin@songdrive.de',
 	'Admin',
 	'password',
