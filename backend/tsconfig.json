@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "target": "ES2022",
+    "declaration": true
+    
+  },
+  "include": [
+    "*.ts"
+  ],
+  "exclude": []
+}
