@@ -3,14 +3,17 @@ import express from 'express';
 
 const appInit = amber()
 	.withConfig({
-		db_host: 'db',
+		db_host: 'localhost',
 		db_password: 'root',
 		db_username: 'root',
-		db_name: 'db',
+		db_name: 'amber',
 		db_port: 3306,
 	})
 	.withPath('/amber')
 	.withCollection('songs')
+	.withCollection('setlists')
+	.withCollection('languages')
+	.withCollection('tags')
 	.withUi({
 		availableRoles: ['editor', 'performer', 'reader'],
 		theme: 'dark',
@@ -32,4 +35,4 @@ app.auth.addUserToTenant(
 	['admin', 'editor']
 );
 
-app.listen(3000, '0.0.0.0');
+app.listen(3333, '0.0.0.0');
