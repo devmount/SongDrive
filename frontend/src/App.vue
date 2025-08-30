@@ -418,13 +418,13 @@ const initialSong = {
 	ccli:         '',
 	content:      '',
 	language:     '',
-	note:         '',
+	note:         '', // deprecated
 	publisher:    '',
 	subtitle:     '',
 	tags:         [],
 	title:        '',
 	translations: [],
-	tuning:       '',
+	tuning:       '', // rename to 'key'
 	year:         '',
 	youtube:      '',
 };
