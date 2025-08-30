@@ -7,12 +7,12 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-interface SongEntity {
-	authors: string; // Song authors, separated by ' | ' (TODO)
+type SongEntity = {
+	authors: string; // Song authors, currently separated by ' | ' (TODO)
 	ccli: string; // CCLI id
 	content: string; // Song lyrics and chords noted in SongDrive syntax
 	createdBy: string; // User id of the creator
-	key: string; // Base key of the song
+	key: string; // Base key of the song (previously named 'tuning')
 	language: string; // Language code
 	publisher: string; // Song publisher information
 	subtitle: string; // Displayed song subtitle
@@ -21,16 +21,21 @@ interface SongEntity {
 	translations: string[]; // List of song ids that are the same song in another language
 	year: number; // Year when the song was created
 	youtube: string; // YouTube slug
-}
+};
 
-interface SetlistEntity {
+type SetlistSong = {
+	id: string;
+	key: string;
+};
+
+type SetlistEntity = {
 	createdBy: string; // User id of the creator
 	date: string; // Event date of this setlist
 	isPublic: boolean; // If true, the setlist is public and readable by everyone
 	sharedWith: string[]; // List of user ids with whom this setlist is shared
-	songs: string[]; // List of song ids the setlist contains
+	songs: SetlistSong[]; // List of song ids and custom keys of songs the setlist contains
 	title: string; // Displayed setlist title
-}
+};
 
 const EditorRole = 'editor';
 const PerformerRole = 'performer';
@@ -53,16 +58,9 @@ const appInit = amber()
 		}
 	})
 	.withCollection<SetlistEntity>('setlists', {
-		// we have public setlists that are readable by everyone
-		// readers can crud non-public setlists of their own
-		// performers can create, public and private setlists
-		// public setlists are writable by performers and editors
-		// public setlists are deletable by editors or the "createdBy" user
-		// we have non-public setlists that are only readable, writable and deletable by the "createdBy" user
-		// non-public setlists are only readable, writable and deletable by the "createdBy" user
-		// owner of a private setlist can share it with other users by adding their user ids to a "sharedWith" array
-
 		accessRights: (user: UserContext, document: SetlistEntity, action: CollectionAccessAction) => {
+			// Public setlists can be created by editors and performers.
+			// Private setlists can be created by everyone.
 			if (action === 'create') {
 				if (user.roles.includes(EditorRole) || user.roles.includes(PerformerRole)) {
 					return true;
@@ -72,14 +70,17 @@ const appInit = amber()
 				}
 				return false;
 			}
+			// Setlists can be subscribed to by everyone, but only public setlists can be read per default.
+			// This is done via access tags below.
 			if (action === 'subscribe') {
 				return true;
 			}
-
+			// Setlists can be deleted by editory or the corresponding creator.
 			if (action === 'delete') {
 				return user.roles.includes(EditorRole) || document.createdBy === user.userId;
 			}
-
+			// Setlists can be updated by the corresponding creator.
+			// Public setlists can be updated by editors and performers.
 			if (action === 'update') {
 				if (document.createdBy === user.userId) {
 					return true;
@@ -89,18 +90,20 @@ const appInit = amber()
 				}
 				return false;
 			}
+
 			return false;
 		},
 
+		// The owner of a private setlist can share it with other users
 		accessTagsFromDocument: (document: SetlistEntity) => {
 			const tags = [];
 			if (document.isPublic) {
 				tags.push('p');
 			} else {
 				tags.push(`o${document.createdBy}`);
-				for (const userId of document.sharedWith) {
+				document.sharedWith.forEach((userId) => {
 					tags.push(`s${userId}`);
-				}
+				});
 			}
 			return tags;
 		},
