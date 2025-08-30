@@ -3,39 +3,10 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import { SetlistEntity, SongEntity } from './models.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-type SongEntity = {
-	authors: string; // Song authors, currently separated by ' | ' (TODO)
-	ccli: string; // CCLI id
-	content: string; // Song lyrics and chords noted in SongDrive syntax
-	createdBy: string; // User id of the creator
-	key: string; // Base key of the song (previously named 'tuning')
-	language: string; // Language code
-	publisher: string; // Song publisher information
-	subtitle: string; // Displayed song subtitle
-	tags: string[]; // List of content tags
-	title: string; // Displayed song title
-	translations: string[]; // List of song ids that are the same song in another language
-	year: number; // Year when the song was created
-	youtube: string; // YouTube slug
-};
-
-type SetlistSong = {
-	id: string;
-	key: string;
-};
-
-type SetlistEntity = {
-	createdBy: string; // User id of the creator
-	date: string; // Event date of this setlist
-	isPublic: boolean; // If true, the setlist is public and readable by everyone
-	sharedWith: string[]; // List of user ids with whom this setlist is shared
-	songs: SetlistSong[]; // List of song ids and custom keys of songs the setlist contains
-	title: string; // Displayed setlist title
-};
 
 const EditorRole = 'editor';
 const PerformerRole = 'performer';
