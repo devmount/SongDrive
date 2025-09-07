@@ -10,12 +10,12 @@ This directory contains all backend functionality of SongDrive.
 
 ## Get started
 
-Make sure, ddev is installed.
+Make sure, MariaDB is installed.
 
 ```bash
 cd backend
-ddev start
-ddev npm run start
+npm run build
+npm run start
 ```
 
 Now, the backend UI can be accessed via <https://songdrive.ddev.site:3000/amber/ui/login>.

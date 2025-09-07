@@ -15,7 +15,7 @@ const ReaderRole = 'reader';
 const appInit = amber()
 	.withConfig({
 		db_host: 'localhost',
-		db_password: 'mariapassword',
+		db_password: 'root',
 		db_username: 'root',
 		db_name: 'songdrive',
 		db_port: 3306,
