@@ -3,21 +3,20 @@ import { onMounted, ref } from 'vue';
 import { amberClient, type AmberCollection, type AmberCollections, type UserInTenant } from "amber-client"
 import type { SetlistEntity, Setlist, SongEntity, Song } from '../../backend/models.js';
 
-var tenant = ref("");
-
-var hash = window.location.hash;
-if (hash.startsWith("#/")) {
-	var params = new URLSearchParams(hash.substring(2));
-
-	tenant.value = params.get("tenant") || "";
-}
+var tenant = ref("default");
 
 var isConnected = ref(false);
 
 // make sure to use the same `path` as on the server side
 // If you do not include the tenant, the user will be prompted with the selection of tenant that are available to this user
-var client = amberClient().withPath("/amber").withTenant(tenant.value || "default").withAmberUiLogin().start();
-// you should now wait until you have a valid user logged in to the tenant. This will happen automatically since the user will be forwarded to a login page and redirected back once he or she is logged in.
+var client = amberClient()
+	.withPath("/amber")
+	.withTenant(tenant.value)
+	.withAmberUiLogin()
+	.start();
+
+// you should now wait until you have a valid user logged in to the tenant.
+// This will happen automatically since the user will be forwarded to a login page and redirected back once he or she is logged in.
 var user = ref<UserInTenant | null>(null);
 
 var songs = ref<Song[]>([]);
