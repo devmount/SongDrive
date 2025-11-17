@@ -41,10 +41,10 @@ const appInit = amber()
 				}
 				return false;
 			}
-			// Setlists can be subscribed to by everyone, but only public setlists can be read per default.
+			// Setlists can be subscribed to by all roles, but only public setlists can be read per default.
 			// This is done via access tags below.
 			if (action === 'subscribe') {
-				return true;
+				return user.roles.includes(EditorRole) || user.roles.includes(PerformerRole) || user.roles.includes(ReaderRole);
 			}
 			// Setlists can be deleted by editory or the corresponding creator.
 			if (action === 'delete') {
@@ -67,11 +67,10 @@ const appInit = amber()
 
 		// The owner of a private setlist can share it with other users
 		accessTagsFromDocument: (document: SetlistEntity) => {
-			const tags = [];
+			const tags = [`o${document.createdBy}`]; // TODO
 			if (document.isPublic) {
 				tags.push('p');
 			} else {
-				tags.push(`o${document.createdBy}`);
 				document.sharedWith.forEach((userId) => {
 					tags.push(`s${userId}`);
 				});
