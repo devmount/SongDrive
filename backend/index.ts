@@ -67,7 +67,7 @@ const appInit = amber()
 
 		// The owner of a private setlist can share it with other users
 		accessTagsFromDocument: (document: SetlistEntity) => {
-			const tags = [`o${document.createdBy}`]; // TODO
+			const tags = [`o${document.createdBy}`];
 			if (document.isPublic) {
 				tags.push('p');
 			} else {

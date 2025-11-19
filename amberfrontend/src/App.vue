@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { amberClient, type AmberCollection, type AmberCollections, type UserInTenant } from 'amber-client'
+import { amberClient, type AmberCollection, type AmberCollections, type UserInfo, type UserInTenant } from 'amber-client'
 import type { SetlistEntity, Setlist, SongEntity, Song } from '../../backend/models.js';
 
 var tenant = ref('default');
@@ -21,6 +21,9 @@ var user = ref<UserInTenant | null>(null);
 
 var songs = ref<Song[]>([]);
 var setlists = ref<Setlist[]>([]);
+const users = ref<{[key:string]: UserInfo}>({}); // { user id: user info object }
+
+const setlistTitle = ref('');
 
 var collectionApi: AmberCollections | null;
 
@@ -32,6 +35,9 @@ onMounted(async () => {
 	collectionApi = client.getCollectionsApi();
 	songsCollection = collectionApi.getCollection<SongEntity>('songs');
 	setlistCollection = collectionApi.getCollection<SetlistEntity>('setlists');
+
+	const usersResponse = await client.getAmberApi()?.getUsers();
+	users.value = usersResponse?.reduce((p, c) => ({ ...p, [c.id]: c}), {})  || {};
 
 	songsCollection.subscribe(0, (doc) => {
 		let existing = songs.value.find(s => s.id === doc.id);
@@ -85,9 +91,16 @@ async function addSetlist() {
 		title: Math.random().toString(36).substring(2, 7),
 		songs: songs.value.map((s: Song) => ({id: s.id, key: 'A'})),
 		sharedWith: [],
-		isPublic: false,
+		isPublic: true,
 		date: '2026-01-01',
 	});
+}
+
+async function editSetlist(setlist: Setlist) {
+	const content = setlist.entity;
+	content.title = setlistTitle.value;
+	await setlistCollection?.updateDoc(setlist.id, setlist.changeNumber as number, content);
+	setlistTitle.value = '';
 }
 
 </script>
@@ -102,16 +115,18 @@ async function addSetlist() {
 	<h2>Songs</h2>
 	<ul>
 		<li v-for="song in songs" :key="song.id">
-			{{ song.entity.title }} by {{ song.entity.createdBy }}
+			<strong>{{ song.entity.title }}</strong> by {{ users[song.entity.createdBy]?.name }}
 		</li>
 	</ul>
 	<button @click="addSong()">Add Song</button>
 
 	<h2>Setlists</h2>
+	<p>Edit title: <input type="text" v-model="setlistTitle" /></p>
 	<ul>
 		<li v-for="setlist in setlists" :key="setlist.id">
-			{{ setlist.entity.title }} by {{ setlist.entity.createdBy }}
+			<strong>{{ setlist.entity.title }}</strong> by {{ users[setlist.entity.createdBy]?.name }}
 			({{ setlist.entity.songs.length }} songs)
+			<a href="#" @click.prevent="editSetlist(setlist)">Save</a>
 		</li>
 	</ul>
 	<button @click="addSetlist()">Add Setlist</button>
