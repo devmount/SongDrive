@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { amberClient, type AmberCollection, type AmberCollections, type UserInfo, type UserInTenant } from 'amber-client'
 import type { SetlistEntity, Setlist, SongEntity, Song } from '../../backend/models.js';
 
@@ -30,14 +30,13 @@ var collectionApi: AmberCollections | null;
 var songsCollection: AmberCollection<SongEntity> | null = null;
 var setlistCollection: AmberCollection<SetlistEntity> | null = null;
 
+const songIndex = computed<{[key:string]: Song}>(() => songs.value.reduce((p, c) => ({ ...p, [c.id]: c}), {})  || {});
+
 onMounted(async () => {
 	user.value = await client.userInTenant();
 	collectionApi = client.getCollectionsApi();
 	songsCollection = collectionApi.getCollection<SongEntity>('songs');
 	setlistCollection = collectionApi.getCollection<SetlistEntity>('setlists');
-
-	const usersResponse = await client.getAmberApi()?.getUsers();
-	users.value = usersResponse?.reduce((p, c) => ({ ...p, [c.id]: c}), {})  || {};
 
 	songsCollection.subscribe(0, (doc) => {
 		let existing = songs.value.find(s => s.id === doc.id);
@@ -69,6 +68,9 @@ onMounted(async () => {
 	collectionApi.onConnectionChanged((connected) => {
 		isConnected.value = connected;
 	});
+
+	const usersResponse = await client.getAmberApi()?.getUsers();
+	users.value = usersResponse?.reduce((p, c) => ({ ...p, [c.id]: c}), {})  || {};
 });
 
 async function addSong() {
@@ -130,4 +132,14 @@ async function editSetlist(setlist: Setlist) {
 		</li>
 	</ul>
 	<button @click="addSetlist()">Add Setlist</button>
+
+	<hr>
+	<div v-if="setlists.length > 4">
+		Last Setlist:<br>
+		{{ setlists[4].entity.title }}<br>
+		Songs:
+		<ol>
+			<li v-for="song in setlists[4].entity.songs">{{ songIndex[song.id].entity.title }}</li>
+		</ol>
+	</div>
 </template>
