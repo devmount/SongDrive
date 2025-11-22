@@ -89,8 +89,10 @@ async function addSong() {
 
 async function addSetlist() {
 	await setlistCollection?.createDoc({
+		active: false,
 		createdBy: user.value!.user.id,
 		title: Math.random().toString(36).substring(2, 7),
+		position: 0,
 		songs: songs.value.map((s: Song) => ({id: s.id, key: 'A'})),
 		sharedWith: [],
 		isPublic: true,

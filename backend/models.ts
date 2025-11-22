@@ -2,9 +2,9 @@ export type SongEntity = {
   authors: string; // Song authors, currently separated by ' | ' (TODO)
   ccli?: number; // CCLI id
   content: string; // Song lyrics and chords noted in SongDrive syntax
-  createdBy: string; // User id of the creator
+  createdBy: string; // User id of the creator (new)
   key?: string; // Base key of the song (previously named 'tuning')
-  language: string; // Language code
+  language: string; // Language code, two letter iso
   publisher: string; // Song publisher information
   slug: string; // Unique song url slug (previously named 'id')
   subtitle?: string; // Displayed song subtitle
@@ -22,13 +22,15 @@ export type Song = {
 
 export type SetlistSong = {
   id: string;
-  key: string;
+  key: string; // Custom key (previously named 'tuning')
 };
 
 export type SetlistEntity = {
-  createdBy: string; // User id of the creator
-  date: string; // Event date of this setlist
-  isPublic: boolean; // If true, the setlist is public and readable by everyone
+  active: boolean; // If true, the setlist is currently syncing positions
+  createdBy: string; // User id of the creator (previously named 'creator')
+  date: string; // Event date of this setlist in iso format YYYY-MM-DD
+  isPublic: boolean; // If true, the setlist is public and readable by everyone (inverted, previously named 'private')
+  position: number; // Current slide position when in presentation mode
   sharedWith: string[]; // List of user ids with whom this setlist is shared
   songs: SetlistSong[]; // List of song ids and custom keys of songs the setlist contains
   title: string; // Displayed setlist title
