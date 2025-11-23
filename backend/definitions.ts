@@ -69,5 +69,6 @@ export enum SongLanguages {
   DE = 'de',
   EN = 'en',
   FR = 'fr',
+  HE = 'he',
   LI = 'li',
 }

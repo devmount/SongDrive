@@ -75,14 +75,14 @@ onMounted(async () => {
 
 async function addSong() {
 	await songsCollection?.createDoc({
-		createdBy: user.value!.user.id,
-		title: Math.random().toString(36).substring(2, 7),
-		content: 'Lyrics go here',
 		authors: 'A | B',
+		content: 'Lyrics go here',
+		createdBy: user.value!.user.id,
 		language: 'en',
 		publisher: 'unknonw',
 		slug: 'abcde',
 		tags: [],
+		title: Math.random().toString(36).substring(2, 7),
 		translations: [],
 	});
 }
@@ -91,12 +91,13 @@ async function addSetlist() {
 	await setlistCollection?.createDoc({
 		active: false,
 		createdBy: user.value!.user.id,
-		title: Math.random().toString(36).substring(2, 7),
-		position: 0,
-		songs: songs.value.map((s: Song) => ({id: s.id, key: 'A'})),
-		sharedWith: [],
-		isPublic: true,
 		date: '2026-01-01',
+		isPublic: true,
+		position: 0,
+		sharedWith: [],
+		slug: 'abcde',
+		songs: songs.value.map((s: Song) => ({id: s.id, key: 'A'})),
+		title: Math.random().toString(36).substring(2, 7),
 	});
 }
 

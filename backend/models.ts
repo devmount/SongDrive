@@ -1,5 +1,5 @@
 export type SongEntity = {
-  authors: string; // Song authors, currently separated by ' | ' (TODO)
+  authors: string; // Song authors, currently separated by ' | ' (converted to real array)
   ccli?: number; // CCLI id
   content: string; // Song lyrics and chords noted in SongDrive syntax
   createdBy: string; // User id of the creator (new)
@@ -32,6 +32,7 @@ export type SetlistEntity = {
   isPublic: boolean; // If true, the setlist is public and readable by everyone (inverted, previously named 'private')
   position: number; // Current slide position when in presentation mode
   sharedWith: string[]; // List of user ids with whom this setlist is shared
+  slug: string; // Unique setlist url slug (previously named 'id')
   songs: SetlistSong[]; // List of song ids and custom keys of songs the setlist contains
   title: string; // Displayed setlist title
 };
