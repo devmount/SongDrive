@@ -7,7 +7,7 @@ converted by this script.
 
 Just run this script like this:
 
-    python firebaseToAmber.py songdrive.json
+    python firebaseToAmber.py <exported.json> <tenant>
 
 It produces a new file songdrive.sql, containing SQL INSERT statements
 in a Amberbase compatible format to import int the MariaDB of Amberbase.
@@ -19,8 +19,8 @@ import sys
 from datetime import datetime
 
 # CONFIG
-filename = sys.argv[1]
-tenant = 'default'
+filename = sys.argv[1].strip()
+tenant = sys.argv[2].strip()
 
 with open(filename, encoding='utf-8') as f:
   data = json.load(f)
@@ -32,6 +32,12 @@ for id in data['users']:
   query += '\n ("' + id + '", "' + data['users'][id]['name'] + '", "' + data['users'][id]['email'] + '", NULL),'
   users[id] = data['users'][id]['email']
 
+query = query[:-1] + ';\n\n'
+
+# Handle roles/permissions
+query += 'INSERT INTO `roles` (`user`, `tenant`, `roles`) VALUES '
+for id in data['users']:
+  query += '\n ("' + id + '", "' + tenant + '", "reader"),'
 query = query[:-1] + ';\n\n'
 
 # Handle setlists collection
