@@ -8,9 +8,11 @@ import { SetlistEntity, SongEntity } from './models.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const EditorRole = 'editor';
-const PerformerRole = 'performer';
-const ReaderRole = 'reader';
+enum Roles {
+	Editor = 'editor',
+	Performer = 'performer',
+	Reader = 'reader',
+}
 
 const appInit = amber()
 	.withConfig({
@@ -23,40 +25,40 @@ const appInit = amber()
 	.withPath('/amber')
 	.withCollection<SongEntity>('songs', {
 		accessRights: {
-			[EditorRole]: ['create', 'subscribe', 'update', 'delete'],
-			[PerformerRole]: ['subscribe'],
-			[ReaderRole]: ['subscribe']
+			[Roles.Editor]: ['create', 'subscribe', 'update', 'delete'],
+			[Roles.Performer]: ['subscribe'],
+			[Roles.Reader]: ['subscribe']
 		}
 	})
 	.withCollection<SetlistEntity>('setlists', {
-		accessRights: (user: UserContext, document: SetlistEntity, action: CollectionAccessAction) => {
+		accessRights: (user: UserContext, doc: SetlistEntity | null, action: CollectionAccessAction) => {
 			// Public setlists can be created by editors and performers.
 			// Private setlists can be created by everyone.
 			if (action === 'create') {
-				if (user.roles.includes(EditorRole) || user.roles.includes(PerformerRole)) {
+				if (user.roles.includes(Roles.Editor) || user.roles.includes(Roles.Performer)) {
 					return true;
 				}
-				if (user.roles.includes(ReaderRole)) {
-					return document.createdBy === user.userId && !document.isPublic;
+				if (user.roles.includes(Roles.Reader)) {
+					return doc.createdBy === user.userId && !doc.isPublic;
 				}
 				return false;
 			}
 			// Setlists can be subscribed to by all roles, but only public setlists can be read per default.
 			// This is done via access tags below.
 			if (action === 'subscribe') {
-				return user.roles.includes(EditorRole) || user.roles.includes(PerformerRole) || user.roles.includes(ReaderRole);
+				return user.roles.includes(Roles.Editor) || user.roles.includes(Roles.Performer) || user.roles.includes(Roles.Reader);
 			}
-			// Setlists can be deleted by editory or the corresponding creator.
+			// Setlists can be deleted by editors or the corresponding creator.
 			if (action === 'delete') {
-				return user.roles.includes(EditorRole) || document.createdBy === user.userId;
+				return user.roles.includes(Roles.Editor) || doc.createdBy === user.userId;
 			}
 			// Setlists can be updated by the corresponding creator.
 			// Public setlists can be updated by editors and performers.
 			if (action === 'update') {
-				if (document.createdBy === user.userId) {
+				if (doc.createdBy === user.userId) {
 					return true;
 				}
-				if (document.isPublic && (user.roles.includes(EditorRole) || user.roles.includes(PerformerRole))) {
+				if (doc.isPublic && (user.roles.includes(Roles.Editor) || user.roles.includes(Roles.Performer))) {
 					return true;
 				}
 				return false;
@@ -66,26 +68,25 @@ const appInit = amber()
 		},
 
 		// The owner of a private setlist can share it with other users
-		accessTagsFromDocument: (document: SetlistEntity) => {
-			const tags = [`o${document.createdBy}`];
-			if (document.isPublic) {
+		accessTagsFromDocument: (doc: SetlistEntity) => {
+			const tags = [`o-${doc.createdBy}`];
+			if (doc.isPublic) {
 				tags.push('p');
 			} else {
-				document.sharedWith.forEach((userId) => {
-					tags.push(`s${userId}`);
+				doc.sharedWith.forEach((userId) => {
+					tags.push(`s-${userId}`);
 				});
 			}
 			return tags;
 		},
-		accessTagsFromUser: (user: UserContext) => {
-			const tags = ['p'];
-			tags.push(`o${user.userId}`);
-			tags.push(`s${user.userId}`);
-			return tags;
-		}
+		accessTagsFromUser: (user: UserContext) => [
+			'p',
+			`o-${user.userId}`,
+			`s-${user.userId}`,
+		],
 	})
 	.withUi({
-		availableRoles: [EditorRole, PerformerRole, ReaderRole],
+		availableRoles: [Roles.Editor, Roles.Performer, Roles.Reader],
 		theme: 'dark',
 		loginTargetUrl: '/#/tenant={tenant}',
 		title: 'SongDrive Manager',

@@ -96,7 +96,7 @@ async function addSetlist() {
 		position: 0,
 		sharedWith: [],
 		slug: 'abcde',
-		songs: songs.value.map((s: Song) => ({id: s.id, key: 'A'})),
+		songs: songs.value.map((s: Song) => ({id: s.id, key: 'A'})).slice(0, 10),
 		title: Math.random().toString(36).substring(2, 7),
 	});
 }
@@ -117,23 +117,16 @@ async function editSetlist(setlist: Setlist) {
 	<template v-if="user?.roles.includes('admin')">
 		<button @click="client.getAmberUiApi().goToGlobalAdmin()">Manage</button>
 	</template>
-	<h2>Songs</h2>
-	<ul>
-		<li v-for="song in songs" :key="song.id">
-			<strong>{{ song.entity.title }}</strong> by {{ users[song.entity.createdBy]?.name }}
-		</li>
-	</ul>
-	<button @click="addSong()">Add Song</button>
 
 	<h2>Setlists</h2>
 	<p>Edit title: <input type="text" v-model="setlistTitle" /></p>
-	<ul>
+	<ol>
 		<li v-for="setlist in setlists" :key="setlist.id">
 			<strong>{{ setlist.entity.title }}</strong> by {{ users[setlist.entity.createdBy]?.name }}
 			({{ setlist.entity.songs.length }} songs)
 			<a href="#" @click.prevent="editSetlist(setlist)">Save</a>
 		</li>
-	</ul>
+	</ol>
 	<button @click="addSetlist()">Add Setlist</button>
 
 	<hr>
@@ -145,4 +138,13 @@ async function editSetlist(setlist: Setlist) {
 			<li v-for="song in setlists[4].entity.songs">{{ songIndex[song.id].entity.title }}</li>
 		</ol>
 	</div>
+
+	<h2>Songs</h2>
+	<ol>
+		<li v-for="song in songs" :key="song.id">
+			<strong>{{ song.entity.title }}</strong> ({{ song.entity.subtitle }})
+		</li>
+	</ol>
+	<button @click="addSong()">Add Song</button>
+
 </template>
