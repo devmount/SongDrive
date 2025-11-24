@@ -130,7 +130,7 @@ async function editSetlist(setlist: Setlist) {
 	<button @click="addSetlist()">Add Setlist</button>
 
 	<hr>
-	<div v-if="setlists.length > 4">
+	<div v-if="setlists.length > 4 && setlists[4].entity">
 		Last Setlist:<br>
 		{{ setlists[4].entity.title }}<br>
 		Songs:

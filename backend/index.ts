@@ -71,7 +71,7 @@ const appInit = amber()
 		accessTagsFromDocument: (doc: SetlistEntity) => {
 			const tags = [`o-${doc.createdBy}`];
 			if (doc.isPublic) {
-				tags.push('p');
+				tags.push('public');
 			} else {
 				doc.sharedWith.forEach((userId) => {
 					tags.push(`s-${userId}`);
@@ -80,7 +80,7 @@ const appInit = amber()
 			return tags;
 		},
 		accessTagsFromUser: (user: UserContext) => [
-			'p',
+			'public',
 			`o-${user.userId}`,
 			`s-${user.userId}`,
 		],
