@@ -3,6 +3,8 @@ node_modules
 dist
 Thumbs.db
 deploy.sh
+backend/migration/*.json
+backend/migration/*.sql
 
 # local env files
 .env
