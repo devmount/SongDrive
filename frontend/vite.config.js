@@ -17,4 +17,9 @@ export default defineConfig({
 			"@": resolve(__dirname, "./src"),
 		},
 	},
+	build: {
+    outDir: "../backend/dist/static",
+    emptyOutDir: true,
+    sourcemap : true
+  }
 });

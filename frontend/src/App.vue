@@ -262,19 +262,19 @@
 </template>
 
 <script setup>
-import { collection, onSnapshot, getDoc, doc, setDoc } from 'firebase/firestore';
-import {
-	getAuth,
-	signInWithEmailAndPassword,
-	signOut as fbSignOut,
-	createUserWithEmailAndPassword,
-	sendEmailVerification,
-	sendPasswordResetEmail,
-	onAuthStateChanged,
-	updateProfile
-} from "firebase/auth";
+// import { collection, onSnapshot, getDoc, doc, setDoc } from 'firebase/firestore';
+// import {
+// 	getAuth,
+// 	signInWithEmailAndPassword,
+// 	signOut as fbSignOut,
+// 	createUserWithEmailAndPassword,
+// 	sendEmailVerification,
+// 	sendPasswordResetEmail,
+// 	onAuthStateChanged,
+// 	updateProfile
+// } from "firebase/auth";
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, inject, provide, onMounted } from 'vue';
+import { ref, reactive, computed, provide, onMounted } from 'vue';
 import { useActiveElement, useMagicKeys } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
@@ -361,9 +361,9 @@ const { t } = useI18n();
 const route = useRoute();
 
 // global properties
-const fb = inject('firebaseApp');
-const db = inject('db');
-const fbAuth = getAuth(fb);
+// const fb = inject('firebaseApp');
+// const db = inject('db');
+// const fbAuth = getAuth(fb);
 
 // db table collections
 const c = reactive({
@@ -491,10 +491,6 @@ const auth = reactive({
 // currently used for switching profiles on user creation
 const loading = ref(false);
 
-// computed: check if db is empty = no users or registrations yet
-const noUsers = computed(() => {
-	return Object.keys(c.users).length === 0 && Object.keys(c.registrations).length === 0;
-});
 // computed: get user name either from user object or from users db collection
 const userName = computed(() => {
 	return ready.users ? c.users[auth.user].name : '';
