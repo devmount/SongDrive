@@ -6,9 +6,11 @@ import type { SetlistEntity, Setlist, SongEntity, Song } from '../../backend/mod
 const tenant = ref('default');
 const isConnected = ref(false);
 
+const ready = ref(false);
+
 const user = ref<UserInTenant | null>(null);
 const client = ref<AmberClient | null>(null);
-const authenticated = ref(false);
+const authenticated = ref(true);
 const authFailed = ref(false);
 const authCallback = ref<(record:{email:string, pw:string, stayLoggedIn:boolean}) => void>(()=>{});
 
@@ -18,7 +20,7 @@ const stayLoggedIn = ref(true);
 
 const songs = ref<Song[]>([]);
 const setlists = ref<Setlist[]>([]);
-const users = ref<{[key:string]: UserInfo}>({}); // { user id: user info object }
+const users = ref<{[key:string]: UserInfo}>({}); // { [user id]: user info object }
 
 const setlistTitle = ref('');
 
@@ -33,25 +35,22 @@ const init = async () => {
 	client.value = amberClient()
 		.withPath('/amber')
 		.withTenant(tenant.value)
-		// .withAmberUiLogin()
-		.withCredentialsProvider((failed)=>{
-			// wenn `failed` true ist solltest du eine Warnung "Falscher Benutzer oder Passwort" anzeigen. 
-			if (failed) {
-				authFailed.value = true;
-			}
+		.withCredentialsProvider((failed: boolean) => {
+			// Login failed
+			authFailed.value = failed;
 
-			// zeige das Login-Formular z.B. indem eine vue.js ref auf true gesetzt wird 
+			// Initially access is forbidden
 			authenticated.value = false;
 			
-			// die API erwartet jetzt ein Promise dessen `resolve` die Credentials enthält.
-			// Dafür machst du einfach ein neues Promise und speicherst dir die callbacks
-			// um sie in deinem UI einzubauen
+			// Get login callback
 			return new Promise((resolve)=>{
 				// loginCallback ist eine variable die das resolve callback deinem UI zur Verfügung stellt. 
+				authenticated.value = false;
+				authFailed.value = failed;
 				authCallback.value = resolve;
+				ready.value = true;
 			})
 		})
-		// .withCleanUser()
 		.start();
 	
 	user.value = await client.value.userInTenant();
@@ -95,21 +94,25 @@ const init = async () => {
 		const usersResponse = await client.value.getAmberApi()?.getUsers();
 		users.value = usersResponse?.reduce((p, c) => ({ ...p, [c.id]: c}), {})  || {};
 	}
+
+	ready.value = true;
 };
 
 
 const login = () => {
-	authenticated.value = true;
 	authCallback.value({email: email.value, pw: password.value, stayLoggedIn: stayLoggedIn.value});
+	authenticated.value = true;
 };
-const logout = () => {
-	client.value?.loginManager.logout();
+const logout = async () => {
+	await client.value?.loginManager.logout();
+	authenticated.value = false;
+	authFailed.value = false;
 	user.value = null;
+	email.value = '';
+	password.value = '';
 };
 
-onMounted(async () => {
-	await init();
-});
+onMounted(async () => await init());
 
 async function addSong() {
 	await songsCollection?.createDoc({
@@ -149,7 +152,10 @@ async function editSetlist(setlist: Setlist) {
 </script>
 
 <template>
-	<div v-if="authenticated">
+	<div v-if="!ready">
+		loading...
+	</div>
+	<div v-else-if="authenticated">
 		Logged in user: {{ user?.user.name }} ({{ user?.user.email }})<br>
 		Roles: {{ user?.roles.join(', ') }}<br>
 		Tenant: {{ tenant }} ({{ isConnected ? 'connected' : 'not connected' }})
@@ -173,7 +179,7 @@ async function editSetlist(setlist: Setlist) {
 			{{ setlists[4].entity.title }}<br>
 			Songs:
 			<ol>
-				<li v-for="song in setlists[4].entity.songs">{{ songIndex[song.id].entity.title }}</li>
+				<li v-for="song in setlists[4].entity.songs">{{ songIndex[song.id]?.entity?.title }}</li>
 			</ol>
 		</div>
 		<h2>Songs</h2>
@@ -185,8 +191,9 @@ async function editSetlist(setlist: Setlist) {
 		<button @click="addSong()">Add Song</button>
 	</div>
 	<div v-else>
-		<input type="email" v-model="email" />
-		<input type="password" v-model="password" />
+		<div v-if="authFailed">Oops, that didn't work. Please try again.</div>
+		<input type="email" v-model="email" placeholder="email" />
+		<input type="password" v-model="password" @keydown.enter="login" placeholder="password" />
 		<input type="checkbox" v-model="stayLoggedIn" />
 		<button @click="login">Login</button>
 	</div>
