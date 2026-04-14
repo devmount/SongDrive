@@ -32,6 +32,9 @@ const appInit = amber()
 	})
 	.withCollection<SetlistEntity>('setlists', {
 		accessRights: (user: UserContext, doc: SetlistEntity | null, action: CollectionAccessAction) => {
+			// Handle non existing doc
+			if (!doc) return false;
+
 			// Public setlists can be created by editors and performers.
 			// Private setlists can be created by everyone.
 			if (action === 'create') {
