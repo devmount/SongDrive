@@ -1,27 +1,36 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { amberClient, AmberClient, type AmberCollection, type AmberCollections, type UserInfo, type UserInTenant } from 'amber-client'
-import type { SetlistEntity, Setlist, SongEntity, Song } from '../../backend/models.js';
+import type { SetlistEntity, Setlist, SongEntity, Song } from '../../backend/dist/models.js';
+import { Tags, SongLanguages } from '../../backend/dist/definitions.js';
 
-const tenant = ref('default');
-const isConnected = ref(false);
+// Tenant
+const tenant = reactive({
+	name: 'default',
+	connected: false,
+});
 
+// Auth
 const ready = ref(false);
-
 const user = ref<UserInTenant | null>(null);
 const client = ref<AmberClient | null>(null);
 const authenticated = ref(true);
 const authFailed = ref(false);
 const authCallback = ref<(record:{email:string, pw:string, stayLoggedIn:boolean}) => void>(()=>{});
 
+// Login
 const email = ref('');
 const password = ref('');
 const stayLoggedIn = ref(true);
 
+// Data
 const songs = ref<Song[]>([]);
 const setlists = ref<Setlist[]>([]);
 const users = ref<{[key:string]: UserInfo}>({}); // { [user id]: user info object }
+const tags = Object.values(Tags);
+const languages = Object.values(SongLanguages);
 
+// Demo
 const setlistTitle = ref('');
 
 var collectionApi: AmberCollections | null;
@@ -34,7 +43,7 @@ const songIndex = computed<{[key:string]: Song}>(() => songs.value.reduce((p, c)
 const init = async () => {
 	client.value = amberClient()
 		.withPath('/amber')
-		.withTenant(tenant.value)
+		.withTenant(tenant.name)
 		.withCredentialsProvider((failed: boolean) => {
 			// Login failed
 			authFailed.value = failed;
@@ -88,7 +97,7 @@ const init = async () => {
 	
 		await collectionApi.connect();
 		collectionApi.onConnectionChanged((connected) => {
-			isConnected.value = connected;
+			tenant.connected = connected;
 		});
 	
 		const usersResponse = await client.value.getAmberApi()?.getUsers();
@@ -158,11 +167,12 @@ async function editSetlist(setlist: Setlist) {
 	<div v-else-if="authenticated">
 		Logged in user: {{ user?.user.name }} ({{ user?.user.email }})<br>
 		Roles: {{ user?.roles.join(', ') }}<br>
-		Tenant: {{ tenant }} ({{ isConnected ? 'connected' : 'not connected' }})
+		Tenant: {{ tenant.name }} ({{ tenant.connected ? 'connected' : 'not connected' }})
 		<button @click="logout">Logout</button>
 		<template v-if="user?.roles.includes('admin')">
 			<button @click="client?.getAmberUiApi().goToGlobalAdmin()">Manage</button>
 		</template>
+
 		<h2>Setlists</h2>
 		<p>Edit title: <input type="text" v-model="setlistTitle" /></p>
 		<ol>
@@ -182,6 +192,7 @@ async function editSetlist(setlist: Setlist) {
 				<li v-for="song in setlists[4].entity.songs">{{ songIndex[song.id]?.entity?.title }}</li>
 			</ol>
 		</div>
+
 		<h2>Songs</h2>
 		<ol>
 			<li v-for="song in songs" :key="song.id">
@@ -189,6 +200,16 @@ async function editSetlist(setlist: Setlist) {
 			</li>
 		</ol>
 		<button @click="addSong()">Add Song</button>
+
+		<h2>Tags</h2>
+		<ul>
+			<li v-for="tag in tags">{{ tag }}</li>
+		</ul>
+
+		<h2>Languages</h2>
+		<ul>
+			<li v-for="language in languages">{{ language }}</li>
+		</ul>
 	</div>
 	<div v-else>
 		<div v-if="authFailed">Oops, that didn't work. Please try again.</div>
