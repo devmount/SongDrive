@@ -5,6 +5,7 @@
 		<!-- login panel -->
 		<panel class="max-w-xs w-full">
 			<div class="text-center">{{ t('text.signInToSongDrive') }}</div>
+			<div v-if="authFailed" class="text-rose-600 text-center">{{ t('text.authFailed') }}</div>
 			<div class="flex flex-col gap-1">
 				<input
 					type="email"
@@ -21,6 +22,10 @@
 					:placeholder="t('field.password')"
 					required
 				/>
+				<label class="flex items-center gap-3 mt-4">
+					<input type="checkbox" v-model="stayLoggedIn" class="w-6 h-6" />
+					{{ t('text.stayLoggedIn') }}
+				</label>
 			</div>
 			<div class="mt-3">
 				<primary-button class="w-full" @click="signIn">
@@ -61,9 +66,15 @@ const { t } = useI18n();
 // emits
 const emit = defineEmits(['signIn', 'signUp', 'resetPassword']);
 
+// props
+defineProps({
+  authFailed: Boolean,
+})
+
 // input data
-const email    = ref('');
-const password = ref('');
+const email = defineModel('email');
+const password = defineModel('password');
+const stayLoggedIn = defineModel('stayLoggedIn');
 
 // check if form errors occured
 const error = reactive({
@@ -78,7 +89,7 @@ const signIn = () => {
 	error.email = email.value == '';
 	error.password = password.value == '';
 	if (!errors.value) {
-		emit('signIn', email.value, password.value)
+		emit('signIn')
 	}
 };
 

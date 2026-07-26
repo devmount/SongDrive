@@ -310,6 +310,7 @@
     "worship": "Anbetung"
   },
   "text": {
+    "authFailed": "Ups, das hat nicht geklappt. Vielleicht vertippt?",
     "cannotBeUndone": "Das kann nicht rückgängig gemacht werden.",
     "changeAccount": "Ändere oder lösche dein Konto",
     "changeToAnotherEmail": "Wechsle deine E-Mail-Adresse. Vergiss nicht, dass diese auch dein Benutzername ist.",
@@ -377,6 +378,7 @@
     "songDeletedOrBrokenLink": "Dieser Song existiert nicht. Er wurde möglicherweise gelöscht oder der Link ist kaputt.",
     "songNotFound": "Song nicht gefunden",
     "songsheets": "Liedzettel",
+    "stayLoggedIn": "Angemeldet bleiben",
     "syncedDevices": "Synchronisierte Geräte:",
     "unconfirmedMistake": "Wenn du denkst, dass hier ein Fehler vorliegt, kontaktiere uns bitte.",
     "unverified": "nicht bestätigt",

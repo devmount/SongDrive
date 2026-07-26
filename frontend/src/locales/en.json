@@ -310,6 +310,7 @@
     "worship": "Worship"
   },
   "text": {
+    "authFailed": "Oops, that didn't work. Maybe a typo?",
     "cannotBeUndone": "This cannot be undone.",
     "changeAccount": "Change or delete your account",
     "changeToAnotherEmail": "Change to another email address. Keep in mind, that this is also your username.",
@@ -377,6 +378,7 @@
     "songDeletedOrBrokenLink": "This song doesn't exists. It may be deleted or you followed a broken link.",
     "songNotFound": "Song not found",
     "songsheets": "Songsheets",
+    "stayLoggedIn": "Stay logged in",
     "syncedDevices": "Synced Devices:",
     "unconfirmedMistake": "If you think this is a mistake, please contact us.",
     "unverified": "not verified",
