@@ -1,7 +1,7 @@
 /**
  * Available song tags
  */
-export enum Tags {
+export enum Tag {
   Adoration = 'adoration',
   Assurance = 'assurance',
   Beauty = 'beauty',
@@ -65,10 +65,49 @@ export enum Tags {
 /**
  * Available song languges
  */
-export enum SongLanguages {
+export enum SongLanguage {
   DE = 'de',
   EN = 'en',
   FR = 'fr',
   HE = 'he',
   LI = 'li',
+}
+
+/**
+ * Supported user permission roles
+ */
+export enum Role {
+	Admin = 'admin',
+	Editor = 'editor',
+	Performer = 'performer',
+	Reader = 'reader',
+};
+
+/**
+ * Ruleset
+ */
+export const can = (action: string, roles: Role[]): boolean => {
+  // Get the highes role from the given list of roles
+  const level = {
+    [Role.Admin]: 8,
+	  [Role.Editor]: 4,
+	  [Role.Performer]: 2,
+	  [Role.Reader]: 1,
+  };
+  const role = roles.toSorted((a, b) => level[a] - level[b])[0];
+
+  // Admins are allowed in general
+  if (role === Role.Admin) {
+    return true;
+  }
+
+  // All others are assigned as defined here
+  switch (action) {
+    case 'createSetlists':
+      return [Role.Editor, Role.Performer].includes(role);
+    case 'createSongs':
+      return [Role.Editor].includes(role);
+    default:
+      return false;
+  }
 }

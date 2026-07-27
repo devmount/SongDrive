@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "nodenext",
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
     "outDir": "dist",
-    "target": "ES2022",
+    "target": "es2023",
     "declaration": true
     
   },
