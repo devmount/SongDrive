@@ -44,17 +44,17 @@
 						@click="open = false"
 					>
 						<icon-music class="w-5 h-5 stroke-1.5" />
-						<span class="uppercase">{{ t('page.songs', Object.keys(songs)?.length) }}</span>
+						<span class="uppercase">{{ t('page.songs', songs.length) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
-							<div v-if="ready.songs" class="font-bold">{{ Object.keys(songs).length }}</div>
-							<!-- <secondary-button
-								v-if="userRoles[c.permissions[auth.user].role] > 2"
+							<div class="font-bold">{{ songs.length }}</div>
+							<secondary-button
+								v-if="can('createSongs', user.roles)"
 								class="p-1!"
 								:title="t('tooltip.songAdd')"
 								@click.stop.prevent="createNewSong"
 							>
 								<icon-plus class="w-5 h-5 stroke-1.5" />
-							</secondary-button> -->
+							</secondary-button>
 						</div>
 					</router-link>
 					<router-link
@@ -63,17 +63,17 @@
 						@click="open = false"
 					>
 						<icon-playlist class="w-5 h-5 stroke-1.5" />
-						<span class="uppercase">{{ t('page.setlists', setlistCount) }}</span>
+						<span class="uppercase">{{ t('page.setlists', setlists.length) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
-							<label v-if="ready.setlists" class="font-bold">{{ setlistCount }}</label>
-							<!-- <secondary-button
-								v-if="userRoles[c.permissions[auth.user].role] > 1"
+							<label class="font-bold">{{ setlists.length }}</label>
+							<secondary-button
+								v-if="can('createSetlists', user.roles)"
 								class="p-1!"
 								:title="t('tooltip.setlistAdd')"
 								@click.stop.prevent="createNewSetlist"
 							>
 								<icon-plus class="w-5 h-5 stroke-1.5" />
-							</secondary-button> -->
+							</secondary-button>
 						</div>
 					</router-link>
 					<divider-horizontal :label="t('divider.account')" />
@@ -86,7 +86,7 @@
 						<div class="flex flex-col">
 							<div class="leading-5 uppercase">{{ userName }}</div>
 							<div class="text-gray-500 text-sm">
-								{{ t('role.' + user?.roles[0]) }}
+								{{ t('role.' + user.roles[0]) }}
 							</div>
 						</div>
 					</router-link>
@@ -271,7 +271,6 @@ import { useRoute } from 'vue-router';
 import { userRoles, throwError } from '@/utils.js';
 import Avatar from '@/elements/Avatar.vue';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
-import IndicatorPulse from '@/elements/IndicatorPulse.vue';
 import LoginForm from '@/partials/LoginForm.vue';
 import Logo from '@/partials/Logo.vue';
 import PasswordReset from '@/modals/PasswordReset.vue';
@@ -279,10 +278,8 @@ import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistSet from '@/modals/SetlistSet.vue';
 import SignUp from '@/modals/SignUp.vue';
 import SongSet from '@/modals/SongSet.vue';
-import UserUnconfirmed from '@/partials/UserUnconfirmed.vue';
-import UserUnverified from '@/partials/UserUnverified.vue';
 import { amberClient } from 'amber-client';
-import { Tags, SongLanguages } from "@backend/definitions";
+import { SongTag, SongLanguage, can } from "@backend/definitions";
 
 // icons
 import {
@@ -499,8 +496,8 @@ const stayLoggedIn = ref(true);
 const songs = ref([]);
 const setlists = ref([]);
 const users = ref({}); // { [user id]: user info object }
-const tags = Object.values(Tags);
-const languages = Object.values(SongLanguages);
+const tags = Object.values(SongTag);
+const languages = Object.values(SongLanguage);
 
 // computed: get user name either from user object or from users db collection
 const userName = computed(() => {
@@ -509,10 +506,17 @@ const userName = computed(() => {
 // computed: check if at least one registration exists
 const registrationsExist = false; // TODO
 
-// computed: number of setlists visible for user
-const setlistCount = computed(() => {
-	return Object.values(setlists).filter(s => !s.private || s.private && s.creator==user?.user.id).length;
-});
+// Provide data for other views
+provide('user', userName);
+provide('userObject', user.value?.user);
+provide('role', user.value?.roles[0]);
+provide('roleName', user.value?.roles.join(', '));
+provide('ready', ready);
+provide('languages', languages);
+provide('setlists', setlists);
+provide('songs', songs);
+provide('tags', tags);
+provide('users', users);
 
 // Collections from Amberbase
 let collectionApi = null;
@@ -586,7 +590,7 @@ const init = async () => {
 	ready.value = true;
 };
 
-const login = async () => {
+const login = () => {
 	authCallback.value({ email: email.value, pw: password.value, stayLoggedIn: stayLoggedIn.value });
 	authenticated.value = true;
 };
@@ -597,6 +601,8 @@ const logout = async () => {
 	user.value = null;
 	email.value = '';
 	password.value = '';
+
+	notify({ title: t('toast.signedOut'), text: t('toast.signedOutText'), type: 'primary' });
 };
 
 onMounted(async () => await init());

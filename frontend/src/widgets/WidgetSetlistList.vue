@@ -1,5 +1,5 @@
 <template>
-	<panel v-if="setlists?.length > 0">
+	<panel v-if="setlists.length">
 		<div class="flex justify-between items-start">
 			<div class="text-2xl">
 				{{ t('widget.' + keyByValue(sortBy, order)) }} {{ t('page.setlists', 2) }}
@@ -24,22 +24,22 @@
 				v-for="(setlist, i) in setlistlist"
 				:key="i"
 				class="flex gap-2 cursor-pointer p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
-				@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
+				@click="router.push({ name: 'setlist-show', params: { id: setlist.entity.id }})"
 			>
 				<div class="flex">
 					<figure
 						class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-8"
-						:title="t('title.setlistContains', { num: setlist.songs.length })"
+						:title="t('title.setlistContains', { num: setlist.entity.songs.length })"
 					>
-						<div class="-mt-0.5">{{ setlist.songs.length }}</div>
+						<div class="-mt-0.5">{{ setlist.entity.songs.length }}</div>
 					</figure>
 				</div>
 				<div class="flex flex-col overflow-hidden">
 					<div class="-mt-1 flex gap-1 items-center">
-						<div class="truncate">{{ setlist.title }}</div>
-						<icon-lock v-if="setlist.private" class="w-5 h-5 stroke-1.5 text-spring-600" />
+						<div class="truncate">{{ setlist.entity.title }}</div>
+						<icon-lock v-if="!setlist.entity.isPublic" class="w-5 h-5 stroke-1.5 text-spring-600" />
 					</div>
-					<div class="text-sm text-blade-500 -mt-1 truncate">{{ humanDate(setlist.date, locale) }}</div>
+					<div class="text-sm text-blade-500 -mt-1 truncate">{{ humanDate(setlist.entity.date, locale) }}</div>
 				</div>
 			</div>
 		</div>
@@ -62,7 +62,7 @@
 
 <script setup>
 import { keyByValue, humanDate } from '@/utils.js';
-import { ref, computed } from 'vue';
+import { ref, computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import LinkButton from '@/elements/LinkButton.vue';
@@ -82,10 +82,8 @@ import {
 const { t, locale } = useI18n();
 const router = useRouter();
 
-// component properties
-const props = defineProps({
-  setlists: Array,
-});
+// injected properties
+const setlists = inject('setlists');
 
 // sorting order
 const sortBy = {
@@ -103,16 +101,16 @@ const listLength = 6;
 const newestSetlists = () => {
 	page.value = 0;
 	order.value = sortBy.newest;
-	reordered.value = props.setlists.filter(s => s.date != '').sort(
-		(a,b) => (new Date(a.date) < new Date(b.date)) ? 1 : ((new Date(b.date) < new Date(a.date)) ? -1 : 0)
+	reordered.value = setlists.value.filter(s => s.entity.date != '').sort(
+		(a,b) => (new Date(a.entity.date) < new Date(b.entity.date)) ? 1 : ((new Date(b.entity.date) < new Date(a.entity.date)) ? -1 : 0)
 	);
 	return reordered.value;
 };
 const oldestSetlists = () => {
 	page.value = 0;
 	order.value = sortBy.oldest;
-	reordered.value = props.setlists.filter(s => s.date != '').sort(
-		(a,b) => (new Date(a.date) > new Date(b.date)) ? 1 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0)
+	reordered.value = setlists.value.filter(s => s.entity.date != '').sort(
+		(a,b) => (new Date(a.entity.date) > new Date(b.entity.date)) ? 1 : ((new Date(b.entity.date) > new Date(a.entity.date)) ? -1 : 0)
 	);
 };
 

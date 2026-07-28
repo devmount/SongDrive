@@ -1,10 +1,10 @@
 <template>
 	<div class="flex flex-col gap-6 w-full">
-		<div class="flex flex-wrap gap-8 py-4 w-full justify-evenly" v-if="ready.songs && ready.setlists">
+		<div class="flex flex-wrap gap-8 py-4 w-full justify-evenly">
 			<!-- stored songs count -->
 			<div class="flex flex-col items-center">
 				<div class="text-4xl sm:text-6xl font-thin">
-					{{ Object.keys(songs).length }}
+					{{ songs.length }}
 				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex items-center gap-2">
 					<icon-music class="shrink-0 w-5 h-5 stroke-1.5" />
@@ -14,7 +14,7 @@
 			<!-- stored setlists count -->
 			<div class="flex flex-col items-center">
 				<div class="text-4xl sm:text-6xl font-thin">
-					{{ setlistCount }}
+					{{ setlists.length }}
 				</div>
 				<div class="text-xl text-blade-600 dark:text-blade-400 flex items-center gap-2">
 					<icon-playlist class="shrink-0 w-5 h-5 stroke-1.5" />
@@ -43,22 +43,16 @@
 			</div>
 		</div>
 
-		<div
-			v-if="ready.songs && ready.setlists"
-			class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full"
-		>
+		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
 			<!-- song list -->
-			<widget-song-list :songs="songsArray" :setlists="setlistsArray" />
+			<widget-song-list />
 			<!-- setlist list -->
-			<widget-setlist-list :setlists="setlistsArray" />
+			<widget-setlist-list />
 			<!-- song of the year -->
-			<widget-song-of-year :songs="songs" :setlists="setlistsArray" />
+			<widget-song-of-year />
 		</div>
-		<div
-			v-if="ready.songs && ready.setlists"
-			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
-		>
-			<panel v-if="!noSetlists" class="flex flex-col gap-4">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+			<panel v-if="setlists.length" class="flex flex-col gap-4">
 				<div class="text-2xl">
 					{{ t('widget.setlistsCreatedPerYear') }}
 				</div>
@@ -69,7 +63,7 @@
 					:abscissa="true"
 				/>
 			</panel>
-			<panel v-if="!noSongs && !noSetlists" class="flex flex-col gap-4">
+			<panel v-if="songs.length && setlists.length" class="flex flex-col gap-4">
 				<div class="text-2xl">
 					{{ t('widget.songsPerformedPerYear') }}
 				</div>
@@ -80,7 +74,7 @@
 					:abscissa="true"
 				/>
 			</panel>
-			<panel v-if="!noSetlists" class="flex flex-col gap-4">
+			<panel v-if="setlists.length" class="flex flex-col gap-4">
 				<div class="text-2xl">
 					{{ t('widget.setlistsPerWeekday') }}
 				</div>
@@ -95,7 +89,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BarChart  from '@/charts/BarChart.vue';
 import LineChart from '@/charts/LineChart.vue';
@@ -112,64 +106,30 @@ import {
 	IconWorld,
 } from '@tabler/icons-vue';
 
-// component constants
 const { t, locale } = useI18n();
 
-// component properties
-const props = defineProps({
-  songs:    Object,
-  setlists: Object,
-  ready:    Object,
-  user:     String,
-});
-
-// totala number of song performances
-const songsPerformed = computed(() => setlistsArray.value.reduce((a, c) => a + c.songs.length, 0));
-
-// provides list of all songs
-const songsArray = computed(() => {
-	let list = Object.keys(props.songs).map((key) => {
-		let song = props.songs[key];
-		song['id'] = key;
-		return song;
-	});
-	return list.sort((a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0));
-});
-
-// true if song data collection is empty
-const noSongs = computed(() => props.ready.songs && songsArray.value.length == 0);
+const songs = inject('songs');
+const setlists = inject('setlists');
 
 // total number of song languages
 const languagesUsed = computed(() => {
-	let languages = [];
-	songsArray.value.forEach(song => {
-		if (!languages.includes(song.language)) {
-			languages.push(song.language);
+	const languages = [];
+	songs.value.forEach(song => {
+		if (!languages.includes(song.entity.language)) {
+			languages.push(song.entity.language);
 		}
 	})
 	return languages.length;
 });
 
-// provides list of public setlists and those owned by current user
-const setlistsArray = computed(() => {
-	return Object.keys(props.setlists).map((key) => {
-		let setlist = props.setlists[key];
-		setlist['id'] = key;
-		return setlist;
-	}).filter(s => !s.private || s.private && s.creator==props.user);
-});
-
-// total number of public setlists
-const setlistCount = computed(() => setlistsArray.value.filter(s => !s.private).length);
-
-// true if setlist data collection is empty
-const noSetlists = computed(() => props.ready.setlists && setlistsArray.value.length == 0);
+// totala number of song performances
+const songsPerformed = computed(() => setlists.value.reduce((a, c) => a + c.entity.songs.length, 0));
 
 // chart data providing number of setlists per year
 const setlistsPerYear = computed(() => {
 	let years = {};
-	setlistsArray.value.forEach(setlist => {
-		let year = setlist.date.slice(0, 4);
+	setlists.value.forEach(setlist => {
+		let year = setlist.entity.date.slice(0, 4);
 		if (year) {
 			if (!years.hasOwnProperty(year)) {
 				years[year] = 1;
@@ -189,13 +149,13 @@ const setlistsPerYear = computed(() => {
 // chart data providing number of song performances per year
 const songsPerYear = computed(() => {
 	let years = {};
-	setlistsArray.value.forEach(setlist => {
-		let year = setlist.date.slice(0, 4);
+	setlists.value.forEach(setlist => {
+		let year = setlist.entity.date.slice(0, 4);
 		if (year) {
 			if (!years.hasOwnProperty(year)) {
 				years[year] = 0;
 			}
-			years[year] += setlist.songs.length;
+			years[year] += setlist.entity.songs.length;
 		}
 	});
 	return {
@@ -211,8 +171,8 @@ const setlistsPerWeekday = computed(() => {
 	for (let i = 0; i < getWeekDays.value.length; i++) {
 		weekday[getWeekDays.value[i]] = 0;
 	}
-	setlistsArray.value.forEach(setlist => {
-		let w = (new Date(setlist.date)).toLocaleDateString(locale.value, { weekday: 'long' });
+	setlists.value.forEach(setlist => {
+		let w = (new Date(setlist.entity.date)).toLocaleDateString(locale.value, { weekday: 'long' });
 		weekday[w]++;
 	});
 	return {
