@@ -8,11 +8,11 @@
 				:href="'https://youtu.be/' + song.youtube"
 				target="_blank"
 			>
-				<tag>
+				<song-tag>
 					<icon-brand-youtube class="shrink-0 w-4 h-4 stroke-1.5" />
 					{{ t('field.youtube') }}
 					<icon-external-link class="shrink-0 w-4 h-4 stroke-1.5" />
-				</tag>
+				</song-tag>
 			</a>
 			<!-- ccli -->
 			<a
@@ -20,10 +20,10 @@
 				:href="'https://songselect.ccli.com/Songs/' + song.ccli"
 				target="_blank"
 			>
-				<tag>
+				<song-tag>
 					{{ t('field.ccli') }}
 					<icon-external-link class="shrink-0 w-4 h-4 stroke-1.5" />
-				</tag>
+				</song-tag>
 			</a>
 			<!-- tags -->
 			<div class="flex flex-wrap gap-1">
@@ -31,7 +31,7 @@
 					v-for="tag in sortedTags" :key="tag.key"
 					:to="{ name: 'songs', params: { tag: tag.key }}"
 				>
-					<tag :tag="tag" />
+					<song-tag :tag="tag" />
 				</router-link>
 			</div>
 		</div>
@@ -46,7 +46,7 @@
 import { computed } from 'vue';
 import { sortTags } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
-import Tag from '@/elements/Tag.vue';
+import Tag from '@/elements/SongTag.vue';
 
 // icons
 import {

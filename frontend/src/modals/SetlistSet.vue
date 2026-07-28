@@ -101,7 +101,7 @@
 								</secondary-button>
 							</template>
 							<div class="max-h-80 overflow-y-scroll flex flex-col gap-0.5 p-2! text-sm">
-								<tag
+								<song-tag
 									v-for="tag in sortTags(tags, loc)" :key="tag.key"
 									:tag="tag"
 									@click="filter.tag = tag.key"
@@ -281,7 +281,7 @@ import Dropdown from '@/elements/Dropdown.vue';
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
-import Tag from '@/elements/Tag.vue';
+import Tag from '@/elements/SongTag.vue';
 
 // icons
 import {

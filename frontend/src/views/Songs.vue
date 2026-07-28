@@ -185,7 +185,7 @@
 					</td>
 					<td class="cursor-pointer p-3 max-w-0 hidden 3xl:table-cell">
 						<div v-if="ready.tags" class="flex flex-nowrap gap-1">
-							<tag
+							<song-tag
 								v-for="tag in sortedTags(song.tags).slice(0, 3)" :key="tag.key"
 								:tag="tag"
 								@click="router.push({ name: 'songs', params: { tag: tag.key }})"
@@ -270,7 +270,7 @@ import { useRoute, useRouter } from 'vue-router'
 import Dropdown from '@/elements/Dropdown.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongDelete from '@/modals/SongDelete.vue';
-import Tag from '@/elements/Tag.vue';
+import Tag from '@/elements/SongTag.vue';
 
 // icons
 import {

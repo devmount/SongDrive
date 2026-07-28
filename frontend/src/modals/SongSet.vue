@@ -72,7 +72,7 @@
 					<div class="flex flex-col gap-1">
 						<div>{{ t('field.tags') }}</div>
 						<div class="flex flex-wrap items-start gap-1">
-							<tag
+							<song-tag
 									v-for="tag in song.tags" :key="tag"
 									:tag="tags[tag]"
 									@close="song.tags = song.tags.filter(k => k !== tag)"
@@ -249,7 +249,7 @@ import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongAssign from '@/modals/SongAssign.vue';
-import Tag from '@/elements/Tag.vue';
+import Tag from '@/elements/SongTag.vue';
 import TagAssign from '@/modals/TagAssign.vue';
 
 // icons

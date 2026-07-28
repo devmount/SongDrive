@@ -301,7 +301,7 @@
 						</secondary-button>
 					</div>
 					<div class="flex flex-wrap justify-start items-center gap-2">
-						<tag
+						<song-tag
 							v-for="tag in sortTags(tags, locale)" :key="tag.key"
 							:tag="tag"
 							class="cursor-pointer hover:bg-spring-400 dark:hover:bg-spring-700!"
@@ -447,7 +447,7 @@ import LanguageSet from '@/modals/LanguageSet.vue';
 import Panel from '@/elements/Panel.vue';
 import PasswordChange from '@/modals/PasswordChange.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
-import Tag from '@/elements/Tag.vue';
+import Tag from '@/elements/SongTag.vue';
 import TagSet from '@/modals/TagSet.vue';
 import UserDelete from '@/modals/UserDelete.vue';
 import UserSet from '@/modals/UserSet.vue';
