@@ -69,7 +69,7 @@
 						{{ t('field.language') }}
 						<select v-model="lang">
 							<option v-for="key in availableLocales" :key="key" :value="key">
-								{{ t(`languages.${key}`) }}
+								{{ t(`language.${key}`) }}
 							</option>
 						</select>
 					</label>

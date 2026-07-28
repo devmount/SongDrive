@@ -161,9 +161,12 @@
     "ctrl": "CTRL",
     "esc": "ESC"
   },
-	"languages": {
+	"language": {
 		"de": "Deutsch",
-		"en": "English"
+		"en": "English",
+		"fr": "Français",
+		"he": "עברית",
+		"li": "Lingála"
 	},
   "modal": {
     "addLanguage": "Add Language",
