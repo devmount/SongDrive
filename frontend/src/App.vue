@@ -90,15 +90,6 @@
 							</div>
 						</div>
 					</router-link>
-					<router-link
-						:to="{ name: 'settings' }"
-						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-						@click="open = false"
-					>
-						<icon-settings class="w-5 h-5 stroke-1.5" />
-						<span class="uppercase">{{ t('page.settings') }}</span>
-						<!-- <indicator-pulse v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3" class="ml-auto" /> -->
-					</router-link>
 					<secondary-button class="mt-2" @click="logout">
 						{{ t('button.signOut') }}
 						<icon-logout class="w-6 h-6 stroke-1.5" />
@@ -286,7 +277,6 @@ import {
 	IconMusic,
 	IconPlaylist,
 	IconPlus,
-	IconSettings,
 	IconX,
 } from '@tabler/icons-vue';
 

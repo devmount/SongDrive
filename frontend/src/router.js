@@ -15,7 +15,6 @@ export default createRouter({
 		{ path: '/setlist/:id',              name: 'setlist-show', component: SetlistShow },
 		// lazy load all other routes
 		{ path: '/profile',       name: 'profile',       component: () => import('@/views/Profile.vue')       },
-		{ path: '/settings',      name: 'settings',      component: () => import('@/views/Settings.vue')      },
 		{ path: '/shortcuts',     name: 'shortcuts',     component: () => import('@/views/Shortcuts.vue')     },
 		{ path: '/documentation', name: 'documentation', component: () => import('@/views/Documentation.vue') },
 	]

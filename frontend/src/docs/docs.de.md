@@ -191,17 +191,11 @@ Per Klick auf eine Setlist öffnet die Setlistvorschau, die die aktuelle Liste d
 
 ### Konto
 
-Um die Daten in SongDrive zu schützen, müssen sich Benutzer für den Zugriff auf Songs, Setlisten und andere Funktionen authentifizieren. Im Hauptmenü auf der linken Seite gibt es einen *Registrieren* Button, um ein Benutzerkonto anzulegen. Sobald ein Administrator die Registrierung freigibt, kannst du dich im im Hauptmenü anmelden.
-
-#### Profil
+Um die Daten in SongDrive zu schützen, müssen sich Benutzer für den Zugriff auf Songs, Setlisten und andere Funktionen authentifizieren. Auf der Login-Seite gibt es einen *Registrieren* Button, um ein Benutzerkonto anzulegen. Sobald ein Administrator die Registrierung freigibt, kannst du dich über die Login-Seite anmelden.
 
 Wenn du angemeldet bist, hast du Zugriff auf deine Profilinformationen. Diese findest du, indem du im Hauptmenü [auf deinen Namen](/Profil) klickst. Name, Rolle, E-Mail und Profilbild können eingesehen werden, ebenso wie einige Zahlen darüber, wie viele Setlisten Du erstellt und wie viele Songs Du gespielt habst (die Summe aller Songs deiner Setlisten).
 
-#### Einstellungen
-
-Um deine Profilinformationen zu aktualisieren, besuche die Seite [Einstellungen](/settings). Du kannst deinen Namen und einen Link zu deinem Profilbild einstellen. Hier kannst du auch die Sprache der SongDrive-Oberfläche wählen.
-
-Als Administrator hast du außerdem Zugriff auf zusätzliche Tools zur Benutzerverwaltung, zur Verwaltung der Songsprachen, zur Verwaltung der Song-Tags und zum Export bzw. Import von SongDrive-Daten.
+Um deine Profilinformationen zu aktualisieren, besuche ... **TODO**
 
 ### Info
 

@@ -210,7 +210,6 @@
     "github": "GitHub",
     "profile": "Benutzerprofil",
     "setlists": "Setlisten | Setliste | Setlisten",
-    "settings": "Einstellungen",
     "shortcuts": "Tastaturkürzel",
     "songs": "Songs | Song | Songs"
   },
@@ -522,7 +521,6 @@
     "setlistsCreatedPerYear": "Setlisten erstellt pro Jahr",
     "setlistsPerWeekday": "Setlisten pro Wochentag",
     "showAllSetlists": "Alle Setlisten",
-    "showAllSettings": "Alle Einstellungen",
     "showAllSongs": "Alle Songs",
     "songOfYear": "Song des Jahres",
     "songView": "Ansicht Song",

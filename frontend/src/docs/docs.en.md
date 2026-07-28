@@ -72,7 +72,7 @@ These roles have the following privileges:
 
 ## Usage
 
-SongDrive provides a main menu on the left to navigate to all main pages like the dashboard, the overview of all songs and setlists, profile and settings pages as well as the overview of shortcuts and this documentation.
+SongDrive provides a main menu on the left to navigate to all main pages like the dashboard, the overview of all songs and setlists, the users profile apge as well as the overview of shortcuts and this documentation.
 
 ### Dashboard
 
@@ -191,17 +191,11 @@ Clicking on a setlist opens a preview which shows the actual list of songs and a
 
 ### Account
 
-To protect the data in SongDrive, users have to authentificate themselves to access songs, setlists and more. The main menu on the left provides a *Sign Up* button to register a user account. As soon as an administrator approves the registration, you can use the *Sign In* form in the main menu.
-
-#### Profile
+To protect the data in SongDrive, users have to authentificate themselves to access songs, setlists and more. The login screen provides a *Sign Up* button to register a user account. As soon as an administrator approves the registration, you can use the *Sign In* form on the login page.
 
 When signed in, you have access to you profile information. It can be found by clicking [on your name](/profile) in the main menu. Your name, role, email and profile picture are visible, as well as some numbers about how many setlists you created and how many songs you have performed (the sum of all songs on your setlists).
 
-#### Settings
-
-To update your profile information, visit the [Settings page](/settings). Your name and a link to a profile picture can be set. You can also choose the language of the SongDrive interface.
-
-If you are an administrator, you will have access to additional tools for user management, song language management, song tag managmenet and export or import of SongDrive data.
+To update your profile information, visit ... **TODO**
 
 ### Info
 
