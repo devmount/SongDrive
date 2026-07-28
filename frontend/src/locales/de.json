@@ -161,6 +161,10 @@
     "ctrl": "STRG",
     "esc": "ESC"
   },
+	"languages": {
+		"de": "Deutsch",
+		"en": "English"
+	},
   "modal": {
     "addLanguage": "Sprache hinzufügen",
     "addTag": "Tag hinzufügen",
@@ -342,6 +346,7 @@
     "manageLanguages": "Verfügbare Sprachen für Songs verwalten",
     "manageTags": "Alle Tags für Songs verwalten (zum Bearbeiten anklicken)",
     "manageUnconfirmedUsers": "Unbestätigte Benutzer verwalten",
+    "myContributions": "Daten zu meinen Beiträgen",
     "newToSongDrive": "Neu bei SongDrive?",
     "noSetlistsAvailable": "Es sind aktuell keine Setlisten vorhanden.",
     "noSongsAvailable": "Es sind aktuell keine Songs vorhanden.",
@@ -513,7 +518,7 @@
     "registrations": "Registrierungen",
     "setlistView": "Ansicht Setlist",
     "setlistsCreated": "Setlisten erstellt",
-    "setlistsCreatedByMe": "Setlists von mir erstellt",
+    "setlistsCreatedByMe": "Setlists erstellt",
     "setlistsCreatedPerYear": "Setlisten erstellt pro Jahr",
     "setlistsPerWeekday": "Setlisten pro Wochentag",
     "showAllSetlists": "Alle Setlisten",
@@ -522,9 +527,10 @@
     "songOfYear": "Song des Jahres",
     "songView": "Ansicht Song",
     "songsPerformed": "Songs aufgeführt",
-    "songsPerformedByMe": "Songs von mir aufgeführt",
+    "songsPerformedByMe": "Songs aufgeführt",
     "songsPerformedPerYear": "Songs aufgeführt pro Jahr",
     "songsStored": "Songs gespeichert",
+    "stats": "Statistik",
     "tags": "Keine Tags | 1 Tag | {0} Tags",
     "users": "Benutzer"
   }

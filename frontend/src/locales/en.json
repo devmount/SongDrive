@@ -161,6 +161,10 @@
     "ctrl": "CTRL",
     "esc": "ESC"
   },
+	"languages": {
+		"de": "Deutsch",
+		"en": "English"
+	},
   "modal": {
     "addLanguage": "Add Language",
     "addTag": "Add Tag",
@@ -343,6 +347,7 @@
     "manageTags": "Manage all song tags (click to edit)",
     "manageUnconfirmedUsers": "Manage unconfirmed users",
     "newToSongDrive": "New to SongDrive?",
+    "myContributions": "Data for my contributions",
     "noSetlistsAvailable": "There are currently no setlists available.",
     "noSongsAvailable": "There are currently no songs available.",
     "noSongsSelected": "No Songs selected",
@@ -513,7 +518,7 @@
     "registrations": "Registrations",
     "setlistView": "Setlist View",
     "setlistsCreated": "Setlists created",
-    "setlistsCreatedByMe": "Setlists created by me",
+    "setlistsCreatedByMe": "Setlists created",
     "setlistsCreatedPerYear": "Setlists created per year",
     "setlistsPerWeekday": "Setlists per Weekday",
     "showAllSetlists": "Show all Setlists",
@@ -522,9 +527,10 @@
     "songOfYear": "Song of the Year",
     "songView": "Song View",
     "songsPerformed": "Songs performed",
-    "songsPerformedByMe": "Songs performed by me",
+    "songsPerformedByMe": "Songs performed",
     "songsPerformedPerYear": "Songs performed per year",
     "songsStored": "Songs stored",
+    "stats": "Stats",
     "tags": "No Tags | 1 Tag | {0} Tags",
     "users": "Users"
   }

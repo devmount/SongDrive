@@ -269,7 +269,7 @@ import SetlistSet from '@/modals/SetlistSet.vue';
 import SignUp from '@/modals/SignUp.vue';
 import SongSet from '@/modals/SongSet.vue';
 import { amberClient } from 'amber-client';
-import { SongTag, SongLanguage, can } from "@backend/definitions";
+import { SongTag, can } from "@backend/definitions";
 
 // icons
 import {
@@ -487,7 +487,6 @@ const songs = ref([]);
 const setlists = ref([]);
 const users = ref({}); // { [user id]: user info object }
 const tags = Object.values(SongTag);
-const languages = Object.values(SongLanguage);
 
 // computed: get user name either from user object or from users db collection
 const user = computed(() => ({
@@ -503,7 +502,6 @@ const registrationsExist = false; // TODO
 // Provide data for other views
 provide('user', user);
 provide('ready', ready);
-provide('languages', languages);
 provide('setlists', setlists);
 provide('songs', songs);
 provide('tags', tags);
