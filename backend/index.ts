@@ -97,6 +97,12 @@ expressApp.get('/version', (_req, res) => {
 	res.send(`Version: 1.2.3`);
 });
 
+// Fallback to the SPA entry point for client-side routes (e.g. /profile) on hard reload.
+// Splat was chosen as conventional default name.
+expressApp.get('/*splat', (_req, res) => {
+	res.sendFile(path.join(__dirname, 'static', 'index.html'));
+});
+
 amberApp.addAdminIfNotExists('admin@songdrive.de', 'Admin', 'password');
 amberApp.addOrUpdateTenant('default', 'Default Tenant', {});
 
