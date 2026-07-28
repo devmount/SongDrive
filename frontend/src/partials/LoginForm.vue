@@ -3,7 +3,7 @@
 		<!-- heading -->
 		<logo :featured="true" :show-version="false" />
 		<!-- login panel -->
-		<panel class="max-w-xs w-full">
+		<panel-box class="max-w-xs w-full">
 			<div class="text-center">{{ t('text.signInToSongDrive') }}</div>
 			<div v-if="authFailed" class="text-rose-600 text-center">{{ t('text.authFailed') }}</div>
 			<div class="flex flex-col gap-1">
@@ -33,7 +33,7 @@
 					<icon-login class="w-6 h-6 stroke-1.5" />
 				</primary-button>
 			</div>
-		</panel>
+		</panel-box>
 		<div class="flex flex-col text-sm">
 			<div>
 				{{ t('text.newToSongDrive') }}
@@ -54,7 +54,7 @@ import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import LinkButton from '@/elements/LinkButton.vue';
 import Logo from '@/partials/Logo.vue';
-import Panel from '@/elements/Panel.vue';
+import PanelBox from '@/elements/PanelBox.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons

@@ -10,7 +10,7 @@
 				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
 			>
 				<!-- profile -->
-				<panel>
+				<panel-box>
 					<div class="flex flex-col items-center">
 						<icon-user class="w-8 h-8 stroke-1.5 mb-2" />
 						<div class="text-xl uppercase font-light tracking-widest">{{ t('page.profile') }}</div>
@@ -64,7 +64,7 @@
 									class="grow"
 									placeholder="https://your-photo.link/image.png"
 								/>
-								<avatar :photo-url="profile.photo" :name="profile.name" size="md" />
+								<user-avatar :photo-url="profile.photo" :name="profile.name" size="md" />
 							</div>
 						</label>
 					</div>
@@ -73,9 +73,9 @@
 						<icon-loader2 v-if="busy.profile" class="w-6 h-6 stroke-1.5 animate-spin" />
 						<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
 					</secondary-button>
-				</panel>
+				</panel-box>
 				<!-- SongDrive UI -->
-				<panel v-if="ready.languages">
+				<panel-box v-if="ready.languages">
 					<div class="flex flex-col items-center">
 						<icon-palette class="w-8 h-8 stroke-1.5 mb-2" />
 						<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.appearance') }}</div>
@@ -99,9 +99,9 @@
 							</select>
 						</label>
 					</div>
-				</panel>
+				</panel-box>
 				<!-- account -->
-				<panel>
+				<panel-box>
 					<div class="flex flex-col items-center">
 						<icon-key class="w-8 h-8 stroke-1.5 mb-2" />
 						<div class="text-xl uppercase font-light tracking-widest">{{ t('divider.account') }}</div>
@@ -135,7 +135,7 @@
 							</div>
 						</zone-danger>
 					</div>
-				</panel>
+				</panel-box>
 			</div>
 			<!-- administration settings -->
 			<div v-if="isAdmin" class="text-3xl uppercase font-thin tracking-wider">
@@ -146,7 +146,7 @@
 				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
 			>
 				<!-- user administration -->
-				<panel>
+				<panel-box>
 					<div class="relative flex flex-col items-center">
 						<icon-users class="w-8 h-8 stroke-1.5 mb-2" />
 						<div class="text-xl uppercase font-light tracking-widest">{{ Object.keys(users).length }} {{ t('widget.users') }}</div>
@@ -164,7 +164,7 @@
 							v-for="u in sortedUsers" :key="u.id"
 							class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
 						>
-							<avatar class="shrink-0" :photo-url="u.photo" :name="u.name" size="md" />
+							<user-avatar class="shrink-0" :photo-url="u.photo" :name="u.name" size="md" />
 							<div class="flex flex-col overflow-hidden mr-auto">
 								<div class="-mt-1 truncate">{{ u.name }}</div>
 								<div class="text-sm text-blade-500 -mt-1 truncate">{{ u.email }}</div>
@@ -212,7 +212,7 @@
 							v-for="(r, k) in registrations" :key="k"
 							class="flex gap-2 p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
 						>
-							<avatar class="shrink-0" size="md" />
+							<user-avatar class="shrink-0" size="md" />
 							<div class="flex flex-col overflow-hidden mr-auto">
 								<div class="-mt-1 truncate">{{ r.name }}</div>
 								<div class="text-sm text-blade-500 -mt-1 truncate">{{ r.email }}</div>
@@ -236,9 +236,9 @@
 							</button>
 						</div>
 					</div>
-				</panel>
+				</panel-box>
 				<!-- language administration -->
-				<panel>
+				<panel-box>
 					<div class="relative flex flex-col items-center">
 						<icon-language class="w-8 h-8 stroke-1.5 mb-2" />
 						<div class="text-xl uppercase font-light tracking-widest">
@@ -283,9 +283,9 @@
 							</button>
 						</div>
 					</div>
-				</panel>
+				</panel-box>
 				<!-- tag administration -->
-				<panel>
+				<panel-box>
 					<div class="relative flex flex-col items-center">
 						<icon-tags class="w-8 h-8 stroke-1.5 mb-2" />
 						<div class="text-xl uppercase font-light tracking-widest">
@@ -308,9 +308,9 @@
 							@click="active.tag=tag; active.key=tag.key; active.existing=true; modal.tagset=true"
 						/>
 					</div>
-				</panel>
+				</panel-box>
 				<!-- configuration -->
-				<panel>
+				<panel-box>
 					<div class="relative flex flex-col items-center">
 						<icon-settings class="w-8 h-8 stroke-1.5 mb-2" />
 						<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.configuration') }}</div>
@@ -331,9 +331,9 @@
 						<icon-loader2 v-if="busy.config" class="w-6 h-6 stroke-1.5 animate-spin" />
 						<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
 					</secondary-button>
-				</panel>
+				</panel-box>
 				<!-- backup administration -->
-				<panel>
+				<panel-box>
 					<div class="flex flex-col items-center">
 						<icon-server-bolt class="w-8 h-8 stroke-1.5 mb-2" />
 						<div class="text-xl uppercase font-light tracking-widest">{{ t('widget.backup') }}</div>
@@ -360,7 +360,7 @@
 							</div>
 						</zone-danger>
 					</div>
-				</panel>
+				</panel-box>
 			</div>
 		</div>
 		<!-- modal: change password -->
@@ -437,14 +437,14 @@ import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AccountDelete from '@/modals/AccountDelete.vue';
-import Avatar from '@/elements/Avatar.vue';
+import UserAvatar from '@/elements/UserAvatar.vue';
 import EmailChange from '@/modals/EmailChange.vue';
 import { updateDoc, doc, setDoc } from 'firebase/firestore';
 import { getAuth, sendEmailVerification, updateProfile as fbUpdateProfile } from "firebase/auth";
 import ImportData from '@/modals/ImportData.vue';
 import LanguageDelete from '@/modals/LanguageDelete.vue';
 import LanguageSet from '@/modals/LanguageSet.vue';
-import Panel from '@/elements/Panel.vue';
+import PanelBox from '@/elements/PanelBox.vue';
 import PasswordChange from '@/modals/PasswordChange.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import Tag from '@/elements/SongTag.vue';

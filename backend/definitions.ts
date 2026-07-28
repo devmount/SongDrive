@@ -87,6 +87,9 @@ export enum UserRole {
  * Ruleset to check of a given roles list
  */
 export const can = (action: string, roles: UserRole[]): boolean => {
+  // Check valid input
+  if (!action || !roles) return false;
+  
   // Get the highes role from the given list of roles
   const level = {
     [UserRole.Admin]: 8,

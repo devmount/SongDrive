@@ -52,7 +52,7 @@
 			<widget-song-of-year />
 		</div>
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-			<panel v-if="setlists.length" class="flex flex-col gap-4">
+			<panel-box v-if="setlists.length" class="flex flex-col gap-4">
 				<div class="text-2xl">
 					{{ t('widget.setlistsCreatedPerYear') }}
 				</div>
@@ -62,8 +62,8 @@
 					:ordinate="false"
 					:abscissa="true"
 				/>
-			</panel>
-			<panel v-if="songs.length && setlists.length" class="flex flex-col gap-4">
+			</panel-box>
+			<panel-box v-if="songs.length && setlists.length" class="flex flex-col gap-4">
 				<div class="text-2xl">
 					{{ t('widget.songsPerformedPerYear') }}
 				</div>
@@ -73,8 +73,8 @@
 					:ordinate="false"
 					:abscissa="true"
 				/>
-			</panel>
-			<panel v-if="setlists.length" class="flex flex-col gap-4">
+			</panel-box>
+			<panel-box v-if="setlists.length" class="flex flex-col gap-4">
 				<div class="text-2xl">
 					{{ t('widget.setlistsPerWeekday') }}
 				</div>
@@ -83,7 +83,7 @@
 					:labels="setlistsPerWeekday.labels"
 					:ordinate="false"
 				/>
-			</panel>
+			</panel-box>
 		</div>
 	</div>
 </template>
@@ -93,7 +93,7 @@ import { computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BarChart  from '@/charts/BarChart.vue';
 import LineChart from '@/charts/LineChart.vue';
-import Panel from '@/elements/Panel.vue';
+import PanelBox from '@/elements/PanelBox.vue';
 import WidgetSetlistList from '@/widgets/WidgetSetlistList.vue';
 import WidgetSongList from '@/widgets/WidgetSongList.vue';
 import WidgetSongOfYear from '@/widgets/WidgetSongOfYear.vue';

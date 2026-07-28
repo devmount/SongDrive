@@ -1,5 +1,5 @@
 <template>
-	<panel v-if="songs?.length > 0">
+	<panel-box v-if="songs?.length > 0">
 		<div class="flex justify-between items-start">
 			<div class="text-2xl">
 				{{ t('widget.' + keyByValue(sortBy, order)) }} {{ t('page.songs', 2) }}
@@ -76,7 +76,7 @@
 			{{ t('widget.showAllSongs') }}
 			<icon-arrow-right class="w-5 h-5 stroke-1.5" />
 		</link-button>
-	</panel>
+	</panel-box>
 </template>
 
 <script setup>
@@ -85,7 +85,7 @@ import { ref, computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import LinkButton from '@/elements/LinkButton.vue';
-import Panel from '@/elements/Panel.vue';
+import PanelBox from '@/elements/PanelBox.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 
 // icons

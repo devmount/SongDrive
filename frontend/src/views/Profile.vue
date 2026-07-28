@@ -4,44 +4,41 @@
 		<div class="text-3xl uppercase font-thin tracking-wider">
 				{{ t('page.account') }}
 		</div>
-		<div
-			v-if="ready.users && user"
-			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
-		>
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
 			<!-- profile card -->
-			<panel>
+			<panel-box>
 				<div class="flex flex-col justify-center items-center">
-					<avatar :photo-url="users[user].photo" :name="users[user].name" size="lg" />
-					<div v-if="users[user].name" class="text-xl uppercase font-light mt-4">
-						{{ users[user].name }}
+					<user-avatar :photo-url="user.photo" :name="user.name" size="lg" />
+					<div v-if="user.name" class="text-xl uppercase font-light mt-4">
+						{{ user.name }}
 					</div>
-					<div v-if="roleName" class="text-blade-500">
-						{{ t('role.' + roleName) }}
+					<div class="text-blade-500">
+						{{ t('role.' + user.roles[0]) }}
 					</div>
 				</div>
-				<div v-if="users[user].email" class="flex items-center gap-2">
+				<div v-if="user.email" class="flex items-center gap-2">
 					<icon-mail class="w-6 h-6 stroke-1.5" :title="t('field.email')" />
-					<div>{{ users[user].email }}</div>
+					<div>{{ user.email }}</div>
 				</div>
-				<div v-if="users[user].photo" class="flex items-center gap-2">
+				<div v-if="user.photo" class="flex items-center gap-2">
 					<icon-camera class="w-6 h-6 stroke-1.5" :title="t('field.photo')" />
-					<div class="truncate">{{ users[user].photo }}</div>
+					<div class="truncate">{{ user.photo }}</div>
 				</div>
-				<link-button v-if="role" @click="router.push({ name: 'settings' })">
+				<link-button @click="router.push({ name: 'settings' })">
 					{{ t('widget.showAllSettings') }}
 					<icon-arrow-right class="w-6 h-6 stroke-1.5" />
 				</link-button>
-			</panel>
-			<div v-if="role > 1" class="flex flex-wrap gap-8 w-full justify-evenly col-span-2">
+			</panel-box>
+			<div v-if="can('createSetlists', user.roles)" class="flex flex-wrap gap-8 w-full justify-evenly col-span-2">
 				<!-- stored setlists count -->
 				<div class="flex flex-col items-center">
 					<div class="text-4xl sm:text-6xl font-thin">
-						{{ Object.keys(setlistsFromUser).length }}
+						{{ setlistsFromUser.length }}
 					</div>
 					<div class="text-xl text-blade-600 dark:text-blade-400 flex gap-2">
 						{{ t('widget.setlistsCreatedByMe') }}
 					</div>
-					<link-button v-if="role" @click="router.push({ name: 'setlists', params: { creator: user } })">
+					<link-button @click="router.push({ name: 'setlists', params: { creator: user.id } })">
 						{{ t('widget.mySetlists') }}
 						<icon-arrow-right class="w-6 h-6 stroke-1.5" />
 					</link-button>
@@ -61,12 +58,13 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import Avatar from '@/elements/Avatar.vue';
+import { can } from "@backend/definitions";
+import UserAvatar from '@/elements/UserAvatar.vue';
 import LinkButton from '@/elements/LinkButton.vue';
-import Panel from '@/elements/Panel.vue';
+import PanelBox from '@/elements/PanelBox.vue';
 
 // icons
 import {
@@ -79,22 +77,15 @@ import {
 const { t } = useI18n();
 const router = useRouter();
 
-// component properties
-const props = defineProps({
-  setlists: Object,
-  user:     String,
-  users:    Object,
-  role:     Number,
-  roleName: String,
-  ready:    Object,
-});
+// component injects
+const setlists = inject('setlists');
+const user = inject('user');
 
 // number of setlists owned by current user
-const setlistsFromUser = computed(() => Object.filter(props.setlists, s => s.creator == props.user));
+const setlistsFromUser = computed(() => setlists.value.filter(s => s.entity.createdBy == user.value.id));
 
 // number of songs on those setlists
 const songsFromUser = computed(() => {
-	let list = setlistsFromUser.value;
-	return Object.keys(list).reduce((previous, key) => previous + list[key].songs.length, 0);
+	return setlistsFromUser.value.reduce((p, c) => p + c.entity.songs.length, 0);
 });
 </script>

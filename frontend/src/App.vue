@@ -82,9 +82,9 @@
 						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<avatar :photo-url="''" :name="userName" size="md" />
+						<user-avatar :photo-url="''" :name="user.name" size="md" />
 						<div class="flex flex-col">
-							<div class="leading-5 uppercase">{{ userName }}</div>
+							<div class="leading-5 uppercase">{{ user.name }}</div>
 							<div class="text-gray-500 text-sm">
 								{{ t('role.' + user.roles[0]) }}
 							</div>
@@ -161,16 +161,6 @@
 			<div class="w-full p-3 sm:p-6 lg:ml-64">
 				<router-view
 					:key="route.fullPath"
-					:user="user?.user.name"
-					:user-object="user"
-					:role="user?.roles[0]"
-					:role-name="user?.roles.join(', ')"
-					:ready="ready"
-					:languages="languages"
-					:setlists="setlists"
-					:songs="songs"
-					:tags="tags"
-					:users="users"
 					@add-song="createNewSong"
 					@edit-song="editExistingSong"
 					@add-setlist="createNewSetlist"
@@ -269,7 +259,7 @@ import { useActiveElement, useMagicKeys } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { userRoles, throwError } from '@/utils.js';
-import Avatar from '@/elements/Avatar.vue';
+import UserAvatar from '@/elements/UserAvatar.vue';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
 import LoginForm from '@/partials/LoginForm.vue';
 import Logo from '@/partials/Logo.vue';
@@ -481,7 +471,7 @@ const tenant = reactive({
 
 // Auth
 const ready = ref(false);
-const user = ref(null);
+const amberUser = ref(null);
 const client = ref(null);
 const authenticated = ref(true);
 const authFailed = ref(false);
@@ -500,17 +490,18 @@ const tags = Object.values(SongTag);
 const languages = Object.values(SongLanguage);
 
 // computed: get user name either from user object or from users db collection
-const userName = computed(() => {
-	return user.value?.user.name ?? '';
-});
+const user = computed(() => ({
+	id: amberUser.value?.user.id,
+	name: amberUser.value?.user.name ?? '',
+	email: amberUser.value?.user.email ?? '',
+	roles: amberUser.value?.roles,
+	photo: null, // TODO
+}));
 // computed: check if at least one registration exists
 const registrationsExist = false; // TODO
 
 // Provide data for other views
-provide('user', userName);
-provide('userObject', user.value?.user);
-provide('role', user.value?.roles[0]);
-provide('roleName', user.value?.roles.join(', '));
+provide('user', user);
 provide('ready', ready);
 provide('languages', languages);
 provide('setlists', setlists);
@@ -545,7 +536,7 @@ const init = async () => {
 		})
 		.start();
 	
-	user.value = await client.value.userInTenant();
+	amberUser.value = await client.value.userInTenant();
 
 	if (authenticated.value) {
 		collectionApi = client.value.getCollectionsApi();
@@ -598,7 +589,7 @@ const logout = async () => {
 	await client.value?.loginManager.logout();
 	authenticated.value = false;
 	authFailed.value = false;
-	user.value = null;
+	amberUser.value = null;
 	email.value = '';
 	password.value = '';
 
