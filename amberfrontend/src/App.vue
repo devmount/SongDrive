@@ -2,7 +2,7 @@
 import { computed, onMounted, reactive, ref } from 'vue';
 import { amberClient, AmberClient, type AmberCollection, type AmberCollections, type UserInfo, type UserInTenant } from 'amber-client'
 import type { SetlistEntity, Setlist, SongEntity, Song } from '../../backend/dist/models.js';
-import { Tag, SongLanguage } from '../../backend/dist/definitions.js';
+import { SongTag, SongLanguage } from '../../backend/dist/definitions.js';
 
 // Tenant
 const tenant = reactive({
@@ -27,7 +27,7 @@ const stayLoggedIn = ref(true);
 const songs = ref<Song[]>([]);
 const setlists = ref<Setlist[]>([]);
 const users = ref<{[key:string]: UserInfo}>({}); // { [user id]: user info object }
-const tags = Object.values(Tag);
+const tags = Object.values(SongTag);
 const languages = Object.values(SongLanguage);
 
 // Demo

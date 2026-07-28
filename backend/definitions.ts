@@ -1,7 +1,7 @@
 /**
  * Available song tags
  */
-export enum Tag {
+export enum SongTag {
   Adoration = 'adoration',
   Assurance = 'assurance',
   Beauty = 'beauty',
@@ -76,7 +76,7 @@ export enum SongLanguage {
 /**
  * Supported user permission roles
  */
-export enum Role {
+export enum UserRole {
 	Admin = 'admin',
 	Editor = 'editor',
 	Performer = 'performer',
@@ -84,29 +84,29 @@ export enum Role {
 };
 
 /**
- * Ruleset
+ * Ruleset to check of a given roles list
  */
-export const can = (action: string, roles: Role[]): boolean => {
+export const can = (action: string, roles: UserRole[]): boolean => {
   // Get the highes role from the given list of roles
   const level = {
-    [Role.Admin]: 8,
-	  [Role.Editor]: 4,
-	  [Role.Performer]: 2,
-	  [Role.Reader]: 1,
+    [UserRole.Admin]: 8,
+	  [UserRole.Editor]: 4,
+	  [UserRole.Performer]: 2,
+	  [UserRole.Reader]: 1,
   };
-  const role = roles.toSorted((a, b) => level[a] - level[b])[0];
+  const highestRole = roles.toSorted((a, b) => level[a] - level[b])[0];
 
   // Admins are allowed in general
-  if (role === Role.Admin) {
+  if (highestRole === UserRole.Admin) {
     return true;
   }
 
   // All others are assigned as defined here
   switch (action) {
     case 'createSetlists':
-      return [Role.Editor, Role.Performer].includes(role);
+      return [UserRole.Editor, UserRole.Performer].includes(highestRole);
     case 'createSongs':
-      return [Role.Editor].includes(role);
+      return [UserRole.Editor].includes(highestRole);
     default:
       return false;
   }
