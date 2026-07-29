@@ -1,6 +1,7 @@
 import { amber, CollectionAccessAction, UserContext } from 'amberbase';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { SetlistEntity, SongEntity } from './models.js';
@@ -99,7 +100,13 @@ expressApp.get('/version', (_req, res) => {
 
 // Fallback to the SPA entry point for client-side routes (e.g. /profile) on hard reload.
 // Splat was chosen as conventional default name.
-expressApp.get('/*splat', (_req, res) => {
+const spaFallbackLimiter = rateLimit({
+	windowMs: 60 * 1000,
+	limit: 100,
+	standardHeaders: true,
+	legacyHeaders: false,
+});
+expressApp.get('/*splat', spaFallbackLimiter, (_req, res) => {
 	res.sendFile(path.join(__dirname, 'static', 'index.html'));
 });
 

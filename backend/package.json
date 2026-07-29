@@ -8,12 +8,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node dist/index.js",
+    "start": "node dist/index.js",
     "build": "npx tsc"
   },
   "dependencies": {
     "amberbase": "^0.1.0-alpha.2",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.6.1"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
