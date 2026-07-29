@@ -283,7 +283,7 @@ import { ref, reactive, computed, inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
-import { SongLanguage, SongTag as SongTagList } from "@backend/definitions";
+import { SongLanguage, SongTag as SongTagList, can } from "@backend/definitions";
 import Dropdown from '@/elements/Dropdown.vue';
 import pdfMake from "pdfmake/build/pdfmake";
 import PrimaryButton from '@/elements/PrimaryButton.vue';
@@ -317,7 +317,7 @@ import {
 } from '@tabler/icons-vue';
 
 // component constants
-const { t, availableLocales } = useI18n();
+const { t, locale, availableLocales } = useI18n();
 
 const route = useRoute();
 const router = useRouter();
@@ -383,7 +383,7 @@ const showLanguages = computed(() => {
 	if (song.value?.translations?.length > 0) {
 		const languages = [[songId, song.value.language]];
 		song.value.translations.forEach((translatedSongId) => {
-			languages.push([translatedSongId, songs.value?.find(s => s.entity.slug === translatedSongId)?.language]);
+			languages.push([translatedSongId, songs.value?.find(s => s.entity.slug === translatedSongId)?.entity.language]);
 		});
 		return languages.sort((a, b) => {
 			return a[1] > b[1] ? 1 : -1;

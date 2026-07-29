@@ -185,7 +185,7 @@
 					<td class="cursor-pointer p-3 max-w-0 hidden 2xl:table-cell">
 						<div class="flex flex-nowrap gap-1">
 							<song-tag
-								v-for="key in song.entity.tags.slice(0, 2)" :key="key"
+								v-for="key in sortedTags(song.entity).slice(0, 2)" :key="key"
 								:tag="key"
 								@click="router.push({ name: 'songs', params: { tag: key }})"
 							/>
@@ -470,6 +470,9 @@ const deleteDialog = (song) => {
 };
 
 // TODO: sort song tags alphabetically
+const sortedTags = (song) => {
+	return song.tags.toSorted((a, b) => t(`tag.${a}`).localeCompare(t(`tag.${b}`)))
+};
 
 // reset page when filter changes
 watch (filter, () => { page.value = 0 });

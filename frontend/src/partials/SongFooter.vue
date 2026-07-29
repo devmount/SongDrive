@@ -28,10 +28,10 @@
 			<!-- tags -->
 			<div class="flex flex-wrap gap-1">
 				<router-link
-					v-for="tag in sortedTags" :key="tag.key"
-					:to="{ name: 'songs', params: { tag: tag.key }}"
+					v-for="key in sortedTags" :key="key"
+					:to="{ name: 'songs', params: { tag: key }}"
 				>
-					<song-tag :tag="tag" />
+					<song-tag :tag="key" />
 				</router-link>
 			</div>
 		</div>
@@ -44,9 +44,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { sortTags } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
-import { SongTag as SongTagList } from "@backend/definitions";
 import SongTag from '@/elements/SongTag.vue';
 
 // icons
@@ -56,9 +54,7 @@ import {
 } from '@tabler/icons-vue';
 
 // component constants
-const { t, locale } = useI18n();
-const loc = locale.value.substring(0, 2);
-const tags = Object.values(SongTagList);
+const { t } = useI18n();
 
 // component properties
 const props = defineProps({
@@ -66,5 +62,7 @@ const props = defineProps({
 });
 
 // sort tag list
-const sortedTags = computed(() => sortTags(props.song.tags, loc));
+const sortedTags = computed(() => {
+	return props.song.tags.toSorted((a, b) => t(`tag.${a}`).localeCompare(t(`tag.${b}`)));
+});
 </script>
