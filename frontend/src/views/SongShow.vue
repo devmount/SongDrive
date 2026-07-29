@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<div v-if="ready.songs && song" class="flex flex-col gap-6 w-full">
+		<div v-if="songExists && song" class="flex flex-col gap-6 w-full">
 			<!-- page heading -->
 			<div class="flex flex-col justify-between items-stretch gap-4">
 				<!-- title and song count -->
 				<div class="text-3xl uppercase font-thin tracking-wider">
 					<span class="font-semibold mr-4">{{ song.title }}</span>
-					{{ showTuning.current }}
+					{{ showKey.current }}
 				</div>
 				<div class="text-blade-500 -mt-4">{{ song.subtitle }}</div>
 			</div>
@@ -55,13 +55,13 @@
 						</secondary-button>
 						<div class="absolute top-11 left-1/2 -translate-x-1/2 w-40 flex justify-between p-1 rounded-lg bg-blade-200 dark:bg-blade-900 invisible group-hover:visible">
 							<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
-								{{ showTuning.previous }}
+								{{ showKey.previous }}
 							</div>
 							<div class="flex-auto basis-0 font-mono rounded-xl text-center text-xl font-semibold px-3">
-								{{ showTuning.current }}
+								{{ showKey.current }}
 							</div>
 							<div class="flex-auto basis-0 font-mono text-center text-xl text-blade-500 px-3">
-								{{ showTuning.next }}
+								{{ showKey.next }}
 							</div>
 						</div>
 					</div>
@@ -123,27 +123,27 @@
 							</template>
 						</dropdown>
 					</div>
-					<div class="h-full" :class="{ 'sm:hidden': user && role <= 2 }">
+					<div class="h-full sm:hidden">
 						<dropdown>
 							<template #default>
 								<button
-									v-if="user && role > 2"
+									v-if="can('editSongs', user.roles)"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click="emit('editSong', { data: song, id: song.id, exists: true })"
+									@click="emit('editSong', { data: song, id: songId, exists: true })"
 								>
 									<icon-edit class="w-5 h-5 stroke-1.5" />
 									{{ t('button.edit') }}
 								</button>
 								<button
-									v-if="user && role > 2"
+									v-if="can('createSongs', user.roles)"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click="emit('editSong', { data: song, id: song.id, exists: false })"
+									@click="emit('editSong', { data: song, id: songId, exists: false })"
 								>
 									<icon-copy class="w-5 h-5 stroke-1.5" />
 									{{ t('button.duplicate') }}
 								</button>
 								<button
-									v-if="user && role > 2"
+									v-if="can('deleteSongs', user.roles)"
 									class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
 									@click="deleteDialog(song)"
 								>
@@ -188,14 +188,14 @@
 				</div>
 			</div>
 			<!-- setlist navigation -->
-			<div v-if="urlSetlist && ready.setlists && ready.songs && songInUrlSetlist" class="flex justify-end">
+			<div v-if="setlistId && setlist && songInSetlist" class="flex justify-end">
 				<zone-info @close="goToBasicSong" closable>
 					<template #label>
 						<router-link
 							class="text-blade-600 dark:text-blade-400 mr-1"
-							:to="{ name: 'setlist-show', params: { id: urlSetlist }}"
+							:to="{ name: 'setlist-show', params: { id: setlistId }}"
 						>
-							{{ t('page.setlists', 1) }}: {{ setlists[urlSetlist].title }}
+							{{ t('page.setlists', 1) }}: {{ setlist.title }}
 						</router-link>
 						{{ t('page.songs', 1) }} #{{ position+1 }}
 					</template>
@@ -211,26 +211,26 @@
 								<icon-arrow-left class="w-5 h-5 stroke-1.5" />
 								<div v-if="position > 0" class="hidden sm:flex items-center gap-2">
 									<div class="max-w-3xs truncate">
-										{{ songs[setlists[urlSetlist]?.songs[position-1]?.id]?.title }}
+										{{ songs[setlist.songs[position-1]?.id]?.title }}
 									</div>
 									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-										{{ setlists[urlSetlist]?.songs[position-1]?.tuning }}
+										{{ setlist.songs[position-1]?.key }}
 									</div>
 								</div>
 							</secondary-button>
 							<!-- forward navigation -->
 							<secondary-button
 								class="flex items-center gap-1"
-								:disabled="position == setlists[urlSetlist].songs.length-1"
+								:disabled="position == setlist.songs.length-1"
 								title="Next Song"
 								@click="goToNextSong"
 							>
-								<div v-if="position < setlists[urlSetlist].songs.length-1" class="hidden sm:flex items-center gap-2">
+								<div v-if="position < setlist.songs.length-1" class="hidden sm:flex items-center gap-2">
 									<div class="max-w-3xs truncate">
-										{{ songs[setlists[urlSetlist]?.songs[position+1]?.id]?.title }}
+										{{ songs[setlist.songs[position+1]?.id]?.title }}
 									</div>
 									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-										{{ setlists[urlSetlist]?.songs[position+1]?.tuning }}
+										{{ setlist.songs[position+1]?.key }}
 									</div>
 								</div>
 								<icon-arrow-right class="w-5 h-5 stroke-1.5" />
@@ -240,22 +240,12 @@
 				</zone-info>
 			</div>
 			<!-- song content -->
-			<song-content
-				:content="song.content"
-				:chords="chords"
-				:tuning="tuning"
-				:presentation="false"
-			/>
+			<song-content :content="song.content" :chords="chords" :tuning="key" :presentation="false" />
 			<!-- song footer with info and data about the song -->
-			<song-footer
-				v-if="ready.tags"
-				class="columns mt-4 pt-4"
-				:song="song"
-				:tags="tags"
-			/>
+			<song-footer class="columns mt-4 pt-4" :song="song" />
 		</div>
 		<!-- access to non-existing song -->
-		<div v-if="songNotFound" class="flex flex-col items-center gap-8 mt-4">
+		<div v-else class="flex flex-col items-center gap-8 mt-4">
 			<icon-error-404 class="w-14 h-14 stroke-1 text-blade-500" />
 			<div class="text-center">
 				<div class="text-lg">{{ t('text.songNotFound') }}</div>
@@ -278,14 +268,14 @@
 			:active="modal.present"
 			:song="song"
 			:chords="chords"
-			:tuning="tuning"
+			:tuning="key"
 			@chords="chords = !chords"
 			@closed="modal.present = false"
 		/>
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { keyScale, isChordLine, parsedContent, download, openLyricsXML } from '@/utils.js';
 import { logicAnd, logicOr } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
@@ -293,8 +283,9 @@ import { ref, reactive, computed, inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
+import { SongLanguage, SongTag as SongTagList } from "@backend/definitions";
 import Dropdown from '@/elements/Dropdown.vue';
-import pdfMake, { log } from "pdfmake/build/pdfmake";
+import pdfMake from "pdfmake/build/pdfmake";
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent.vue';
@@ -328,12 +319,20 @@ import {
 // component constants
 const { t, availableLocales } = useI18n();
 
-const route      = useRoute();
-const router     = useRouter();
-const songId     = route.params.id;
-const urlKey     = route.params.key;
-const urlSetlist = route.params.setlist;
-const version    = inject('version');
+const route = useRoute();
+const router = useRouter();
+const songId = route.params.id;
+const setlistId = route.params.setlist;
+const version = inject('version');
+const songs = inject('songs');
+const setlists = inject('setlists');
+const user = inject('user');
+const languages = Object.values(SongLanguage);
+const tags = Object.values(SongTagList);
+
+// Song and setlist entities from db
+const song = computed(() => songs.value.find(s => s.entity.slug === songId)?.entity);
+const setlist = computed(() => setlists.value.find(s => setlistId && s.entity.slug === setlistId))?.entity;
 
 // handle hotkeys for this component
 const hkChords      = inject('hkChords');
@@ -356,21 +355,10 @@ pdfMake.fonts = {
 	}
 };
 
-// component properties
-const props = defineProps({
-  languages:     Object,
-  ready:         Object,
-  role:          Number,
-  setlists:      Object,
-  songs:         Object,
-  tags:          Object,
-  user:          String,
-});
-
 // emits
 const emit = defineEmits(['editSong']);
 
-// reactive data
+// Flag to show or hide chords
 const chords = ref(true);
 const modal = reactive({
 	song: {},
@@ -378,30 +366,25 @@ const modal = reactive({
 	present: false,
 });
 
-const tuning = ref(0);
-onMounted(() => { tuning.value = urlKey ? urlKeyDiff.value : 0; });
-const position = computed(() => props.ready.setlists && urlSetlist && urlKey
-	? props.setlists[urlSetlist]?.songs.findIndex(s => s.id === songId )
-	: null);
+// The current key the song chords should transpose to
+const key = ref(0);
 
-// get song object from db as soon as songs have finished loading
-const song = computed(() => {
-	if (songId && props.ready.songs) {
-		return { ...props.songs[songId], id: songId };
-	}
-	return null;
+onMounted(() => {
+	key.value = route.params.key ? keyDiff.value : 0;
 });
+
+const position = computed(() => setlistId && route.params.key
+	? setlist.value?.entity.songs.findIndex(s => s.id === songId )
+	: null
+);
 
 // array of tuples (song id, language) for all existing translations of this song
 const showLanguages = computed(() => {
-	if (props.ready.songs && song.value?.translations?.length > 0) {
-		var languages = [[songId, song.value.language]];
-		for (const id in song.value.translations) {
-			if (song.value.translations.hasOwnProperty(id)) {
-				const sId = song.value.translations[id];
-				languages.push([sId, props.songs[sId].language]);
-			}
-		}
+	if (song.value?.translations?.length > 0) {
+		const languages = [[songId, song.value.language]];
+		song.value.translations.forEach((translatedSongId) => {
+			languages.push([translatedSongId, songs.value?.find(s => s.entity.slug === translatedSongId)?.language]);
+		});
 		return languages.sort((a, b) => {
 			return a[1] > b[1] ? 1 : -1;
 		})
@@ -412,14 +395,14 @@ const showLanguages = computed(() => {
 
 // show current key as well as previous and next key for transposing keys
 const keyIndexOnScale = (index) => {
-	return keyScale[(12 + keyScale.indexOf(song.value.tuning) + (index % 12)) % 12]
+	return keyScale[(12 + keyScale.indexOf(song.value.key) + (index % 12)) % 12]
 };
-const showTuning = computed(() => {
+const showKey = computed(() => {
 	if (song.value) {
 		return {
-			previous: keyIndexOnScale(tuning.value-1),
-			current: keyIndexOnScale(tuning.value),
-			next: keyIndexOnScale(tuning.value+1),
+			previous: keyIndexOnScale(key.value-1),
+			current: keyIndexOnScale(key.value),
+			next: keyIndexOnScale(key.value+1),
 		};
 	} else {
 		return {}
@@ -428,30 +411,30 @@ const showTuning = computed(() => {
 
 // handle transposition
 const transposeDown = () => {
-	tuning.value--;
+	key.value--;
 };
 const transposeUp = () => {
-	tuning.value++;
+	key.value++;
 };
 const transposeReset = () => {
-	tuning.value = 0;
+	key.value = 0;
 };
 
 // calculates difference between song key and url key parameter and returns new key scale index
-const urlKeyDiff = computed(() => {
-	return (12 + keyScale.indexOf(urlKey) - keyScale.indexOf(song.value.tuning)) % 12;
+const keyDiff = computed(() => {
+	return (12 + keyScale.indexOf(route.params.key) - keyScale.indexOf(song.value?.key)) % 12;
 });
 
-// true if this setlist is not part in collection
-const songNotFound = computed(() => {
-	return props.ready.songs && !(songId in props.songs);
+// Check if song actually exists in the collection
+const songExists = computed(() => {
+	return songs.value.findIndex(s => s.entity.slug === songId) > -1;
 });
 
 // export song in text format
 const exportTxt = () => {
 	// add header
 	var content = song.value.title
-		+ ' [' + keyScale[(12 + keyScale.indexOf(song.value.tuning) + (tuning.value % 12)) % 12] + ']'
+		+ ' [' + keyScale[(12 + keyScale.indexOf(song.value.key) + (key.value % 12)) % 12] + ']'
 		+ '\n\n';
 	var lines = song.value.content.split(EOL);
 	// process lines
@@ -475,7 +458,7 @@ const exportTxt = () => {
 		// keep line for export
 		content += line + EOL;
 	}
-	content += EOL + song.value.authors + EOL + EOL
+	content += EOL + song.value.authors?.join(', ') + EOL + EOL
 		+ '© ' + (song.value.year ? song.value.year + ' ' : '') + song.value.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
 	// start download
 	download(content, songId + '.txt');
@@ -492,10 +475,10 @@ const exportSng = () => {
 	var content =
 		'#LangCount=1' + EOL
 		+ '#Title=' + song.value.title + EOL
-		+ '#Author=' + song.value.authors + EOL
-		+ '#Melody=' + song.value.authors + EOL
+		+ '#Author=' + song.value.authors?.join(', ') + EOL
+		+ '#Melody=' + song.value.authors?.join(', ') + EOL
 		+ '#(c)=' + (song.value.year ? song.value.year + ' ' : '') + song.value.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + EOL
-		+ '#Key=' + keyScale[(12 + keyScale.indexOf(song.value.tuning) + (tuning.value % 12)) % 12] + EOL
+		+ '#Key=' + keyScale[(12 + keyScale.indexOf(song.value.key) + (key.value % 12)) % 12] + EOL
 		+ '#CCLI=' + song.value.ccli + EOL
 		+ '---' + EOL
 	var lines = song.value.content.split(EOL);
@@ -528,12 +511,12 @@ const exportXml = () => {
 	// check for translations
 	const lang = !('lang' in localStorage) ? locale.value : localStorage.getItem('lang');
 	let tSong = null;
-	if (lang !== song.value.language && song.value.translations.length > 0) {
+	if (lang !== song.value.language && song.value.translations?.length > 0) {
 		const tKey = song.value.translations.find((t) => t.endsWith(`-${lang}`));
-		tSong = props.songs[tKey];
+		tSong = songs.value.find(s => s.entity.slug === tKey);
 	}
 	// start download
-	download(openLyricsXML(song.value, version, tSong, availableLocales, props.tags), songId + '.xml');
+	download(openLyricsXML(song.value, version, tSong, availableLocales, tags), songId + '.xml');
 	// toast success message
 	notify({
 		title: t('toast.exportedXml'),
@@ -587,7 +570,7 @@ const exportPdf = () => {
 const getPdfSongContent = () => {
 	// handle all song parts
 	let content = [];
-	let parts = parsedContent(song.value.content, tuning.value, chords.value, false);
+	let parts = parsedContent(song.value.content, key.value, chords.value, false);
 	parts.forEach((part) => {
 		if (part.type == 'v' && part.number != '0') {
 			content.push({
@@ -622,7 +605,7 @@ const getPdfSongContent = () => {
 		text: [
 			song.value.note ? t('field.note') + ':\n' + song.value.note + '\n\n' : '',
 			song.value.ccli ? 'CCLI Song Nr.: ' + song.value.ccli + '\n' : '',
-			song.value.authors ? song.value.authors + '\n' : '',
+			song.value.authors?.length ? song.value.authors.join(', ') + '\n' : '',
 			'\u00A9 ' + (song.value.year ? song.value.year + ' ' : '') + song.value.publisher
 		]
 	}];
@@ -639,8 +622,8 @@ const getPdfSongContent = () => {
 	}
 	// return array with song data ready for pdfMake
 	return [
-		// song title [tuning] with a line beneath
-		{ text: song.value.title.toUpperCase() + (tuning.value ? '  [' + keyScale[(12 + keyScale.indexOf(song.value.tuning) + (tuning.value % 12)) % 12] + ']' : ''), style: 'header' },
+		// song title [key] with a line beneath
+		{ text: song.value.title.toUpperCase() + (key.value ? '  [' + keyScale[(12 + keyScale.indexOf(song.value.key) + (key.value % 12)) % 12] + ']' : ''), style: 'header' },
 		{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
 		content,
 		{ columnGap: 8, columns: footer }
@@ -653,21 +636,21 @@ const deleteDialog = () => {
 };
 
 // check if song is part of setlist given via url
-const songInUrlSetlist = computed(() => {
-	return position.value !== null && props.setlists[urlSetlist]?.songs.map(s => s.id).includes(songId);
+const songInSetlist = computed(() => {
+	return position.value !== null && setlist.value?.songs.find(s => s.id === songId);
 });
 
 // navigation to previous setlist song (if setlist is set)
 const goToPreviousSong = () => {
 	if (position.value > 0) {
-		const previousSongId  = props.setlists[urlSetlist].songs[position.value-1].id;
-		const previousSongKey = props.setlists[urlSetlist].songs[position.value-1].tuning;
+		const previousSongId  = setlist.value?.songs[position.value-1].id;
+		const previousSongKey = setlist.value?.songs[position.value-1].key;
 		router.push({
 			name: 'song-show',
 			params: {
 				id: previousSongId,
-				key: previousSongKey ? previousSongKey : props.songs[previousSongId].tuning,
-				setlist: urlSetlist,
+				key: previousSongKey ?? songs.value.find(s => s.entity.slug === previousSongId).entity.key,
+				setlist: setlistId,
 			}
 		});
 	}
@@ -675,15 +658,15 @@ const goToPreviousSong = () => {
 
 // navigation to next setlist song (if setlist is set)
 const goToNextSong = () => {
-	if (position.value < props.setlists[urlSetlist].songs.length) {
-		const nextSongId  = props.setlists[urlSetlist].songs[position.value+1].id;
-		const nextSongKey = props.setlists[urlSetlist].songs[position.value+1].tuning;
+	if (position.value < setlist.value?.songs.length) {
+		const nextSongId  = setlist.value?.songs[position.value+1].id;
+		const nextSongKey = setlist.value?.songs[position.value+1].key;
 		router.push({
 			name: 'song-show',
 			params: {
 				id: nextSongId,
-				key: nextSongKey ? nextSongKey : props.songs[nextSongId].tuning,
-				setlist: urlSetlist,
+				key: nextSongKey ?? songs.value.find(s => s.entity.slug === nextSongId).entity.key,
+				setlist: setlistId,
 			}
 		});
 	}
@@ -693,18 +676,18 @@ const goToNextSong = () => {
 const goToBasicSong = () => {
 	router.push({
 		name: 'song-show',
-		params: { id: songId, key: showTuning.value.current }
+		params: { id: songId, key: showKey.value.current }
 	});
 };
 
 // component shortcuts
 whenever(
 	logicAnd(logicOr(hkUp, hkForward), noActiveModal),
-	() => chords.value ? tuning.value++ : null
+	() => chords.value ? key.value++ : null
 );
 whenever(
 	logicAnd(logicOr(hkDown, hkBack), noActiveModal),
-	() => chords.value ? tuning.value-- : null
+	() => chords.value ? key.value-- : null
 );
 whenever(
 	logicAnd(hkChords, noActiveModal),
@@ -712,7 +695,7 @@ whenever(
 );
 whenever(
 	logicAnd(hkReset, noActiveModal),
-	() => chords.value ? tuning.value = 0 : null
+	() => chords.value ? key.value = 0 : null
 );
 whenever(
 	logicAnd(hkPresent, noActiveModal),

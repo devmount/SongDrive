@@ -259,7 +259,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed, watch, inject } from 'vue';
 import { logicAnd } from '@vueuse/math';
 import { keyScale } from '@/utils.js';
@@ -347,11 +347,9 @@ const sortedSongs = computed(() => {
 		let propA = String(a.entity[order.field]).toLowerCase().trim();
 		let propB = String(b.entity[order.field]).toLowerCase().trim();
 		if (order.ascending) {
-			if (propA < propB) { return -1 };
-			if (propA > propB) { return 1 };
+			return propA.localeCompare(propB);
 		} else {
-			if (propA < propB) { return 1 };
-			if (propA > propB) { return -1 };
+			return propB.localeCompare(propA);
 		}
 		return 0;
 	})

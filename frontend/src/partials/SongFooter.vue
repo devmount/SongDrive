@@ -1,6 +1,6 @@
 <template>
 	<footer v-if="song" class="flex flex-col gap-4">
-		<div class="text-sm">{{ song.authors }}</div>
+		<div class="text-sm">{{ song.authors?.join(', ') }}</div>
 		<div class="flex flex-wrap gap-2">
 			<!-- youtube -->
 			<a
@@ -46,7 +46,8 @@
 import { computed } from 'vue';
 import { sortTags } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
-import Tag from '@/elements/SongTag.vue';
+import { SongTag as SongTagList } from "@backend/definitions";
+import SongTag from '@/elements/SongTag.vue';
 
 // icons
 import {
@@ -57,16 +58,13 @@ import {
 // component constants
 const { t, locale } = useI18n();
 const loc = locale.value.substring(0, 2);
+const tags = Object.values(SongTagList);
 
 // component properties
 const props = defineProps({
 	song: Object,
-	tags: Object,
 });
 
 // sort tag list
-const sortedTags = computed(() => {
-	const songTags = props.song.tags.map(t => props.tags[t]);
-	return sortTags(songTags, loc);
-});
+const sortedTags = computed(() => sortTags(props.song.tags, loc));
 </script>
