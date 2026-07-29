@@ -5,7 +5,7 @@
 		<slot>
 			<icon-tag class="shrink-0 w-4 h-4 stroke-1.5" />
 			<div v-if="tag" class="whitespace-nowrap">
-				{{ t(`tag.${key}`) }}
+				{{ t(`tag.${tag}`) }}
 			</div>
 			<icon-x v-if="closable" class="cursor-pointer w-4 h-4 stroke-1.5"  @click="emit('close')" />
 		</slot>
@@ -18,9 +18,11 @@ import { useI18n } from 'vue-i18n';
 // icons
 import { IconTag, IconX } from '@tabler/icons-vue';
 
+const { t } = useI18n();
+
 // component properties
 const props = defineProps({
-	tag:      Object,  // tag to display
+	tag:      String,  // tag to display
 	closable: Boolean, // display x to emit close event
 });
 

@@ -62,20 +62,20 @@
 				<!-- column titles -->
 				<tr>
 					<th
-						v-for="col in ['title', 'authors', 'tags', 'language', 'year', 'tuning']"
+						v-for="col in ['title', 'authors', 'tags', 'language', 'year', 'key']"
 						:key="col"
 						class="cursor-pointer uppercase p-2 font-normal"
 						:class="{
 							'hidden 2xl:table-cell': col === 'tags',
 							'hidden xl:table-cell': col === 'authors',
 							'hidden md:table-cell w-24': ['language', 'year'].includes(col),
-							'hidden xs:table-cell w-24': col === 'tuning',
+							'hidden xs:table-cell w-24': col === 'key',
 						}"
 						@click="sortList(col)"
 					>
 						<div
 							class="flex items-center gap-2"
-							:class="{ 'justify-center': ['language', 'year', 'tuning'].includes(col) }"
+							:class="{ 'justify-center': ['language', 'year', 'key'].includes(col) }"
 						>
 							{{ t('field.' + col) }}
 							<icon-sort-ascending
@@ -184,12 +184,12 @@
 					</td>
 					<td class="cursor-pointer p-3 max-w-0 hidden 2xl:table-cell">
 						<div class="flex flex-nowrap gap-1">
-							<song-tag-elemet
-								v-for="key in song.entity.tags.slice(0, 3)" :key="key"
+							<song-tag
+								v-for="key in song.entity.tags.slice(0, 2)" :key="key"
 								:tag="key"
 								@click="router.push({ name: 'songs', params: { tag: key }})"
 							/>
-							<span v-if="song.entity.tags.length > 3">&hellip;</span>
+							<span v-if="song.entity.tags.length > 2">&hellip;</span>
 						</div>
 					</td>
 					<td
@@ -208,7 +208,7 @@
 						class="cursor-pointer p-3 text-center hidden xs:table-cell"
 						@click="router.push({ name: 'song-show', params: { id: song.entity.slug }})"
 					>
-						{{ song.entity.tuning }}
+						{{ song.entity.key }}
 					</td>
 					<td>
 						<dropdown>
@@ -259,18 +259,18 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch, inject } from 'vue';
 import { logicAnd } from '@vueuse/math';
 import { keyScale } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import { whenever } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router'
-import { SongLanguage, SongTag, can } from "@backend/definitions";
+import { SongLanguage, SongTag as SongTagList } from "@backend/definitions";
 import Dropdown from '@/elements/Dropdown.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongDelete from '@/modals/SongDelete.vue';
-import SongTagElement from '@/elements/SongTag.vue';
+import SongTag from '@/elements/SongTag.vue';
 
 // icons
 import {
@@ -289,8 +289,7 @@ import {
 } from '@tabler/icons-vue';
 
 // component constantes
-const { t, locale } = useI18n();
-const loc = locale.value.substring(0, 2);
+const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
@@ -306,7 +305,7 @@ const noActiveModal = inject('noActiveModal');
 const songs = inject('songs');
 const user = inject('user');
 const languages = Object.values(SongLanguage);
-const tags = Object.values(SongTag);
+const tags = Object.values(SongTagList);
 
 // template references
 const searchInput = ref(null);
@@ -343,7 +342,7 @@ const order = reactive({
 });
 
 // computed
-const songsArray = computed(() => {
+const sortedSongs = computed(() => {
 	return songs.value.toSorted((a, b) => {
 		let propA = String(a.entity[order.field]).toLowerCase().trim();
 		let propB = String(b.entity[order.field]).toLowerCase().trim();
@@ -359,27 +358,27 @@ const songsArray = computed(() => {
 });
 
 const filteredSongs = computed(() => {
-	let songs = songsArray.value;
+	let songs = sortedSongs.value;
 	if (filter.fulltext) {
 		// filter fields: title, subtitle, content
+		const key = filter.fulltext.toLowerCase();
 		songs = songs.filter(song => {
-			const key = filter.fulltext.toLowerCase();
 			return song.entity.title.toLowerCase().indexOf(key) !== -1
-				|| song.entity.subtitle.toLowerCase().indexOf(key) !== -1
+				|| song.entity.subtitle?.toLowerCase().indexOf(key) !== -1
 				|| song.entity.content.toLowerCase().indexOf(key) !== -1
 		});
 	}
 	if (filter.authors) {
 		// filter field: authors
+		const key = filter.authors.toLowerCase();
 		songs = songs.filter(song => {
-			const key = filter.authors.toLowerCase();
-			return song.entity.authors.toLowerCase().indexOf(key) !== -1;
+			return song.entity.authors?.map(a => a.toLowerCase()).some(a => a.indexOf(key) !== -1);
 		});
 	}
 	if (filter.tag) {
 		// filter field: tags
 		songs = songs.filter(song => {
-			return song.entity.tags.indexOf(filter.tag) !== -1;
+			return song.entity.tags?.indexOf(filter.tag) !== -1;
 		});
 	}
 	if (filter.language) {
@@ -397,13 +396,13 @@ const filteredSongs = computed(() => {
 	if (filter.key) {
 		// filter field: key
 		songs = songs.filter(song => {
-			return song.entity.key.indexOf(filter.key) !== -1;
+			return song.entity.key?.indexOf(filter.key) !== -1;
 		});
 	}
 	return songs
 });
 const noSongs = computed(() => {
-	return !songsArray.value.length;
+	return !sortedSongs.value.length;
 });
 const pagedSongs = computed(() => {
 	return filteredSongs.value.slice(page.value*listLength, (page.value+1)*listLength);
