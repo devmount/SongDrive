@@ -172,7 +172,7 @@
 								class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 text-white font-semibold py-1 w-8"
 								:title="t('title.songTuning')"
 							>
-								<div class="-mt-0.5">{{ fsong.tuning }}</div>
+								<div class="-mt-0.5">{{ fsong.key }}</div>
 							</figure>
 						</div>
 						<div
@@ -223,7 +223,7 @@
 										class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
 										:title="t('title.songTuning')"
 									>
-										<div class="-mt-0.5">{{ element.tuning ?? songs[element.id].tuning }}</div>
+										<div class="-mt-0.5">{{ element.key ?? songs[element.id].key }}</div>
 									</figure>
 									<secondary-button @click.prevent="tuneUp(index)" class="w-6 h-6 p-1!">
 										<icon-chevron-right class="w-4 h-4 stroke-2 shrink-0" />
@@ -372,7 +372,7 @@ watch(() => props.active === true, () => initInput());
 
 // add song to current song selection
 const addSong = (id) => {
-	setlist.value.songs.push({ id: id, tuning: props.songs[id]?.tuning });
+	setlist.value.songs.push({ id: id, key: props.songs[id]?.key });
 };
 
 // remove song from current song selection
@@ -444,7 +444,7 @@ const filteredSongs = computed(() => {
 		// filter field: key
 		songs = Object.filter(
 			songs,
-			song => song.tuning.indexOf(filter.key) !== -1
+			song => song.key.indexOf(filter.key) !== -1
 		);
 	}
 	return songs
@@ -479,7 +479,7 @@ const reorder = ({oldIndex, newIndex}) => {
 const tuneUp = (position) => {
 	let songs = setlist.value.songs;
 	// update tuning
-	let tone = songs[position].tuning ? songs[position].tuning : props.songs[songs[position].id].tuning;
+	let tone = songs[position].key ? songs[position].key : props.songs[songs[position].id].key;
 	let i = keyScale.indexOf(tone);
 	if (i>=keyScale.length-1) {
 		tone = keyScale[0];
@@ -487,14 +487,14 @@ const tuneUp = (position) => {
 		tone = keyScale[++i];
 	}
 	// save tuning in setlist
-	setlist.value.songs[position].tuning = tone;
+	setlist.value.songs[position].key = tone;
 };
 
 // tune the song at given position down
 const tuneDown = (position) => {
 	let songs = setlist.value.songs;
 	// update tuning
-	let tone = songs[position].tuning ? songs[position].tuning : props.songs[songs[position].id].tuning;
+	let tone = songs[position].key ? songs[position].key : props.songs[songs[position].id].key;
 	let i = keyScale.indexOf(tone);
 	if (i<=0) {
 		tone = keyScale[keyScale.length-1];
@@ -502,7 +502,7 @@ const tuneDown = (position) => {
 		tone = keyScale[--i];
 	}
 	// save tuning in setlist
-	setlist.value.songs[position].tuning = tone;
+	setlist.value.songs[position].key = tone;
 };
 
 // create a human readable record key of format YYYYMMDD-the-setlist-title

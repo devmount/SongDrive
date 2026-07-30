@@ -38,7 +38,7 @@ const isChordLine = (line) => {
 };
 
 // parse song content syntax
-const parsedContent = (content, tuning, showChords, twoColumns) => {
+const parsedContent = (content, keyOffset, showChords, twoColumns) => {
   // initialize arrays for parsed lines, classes of parts, type abbr., numbers of type and part index
   var parsed = [], classes = [], types = [], numbers = [], part = 0;
   var lines = content.split('\n');
@@ -51,7 +51,7 @@ const parsedContent = (content, tuning, showChords, twoColumns) => {
       continue;
     }
     // handle chord tuning
-    if (isChordLine(line) && tuning != 0) {
+    if (isChordLine(line) && keyOffset != 0) {
       // build new line by handling the current over- or underflow of spaces due to different chord string lenghts
       var newLine = '', spaces = 0, j = 0;
       while (j < line.length) {
@@ -82,7 +82,7 @@ const parsedContent = (content, tuning, showChords, twoColumns) => {
         // check if character is a transposable character
         if (keyScale.indexOf(c) > -1) {
           // replace character by next tune character
-          var nextTune = keyScale[(12 + keyScale.indexOf(c) + (tuning % 12)) % 12];
+          var nextTune = keyScale[(12 + keyScale.indexOf(c) + (keyOffset % 12)) % 12];
           newLine += nextTune;
           // update over- or underflow of spaces
           spaces += c.length - nextTune.length;

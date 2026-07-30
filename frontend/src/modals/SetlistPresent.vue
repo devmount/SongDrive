@@ -21,7 +21,7 @@
 						<song-content
 							:content="song.content"
 							:chords="chords"
-							:tuning="song.customTuningDelta"
+							:key-offset="song.customTuningDelta"
 							:presentation="true"
 							ref="songContentRef"
 						/>

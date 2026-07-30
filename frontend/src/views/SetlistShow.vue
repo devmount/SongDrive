@@ -226,7 +226,7 @@
 						<th v-if="user && role > 1" class="w-11"></th>
 						<th class="uppercase p-2 font-normal">{{ t('field.title') }}</th>
 						<th class="uppercase p-2 font-normal w-96 hidden 2xl:table-cell">{{ t('field.authors') }}</th>
-						<th class="uppercase p-2 font-normal w-20 text-center">{{ t('field.tuning') }}</th>
+						<th class="uppercase p-2 font-normal w-20 text-center">{{ t('field.key') }}</th>
 						<th class="uppercase p-2 font-normal w-20 hidden xl:table-cell">{{ t('field.language') }}</th>
 						<th class="uppercase p-2 font-normal w-20 hidden md:table-cell">{{ t('field.youtube') }}</th>
 						<th class="uppercase p-2 font-normal w-20 hidden md:table-cell">{{ t('field.ccli') }}</th>
@@ -255,7 +255,7 @@
 										name: 'song-show',
 										params: {
 											id: element.id,
-											key: element.tuning ? element.tuning : songs[element.id].tuning,
+											key: element.key ? element.key : songs[element.id].key,
 											setlist: setlistKey,
 										}
 									})"
@@ -271,7 +271,7 @@
 										name: 'song-show',
 										params: {
 											id: element.id,
-											key: element.tuning ? element.tuning : songs[element.id].tuning,
+											key: element.key ? element.key : songs[element.id].key,
 											setlist: setlistKey,
 										}
 									})"
@@ -288,7 +288,7 @@
 											<icon-chevron-left class="w-5 h-5 stroke-1.5" />
 										</secondary-button>
 										<div class="font-mono font-semibold text-xl w-6 text-center">
-											{{ element.tuning ? element.tuning : songs[element.id].tuning }}
+											{{ element.key ? element.key : songs[element.id].key }}
 										</div>
 										<secondary-button
 											v-if="user && role > 1"
@@ -593,11 +593,11 @@ const setlistSongs = computed(() => {
 			if (setlist.value.songs.hasOwnProperty(key) && props.songs.hasOwnProperty(setlist.value.songs[key].id)) {
 				// only if song exists (not deleted), retrieve it from db and handle tuning
 				let song = props.songs[setlist.value.songs[key].id];
-				let setlistTuning = setlist.value.songs[key].tuning;
+				let setlistTuning = setlist.value.songs[key].key;
 				song['customTuningDelta'] = setlistTuning != 0
-					? keyScale.indexOf(setlistTuning) - keyScale.indexOf(song.tuning)
+					? keyScale.indexOf(setlistTuning) - keyScale.indexOf(song.key)
 					: 0;
-				song['customTuning'] = setlistTuning != 0 ? setlistTuning : song.tuning;
+				song['customTuning'] = setlistTuning != 0 ? setlistTuning : song.key;
 				songs.push(song);
 			}
 		}
@@ -679,7 +679,7 @@ const saveOrder = () => {
 const transposeUp = (song, songPosition) => {
 	let songs = setlist.value.songs;
 	// update tuning
-	let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning;
+	let tone = songs[songPosition].key ? songs[songPosition].key : song.key;
 	let i = keyScale.indexOf(tone);
 	if (i>=keyScale.length-1) {
 		tone = keyScale[0];
@@ -687,7 +687,7 @@ const transposeUp = (song, songPosition) => {
 		tone = keyScale[++i];
 	}
 	// save tuning in setlist
-	songs[songPosition].tuning = tone;
+	songs[songPosition].key = tone;
 	setDoc(doc(db, `setlists/${route.params.id}`), { songs: songs }, { merge: true });
 };
 
@@ -695,7 +695,7 @@ const transposeUp = (song, songPosition) => {
 const transposeDown = (song, songPosition) => {
 	let songs = setlist.value.songs;
 	// update tuning
-	let tone = songs[songPosition].tuning ? songs[songPosition].tuning : song.tuning;
+	let tone = songs[songPosition].key ? songs[songPosition].key : song.key;
 	let i = keyScale.indexOf(tone);
 	if (i<=0) {
 		tone = keyScale[keyScale.length-1];
@@ -703,7 +703,7 @@ const transposeDown = (song, songPosition) => {
 		tone = keyScale[--i];
 	}
 	// save tuning in setlist
-	songs[songPosition].tuning = tone;
+	songs[songPosition].key = tone;
 	setDoc(doc(db, `setlists/${route.params.id}`), { songs: songs }, { merge: true });
 };
 
@@ -786,7 +786,7 @@ const copyList = (format) => {
 		(s, i) => {
 			const title = props.songs[s.id].title;
 			const subtitle = props.songs[s.id].subtitle;
-			const key = props.songs[s.id].customTuning ? props.songs[s.id].customTuning : props.songs[s.id].tuning;
+			const key = props.songs[s.id].customTuning ? props.songs[s.id].customTuning : props.songs[s.id].key;
 			let link = props.songs[s.id].youtube ? ` ([YouTube](https://youtu.be/${props.songs[s.id].youtube}))` : '';
 			switch (format) {
 				case 'plain':
@@ -886,7 +886,7 @@ const getPdfSetlist = () => {
 	for (const key in setlist.value.songs) {
 		if (setlist.value.songs.hasOwnProperty(key) && setlist.value.songs[key].id in props.songs) {
 			const song = props.songs[setlist.value.songs[key].id];
-			songs.push(' ‒ ' + song.title + ' [' + (song.customTuning ? song.customTuning : song.tuning) + ']');
+			songs.push(' ‒ ' + song.title + ' [' + (song.customTuning ? song.customTuning : song.key) + ']');
 		}
 	}
 	return [
@@ -974,7 +974,7 @@ const getPdfSongsheets = () => {
 				{ text: song.title.toUpperCase(), style: 'header' },
 				{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
 				{
-					text: chords.value ? 'Tuning: ' + (song.customTuning ? song.customTuning : song.tuning) : '',
+					text: chords.value ? 'Tuning: ' + (song.customTuning ? song.customTuning : song.key) : '',
 					style: 'subtitle',
 					alignment: 'right',
 					margin: [ 0, 4, 0, 0 ]

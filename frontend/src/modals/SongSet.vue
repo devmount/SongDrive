@@ -60,8 +60,8 @@
 					</label>
 					<!-- key -->
 					<label class="flex flex-col gap-1">
-						<div>{{ t('field.tuning') }}</div>
-						<select v-model="song.tuning">
+						<div>{{ t('field.key') }}</div>
+						<select v-model="song.key">
 							<option value="">{{ t('placeholder.select') }}</option>
 							<option v-for="key in keyScale" :key="key" :value="key">{{ key }}</option>
 						</select>

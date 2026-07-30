@@ -240,7 +240,7 @@
 				</zone-info>
 			</div>
 			<!-- song content -->
-			<song-content :content="song.content" :chords="chords" :tuning="key" :presentation="false" />
+			<song-content :content="song.content" :chords="chords" :key-offset="key" :presentation="false" />
 			<!-- song footer with info and data about the song -->
 			<song-footer class="columns mt-4 pt-4" :song="song" />
 		</div>
@@ -268,7 +268,7 @@
 			:active="modal.present"
 			:song="song"
 			:chords="chords"
-			:tuning="key"
+			:key-offset="key"
 			@chords="chords = !chords"
 			@closed="modal.present = false"
 		/>

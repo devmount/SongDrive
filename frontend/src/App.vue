@@ -383,6 +383,7 @@ const initialSong = {
 	authors:      [],
 	ccli:         '',
 	content:      '',
+	key:          '',
 	language:     '',
 	note:         '', // deprecated
 	publisher:    '',
@@ -390,7 +391,6 @@ const initialSong = {
 	tags:         [],
 	title:        '',
 	translations: [],
-	tuning:       '', // rename to 'key'
 	year:         '',
 	youtube:      '',
 };

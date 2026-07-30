@@ -13,7 +13,7 @@
 			<song-content
 				:content="song.content"
 				:chords="chords"
-				:tuning="tuning"
+				:key-offset="keyOffset"
 				:presentation="true"
 				ref="songContentRef"
 			/>
@@ -85,10 +85,10 @@ const hkCancel = inject('hkCancel');
 
 // inherited properties
 const props = defineProps({
-	active: Boolean, // state of modal display, true to show modal
-	chords: Boolean, // true if chords shall be rendered
-	song:   Object,  // single song to present
-	tuning: Number,  // key to present song in
+	active:     Boolean, // state of modal display, true to show modal
+	chords:     Boolean, // true if chords shall be rendered
+	song:       Object,  // single song to present
+	keyOffset:  Number,  // semitone offset from the song's base key to present it in
 });
 
 // reactive data
