@@ -272,8 +272,8 @@ const initials = (userName) => {
 // toast error message
 const throwError = (error) => {
   notify({
-    title: error.code,
-    text: error.message,
+    title: error.code ?? error.errorCode,
+    text: error.message ?? error.error,
     type: 'error'
   });
 };

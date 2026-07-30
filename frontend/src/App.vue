@@ -200,11 +200,6 @@
 		:existing="songSetModalData.existing"
 		:initial-song="songSetModalData.song"
 		:id="songSetModalData.id"
-		:songs="songs"
-		:setlists="setlists"
-		:tags="tags"
-		:languages="languages"
-		:ready="ready"
 		@closed="showModal.songset = false"
 	/>
 	<setlist-set
@@ -499,8 +494,10 @@ provide('users', users);
 
 // Collections from Amberbase
 let collectionApi = null;
-let songsCollection = null;
-let setlistCollection = null;
+const songsCollection = ref(null);
+const setlistCollection = ref(null);
+provide('songsCollection', songsCollection);
+provide('setlistCollection', setlistCollection);
 
 const init = async () => {
 	client.value = amberClient()
@@ -528,10 +525,10 @@ const init = async () => {
 
 	if (authenticated.value) {
 		collectionApi = client.value.getCollectionsApi();
-		songsCollection = collectionApi.getCollection('songs');
-		setlistCollection = collectionApi.getCollection('setlists');
-	
-		songsCollection.subscribe(0, (doc) => {
+		songsCollection.value = collectionApi.getCollection('songs');
+		setlistCollection.value = collectionApi.getCollection('setlists');
+
+		songsCollection.value.subscribe(0, (doc) => {
 			let existing = songs.value.find(s => s.id === doc.id);
 			if (existing) {
 				existing.entity = doc.data;
@@ -539,12 +536,12 @@ const init = async () => {
 			} else {
 				songs.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
 			}
-	
+
 		}, (docDeletedId) => {
 			songs.value = songs.value.filter(s => s.id !== docDeletedId);
 		});
-	
-		setlistCollection.subscribe(0, (doc) => {
+
+		setlistCollection.value.subscribe(0, (doc) => {
 			let existing = setlists.value.find(s => s.id === doc.id);
 			if (existing) {
 				existing.entity = doc.data;
@@ -552,7 +549,7 @@ const init = async () => {
 			} else {
 				setlists.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
 			}
-	
+
 		}, (docDeletedId) => {
 			setlists.value = setlists.value.filter(s => s.id !== docDeletedId);
 		});

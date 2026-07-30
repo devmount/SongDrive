@@ -223,7 +223,7 @@
 							<button
 								v-if="can('updateSongs', user.roles)"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click="emit('editSong', { data: song, id: song.entity.slug, exists: true })"
+								@click="emit('editSong', { data: song.entity, id: song.entity.slug, exists: true })"
 							>
 								<icon-edit class="w-5 h-5 stroke-1.5" />
 								{{ t('button.edit') }}
@@ -231,7 +231,7 @@
 							<button
 								v-if="can('createSongs', user.roles)"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-								@click="emit('editSong', { data: song, id: song.entity.slug, exists: false })"
+								@click="emit('editSong', { data: song.entity, id: song.entity.slug, exists: false })"
 							>
 								<icon-copy class="w-5 h-5 stroke-1.5" />
 								{{ t('button.duplicate') }}
@@ -267,7 +267,7 @@ import { keyScale, sortTags } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import { whenever } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router'
-import { SongLanguage, SongTag as SongTagList, can } from "@backend/definitions";
+import { SongLanguage, SongTag as SongTagEnum, can } from "@backend/definitions";
 import DropDown from '@/elements/DropDown.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongDelete from '@/modals/SongDelete.vue';
@@ -307,7 +307,7 @@ const noActiveModal = inject('noActiveModal');
 const songs = inject('songs');
 const user = inject('user');
 const languages = Object.values(SongLanguage);
-const tags = Object.values(SongTagList);
+const tags = Object.values(SongTagEnum);
 
 // template references
 const searchInput = ref(null);
