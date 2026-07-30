@@ -254,7 +254,6 @@
 			:active="showModal.delete"
 			:title="songDeleteModalData.title"
 			:id="songDeleteModalData.key"
-			:songs="songs"
 			@closed="showModal.delete = false"
 		/>
 	</div>
@@ -466,7 +465,7 @@ const songDeleteModalData = reactive({
 	key:   '',
 });
 const deleteDialog = (song) => {
-	songDeleteModalData.title = song.title;
+	songDeleteModalData.title = song.entity.title;
 	songDeleteModalData.key   = song.entity.slug;
 	showModal.delete          = true;
 };

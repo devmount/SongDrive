@@ -333,6 +333,18 @@ const browserPrefersDark = () => {
 // trigger mailto
 const mailto = (address) => window.location.href = 'mailto:' + address;
 
+// overwrite one target song's translations array via songsCollection,
+// preserving all its other fields (Amberbase updateDoc replaces the whole
+// document body, so the full current entity must be read and spread first)
+const updateSongTranslations = async (songsCollection, songs, targetId, transformFn) => {
+  const target = songs.find(s => s.id === targetId);
+  if (!target) return; // stale/unknown local reference - skip rather than throw
+  await songsCollection.updateDoc(targetId, target.changeNumber, {
+    ...target.entity,
+    translations: transformFn(target.entity.translations ?? []),
+  });
+};
+
 // build OpenLyrics XML for given song
 // see https://manual.openlp.org/display_tags.html#configuring-formatting-tags
 const openLyricsXML = (song, version, translatedSong = null) => {
@@ -385,5 +397,6 @@ export {
   sortTags,
   browserPrefersDark,
   mailto,
+  updateSongTranslations,
   openLyricsXML,
 }

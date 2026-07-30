@@ -224,7 +224,7 @@
 
 <script setup>
 import 'vue-prism-editor/dist/prismeditor.min.css';
-import { keyScale, sdHighlight, throwError, urlify } from '@/utils.js';
+import { keyScale, sdHighlight, throwError, urlify, updateSongTranslations } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { PrismEditor } from 'vue-prism-editor';
 import { ref, reactive, computed, inject, watch, onMounted } from 'vue';
@@ -356,16 +356,6 @@ const buildEntity = (slug) => ({
 	youtube:      song.value.youtube || undefined,
 });
 
-// overwrite one target song's translations array, preserving all its other fields
-const updateSongTranslations = async (targetId, transformFn) => {
-	const target = songs.value.find(s => s.id === targetId);
-	if (!target) return;
-	await songsCollection.value.updateDoc(targetId, target.changeNumber, {
-		...target.entity,
-		translations: transformFn(target.entity.translations ?? []),
-	});
-};
-
 // overwrite one setlist's songs list, renaming one song id to another
 const renameSongInSetlist = async (setlistEntry, oldId, newId) => {
 	await setlistCollection.value.updateDoc(setlistEntry.id, setlistEntry.changeNumber, {
@@ -396,7 +386,7 @@ const setSong = async () => {
 			// persist translation back-references
 			await Promise.allSettled(
 				entity.translations.map(id =>
-					updateSongTranslations(id, (arr) => (arr.includes(slug) ? arr : [...arr, slug]))
+					updateSongTranslations(songsCollection.value, songs.value, id, (arr) => (arr.includes(slug) ? arr : [...arr, slug]))
 				)
 			);
 			router.push({ name: 'song-show', params: { id: slug }});
@@ -417,8 +407,8 @@ const setSong = async () => {
 			const removedIds = props.initialSong.translations.filter(t => !entity.translations.includes(t));
 			const addedIds   = entity.translations.filter(t => !props.initialSong.translations.includes(t));
 			await Promise.allSettled([
-				...removedIds.map(id => updateSongTranslations(id, (arr) => arr.filter(t => t !== slug))),
-				...addedIds.map(id   => updateSongTranslations(id, (arr) => (arr.includes(slug) ? arr : [...arr, slug]))),
+				...removedIds.map(id => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => arr.filter(t => t !== slug))),
+				...addedIds.map(id   => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => (arr.includes(slug) ? arr : [...arr, slug]))),
 			]);
 			// toast success update message
 			notify({
@@ -453,9 +443,9 @@ const setSong = async () => {
 			const affectedSetlists = setlists.value.filter(sl => sl.entity.songs?.some(ss => ss.id === oldId));
 
 			await Promise.allSettled([
-				...renameTargets.map(id => updateSongTranslations(id, (arr) => arr.map(t => (t === oldId ? newId : t)))),
-				...removedIds.map(id   => updateSongTranslations(id, (arr) => arr.filter(t => t !== oldId && t !== newId))),
-				...addedIds.map(id     => updateSongTranslations(id, (arr) => (arr.includes(newId) ? arr : [...arr, newId]))),
+				...renameTargets.map(id => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => arr.map(t => (t === oldId ? newId : t)))),
+				...removedIds.map(id   => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => arr.filter(t => t !== oldId && t !== newId))),
+				...addedIds.map(id     => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => (arr.includes(newId) ? arr : [...arr, newId]))),
 				...affectedSetlists.map(sl => renameSongInSetlist(sl, oldId, newId)),
 			]);
 

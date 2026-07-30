@@ -19,7 +19,7 @@
 					</secondary-button>
 					<secondary-button
 						v-for="([id, lang], i) in showLanguages" :key="i"
-						:title="t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
+						:title="t('divider.language') + ': ' + t('language.' + lang)"
 						@click="router.push({ name: 'song-show', params: { id: id }})"
 						class="uppercase hidden sm:inline"
 						:disabled="!id || songId == id"
@@ -123,7 +123,7 @@
 							</template>
 						</drop-down>
 					</div>
-					<div class="h-full sm:hidden">
+					<div class="h-full" :class="{ 'sm:hidden': !can('updateSongs', user.roles) }">
 						<drop-down>
 							<template #default>
 								<button
@@ -153,7 +153,7 @@
 								<div class="flex gap-1 sm:hidden">
 									<secondary-button
 										v-for="([id, lang], i) in showLanguages" :key="i"
-										:title="t('divider.language') + ': ' + (languages[lang] ? languages[lang].label : '')"
+										:title="t('divider.language') + ': ' + t('language.' + lang)"
 										@click="router.push({ name: 'song-show', params: { id: id }})"
 										class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 uppercase"
 										:disabled="!id || songId == id"
@@ -261,7 +261,6 @@
 			:active="modal.delete"
 			:title="song?.title"
 			:id="songId"
-			:songs="songs"
 			@closed="modal.delete = false"
 		/>
 		<song-present
