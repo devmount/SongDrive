@@ -380,7 +380,7 @@ const initialSetlist = {
 
 // song object
 const initialSong = {
-	authors:      '',
+	authors:      [],
 	ccli:         '',
 	content:      '',
 	language:     '',

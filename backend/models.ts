@@ -1,5 +1,5 @@
 export type SongEntity = {
-  authors: string; // Song authors, currently separated by ' | ' (converted to real array)
+  authors: string[]; // Song authors
   ccli?: number; // CCLI id
   content: string; // Song lyrics and chords noted in SongDrive syntax
   createdBy: string; // User id of the creator (new)

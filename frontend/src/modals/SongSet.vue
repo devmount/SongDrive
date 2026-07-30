@@ -54,7 +54,7 @@
 						<div>{{ t('field.authors') }}</div>
 						<input
 							type="text"
-							v-model="song.authors"
+							v-model="authorsInput"
 							:placeholder="t('placeholder.exampleSongAuthors')"
 						>
 					</label>
@@ -309,6 +309,14 @@ const initInput = () => {
 };
 watch(() => props.active, () => initInput());
 onMounted(() => initInput());
+
+// authors input as a single delimited string, accepting '|', ',' or ';' as separators
+const authorsInput = computed({
+	get: () => song.value.authors?.join(' | ') ?? '',
+	set: (value) => {
+		song.value.authors = value.split(/[|,;]/).map(a => a.trim()).filter(Boolean);
+	},
+});
 
 // active modals state
 const showModal = reactive({

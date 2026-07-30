@@ -276,7 +276,7 @@
 										}
 									})"
 								>
-									<div class="truncate">{{ songs[element.id].authors }}</div>
+									<div class="truncate">{{ songs[element.id].authors?.join(' | ') ?? '' }}</div>
 								</td>
 								<td class="px-3 py-2">
 									<div class="flex justify-center items-center gap-3">
@@ -953,7 +953,7 @@ const getPdfSongsheets = () => {
 				text: [
 					song.note ? t('field.note') + ':\n' + song.note + '\n\n' : '',
 					song.ccli ? 'CCLI Song Nr.: ' + song.ccli + '\n' : '',
-					song.authors ? song.authors + '\n' : '',
+					song.authors?.length ? song.authors.join(' | ') + '\n' : '',
 					'\u00A9 ' + (song.year ? song.year + ' ' : '') + song.publisher
 				]
 			}];
@@ -1033,10 +1033,10 @@ const exportOsz = async () => {
 						'title': song.title,
 						'footer': [
 							song.title,
-							`${t('field.authors')}: ${song.authors}`
+							`${t('field.authors')}: ${song.authors?.join(', ') ?? ''}`
 						],
 						'type': 1,
-						'audit': [song.title, song.authors ? song.authors.split(' | ') : [], song.publisher, song.ccli.toString()],
+						'audit': [song.title, song.authors ?? [], song.publisher, song.ccli.toString()],
 						'notes': '',
 						'from_plugin': false,
 						'capabilities': [2, 1, 5, 8, 9, 13, 22],
@@ -1044,7 +1044,7 @@ const exportOsz = async () => {
 						'data': {
 							'title': `${song.title.toLowerCase()}@${song.subtitle.toLowerCase()}`,
 							'alternate_title': song.subtitle,
-							'authors': song.authors,
+							'authors': song.authors?.join(', ') ?? '',
 							'ccli_number': song.ccli,
 							'copyright': song.publisher
 						},

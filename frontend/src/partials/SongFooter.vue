@@ -1,6 +1,6 @@
 <template>
 	<footer v-if="song" class="flex flex-col gap-4">
-		<div class="text-sm">{{ song.authors?.join(', ') }}</div>
+		<div class="text-sm">{{ song.authors?.join(' | ') }}</div>
 		<div class="flex flex-wrap gap-2">
 			<!-- youtube -->
 			<a
