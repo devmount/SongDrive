@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<modal-dialog
 		:active="active"
 		:title="!existing ? t('modal.newSetlist') : t('modal.editSetlist') + ' «' + setlist?.title + '»'"
 		size="xl7"
@@ -94,7 +94,7 @@
 					</label>
 					<!-- filter by tag -->
 					<div class="h-full">
-						<dropdown :show-badge="filter.tag !== null">
+						<drop-down :show-badge="filter.tag !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
 									<icon-tags class="w-5 h-5 stroke-1.5" />
@@ -109,11 +109,11 @@
 									:class="{ 'bg-spring-700!': tag === filter.tag }"
 								/>
 							</div>
-						</dropdown>
+						</drop-down>
 					</div>
 					<!-- filter by key -->
 					<div class="h-full">
-						<dropdown :show-badge="filter.key !== null">
+						<drop-down :show-badge="filter.key !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
 									<icon-music class="w-5 h-5 stroke-1.5" />
@@ -129,11 +129,11 @@
 									{{ t }}
 								</secondary-button>
 							</div>
-						</dropdown>
+						</drop-down>
 					</div>
 					<!-- filter by language -->
 					<div class="h-full">
-						<dropdown :show-badge="filter.language !== null">
+						<drop-down :show-badge="filter.language !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
 									<icon-world class="w-5 h-5 stroke-1.5" />
@@ -148,7 +148,7 @@
 									{{ l.label }}
 								</secondary-button>
 							</div>
-						</dropdown>
+						</drop-down>
 					</div>
 					<!-- reset filter -->
 					<button @click="resetFilter" :class="{ 'text-blade-500': !isFiltered }">
@@ -263,7 +263,7 @@
 				</template>
 			</primary-button>
 		</div>
-	</modal>
+	</modal-dialog>
 </template>
 
 <script setup>
@@ -277,8 +277,8 @@ import { useRouter } from 'vue-router';
 import { setDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import Datepicker from '@vuepic/vue-datepicker';
 import draggable from 'vuedraggable';
-import Dropdown from '@/elements/Dropdown.vue';
-import Modal from '@/elements/Modal.vue';
+import DropDown from '@/elements/DropDown.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import Tag from '@/elements/SongTag.vue';

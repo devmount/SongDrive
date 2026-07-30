@@ -1,5 +1,5 @@
 <template>
-	<modal :active="active" :title="t('modal.resetPassword')" @closed="emit('closed')">
+	<modal-dialog :active="active" :title="t('modal.resetPassword')" @closed="emit('closed')">
 		<div>{{ t('text.sendPasswordResetEmail') }}</div>
 		<div class="flex flex-col gap-2">
 			<label class="flex flex-col gap-1">
@@ -22,14 +22,14 @@
 				<icon-send class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
-	</modal>
+	</modal-dialog>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 
 // icons
 import { IconSend } from '@tabler/icons-vue';

@@ -1,5 +1,5 @@
 <template>
-	<modal :active="active" :title="t('modal.signUp')" @closed="emit('closed')">
+	<modal-dialog :active="active" :title="t('modal.signUp')" @closed="emit('closed')">
 		<div>{{ t('text.createNewAccount') }}</div>
 		<div class="flex flex-col gap-2">
 			<label class="flex flex-col gap-1">
@@ -60,14 +60,14 @@
 				<icon-user-plus class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
-	</modal>
+	</modal-dialog>
 </template>
 
 <script setup>
 import { randomString } from '@/utils.js';
 import { reactive, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons

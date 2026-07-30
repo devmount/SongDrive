@@ -83,7 +83,7 @@
 				</div>
 				<div class="flex align-center gap-1">
 					<div class="hidden sm:block">
-						<dropdown>
+						<drop-down>
 							<template #trigger>
 								<secondary-button class="h-full">
 									<icon-download class="w-5 h-5 stroke-1.5" />
@@ -121,10 +121,10 @@
 									{{ t('button.filetypePdf') }}
 								</button>
 							</template>
-						</dropdown>
+						</drop-down>
 					</div>
 					<div class="h-full sm:hidden">
-						<dropdown>
+						<drop-down>
 							<template #default>
 								<button
 									v-if="can('editSongs', user.roles)"
@@ -183,7 +183,7 @@
 									{{ t('button.filetypePdf') }}
 								</button>
 							</template>
-						</dropdown>
+						</drop-down>
 					</div>
 				</div>
 			</div>
@@ -284,7 +284,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
 import { SongLanguage, can } from "@backend/definitions";
-import Dropdown from '@/elements/Dropdown.vue';
+import DropDown from '@/elements/DropDown.vue';
 import pdfMake from "pdfmake/build/pdfmake";
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';

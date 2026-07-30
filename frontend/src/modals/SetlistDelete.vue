@@ -1,5 +1,5 @@
 <template>
-	<modal :active="active" :title="t('modal.deleteSetlist')" @closed="emit('closed')">
+	<modal-dialog :active="active" :title="t('modal.deleteSetlist')" @closed="emit('closed')">
 		<div class="flex flex-col gap-2">
 			<div>{{ t('text.reallyDeleteSetlist', { title: title }) }}</div>
 			<div class="text-rose-600">{{ t('text.cannotBeUndone') }}</div>
@@ -14,7 +14,7 @@
 				</primary-button>
 			</div>
 		</div>
-	</modal>
+	</modal-dialog>
 </template>
 
 <script setup>
@@ -24,7 +24,7 @@ import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
 import { useRoute, useRouter } from 'vue-router'
 import { deleteDoc, doc } from 'firebase/firestore';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons

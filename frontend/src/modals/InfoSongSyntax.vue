@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<modal-dialog
 		:active="active"
 		:title="t('modal.songSyntaxCheatsheet')"
 		size="xl2"
@@ -7,7 +7,7 @@
 		@closed="emit('closed')"
 	>
 		<div class="markdown overflow-y-scroll" v-html="content"></div>
-	</modal>
+	</modal-dialog>
 </template>
 
 <script setup>
@@ -15,7 +15,7 @@ import { computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import de from "@/docs/syntax-cheatsheet.de.md?raw";
 import en from "@/docs/syntax-cheatsheet.en.md?raw";
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 
 
 // component constants

@@ -84,7 +84,7 @@
 				</div>
 				<div class="flex align-center gap-1">
 					<div class="hidden sm:block">
-						<dropdown>
+						<drop-down>
 							<template #trigger>
 								<secondary-button class="h-full" :title="t('tooltip.copySetlist')">
 									<icon-clipboard class="w-5 h-5 stroke-1.5" />
@@ -115,10 +115,10 @@
 									{{ t('button.formatSlack') }}
 								</button>
 							</template>
-						</dropdown>
+						</drop-down>
 					</div>
 					<div class="hidden sm:block">
-						<dropdown>
+						<drop-down>
 							<template #trigger>
 								<secondary-button class="h-full" :title="t('tooltip.downloadSetlist')">
 									<icon-download class="w-5 h-5 stroke-1.5" />
@@ -149,10 +149,10 @@
 									{{ t('button.filetypeOsz') }}
 								</button>
 							</template>
-						</dropdown>
+						</drop-down>
 					</div>
 					<div class="h-full" :class="{ 'sm:hidden': user && role <= 1 }">
-						<dropdown>
+						<drop-down>
 							<button
 								v-if="user && role > 1"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
@@ -212,7 +212,7 @@
 								<icon-files class="w-5 h-5 stroke-1.5" />
 								{{ t('button.exportSetlistSheets') }}
 							</button>
-						</dropdown>
+						</drop-down>
 					</div>
 				</div>
 			</div>
@@ -335,7 +335,7 @@
 								<td class="hidden md:table-cell"></td>
 							</template>
 							<td class="px-1 py-2">
-								<dropdown v-if="songs[element.id]">
+								<drop-down v-if="songs[element.id]">
 									<router-link
 										:to="{ name: 'song-show', params: { id: element.id }}"
 										class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
@@ -359,7 +359,7 @@
 										<icon-copy class="w-5 h-5 stroke-1.5" />
 										{{ t('button.duplicate') }}
 									</button>
-								</dropdown>
+								</drop-down>
 								<secondary-button
 									v-else
 									class="flex items-center"
@@ -487,7 +487,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
 import DoughnutChart from '@/charts/DoughnutChart.vue';
 import draggable from 'vuedraggable';
-import Dropdown from '@/elements/Dropdown.vue';
+import DropDown from '@/elements/DropDown.vue';
 import { setDoc, updateDoc, doc, FieldValue } from 'firebase/firestore';
 import { BlobWriter, ZipWriter, TextReader } from '@zip.js/zip.js';
 import pdfMake from 'pdfmake/build/pdfmake';

@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<modal-dialog
 		:active="active"
 		:title="!existing ? t('modal.newSong') : t('modal.editSong') + ' «' + song.title + '»'"
 		size="xl6"
@@ -209,7 +209,7 @@
 				</template>
 			</primary-button>
 		</div>
-	</modal>
+	</modal-dialog>
 	<!-- modal: info song syntax -->
 	<info-song-syntax
 		:active="showModal.infosongsyntax"
@@ -245,7 +245,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { setDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import InfoSongSyntax from '@/modals/InfoSongSyntax.vue';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongAssign from '@/modals/SongAssign.vue';

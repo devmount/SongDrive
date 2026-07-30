@@ -1,5 +1,5 @@
 <template>
-	<modal :active="active" :title="t('modal.changePassword')" @closed="emit('closed')">
+	<modal-dialog :active="active" :title="t('modal.changePassword')" @closed="emit('closed')">
 		<div class="flex flex-col gap-2">
 			<!-- password -->
 			<label class="flex flex-col gap-1">
@@ -57,7 +57,7 @@
 				<icon-device-floppy v-else class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
-	</modal>
+	</modal-dialog>
 </template>
 
 <script setup>
@@ -67,7 +67,7 @@ import { throwError, randomString } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
 import { getAuth, reauthenticateWithCredential, updatePassword, EmailAuthProvider } from "firebase/auth";
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons

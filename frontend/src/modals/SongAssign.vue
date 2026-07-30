@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<modal-dialog
 		:active="active"
 		:title="t('modal.translations')"
 		size="xl3"
@@ -67,13 +67,13 @@
 				<icon-arrow-back class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
-	</modal>
+	</modal-dialog>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons

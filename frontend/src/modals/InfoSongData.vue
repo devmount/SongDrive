@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<modal-dialog
 		:active="active"
 		:title="t('modal.songInfo')"
 		:child="true"
@@ -9,12 +9,12 @@
 			<div class="font-bold">{{ t('field.note') }}</div>
 			<p v-html="song.note"></p>
 		</div>
-	</modal>
+	</modal-dialog>
 </template>
 
 <script setup>
 import { useI18n } from 'vue-i18n';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 
 // component constants
 const { t } = useI18n();

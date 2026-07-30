@@ -211,7 +211,7 @@
 						{{ song.entity.key }}
 					</td>
 					<td>
-						<dropdown>
+						<drop-down>
 							<router-link
 								:to="{ name: 'song-show', params: { id: song.entity.slug }}"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
@@ -243,7 +243,7 @@
 								<icon-trash class="w-5 h-5 stroke-1.5" />
 								{{ t('button.delete') }}
 							</button>
-						</dropdown>
+						</drop-down>
 					</td>
 				</tr>
 			</tbody>
@@ -267,7 +267,7 @@ import { useI18n } from 'vue-i18n';
 import { whenever } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router'
 import { SongLanguage, SongTag as SongTagList } from "@backend/definitions";
-import Dropdown from '@/elements/Dropdown.vue';
+import DropDown from '@/elements/DropDown.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongDelete from '@/modals/SongDelete.vue';
 import SongTag from '@/elements/SongTag.vue';

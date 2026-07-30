@@ -202,7 +202,7 @@
 						{{ setlist.songs.length }}
 					</td>
 					<td>
-						<dropdown>
+						<drop-down>
 							<template #default>
 								<router-link
 									:to="{ name: 'setlist-show', params: { id: setlist.id }}"
@@ -236,7 +236,7 @@
 									{{ t('button.delete') }}
 								</button>
 							</template>
-						</dropdown>
+						</drop-down>
 					</td>
 				</tr>
 			</tbody>
@@ -258,7 +258,7 @@ import { ref, reactive, computed, watch, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { whenever } from '@vueuse/core';
-import Dropdown from '@/elements/Dropdown.vue';
+import DropDown from '@/elements/DropDown.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistDelete from '@/modals/SetlistDelete.vue';
 

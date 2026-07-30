@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<modal-dialog
 		v-if="song"
 		:active="active"
 		:title="song.title"
@@ -48,7 +48,7 @@
 				</button>
 			</div>
 		</div>
-	</modal>
+	</modal-dialog>
 	<!-- modal: info song note -->
 	<info-song-data
 		:active="showModal.infosongdata"
@@ -62,7 +62,7 @@ import { reactive, ref, watch, onMounted, onUnmounted, nextTick, inject } from '
 import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import InfoSongData from '@/modals/InfoSongData.vue';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent.vue';
 
