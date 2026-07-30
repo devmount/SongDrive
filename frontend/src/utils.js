@@ -1,4 +1,9 @@
 import { notify } from '@kyvg/vue3-notification';
+import de from '@/locales/de.json';
+import en from '@/locales/en.json';
+
+// tag translations per locale, keyed by locale code
+const tagTranslations = { de: de.tag, en: en.tag };
 
 // scale to use for song tuning and transponation
 const keyScale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'];
@@ -309,15 +314,12 @@ const urlify = (s) => {
 // get the first key of given object that points to given value
 const keyByValue = (o, v) => Object.keys(o).find(k => o[k]===v);
 
-// sort tags by locale
+// sort tag keys by their translated name in the given locale
 const sortTags = (tags, locale) => {
-  if (typeof tags === 'object') tags = Object.values(tags);
-  tags.sort(
-    (a, b) => a[locale] && b[locale]
-      ? a[locale].localeCompare(b[locale])
-      : a.key.localeCompare(b.key)
+  const translations = tagTranslations[locale];
+  return tags.toSorted(
+    (a, b) => (translations?.[a] ?? a).localeCompare(translations?.[b] ?? b)
   );
-  return tags;
 };
 
 // true if browser uses a dark color scheme
@@ -333,7 +335,7 @@ const mailto = (address) => window.location.href = 'mailto:' + address;
 
 // build OpenLyrics XML for given song
 // see https://manual.openlp.org/display_tags.html#configuring-formatting-tags
-const openLyricsXML = (song, version, translatedSong = null, locales = [], allTags = null) => {
+const openLyricsXML = (song, version, translatedSong = null) => {
 	const timestamp = (new Date()).toISOString().slice(0, -5);
 	const title = `<title>${song.title}</title>`;
 	const subtitle = song.subtitle ? `<title>${song.subtitle}</title>` : '';
@@ -343,11 +345,11 @@ const openLyricsXML = (song, version, translatedSong = null, locales = [], allTa
 		: '';
 	const ccli = song.ccli ? `<ccliNo>${song.ccli}</ccliNo>` : '';
 	const authors = song.authors
-		? '<authors>' + song.authors.split('|').map(a => `<author>${a.trim()}</author>`).join('') + '</authors>'
+		? '<authors>' + song.authors.map(a => `<author>${a.trim()}</author>`).join('') + '</authors>'
 		: '';
-	const tags = song.tags && locales && allTags
+	const tags = song.tags
 		? '<themes>' + song.tags.map(
-				tag => locales.map(l =>`<theme lang='${l}'>${allTags[tag][l] ?? tag.key}</theme>`).join('')
+				tag => Object.keys(tagTranslations).map(l =>`<theme lang='${l}'>${tagTranslations[l][tag] ?? tag}</theme>`).join('')
 			).join('') + '</themes>'
 		: '';
   const format = translatedSong

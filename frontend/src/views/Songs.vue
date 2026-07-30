@@ -262,7 +262,7 @@
 <script setup>
 import { ref, reactive, computed, watch, inject } from 'vue';
 import { logicAnd } from '@vueuse/math';
-import { keyScale } from '@/utils.js';
+import { keyScale, sortTags } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import { whenever } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router'
@@ -289,7 +289,8 @@ import {
 } from '@tabler/icons-vue';
 
 // component constantes
-const { t } = useI18n();
+const { t, locale } = useI18n();
+const loc = locale.value.substring(0, 2);
 const route = useRoute();
 const router = useRouter();
 
@@ -469,10 +470,7 @@ const deleteDialog = (song) => {
 	showModal.delete          = true;
 };
 
-// TODO: sort song tags alphabetically
-const sortedTags = (song) => {
-	return song.tags.toSorted((a, b) => t(`tag.${a}`).localeCompare(t(`tag.${b}`)))
-};
+const sortedTags = (song) => sortTags(song.tags, loc);
 
 // reset page when filter changes
 watch (filter, () => { page.value = 0 });

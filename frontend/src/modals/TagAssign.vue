@@ -18,14 +18,14 @@
 					/>
 				</label>
 				<div class="overflow-y-scroll flex flex-col gap-2">
-					<label v-for="tag in filteredTags" :key="tag.key" class="flex items-center gap-2">
+					<label v-for="tag in filteredTags" :key="tag" class="flex items-center gap-2">
 						<input
 							v-model="selectedTags"
-							:value="tag.key"
+							:value="tag"
 							type="checkbox"
 							class="w-6 h-6 ml-2"
 						/>
-						{{ tag[loc] ? tag[loc] : tag.key }}
+						{{ t(`tag.${tag}`) }}
 					</label>
 				</div>
 			</div>
@@ -39,7 +39,7 @@
 					<div class="text-lg text-center mb-2">{{ t('text.selection') }}</div>
 					<div v-for="tag in sortedSelectedTags" :key="tag" class="flex items-center gap-2">
 						<icon-tag class="w-4 h-4" />
-						{{ tags[tag][loc] ? tags[tag][loc] : tag }}
+						{{ t(`tag.${tag}`) }}
 						<button
 							class="ml-auto"
 							@click="selectedTags = selectedTags.filter(k => k !== tag)"
@@ -65,6 +65,7 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { sortTags } from '@/utils.js';
 import Modal from '@/elements/Modal.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -103,27 +104,11 @@ const emit = defineEmits(['closed', 'assign']);
 
 // computed: filter song list by search query
 const filteredTags = computed(() => {
-	let tags = {};
-	if (searchInput.value != '') {
-		for (const key in props.tags) {
-			if (props.tags.hasOwnProperty(key)) {
-				const tag = props.tags[key];
-				let search = searchInput.value.toLowerCase();
-				// search in tag labels
-				let label = tag[loc] ? tag[loc] : key;
-				if (label.toLowerCase().indexOf(search) !== -1) {
-					tags[key] = tag;
-				}
-			}
-		}
-		return tags;
-	} else {
-		return props.tags;
-	}
+	if (searchInput.value == '') return props.tags;
+	const search = searchInput.value.toLowerCase();
+	return props.tags.filter(tag => t(`tag.${tag}`).toLowerCase().indexOf(search) !== -1);
 });
 
-// show selected tags sorted alphabeticaly
-const sortedSelectedTags = computed(() => {
-	return selectedTags.value.sort();
-});
+// show selected tags sorted by their translated label
+const sortedSelectedTags = computed(() => sortTags(selectedTags.value, loc));
 </script>

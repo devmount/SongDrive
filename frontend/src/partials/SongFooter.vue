@@ -45,6 +45,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { sortTags } from '@/utils.js';
 import SongTag from '@/elements/SongTag.vue';
 
 // icons
@@ -54,7 +55,8 @@ import {
 } from '@tabler/icons-vue';
 
 // component constants
-const { t } = useI18n();
+const { t, locale } = useI18n();
+const loc = locale.value.substring(0, 2);
 
 // component properties
 const props = defineProps({
@@ -62,7 +64,5 @@ const props = defineProps({
 });
 
 // sort tag list
-const sortedTags = computed(() => {
-	return props.song.tags.toSorted((a, b) => t(`tag.${a}`).localeCompare(t(`tag.${b}`)));
-});
+const sortedTags = computed(() => sortTags(props.song.tags, loc));
 </script>

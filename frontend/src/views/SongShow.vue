@@ -283,7 +283,7 @@ import { ref, reactive, computed, inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
-import { SongLanguage, SongTag as SongTagList, can } from "@backend/definitions";
+import { SongLanguage, can } from "@backend/definitions";
 import Dropdown from '@/elements/Dropdown.vue';
 import pdfMake from "pdfmake/build/pdfmake";
 import PrimaryButton from '@/elements/PrimaryButton.vue';
@@ -317,7 +317,7 @@ import {
 } from '@tabler/icons-vue';
 
 // component constants
-const { t, locale, availableLocales } = useI18n();
+const { t, locale } = useI18n();
 
 const route = useRoute();
 const router = useRouter();
@@ -328,7 +328,6 @@ const songs = inject('songs');
 const setlists = inject('setlists');
 const user = inject('user');
 const languages = Object.values(SongLanguage);
-const tags = Object.values(SongTagList);
 
 // Song and setlist entities from db
 const song = computed(() => songs.value.find(s => s.entity.slug === songId)?.entity);
@@ -516,7 +515,7 @@ const exportXml = () => {
 		tSong = songs.value.find(s => s.entity.slug === tKey);
 	}
 	// start download
-	download(openLyricsXML(song.value, version, tSong, availableLocales, tags), songId + '.xml');
+	download(openLyricsXML(song.value, version, tSong.entity), songId + '.xml');
 	// toast success message
 	notify({
 		title: t('toast.exportedXml'),

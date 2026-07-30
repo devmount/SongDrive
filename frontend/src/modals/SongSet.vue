@@ -74,7 +74,7 @@
 						<div class="flex flex-wrap items-start gap-1">
 							<song-tag
 									v-for="tag in song.tags" :key="tag"
-									:tag="tags[tag]"
+									:tag="tag"
 									@close="song.tags = song.tags.filter(k => k !== tag)"
 									closable
 								/>

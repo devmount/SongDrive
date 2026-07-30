@@ -102,11 +102,11 @@
 							</template>
 							<div class="max-h-80 overflow-y-scroll flex flex-col gap-0.5 p-2! text-sm">
 								<song-tag
-									v-for="tag in sortTags(tags, loc)" :key="tag.key"
+									v-for="tag in sortTags(tags, loc)" :key="tag"
 									:tag="tag"
-									@click="filter.tag = tag.key"
+									@click="filter.tag = tag"
 									class="cursor-pointer"
-									:class="{ 'bg-spring-700!': tag.key === filter.tag }"
+									:class="{ 'bg-spring-700!': tag === filter.tag }"
 								/>
 							</div>
 						</dropdown>
