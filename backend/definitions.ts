@@ -109,7 +109,7 @@ export const can = (action: string, roles: UserRole[]): boolean => {
     case 'createSetlists':
       return [UserRole.Editor, UserRole.Performer].includes(highestRole);
     case 'createSongs':
-    case 'editSongs':
+    case 'updateSongs':
     case 'deleteSongs':
       return [UserRole.Editor].includes(highestRole);
     default:

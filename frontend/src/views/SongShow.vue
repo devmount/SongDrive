@@ -127,7 +127,7 @@
 						<drop-down>
 							<template #default>
 								<button
-									v-if="can('editSongs', user.roles)"
+									v-if="can('updateSongs', user.roles)"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 									@click="emit('editSong', { data: song, id: songId, exists: true })"
 								>

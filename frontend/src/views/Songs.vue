@@ -9,6 +9,7 @@
 					{{ t('page.songs', filteredSongs.length) }}
 				</div>
 				<secondary-button
+					v-if="can('createSongs', user.roles)"
 					@click="emit('addSong')"
 					:title="t('tooltip.songAdd')"
 				>
@@ -220,7 +221,7 @@
 								{{ t('button.show') }}
 							</router-link>
 							<button
-								v-if="user && role > 2"
+								v-if="can('updateSongs', user.roles)"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="emit('editSong', { data: song, id: song.entity.slug, exists: true })"
 							>
@@ -228,7 +229,7 @@
 								{{ t('button.edit') }}
 							</button>
 							<button
-								v-if="user && role > 2"
+								v-if="can('createSongs', user.roles)"
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								@click="emit('editSong', { data: song, id: song.entity.slug, exists: false })"
 							>
@@ -236,7 +237,7 @@
 								{{ t('button.duplicate') }}
 							</button>
 							<button
-								v-if="user && role > 2"
+								v-if="can('deleteSongs', user.roles)"
 								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
 								@click="deleteDialog(song)"
 							>
@@ -266,7 +267,7 @@ import { keyScale, sortTags } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import { whenever } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router'
-import { SongLanguage, SongTag as SongTagList } from "@backend/definitions";
+import { SongLanguage, SongTag as SongTagList, can } from "@backend/definitions";
 import DropDown from '@/elements/DropDown.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongDelete from '@/modals/SongDelete.vue';
