@@ -207,12 +207,6 @@
 		:existing="setlistSetModalData.existing"
 		:initial-setlist="setlistSetModalData.setlist"
 		:id="setlistSetModalData.id"
-		:user="user"
-		:songs="songs"
-		:setlists="setlists"
-		:tags="tags"
-		:languages="languages"
-		:ready="ready"
 		@closed="showModal.setlistset = false"
 	/>
 	<sign-up
@@ -368,7 +362,7 @@ const open = ref(false);
 // setlist object
 const initialSetlist = {
 	title: '',
-	private: false,
+	isPublic: true,
 	date: '',
 	songs: [],
 };
