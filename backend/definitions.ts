@@ -107,6 +107,8 @@ export const can = (action: string, roles: UserRole[]): boolean => {
   // All others are assigned as defined here
   switch (action) {
     case 'createSetlists':
+    case 'updateSetlists':
+    case 'deleteSetlists':
       return [UserRole.Editor, UserRole.Performer].includes(highestRole);
     case 'createSongs':
     case 'updateSongs':
