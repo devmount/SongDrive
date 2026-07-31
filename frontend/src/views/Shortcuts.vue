@@ -70,11 +70,6 @@
 							<td>{{ t('tooltip.presentationStart') }}</td>
 						</tr>
 						<tr>
-							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
-							<td><icon-info-circle class="w-5 h-5 stroke-1.5" /></td>
-							<td>{{ t('tooltip.infoSongData') }}</td>
-						</tr>
-						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
 							<td><icon-brightness class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.invertColors') }}</td>
@@ -130,11 +125,6 @@
 							<td>{{ t('tooltip.presentationShow') }} / {{ t('tooltip.presentationHide') }}</td>
 						</tr>
 						<tr>
-							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.I') }}</kbd></td>
-							<td><icon-info-circle class="w-5 h-5 stroke-1.5" /></td>
-							<td>{{ t('tooltip.infoSongData') }}</td>
-						</tr>
-						<tr>
 							<td><kbd>{{ t('key.ctrl') }}</kbd>&nbsp;+&nbsp;<kbd>{{ t('key.L') }}</kbd></td>
 							<td><icon-brightness class="w-5 h-5 stroke-1.5" /></td>
 							<td>{{ t('tooltip.invertColors') }}</td>
@@ -151,7 +141,7 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import PanelBox from '@/elements/PanelBox.vue';
 
@@ -163,7 +153,6 @@ import {
 	IconArrowUp,
 	IconBrightness,
 	IconEyeOff,
-	IconInfoCircle,
 	IconMusic,
 	IconPresentation,
 	IconRefresh,

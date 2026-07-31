@@ -8,7 +8,7 @@
 			<!-- Profile card -->
 			<panel-box>
 				<div class="flex flex-col justify-center items-center">
-					<user-avatar :photo-url="user.photo" :name="user.name" size="lg" />
+					<user-avatar :photo-url="user.photo ?? undefined" :name="user.name" size="lg" />
 					<div v-if="user.name" class="text-xl uppercase font-light mt-4">
 						{{ user.name }}
 					</div>
@@ -109,8 +109,9 @@
 	<password-change :active="showPasswordChange" @closed="showPasswordChange = false" />
 </template>
 
-<script setup>
-import { computed, inject, ref, watch } from 'vue';
+<script setup lang="ts">
+import { injectStrict, setlistsKey, userKey } from '@/keys';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { can } from "@backend/definitions";
@@ -137,8 +138,8 @@ const loc = locale.value.substring(0, 2);
 const router = useRouter();
 
 // component injects
-const setlists = inject('setlists');
-const user = inject('user');
+const setlists = injectStrict(setlistsKey);
+const user = injectStrict(userKey);
 
 // password change modal state
 const showPasswordChange = ref(false);
@@ -152,7 +153,7 @@ const songsFromUser = computed(() => {
 });
 
 // Handle UI language code and names
-const initLang = !('lang' in localStorage) ? loc : localStorage.getItem('lang');
+const initLang: string = !('lang' in localStorage) ? loc : (localStorage.getItem('lang') ?? loc);
 const lang = ref(initLang);
 watch(lang, (newValue) => {
 	locale.value = newValue;
@@ -160,7 +161,7 @@ watch(lang, (newValue) => {
 });
 
 // handle theme mode
-const colorSchemes = {
+const colorSchemes: Record<string, number> = {
 	auto:  1,
 	dark:  2,
 	light: 3,

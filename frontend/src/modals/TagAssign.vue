@@ -62,8 +62,8 @@
 	</modal-dialog>
 </template>
 
-<script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+<script setup lang="ts">
+import { ref, computed, watch, onMounted, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { sortTags } from '@/utils.js';
 import ModalDialog from '@/elements/ModalDialog.vue';
@@ -83,14 +83,14 @@ const { t, locale } = useI18n();
 const loc = locale.value.substring(0, 2);
 
 // user input properties
-const selectedTags = ref([]);
+const selectedTags = ref<string[]>([]);
 const searchInput = ref('');
 
 // inherited properties
 const props = defineProps({
 	active:       Boolean, // state of modal display, true to show modal
-	tags:         Object,  // list of all available tags
-	assignedTags: Array,   // already assigned tags
+	tags:         { type: Array as PropType<string[]>, default: () => [] },  // list of all available tags
+	assignedTags: { type: Array as PropType<string[]>, default: () => [] },  // already assigned tags
 });
 const initInput = () => {
 	selectedTags.value = props.assignedTags ?? [];

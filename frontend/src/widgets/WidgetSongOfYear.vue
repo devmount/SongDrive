@@ -54,8 +54,10 @@
 	</panel-box>
 </template>
 
-<script setup>
-import { ref, computed, inject } from 'vue';
+<script setup lang="ts">
+import { injectStrict, setlistsKey, songsKey } from '@/keys';
+import { ref, computed } from 'vue';
+import type { Song } from '@backend/models';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import LinkButton from '@/elements/LinkButton.vue';
@@ -74,8 +76,8 @@ const { t } = useI18n();
 const router = useRouter();
 
 // injected properties
-const songs = inject('songs');
-const setlists = inject('setlists');
+const songs = injectStrict(songsKey);
+const setlists = injectStrict(setlistsKey);
 
 // list data
 const page = ref(0);
@@ -83,7 +85,7 @@ const listLength = 7;
 
 // build song of year list
 const songOfYear = computed(() => {
-	let list = {};
+	let list: Record<string, Record<string, number>> = {};
 	setlists.value.forEach(setlist => {
 		let year = setlist.entity.date.slice(0, 4);
 		if (year && setlist.entity.songs) {
@@ -101,7 +103,7 @@ const songOfYear = computed(() => {
 			});
 		}
 	});
-	let songsToYear = [];
+	let songsToYear: { year: string, song: Song, count: number }[] = [];
 	for (let year in list) {
 		let maxId = '', maxCount = 0;
 		for (let id in list[year]) {
@@ -110,14 +112,16 @@ const songOfYear = computed(() => {
 				maxCount = list[year][id];
 			}
 		}
-		songsToYear.push({ year: year, song: songs.value.find(s => s.entity.slug == maxId), count: maxCount });
+		const song = songs.value.find(s => s.entity.slug == maxId);
+		if (!song) continue; // stale/unknown local reference - skip rather than crash
+		songsToYear.push({ year: year, song, count: maxCount });
 	}
 	return songsToYear;
 });
 
 // handle pagination
 const songlist = computed(() => {
-	const list = songOfYear.value.sort((a,b) => b.year - a.year);
+	const list = songOfYear.value.toSorted((a,b) => Number(b.year) - Number(a.year));
 	return list.slice(page.value*listLength, (page.value+1)*listLength);
 });
 const isFirstPage = computed(() => page.value == 0);

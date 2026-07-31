@@ -60,10 +60,11 @@
 	</modal-dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { injectStrict, clientKey, userKey } from '@/keys';
 import { notify } from '@kyvg/vue3-notification';
-import { reactive, computed, ref, watch, inject } from 'vue';
-import { throwError, randomString } from '@/utils.js';
+import { reactive, computed, ref, watch } from 'vue';
+import { throwError, randomString, type ThrowableError } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
 import ModalDialog from '@/elements/ModalDialog.vue';
@@ -78,8 +79,8 @@ import {
 // component constants
 const { t } = useI18n();
 const examplePassword = randomString(8);
-const client = inject('client');
-const currentUser = inject('user');
+const client = injectStrict(clientKey);
+const currentUser = injectStrict(userKey);
 
 // inherited properties
 const props = defineProps({
@@ -124,7 +125,7 @@ const setPassword = async () => {
 	error.password.tooshort = user.password.length < 8;
 	error.currentpassword.missing = user.currentpassword == '';
 	// no errors: send submitted user data and close modal
-	if (errors.value) return;
+	if (errors.value || !client.value || !currentUser.value.id) return;
 
 	busy.value = true;
 	try {
@@ -147,14 +148,14 @@ const setPassword = async () => {
 			});
 		}
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	} finally {
 		busy.value = false;
 	}
 };
 
 // reset input when reopen modal
-watch (() => props.active, (newActive) => {
+watch (() => props.active, (newActive: boolean) => {
 	if (newActive) {
 		user.password = '';
 		user.repeat = '';

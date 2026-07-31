@@ -12,29 +12,35 @@
 	</div>
 </template>
 
-<script setup>
-import { computed, watch, onMounted } from 'vue';
+<script setup lang="ts">
+import { computed, watch, onMounted, type PropType } from 'vue';
 import { Chart, transparentGradientBar } from '@/chart.config.js';
+import type { ChartConfiguration, TooltipItem, ScriptableContext } from 'chart.js';
+
+// a chart.js bar dataset, loosely typed: this component mutates arbitrary
+// extra fields (e.g. `color`) onto dataset objects at runtime, which doesn't
+// fit chart.js's strict per-type ChartDataset shape
+type BarDataset = Record<string, unknown>;
 
 // inherited properties
 const props = defineProps({
 	title:       String,  // chart title to print as heading if set
 	description: String,  // chart descriptional text to print between heading and chart if set
-	labels:      Array,   // chart data labels (mandatory)
-	datasets:    Array,   // chart datasets (mandatory)
+	labels:      { type: Array as PropType<unknown[]>, required: true },   // chart data labels (mandatory)
+	datasets:    { type: Array as PropType<BarDataset[]>, required: true },   // chart datasets (mandatory)
 	horizontal:  Boolean, // true if bars should be horizontal instead of vertical
 	ordinate:    Boolean, // true if ordinate axis should be shown
 });
 
 // non-reactive data
 const id = Math.random().toString(36).substring(7);
-let chart = null;
+let chart: Chart<'bar'> | null = null;
 
 // computed: bring given datasets in chart.js readable format
 const processedDatasets = computed(() => {
 	let datasets = props.datasets;
 	datasets.map(d => {
-		d.backgroundColor = context => {
+		d.backgroundColor = (context: ScriptableContext<'bar'>) => {
 			const { ctx, chartArea } = context.chart;
 			if (!chartArea) return null;
 			return transparentGradientBar(
@@ -74,12 +80,13 @@ const draw = () => {
 					intersect: true,
 					position: 'nearest',
 					callbacks: {
-						label: context => ' ' + context.formattedValue + ' ' + context.dataset.label,
-						labelColor: context => {
+						label: (context: TooltipItem<'bar'>) => ' ' + context.formattedValue + ' ' + context.dataset.label,
+						labelColor: (context: TooltipItem<'bar'>) => {
+							const color = String(context.dataset.borderColor);
 							return {
 								borderWidth: 2,
-								borderColor: context.dataset.borderColor,
-								backgroundColor: context.dataset.borderColor + '33',
+								borderColor: color,
+								backgroundColor: color + '33',
 							};
 						}
 					}
@@ -90,7 +97,6 @@ const draw = () => {
 					stacked: false,
 					grid: {
 						display: false,
-						drawBorder: false,
 					},
 					ticks: {
 						maxRotation: 0,
@@ -103,7 +109,6 @@ const draw = () => {
 					stacked: false,
 					grid: {
 						display: false,
-						drawBorder: false,
 					},
 					ticks: {
 						maxRotation: 0,
@@ -113,17 +118,19 @@ const draw = () => {
 				}
 			}
 		}
-	});
+	} as unknown as ChartConfiguration<'bar'>);
 };
 
 // update chart if new data arrives
 watch (() => props.datasets, () => {
+	if (!chart) return;
 	chart.data.labels = props.labels;
-	chart.data.datasets = processedDatasets.value;
+	chart.data.datasets = processedDatasets.value as unknown as ChartConfiguration<'bar'>['data']['datasets'];
 	chart.update();
 });
 // update chart if ordinate is toggeled
 watch (() => props.ordinate, (newValue) => {
+	if (!chart?.options.scales?.y) return;
 	chart.options.scales.y.display = props.horizontal || newValue;
 	chart.update();
 });

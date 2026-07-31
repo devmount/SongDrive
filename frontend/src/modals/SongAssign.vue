@@ -70,8 +70,9 @@
 	</modal-dialog>
 </template>
 
-<script setup>
-import { ref, computed, inject, onMounted, watch } from 'vue';
+<script setup lang="ts">
+import { injectStrict, songsKey } from '@/keys';
+import { ref, computed, onMounted, watch, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
@@ -88,10 +89,10 @@ import {
 const { t } = useI18n();
 
 // global properties
-const songs = inject('songs');
+const songs = injectStrict(songsKey);
 
 // user input properties
-const selectedSongs = ref([]);
+const selectedSongs = ref<string[]>([]);
 const searchInput = ref('');
 
 // inherited properties
@@ -99,7 +100,7 @@ const props = defineProps({
 	active:        Boolean, // state of modal display, true to show modal
 	language:      String,  // language key of song
 	id:            String,  // identifier of original song
-	assignedSongs: Array,   // already assigned songs
+	assignedSongs: { type: Array as PropType<string[]>, default: () => [] },   // already assigned songs
 });
 const initInput = () => {
 	selectedSongs.value = props.assignedSongs ?? [];
@@ -127,5 +128,5 @@ const filteredSongs = computed(() => {
 });
 
 // find a song's entity by id, for the selection panel
-const findSong = (id) => songs.value.find(s => s.id === id)?.entity;
+const findSong = (id: string) => songs.value.find(s => s.id === id)?.entity;
 </script>

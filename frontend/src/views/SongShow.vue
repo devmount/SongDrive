@@ -145,7 +145,7 @@
 								<button
 									v-if="can('deleteSongs', user.roles)"
 									class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
-									@click="deleteDialog(song)"
+									@click="deleteDialog()"
 								>
 									<icon-trash class="w-5 h-5 stroke-1.5" />
 									{{ t('button.delete') }}
@@ -197,40 +197,40 @@
 						>
 							{{ t('page.setlists', 1) }}: {{ setlist.title }}
 						</router-link>
-						{{ t('page.songs', 1) }} #{{ position+1 }}
+						{{ t('page.songs', 1) }} #{{ positionSafe+1 }}
 					</template>
 					<div class="flex justify-end items-center">
 						<div class="flex gap-1">
 							<!-- back navigation -->
 							<secondary-button
 								class="flex items-center gap-1"
-								:disabled="position == 0"
+								:disabled="positionSafe == 0"
 								title="Previous Song"
 								@click="goToPreviousSong"
 							>
 								<icon-arrow-left class="w-5 h-5 stroke-1.5" />
-								<div v-if="position > 0" class="hidden sm:flex items-center gap-2">
+								<div v-if="positionSafe > 0" class="hidden sm:flex items-center gap-2">
 									<div class="max-w-3xs truncate">
-										{{ findSong(setlist.songs[position-1]?.id)?.title }}
+										{{ findSong(setlist.songs[positionSafe-1]?.id)?.title }}
 									</div>
 									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-										{{ setlist.songs[position-1]?.key }}
+										{{ setlist.songs[positionSafe-1]?.key }}
 									</div>
 								</div>
 							</secondary-button>
 							<!-- forward navigation -->
 							<secondary-button
 								class="flex items-center gap-1"
-								:disabled="position == setlist.songs.length-1"
+								:disabled="positionSafe == setlist.songs.length-1"
 								title="Next Song"
 								@click="goToNextSong"
 							>
-								<div v-if="position < setlist.songs.length-1" class="hidden sm:flex items-center gap-2">
+								<div v-if="positionSafe < setlist.songs.length-1" class="hidden sm:flex items-center gap-2">
 									<div class="max-w-3xs truncate">
-										{{ findSong(setlist.songs[position+1]?.id)?.title }}
+										{{ findSong(setlist.songs[positionSafe+1]?.id)?.title }}
 									</div>
 									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-										{{ setlist.songs[position+1]?.key }}
+										{{ setlist.songs[positionSafe+1]?.key }}
 									</div>
 								</div>
 								<icon-arrow-right class="w-5 h-5 stroke-1.5" />
@@ -275,16 +275,18 @@
 </template>
 
 <script setup lang="ts">
-import { keyScale, isChordLine, parsedContent, download, openLyricsXML } from '@/utils.js';
+import { injectStrict, hkBackKey, hkChordsKey, hkDownKey, hkForwardKey, hkPresentKey, hkResetKey, hkUpKey, noActiveModalKey, setlistsKey, songsKey, userKey, versionKey } from '@/keys';
+import { keyScale, isChordLine, parsedContent, download, openLyricsXML, firstParam } from '@/utils.js';
 import { logicAnd, logicOr } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, inject, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
-import { SongLanguage, can } from "@backend/definitions";
+import { can } from "@backend/definitions";
 import DropDown from '@/elements/DropDown.vue';
 import pdfMake from "pdfmake/build/pdfmake";
+import type { Content, TDocumentDefinitions } from 'pdfmake/interfaces';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent.vue';
@@ -320,30 +322,29 @@ const { t, locale } = useI18n();
 
 const route = useRoute();
 const router = useRouter();
-const songId = route.params.id;
-const setlistId = route.params.setlist;
-const version = inject('version');
-const songs = inject('songs');
-const setlists = inject('setlists');
-const user = inject('user');
-const languages = Object.values(SongLanguage);
+const songId = firstParam(route.params.id) ?? '';
+const setlistId = firstParam(route.params.setlist);
+const version = injectStrict(versionKey);
+const songs = injectStrict(songsKey);
+const setlists = injectStrict(setlistsKey);
+const user = injectStrict(userKey);
 
 // Song and setlist entities from db
 const song = computed(() => songs.value.find(s => s.entity.slug === songId)?.entity);
 const setlist = computed(() => setlists.value.find(s => setlistId && s.entity.slug === setlistId)?.entity);
 
 // find a song's entity by id, for setlist navigation display
-const findSong = (id) => songs.value.find(s => s.id === id)?.entity;
+const findSong = (id?: string) => songs.value.find(s => s.id === id)?.entity;
 
 // handle hotkeys for this component
-const hkChords      = inject('hkChords');
-const hkBack        = inject('hkBack');
-const hkForward     = inject('hkForward');
-const hkDown        = inject('hkDown');
-const hkUp          = inject('hkUp');
-const hkReset       = inject('hkReset');
-const hkPresent     = inject('hkPresent');
-const noActiveModal = inject('noActiveModal');
+const hkChords      = injectStrict(hkChordsKey);
+const hkBack        = injectStrict(hkBackKey);
+const hkForward     = injectStrict(hkForwardKey);
+const hkDown        = injectStrict(hkDownKey);
+const hkUp          = injectStrict(hkUpKey);
+const hkReset       = injectStrict(hkResetKey);
+const hkPresent     = injectStrict(hkPresentKey);
+const noActiveModal = injectStrict(noActiveModalKey);
 
 // pdf creation
 const EOL = '\n';
@@ -374,20 +375,23 @@ onMounted(() => {
 	key.value = route.params.key ? keyDiff.value : 0;
 });
 
-const position = computed(() => setlistId && route.params.key
-	? setlist.value?.songs.findIndex(s => s.id === songId )
+const position = computed<number | null>(() => setlistId && route.params.key
+	? (setlist.value?.songs.findIndex(s => s.id === songId ) ?? null)
 	: null
 );
+// non-null position for template arithmetic - only read once songInSetlist
+// (which requires position !== null) gates the setlist-navigation block
+const positionSafe = computed(() => position.value ?? 0);
 
 // array of tuples (song id, language) for all existing translations of this song
-const showLanguages = computed(() => {
-	if (song.value?.translations?.length > 0) {
-		const languages = [[songId, song.value.language]];
+const showLanguages = computed<[string, string | undefined][]>(() => {
+	if (song.value?.translations && song.value.translations.length > 0) {
+		const languages: [string, string | undefined][] = [[songId, song.value.language]];
 		song.value.translations.forEach((translatedSongId) => {
 			languages.push([translatedSongId, songs.value?.find(s => s.entity.slug === translatedSongId)?.entity.language]);
 		});
 		return languages.sort((a, b) => {
-			return a[1] > b[1] ? 1 : -1;
+			return (a[1] ?? '') > (b[1] ?? '') ? 1 : -1;
 		})
 	} else {
 		return [[songId, song.value?.language]];
@@ -395,8 +399,8 @@ const showLanguages = computed(() => {
 });
 
 // show current key as well as previous and next key for transposing keys
-const keyIndexOnScale = (index) => {
-	return keyScale[(12 + keyScale.indexOf(song.value.key) + (index % 12)) % 12]
+const keyIndexOnScale = (index: number) => {
+	return keyScale[(12 + keyScale.indexOf(song.value?.key ?? '') + (index % 12)) % 12]
 };
 const showKey = computed(() => {
 	if (song.value) {
@@ -423,7 +427,7 @@ const transposeReset = () => {
 
 // calculates difference between song key and url key parameter and returns new key scale index
 const keyDiff = computed(() => {
-	return (12 + keyScale.indexOf(route.params.key) - keyScale.indexOf(song.value?.key)) % 12;
+	return (12 + keyScale.indexOf(firstParam(route.params.key) ?? '') - keyScale.indexOf(song.value?.key ?? '')) % 12;
 });
 
 // Check if song actually exists in the collection
@@ -433,11 +437,13 @@ const songExists = computed(() => {
 
 // export song in text format
 const exportTxt = () => {
+	const s = song.value;
+	if (!s) return;
 	// add header
-	var content = song.value.title
-		+ ' [' + keyScale[(12 + keyScale.indexOf(song.value.key) + (key.value % 12)) % 12] + ']'
+	var content = s.title
+		+ ' [' + keyScale[(12 + keyScale.indexOf(s.key ?? '') + (key.value % 12)) % 12] + ']'
 		+ '\n\n';
-	var lines = song.value.content.split(EOL);
+	var lines = s.content.split(EOL);
 	// process lines
 	for (var i = 0; i < lines.length; i++) {
 		var line = lines[i];
@@ -459,8 +465,8 @@ const exportTxt = () => {
 		// keep line for export
 		content += line + EOL;
 	}
-	content += EOL + song.value.authors?.join(', ') + EOL + EOL
-		+ '© ' + (song.value.year ? song.value.year + ' ' : '') + song.value.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
+	content += EOL + s.authors?.join(', ') + EOL + EOL
+		+ '© ' + (s.year ? s.year + ' ' : '') + s.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
 	// start download
 	download(content, songId + '.txt');
 	// toast success message
@@ -472,17 +478,19 @@ const exportTxt = () => {
 };
 // export song in SongBeamer or OpenLP format
 const exportSng = () => {
+	const s = song.value;
+	if (!s) return;
 	// add header
 	var content =
 		'#LangCount=1' + EOL
-		+ '#Title=' + song.value.title + EOL
-		+ '#Author=' + song.value.authors?.join(', ') + EOL
-		+ '#Melody=' + song.value.authors?.join(', ') + EOL
-		+ '#(c)=' + (song.value.year ? song.value.year + ' ' : '') + song.value.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + EOL
-		+ '#Key=' + keyScale[(12 + keyScale.indexOf(song.value.key) + (key.value % 12)) % 12] + EOL
-		+ '#CCLI=' + song.value.ccli + EOL
+		+ '#Title=' + s.title + EOL
+		+ '#Author=' + s.authors?.join(', ') + EOL
+		+ '#Melody=' + s.authors?.join(', ') + EOL
+		+ '#(c)=' + (s.year ? s.year + ' ' : '') + s.publisher.replace(/(?:\r\n|\r|\n)/g, '; ') + EOL
+		+ '#Key=' + keyScale[(12 + keyScale.indexOf(s.key ?? '') + (key.value % 12)) % 12] + EOL
+		+ '#CCLI=' + s.ccli + EOL
 		+ '---' + EOL
-	var lines = song.value.content.split(EOL);
+	var lines = s.content.split(EOL);
 	// remove chord lines
 	for (var i = 0; i < lines.length; i++) {
 		var line = lines[i];
@@ -509,15 +517,17 @@ const exportSng = () => {
 };
 // export song in OpenLyrics XML format
 const exportXml = () => {
+	const s = song.value;
+	if (!s) return;
 	// check for translations
 	const lang = !('lang' in localStorage) ? locale.value : localStorage.getItem('lang');
 	let tSong = null;
-	if (lang !== song.value.language && song.value.translations?.length > 0) {
-		const tKey = song.value.translations.find((t) => t.endsWith(`-${lang}`));
-		tSong = songs.value.find(s => s.entity.slug === tKey);
+	if (lang !== s.language && s.translations?.length > 0) {
+		const tKey = s.translations.find((t) => t.endsWith(`-${lang}`));
+		tSong = songs.value.find(song => song.id === tKey);
 	}
 	// start download
-	download(openLyricsXML(song.value, version, tSong.entity), songId + '.xml');
+	download(openLyricsXML(s, version, tSong?.entity ?? null), songId + '.xml');
 	// toast success message
 	notify({
 		title: t('toast.exportedXml'),
@@ -528,6 +538,8 @@ const exportXml = () => {
 // export song sheet as PDF
 const exportPdf = () => {
 	var content = getPdfSongContent();
+	// this predates @types/pdfmake and was never designed against pdfmake's
+	// strict TDocumentDefinitions/Content types - cast rather than rewrite
 	var doc = {
 		pageSize: 'A4',
 		pageMargins: [ 50, 50, 40, 30 ],
@@ -558,7 +570,7 @@ const exportPdf = () => {
 				alignment: 'right'
 			}
 		}
-	};
+	} as unknown as TDocumentDefinitions;
 	pdfMake.createPdf(doc).download(songId + '.pdf');
 	// toast success message
 	notify({
@@ -568,10 +580,12 @@ const exportPdf = () => {
 	});
 };
 // prepare song content for PDF export
-const getPdfSongContent = () => {
+const getPdfSongContent = (): Content[] => {
+	const s = song.value;
+	if (!s) return [];
 	// handle all song parts
-	let content = [];
-	let parts = parsedContent(song.value.content, key.value, chords.value, false);
+	let content: Content[] = [];
+	let parts = parsedContent(s.content, key.value, chords.value, false);
 	parts.forEach((part) => {
 		if (part.type == 'v' && part.number != '0') {
 			content.push({
@@ -580,7 +594,7 @@ const getPdfSongContent = () => {
 					{
 						style: 'partnumber',
 						width: 'auto',
-						text: part.number
+						text: String(part.number)
 					},
 					{
 						style: 'code',
@@ -589,7 +603,7 @@ const getPdfSongContent = () => {
 						text: '\u200B' + part.content.replace(/\n/g, "\n" + '\u200B')
 					}
 				]
-			});
+			} as Content);
 		} else {
 			content.push({
 				style: 'code',
@@ -599,32 +613,31 @@ const getPdfSongContent = () => {
 		}
 	});
 	// create footer
-	let footer = [{
+	let footer: Content[] = [{
 		// imprint with ccli#, author names and (c) year publisher
 		width: '*',
 		style: 'copyright',
 		text: [
-			song.value.note ? t('field.note') + ':\n' + song.value.note + '\n\n' : '',
-			song.value.ccli ? 'CCLI Song Nr.: ' + song.value.ccli + '\n' : '',
-			song.value.authors?.length ? song.value.authors.join(', ') + '\n' : '',
-			'\u00A9 ' + (song.value.year ? song.value.year + ' ' : '') + song.value.publisher
+			s.ccli ? 'CCLI Song Nr.: ' + s.ccli + '\n' : '',
+			s.authors?.length ? s.authors.join(', ') + '\n' : '',
+			'\u00A9 ' + (s.year ? s.year + ' ' : '') + s.publisher
 		]
-	}];
-	if (song.value.youtube) {
+	} as unknown as Content];
+	if (s.youtube) {
 		footer.push({
 			// QR code for YouTube link
 			width: '140',
 			margin: [ 0, 20, 0, 0 ],
 			stack: [
-				{ text: 'https://youtu.be/' + song.value.youtube, style: 'qr' },
-				{ qr: 'https://youtu.be/' + song.value.youtube, fit: '90', style: 'qr', margin: [ 0, 5, 0, 0 ] }
+				{ text: 'https://youtu.be/' + s.youtube, style: 'qr' },
+				{ qr: 'https://youtu.be/' + s.youtube, fit: '90', style: 'qr', margin: [ 0, 5, 0, 0 ] } as unknown as Content
 			]
-		});
+		} as unknown as Content);
 	}
 	// return array with song data ready for pdfMake
 	return [
 		// song title [key] with a line beneath
-		{ text: song.value.title.toUpperCase() + (key.value ? '  [' + keyScale[(12 + keyScale.indexOf(song.value.key) + (key.value % 12)) % 12] + ']' : ''), style: 'header' },
+		{ text: s.title.toUpperCase() + (key.value ? '  [' + keyScale[(12 + keyScale.indexOf(s.key ?? '') + (key.value % 12)) % 12] + ']' : ''), style: 'header' },
 		{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
 		content,
 		{ columnGap: 8, columns: footer }
@@ -643,14 +656,14 @@ const songInSetlist = computed(() => {
 
 // navigation to previous setlist song (if setlist is set)
 const goToPreviousSong = () => {
-	if (position.value > 0) {
+	if (position.value !== null && position.value > 0) {
 		const previousSongId  = setlist.value?.songs[position.value-1].id;
 		const previousSongKey = setlist.value?.songs[position.value-1].key;
 		router.push({
 			name: 'song-show',
 			params: {
 				id: previousSongId,
-				key: previousSongKey ?? songs.value.find(s => s.entity.slug === previousSongId).entity.key,
+				key: previousSongKey ?? songs.value.find(s => s.entity.slug === previousSongId)?.entity.key,
 				setlist: setlistId,
 			}
 		});
@@ -659,14 +672,14 @@ const goToPreviousSong = () => {
 
 // navigation to next setlist song (if setlist is set)
 const goToNextSong = () => {
-	if (position.value < setlist.value?.songs.length) {
+	if (position.value !== null && setlist.value && position.value < setlist.value.songs.length) {
 		const nextSongId  = setlist.value?.songs[position.value+1].id;
 		const nextSongKey = setlist.value?.songs[position.value+1].key;
 		router.push({
 			name: 'song-show',
 			params: {
 				id: nextSongId,
-				key: nextSongKey ?? songs.value.find(s => s.entity.slug === nextSongId).entity.key,
+				key: nextSongKey ?? songs.value.find(s => s.entity.slug === nextSongId)?.entity.key,
 				setlist: setlistId,
 			}
 		});

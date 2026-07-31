@@ -1,30 +1,32 @@
 import { notify } from '@kyvg/vue3-notification';
+import type { AmberCollection } from 'amber-client';
+import type { Song, SongEntity } from '@backend/models';
 import de from '@/locales/de.json';
 import en from '@/locales/en.json';
 
 // tag translations per locale, keyed by locale code
-const tagTranslations = { de: de.tag, en: en.tag };
+const tagTranslations: Record<string, Record<string, string>> = { de: de.tag, en: en.tag };
 
 // scale to use for song tuning and transponation
 const keyScale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'];
 
 /*
   user roles and permissions: Administrator, Editor, Performer and Reader
-   A E P R                                              
+   A E P R
   ------------------------------------------------------
-   x x x x  see dashboard, song list and setlist list   
-   x x x x  see single songs (present, tune, export)    
-   x x x x  see single setlists (present, copy, export) 
-   x x x    create and edit setlists                    
-   x x x    custom song tuning in setlists              
-   x x x    synchronize setlists                        
-   x x      create and edit songs                       
-   x x      delete songs and setlists                   
-   x        create, edit and delete song tags           
-   x        create, edit and delete song languages      
-   x        create, edit and delete users               
+   x x x x  see dashboard, song list and setlist list
+   x x x x  see single songs (present, tune, export)
+   x x x x  see single setlists (present, copy, export)
+   x x x    create and edit setlists
+   x x x    custom song tuning in setlists
+   x x x    synchronize setlists
+   x x      create and edit songs
+   x x      delete songs and setlists
+   x        create, edit and delete song tags
+   x        create, edit and delete song languages
+   x        create, edit and delete users
 */
-const userRoles = {
+const userRoles: Record<string, number> = {
   reader:    1,
   performer: 2,
   editor:    3,
@@ -32,15 +34,25 @@ const userRoles = {
 };
 
 // identify chord lines
-const isChordLine = (line) => {
+const isChordLine = (line: string): boolean => {
 	if (line.trim() == '') return false;
 	return line.slice(-2) === '  ';
 };
 
+// a single parsed part of a song's content (verse, chorus, ...)
+export type SongPart = {
+  type: string;
+  number: number | string;
+  class: string;
+  content: string;
+};
+
 // parse song content syntax
-const parsedContent = (content, keyOffset, showChords, twoColumns) => {
+function parsedContent(content: string, keyOffset: number, showChords: boolean, twoColumns: false): SongPart[];
+function parsedContent(content: string, keyOffset: number, showChords: boolean, twoColumns: true): [SongPart[], SongPart[]];
+function parsedContent(content: string, keyOffset: number, showChords: boolean, twoColumns: boolean): SongPart[] | [SongPart[], SongPart[]] {
   // initialize arrays for parsed lines, classes of parts, type abbr., numbers of type and part index
-  var parsed = [], classes = [], types = [], numbers = [], part = 0;
+  var parsed: string[][] = [], classes: string[] = [], types: string[] = [], numbers: (number | string)[] = [], part = 0;
   var lines = content.split('\n');
   // check every single line of song content
   for (var i = 0; i < lines.length; i++) {
@@ -159,7 +171,7 @@ const parsedContent = (content, keyOffset, showChords, twoColumns) => {
       part++;
     }
   }
-  var newContent = [];
+  var newContent: SongPart[] = [];
   // if multiple parts: rejoin lines of every part
   if (parsed.length > 1) {
     for (var p = 1; p < parsed.length; p++) {
@@ -193,12 +205,12 @@ const parsedContent = (content, keyOffset, showChords, twoColumns) => {
 };
 
 // file download
-const download = (data, filename, isBlob = false) => {
+const download = (data: string | Blob, filename: string, isBlob = false): void => {
   var a = document.createElement('a');
-  var file = isBlob ? data : new Blob([data], { type:'text/plain;charset=UTF-8' });
+  var file = isBlob ? data as Blob : new Blob([data as string], { type:'text/plain;charset=UTF-8' });
   // IE10+
-  if (window.navigator.msSaveOrOpenBlob) {
-    window.navigator.msSaveOrOpenBlob(file, filename);
+  if ((window.navigator as Navigator & { msSaveOrOpenBlob?: (blob: Blob, filename: string) => void }).msSaveOrOpenBlob) {
+    (window.navigator as Navigator & { msSaveOrOpenBlob?: (blob: Blob, filename: string) => void }).msSaveOrOpenBlob!(file, filename);
   }
   // other browsers
   else {
@@ -215,9 +227,9 @@ const download = (data, filename, isBlob = false) => {
 };
 
 // format human readable date
-const humanDate = (d, locale, showWeekdate=true, short=false) => {
+const humanDate = (d: string | Date | null | undefined, locale: string, showWeekdate = true, short = false): string => {
   if (!d) return '';
-  let options = showWeekdate
+  let options: Intl.DateTimeFormatOptions = showWeekdate
     ? { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
     : { year: short ? '2-digit' : 'numeric', month: short ? 'numeric' : 'long', day: 'numeric' };
   return (new Date(d)).toLocaleDateString(locale, options);
@@ -225,13 +237,13 @@ const humanDate = (d, locale, showWeekdate=true, short=false) => {
 
 // format human readable file sizes
 // https://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable-string#14919494
-const humanFileSize = (bytes, si=false, dp=1) => {
+const humanFileSize = (bytes: number, si = false, dp = 1): string => {
   const thresh = si ? 1000 : 1024;
   if (Math.abs(bytes) < thresh) {
     return bytes + ' B';
   }
-  const units = si 
-    ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'] 
+  const units = si
+    ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
     : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
   let u = -1;
   const r = 10**dp;
@@ -243,8 +255,8 @@ const humanFileSize = (bytes, si=false, dp=1) => {
 };
 
 // highlight given text in SongDrive syntax highlighting
-const sdHighlight = (code) => {
-  let parsedCode = [];
+const sdHighlight = (code: string): string => {
+  let parsedCode: string[] = [];
   code.split('\n').forEach(line => {
     // check for marker
     if (line.substring(0,2) === '--') {
@@ -263,14 +275,15 @@ const sdHighlight = (code) => {
 };
 
 // calculate initials for given user name
-const initials = (userName) => {
+const initials = (userName?: string): string => {
   return userName
     ? userName.trim().split(' ', 2).reduce((p, c) => p + c.charAt(0), '').toUpperCase()
     : ''
 };
 
 // toast error message
-const throwError = (error) => {
+export type ThrowableError = { code?: string; errorCode?: string; message?: string; error?: string };
+const throwError = (error: ThrowableError): void => {
   notify({
     title: error.code ?? error.errorCode,
     text: error.message ?? error.error,
@@ -279,23 +292,23 @@ const throwError = (error) => {
 };
 
 // calculate random string e.g. as example password
-const randomString = (length) => {
+const randomString = (length: number): string => {
   let pass = '', rdm62;
   while (length--) {
-   // Generate random integer between 0 and 61, 0|x works for Math.floor(x) in this case 
-   rdm62 = 0 | Math.random() * 62; 
+   // Generate random integer between 0 and 61, 0|x works for Math.floor(x) in this case
+   rdm62 = 0 | Math.random() * 62;
    // Map to ascii codes: 0-9 to 48-57 (0-9), 10-35 to 65-90 (A-Z), 36-61 to 97-122 (a-z)
-   pass += String.fromCharCode(rdm62 + (rdm62 < 10 ? 48 : rdm62 < 36 ? 55 : 61)) 
+   pass += String.fromCharCode(rdm62 + (rdm62 < 10 ? 48 : rdm62 < 36 ? 55 : 61))
   }
   return pass;
 };
 
 // make a given string url friendly
-const urlify = (s) => {
+const urlify = (s: string): string => {
   return s.trim().toLowerCase()
     .replace(/\s/g, '-')
     .replace(/\//g, '-')
-    .replace(/\_/g, '-')
+    .replace(/_/g, '-')
     .replace(/'/g, '')
     .replace(/"/g, '')
     .replace(/,/g, '')
@@ -312,10 +325,10 @@ const urlify = (s) => {
 }
 
 // get the first key of given object that points to given value
-const keyByValue = (o, v) => Object.keys(o).find(k => o[k]===v);
+const keyByValue = (o: Record<string, unknown>, v: unknown): string | undefined => Object.keys(o).find(k => o[k]===v);
 
 // sort tag keys by their translated name in the given locale
-const sortTags = (tags, locale) => {
+const sortTags = (tags: string[], locale: string): string[] => {
   const translations = tagTranslations[locale];
   return tags.toSorted(
     (a, b) => (translations?.[a] ?? a).localeCompare(translations?.[b] ?? b)
@@ -323,7 +336,7 @@ const sortTags = (tags, locale) => {
 };
 
 // true if browser uses a dark color scheme
-const browserPrefersDark = () => {
+const browserPrefersDark = (): boolean => {
   return localStorage.theme === 'dark' || (
     (!('theme' in localStorage) || localStorage.theme === 'auto')
     && window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -331,14 +344,23 @@ const browserPrefersDark = () => {
 };
 
 // trigger mailto
-const mailto = (address) => window.location.href = 'mailto:' + address;
+const mailto = (address: string): void => { window.location.href = 'mailto:' + address; };
+
+// vue-router route params can be a repeated segment (string[]); none of this
+// app's routes use repeatable segments, so always take the first/only value
+const firstParam = (v: string | string[] | undefined): string | undefined => Array.isArray(v) ? v[0] : v;
 
 // overwrite one target song's translations array via songsCollection,
 // preserving all its other fields (Amberbase updateDoc replaces the whole
 // document body, so the full current entity must be read and spread first)
-const updateSongTranslations = async (songsCollection, songs, targetId, transformFn) => {
+const updateSongTranslations = async (
+  songsCollection: AmberCollection<SongEntity>,
+  songs: Song[],
+  targetId: string,
+  transformFn: (translations: string[]) => string[],
+): Promise<void> => {
   const target = songs.find(s => s.id === targetId);
-  if (!target) return; // stale/unknown local reference - skip rather than throw
+  if (!target || target.changeNumber === undefined) return; // stale/unknown local reference - skip rather than throw
   await songsCollection.updateDoc(targetId, target.changeNumber, {
     ...target.entity,
     translations: transformFn(target.entity.translations ?? []),
@@ -347,7 +369,7 @@ const updateSongTranslations = async (songsCollection, songs, targetId, transfor
 
 // build OpenLyrics XML for given song
 // see https://manual.openlp.org/display_tags.html#configuring-formatting-tags
-const openLyricsXML = (song, version, translatedSong = null) => {
+const openLyricsXML = (song: SongEntity, version: string, translatedSong: SongEntity | null = null): string => {
 	const timestamp = (new Date()).toISOString().slice(0, -5);
 	const title = `<title>${song.title}</title>`;
 	const subtitle = song.subtitle ? `<title>${song.subtitle}</title>` : '';
@@ -370,7 +392,7 @@ const openLyricsXML = (song, version, translatedSong = null) => {
   const tParts = translatedSong ? parsedContent(translatedSong.content, 0, false, false) : [];
 	const lyrics = parsedContent(song.content, 0, false, false).map((p, i) => {
 		const type = p.type ? p.type.toUpperCase() : 'V';
-		const num = p.number > 0 ? p.number : '1';
+		const num = Number(p.number) > 0 ? p.number : '1';
     const tContent = (i in tParts)
       ? `<br/><br/><tag name='it'><tag name='gr'><tag name='fd'>${tParts[i].content.replace(/\n/g, "<br />")}</tag></tag></tag>`
       : '';
@@ -397,6 +419,7 @@ export {
   sortTags,
   browserPrefersDark,
   mailto,
+  firstParam,
   updateSongTranslations,
   openLyricsXML,
 }

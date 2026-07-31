@@ -20,7 +20,7 @@
 						px-1 pt-0.5 flex items-center cursor-pointer
 						text-blade-500 hover:text-spring-600 transition-colors
 					"
-					@click="searchInput.focus()"
+					@click="searchInput?.focus()"
 					:title="t('placeholder.searchSetlistTitle')"
 				>
 					<icon-search class="w-7 h-7 stroke-1.5" />
@@ -107,7 +107,7 @@
 							<input
 								type="search"
 								v-model="filter.date"
-								@input="e => filter.date = e.target.value"
+								@input="e => filter.date = (e.target as HTMLInputElement).value"
 								class="w-full pl-8"
 							/>
 						</label>
@@ -129,7 +129,7 @@
 								type="search"
 								ref="searchInput"
 								v-model="filter.title"
-								@input="e => filter.title = e.target.value"
+								@input="e => filter.title = (e.target as HTMLInputElement).value"
 								class="w-full pl-8"
 							/>
 						</label>
@@ -249,14 +249,16 @@
 	</div>
 </template>
 
-<script setup>
-import { humanDate } from '@/utils.js';
+<script setup lang="ts">
+import { injectStrict, hkBackKey, hkCancelKey, hkForwardKey, hkSearchKey, noActiveInputKey, noActiveModalKey, setlistsKey, userKey, usersKey } from '@/keys';
+import { humanDate, firstParam } from '@/utils.js';
 import { logicAnd } from '@vueuse/math';
-import { ref, reactive, computed, watch, inject } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { whenever } from '@vueuse/core';
 import { can } from '@backend/definitions';
+import type { Setlist, SetlistEntity } from '@backend/models';
 import DropDown from '@/elements/DropDown.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistDelete from '@/modals/SetlistDelete.vue';
@@ -287,39 +289,37 @@ const router = useRouter();
 const route = useRoute();
 
 // handle hotkeys for this component
-const hkSearch = inject('hkSearch');
-const hkBack = inject('hkBack');
-const hkForward = inject('hkForward');
-const hkCancel = inject('hkCancel');
-const noActiveInput = inject('noActiveInput');
-const noActiveModal = inject('noActiveModal');
+const hkSearch = injectStrict(hkSearchKey);
+const hkBack = injectStrict(hkBackKey);
+const hkForward = injectStrict(hkForwardKey);
+const hkCancel = injectStrict(hkCancelKey);
+const noActiveInput = injectStrict(noActiveInputKey);
+const noActiveModal = injectStrict(noActiveModalKey);
 
 // global properties
-const setlists = inject('setlists');
-const user = inject('user');
-const users = inject('users');
+const setlists = injectStrict(setlistsKey);
+const user = injectStrict(userKey);
+const users = injectStrict(usersKey);
 
 // template references
-const searchInput = ref(null);
+const searchInput = ref<HTMLInputElement | null>(null);
 
 // injects and emits
 const emit = defineEmits(['addSetlist', 'editSetlist']);
 
 // table filter
-const filter = reactive({
+const filter = reactive<Record<string, string | boolean | null>>({
 	active:    null,
 	isPublic:  null,
 	date:      null,
 	title:     null,
-	createdBy: route.params.creator,
+	createdBy: firstParam(route.params.creator) ?? null,
 	songs:     null,
 });
 
 const resetFilter = () => {
-	for (const field in filter) {
-		if (Object.hasOwnProperty.call(filter, field)) {
-			filter[field] = null;
-		}
+	for (const field of Object.keys(filter)) {
+		filter[field] = null;
 	}
 };
 const isFiltered = computed(() => {
@@ -334,7 +334,7 @@ const isFiltered = computed(() => {
 // pagination
 const page       = ref(0);
 const listLength = 16;
-const order = reactive({
+const order = reactive<{ field: string, ascending: boolean }>({
 	field: 'date',
 	ascending: false
 });
@@ -342,7 +342,7 @@ const order = reactive({
 // computed
 const sortedSetlists = computed(() => {
 	return setlists.value.toSorted((a, b) => {
-		let propA, propB;
+		let propA: string | number, propB: string | number;
 		if (order.field == 'songs') {
 			propA = a.entity.songs.length;
 			propB = b.entity.songs.length;
@@ -350,8 +350,8 @@ const sortedSetlists = computed(() => {
 			propA = users.value[a.entity.createdBy]?.name ?? '';
 			propB = users.value[b.entity.createdBy]?.name ?? '';
 		} else {
-			propA = String(a.entity[order.field]).toLowerCase().trim();
-			propB = String(b.entity[order.field]).toLowerCase().trim();
+			propA = String(a.entity[order.field as keyof SetlistEntity]).toLowerCase().trim();
+			propB = String(b.entity[order.field as keyof SetlistEntity]).toLowerCase().trim();
 		}
 		if (order.ascending) {
 			if (propA < propB) { return -1 };
@@ -380,14 +380,14 @@ const filteredSetlists = computed(() => {
 	if (filter.date) {
 		// filter fields: date
 		setlists = setlists.filter(s => {
-			const key = filter.date.toLowerCase();
+			const key = (filter.date as string).toLowerCase();
 			return s.entity.date.indexOf(key) !== -1
 				|| humanDate(s.entity.date, locale.value).toLowerCase().indexOf(key) !== -1;
 		})
 	}
 	if (filter.title) {
 		// filter fields: title
-		const key = filter.title.toLowerCase();
+		const key = (filter.title as string).toLowerCase();
 		setlists = setlists.filter(s => {
 			return s.entity.title.toLowerCase().indexOf(key) !== -1;
 		})
@@ -401,7 +401,7 @@ const filteredSetlists = computed(() => {
 	if (filter.songs) {
 		// filter fields: songs
 		setlists = setlists.filter(s => {
-			return s.entity.songs.length.toString().indexOf(filter.songs) !== -1;
+			return s.entity.songs.length.toString().indexOf(filter.songs as string) !== -1;
 		})
 	}
 	return setlists;
@@ -422,7 +422,7 @@ const pageCount = computed(() => {
 	return Math.ceil(filteredSetlists.value.length/listLength);
 });
 const creators = computed(() => {
-	const creators = {};
+	const creators: Record<string, string> = {};
 	setlists.value.forEach(s => {
 		const name = users.value[s.entity.createdBy]?.name;
 		if (name && !creators.hasOwnProperty(s.entity.createdBy)) {
@@ -433,7 +433,7 @@ const creators = computed(() => {
 });
 
 // methods
-const sortList = (field) => {
+const sortList = (field: string) => {
 	if (order.field == field) {
 		order.ascending = !order.ascending;
 	} else {
@@ -441,7 +441,7 @@ const sortList = (field) => {
 	}
 	order.field = field;
 };
-const toggleFilter = (prop) => {
+const toggleFilter = (prop: 'active' | 'isPublic') => {
 	switch (filter[prop]) {
 		case null:
 			filter[prop] = true;
@@ -455,7 +455,7 @@ const toggleFilter = (prop) => {
 			break;
 	}
 };
-const showPageItem = (p) => {
+const showPageItem = (p: number) => {
 	return pageCount.value < 6 || (
 		p == 1 || p == 2
 		|| (page.value == 0 && p == 3)
@@ -466,10 +466,10 @@ const showPageItem = (p) => {
 		|| p == pageCount.value-1 || p == pageCount.value
 	);
 };
-const showFirstEllipsis = (p) => {
+const showFirstEllipsis = (p: number) => {
 	return pageCount.value >= 6 && page.value > 2 && p == 2;
 };
-const showPageItemLink = (p) => {
+const showPageItemLink = (p: number) => {
 	return pageCount.value < 6 || (
 		p == 1
 		|| (page.value == 0 && p == 3)
@@ -480,7 +480,7 @@ const showPageItemLink = (p) => {
 		|| p == pageCount.value
 	);
 };
-const showLastEllipsis = (p) => {
+const showLastEllipsis = (p: number) => {
 	return pageCount.value >= 6 && page.value < pageCount.value-3 && p == pageCount.value-1;
 };
 
@@ -494,7 +494,7 @@ const setlistDeleteModalData = reactive({
 	title: '',
 	key: '',
 });
-const deleteDialog = (setlist) => {
+const deleteDialog = (setlist: Setlist) => {
 	setlistDeleteModalData.title = setlist.entity.title;
 	setlistDeleteModalData.key = setlist.entity.slug;
 	showModal.delete = true;
@@ -506,7 +506,7 @@ watch (filter, () => { page.value = 0 });
 // component shortcuts
 whenever(
 	logicAnd(hkSearch, noActiveModal),
-	() => !noSetlists.value ? searchInput.value.focus() : null
+	() => !noSetlists.value ? searchInput.value?.focus() : null
 );
 whenever(
 	logicAnd(hkCancel, noActiveModal),
