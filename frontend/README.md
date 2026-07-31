@@ -1,6 +1,6 @@
-# ![SongDrive Logo Title](https://github.com/devmount/SongDrive/assets/5441654/77b68e2d-a877-4855-bece-c067f2219e71) &nbsp; frontend
+# ![SongDrive Logo Title](https://github.com/devmount/SongDrive/assets/5441654/77b68e2d-a877-4855-bece-c067f2219e71) :: Frontend
 
-This directory contains all frontend functionality of SongDrive.
+This directory contains all frontend functionality of SongDrive. It's build with the [Amberbase](https://github.com/amberbase/amberbase) client and Tailwind.css.
 
 ## Frontend build instructions
 
@@ -13,22 +13,18 @@ This directory contains all frontend functionality of SongDrive.
 2. Install all dependencies
 
     ```bash
-    cd SongDrive
+    cd SongDrive/frontend
     npm install
     ```
 
-3. Set up the backend, which provides authentication and data storage via Amberbase — see the [backend docs](../backend/README.md) for setup instructions
+3. Set up the backend, which provides authentication and data storage via [Amberbase](https://github.com/amberbase/amberbase) — see the [backend docs](../backend/README.md) for setup instructions.
 
-4. Now your app is ready to be launched. Either start the development server with hot reload at `localhost:5173` ...
-
-    ```bash
-    npm run dev
-    ```
-
-5. ... or create an optimized production build with minification. All build files can be found in the `dist` directory.
+4. Now your app is ready to be launched. Create an optimized production build with minification. All build files can be found in the `backend/dist` directory.
 
     ```bash
     npm run build
     ```
 
-6. (optional) You can import demo content if you don't like to start from scratch. First download the [demo data file](./demo.import.json) from the repository. Sign in to SongDrive with your admin user, go to Settings > Import, select the downloaded demo file and import it. You can now have a look at 8 public domain songs, one demo setlist, several song tags, English and German languages and an additional test user.
+5. You can now access the app under <http://localhost:3333>
+
+6. (optional) An import of demo content with public domain songs is planned.

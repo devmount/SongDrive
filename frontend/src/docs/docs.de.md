@@ -21,7 +21,7 @@ SongDrive verfügt über eine Vielzahl von Funktionen, die den Künstler bei der
 - Exportieren von Songs, Setlisten und Liedblättern als PDF und anderen Formaten
 - Tastaturkürzel für Navigation und Aktionsbuttons
 
-SongDrive befindet sich noch in der Entwicklung, es werden noch weitere Funktionen hinzukommen. Im [öffentlichen Repository auf GitHub](https://github.com/devmount/SongDrive/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) können geplante Funktionen eingesehen werden.
+SongDrive befindet sich aktiv in Entwicklung und es kommen immer wieder weitere Funktionen hinzu. Im [öffentlichen Repository auf GitHub](https://github.com/devmount/SongDrive/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) können geplante Funktionen eingesehen werden.
 
 ### Mithelfen
 
@@ -29,7 +29,7 @@ Feedback und Beiträge sind erwünscht! Du kannst mithelfen SongDrive zu verbess
 
 ## Loslegen
 
-Wenn Du SongDrive kennenlernen möchtest und dafür eine bestehende SongDrive-Installation verwenden willst, benötigst Du zunächst eine Einladung von einem Administrator. Dieser kann Dir einen Einladungslink schicken, über den Du ein neues Benutzerkonto mit Namen, Emailadresse und Passwort anlegen kannst. Sobald Du registriert bist, kannst Du dich anmelden und SongDrive mit den Berechtigungen deiner zugewiesenen Rolle nutzen.
+Wenn Du SongDrive kennenlernen möchtest und dafür Teil einer bestehenden SongDrive-Installation werden willst, benötigst Du zunächst eine Einladung von einem Administrator. Dieser kann Dir einen Einladungslink schicken, über den Du ein neues Benutzerkonto mit Namen, Emailadresse und Passwort anlegen kannst. Sobald Du registriert bist, kannst Du dich anmelden und SongDrive mit den Berechtigungen deiner zugewiesenen Rolle nutzen.
 
 ### Voraussetzungen
 
@@ -43,7 +43,7 @@ SongDrive ist responsiv und funktioniert auch auf kleineren Bildschirmen, allerd
 
 ### Installation
 
-SongDrive ist eine Open Source Software und ist absolut dafür ausgelegt, es selbst zu hosten. Um SongDrive auf dem eigenen Server einzurichten, beachte bitte die Installationshinweise im [README](https://github.com/devmount/SongDrive/blob/main/README.md).
+SongDrive ist eine Open Source Software und ist absolut für Self-Hosting gemacht. Um SongDrive auf dem eigenen Server einzurichten, beachte bitte die Installationshinweise im [README](https://github.com/devmount/SongDrive/blob/main/README.md) für Frontend und Backend.
 
 ## Benutzerrollen
 
@@ -66,13 +66,13 @@ Diese Rollen haben die folgenden Privilegien:
 | x | x | x |   | Setlisten synchronisieren                              |
 | x | x |   |   | Songs erstellen und bearbeiten                         |
 | x | x |   |   | Songs und Setlisten löschen                            |
-| x |   |   |   | Song Tags erstellen, bearbeiten und löschen            |
-| x |   |   |   | Songsprachen erstellen, bearbeiten und löschen         |
-| x |   |   |   | Benutzer erstellen, bearbeiten und löschen             |
+| x |   |   |   | Song Tags verwalten                                    |
+| x |   |   |   | Songsprachen verwalten                                 |
+| x |   |   |   | Benutzer verwalten                                     |
 
 ## Verwendung
 
-SongDrive bietet auf der linken Seite ein Hauptmenü, über das man zu allen Hauptseiten gelangt, wie dem Dashboard, der Übersicht aller Songs und Setlisten, den Profil- und Einstellungsseiten sowie der Übersicht der Shortcuts und dieser Dokumentation.
+SongDrive bietet auf der linken Seite (mobil rechts) ein Hauptmenü, über das man zu allen Hauptseiten gelangt, wie dem Dashboard, der Übersicht aller Songs und Setlisten, den Profil- und Einstellungsseiten sowie der Übersicht der Shortcuts und dieser Dokumentation.
 
 ### Dashboard
 
@@ -170,7 +170,7 @@ The hour I first believed
 > **TIP**  
 > Versuche, wenn es der Platz erlaubt, für jede Textzeile auch eine Akkordzeile anzugeben (keine Akkordzeilen für Teile mit denselben Akkorden auslassen, z.B. für die zweite Strophe). Ziel ist es, dem Liedinterpreten das Spielen des Liedes so einfach wie möglich zu machen.
 
-Und das war's - mit dieser einfachen Song-Syntax bist du bereit, deine eigenen Songs zu SongDrive hinzuzufügen.
+Und das war's - mit dieser bewusst einfach lesbaren Song-Syntax bist du bereit, deine eigenen Songs zu SongDrive hinzuzufügen.
 
 ### Setlisten
 
@@ -193,9 +193,9 @@ Per Klick auf eine Setlist öffnet die Setlistvorschau, die die aktuelle Liste d
 
 Um die Daten in SongDrive zu schützen, müssen sich Benutzer für den Zugriff auf Songs, Setlisten und andere Funktionen authentifizieren. Neue Benutzer werden von einem Administrator eingeladen, der einen Einladungslink zur Registrierung eines Benutzerkontos verschickt. Sobald Du registriert bist, kannst du dich über die Login-Seite anmelden.
 
-Wenn du angemeldet bist, hast du Zugriff auf deine Profilinformationen. Diese findest du, indem du im Hauptmenü [auf deinen Namen](/Profil) klickst. Name, Rolle, E-Mail und Profilbild können eingesehen werden, ebenso wie einige Zahlen darüber, wie viele Setlisten Du erstellt und wie viele Songs Du gespielt habst (die Summe aller Songs deiner Setlisten).
+Wenn du angemeldet bist, hast du Zugriff auf deine Profilinformationen. Diese findest du, indem du im Hauptmenü [auf deinen Namen](/profile) klickst. Name, Rolle, E-Mail und Profilbild können eingesehen werden, ebenso wie einige Zahlen darüber, wie viele Setlisten Du erstellt und wie viele Songs Du gespielt habst (die Summe aller Songs deiner Setlisten). Du kannst hier auch dein Passwort ändern.
 
-Um deine Profilinformationen zu aktualisieren, besuche ... **TODO**
+Um deine Profilinformationen zu aktualisieren, besuche die [Amberbase Nutzerverwaltung](/amber/ui/userprofile).
 
 ### Info
 
