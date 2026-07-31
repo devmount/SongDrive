@@ -66,7 +66,6 @@ import { reactive, computed, ref, watch, inject } from 'vue';
 import { throwError, randomString } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
-import { getAuth, reauthenticateWithCredential, updatePassword, EmailAuthProvider } from "firebase/auth";
 import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -79,8 +78,8 @@ import {
 // component constants
 const { t } = useI18n();
 const examplePassword = randomString(8);
-const fb = inject('firebaseApp');
-const fbAuth = getAuth(fb);
+const client = inject('client');
+const currentUser = inject('user');
 
 // inherited properties
 const props = defineProps({
@@ -118,41 +117,39 @@ const errors = computed(() => (
 
 // save new password for current user
 const busy = ref(false);
-const setPassword = () => {
+const setPassword = async () => {
 	// first check for form errors
 	error.password.missing = user.password == '';
 	error.password.mismatch = user.password != user.repeat;
 	error.password.tooshort = user.password.length < 8;
 	error.currentpassword.missing = user.currentpassword == '';
 	// no errors: send submitted user data and close modal
-	if (!errors.value) {
-		busy.value = true;
-		// first reauthenticate user
-		const currentUser = fbAuth.currentUser;
-		const credential = EmailAuthProvider.credential(
-			currentUser.email,
-			user.currentpassword
+	if (errors.value) return;
+
+	busy.value = true;
+	try {
+		const result = await client.value.loginManager.getAmberUserApi().changePassword(
+			currentUser.value.id, user.currentpassword, user.password
 		);
-		reauthenticateWithCredential(currentUser, credential).then(() => {
-			// successfully reauthenticated, now update password
-			updatePassword(currentUser, user.password).then(() => {
-				emit('closed');
-				notify({
-					title: t('toast.userUpdated'),
-					text: t('toast.userUpdatedText'),
-					type: 'primary'
-				});
-				busy.value = false;
-			}).catch((error) => throwError(error));
-		}).catch(() => {
+		if (result.success) {
+			emit('closed');
+			notify({
+				title: t('toast.userUpdated'),
+				text: t('toast.userUpdatedText'),
+				type: 'primary'
+			});
+		} else {
 			error.currentpassword.wrong = true;
 			notify({
 				title: t('toast.passwordWrong'),
 				text: t('toast.passwordWrongText'),
 				type: 'error'
 			});
-			busy.value = false;
-		});
+		}
+	} catch (err) {
+		throwError(err);
+	} finally {
+		busy.value = false;
 	}
 };
 

@@ -35,14 +35,8 @@
 			</div>
 		</panel-box>
 		<div class="flex flex-col text-sm">
-			<div>
-				{{ t('text.newToSongDrive') }}
-				<link-button @click="emit('signUp')">{{ t('text.createAnAccount') }}</link-button>.
-			</div>
-			<div>
-				{{ t('text.forgotPassword') }}
-				<link-button @click="emit('resetPassword')">{{ t('text.resetIt') }}</link-button>.
-			</div>
+			<div>{{ t('text.contactAdminForInvite') }}</div>
+			<div>{{ t('text.contactAdminForReset') }}</div>
 		</div>
 	</div>
 </template>
@@ -52,7 +46,6 @@ import { logicAnd } from '@vueuse/math';
 import { ref, inject, reactive, computed } from 'vue';
 import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import LinkButton from '@/elements/LinkButton.vue';
 import Logo from '@/partials/Logo.vue';
 import PanelBox from '@/elements/PanelBox.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
@@ -64,7 +57,7 @@ import { IconLogin } from '@tabler/icons-vue';
 const { t } = useI18n();
 
 // emits
-const emit = defineEmits(['signIn', 'signUp', 'resetPassword']);
+const emit = defineEmits(['signIn']);
 
 // props
 defineProps({

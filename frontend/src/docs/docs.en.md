@@ -29,7 +29,7 @@ Feedback and contributions are very welcome! You can help by reporting bugs, sug
 
 ## Get started
 
-If you want to get to know SongDrive by using an existing SongDrive installation, you first need register a new user account. You can use the *Sign Up* Button and provide a name, email address and a password. As soon as an administrator approves your registration and assigns a user role to your account, you can sign in and start using SongDrive according to the privileges of your role.
+If you want to get to know SongDrive by using an existing SongDrive installation, you first need an invitation from an administrator. They can send you an invitation link where you register a new user account with a name, email address and password. As soon as you're registered, you can sign in and start using SongDrive according to the privileges of your assigned role.
 
 ### Requirements
 
@@ -191,7 +191,7 @@ Clicking on a setlist opens a preview which shows the actual list of songs and a
 
 ### Account
 
-To protect the data in SongDrive, users have to authentificate themselves to access songs, setlists and more. The login screen provides a *Sign Up* button to register a user account. As soon as an administrator approves the registration, you can use the *Sign In* form on the login page.
+To protect the data in SongDrive, users have to authentificate themselves to access songs, setlists and more. New users are onboarded by an administrator, who sends an invitation link to register a user account. As soon as you're registered, you can use the *Sign In* form on the login page.
 
 When signed in, you have access to you profile information. It can be found by clicking [on your name](/profile) in the main menu. Your name, role, email and profile picture are visible, as well as some numbers about how many setlists you created and how many songs you have performed (the sum of all songs on your setlists).
 

@@ -1,8 +1,12 @@
 <template>
 	<div class="bg-blade-100 text-blade-600 dark:bg-blade-850 dark:text-blade-300 overflow-x-hidden">
+		<!-- Password reset via admin-issued link -->
+		<div v-if="isResetPasswordPage">
+			<reset-password />
+		</div>
 		<!-- Loading screen -->
 		<div
-			v-if="!ready"
+			v-else-if="!ready"
 			class="w-screen h-screen flex justify-center items-center text-spring-600"
 		>
 			<icon-loader2 class="w-16 h-16 stroke-1.5 animate-spin" />
@@ -168,8 +172,6 @@
 				v-model:stay-logged-in="stayLoggedIn"
 				:auth-failed="authFailed"
 				@sign-in="login"
-				@sign-up="showModal.signup = true"
-				@reset-password="showModal.passwordreset = true"
 			/>
 		</div>
 
@@ -209,44 +211,21 @@
 		:id="setlistSetModalData.id"
 		@closed="showModal.setlistset = false"
 	/>
-	<sign-up
-		:active="showModal.signup"
-		@closed="showModal.signup = false"
-		@submitted="doSignUp"
-	/>
-	<password-reset
-		:active="showModal.passwordreset"
-		@closed="showModal.passwordreset = false"
-		@submitted="sendPasswordReset"
-	/>
 </template>
 
 <script setup>
-// import { collection, onSnapshot, getDoc, doc, setDoc } from 'firebase/firestore';
-// import {
-// 	getAuth,
-// 	signInWithEmailAndPassword,
-// 	signOut as fbSignOut,
-// 	createUserWithEmailAndPassword,
-// 	sendEmailVerification,
-// 	sendPasswordResetEmail,
-// 	onAuthStateChanged,
-// 	updateProfile
-// } from "firebase/auth";
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, provide, onMounted } from 'vue';
 import { useActiveElement, useMagicKeys } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { userRoles, throwError } from '@/utils.js';
 import UserAvatar from '@/elements/UserAvatar.vue';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
 import LoginForm from '@/partials/LoginForm.vue';
 import Logo from '@/partials/Logo.vue';
-import PasswordReset from '@/modals/PasswordReset.vue';
+import ResetPassword from '@/partials/ResetPassword.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistSet from '@/modals/SetlistSet.vue';
-import SignUp from '@/modals/SignUp.vue';
 import SongSet from '@/modals/SongSet.vue';
 import { amberClient } from 'amber-client';
 import { SongTag, can } from "@backend/definitions";
@@ -318,44 +297,6 @@ provide('noActiveInput', noActiveInput);
 const { t } = useI18n();
 const route = useRoute();
 
-// global properties
-// const fb = inject('firebaseApp');
-// const db = inject('db');
-// const fbAuth = getAuth(fb);
-
-// db table collections
-// const c = reactive({
-// 	languages: {},
-// 	setlists: {},
-// 	songs: {},
-// 	tags: {},
-// 	users: {},
-// });
-
-// // db table ready state
-// const ready = reactive({
-// 	config: false,
-// 	languages: false,
-// 	permissions: false,
-// 	registrations: false,
-// 	setlists: false,
-// 	songs: false,
-// 	tags: false,
-// 	users: false,
-// });
-
-// // db table listeners
-// const listener = reactive({
-// 	config: null,
-// 	languages: null,
-// 	permissions: null,
-// 	registrations: null,
-// 	setlists: null,
-// 	songs: null,
-// 	tags: null,
-// 	users: null,
-// });
-
 // mobile menu state
 const open = ref(false);
 
@@ -386,15 +327,16 @@ const initialSong = {
 
 // modals
 const showModal = reactive({
-	songset:       false,
-	setlistset:    false,
-	signup:        false,
-	passwordreset: false,
+	songset:    false,
+	setlistset: false,
 });
 const noActiveModal = computed(() => {
-	return !showModal.songset && !showModal.setlistset && !showModal.signup && !showModal.passwordreset;
+	return !showModal.songset && !showModal.setlistset;
 });
 provide('noActiveModal', noActiveModal);
+
+// password reset via admin-issued link
+const isResetPasswordPage = computed(() => route.path === '/reset-password');
 
 // add and edit songs
 const songSetModalData = reactive({
@@ -433,14 +375,6 @@ const editExistingSetlist = ({data, id, exists}) => {
 	setlistSetModalData.id       = id;
 	showModal.setlistset         = true;
 };
-
-// // authentication
-// const auth = reactive({
-// 	confirmed: null,
-// 	ready: false,
-// 	user: '',
-// 	userObject: null,
-// });
 
 // Tenant
 const tenant = reactive({
@@ -492,6 +426,7 @@ const songsCollection = ref(null);
 const setlistCollection = ref(null);
 provide('songsCollection', songsCollection);
 provide('setlistCollection', setlistCollection);
+provide('client', client);
 
 const init = async () => {
 	client.value = amberClient()
@@ -576,157 +511,4 @@ const logout = async () => {
 };
 
 onMounted(async () => await init());
-
-// // add listeners for changes on each db collection
-// const listen = () => {
-// 	for (const table in listener) {
-// 		listener[table] = onSnapshot(collection(db, table), (snapshot) => {
-// 			snapshot.docChanges().forEach(change => {
-// 				if (change.type === "added" || change.type === "modified") {
-// 					c[table][change.doc.id] = change.doc.data();
-// 				}
-// 				if (change.type === "removed") {
-// 					delete c[table][change.doc.id];
-// 				}
-// 			});
-// 			ready[table] = true;
-// 		});
-// 	}
-// };
-// // remove listeners for changes on each db table
-// const unlisten = () => {
-// 	for (const table in listener) {
-// 		let unsubscribe = listener[table];
-// 		if (typeof unsubscribe === "function") unsubscribe();
-// 	}
-// };
-// // loads configuration without listener
-// const loadConfig = () => {
-// 	getDoc(doc(db, "config/contact")).then(doc => {
-// 		if (doc.exists) {
-// 			c.config.contact = doc.data();
-// 			ready.config = true;
-// 		}
-// 	}).catch((error) => throwError(error));
-// };
-
-// // execute sign in on Firebase backend
-// const signIn = (email, password) => {
-// 	signInWithEmailAndPassword(fbAuth, email, password).then(() => {
-// 		// login successful
-// 		const user = fbAuth.currentUser;
-// 		auth.user = user.uid;
-// 		auth.userObject = user;
-// 		// load general app config
-// 		loadConfig();
-// 		// now add listeners for changes on each db table
-// 		if (auth.confirmed && user.emailVerified) {
-// 			listen();
-// 		}
-// 		// toast successful login
-// 		notify({
-// 			title: t('toast.signedIn'),
-// 			text: t('toast.signedInText', { name: auth.userObject.displayName }),
-// 			type: 'primary'
-// 		});
-// 	}).catch((error) => throwError(error));
-// };
-// // execute sign out on firebase backend
-// const signOut = () => {
-// 	fbSignOut(fbAuth).then(() => {
-// 		// sign-out successful
-// 		if (auth.confirmed) {
-// 			unlisten();
-// 		}
-// 		// toast successfoul log out
-// 		notify({
-// 			title: t('toast.signedOut'),
-// 			text: t('toast.signedOutText'),
-// 			type: 'primary'
-// 		});
-// 	}).catch((error) => throwError(error));
-// };
-// // execute user creation on firebase backend
-// const doSignUp = (user) => {
-// 	createUserWithEmailAndPassword(fbAuth, user.email, user.password).then(() => {
-// 		// sign-up successful
-// 		auth.user = fbAuth.currentUser.uid
-// 		// load general app config
-// 		loadConfig();
-// 		// create registration for admin approval
-// 		setDoc(doc(db, `registrations/${auth.user}`), { email: user.email, name: user.name }).then(() => {
-// 			auth.userObject = fbAuth.currentUser;
-// 			updateProfile(auth.userObject, { displayName: user.name });
-// 			notify({
-// 				title: t('toast.signedUp'),
-// 				text: t('toast.signedUpText', { name: user.name }),
-// 				type: 'primary'
-// 			});
-// 		}).catch((error) => throwError(error));
-// 		// send verification email
-// 		sendEmailVerification(fbAuth.currentUser).then(() => {
-// 			// Verification email sent
-// 			notify({
-// 				title:  t('toast.verficationSent'),
-// 				text:  t('toast.verficationSentText'),
-// 				type: 'primary'
-// 			});
-// 		}).catch((error) => throwError(error));
-// 	}).catch((error) => throwError(error));
-// };
-// // resend email with verification link to currently logged in user
-// const resendEmailVerification = () => {
-// 	sendEmailVerification(fbAuth.currentUser).then(() => {
-// 		notify({
-// 			title: t('toast.verficationSent'),
-// 			text: t('toast.verficationSentText'),
-// 			type: 'primary'
-// 		});
-// 	}).catch((error) => throwError(error));
-// };
-// // send password reset email
-// const sendPasswordReset = (email) => {
-// 	sendPasswordResetEmail(fbAuth, email).then(() => {
-// 		notify({
-// 			title: t('toast.passwordResetSent'),
-// 			text: t('toast.passwordResetSentText'),
-// 			type: 'primary'
-// 		});
-// 	}).catch((error) => throwError(error));
-// };
-
-// initially check authentication
-// onMounted(() => {
-	// add listener for authentication state
-	// onAuthStateChanged(fbAuth, user => {
-	// 	if (user) {
-	// 		// load app config on auth change only when not explicitly loading
-	// 		if (!loading.value) {
-	// 			loadConfig();
-	// 		}
-	// 		auth.user = user.uid;
-	// 		auth.userObject = user;
-	// 		getDoc(doc(db, `users/${user.id}`)).then((userEntry) => {
-	// 			if (userEntry.exists) {
-	// 				auth.confirmed = true;
-	// 				if (user.emailVerified) {
-	// 					listen();
-	// 				}
-	// 				loading.value = false;
-	// 			} else {
-	// 				auth.confirmed = false;
-	// 			}
-	// 		}).catch(() => {
-	// 			auth.confirmed = false;
-	// 		});
-	// 	} else {
-	// 		if (auth.confirmed) {
-	// 			unlisten();
-	// 		}
-	// 		auth.user = '';
-	// 		auth.userObject = null;
-	// 	}
-	// 	auth.ready = true;
-	// });
-// });
 </script>

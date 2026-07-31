@@ -29,7 +29,7 @@ Feedback und Beiträge sind erwünscht! Du kannst mithelfen SongDrive zu verbess
 
 ## Loslegen
 
-Wenn Du SongDrive kennenlernen möchtest und dafür eine bestehende SongDrive-Installation verwenden willst, musst Du zunächst ein neues Benutzerkonto anlegen. Dazu kann der *Registrieren* Button verwendet werden. Gib einen Namen, eine Emailadresse und ein Passwort an. Sobald ein Administrator deine Registrierung bestätigt und deinem Konto eine Benutzerrolle zugewiesen hat, kannst Du dich anmelden und SongDrive mit den Berechtigungen deiner Rolle nutzen.
+Wenn Du SongDrive kennenlernen möchtest und dafür eine bestehende SongDrive-Installation verwenden willst, benötigst Du zunächst eine Einladung von einem Administrator. Dieser kann Dir einen Einladungslink schicken, über den Du ein neues Benutzerkonto mit Namen, Emailadresse und Passwort anlegen kannst. Sobald Du registriert bist, kannst Du dich anmelden und SongDrive mit den Berechtigungen deiner zugewiesenen Rolle nutzen.
 
 ### Voraussetzungen
 
@@ -191,7 +191,7 @@ Per Klick auf eine Setlist öffnet die Setlistvorschau, die die aktuelle Liste d
 
 ### Konto
 
-Um die Daten in SongDrive zu schützen, müssen sich Benutzer für den Zugriff auf Songs, Setlisten und andere Funktionen authentifizieren. Auf der Login-Seite gibt es einen *Registrieren* Button, um ein Benutzerkonto anzulegen. Sobald ein Administrator die Registrierung freigibt, kannst du dich über die Login-Seite anmelden.
+Um die Daten in SongDrive zu schützen, müssen sich Benutzer für den Zugriff auf Songs, Setlisten und andere Funktionen authentifizieren. Neue Benutzer werden von einem Administrator eingeladen, der einen Einladungslink zur Registrierung eines Benutzerkontos verschickt. Sobald Du registriert bist, kannst du dich über die Login-Seite anmelden.
 
 Wenn du angemeldet bist, hast du Zugriff auf deine Profilinformationen. Diese findest du, indem du im Hauptmenü [auf deinen Namen](/Profil) klickst. Name, Rolle, E-Mail und Profilbild können eingesehen werden, ebenso wie einige Zahlen darüber, wie viele Setlisten Du erstellt und wie viele Songs Du gespielt habst (die Summe aller Songs deiner Setlisten).
 

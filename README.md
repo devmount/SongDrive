@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/license-MIT-88b544.svg?style=flat-square)](./LICENSE)
 [![Contribution Guidlines](https://img.shields.io/badge/contributions-welcome-88b544.svg?style=flat-square)](./.github/CONTRIBUTING.md)
 
-A song management web application to store, sync and present songs and setlists, based on [Vue.js](//vuejs.org) and [Firebase](//firebase.google.com). Head over to the docs ([EN](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md), [DE](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md)) for more information about SongDrive and how to get started.
+A song management web application to store, sync and present songs and setlists, based on [Vue.js](//vuejs.org) and [Amberbase](https://github.com/amberbase/amberbase). Head over to the docs ([EN](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md), [DE](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md)) for more information about SongDrive and how to get started.
 
 > [!NOTE]
 > SongDrive is currently being restructured to have its own backend with database, authentication and API endpoints for the frontend. Find more information about this in <https://github.com/devmount/SongDrive/issues/213>.
@@ -32,7 +32,7 @@ This is how the SongDrive Dashboard currently looks like.
 - Use Hotkeys for almost anything (hotkey cheatsheet included)
 - Analyze general, setlist and user specific stats
 - UI supports multiple languages (currently: EN, DE)
-- Users can [manage their own profile](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md#account), change email and password or delete their account.
+- Users can [manage their own profile](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md#account) and change their password.
 - Many admin functions including export and Import of complete SongDrive data and managing users with [different roles](https://github.com/devmount/SongDrive/blob/main/frontend/src/docs/docs.en.md#user-roles)
 
 ## Code structure

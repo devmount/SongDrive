@@ -83,8 +83,21 @@
 					</label>
 				</div>
 			</panel-box>
+			<!-- Account -->
+			<panel-box>
+				<div class="flex flex-col items-center">
+					<icon-key class="w-8 h-8 stroke-1.5 mb-2" />
+					<div class="text-xl uppercase font-light tracking-widest">{{ t('divider.account') }}</div>
+					<div class="text-blade-500">{{ t('text.renewYourPassword') }}</div>
+				</div>
+				<secondary-button @click="showPasswordChange = true" class="mt-auto self-start">
+					{{ t('button.changePassword') }}
+					<icon-key class="w-6 h-6 stroke-1.5" />
+				</secondary-button>
+			</panel-box>
 		</div>
 	</div>
+	<password-change :active="showPasswordChange" @closed="showPasswordChange = false" />
 </template>
 
 <script setup>
@@ -95,14 +108,17 @@ import { can } from "@backend/definitions";
 import UserAvatar from '@/elements/UserAvatar.vue';
 import LinkButton from '@/elements/LinkButton.vue';
 import PanelBox from '@/elements/PanelBox.vue';
+import PasswordChange from '@/modals/PasswordChange.vue';
+import SecondaryButton from '@/elements/SecondaryButton.vue';
 
 // icons
 import {
 	IconArrowRight,
 	IconCamera,
+	IconChartBar,
+	IconKey,
 	IconMail,
 	IconPalette,
-	IconChartBar
 } from '@tabler/icons-vue';
 
 // component constants
@@ -113,6 +129,9 @@ const router = useRouter();
 // component injects
 const setlists = inject('setlists');
 const user = inject('user');
+
+// password change modal state
+const showPasswordChange = ref(false);
 
 // number of setlists owned by current user
 const setlistsFromUser = computed(() => setlists.value.filter(s => s.entity.createdBy == user.value.id));
