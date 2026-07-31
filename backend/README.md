@@ -8,8 +8,8 @@ Make sure, MariaDB is installed.
 
 ```bash
 cd backend
-npm run build
-npm run start
+pnpm run build
+pnpm run start
 ```
 
 Now, the backend UI can be accessed via <http://localhost:3000/amber/ui/login>.
