@@ -21,7 +21,6 @@ export default defineConfig({
 	build: {
     outDir: "../backend/dist/static",
     emptyOutDir: true,
-    sourcemap : true,
-		minify: false // TODO: temp for development
+    sourcemap : true
   }
 });

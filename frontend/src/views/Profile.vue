@@ -90,10 +90,19 @@
 					<div class="text-xl uppercase font-light tracking-widest">{{ t('divider.account') }}</div>
 					<div class="text-blade-500">{{ t('text.renewYourPassword') }}</div>
 				</div>
-				<secondary-button @click="showPasswordChange = true" class="mt-auto self-start">
+				<secondary-button @click="showPasswordChange = true" class="self-start">
 					{{ t('button.changePassword') }}
 					<icon-key class="w-6 h-6 stroke-1.5" />
 				</secondary-button>
+				<div class="mt-auto flex flex-col gap-2">
+					<div class="text-blade-500">{{ t('text.amberAccountHint') }}</div>
+					<a href="/amber/ui/userprofile" target="_blank" class="self-stretch text-center">
+						<link-button>
+							{{ t('widget.amberAccount') }}
+							<icon-external-link class="w-5 h-5 stroke-1.5" />
+						</link-button>
+					</a>
+				</div>
 			</panel-box>
 		</div>
 	</div>
@@ -116,6 +125,7 @@ import {
 	IconArrowRight,
 	IconCamera,
 	IconChartBar,
+	IconExternalLink,
 	IconKey,
 	IconMail,
 	IconPalette,

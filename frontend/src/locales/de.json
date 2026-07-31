@@ -242,6 +242,7 @@
     "worship": "Anbetung"
   },
   "text": {
+    "amberAccountHint": "Weitere Profildaten können im Kontomanager geändert werden.",
     "askAnAdmin": "Bitte einen Admin",
     "authFailed": "Ups, das hat nicht geklappt. Vielleicht vertippt?",
     "cannotBeUndone": "Das kann nicht rückgängig gemacht werden.",
@@ -361,6 +362,7 @@
     "transposeUp": "Einen Halbton hoch transponieren"
   },
   "widget": {
+    "amberAccount": "Kontomanager",
     "appearance": "Ansicht",
     "keys": "Tonarten",
     "languages": "Keine Sprachen | 1 Sprache | {0} Sprachen",

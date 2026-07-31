@@ -242,6 +242,7 @@
     "worship": "Worship"
   },
   "text": {
+    "amberAccountHint": "Profile data can be changed at the account manager.",
     "askAnAdmin": "Ask an admin",
     "authFailed": "Oops, that didn't work. Maybe a typo?",
     "cannotBeUndone": "This cannot be undone.",
@@ -361,6 +362,7 @@
     "transposeUp": "Transpose up a semitone"
   },
   "widget": {
+    "amberAccount": "Account Manager",
     "appearance": "Appearance",
     "keys": "Keys",
     "languages": "No Languages | 1 Language | {0} Languages",
