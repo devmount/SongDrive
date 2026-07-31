@@ -172,7 +172,7 @@
 					</td>
 					<td
 						class="cursor-pointer p-3 max-w-0"
-						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
+						@click="router.push({ name: 'setlist-show', params: { id: setlist.entity.slug }})"
 					>
 						<div class="truncate hidden md:block">{{ humanDate(setlist.entity.date, locale) }}</div>
 						<div class="truncate md:hidden">{{ humanDate(setlist.entity.date, locale, false, true) }}</div>
@@ -183,19 +183,19 @@
 					</td>
 					<td
 						class="cursor-pointer p-3 max-w-0"
-						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
+						@click="router.push({ name: 'setlist-show', params: { id: setlist.entity.slug }})"
 					>
 						<div class="truncate">{{ setlist.entity.title }}</div>
 					</td>
 					<td
 						class="cursor-pointer p-3 hidden xl:table-cell"
-						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
+						@click="router.push({ name: 'setlist-show', params: { id: setlist.entity.slug }})"
 					>
 						{{ users[setlist.entity.createdBy] ? users[setlist.entity.createdBy].name : '' }}
 					</td>
 					<td
 						class="cursor-pointer p-3 hidden sm:table-cell text-center"
-						@click="router.push({ name: 'setlist-show', params: { id: setlist.id }})"
+						@click="router.push({ name: 'setlist-show', params: { id: setlist.entity.slug }})"
 					>
 						{{ setlist.entity.songs.length }}
 					</td>
@@ -203,16 +203,16 @@
 						<drop-down>
 							<template #default>
 								<router-link
-									:to="{ name: 'setlist-show', params: { id: setlist.id }}"
+									:to="{ name: 'setlist-show', params: { id: setlist.entity.slug }}"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 								>
 									<icon-eye class="w-5 h-5 stroke-1.5" />
 									{{ t('button.show') }}
 								</router-link>
 								<button
-									v-if="can('updateSetlists', user.roles)"
+									v-if="can('updateSetlists', user.roles, { userId: user.id, ownerId: setlist.entity.createdBy, isPublic: setlist.entity.isPublic })"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="emit('editSetlist', { data: setlist.entity, id: setlist.id, exists: true })"
+									@click.prevent="emit('editSetlist', { data: setlist.entity, id: setlist.entity.slug, exists: true })"
 								>
 									<icon-edit class="w-5 h-5 stroke-1.5" />
 									{{ t('button.edit') }}
@@ -220,13 +220,13 @@
 								<button
 									v-if="can('createSetlists', user.roles)"
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-									@click.prevent="emit('editSetlist', { data: setlist.entity, id: setlist.id, exists: false })"
+									@click.prevent="emit('editSetlist', { data: setlist.entity, id: setlist.entity.slug, exists: false })"
 								>
 									<icon-copy class="w-5 h-5 stroke-1.5" />
 									{{ t('button.duplicate') }}
 								</button>
 								<button
-									v-if="can('deleteSetlists', user.roles)"
+									v-if="can('deleteSetlists', user.roles, { userId: user.id, ownerId: setlist.entity.createdBy })"
 									class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
 									@click.prevent="deleteDialog(setlist)"
 								>
@@ -496,7 +496,7 @@ const setlistDeleteModalData = reactive({
 });
 const deleteDialog = (setlist) => {
 	setlistDeleteModalData.title = setlist.entity.title;
-	setlistDeleteModalData.key = setlist.id;
+	setlistDeleteModalData.key = setlist.entity.slug;
 	showModal.delete = true;
 };
 

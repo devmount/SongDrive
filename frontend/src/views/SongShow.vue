@@ -211,7 +211,7 @@
 								<icon-arrow-left class="w-5 h-5 stroke-1.5" />
 								<div v-if="position > 0" class="hidden sm:flex items-center gap-2">
 									<div class="max-w-3xs truncate">
-										{{ songs[setlist.songs[position-1]?.id]?.title }}
+										{{ findSong(setlist.songs[position-1]?.id)?.title }}
 									</div>
 									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
 										{{ setlist.songs[position-1]?.key }}
@@ -227,7 +227,7 @@
 							>
 								<div v-if="position < setlist.songs.length-1" class="hidden sm:flex items-center gap-2">
 									<div class="max-w-3xs truncate">
-										{{ songs[setlist.songs[position+1]?.id]?.title }}
+										{{ findSong(setlist.songs[position+1]?.id)?.title }}
 									</div>
 									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
 										{{ setlist.songs[position+1]?.key }}
@@ -330,7 +330,10 @@ const languages = Object.values(SongLanguage);
 
 // Song and setlist entities from db
 const song = computed(() => songs.value.find(s => s.entity.slug === songId)?.entity);
-const setlist = computed(() => setlists.value.find(s => setlistId && s.entity.slug === setlistId))?.entity;
+const setlist = computed(() => setlists.value.find(s => setlistId && s.entity.slug === setlistId)?.entity);
+
+// find a song's entity by id, for setlist navigation display
+const findSong = (id) => songs.value.find(s => s.id === id)?.entity;
 
 // handle hotkeys for this component
 const hkChords      = inject('hkChords');
@@ -372,7 +375,7 @@ onMounted(() => {
 });
 
 const position = computed(() => setlistId && route.params.key
-	? setlist.value?.entity.songs.findIndex(s => s.id === songId )
+	? setlist.value?.songs.findIndex(s => s.id === songId )
 	: null
 );
 

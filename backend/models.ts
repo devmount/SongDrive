@@ -31,6 +31,9 @@ export type SetlistEntity = {
   date: string; // Event date of this setlist in iso format YYYY-MM-DD
   isPublic: boolean; // If true, the setlist is public and readable by everyone (inverted, previously named 'private')
   position: number; // Current slide position when in presentation mode
+  remoteHide?: boolean; // Presentation: broadcast content-hidden state to synced viewers
+  remoteLight?: boolean; // Presentation: broadcast light/dark theme to synced viewers
+  remoteText?: boolean; // Presentation: broadcast chords-visible state to synced viewers
   sharedWith: string[]; // List of user ids with whom this setlist is shared
   slug: string; // Unique setlist url slug (previously named 'id')
   songs: SetlistSong[]; // List of song ids and custom keys of songs the setlist contains

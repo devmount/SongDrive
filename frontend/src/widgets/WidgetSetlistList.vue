@@ -24,7 +24,7 @@
 				v-for="(setlist, i) in setlistlist"
 				:key="i"
 				class="flex gap-2 cursor-pointer p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
-				@click="router.push({ name: 'setlist-show', params: { id: setlist.entity.id }})"
+				@click="router.push({ name: 'setlist-show', params: { id: setlist.entity.slug }})"
 			>
 				<div class="flex">
 					<figure

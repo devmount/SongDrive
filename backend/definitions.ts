@@ -84,12 +84,24 @@ export enum UserRole {
 };
 
 /**
+ * Ownership/visibility context for actions whose access depends on a
+ * specific document rather than just the user's role (e.g. setlist
+ * update/delete, which the backend also gates by ownership and isPublic
+ * per the setlists collection's accessRights in backend/index.ts).
+ */
+export type CanContext = {
+  userId?: string;
+  ownerId?: string;
+  isPublic?: boolean;
+};
+
+/**
  * Ruleset to check of a given roles list
  */
-export const can = (action: string, roles: UserRole[]): boolean => {
+export const can = (action: string, roles: UserRole[], context?: CanContext): boolean => {
   // Check valid input
   if (!action || !roles) return false;
-  
+
   // Get the highes role from the given list of roles
   const level = {
     [UserRole.Admin]: 8,
@@ -107,9 +119,16 @@ export const can = (action: string, roles: UserRole[]): boolean => {
   // All others are assigned as defined here
   switch (action) {
     case 'createSetlists':
-    case 'updateSetlists':
-    case 'deleteSetlists':
       return [UserRole.Editor, UserRole.Performer].includes(highestRole);
+    case 'updateSetlists':
+      // owned by the current user, or public and editor/performer
+      if (!context) return false;
+      if (context.userId && context.userId === context.ownerId) return true;
+      return !!context.isPublic && [UserRole.Editor, UserRole.Performer].includes(highestRole);
+    case 'deleteSetlists':
+      // editors may delete any setlist, others only their own
+      if (highestRole === UserRole.Editor) return true;
+      return !!context && !!context.userId && context.userId === context.ownerId;
     case 'createSongs':
     case 'updateSongs':
     case 'deleteSongs':
