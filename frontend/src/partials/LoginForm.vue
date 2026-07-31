@@ -35,8 +35,16 @@
 			</div>
 		</panel-box>
 		<div class="flex flex-col text-sm">
-			<div>{{ t('text.contactAdminForInvite') }}</div>
-			<div>{{ t('text.contactAdminForReset') }}</div>
+			<div>
+				{{ t('text.newToSongDrive') }}
+				<a :href="inviteMailto" class="text-spring-600 hover:text-black dark:hover:text-white">{{ t('text.askAnAdmin') }}</a>
+				{{ t('text.contactAdminForInvite') }}
+			</div>
+			<div>
+				{{ t('text.forgotPassword') }}
+				<a :href="resetMailto" class="text-spring-600 hover:text-black dark:hover:text-white">{{ t('text.askAnAdmin') }}</a>
+				{{ t('text.contactAdminForReset') }}
+			</div>
 		</div>
 	</div>
 </template>
@@ -55,6 +63,12 @@ import { IconLogin } from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
+const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+
+// prefilled mailto links to request an invitation or a password reset
+const mailto = (subject, body) => `mailto:${adminEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+const inviteMailto = computed(() => mailto(t('text.inviteMailSubject'), t('text.inviteMailBody')));
+const resetMailto = computed(() => mailto(t('text.resetMailSubject'), t('text.resetMailBody')));
 
 // emits
 const emit = defineEmits(['signIn']);
