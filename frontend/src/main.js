@@ -38,7 +38,12 @@ app.use(i18n);
 import { marked } from 'marked';
 import { markedHighlight } from "marked-highlight";
 import { sdHighlight } from '@/utils.js';
-import hljs from 'highlight.js';
+import hljs from 'highlight.js/lib/core';
+import plaintext from 'highlight.js/lib/languages/plaintext';
+
+// Only plaintext is needed as fallback
+hljs.registerLanguage('plaintext', plaintext);
+
 marked.use(markedHighlight({
 	langPrefix: 'hljs language-',
 	highlight: (code, lang) => {
