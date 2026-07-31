@@ -23,7 +23,6 @@ import { useI18n } from 'vue-i18n';
 import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
 import { useRoute, useRouter } from 'vue-router'
-import { deleteDoc, doc } from 'firebase/firestore';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
@@ -39,13 +38,14 @@ const route = useRoute()
 const router = useRouter()
 
 // global properties
-const db = inject('db');
+const setlists = inject('setlists');
+const setlistCollection = inject('setlistCollection');
 
 // component properties
 const props = defineProps({
 	active: Boolean, // state of modal display, true to show modal
 	title: String,   // title of setlist to delete
-	id: String,      // id of setlist to delete
+	id: String,      // slug of setlist to delete
 });
 
 // emits
@@ -53,9 +53,11 @@ const emit = defineEmits(['closed']);
 
 // execute setlist deletion
 const busy = ref(false);
-const deleteSetlist = () => {
+const deleteSetlist = async () => {
 	busy.value = true;
-	deleteDoc(doc(db, `setlists/${props.id}`)).then(() => {
+	try {
+		const current = setlists.value.find(s => s.entity.slug === props.id);
+		await setlistCollection.value.deleteDoc(current.id);
 		emit('closed');
 		if (route.name != 'setlists') {
 			router.push({ name: 'setlists' });
@@ -66,7 +68,10 @@ const deleteSetlist = () => {
 			text: t('toast.setlistDeletedText'),
 			type: 'primary'
 		});
+	} catch (err) {
+		throwError(err);
+	} finally {
 		busy.value = false;
-	}).catch((error) => throwError(error));
+	}
 };
 </script>
