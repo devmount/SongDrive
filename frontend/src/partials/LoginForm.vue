@@ -51,7 +51,7 @@
 
 <script setup>
 import { logicAnd } from '@vueuse/math';
-import { ref, inject, reactive, computed } from 'vue';
+import { inject, reactive, computed } from 'vue';
 import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import Logo from '@/partials/Logo.vue';
