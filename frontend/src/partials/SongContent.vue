@@ -7,7 +7,7 @@
 		}"
 	>
 		<div
-			v-for="(parts, i) in parsedContent(content, tuning, chords, true)" :key="i"
+			v-for="(parts, i) in parsedContent(content, keyOffset, chords, true)" :key="i"
 			class="flex flex-col gap-7 items-start"
 			:class="{ 'present w-full xs:w-1/2 overflow-x-visible': presentation }"
 		>
@@ -36,7 +36,7 @@ import { isChordLine, parsedContent } from '@/utils.js';
 const props = defineProps({
 	content:      String,  // actual song content to display
 	chords:       Boolean, // true if chords shall be rendered
-	tuning:       Number,  // key to present song in
+	keyOffset:    Number,  // semitone offset from the song's base key to present it in
 	presentation: Boolean, // flag if song is displayed in presentation mode
 });
 

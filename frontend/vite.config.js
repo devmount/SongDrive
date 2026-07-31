@@ -15,6 +15,12 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			"@": resolve(__dirname, "./src"),
+			"@backend": resolve(__dirname, "../backend/dist"),
 		},
 	},
+	build: {
+    outDir: "../backend/dist/static",
+    emptyOutDir: true,
+    sourcemap : true
+  }
 });

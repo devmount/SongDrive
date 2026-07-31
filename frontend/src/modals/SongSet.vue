@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<modal-dialog
 		:active="active"
 		:title="!existing ? t('modal.newSong') : t('modal.editSong') + ' «' + song.title + '»'"
 		size="xl6"
@@ -35,12 +35,12 @@
 						>
 					</label>
 					<!-- language -->
-					<label v-if="ready.languages" class="flex flex-col gap-1">
+					<label class="flex flex-col gap-1">
 						<div>{{ t('field.language') }} <span class="text-rose-600">*</span></div>
 						<select v-model="song.language" :class="{ 'border-rose-600!': error.language & !song.language }">
 							<option value="">{{ t('placeholder.select') }}</option>
-							<option v-for="(l, key) in languages" :value="key" :key="key">
-								{{ l.label }}
+							<option v-for="l in languages" :value="l" :key="l">
+								{{ t('language.' + l) }}
 							</option>
 						</select>
 						<div v-if="error.language & !song.language" class="text-rose-600">
@@ -54,14 +54,14 @@
 						<div>{{ t('field.authors') }}</div>
 						<input
 							type="text"
-							v-model="song.authors"
+							v-model="authorsInput"
 							:placeholder="t('placeholder.exampleSongAuthors')"
 						>
 					</label>
 					<!-- key -->
 					<label class="flex flex-col gap-1">
-						<div>{{ t('field.tuning') }}</div>
-						<select v-model="song.tuning">
+						<div>{{ t('field.key') }}</div>
+						<select v-model="song.key">
 							<option value="">{{ t('placeholder.select') }}</option>
 							<option v-for="key in keyScale" :key="key" :value="key">{{ key }}</option>
 						</select>
@@ -72,9 +72,9 @@
 					<div class="flex flex-col gap-1">
 						<div>{{ t('field.tags') }}</div>
 						<div class="flex flex-wrap items-start gap-1">
-							<tag
+							<song-tag
 									v-for="tag in song.tags" :key="tag"
-									:tag="tags[tag]"
+									:tag="tag"
 									@close="song.tags = song.tags.filter(k => k !== tag)"
 									closable
 								/>
@@ -116,28 +116,16 @@
 						>
 					</label>
 				</div>
-				<div class="grid grid-cols-2/1 gap-4">
-					<!-- publisher -->
-					<label class="flex flex-col gap-1">
-						<div>{{ t('field.publisher') }}</div>
-						<textarea
-							v-model="song.publisher"
-							class="text-sm"
-							:placeholder="t('placeholder.exampleSongPublisher')"
-							rows="2"
-						></textarea>
-					</label>
-					<!-- note -->
-					<label class="flex flex-col gap-1">
-						<div>{{ t('field.note') }}</div>
-						<textarea
-							v-model="song.note"
-							class="text-sm"
-							:placeholder="t('placeholder.exampleSongNote')"
-							rows="2"
-						></textarea>
-					</label>
-				</div>
+				<!-- publisher -->
+				<label class="flex flex-col gap-1">
+					<div>{{ t('field.publisher') }}</div>
+					<textarea
+						v-model="song.publisher"
+						class="text-sm"
+						:placeholder="t('placeholder.exampleSongPublisher')"
+						rows="2"
+					></textarea>
+				</label>
 				<!-- song translations -->
 				<label class="flex flex-col gap-2">
 					<div>{{ t('field.translations') }}</div>
@@ -151,11 +139,11 @@
 					<div v-else class="flex flex-col gap-1">
 						<div v-for="tsong in song.translations" :key="tsong" class="flex items-center gap-3">
 							<figure class="shrink-0 flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-12">
-								<div class="-mt-0.5 uppercase">{{ songs[tsong].language }}</div>
+								<div class="-mt-0.5 uppercase">{{ findSong(tsong)?.language }}</div>
 							</figure>
 							<div class="flex flex-col overflow-hidden">
-								<div class="-mt-1 truncate">{{ songs[tsong].title }}</div>
-								<div class="text-sm text-blade-500 -mt-1 truncate">{{ songs[tsong].subtitle }}</div>
+								<div class="-mt-1 truncate">{{ findSong(tsong)?.title }}</div>
+								<div class="text-sm text-blade-500 -mt-1 truncate">{{ findSong(tsong)?.subtitle }}</div>
 							</div>
 							<button
 								class="ml-auto"
@@ -209,7 +197,7 @@
 				</template>
 			</primary-button>
 		</div>
-	</modal>
+	</modal-dialog>
 	<!-- modal: info song syntax -->
 	<info-song-syntax
 		:active="showModal.infosongsyntax"
@@ -228,7 +216,6 @@
 		:active="showModal.translations"
 		:language="song.language"
 		:id="id"
-		:songs="songs"
 		:assigned-songs="song.translations"
 		@assign="assignTranslations"
 		@closed="showModal.translations = false"
@@ -237,19 +224,19 @@
 
 <script setup>
 import 'vue-prism-editor/dist/prismeditor.min.css';
-import { keyScale, sdHighlight, throwError, urlify } from '@/utils.js';
+import { keyScale, sdHighlight, throwError, urlify, updateSongTranslations } from '@/utils.js';
 import { notify } from '@kyvg/vue3-notification';
 import { PrismEditor } from 'vue-prism-editor';
 import { ref, reactive, computed, inject, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { setDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import { SongLanguage, SongTag as SongTagEnum } from '@backend/definitions';
 import InfoSongSyntax from '@/modals/InfoSongSyntax.vue';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongAssign from '@/modals/SongAssign.vue';
-import Tag from '@/elements/Tag.vue';
+import SongTag from '@/elements/SongTag.vue';
 import TagAssign from '@/modals/TagAssign.vue';
 
 // icons
@@ -268,7 +255,11 @@ const { t } = useI18n();
 const router = useRouter();
 
 // global properties
-const db = inject('db');
+const songs = inject('songs');
+const setlists = inject('setlists');
+const user = inject('user');
+const songsCollection = inject('songsCollection');
+const setlistCollection = inject('setlistCollection');
 
 // component properties
 const props = defineProps({
@@ -276,12 +267,14 @@ const props = defineProps({
 	existing:    Boolean, // song already exists
 	id:          String,  // song identifier
 	initialSong: Object,  // song structure to fill with data
-	languages:   Object,  // list of all available languages
-	ready:       Object,  // object holding information about the retrieval state of collections
-	setlists:    Object,  // list of all available setlists
-	songs:       Object,  // list of all available songs
-	tags:        Object,  // list of all available tags
 });
+
+// list of all available languages and tags
+const languages = Object.values(SongLanguage);
+const tags = Object.values(SongTagEnum);
+
+// find a song's entity by id, for translation display
+const findSong = (id) => songs.value.find(s => s.id === id)?.entity;
 
 // check if form errors occured
 const error = reactive({
@@ -310,6 +303,14 @@ const initInput = () => {
 watch(() => props.active, () => initInput());
 onMounted(() => initInput());
 
+// authors input as a single delimited string, accepting '|', ',' or ';' as separators
+const authorsInput = computed({
+	get: () => song.value.authors?.join(' | ') ?? '',
+	set: (value) => {
+		song.value.authors = value.split(/[|,;]/).map(a => a.trim()).filter(Boolean);
+	},
+});
+
 // active modals state
 const showModal = reactive({
 	tags: false,
@@ -337,142 +338,130 @@ const createSlug = () => {
 	return urlify(song.value.title) + '-' + song.value.language;
 };
 
+// build the entity payload to send to Amberbase
+const buildEntity = (slug) => ({
+	authors:      song.value.authors ?? [],
+	ccli:         song.value.ccli ? parseInt(song.value.ccli) : undefined,
+	content:      song.value.content,
+	createdBy:    props.existing ? props.initialSong.createdBy : user.value.id,
+	key:          song.value.key || undefined,
+	language:     song.value.language,
+	publisher:    song.value.publisher,
+	slug,
+	subtitle:     song.value.subtitle || undefined,
+	tags:         song.value.tags ?? [],
+	title:        song.value.title,
+	translations: song.value.translations ?? [],
+	year:         song.value.year ? parseInt(song.value.year) : undefined,
+	youtube:      song.value.youtube || undefined,
+});
+
+// overwrite one setlist's songs list, renaming one song id to another
+const renameSongInSetlist = async (setlistEntry, oldId, newId) => {
+	await setlistCollection.value.updateDoc(setlistEntry.id, setlistEntry.changeNumber, {
+		...setlistEntry.entity,
+		songs: setlistEntry.entity.songs.map(s => (s.id === oldId ? { ...s, id: newId } : s)),
+	});
+};
+
 // add or save edits of song to db
 const busy = ref(false);
-const setSong = () => {
+const setSong = async () => {
 	const slug = createSlug();
 	// first check for form errors
 	error.title = song.value.title == '';
 	error.language = song.value.language == '';
 	error.content = song.value.content == '';
-	error.slug = props.existing && props.id == slug ? false : props.songs.hasOwnProperty(slug);
-	// no errors: start saving song data
-	if (!errors.value) {
-		busy.value = true;
-		let processedSong = song.value;
-		processedSong.ccli = processedSong.ccli ? parseInt(processedSong.ccli) : '';
-		processedSong.year = processedSong.year ? parseInt(processedSong.year) : '';
-		processedSong.youtube = processedSong.youtube ? processedSong.youtube : '';
+	error.slug = (props.existing && props.id === slug) ? false : songs.value.some(s => s.id === slug);
+	// errors occured: abort
+	if (errors.value) return;
+
+	busy.value = true;
+	const entity = buildEntity(slug);
+
+	try {
 		// new song should be created
 		if (!props.existing) {
-			setDoc(doc(db, `songs/${slug}`), processedSong).then(() => {
-				// persist translation references
-				if (processedSong.translations.length > 0) {
-					processedSong.translations.forEach(t => {
-						if (t in props.songs) {
-							let tsong = props.songs[t];
-							if (!tsong.translations.includes(slug)) {
-								updateDoc(doc(db, `songs/${t}`), { translations: tsong.translations.concat([slug]) });
-							}
-						}
-					});
-				}
-				processedSong = {};
-				router.push({ name: 'song-show', params: { id: slug }});
-				// toast success creation message
-				notify({
-					title: t('toast.songAdded'),
-					text: t('toast.songSavedText'),
-					type: 'primary'
-				});
-				busy.value = false;
-				emit('closed');
-			}).catch((error) => throwError(error));
+			await songsCollection.value.createDoc(entity, slug);
+			// persist translation back-references
+			await Promise.allSettled(
+				entity.translations.map(id =>
+					updateSongTranslations(songsCollection.value, songs.value, id, (arr) => (arr.includes(slug) ? arr : [...arr, slug]))
+				)
+			);
+			router.push({ name: 'song-show', params: { id: slug }});
+			// toast success creation message
+			notify({
+				title: t('toast.songAdded'),
+				text: t('toast.songSavedText'),
+				type: 'primary'
+			});
+			emit('closed');
 		}
 		// existing song should be updated
-		else {
-			const initialSong = props.initialSong; // remember initial song data before update
-			// check if key remained (no title or language changes)
-			if (props.id == slug) {
-				// just update the existing song
-				updateDoc(doc(db, `songs/${slug}`), processedSong).then(() => {
-					// persist translation references by removing and adding them
-					let translationDiff = initialSong.translations.filter(t => !processedSong.translations.includes(t));
-					if (translationDiff.length > 0) {
-						translationDiff.forEach(s => {
-							updateDoc(doc(db, `songs/${s}`), { translations: props.songs[s].translations.filter(t => t != slug) });
-						});
-					}
-					if (processedSong.translations.length > 0) {
-						processedSong.translations.forEach(t => {
-							if (t in props.songs) {
-								let tsong = props.songs[t];
-								if (!tsong.translations.includes(slug)) {
-									updateDoc(doc(db, `songs/${t}`), { translations: tsong.translations.concat([slug]) });
-								}
-							}
-						});
-					}
-					processedSong = {};
-					// toast success update message
-					notify({
-						title: t('toast.songUpdated'),
-						text: t('toast.songSavedText'),
-						type: 'primary'
-					});
-					busy.value = false;
-					emit('closed');
-				}).catch((error) => throwError(error));
-			} else {
-				// update key by adding a new song, removing the old one and update references in other fields
-				setDoc(doc(db, `songs/${slug}`), processedSong).then(() => {
-					deleteDoc(doc(db, `songs/${props.id}`));
-					// check existing setlists for this song id and update to new slug
-					for (const setlistId in props.setlists) {
-						const setlist = props.setlists[setlistId];
-						let existingSongKey = null;
-						setlist.songs.forEach((ssong, key) => {
-							if (ssong.id == props.id) existingSongKey = key;
-						});
-						if (existingSongKey !== null) {
-							let updatedSongList = setlist.songs;
-							updatedSongList[existingSongKey].id = slug;
-							updateDoc(doc(db, `setlists/${setlistId}`), { songs: updatedSongList });
-						}
-					}
-					// check existing song translations for this song id and update to new slug
-					for (const songId in props.songs) {
-						const esong = props.songs[songId];
-						let existingSongKey = null;
-						esong.translations.forEach((translation, key) => {
-							if (translation == props.id) existingSongKey = key;
-						});
-						if (existingSongKey !== null) {
-							let updatedTranslationsList = esong.translations;
-							updatedTranslationsList[existingSongKey] = slug;
-							updateDoc(doc(db, `songs/${songId}`), { translations: updatedTranslationsList });
-						}
-					}
-					// persist translation references by removing and adding them
-					let translationDiff = initialSong.translations.filter(t => !processedSong.translations.includes(t));
-					if (translationDiff.length > 0) {
-						translationDiff.forEach(s => {
-							updateDoc(doc(db, `songs/${s}`), { translations: props.songs[s].translations.filter(t => t != slug) });
-						});
-					}
-					if (processedSong.translations.length > 0) {
-						processedSong.translations.forEach(t => {
-							if (t in props.songs) {
-								let tsong = props.songs[t];
-								if (!tsong.translations.includes(slug)) {
-									updateDoc(doc(db, `songs/${t}`), { translations: tsong.translations.concat([slug]) });
-								}
-							}
-						});
-					}
-					processedSong = {};
-					router.push({ name: 'song-show', params: { id: slug }});
-					// toast success update message
-					notify({
-						title: t('toast.songUpdated'),
-						text: t('toast.songSavedText'),
-						type: 'primary'
-					});
-					busy.value = false;
-					emit('closed');
-				}).catch((error) => throwError(error));
-			}
+		else if (props.id === slug) {
+			// key remained (no title or language changes): just update the existing song
+			const current = songs.value.find(s => s.id === props.id);
+			await songsCollection.value.updateDoc(props.id, current.changeNumber, entity);
+			// persist translation references by removing and adding them
+			const removedIds = props.initialSong.translations.filter(t => !entity.translations.includes(t));
+			const addedIds   = entity.translations.filter(t => !props.initialSong.translations.includes(t));
+			await Promise.allSettled([
+				...removedIds.map(id => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => arr.filter(t => t !== slug))),
+				...addedIds.map(id   => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => (arr.includes(slug) ? arr : [...arr, slug]))),
+			]);
+			// toast success update message
+			notify({
+				title: t('toast.songUpdated'),
+				text: t('toast.songSavedText'),
+				type: 'primary'
+			});
+			emit('closed');
 		}
+		// key changed: add a new song, remove the old one and update references in other fields
+		else {
+			const oldId = props.id;
+			const newId = slug;
+
+			await songsCollection.value.createDoc(entity, newId);
+			await songsCollection.value.deleteDoc(oldId);
+
+			// persist translation references by removing and adding them
+			const removedIds = props.initialSong.translations.filter(t => !entity.translations.includes(t));
+			const addedIds   = entity.translations.filter(t => !props.initialSong.translations.includes(t));
+			// songs that still reference oldId, kept disjoint from removedIds/addedIds
+			// so no target document receives two concurrent writes below
+			const renameTargets = songs.value
+				.filter(s =>
+					s.id !== oldId &&
+					s.entity.translations?.includes(oldId) &&
+					!removedIds.includes(s.id) &&
+					!addedIds.includes(s.id)
+				)
+				.map(s => s.id);
+			// setlists that reference the old song id
+			const affectedSetlists = setlists.value.filter(sl => sl.entity.songs?.some(ss => ss.id === oldId));
+
+			await Promise.allSettled([
+				...renameTargets.map(id => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => arr.map(t => (t === oldId ? newId : t)))),
+				...removedIds.map(id   => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => arr.filter(t => t !== oldId && t !== newId))),
+				...addedIds.map(id     => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => (arr.includes(newId) ? arr : [...arr, newId]))),
+				...affectedSetlists.map(sl => renameSongInSetlist(sl, oldId, newId)),
+			]);
+
+			router.push({ name: 'song-show', params: { id: newId }});
+			// toast success update message
+			notify({
+				title: t('toast.songUpdated'),
+				text: t('toast.songSavedText'),
+				type: 'primary'
+			});
+			emit('closed');
+		}
+	} catch (err) {
+		throwError(err);
+	} finally {
+		busy.value = false;
 	}
 };
 </script>

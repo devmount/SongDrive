@@ -1,5 +1,5 @@
 <template>
-	<panel v-if="songs?.length > 0">
+	<panel-box v-if="songs?.length > 0">
 		<div class="flex justify-between items-start">
 			<div class="text-2xl">
 				{{ t('widget.' + keyByValue(sortBy, order)) }} {{ t('page.songs', 2) }}
@@ -23,14 +23,14 @@
 			<div
 				v-for="(song, i) in songlist" :key="i"
 				class="flex gap-2 cursor-pointer p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
-				@click="router.push({ name: 'song-show', params: { id: song.id }})"
+				@click="router.push({ name: 'song-show', params: { id: song.entity.slug }})"
 			>
 				<div class="flex">
 					<figure
 						class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
 						:title="t('title.songTuning')"
 					>
-						<div class="-mt-0.5">{{ song.tuning }}</div>
+						<div class="-mt-0.5">{{ song.entity.key }}</div>
 					</figure>
 					<figure
 						v-if="order == sortBy.popular"
@@ -43,14 +43,14 @@
 					<figure
 						v-if="order == sortBy.newest || order == sortBy.oldest"
 						class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-12"
-						:title="song.year ? t('title.songPublishedIn', { year: song.year }) : t('title.noYear')"
+						:title="song.entity.year ? t('title.songPublishedIn', { year: song.entity.year }) : t('title.noYear')"
 					>
-						<div class="-mt-0.5">{{ song.year ? song.year : '—' }}</div>
+						<div class="-mt-0.5">{{ song.entity.year ? song.entity.year : '—' }}</div>
 					</figure>
 				</div>
 				<div class="flex flex-col overflow-hidden">
-					<div class="-mt-1 truncate">{{ song.title }}</div>
-					<div class="text-sm text-blade-500 -mt-1 truncate">{{ song.subtitle }}</div>
+					<div class="-mt-1 truncate">{{ song.entity.title }}</div>
+					<div class="text-sm text-blade-500 -mt-1 truncate">{{ song.entity.subtitle }}</div>
 				</div>
 			</div>
 		</div>
@@ -76,16 +76,16 @@
 			{{ t('widget.showAllSongs') }}
 			<icon-arrow-right class="w-5 h-5 stroke-1.5" />
 		</link-button>
-	</panel>
+	</panel-box>
 </template>
 
 <script setup>
 import { keyByValue } from '@/utils.js';
-import { ref, computed } from 'vue';
+import { ref, computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import LinkButton from '@/elements/LinkButton.vue';
-import Panel from '@/elements/Panel.vue';
+import PanelBox from '@/elements/PanelBox.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 
 // icons
@@ -103,11 +103,9 @@ import {
 const { t } = useI18n();
 const router = useRouter();
 
-// component properties
-const props = defineProps({
-  songs: Array,
-  setlists: Array,
-});
+// injected properties
+const songs = inject('songs');
+const setlists = inject('setlists');
 
 // sorting order
 const sortBy = {
@@ -127,7 +125,7 @@ const listLength = 6;
 const shuffleSongs = () => {
 	page.value = 0;
 	order.value = sortBy.random;
-	let list = props.songs;
+	let list = songs.value;
 	for (let i = list.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
 		[list[i], list[j]] = [list[j], list[i]];
@@ -137,25 +135,25 @@ const shuffleSongs = () => {
 const newestSongs = () => {
 	page.value = 0;
 	order.value = sortBy.newest;
-	reordered.value = props.songs.filter(s => s.year > 0).sort(
-		(a, b) => (a.year < b.year) ? 1 : ((b.year < a.year) ? -1 : 0)
+	reordered.value = songs.value.filter(s => s.entity.year > 0).sort(
+		(a, b) => (a.entity.year < b.entity.year) ? 1 : ((b.entity.year < a.entity.year) ? -1 : 0)
 	);
 	return reordered.value;
 };
 const oldestSongs = () => {
 	page.value = 0;
 	order.value = sortBy.oldest;
-	reordered.value = props.songs.filter(s => s.year > 0).sort(
-		(a, b) => (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0)
+	reordered.value = songs.value.filter(s => s.entity.year > 0).sort(
+		(a, b) => (a.entity.year > b.entity.year) ? 1 : ((b.entity.year > a.entity.year) ? -1 : 0)
 	);
 };
 const popularSongs = () => {
 	page.value = 0;
 	order.value = sortBy.popular;
 	let list = {};
-	props.setlists.forEach(setlist => {
-		if (setlist.songs) {
-			setlist.songs.forEach(song => {
+	setlists.value.forEach(setlist => {
+		if (setlist.entity.songs) {
+			setlist.entity.songs.forEach(song => {
 				if (!list.hasOwnProperty(song.id)) {
 					list[song.id] = 1;
 				} else {
@@ -169,7 +167,7 @@ const popularSongs = () => {
 		idList.push([id, list[id]]);
 	}
 	let orderedSongIds = idList.sort((a, b) => b[1] - a[1]).reduce((a, c) => a.concat(c[0]), []);
-	reordered.value = props.songs
+	reordered.value = songs.value
 		.filter(s => orderedSongIds.includes(s.id))
 		.map(s => Object.assign({popularity: list[s.id]}, s))
 		.sort((a, b) => (a.popularity < b.popularity) ? 1 : ((b.popularity < a.popularity) ? -1 : 0));

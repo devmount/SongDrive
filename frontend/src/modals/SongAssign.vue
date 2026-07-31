@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<modal-dialog
 		:active="active"
 		:title="t('modal.translations')"
 		size="xl3"
@@ -18,16 +18,16 @@
 					/>
 				</label>
 				<div class="overflow-y-scroll h-full flex flex-col gap-2">
-					<label v-for="(fsong, key) in filteredSongs" :key="key" class="flex items-center gap-2">
+					<label v-for="fsong in filteredSongs" :key="fsong.id" class="flex items-center gap-2">
 						<input
 							v-model="selectedSongs"
-							:value="key"
+							:value="fsong.id"
 							type="checkbox"
 							class="w-6 h-6 ml-2"
 						/>
 						<div class="truncate">
-							{{ fsong.title }}
-							<span class="text-blade-500">{{ fsong.subtitle }}</span>
+							{{ fsong.entity.title }}
+							<span class="text-blade-500">{{ fsong.entity.subtitle }}</span>
 						</div>
 					</label>
 				</div>
@@ -42,11 +42,11 @@
 					<div class="text-lg text-center mb-2">{{ t('text.selection') }}</div>
 					<div v-for="tsong in selectedSongs" :key="tsong" class="flex items-center gap-3">
 						<figure class="shrink-0 flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-12">
-							<div class="-mt-0.5 uppercase">{{ songs[tsong].language }}</div>
+							<div class="-mt-0.5 uppercase">{{ findSong(tsong)?.language }}</div>
 						</figure>
 						<div class="flex flex-col overflow-hidden">
-							<div class="-mt-1 truncate">{{ songs[tsong].title }}</div>
-							<div class="text-sm text-blade-500 -mt-1 truncate">{{ songs[tsong].subtitle }}</div>
+							<div class="-mt-1 truncate">{{ findSong(tsong)?.title }}</div>
+							<div class="text-sm text-blade-500 -mt-1 truncate">{{ findSong(tsong)?.subtitle }}</div>
 						</div>
 						<button
 							class="ml-auto"
@@ -67,13 +67,13 @@
 				<icon-arrow-back class="w-6 h-6 stroke-1.5" />
 			</primary-button>
 		</div>
-	</modal>
+	</modal-dialog>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, inject, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons
@@ -87,6 +87,9 @@ import {
 // component constants
 const { t } = useI18n();
 
+// global properties
+const songs = inject('songs');
+
 // user input properties
 const selectedSongs = ref([]);
 const searchInput = ref('');
@@ -96,7 +99,6 @@ const props = defineProps({
 	active:        Boolean, // state of modal display, true to show modal
 	language:      String,  // language key of song
 	id:            String,  // identifier of original song
-	songs:         Object,  // list of all available songs
 	assignedSongs: Array,   // already assigned songs
 });
 const initInput = () => {
@@ -110,28 +112,20 @@ const emit = defineEmits(['closed', 'assign']);
 
 // computed: filter song list by search query
 const filteredSongs = computed(() => {
-	let songs = {};
-	for (const key in props.songs) {
-		if (props.songs.hasOwnProperty(key)) {
-			const song = props.songs[key];
-			// exclude same language songs
-			if (song.language === props.language) continue;
-			// handle filter input
-			if (searchInput.value != '') {
-				// search in title and subtitle
-				let search = searchInput.value.toLowerCase();
-				if (
-					song.title.toLowerCase().indexOf(search) !== -1 ||
-					song.subtitle.toLowerCase().indexOf(search) !== -1 ||
-					song.content.toLowerCase().indexOf(search) !== -1
-				) {
-					songs[key] = song;
-				}
-			} else {
-				songs[key] = song;
-			}
-		}
-	}
-	return songs;
+	return songs.value.filter(s => {
+		// exclude same language songs
+		if (s.entity.language === props.language) return false;
+		// handle filter input: search in title, subtitle and content
+		if (searchInput.value === '') return true;
+		const search = searchInput.value.toLowerCase();
+		return (
+			s.entity.title.toLowerCase().includes(search) ||
+			(s.entity.subtitle ?? '').toLowerCase().includes(search) ||
+			s.entity.content.toLowerCase().includes(search)
+		);
+	});
 });
+
+// find a song's entity by id, for the selection panel
+const findSong = (id) => songs.value.find(s => s.id === id)?.entity;
 </script>

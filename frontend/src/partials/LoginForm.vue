@@ -3,8 +3,9 @@
 		<!-- heading -->
 		<logo :featured="true" :show-version="false" />
 		<!-- login panel -->
-		<panel class="max-w-xs w-full">
+		<panel-box class="max-w-xs w-full">
 			<div class="text-center">{{ t('text.signInToSongDrive') }}</div>
+			<div v-if="authFailed" class="text-rose-600 text-center">{{ t('text.authFailed') }}</div>
 			<div class="flex flex-col gap-1">
 				<input
 					type="email"
@@ -21,6 +22,10 @@
 					:placeholder="t('field.password')"
 					required
 				/>
+				<label class="flex items-center gap-3 mt-4">
+					<input type="checkbox" v-model="stayLoggedIn" class="w-6 h-6" />
+					{{ t('text.stayLoggedIn') }}
+				</label>
 			</div>
 			<div class="mt-3">
 				<primary-button class="w-full" @click="signIn">
@@ -28,15 +33,17 @@
 					<icon-login class="w-6 h-6 stroke-1.5" />
 				</primary-button>
 			</div>
-		</panel>
+		</panel-box>
 		<div class="flex flex-col text-sm">
 			<div>
 				{{ t('text.newToSongDrive') }}
-				<link-button @click="emit('signUp')">{{ t('text.createAnAccount') }}</link-button>.
+				<a :href="inviteMailto" class="text-spring-600 hover:text-black dark:hover:text-white">{{ t('text.askAnAdmin') }}</a>
+				{{ t('text.contactAdminForInvite') }}
 			</div>
 			<div>
 				{{ t('text.forgotPassword') }}
-				<link-button @click="emit('resetPassword')">{{ t('text.resetIt') }}</link-button>.
+				<a :href="resetMailto" class="text-spring-600 hover:text-black dark:hover:text-white">{{ t('text.askAnAdmin') }}</a>
+				{{ t('text.contactAdminForReset') }}
 			</div>
 		</div>
 	</div>
@@ -44,12 +51,11 @@
 
 <script setup>
 import { logicAnd } from '@vueuse/math';
-import { ref, inject, reactive, computed } from 'vue';
+import { inject, reactive, computed } from 'vue';
 import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import LinkButton from '@/elements/LinkButton.vue';
 import Logo from '@/partials/Logo.vue';
-import Panel from '@/elements/Panel.vue';
+import PanelBox from '@/elements/PanelBox.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons
@@ -57,13 +63,25 @@ import { IconLogin } from '@tabler/icons-vue';
 
 // component constants
 const { t } = useI18n();
+const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+
+// prefilled mailto links to request an invitation or a password reset
+const mailto = (subject, body) => `mailto:${adminEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+const inviteMailto = computed(() => mailto(t('text.inviteMailSubject'), t('text.inviteMailBody')));
+const resetMailto = computed(() => mailto(t('text.resetMailSubject'), t('text.resetMailBody')));
 
 // emits
-const emit = defineEmits(['signIn', 'signUp', 'resetPassword']);
+const emit = defineEmits(['signIn']);
+
+// props
+defineProps({
+  authFailed: Boolean,
+})
 
 // input data
-const email    = ref('');
-const password = ref('');
+const email = defineModel('email');
+const password = defineModel('password');
+const stayLoggedIn = defineModel('stayLoggedIn');
 
 // check if form errors occured
 const error = reactive({
@@ -78,7 +96,7 @@ const signIn = () => {
 	error.email = email.value == '';
 	error.password = password.value == '';
 	if (!errors.value) {
-		emit('signIn', email.value, password.value)
+		emit('signIn')
 	}
 };
 

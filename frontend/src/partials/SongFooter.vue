@@ -1,6 +1,6 @@
 <template>
 	<footer v-if="song" class="flex flex-col gap-4">
-		<div class="text-sm">{{ song.authors }}</div>
+		<div class="text-sm">{{ song.authors?.join(' | ') }}</div>
 		<div class="flex flex-wrap gap-2">
 			<!-- youtube -->
 			<a
@@ -8,11 +8,11 @@
 				:href="'https://youtu.be/' + song.youtube"
 				target="_blank"
 			>
-				<tag>
+				<song-tag>
 					<icon-brand-youtube class="shrink-0 w-4 h-4 stroke-1.5" />
 					{{ t('field.youtube') }}
 					<icon-external-link class="shrink-0 w-4 h-4 stroke-1.5" />
-				</tag>
+				</song-tag>
 			</a>
 			<!-- ccli -->
 			<a
@@ -20,18 +20,18 @@
 				:href="'https://songselect.ccli.com/Songs/' + song.ccli"
 				target="_blank"
 			>
-				<tag>
+				<song-tag>
 					{{ t('field.ccli') }}
 					<icon-external-link class="shrink-0 w-4 h-4 stroke-1.5" />
-				</tag>
+				</song-tag>
 			</a>
 			<!-- tags -->
 			<div class="flex flex-wrap gap-1">
 				<router-link
-					v-for="tag in sortedTags" :key="tag.key"
-					:to="{ name: 'songs', params: { tag: tag.key }}"
+					v-for="key in sortedTags" :key="key"
+					:to="{ name: 'songs', params: { tag: key }}"
 				>
-					<tag :tag="tag" />
+					<song-tag :tag="key" />
 				</router-link>
 			</div>
 		</div>
@@ -44,9 +44,9 @@
 
 <script setup>
 import { computed } from 'vue';
-import { sortTags } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
-import Tag from '@/elements/Tag.vue';
+import { sortTags } from '@/utils.js';
+import SongTag from '@/elements/SongTag.vue';
 
 // icons
 import {
@@ -61,12 +61,8 @@ const loc = locale.value.substring(0, 2);
 // component properties
 const props = defineProps({
 	song: Object,
-	tags: Object,
 });
 
 // sort tag list
-const sortedTags = computed(() => {
-	const songTags = props.song.tags.map(t => props.tags[t]);
-	return sortTags(songTags, loc);
-});
+const sortedTags = computed(() => sortTags(props.song.tags, loc));
 </script>

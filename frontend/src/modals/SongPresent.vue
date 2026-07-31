@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<modal-dialog
 		v-if="song"
 		:active="active"
 		:title="song.title"
@@ -13,7 +13,7 @@
 			<song-content
 				:content="song.content"
 				:chords="chords"
-				:tuning="tuning"
+				:key-offset="keyOffset"
 				:presentation="true"
 				ref="songContentRef"
 			/>
@@ -48,7 +48,7 @@
 				</button>
 			</div>
 		</div>
-	</modal>
+	</modal-dialog>
 	<!-- modal: info song note -->
 	<info-song-data
 		:active="showModal.infosongdata"
@@ -62,7 +62,7 @@ import { reactive, ref, watch, onMounted, onUnmounted, nextTick, inject } from '
 import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import InfoSongData from '@/modals/InfoSongData.vue';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent.vue';
 
@@ -85,10 +85,10 @@ const hkCancel = inject('hkCancel');
 
 // inherited properties
 const props = defineProps({
-	active: Boolean, // state of modal display, true to show modal
-	chords: Boolean, // true if chords shall be rendered
-	song:   Object,  // single song to present
-	tuning: Number,  // key to present song in
+	active:     Boolean, // state of modal display, true to show modal
+	chords:     Boolean, // true if chords shall be rendered
+	song:       Object,  // single song to present
+	keyOffset:  Number,  // semitone offset from the song's base key to present it in
 });
 
 // reactive data

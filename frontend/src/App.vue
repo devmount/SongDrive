@@ -1,10 +1,18 @@
 <template>
 	<div class="bg-blade-100 text-blade-600 dark:bg-blade-850 dark:text-blade-300 overflow-x-hidden">
-		<!-- logged in, confirmed and verified -->
+		<!-- Password reset via admin-issued link -->
+		<div v-if="isResetPasswordPage">
+			<reset-password />
+		</div>
+		<!-- Loading screen -->
 		<div
-			v-if="auth.ready && auth.user && auth.userObject.emailVerified && ready.users && c.users[auth.user] && ready.permissions && c.permissions[auth.user] && !loading"
-			class="lg:flex min-h-screen"
+			v-else-if="!ready"
+			class="w-screen h-screen flex justify-center items-center text-spring-600"
 		>
+			<icon-loader2 class="w-16 h-16 stroke-1.5 animate-spin" />
+		</div>
+		<!-- Logged in, confirmed and verified -->
+		<div v-else-if="authenticated" class="lg:flex min-h-screen">
 			<!-- menu toggle button -->
 			<button
 				class="
@@ -40,11 +48,11 @@
 						@click="open = false"
 					>
 						<icon-music class="w-5 h-5 stroke-1.5" />
-						<span class="uppercase">{{ t('page.songs', Object.keys(c.songs)?.length) }}</span>
+						<span class="uppercase">{{ t('page.songs', songs.length) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
-							<div v-if="ready.songs" class="font-bold">{{ Object.keys(c.songs).length }}</div>
+							<div class="font-bold">{{ songs.length }}</div>
 							<secondary-button
-								v-if="userRoles[c.permissions[auth.user].role] > 2"
+								v-if="can('createSongs', user.roles)"
 								class="p-1!"
 								:title="t('tooltip.songAdd')"
 								@click.stop.prevent="createNewSong"
@@ -59,11 +67,11 @@
 						@click="open = false"
 					>
 						<icon-playlist class="w-5 h-5 stroke-1.5" />
-						<span class="uppercase">{{ t('page.setlists', setlistCount) }}</span>
+						<span class="uppercase">{{ t('page.setlists', setlists.length) }}</span>
 						<div class="flex items-center gap-4 ml-auto">
-							<label v-if="ready.setlists" class="font-bold">{{ setlistCount }}</label>
+							<label class="font-bold">{{ setlists.length }}</label>
 							<secondary-button
-								v-if="userRoles[c.permissions[auth.user].role] > 1"
+								v-if="can('createSetlists', user.roles)"
 								class="p-1!"
 								:title="t('tooltip.setlistAdd')"
 								@click.stop.prevent="createNewSetlist"
@@ -78,24 +86,15 @@
 						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 						@click="open = false"
 					>
-						<avatar :photo-url="c.users[auth.user].photo" :name="userName" size="md" />
+						<user-avatar :photo-url="''" :name="user.name" size="md" />
 						<div class="flex flex-col">
-							<div class="leading-5 uppercase">{{ userName }}</div>
+							<div class="leading-5 uppercase">{{ user.name }}</div>
 							<div class="text-gray-500 text-sm">
-								{{ t('role.' + c.permissions[auth.user].role) }}
+								{{ t('role.' + user.roles[0]) }}
 							</div>
 						</div>
 					</router-link>
-					<router-link
-						:to="{ name: 'settings' }"
-						class="px-3 py-2 flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-						@click="open = false"
-					>
-						<icon-settings class="w-5 h-5 stroke-1.5" />
-						<span class="uppercase">{{ t('page.settings') }}</span>
-						<indicator-pulse v-if="registrationsExist && userRoles[c.permissions[auth.user].role] > 3" class="ml-auto" />
-					</router-link>
-					<secondary-button class="mt-2" @click="signOut">
+					<secondary-button class="mt-2" @click="logout">
 						{{ t('button.signOut') }}
 						<icon-logout class="w-6 h-6 stroke-1.5" />
 					</secondary-button>
@@ -157,20 +156,6 @@
 			<div class="w-full p-3 sm:p-6 lg:ml-64">
 				<router-view
 					:key="route.fullPath"
-					:user="auth.user"
-					:user-object="auth.userObject"
-					:role="userRoles[c.permissions[auth.user].role]"
-					:role-name="c.permissions[auth.user].role"
-					:ready="ready"
-					:config="c.config"
-					:languages="c.languages"
-					:permissions="c.permissions"
-					:registrations="c.registrations"
-					:setlists="c.setlists"
-					:songs="c.songs"
-					:tags="c.tags"
-					:users="c.users"
-					@started="loading=true"
 					@add-song="createNewSong"
 					@edit-song="editExistingSong"
 					@add-setlist="createNewSetlist"
@@ -178,28 +163,16 @@
 				/>
 			</div>
 		</div>
-		<!-- logged in but not confimed yet -->
-		<div v-if="auth.ready && auth.user && auth.confirmed === false && !loading">
-			<user-unconfirmed :config="c.config" :ready="ready" @signOut="signOut" />
-		</div>
-		<!-- logged in, confimed but not verified yet -->
-		<div v-if="auth.ready && auth.user && auth.confirmed && !auth.userObject.emailVerified && !loading">
-			<user-unverified :config="c.config" :ready="ready" @signOut="signOut" @resendEmailVerification="resendEmailVerification()" />
-		</div>
-		<!-- login screen -->
-		<div v-if="auth.ready && !auth.user && !loading">
-			<login
-				@sign-in="signIn"
-				@sign-up="showModal.signup = true"
-				@reset-password="showModal.passwordreset = true"
+
+		<!-- Login screen -->
+		<div v-else>
+			<login-form
+				v-model:email="email"
+				v-model:password="password"
+				v-model:stay-logged-in="stayLoggedIn"
+				:auth-failed="authFailed"
+				@sign-in="login"
 			/>
-		</div>
-		<!-- loading screen -->
-		<div
-			v-if="!auth.ready || !ready.songs || !ready.setlists || loading"
-			class="w-screen h-screen flex justify-center items-center text-spring-600"
-		>
-			<icon-loader2 class="w-16 h-16 stroke-1.5 animate-spin" />
 		</div>
 
 		<!-- notifications -->
@@ -229,11 +202,6 @@
 		:existing="songSetModalData.existing"
 		:initial-song="songSetModalData.song"
 		:id="songSetModalData.id"
-		:songs="c.songs"
-		:setlists="c.setlists"
-		:tags="c.tags"
-		:languages="c.languages"
-		:ready="ready"
 		@closed="showModal.songset = false"
 	/>
 	<setlist-set
@@ -241,56 +209,26 @@
 		:existing="setlistSetModalData.existing"
 		:initial-setlist="setlistSetModalData.setlist"
 		:id="setlistSetModalData.id"
-		:user="auth.user"
-		:songs="c.songs"
-		:setlists="c.setlists"
-		:tags="c.tags"
-		:languages="c.languages"
-		:ready="ready"
 		@closed="showModal.setlistset = false"
-	/>
-	<sign-up
-		:active="showModal.signup"
-		@closed="showModal.signup = false"
-		@submitted="doSignUp"
-	/>
-	<password-reset
-		:active="showModal.passwordreset"
-		@closed="showModal.passwordreset = false"
-		@submitted="sendPasswordReset"
 	/>
 </template>
 
 <script setup>
-import { collection, onSnapshot, getDoc, doc, setDoc } from 'firebase/firestore';
-import {
-	getAuth,
-	signInWithEmailAndPassword,
-	signOut as fbSignOut,
-	createUserWithEmailAndPassword,
-	sendEmailVerification,
-	sendPasswordResetEmail,
-	onAuthStateChanged,
-	updateProfile
-} from "firebase/auth";
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, inject, provide, onMounted } from 'vue';
+import { ref, reactive, computed, provide, onMounted } from 'vue';
 import { useActiveElement, useMagicKeys } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { userRoles, throwError } from '@/utils.js';
-import Avatar from '@/elements/Avatar.vue';
+import UserAvatar from '@/elements/UserAvatar.vue';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
-import IndicatorPulse from '@/elements/IndicatorPulse.vue';
-import Login from '@/partials/Login.vue';
+import LoginForm from '@/partials/LoginForm.vue';
 import Logo from '@/partials/Logo.vue';
-import PasswordReset from '@/modals/PasswordReset.vue';
+import ResetPassword from '@/partials/ResetPassword.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistSet from '@/modals/SetlistSet.vue';
-import SignUp from '@/modals/SignUp.vue';
 import SongSet from '@/modals/SongSet.vue';
-import UserUnconfirmed from '@/partials/UserUnconfirmed.vue';
-import UserUnverified from '@/partials/UserUnverified.vue';
+import { amberClient } from 'amber-client';
+import { SongTag, can } from "@backend/definitions";
 
 // icons
 import {
@@ -307,7 +245,6 @@ import {
 	IconMusic,
 	IconPlaylist,
 	IconPlus,
-	IconSettings,
 	IconX,
 } from '@tabler/icons-vue';
 
@@ -360,86 +297,46 @@ provide('noActiveInput', noActiveInput);
 const { t } = useI18n();
 const route = useRoute();
 
-// global properties
-const fb = inject('firebaseApp');
-const db = inject('db');
-const fbAuth = getAuth(fb);
-
-// db table collections
-const c = reactive({
-	config: {},
-	languages: {},
-	permissions: {},
-	registrations: {},
-	setlists: {},
-	songs: {},
-	tags: {},
-	users: {},
-});
-
-// db table ready state
-const ready = reactive({
-	config: false,
-	languages: false,
-	permissions: false,
-	registrations: false,
-	setlists: false,
-	songs: false,
-	tags: false,
-	users: false,
-});
-
-// db table listeners
-const listener = reactive({
-	config: null,
-	languages: null,
-	permissions: null,
-	registrations: null,
-	setlists: null,
-	songs: null,
-	tags: null,
-	users: null,
-});
-
 // mobile menu state
 const open = ref(false);
 
 // setlist object
 const initialSetlist = {
 	title: '',
-	private: false,
+	isPublic: true,
 	date: '',
 	songs: [],
 };
 
 // song object
 const initialSong = {
-	authors:      '',
+	authors:      [],
 	ccli:         '',
 	content:      '',
+	key:          '',
 	language:     '',
-	note:         '',
+	note:         '', // deprecated
 	publisher:    '',
 	subtitle:     '',
 	tags:         [],
 	title:        '',
 	translations: [],
-	tuning:       '',
 	year:         '',
 	youtube:      '',
 };
 
 // modals
 const showModal = reactive({
-	songset:       false,
-	setlistset:    false,
-	signup:        false,
-	passwordreset: false,
+	songset:    false,
+	setlistset: false,
 });
 const noActiveModal = computed(() => {
-	return !showModal.songset && !showModal.setlistset && !showModal.signup && !showModal.passwordreset;
+	return !showModal.songset && !showModal.setlistset;
 });
 provide('noActiveModal', noActiveModal);
+
+// password reset via admin-issued link
+const isResetPasswordPage = computed(() => route.path === '/reset-password');
 
 // add and edit songs
 const songSetModalData = reactive({
@@ -479,185 +376,137 @@ const editExistingSetlist = ({data, id, exists}) => {
 	showModal.setlistset         = true;
 };
 
-// authentication
-const auth = reactive({
-	confirmed: null,
-	ready: false,
-	user: '',
-	userObject: null,
+// Tenant
+const tenant = reactive({
+	name: 'default',
+	connected: false,
 });
 
-// explicit loading indication
-// currently used for switching profiles on user creation
-const loading = ref(false);
+// Auth
+const ready = ref(false);
+const amberUser = ref(null);
+const client = ref(null);
+const authenticated = ref(true);
+const authFailed = ref(false);
+const authCallback = ref(() => {});
 
-// computed: check if db is empty = no users or registrations yet
-const noUsers = computed(() => {
-	return Object.keys(c.users).length === 0 && Object.keys(c.registrations).length === 0;
-});
+// Login
+const email = ref('');
+const password = ref('');
+const stayLoggedIn = ref(true);
+
+// Data
+const songs = ref([]);
+const setlists = ref([]);
+const users = ref({}); // { [user id]: user info object }
+const tags = Object.values(SongTag);
+
 // computed: get user name either from user object or from users db collection
-const userName = computed(() => {
-	return ready.users ? c.users[auth.user].name : '';
-});
+const user = computed(() => ({
+	id: amberUser.value?.user.id,
+	name: amberUser.value?.user.name ?? '',
+	email: amberUser.value?.user.email ?? '',
+	roles: amberUser.value?.roles,
+	photo: null, // TODO
+}));
 // computed: check if at least one registration exists
-const registrationsExist = computed(() => {
-	return Object.keys(c.registrations).length > 0;
-});
-// computed: number of setlists visible for user
-const setlistCount = computed(() => {
-	return Object.values(c.setlists).filter(s => !s.private || s.private && s.creator==auth.user).length;
-});
+const registrationsExist = false; // TODO
 
-// add listeners for changes on each db collection
-const listen = () => {
-	for (const table in listener) {
-		listener[table] = onSnapshot(collection(db, table), (snapshot) => {
-			snapshot.docChanges().forEach(change => {
-				if (change.type === "added" || change.type === "modified") {
-					c[table][change.doc.id] = change.doc.data();
-				}
-				if (change.type === "removed") {
-					delete c[table][change.doc.id];
-				}
-			});
-			ready[table] = true;
-		});
-	}
-};
-// remove listeners for changes on each db table
-const unlisten = () => {
-	for (const table in listener) {
-		let unsubscribe = listener[table];
-		if (typeof unsubscribe === "function") unsubscribe();
-	}
-};
-// loads configuration without listener
-const loadConfig = () => {
-	getDoc(doc(db, "config/contact")).then(doc => {
-		if (doc.exists) {
-			c.config.contact = doc.data();
-			ready.config = true;
-		}
-	}).catch((error) => throwError(error));
-};
+// Provide data for other views
+provide('user', user);
+provide('ready', ready);
+provide('setlists', setlists);
+provide('songs', songs);
+provide('tags', tags);
+provide('users', users);
 
-// execute sign in on Firebase backend
-const signIn = (email, password) => {
-	signInWithEmailAndPassword(fbAuth, email, password).then(() => {
-		// login successful
-		const user = fbAuth.currentUser;
-		auth.user = user.uid;
-		auth.userObject = user;
-		// load general app config
-		loadConfig();
-		// now add listeners for changes on each db table
-		if (auth.confirmed && user.emailVerified) {
-			listen();
-		}
-		// toast successful login
-		notify({
-			title: t('toast.signedIn'),
-			text: t('toast.signedInText', { name: auth.userObject.displayName }),
-			type: 'primary'
-		});
-	}).catch((error) => throwError(error));
-};
-// execute sign out on firebase backend
-const signOut = () => {
-	fbSignOut(fbAuth).then(() => {
-		// sign-out successful
-		if (auth.confirmed) {
-			unlisten();
-		}
-		// toast successfoul log out
-		notify({
-			title: t('toast.signedOut'),
-			text: t('toast.signedOutText'),
-			type: 'primary'
-		});
-	}).catch((error) => throwError(error));
-};
-// execute user creation on firebase backend
-const doSignUp = (user) => {
-	createUserWithEmailAndPassword(fbAuth, user.email, user.password).then(() => {
-		// sign-up successful
-		auth.user = fbAuth.currentUser.uid
-		// load general app config
-		loadConfig();
-		// create registration for admin approval
-		setDoc(doc(db, `registrations/${auth.user}`), { email: user.email, name: user.name }).then(() => {
-			auth.userObject = fbAuth.currentUser;
-			updateProfile(auth.userObject, { displayName: user.name });
-			notify({
-				title: t('toast.signedUp'),
-				text: t('toast.signedUpText', { name: user.name }),
-				type: 'primary'
-			});
-		}).catch((error) => throwError(error));
-		// send verification email
-		sendEmailVerification(fbAuth.currentUser).then(() => {
-			// Verification email sent
-			notify({
-				title:  t('toast.verficationSent'),
-				text:  t('toast.verficationSentText'),
-				type: 'primary'
-			});
-		}).catch((error) => throwError(error));
-	}).catch((error) => throwError(error));
-};
-// resend email with verification link to currently logged in user
-const resendEmailVerification = () => {
-	sendEmailVerification(fbAuth.currentUser).then(() => {
-		notify({
-			title: t('toast.verficationSent'),
-			text: t('toast.verficationSentText'),
-			type: 'primary'
-		});
-	}).catch((error) => throwError(error));
-};
-// send password reset email
-const sendPasswordReset = (email) => {
-	sendPasswordResetEmail(fbAuth, email).then(() => {
-		notify({
-			title: t('toast.passwordResetSent'),
-			text: t('toast.passwordResetSentText'),
-			type: 'primary'
-		});
-	}).catch((error) => throwError(error));
-};
+// Collections from Amberbase
+let collectionApi = null;
+const songsCollection = ref(null);
+const setlistCollection = ref(null);
+provide('songsCollection', songsCollection);
+provide('setlistCollection', setlistCollection);
+provide('client', client);
 
-// initially check authentication
-onMounted(() => {
-	// add listener for authentication state
-	onAuthStateChanged(fbAuth, user => {
-		if (user) {
-			// load app config on auth change only when not explicitly loading
-			if (!loading.value) {
-				loadConfig();
-			}
-			auth.user = user.uid;
-			auth.userObject = user;
-			getDoc(doc(db, `users/${user.id}`)).then((userEntry) => {
-				if (userEntry.exists) {
-					auth.confirmed = true;
-					if (user.emailVerified) {
-						listen();
-					}
-					loading.value = false;
-				} else {
-					auth.confirmed = false;
-				}
-			}).catch(() => {
-				auth.confirmed = false;
-			});
+const init = async () => {
+	client.value = amberClient()
+		.withPath('/amber')
+		.withTenant(tenant.name)
+		.withCredentialsProvider((failed) => {
+			// Login failed
+			authFailed.value = failed;
+
+			// Initially access is forbidden
+			authenticated.value = false;
+			
+			// Get login callback
+			return new Promise((resolve)=>{
+				// loginCallback ist eine variable die das resolve callback deinem UI zur Verfügung stellt. 
+				authenticated.value = false;
+				authFailed.value = failed;
+				authCallback.value = resolve;
+				ready.value = true;
+			})
+		})
+		.start();
+	
+	amberUser.value = await client.value.userInTenant();
+	authenticated.value = true;
+
+	collectionApi = client.value.getCollectionsApi();
+	songsCollection.value = collectionApi.getCollection('songs');
+	setlistCollection.value = collectionApi.getCollection('setlists');
+
+	songsCollection.value.subscribe(0, (doc) => {
+		let existing = songs.value.find(s => s.id === doc.id);
+		if (existing) {
+			existing.entity = doc.data;
+			existing.changeNumber = doc.change_number;
 		} else {
-			if (auth.confirmed) {
-				unlisten();
-			}
-			auth.user = '';
-			auth.userObject = null;
+			songs.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
 		}
-		auth.ready = true;
+
+	}, (docDeletedId) => {
+		songs.value = songs.value.filter(s => s.id !== docDeletedId);
 	});
-});
+
+	setlistCollection.value.subscribe(0, (doc) => {
+		let existing = setlists.value.find(s => s.id === doc.id);
+		if (existing) {
+			existing.entity = doc.data;
+			existing.changeNumber = doc.change_number;
+		} else {
+			setlists.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
+		}
+
+	}, (docDeletedId) => {
+		setlists.value = setlists.value.filter(s => s.id !== docDeletedId);
+	});
+
+	await collectionApi.connect();
+	collectionApi.onConnectionChanged((connected) => {
+		tenant.connected = connected;
+	});
+
+	const usersResponse = await client.value.getAmberApi()?.getUsers();
+	users.value = usersResponse?.reduce((p, c) => ({ ...p, [c.id]: c}), {})  || {};
+
+	ready.value = true;
+};
+
+const login = () => {
+	authCallback.value({ email: email.value, pw: password.value, stayLoggedIn: stayLoggedIn.value });
+};
+const logout = async () => {
+	await client.value?.loginManager.logout();
+	authenticated.value = false;
+	authFailed.value = false;
+	amberUser.value = null;
+	email.value = '';
+	password.value = '';
+
+	notify({ title: t('toast.signedOut'), text: t('toast.signedOutText'), type: 'primary' });
+};
+
+onMounted(async () => await init());
 </script>

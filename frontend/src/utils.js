@@ -1,4 +1,9 @@
 import { notify } from '@kyvg/vue3-notification';
+import de from '@/locales/de.json';
+import en from '@/locales/en.json';
+
+// tag translations per locale, keyed by locale code
+const tagTranslations = { de: de.tag, en: en.tag };
 
 // scale to use for song tuning and transponation
 const keyScale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'];
@@ -33,7 +38,7 @@ const isChordLine = (line) => {
 };
 
 // parse song content syntax
-const parsedContent = (content, tuning, showChords, twoColumns) => {
+const parsedContent = (content, keyOffset, showChords, twoColumns) => {
   // initialize arrays for parsed lines, classes of parts, type abbr., numbers of type and part index
   var parsed = [], classes = [], types = [], numbers = [], part = 0;
   var lines = content.split('\n');
@@ -46,7 +51,7 @@ const parsedContent = (content, tuning, showChords, twoColumns) => {
       continue;
     }
     // handle chord tuning
-    if (isChordLine(line) && tuning != 0) {
+    if (isChordLine(line) && keyOffset != 0) {
       // build new line by handling the current over- or underflow of spaces due to different chord string lenghts
       var newLine = '', spaces = 0, j = 0;
       while (j < line.length) {
@@ -77,7 +82,7 @@ const parsedContent = (content, tuning, showChords, twoColumns) => {
         // check if character is a transposable character
         if (keyScale.indexOf(c) > -1) {
           // replace character by next tune character
-          var nextTune = keyScale[(12 + keyScale.indexOf(c) + (tuning % 12)) % 12];
+          var nextTune = keyScale[(12 + keyScale.indexOf(c) + (keyOffset % 12)) % 12];
           newLine += nextTune;
           // update over- or underflow of spaces
           spaces += c.length - nextTune.length;
@@ -267,8 +272,8 @@ const initials = (userName) => {
 // toast error message
 const throwError = (error) => {
   notify({
-    title: error.code,
-    text: error.message,
+    title: error.code ?? error.errorCode,
+    text: error.message ?? error.error,
     type: 'error'
   });
 };
@@ -309,15 +314,12 @@ const urlify = (s) => {
 // get the first key of given object that points to given value
 const keyByValue = (o, v) => Object.keys(o).find(k => o[k]===v);
 
-// sort tags by locale
+// sort tag keys by their translated name in the given locale
 const sortTags = (tags, locale) => {
-  if (typeof tags === 'object') tags = Object.values(tags);
-  tags.sort(
-    (a, b) => a[locale] && b[locale]
-      ? a[locale].localeCompare(b[locale])
-      : a.key.localeCompare(b.key)
+  const translations = tagTranslations[locale];
+  return tags.toSorted(
+    (a, b) => (translations?.[a] ?? a).localeCompare(translations?.[b] ?? b)
   );
-  return tags;
 };
 
 // true if browser uses a dark color scheme
@@ -331,9 +333,21 @@ const browserPrefersDark = () => {
 // trigger mailto
 const mailto = (address) => window.location.href = 'mailto:' + address;
 
+// overwrite one target song's translations array via songsCollection,
+// preserving all its other fields (Amberbase updateDoc replaces the whole
+// document body, so the full current entity must be read and spread first)
+const updateSongTranslations = async (songsCollection, songs, targetId, transformFn) => {
+  const target = songs.find(s => s.id === targetId);
+  if (!target) return; // stale/unknown local reference - skip rather than throw
+  await songsCollection.updateDoc(targetId, target.changeNumber, {
+    ...target.entity,
+    translations: transformFn(target.entity.translations ?? []),
+  });
+};
+
 // build OpenLyrics XML for given song
 // see https://manual.openlp.org/display_tags.html#configuring-formatting-tags
-const openLyricsXML = (song, version, translatedSong = null, locales = [], allTags = null) => {
+const openLyricsXML = (song, version, translatedSong = null) => {
 	const timestamp = (new Date()).toISOString().slice(0, -5);
 	const title = `<title>${song.title}</title>`;
 	const subtitle = song.subtitle ? `<title>${song.subtitle}</title>` : '';
@@ -343,11 +357,11 @@ const openLyricsXML = (song, version, translatedSong = null, locales = [], allTa
 		: '';
 	const ccli = song.ccli ? `<ccliNo>${song.ccli}</ccliNo>` : '';
 	const authors = song.authors
-		? '<authors>' + song.authors.split('|').map(a => `<author>${a.trim()}</author>`).join('') + '</authors>'
+		? '<authors>' + song.authors.map(a => `<author>${a.trim()}</author>`).join('') + '</authors>'
 		: '';
-	const tags = song.tags && locales && allTags
+	const tags = song.tags
 		? '<themes>' + song.tags.map(
-				tag => locales.map(l =>`<theme lang='${l}'>${allTags[tag][l] ?? tag.key}</theme>`).join('')
+				tag => Object.keys(tagTranslations).map(l =>`<theme lang='${l}'>${tagTranslations[l][tag] ?? tag}</theme>`).join('')
 			).join('') + '</themes>'
 		: '';
   const format = translatedSong
@@ -383,5 +397,6 @@ export {
   sortTags,
   browserPrefersDark,
   mailto,
+  updateSongTranslations,
   openLyricsXML,
 }

@@ -1,5 +1,5 @@
 <template>
-	<modal :active="active" :title="t('modal.deleteSong')" @closed="emit('closed')">
+	<modal-dialog :active="active" :title="t('modal.deleteSong')" @closed="emit('closed')">
 		<div class="flex flex-col gap-2">
 			<div>{{ t('text.reallyDeleteSong', { title: title }) }}</div>
 			<div class="text-rose-600">{{ t('text.cannotBeUndone') }}</div>
@@ -22,17 +22,16 @@
 				</primary-button>
 			</div>
 		</div>
-	</modal>
+	</modal-dialog>
 </template>
 
 <script setup>
 import { inject, ref } from 'vue';
 import { notify } from '@kyvg/vue3-notification';
-import { throwError } from '@/utils.js';
+import { throwError, updateSongTranslations } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router'
-import { updateDoc, deleteDoc, doc } from 'firebase/firestore';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 
 // icons
@@ -47,14 +46,14 @@ const route = useRoute()
 const router = useRouter()
 
 // global properties
-const db = inject('db');
+const songs = inject('songs');
+const songsCollection = inject('songsCollection');
 
 // component properties
 const props = defineProps({
 	active: Boolean, // state of modal display, true to show modal
 	title:  String,  // title of setlist to delete
 	id:     String,  // id of setlist to delete
-	songs:  Object,  // list of songs assigned to this setlist
 });
 
 // user input properties
@@ -65,22 +64,20 @@ const emit = defineEmits(['closed']);
 
 // execute song deletion
 const busy = ref(false);
-const deleteSong = () => {
+const deleteSong = async () => {
 	busy.value = true;
-	deleteDoc(doc(db, `songs/${props.id}`)).then(() => {
+	try {
+		await songsCollection.value.deleteDoc(props.id);
 		emit('closed');
-		// check existing song translations for this song id and delete corresponding references
-		for (const songId in props.songs) {
-			const song = props.songs[songId];
-			let existingSongKey = null;
-			song.translations.forEach((translation, key) => {
-				if (translation == props.id) existingSongKey = key;
-			});
-			if (existingSongKey !== null) {
-				let updatedTranslationsList = song.translations.filter(t => t != props.id);
-				updateDoc(doc(db, `songs/${songId}`), { translations: updatedTranslationsList });
-			}
-		}
+
+		// remove back-references from any song that lists this one as a translation
+		const affected = songs.value.filter(s => s.entity.translations?.includes(props.id));
+		await Promise.allSettled(
+			affected.map(s =>
+				updateSongTranslations(songsCollection.value, songs.value, s.id, (arr) => arr.filter(t => t !== props.id))
+			)
+		);
+
 		// go back to songs list if not already there
 		if (route.name != 'songs') {
 			router.push({ name: 'songs' });
@@ -91,7 +88,10 @@ const deleteSong = () => {
 			text: t('toast.songDeletedText'),
 			type: 'primary'
 		});
+	} catch (err) {
+		throwError(err);
+	} finally {
 		busy.value = false;
-	}).catch((error) => throwError(error));
+	}
 };
 </script>

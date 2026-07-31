@@ -7,23 +7,7 @@ const app = createApp(App);
 import router from '@/router.js'
 app.use(router);
 
-// set firebase db config
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-const API_KEY = import.meta.env.VITE_FB_API_KEY;
-const PROJECT_ID = import.meta.env.VITE_FB_PROJECT_ID;
-const conf = {
-	apiKey:        String(API_KEY),
-	authDomain:    PROJECT_ID + '.firebaseapp.com',
-	databaseURL:   'https://' + PROJECT_ID + '.firebaseio.com',
-	projectId:     String(PROJECT_ID),
-	storageBucket: PROJECT_ID + '.appspot.com'
-};
-let firebaseApp = initializeApp(conf);
-
 // set global properties
-app.provide('firebaseApp', firebaseApp);
-app.provide('db', getFirestore(firebaseApp));
 app.provide('version', APP_VERSION);
 
 // vue-notification
@@ -54,7 +38,12 @@ app.use(i18n);
 import { marked } from 'marked';
 import { markedHighlight } from "marked-highlight";
 import { sdHighlight } from '@/utils.js';
-import hljs from 'highlight.js';
+import hljs from 'highlight.js/lib/core';
+import plaintext from 'highlight.js/lib/languages/plaintext';
+
+// Only plaintext is needed as fallback
+hljs.registerLanguage('plaintext', plaintext);
+
 marked.use(markedHighlight({
 	langPrefix: 'hljs language-',
 	highlight: (code, lang) => {

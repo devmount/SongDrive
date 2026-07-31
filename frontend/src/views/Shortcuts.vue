@@ -5,7 +5,7 @@
 			{{ t('page.shortcuts')}}
 		</div>
 		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
-			<panel class="flex flex-col gap-4">
+			<panel-box class="flex flex-col gap-4">
 				<div class="text-2xl">
 					{{ t('page.songs', 2) }} / {{ t('page.setlists', 2) }}
 				</div>
@@ -31,8 +31,8 @@
 						</tr>
 					</tbody>
 				</table>
-			</panel>
-			<panel class="flex flex-col gap-4">
+			</panel-box>
+			<panel-box class="flex flex-col gap-4">
 				<div class="text-2xl">
 					{{ t('widget.songView') }}
 				</div>
@@ -86,8 +86,8 @@
 						</tr>
 					</tbody>
 				</table>
-			</panel>
-			<panel class="flex flex-col gap-4">
+			</panel-box>
+			<panel-box class="flex flex-col gap-4">
 				<div class="text-2xl">
 					{{ t('widget.setlistView') }}
 				</div>
@@ -146,14 +146,14 @@
 						</tr>
 					</tbody>
 				</table>
-			</panel>
+			</panel-box>
 		</div>
 	</div>
 </template>
 
 <script setup>
 import { useI18n } from 'vue-i18n';
-import Panel from '@/elements/Panel.vue';
+import PanelBox from '@/elements/PanelBox.vue';
 
 // icons
 import {

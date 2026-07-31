@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "target": "es2023",
+    "declaration": true
+    
+  },
+  "include": [
+    "*.ts"
+  ],
+  "exclude": []
+}

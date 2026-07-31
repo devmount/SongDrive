@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<modal-dialog
 		:active="active"
 		:title="!existing ? t('modal.newSetlist') : t('modal.editSetlist') + ' «' + setlist?.title + '»'"
 		size="xl7"
@@ -27,14 +27,14 @@
 				<!-- visibility -->
 				<label class="flex grow lg:grow-0 flex-col gap-1">
 					<div>{{ t('field.visibility') }} <span class="text-rose-600">*</span></div>
-					<select v-model="setlist.private" required>
-						<option value="0">{{ t('option.public') }}</option>
-						<option value="1">{{ t('option.private') }}</option>
+					<select v-model="setlist.isPublic" required>
+						<option value="1">{{ t('option.public') }}</option>
+						<option value="0">{{ t('option.private') }}</option>
 					</select>
-					<div v-if="setlist.private=='1'" class="text-blade-500">
+					<div v-if="setlist.isPublic=='0'" class="text-blade-500">
 						{{ t('text.visibleForYou') }}
 					</div>
-					<div v-if="setlist.private=='0'" class="text-blade-500">
+					<div v-if="setlist.isPublic=='1'" class="text-blade-500">
 						{{ t('text.visibleForAll') }}
 					</div>
 				</label>
@@ -94,26 +94,26 @@
 					</label>
 					<!-- filter by tag -->
 					<div class="h-full">
-						<dropdown :show-badge="filter.tag !== null">
+						<drop-down :show-badge="filter.tag !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
 									<icon-tags class="w-5 h-5 stroke-1.5" />
 								</secondary-button>
 							</template>
 							<div class="max-h-80 overflow-y-scroll flex flex-col gap-0.5 p-2! text-sm">
-								<tag
-									v-for="tag in sortTags(tags, loc)" :key="tag.key"
+								<song-tag
+									v-for="tag in sortTags(tags, loc)" :key="tag"
 									:tag="tag"
-									@click="filter.tag = tag.key"
+									@click="filter.tag = tag"
 									class="cursor-pointer"
-									:class="{ 'bg-spring-700!': tag.key === filter.tag }"
+									:class="{ 'bg-spring-700!': tag === filter.tag }"
 								/>
 							</div>
-						</dropdown>
+						</drop-down>
 					</div>
 					<!-- filter by key -->
 					<div class="h-full">
-						<dropdown :show-badge="filter.key !== null">
+						<drop-down :show-badge="filter.key !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
 									<icon-music class="w-5 h-5 stroke-1.5" />
@@ -129,11 +129,11 @@
 									{{ t }}
 								</secondary-button>
 							</div>
-						</dropdown>
+						</drop-down>
 					</div>
 					<!-- filter by language -->
 					<div class="h-full">
-						<dropdown :show-badge="filter.language !== null">
+						<drop-down :show-badge="filter.language !== null">
 							<template #trigger>
 								<secondary-button class="h-full">
 									<icon-world class="w-5 h-5 stroke-1.5" />
@@ -141,14 +141,14 @@
 							</template>
 							<div class="max-h-80 overflow-y-auto flex flex-col gap-0.5 p-2! text-sm">
 								<secondary-button
-									v-for="(l, k) in languages" :key="k"
-									@click="filter.language = k"
-									:class="{ 'bg-spring-700!': k === filter.language }"
+									v-for="l in languages" :key="l"
+									@click="filter.language = l"
+									:class="{ 'bg-spring-700!': l === filter.language }"
 								>
-									{{ l.label }}
+									{{ t('language.' + l) }}
 								</secondary-button>
 							</div>
-						</dropdown>
+						</drop-down>
 					</div>
 					<!-- reset filter -->
 					<button @click="resetFilter" :class="{ 'text-blade-500': !isFiltered }">
@@ -158,12 +158,12 @@
 				<!-- song list -->
 				<div class="overflow-y-scroll h-full flex flex-col gap-1 mt-3">
 					<label
-						v-for="(fsong, key) in filteredSongs" :key="key"
+						v-for="fsong in filteredSongs" :key="fsong.id"
 						class="flex items-center gap-2 cursor-pointer p-0.5 hover:bg-blade-200 dark:hover:bg-blade-800"
 					>
 						<input
-							:checked="idExists(key)"
-							@input="e => songSelection(key, e.target.checked)"
+							:checked="idExists(fsong.id)"
+							@input="e => songSelection(fsong.id, e.target.checked)"
 							type="checkbox"
 							class="w-6 h-6 ml-2"
 						/>
@@ -172,18 +172,18 @@
 								class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 text-white font-semibold py-1 w-8"
 								:title="t('title.songTuning')"
 							>
-								<div class="-mt-0.5">{{ fsong.tuning }}</div>
+								<div class="-mt-0.5">{{ fsong.entity.key }}</div>
 							</figure>
 						</div>
 						<div
 							class="flex flex-col overflow-hidden"
-							:title="performedSongs[key] ? `${t('title.lastPerformed')} ${performedSongs[key]}`: ''"
+							:title="performedSongs[fsong.id] ? `${t('title.lastPerformed')} ${performedSongs[fsong.id]}`: ''"
 						>
-							<div class="-mt-1 truncate">{{ fsong.title }}</div>
+							<div class="-mt-1 truncate">{{ fsong.entity.title }}</div>
 							<div class="text-sm text-blade-500 -mt-1 truncate">
-								{{ fsong.subtitle }}
-								<span v-if="performedSongs[key]" class="text-blade-700">
-									{{ performedSongs[key] }}
+								{{ fsong.entity.subtitle }}
+								<span v-if="performedSongs[fsong.id]" class="text-blade-700">
+									{{ performedSongs[fsong.id] }}
 								</span>
 							</div>
 						</div>
@@ -223,7 +223,7 @@
 										class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
 										:title="t('title.songTuning')"
 									>
-										<div class="-mt-0.5">{{ element.tuning ?? songs[element.id].tuning }}</div>
+										<div class="-mt-0.5">{{ element.key ?? findSong(element.id)?.key }}</div>
 									</figure>
 									<secondary-button @click.prevent="tuneUp(index)" class="w-6 h-6 p-1!">
 										<icon-chevron-right class="w-4 h-4 stroke-2 shrink-0" />
@@ -231,10 +231,10 @@
 								</div>
 								<div class="flex flex-col overflow-hidden">
 									<div class="-mt-1 truncate">
-										{{ songs[element.id].title }}
+										{{ findSong(element.id)?.title }}
 									</div>
 									<div class="text-sm text-blade-500 -mt-1 truncate">
-										{{ songs[element.id].subtitle }}
+										{{ findSong(element.id)?.subtitle }}
 									</div>
 								</div>
 								<button
@@ -263,7 +263,7 @@
 				</template>
 			</primary-button>
 		</div>
-	</modal>
+	</modal-dialog>
 </template>
 
 <script setup>
@@ -274,14 +274,14 @@ import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, inject, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { setDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import { SongLanguage, SongTag as SongTagEnum } from '@backend/definitions';
 import Datepicker from '@vuepic/vue-datepicker';
 import draggable from 'vuedraggable';
-import Dropdown from '@/elements/Dropdown.vue';
-import Modal from '@/elements/Modal.vue';
+import DropDown from '@/elements/DropDown.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
-import Tag from '@/elements/Tag.vue';
+import SongTag from '@/elements/SongTag.vue';
 
 // icons
 import {
@@ -313,7 +313,15 @@ const calendarLanguage = {
 const router = useRouter();
 
 // global properties
-const db = inject('db');
+const songs = inject('songs');
+const setlists = inject('setlists');
+const user = inject('user');
+const setlistCollection = inject('setlistCollection');
+const languages = Object.values(SongLanguage);
+const tags = Object.values(SongTagEnum);
+
+// find a song's entity by id
+const findSong = (id) => songs.value.find(s => s.id === id)?.entity;
 
 // component properties
 const props = defineProps({
@@ -321,12 +329,6 @@ const props = defineProps({
 	existing:       Boolean, // setlist already exists
 	initialSetlist: Object,  // setlist structure to fill with data
 	id:             String,  // setlist identifier
-	user:           String,  // user identifier
-	songs:          Object,  // list of all available songs
-	setlists:       Object,  // list of all available setlists
-	tags:           Object,  // list of all available tags
-	languages:      Object,  // list of all available languages
-	ready:          Object,  // object holding information about the retrieval state of collections
 });
 
 // check if browser prefers dark
@@ -355,24 +357,22 @@ const resetErrors = () => {
 
 // setlist input data
 const setlist = ref(null);
-const setlistSongs = ref(null);
 const initInput = () => {
 	resetErrors();
 	resetFilter();
 	const sl = { ...props.initialSetlist };
 	// only show undeleted songs
-	sl.songs = sl.songs.filter(s => s.id in props.songs);
+	sl.songs = sl.songs.filter(s => findSong(s.id));
 	// init visibility state if not existing
-	sl.private = sl.private ? 1 : 0;
+	sl.isPublic = sl.isPublic ? 1 : 0;
 	// apply initial values
 	setlist.value = sl;
-	setlistSongs.value = sl.songs.map(s => s.id);
 };
 watch(() => props.active === true, () => initInput());
 
 // add song to current song selection
 const addSong = (id) => {
-	setlist.value.songs.push({ id: id, tuning: props.songs[id]?.tuning });
+	setlist.value.songs.push({ id: id, key: findSong(id)?.key });
 };
 
 // remove song from current song selection
@@ -415,49 +415,39 @@ const emit = defineEmits(['closed']);
 
 // filter song list by search query and other filter fields
 const filteredSongs = computed(() => {
-	let songs = { ...props.songs };
+	let result = songs.value;
 	if (filter.fulltext) {
 		// filter fields: title, subtitle, content
 		const key = filter.fulltext.toLowerCase();
-		songs = Object.filter(
-			songs,
-			song => song.title.toLowerCase().indexOf(key) !== -1
-				|| song.subtitle.toLowerCase().indexOf(key) !== -1
-				|| song.content.toLowerCase().indexOf(key) !== -1
+		result = result.filter(s =>
+			s.entity.title.toLowerCase().indexOf(key) !== -1
+				|| s.entity.subtitle.toLowerCase().indexOf(key) !== -1
+				|| s.entity.content.toLowerCase().indexOf(key) !== -1
 		);
 	}
 	if (filter.tag) {
 		// filter field: tags
-		songs = Object.filter(
-			songs,
-			song => song.tags.indexOf(filter.tag) !== -1
-		);
+		result = result.filter(s => s.entity.tags.indexOf(filter.tag) !== -1);
 	}
 	if (filter.language) {
 		// filter field: language
-		songs = Object.filter(
-			songs,
-			song => song.language.indexOf(filter.language) !== -1
-		);
+		result = result.filter(s => s.entity.language.indexOf(filter.language) !== -1);
 	}
 	if (filter.key) {
 		// filter field: key
-		songs = Object.filter(
-			songs,
-			song => song.tuning.indexOf(filter.key) !== -1
-		);
+		result = result.filter(s => s.entity.key?.indexOf(filter.key) !== -1);
 	}
-	return songs
+	return result;
 });
 
 // list of songs and the date of their last performance by song id
 const performedSongs = computed(() => {
 	let songs = {};
-	let setlists = Object.values(props.setlists).sort((a, b) => b.date.localeCompare(a.date));
-	setlists.forEach(setlist => {
-		setlist.songs.forEach(song => {
+	let sortedSetlists = setlists.value.toSorted((a, b) => b.entity.date.localeCompare(a.entity.date));
+	sortedSetlists.forEach(setlist => {
+		setlist.entity.songs.forEach(song => {
 			if (!(song.id in songs)) {
-				songs[song.id] = humanDate(setlist.date, loc, false);
+				songs[song.id] = humanDate(setlist.entity.date, loc, false);
 			}
 		});
 	});
@@ -479,7 +469,7 @@ const reorder = ({oldIndex, newIndex}) => {
 const tuneUp = (position) => {
 	let songs = setlist.value.songs;
 	// update tuning
-	let tone = songs[position].tuning ? songs[position].tuning : props.songs[songs[position].id].tuning;
+	let tone = songs[position].key ? songs[position].key : findSong(songs[position].id)?.key;
 	let i = keyScale.indexOf(tone);
 	if (i>=keyScale.length-1) {
 		tone = keyScale[0];
@@ -487,14 +477,14 @@ const tuneUp = (position) => {
 		tone = keyScale[++i];
 	}
 	// save tuning in setlist
-	setlist.value.songs[position].tuning = tone;
+	setlist.value.songs[position].key = tone;
 };
 
 // tune the song at given position down
 const tuneDown = (position) => {
 	let songs = setlist.value.songs;
 	// update tuning
-	let tone = songs[position].tuning ? songs[position].tuning : props.songs[songs[position].id].tuning;
+	let tone = songs[position].key ? songs[position].key : findSong(songs[position].id)?.key;
 	let i = keyScale.indexOf(tone);
 	if (i<=0) {
 		tone = keyScale[keyScale.length-1];
@@ -502,7 +492,7 @@ const tuneDown = (position) => {
 		tone = keyScale[--i];
 	}
 	// save tuning in setlist
-	setlist.value.songs[position].tuning = tone;
+	setlist.value.songs[position].key = tone;
 };
 
 // create a human readable record key of format YYYYMMDD-the-setlist-title
@@ -510,75 +500,77 @@ const createSlug = () => {
 	return setlist.value.date.replace(/-/g, '') + '-' + urlify(setlist.value.title);
 };
 
+// build the entity payload to send to Amberbase
+const buildEntity = (slug) => ({
+	active:      props.existing ? props.initialSetlist.active : false,
+	createdBy:   props.existing ? props.initialSetlist.createdBy : user.value.id,
+	date:        setlist.value.date,
+	isPublic:    setlist.value.isPublic == 1,
+	position:    props.existing ? props.initialSetlist.position : 0,
+	remoteHide:  props.existing ? props.initialSetlist.remoteHide : undefined,
+	remoteLight: props.existing ? props.initialSetlist.remoteLight : undefined,
+	remoteText:  props.existing ? props.initialSetlist.remoteText : undefined,
+	sharedWith:  props.existing ? props.initialSetlist.sharedWith : [],
+	slug,
+	songs:       setlist.value.songs,
+	title:       setlist.value.title,
+});
+
 // add or save edits of setlist to db
 const busy = ref(false);
-const setSetlist = () => {
+const setSetlist = async () => {
 	const slug = createSlug();
 	// first check for form errors
 	error.title = setlist.value.title == '';
 	error.date = setlist.value.date == '';
-	error.slug = props.existing && props.id == slug ? false : props.setlists.hasOwnProperty(slug);
-	// no errors: start saving song data
-	if (!errors.value) {
-		busy.value = true;
-		var processedSetlist = {
-			active:   false,
-			creator:  !props.existing ? props.user : setlist.value.creator,
-			position: 0,
-			title:    setlist.value.title,
-			private:  setlist.value.private == 1,
-			date:     setlist.value.date,
-			songs:    setlist.value.songs,
-		};
+	error.slug = (props.existing && props.id === slug) ? false : setlists.value.some(s => s.entity.slug === slug);
+	// errors occured: abort
+	if (errors.value) return;
+
+	busy.value = true;
+	const entity = buildEntity(slug);
+
+	try {
 		// new setlist should be created
 		if (!props.existing) {
-			setDoc(doc(db, `setlists/${slug}`), processedSetlist).then(() => {
-				processedSetlist = {};
-				router.push({ name: 'setlist-show', params: { id: slug }});
-				// toast success creation message
-				notify({
-					title: t('toast.setlistAdded'),
-					text:  t('toast.setlistSavedText'),
-					type:  'primary'
-				});
-				busy.value = false;
-				emit('closed');
-			}).catch((error) => throwError(error));
+			await setlistCollection.value.createDoc(entity, slug);
+			router.push({ name: 'setlist-show', params: { id: slug }});
+			// toast success creation message
+			notify({
+				title: t('toast.setlistAdded'),
+				text:  t('toast.setlistSavedText'),
+				type:  'primary'
+			});
 		}
 		// existing setlist should be updated
-		else {
-			// check if key remained (no title or date change)
-			if (props.id == slug) {
-				// just update the existing setlist
-				updateDoc(doc(db, `setlists/${props.id}`), processedSetlist).then(() => {
-					processedSetlist = {};
-					// toast success update message
-					notify({
-						title: t('toast.setlistUpdated'),
-						text:  t('toast.setlistSavedText'),
-						type:  'primary'
-					});
-					busy.value = false;
-					emit('closed');
-				}).catch((error) => throwError(error));
-			} else {
-				// update key by adding a new setlist and removing the old one
-				deleteDoc(doc(db, `setlists/${props.id}`)).then(() => {
-					setDoc(doc(db, `setlists/${slug}`), processedSetlist).then(() => {
-						processedSetlist = {};
-						router.push({ name: 'setlist-show', params: { id: slug }});
-						// toast success update message
-						notify({
-							title: t('toast.setlistUpdated'),
-							text:  t('toast.setlistSavedText'),
-							type:  'primary'
-						});
-						busy.value = false;
-						emit('closed');
-					}).catch((error) => throwError(error));
-				}).catch((error) => throwError(error));
-			}
+		else if (props.id === slug) {
+			// just update the existing setlist
+			const current = setlists.value.find(s => s.entity.slug === props.id);
+			await setlistCollection.value.updateDoc(current.id, current.changeNumber, entity);
+			// toast success update message
+			notify({
+				title: t('toast.setlistUpdated'),
+				text:  t('toast.setlistSavedText'),
+				type:  'primary'
+			});
+		} else {
+			// update key by adding a new setlist and removing the old one
+			const current = setlists.value.find(s => s.entity.slug === props.id);
+			await setlistCollection.value.createDoc(entity, slug);
+			await setlistCollection.value.deleteDoc(current.id);
+			router.push({ name: 'setlist-show', params: { id: slug }});
+			// toast success update message
+			notify({
+				title: t('toast.setlistUpdated'),
+				text:  t('toast.setlistSavedText'),
+				type:  'primary'
+			});
 		}
+		emit('closed');
+	} catch (err) {
+		throwError(err);
+	} finally {
+		busy.value = false;
 	}
 };
 </script>

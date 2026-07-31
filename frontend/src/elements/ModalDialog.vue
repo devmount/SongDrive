@@ -26,7 +26,7 @@
 			}"
 			@click.stop="null"
 		>
-			<div class="flex justify-between">
+			<div class="flex justify-between px-4">
 				<div class="text-lg uppercase font-medium">{{ title }}</div>
 				<slot name="close">
 					<button aria-label="Close" @click="emit('closed')">

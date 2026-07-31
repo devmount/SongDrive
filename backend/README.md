@@ -1,9 +1,15 @@
-# ![SongDrive Logo Title](https://github.com/devmount/SongDrive/assets/5441654/77b68e2d-a877-4855-bece-c067f2219e71) &nbsp; backend
+# ![SongDrive Logo Title](https://github.com/devmount/SongDrive/assets/5441654/77b68e2d-a877-4855-bece-c067f2219e71) :: Backend
 
-This directory contains all backend functionality of SongDrive.
+This directory contains all backend functionality of SongDrive. It is build with [Amberbase](https://github.com/amberbase/amberbase).
 
-> <picture>
-> <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/info.svg">
-> <img alt="Info" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/info.svg">
-> </picture><br>
-> This is currently work in progress.
+## Get started
+
+Make sure, MariaDB is installed.
+
+```bash
+cd backend
+npm run build
+npm run start
+```
+
+Now, the backend UI can be accessed via <http://localhost:3000/amber/ui/login>.

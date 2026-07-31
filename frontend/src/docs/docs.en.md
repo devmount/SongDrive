@@ -21,7 +21,7 @@ SongDrive ships with a lot of features supporting artists in preparation of or d
 - export songs, setlists and songsheets as PDF and other formats
 - keyboard shortcuts for navigation and action buttons
 
-SongDrive is still in development, there are more features to come. Check out what's planned in the [public repository on GitHub](https://github.com/devmount/SongDrive/issues?q=is%3Aissue+is%3Aopen+label%3Afeature).
+SongDrive is in active development, there are more features to come. Check out what's planned in the [public repository on GitHub](https://github.com/devmount/SongDrive/issues?q=is%3Aissue+is%3Aopen+label%3Afeature).
 
 ### Contributions
 
@@ -29,7 +29,7 @@ Feedback and contributions are very welcome! You can help by reporting bugs, sug
 
 ## Get started
 
-If you want to get to know SongDrive by using an existing SongDrive installation, you first need register a new user account. You can use the *Sign Up* Button and provide a name, email address and a password. As soon as an administrator approves your registration and assigns a user role to your account, you can sign in and start using SongDrive according to the privileges of your role.
+If you want to get to know SongDrive by being part of an existing SongDrive installation, you first need an invitation from an administrator. They can send you an invitation link where you register a new user account with a name, email address and password. As soon as you're registered, you can sign in and start using SongDrive according to the privileges of your assigned role.
 
 ### Requirements
 
@@ -43,7 +43,7 @@ SongDrive is fully responsive and will work on smaller screens too, but some fea
 
 ### Installation
 
-SongDrive is Open Source software and totally meant to be self-deployed. If you like to use SongDrive on your own server, please refer to the installation instructions in the [README](https://github.com/devmount/SongDrive/blob/main/README.md).
+SongDrive is Open Source software and totally meant to be self-hosted. If you like to use SongDrive on your own server, please refer to the installation instructions in the [README](https://github.com/devmount/SongDrive/blob/main/README.md) for frontend and backend.
 
 ## User roles
 
@@ -66,13 +66,13 @@ These roles have the following privileges:
 | x | x | x |   | synchronize setlists                        |
 | x | x |   |   | create and edit songs                       |
 | x | x |   |   | delete songs and setlists                   |
-| x |   |   |   | create, edit and delete song tags           |
-| x |   |   |   | create, edit and delete song languages      |
-| x |   |   |   | create, edit and delete users               |
+| x |   |   |   | manage song tags                            |
+| x |   |   |   | manage song languages                       |
+| x |   |   |   | manage users                                |
 
 ## Usage
 
-SongDrive provides a main menu on the left to navigate to all main pages like the dashboard, the overview of all songs and setlists, profile and settings pages as well as the overview of shortcuts and this documentation.
+SongDrive provides a main menu on the left (mobile on the right) to navigate to all main pages like the dashboard, the overview of all songs and setlists, the users profile apge as well as the overview of shortcuts and this documentation.
 
 ### Dashboard
 
@@ -170,7 +170,7 @@ The hour I first believed
 > **TIP**  
 > Try to provide a chord line for each line of text (don't skip chord lines for parts with the same chords, i.e. the second verse), as the goal is to make it as easy as possible for the song performer to play the song.
 
-And that's it - having this simple song syntax in mind you are now ready to add your own songs to SongDrive.
+And that's it - having this simple easy-to-read song syntax in mind you are now ready to add your own songs to SongDrive.
 
 ### Setlists
 
@@ -191,17 +191,11 @@ Clicking on a setlist opens a preview which shows the actual list of songs and a
 
 ### Account
 
-To protect the data in SongDrive, users have to authentificate themselves to access songs, setlists and more. The main menu on the left provides a *Sign Up* button to register a user account. As soon as an administrator approves the registration, you can use the *Sign In* form in the main menu.
-
-#### Profile
+To protect the data in SongDrive, users have to authentificate themselves to access songs, setlists and more. New users are onboarded by an administrator, who sends an invitation link to register a user account. As soon as you're registered, you can use the *Sign In* form on the login page.
 
 When signed in, you have access to you profile information. It can be found by clicking [on your name](/profile) in the main menu. Your name, role, email and profile picture are visible, as well as some numbers about how many setlists you created and how many songs you have performed (the sum of all songs on your setlists).
 
-#### Settings
-
-To update your profile information, visit the [Settings page](/settings). Your name and a link to a profile picture can be set. You can also choose the language of the SongDrive interface.
-
-If you are an administrator, you will have access to additional tools for user management, song language management, song tag managmenet and export or import of SongDrive data.
+To update your profile information, visit the [Amberbase user manager](/amber/ui/userprofile).
 
 ### Info
 

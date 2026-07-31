@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<modal-dialog
 		:active="active"
 		:theme="dark ? 'black' : 'white'"
 		size="full"
@@ -21,7 +21,7 @@
 						<song-content
 							:content="song.content"
 							:chords="chords"
-							:tuning="song.customTuningDelta"
+							:key-offset="song.customTuningDelta"
 							:presentation="true"
 							ref="songContentRef"
 						/>
@@ -135,7 +135,7 @@
 
 				<!-- Dropdown for small viewports -->
 				<div class="lg:hidden">
-					<dropdown position="up">
+					<drop-down position="up">
 						<button
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 							:disabled="!songs[currentPosition].note"
@@ -179,7 +179,7 @@
 							<icon-music-off v-else class="w-5 h-5 stroke-1.5" />
 							{{ t('tooltip.chords' + (!chords ? 'Show' : 'Hide')) }}
 						</button>
-					</dropdown>
+					</drop-down>
 				</div>
 				<!-- Exit presentation -->
 				<button
@@ -219,7 +219,7 @@
 				</div>
 			</div>
 		</div>
-	</modal>
+	</modal-dialog>
 
 	<!-- Modal: info song note -->
 	<info-song-data
@@ -236,9 +236,9 @@ import { logicOr } from '@vueuse/math';
 import { whenever } from '@vueuse/core';
 import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Dropdown from '@/elements/Dropdown.vue';
+import DropDown from '@/elements/DropDown.vue';
 import InfoSongData from '@/modals/InfoSongData.vue';
-import Modal from '@/elements/Modal.vue';
+import ModalDialog from '@/elements/ModalDialog.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent.vue';
 

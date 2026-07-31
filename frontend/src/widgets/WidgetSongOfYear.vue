@@ -1,5 +1,5 @@
 <template>
-	<panel v-if="songs && setlists.length > 0">
+	<panel-box v-if="songs && setlists.length > 0">
 		<div class="flex justify-between items-start">
 			<div class="text-2xl">
 				{{ t('widget.songOfYear') }}
@@ -24,7 +24,7 @@
 				v-for="obj in songlist"
 				:key="obj.year"
 				class="flex gap-2 cursor-pointer p-2 hover:bg-blade-200 dark:hover:bg-blade-800"
-				@click="router.push({ name: 'song-show', params: { id: obj.song.id}})"
+				@click="router.push({ name: 'song-show', params: { id: obj.song.entity.slug}})"
 			>
 				<div class="flex">
 					<figure
@@ -42,8 +42,8 @@
 					</figure>
 				</div>
 				<div class="flex flex-col overflow-hidden">
-					<div class="-mt-1 truncate">{{ obj.song.title }}</div>
-					<div class="text-sm text-blade-500 -mt-1 truncate">{{ obj.song.subtitle }}</div>
+					<div class="-mt-1 truncate">{{ obj.song.entity.title }}</div>
+					<div class="text-sm text-blade-500 -mt-1 truncate">{{ obj.song.entity.subtitle }}</div>
 				</div>
 			</div>
 		</div>
@@ -51,15 +51,15 @@
 			{{ t('widget.showAllSongs') }}
 			<icon-arrow-right class="w-5 h-5 stroke-1.5" />
 		</link-button>
-	</panel>
+	</panel-box>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import LinkButton from '@/elements/LinkButton.vue';
-import Panel from '@/elements/Panel.vue';
+import PanelBox from '@/elements/PanelBox.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 
 // icons
@@ -73,11 +73,9 @@ import {
 const { t } = useI18n();
 const router = useRouter();
 
-// component properties
-const props = defineProps({
-	setlists: Array,
-  songs: Object,
-});
+// injected properties
+const songs = inject('songs');
+const setlists = inject('setlists');
 
 // list data
 const page = ref(0);
@@ -86,14 +84,14 @@ const listLength = 7;
 // build song of year list
 const songOfYear = computed(() => {
 	let list = {};
-	props.setlists.forEach(setlist => {
-		let year = setlist.date.slice(0, 4);
-		if (year && setlist.songs) {
+	setlists.value.forEach(setlist => {
+		let year = setlist.entity.date.slice(0, 4);
+		if (year && setlist.entity.songs) {
 			if (!list.hasOwnProperty(year)) {
 				list[year] = {};
 			}
-			setlist.songs.forEach(song => {
-				if (props.songs.hasOwnProperty(song.id)) {
+			setlist.entity.songs.forEach(song => {
+				if (songs.value.some(s => s.entity.slug == song.id)) {
 					if (!list[year].hasOwnProperty(song.id)) {
 						list[year][song.id] = 1;
 					} else {
@@ -112,7 +110,7 @@ const songOfYear = computed(() => {
 				maxCount = list[year][id];
 			}
 		}
-		songsToYear.push({ year: year, song: props.songs[maxId], count: maxCount });
+		songsToYear.push({ year: year, song: songs.value.find(s => s.entity.slug == maxId), count: maxCount });
 	}
 	return songsToYear;
 });
