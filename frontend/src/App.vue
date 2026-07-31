@@ -451,53 +451,51 @@ const init = async () => {
 		.start();
 	
 	amberUser.value = await client.value.userInTenant();
+	authenticated.value = true;
 
-	if (authenticated.value) {
-		collectionApi = client.value.getCollectionsApi();
-		songsCollection.value = collectionApi.getCollection('songs');
-		setlistCollection.value = collectionApi.getCollection('setlists');
+	collectionApi = client.value.getCollectionsApi();
+	songsCollection.value = collectionApi.getCollection('songs');
+	setlistCollection.value = collectionApi.getCollection('setlists');
 
-		songsCollection.value.subscribe(0, (doc) => {
-			let existing = songs.value.find(s => s.id === doc.id);
-			if (existing) {
-				existing.entity = doc.data;
-				existing.changeNumber = doc.change_number;
-			} else {
-				songs.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
-			}
+	songsCollection.value.subscribe(0, (doc) => {
+		let existing = songs.value.find(s => s.id === doc.id);
+		if (existing) {
+			existing.entity = doc.data;
+			existing.changeNumber = doc.change_number;
+		} else {
+			songs.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
+		}
 
-		}, (docDeletedId) => {
-			songs.value = songs.value.filter(s => s.id !== docDeletedId);
-		});
+	}, (docDeletedId) => {
+		songs.value = songs.value.filter(s => s.id !== docDeletedId);
+	});
 
-		setlistCollection.value.subscribe(0, (doc) => {
-			let existing = setlists.value.find(s => s.id === doc.id);
-			if (existing) {
-				existing.entity = doc.data;
-				existing.changeNumber = doc.change_number;
-			} else {
-				setlists.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
-			}
+	setlistCollection.value.subscribe(0, (doc) => {
+		let existing = setlists.value.find(s => s.id === doc.id);
+		if (existing) {
+			existing.entity = doc.data;
+			existing.changeNumber = doc.change_number;
+		} else {
+			setlists.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
+		}
 
-		}, (docDeletedId) => {
-			setlists.value = setlists.value.filter(s => s.id !== docDeletedId);
-		});
-	
-		await collectionApi.connect();
-		collectionApi.onConnectionChanged((connected) => {
-			tenant.connected = connected;
-		});
-	
-		const usersResponse = await client.value.getAmberApi()?.getUsers();
-		users.value = usersResponse?.reduce((p, c) => ({ ...p, [c.id]: c}), {})  || {};
-	}
+	}, (docDeletedId) => {
+		setlists.value = setlists.value.filter(s => s.id !== docDeletedId);
+	});
+
+	await collectionApi.connect();
+	collectionApi.onConnectionChanged((connected) => {
+		tenant.connected = connected;
+	});
+
+	const usersResponse = await client.value.getAmberApi()?.getUsers();
+	users.value = usersResponse?.reduce((p, c) => ({ ...p, [c.id]: c}), {})  || {};
 
 	ready.value = true;
 };
 
 const login = () => {
 	authCallback.value({ email: email.value, pw: password.value, stayLoggedIn: stayLoggedIn.value });
-	authenticated.value = true;
 };
 const logout = async () => {
 	await client.value?.loginManager.logout();
