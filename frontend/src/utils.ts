@@ -285,11 +285,12 @@ const throwError = (error: ThrowableError): void => {
 
 // calculate random string e.g. as example password
 const randomString = (length: number): string => {
-  let pass = '', rdm62;
-  while (length--) {
-   // Generate random integer between 0 and 61, 0|x works for Math.floor(x) in this case
-   rdm62 = 0 | Math.random() * 62;
+  let pass = '';
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  for (const byte of bytes) {
    // Map to ascii codes: 0-9 to 48-57 (0-9), 10-35 to 65-90 (A-Z), 36-61 to 97-122 (a-z)
+   const rdm62 = byte % 62;
    pass += String.fromCharCode(rdm62 + (rdm62 < 10 ? 48 : rdm62 < 36 ? 55 : 61))
   }
   return pass;
