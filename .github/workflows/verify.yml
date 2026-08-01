@@ -68,7 +68,11 @@ jobs:
       with:
         node-version: '24.x'
         cache: 'pnpm'
-        cache-dependency-path: frontend/pnpm-lock.yaml
+        cache-dependency-path: |
+          backend/pnpm-lock.yaml
+          frontend/pnpm-lock.yaml
+    - name: Build backend (frontend imports its compiled types via the @backend alias)
+      run: cd backend/ && pnpm install && pnpm run build
     - name: Install dependencies
       run: cd frontend/ && pnpm install
     - name: Lint
