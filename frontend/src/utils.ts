@@ -134,7 +134,11 @@ function parsedContent(content: string, keyOffset: number, showChords: boolean, 
           numbers.push((!isNaN(parseInt(n))) ? n : '0');
           break;
         default:
-          // a non existent part tag was found
+          // a non existent part tag was found - treat as an untyped part
+          // instead of desyncing types/classes/numbers from parsed content
+          types.push('');
+          classes.push('');
+          numbers.push('0');
           break;
       }
       // consider next part
