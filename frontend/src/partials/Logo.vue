@@ -23,13 +23,13 @@
   </div>
 </template>
 
-<script setup>
-import { inject } from 'vue';
+<script setup lang="ts">
+import { injectStrict, versionKey } from '@/keys';
 import { useI18n } from 'vue-i18n';
 
 // component constants
 const { t } = useI18n();
-const version = inject('version');
+const version = injectStrict(versionKey);
 
 // component properties
 defineProps({

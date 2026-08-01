@@ -20,13 +20,6 @@
 			<!-- toolbar -->
 			<div class="fixed bottom-2 right-2 flex gap-2">
 				<secondary-button
-					:disabled="!song.note"
-					:title="tooltip('info')"
-					@click="song.note ? showModal.infosongdata = true : null"
-				>
-					<icon-info-circle class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': showModal.infosongdata }" />
-				</secondary-button>
-				<secondary-button
 					:title="tooltip('lightMode')"
 					@click.prevent="dark = !dark"
 				>
@@ -49,27 +42,21 @@
 			</div>
 		</div>
 	</modal-dialog>
-	<!-- modal: info song note -->
-	<info-song-data
-		:active="showModal.infosongdata"
-		:song="song"
-		@closed="showModal.infosongdata = false"
-	/>
 </template>
 
-<script setup>
-import { reactive, ref, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
+<script setup lang="ts">
+import { injectStrict, hkCancelKey, hkThemeKey } from '@/keys';
+import { ref, watch, onMounted, onUnmounted, nextTick, type PropType } from 'vue';
 import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import InfoSongData from '@/modals/InfoSongData.vue';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent.vue';
+import type { SongEntity } from '@backend/models';
 
 // icons
 import {
 	IconBrightness,
-	IconInfoCircle,
 	IconMusic,
 	IconMusicOff,
 	IconX,
@@ -79,29 +66,23 @@ import {
 const { t } = useI18n();
 
 // handle hotkeys for this component
-const hkInfo = inject('hkInfo');
-const hkTheme = inject('hkTheme');
-const hkCancel = inject('hkCancel');
+const hkTheme = injectStrict(hkThemeKey);
+const hkCancel = injectStrict(hkCancelKey);
 
 // inherited properties
 const props = defineProps({
 	active:     Boolean, // state of modal display, true to show modal
 	chords:     Boolean, // true if chords shall be rendered
-	song:       Object,  // single song to present
+	song:       Object as PropType<SongEntity>,  // single song to present
 	keyOffset:  Number,  // semitone offset from the song's base key to present it in
-});
-
-// reactive data
-const showModal = reactive({
-	infosongdata: false
 });
 
 // manual theme selection
 const dark = ref(true);
 
 // timeouts for resize debouncing
-const resizeTimeout = ref(null);
-const songContentRef = ref(null);
+const resizeTimeout = ref<ReturnType<typeof setTimeout>>();
+const songContentRef = ref<InstanceType<typeof SongContent>>();
 
 // emits
 const emit = defineEmits(['chords', 'closed']);
@@ -122,12 +103,8 @@ const resizeHandler = () => {
 	}, 500);
 };
 // handle tooltips
-const tooltip = (target) => {
+const tooltip = (target: string) => {
 	switch (target) {
-		case 'info':
-			return props.song.note
-				? t('tooltip.infoSongData') + '\n' + t('key.ctrl') + ' + ' + t('key.I')
-				: t('tooltip.noSongInfo');
 		case 'lightMode':
 			return t('tooltip.invertColors') + '\n' + t('key.ctrl') + ' + ' + t('key.L');
 		case 'chords':
@@ -155,10 +132,6 @@ onUnmounted(() => {
 });
 
 // component shortcuts
-whenever(
-	hkInfo,
-	() => props.song.note ? showModal.infosongdata = !showModal.infosongdata : null
-);
 whenever(
 	hkTheme,
 	() => dark.value = !dark.value

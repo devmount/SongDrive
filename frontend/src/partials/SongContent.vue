@@ -13,10 +13,10 @@
 		>
 			<pre
 				v-for="(part, j) in parts" :key="j"
-				:part="part.number"
+				:part="String(part.number)"
 				class="relative overflow-visible"
 				:class="{
-					'relative before:absolute before:top-1 before:font-fira before:font-light before:content-[attr(part)] before:w-12 before:-left-6 before:text-right': part.class === 'verse' && part.number > 0,
+					'relative before:absolute before:top-1 before:font-fira before:font-light before:content-[attr(part)] before:w-12 before:-left-6 before:text-right': part.class === 'verse' && Number(part.number) > 0,
 					'font-fira text-2xl': !chords,
 					'pl-8 before:text-4xl': !presentation,
 					'inline-block leading-[1.4] pl-6 md:pl-8 before:text-3xl md:before:text-4xl before:-left-8 md:before:-left-6': presentation,
@@ -30,13 +30,13 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { isChordLine, parsedContent } from '@/utils.js';
 
 const props = defineProps({
-	content:      String,  // actual song content to display
+	content:      { type: String, default: '' },  // actual song content to display
 	chords:       Boolean, // true if chords shall be rendered
-	keyOffset:    Number,  // semitone offset from the song's base key to present it in
+	keyOffset:    { type: Number, default: 0 },  // semitone offset from the song's base key to present it in
 	presentation: Boolean, // flag if song is displayed in presentation mode
 });
 
@@ -47,10 +47,10 @@ const maximizeFontsize = () => {
 	const HEIGHT_MARGIN = 30;
 	const MAX_FONTSIZE  = 48;
 	// all parent elements
-	for (let a of document.querySelectorAll('.present')) {
+	for (let a of document.querySelectorAll<HTMLElement>('.present')) {
 		// all child elements
-		for (let b of a.querySelectorAll('pre')) {
-			let fontSize = parseInt(getComputedStyle(b).fontSize.match(/\d+/)[0]);
+		for (let b of a.querySelectorAll<HTMLElement>('pre')) {
+			let fontSize = parseInt(getComputedStyle(b).fontSize.match(/\d+/)![0]);
 			// increase font size as long as the child is still smaller than parent and not greater than max fontsize
 			let n1 = 100; // max of 100 iterations for performance reasons
 			while (b.offsetWidth < a.offsetWidth - WIDTH_MARGIN && n1 > 0 && fontSize <= MAX_FONTSIZE) {
@@ -68,12 +68,12 @@ const maximizeFontsize = () => {
 	// decrease font size of parts with greatest font size first if it doesnt fit into viewport height
 	let vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 85;
 	// handle both columns
-	for (let c of document.querySelectorAll('.present')) {
-		let parts = [];
-		for (let d of c.querySelectorAll('pre')) {
+	for (let c of document.querySelectorAll<HTMLElement>('.present')) {
+		let parts: { part: HTMLElement, size: number, height: number }[] = [];
+		for (let d of c.querySelectorAll<HTMLElement>('pre')) {
 			parts.push({
 				part: d,
-				size: parseInt(getComputedStyle(d).fontSize.match(/\d+/)[0]),
+				size: parseInt(getComputedStyle(d).fontSize.match(/\d+/)![0]),
 				height: d.offsetHeight + HEIGHT_MARGIN
 			});
 		}
@@ -84,7 +84,7 @@ const maximizeFontsize = () => {
 			parts.sort((a, b) => b.size - a.size);
 			if (parts.length > 0) {
 				parts[0].part.style.fontSize = (parts[0].size - 3) + 'px';
-				parts[0].size = parseInt(getComputedStyle(parts[0].part).fontSize.match(/\d+/)[0]);
+				parts[0].size = parseInt(getComputedStyle(parts[0].part).fontSize.match(/\d+/)![0]);
 				parts[0].height = parts[0].part.offsetHeight + HEIGHT_MARGIN;
 			}
 			n--;

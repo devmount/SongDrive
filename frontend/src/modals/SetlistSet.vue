@@ -13,11 +13,11 @@
 					<input
 						type="text"
 						v-model="setlist.title"
-						:class="{ 'border-rose-600!': (error.title & !setlist.title) || error.slug }"
+						:class="{ 'border-rose-600!': (error.title && !setlist.title) || error.slug }"
 						:placeholder="t('placeholder.exampleSetlistTitle')"
 						required
 					/>
-					<div v-if="error.title & !setlist.title" class="text-rose-600">
+					<div v-if="error.title && !setlist.title" class="text-rose-600">
 						{{ t('error.requiredTitle') }}
 					</div>
 					<div v-if="error.slug" class="text-rose-600">
@@ -28,13 +28,13 @@
 				<label class="flex grow lg:grow-0 flex-col gap-1">
 					<div>{{ t('field.visibility') }} <span class="text-rose-600">*</span></div>
 					<select v-model="setlist.isPublic" required>
-						<option value="1">{{ t('option.public') }}</option>
-						<option value="0">{{ t('option.private') }}</option>
+						<option :value="true">{{ t('option.public') }}</option>
+						<option :value="false">{{ t('option.private') }}</option>
 					</select>
-					<div v-if="setlist.isPublic=='0'" class="text-blade-500">
+					<div v-if="!setlist.isPublic" class="text-blade-500">
 						{{ t('text.visibleForYou') }}
 					</div>
-					<div v-if="setlist.isPublic=='1'" class="text-blade-500">
+					<div v-if="setlist.isPublic" class="text-blade-500">
 						{{ t('text.visibleForAll') }}
 					</div>
 				</label>
@@ -48,14 +48,14 @@
 						pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
 					/>
 					<div class="text-blade-500">{{ humanDate(setlist.date, loc) }}</div>
-					<div v-if="error.date & !setlist.date" class="text-rose-600">
+					<div v-if="error.date && !setlist.date" class="text-rose-600">
 						{{ t('error.requiredDate') }}
 					</div>
 					<datepicker
 						:model-value="setlist.date != '' ? (new Date(setlist.date)) : (new Date())"
 						format="yyyy-MM-dd"
 						class="hidden lg:block"
-						:class="{ 'border border-rose-600!': error.date & !setlist.date }"
+						:class="{ 'border border-rose-600!': error.date && !setlist.date }"
 						inline
 						auto-apply
 						:dark="isDark"
@@ -77,7 +77,7 @@
 				</label>
 			</div>
 			<!-- song selection -->
-			<div class="max-h-[calc(50vh_-_6rem)] lg:max-h-[calc(80vh_-_8.25rem)] flex flex-col gap-1">
+			<div class="max-h-[calc(50vh-6rem)] lg:max-h-[calc(80vh-8.25rem)] flex flex-col gap-1">
 				<label>{{ t('field.songs') }}</label>
 				<!-- filter -->
 				<div class="flex gap-1">
@@ -87,7 +87,7 @@
 						<input
 							type="search"
 							v-model="filter.fulltext"
-							@input="e => filter.fulltext = e.target.value"
+							@input="e => filter.fulltext = (e.target as HTMLInputElement).value"
 							class="w-full pl-8"
 							:placeholder="t('placeholder.searchSongTitle')"
 						/>
@@ -163,7 +163,7 @@
 					>
 						<input
 							:checked="idExists(fsong.id)"
-							@input="e => songSelection(fsong.id, e.target.checked)"
+							@input="e => songSelection(fsong.id, (e.target as HTMLInputElement).checked)"
 							type="checkbox"
 							class="w-6 h-6 ml-2"
 						/>
@@ -191,7 +191,7 @@
 				</div>
 			</div>
 			<!-- song preview -->
-			<div class="max-h-[calc(50vh_-_6rem)] lg:max-h-[calc(80vh_-_8.25rem)] flex flex-col gap-1">
+			<div class="max-h-[calc(50vh-6rem)] lg:max-h-[calc(80vh-8.25rem)] flex flex-col gap-1">
 				<div v-if="setlist.songs?.length === 0" class="flex flex-col items-center gap-8 mt-4">
 					<icon-playlist class="w-12 h-12 stroke-1 text-blade-500" />
 					<div class="text-center">
@@ -266,15 +266,19 @@
 	</modal-dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { injectStrict, setlistCollectionKey, setlistsKey, songsKey, userKey } from '@/keys';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { enGB, de } from 'date-fns/locale';
+import type { Locale } from 'date-fns';
 import { keyScale, humanDate, throwError, urlify, browserPrefersDark, sortTags } from '@/utils.js';
+import type { ThrowableError, SetlistFormData } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, inject, watch } from 'vue';
+import { ref, reactive, computed, watch, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { SongLanguage, SongTag as SongTagEnum } from '@backend/definitions';
+import type { SetlistEntity } from '@backend/models';
 import Datepicker from '@vuepic/vue-datepicker';
 import draggable from 'vuedraggable';
 import DropDown from '@/elements/DropDown.vue';
@@ -306,28 +310,28 @@ import {
 const { t, locale } = useI18n();
 const loc = locale.value.substring(0, 2);
 
-const calendarLanguage = {
+const calendarLanguage: Record<string, Locale> = {
 	en: enGB,
 	de: de
 };
 const router = useRouter();
 
 // global properties
-const songs = inject('songs');
-const setlists = inject('setlists');
-const user = inject('user');
-const setlistCollection = inject('setlistCollection');
+const songs = injectStrict(songsKey);
+const setlists = injectStrict(setlistsKey);
+const user = injectStrict(userKey);
+const setlistCollection = injectStrict(setlistCollectionKey);
 const languages = Object.values(SongLanguage);
 const tags = Object.values(SongTagEnum);
 
 // find a song's entity by id
-const findSong = (id) => songs.value.find(s => s.id === id)?.entity;
+const findSong = (id: string) => songs.value.find(s => s.id === id)?.entity;
 
 // component properties
 const props = defineProps({
 	active:         Boolean, // state of modal display, true to show modal
 	existing:       Boolean, // setlist already exists
-	initialSetlist: Object,  // setlist structure to fill with data
+	initialSetlist: { type: Object as PropType<SetlistFormData>, required: true },  // setlist structure to fill with data
 	id:             String,  // setlist identifier
 });
 
@@ -348,43 +352,42 @@ const errors = computed(() => {
 	return (error.title || error.slug || error.date);
 });
 const resetErrors = () => {
-	for (const key in error) {
-		if (Object.hasOwnProperty.call(error, key)) {
-			error[key] = false;
-		}
+	for (const key of Object.keys(error) as (keyof typeof error)[]) {
+		error[key] = false;
 	}
 };
 
+// build local editable setlist state from the initial (blank or existing) setlist
+const buildFormState = (initial: SetlistFormData): SetlistFormData => ({
+	...initial,
+	// only show undeleted songs
+	songs: initial.songs.filter(s => findSong(s.id)),
+});
+
 // setlist input data
-const setlist = ref(null);
+const setlist = ref<SetlistFormData>(buildFormState(props.initialSetlist));
 const initInput = () => {
 	resetErrors();
 	resetFilter();
-	const sl = { ...props.initialSetlist };
-	// only show undeleted songs
-	sl.songs = sl.songs.filter(s => findSong(s.id));
-	// init visibility state if not existing
-	sl.isPublic = sl.isPublic ? 1 : 0;
-	// apply initial values
-	setlist.value = sl;
+	setlist.value = buildFormState(props.initialSetlist);
 };
 watch(() => props.active === true, () => initInput());
 
 // add song to current song selection
-const addSong = (id) => {
-	setlist.value.songs.push({ id: id, key: findSong(id)?.key });
+const addSong = (id: string) => {
+	setlist.value.songs.push({ id: id, key: findSong(id)?.key ?? '' });
 };
 
 // remove song from current song selection
-const removeSong = (id) => {
+const removeSong = (id: string) => {
 	setlist.value.songs = setlist.value.songs.filter((s) => s.id !== id);
 };
 
 // check if given song exists on current song selection
-const idExists = (id) => setlist.value?.songs.some((s) => s.id === id);
+const idExists = (id: string) => setlist.value?.songs.some((s) => s.id === id);
 
 // add or remove song of given id
-const songSelection = (id, addition) => {
+const songSelection = (id: string, addition: boolean) => {
 	if (addition) {
 		addSong(id);
 	} else {
@@ -393,17 +396,15 @@ const songSelection = (id, addition) => {
 };
 
 // filter input
-const filter = reactive({
+const filter = reactive<{ fulltext: string | null; tag: string | null; key: string | null; language: string | null }>({
 	fulltext: null,
 	tag:      null,
 	key:      null,
 	language: null,
 });
 const resetFilter = () => {
-	for (const field in filter) {
-		if (Object.hasOwnProperty.call(filter, field)) {
-			filter[field] = null;
-		}
+	for (const field of Object.keys(filter) as (keyof typeof filter)[]) {
+		filter[field] = null;
 	}
 };
 const isFiltered = computed(() => {
@@ -421,28 +422,28 @@ const filteredSongs = computed(() => {
 		const key = filter.fulltext.toLowerCase();
 		result = result.filter(s =>
 			s.entity.title.toLowerCase().indexOf(key) !== -1
-				|| s.entity.subtitle.toLowerCase().indexOf(key) !== -1
+				|| (s.entity.subtitle ?? '').toLowerCase().indexOf(key) !== -1
 				|| s.entity.content.toLowerCase().indexOf(key) !== -1
 		);
 	}
 	if (filter.tag) {
 		// filter field: tags
-		result = result.filter(s => s.entity.tags.indexOf(filter.tag) !== -1);
+		result = result.filter(s => s.entity.tags.indexOf(filter.tag!) !== -1);
 	}
 	if (filter.language) {
 		// filter field: language
-		result = result.filter(s => s.entity.language.indexOf(filter.language) !== -1);
+		result = result.filter(s => s.entity.language.indexOf(filter.language!) !== -1);
 	}
 	if (filter.key) {
 		// filter field: key
-		result = result.filter(s => s.entity.key?.indexOf(filter.key) !== -1);
+		result = result.filter(s => s.entity.key?.indexOf(filter.key!) !== -1);
 	}
 	return result;
 });
 
 // list of songs and the date of their last performance by song id
 const performedSongs = computed(() => {
-	let songs = {};
+	let songs: Record<string, string> = {};
 	let sortedSetlists = setlists.value.toSorted((a, b) => b.entity.date.localeCompare(a.entity.date));
 	sortedSetlists.forEach(setlist => {
 		setlist.entity.songs.forEach(song => {
@@ -455,22 +456,16 @@ const performedSongs = computed(() => {
 });
 
 // update setlist date from datepicker
-const updateDate = (newDate) => {
+const updateDate = (newDate: Date) => {
 	setlist.value.date = newDate.toISOString().slice(0,10);
 };
 
-// update song order of setlist songs
-const reorder = ({oldIndex, newIndex}) => {
-	const movedItem = setlist.value.songs.splice(oldIndex, 1)[0];
-	setlist.value.songs.splice(newIndex, 0, movedItem);
-};
-
 // tune the song at given position up
-const tuneUp = (position) => {
+const tuneUp = (position: number) => {
 	let songs = setlist.value.songs;
 	// update tuning
 	let tone = songs[position].key ? songs[position].key : findSong(songs[position].id)?.key;
-	let i = keyScale.indexOf(tone);
+	let i = keyScale.indexOf(tone ?? '');
 	if (i>=keyScale.length-1) {
 		tone = keyScale[0];
 	} else {
@@ -481,11 +476,11 @@ const tuneUp = (position) => {
 };
 
 // tune the song at given position down
-const tuneDown = (position) => {
+const tuneDown = (position: number) => {
 	let songs = setlist.value.songs;
 	// update tuning
 	let tone = songs[position].key ? songs[position].key : findSong(songs[position].id)?.key;
-	let i = keyScale.indexOf(tone);
+	let i = keyScale.indexOf(tone ?? '');
 	if (i<=0) {
 		tone = keyScale[keyScale.length-1];
 	} else {
@@ -501,16 +496,16 @@ const createSlug = () => {
 };
 
 // build the entity payload to send to Amberbase
-const buildEntity = (slug) => ({
-	active:      props.existing ? props.initialSetlist.active : false,
-	createdBy:   props.existing ? props.initialSetlist.createdBy : user.value.id,
+const buildEntity = (slug: string): SetlistEntity => ({
+	active:      (props.existing ? props.initialSetlist.active : false) ?? false,
+	createdBy:   (props.existing ? props.initialSetlist.createdBy : user.value.id) ?? '',
 	date:        setlist.value.date,
-	isPublic:    setlist.value.isPublic == 1,
-	position:    props.existing ? props.initialSetlist.position : 0,
+	isPublic:    setlist.value.isPublic,
+	position:    (props.existing ? props.initialSetlist.position : 0) ?? 0,
 	remoteHide:  props.existing ? props.initialSetlist.remoteHide : undefined,
 	remoteLight: props.existing ? props.initialSetlist.remoteLight : undefined,
 	remoteText:  props.existing ? props.initialSetlist.remoteText : undefined,
-	sharedWith:  props.existing ? props.initialSetlist.sharedWith : [],
+	sharedWith:  (props.existing ? props.initialSetlist.sharedWith : []) ?? [],
 	slug,
 	songs:       setlist.value.songs,
 	title:       setlist.value.title,
@@ -527,13 +522,15 @@ const setSetlist = async () => {
 	// errors occured: abort
 	if (errors.value) return;
 
+	if (!setlistCollection.value) return;
 	busy.value = true;
 	const entity = buildEntity(slug);
+	const collection = setlistCollection.value;
 
 	try {
 		// new setlist should be created
 		if (!props.existing) {
-			await setlistCollection.value.createDoc(entity, slug);
+			await collection.createDoc(entity, slug);
 			router.push({ name: 'setlist-show', params: { id: slug }});
 			// toast success creation message
 			notify({
@@ -546,7 +543,8 @@ const setSetlist = async () => {
 		else if (props.id === slug) {
 			// just update the existing setlist
 			const current = setlists.value.find(s => s.entity.slug === props.id);
-			await setlistCollection.value.updateDoc(current.id, current.changeNumber, entity);
+			if (!current) return;
+			await collection.updateDoc(current.id, current.changeNumber ?? 0, entity);
 			// toast success update message
 			notify({
 				title: t('toast.setlistUpdated'),
@@ -556,8 +554,9 @@ const setSetlist = async () => {
 		} else {
 			// update key by adding a new setlist and removing the old one
 			const current = setlists.value.find(s => s.entity.slug === props.id);
-			await setlistCollection.value.createDoc(entity, slug);
-			await setlistCollection.value.deleteDoc(current.id);
+			if (!current) return;
+			await collection.createDoc(entity, slug);
+			await collection.deleteDoc(current.id);
 			router.push({ name: 'setlist-show', params: { id: slug }});
 			// toast success update message
 			notify({
@@ -568,7 +567,7 @@ const setSetlist = async () => {
 		}
 		emit('closed');
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	} finally {
 		busy.value = false;
 	}

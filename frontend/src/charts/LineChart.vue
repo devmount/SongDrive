@@ -18,16 +18,17 @@
 	</div>
 </template>
 
-<script setup>
-import { computed, watch, onMounted } from 'vue';
+<script setup lang="ts">
+import { computed, watch, onMounted, type PropType } from 'vue';
 import { Chart, transparentGradientLine } from '@/chart.config.js';
+import type { ChartConfiguration, ChartDataset, TooltipItem, ScriptableContext, ScriptableLineSegmentContext } from 'chart.js';
 
 // inherited properties
 const props = defineProps({
 	title:       String,  // chart title to print as heading if set
 	description: String,  // chart descriptional text to print between heading and chart if set
-	labels:      Array,   // chart data labels (mandatory)
-	datasets:    Array,   // chart datasets (mandatory)
+	labels:      { type: Array as PropType<string[]>, required: true },   // chart data labels (mandatory)
+	datasets:    { type: Array as PropType<ChartDataset<'line'>[]>, required: true },   // chart datasets (mandatory)
 	abscissa:    Boolean, // true if abscissa axis should be shown
 	ordinate:    Boolean, // true if ordinate axis should be shown
 	tooltips: {           // true if tooltips should be shown
@@ -48,21 +49,21 @@ const props = defineProps({
 
 // non-reactive data
 const id = Math.random().toString(36).substring(7);
-let chart = null;
+let chart: Chart<'line'> | null = null;
 
 // computed: bring given datasets in chart.js readable format
 const processedDatasets = computed(() => {
 	let datasets = props.datasets;
 	datasets.map(d => {
 		// gradient for background
-		d.backgroundColor = context => {
+		d.backgroundColor = (context: ScriptableContext<'line'>) => {
 			const { ctx, chartArea } = context.chart;
-			if (!chartArea) return null;
-			return transparentGradientLine(ctx, chartArea, d.borderColor);
+			if (!chartArea) return undefined;
+			return transparentGradientLine(ctx, chartArea, String(d.borderColor));
 		};
 		// dashed line for last segment
 		d.segment = {
-			borderDash: ctx => props.unfinished && ctx.p0?.parsed.x == d.data.length-2 ? [10, 5] : undefined
+			borderDash: (ctx: ScriptableLineSegmentContext) => props.unfinished && ctx.p0.parsed.x == d.data.length-2 ? [10, 5] : undefined
 		};
 	})
 	return datasets;
@@ -91,12 +92,13 @@ const draw = () => {
 				tooltip: {
 					enabled: props.tooltips,
 					callbacks: {
-						label: context => ' ' + context.formattedValue + ' ' + context.dataset.label,
-						labelColor: context => {
+						label: (context: TooltipItem<'line'>) => ' ' + context.formattedValue + ' ' + context.dataset.label,
+						labelColor: (context: TooltipItem<'line'>) => {
+							const color = String(context.dataset.borderColor);
 							return {
 								borderWidth: 2,
-								borderColor: context.dataset.borderColor,
-								backgroundColor: context.dataset.borderColor + '33',
+								borderColor: color,
+								backgroundColor: color + '33',
 							};
 						},
 					}
@@ -109,7 +111,6 @@ const draw = () => {
 					stacked: false,
 					grid: {
 						display: false,
-						drawBorder: false,
 					},
 					ticks: {
 						maxRotation: 0,
@@ -122,25 +123,28 @@ const draw = () => {
 					stacked: false,
 					grid: {
 						display: false,
-						drawBorder: false,
 					},
 					beginAtZero: true
 				}
 			}
 		}
-	});
+	} as ChartConfiguration<'line'>);
 };
 
 // update chart if new data arrives
 watch (() => props.datasets, () => {
+	if (!chart) return;
 	chart.data.labels = props.labels;
 	chart.data.datasets = processedDatasets.value;
 	// show points if only one data column exists and therefore no line can be drawn
-	chart.options.datasets.line.pointRadius = props.labels.length == 1 ? 5 : 0;
+	if (chart.options.datasets?.line) {
+		chart.options.datasets.line.pointRadius = props.labels.length == 1 ? 5 : 0;
+	}
 	chart.update();
 });
 // update chart if ordinate is toggeled
 watch (() => props.ordinate, (newValue) => {
+	if (!chart?.options.scales?.y) return;
 	chart.options.scales.y.display = newValue;
 	chart.update();
 });

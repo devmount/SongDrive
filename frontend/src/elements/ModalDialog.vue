@@ -39,7 +39,7 @@
 	</transition-scale>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { watch } from 'vue';
 import TransitionFade from '@/elements/TransitionFade.vue';
 import TransitionScale from '@/elements/TransitionScale.vue';

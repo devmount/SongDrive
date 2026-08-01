@@ -88,8 +88,9 @@
 	</div>
 </template>
 
-<script setup>
-import { computed, inject } from 'vue';
+<script setup lang="ts">
+import { injectStrict, setlistsKey, songsKey } from '@/keys';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BarChart  from '@/charts/BarChart.vue';
 import LineChart from '@/charts/LineChart.vue';
@@ -108,12 +109,12 @@ import {
 
 const { t, locale } = useI18n();
 
-const songs = inject('songs');
-const setlists = inject('setlists');
+const songs = injectStrict(songsKey);
+const setlists = injectStrict(setlistsKey);
 
 // total number of song languages
 const languagesUsed = computed(() => {
-	const languages = [];
+	const languages: string[] = [];
 	songs.value.forEach(song => {
 		if (!languages.includes(song.entity.language)) {
 			languages.push(song.entity.language);
@@ -127,7 +128,7 @@ const songsPerformed = computed(() => setlists.value.reduce((a, c) => a + c.enti
 
 // chart data providing number of setlists per year
 const setlistsPerYear = computed(() => {
-	let years = {};
+	let years: Record<string, number> = {};
 	setlists.value.forEach(setlist => {
 		let year = setlist.entity.date.slice(0, 4);
 		if (year) {
@@ -148,7 +149,7 @@ const setlistsPerYear = computed(() => {
 
 // chart data providing number of song performances per year
 const songsPerYear = computed(() => {
-	let years = {};
+	let years: Record<string, number> = {};
 	setlists.value.forEach(setlist => {
 		let year = setlist.entity.date.slice(0, 4);
 		if (year) {
@@ -167,7 +168,7 @@ const songsPerYear = computed(() => {
 });
 // chart data holding number of setlists per event weekday
 const setlistsPerWeekday = computed(() => {
-	let weekday = {};
+	let weekday: Record<string, number> = {};
 	for (let i = 0; i < getWeekDays.value.length; i++) {
 		weekday[getWeekDays.value[i]] = 0;
 	}
@@ -186,7 +187,7 @@ const setlistsPerWeekday = computed(() => {
 // generate locale weekday names
 const getWeekDays = computed(() => {
 	var d = new Date(Date.UTC(2017, 0, 2)); // start with a Monday
-	var names = [];
+	var names: string[] = [];
 	for(let i = 0; i < 7; i++) {
 		names.push(d.toLocaleDateString(locale.value, { weekday: 'long' }));
 		d.setDate(d.getDate() + 1);

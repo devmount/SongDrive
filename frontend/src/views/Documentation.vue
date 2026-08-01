@@ -13,7 +13,7 @@
 			<!-- table of contents -->
 			<button
 				v-for="(t, i) in toc"
-				:key="t"
+				:key="i"
 				class="py-1 px-2 rounded-md hover:bg-blade-800 flex justify-start items-center gap-2"
 				@click="scrollTo(null, i)"
 			>
@@ -88,11 +88,13 @@
 	</div>
 </template>
 
-<script setup>
-import { computed, inject } from 'vue';
+<script setup lang="ts">
+import { injectStrict, markedKey } from '@/keys';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import de from "@/docs/docs.de.md?raw";
 import en from "@/docs/docs.en.md?raw";
+import type { Tokens } from 'marked';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 
 // icons
@@ -112,30 +114,25 @@ const { t, locale } = useI18n();
 const loc = locale.value.substring(0, 2);
 
 // documentation contents
-const docs = { de, en };
+const docs: Record<string, string> = { de, en };
 const lang = ['de', 'en'].includes(loc) ? loc : 'en';
 
-// convert spaces to dashes
-const dashCase = (text) => {
-	return text.toLowerCase().replace(' ', '-');
-};
-
 // scroll to element of given id
-const scrollTo = (id, h2=null) => {
+const scrollTo = (id: string | null, h2: number | null = null) => {
 	if (id) {
-		document.getElementById(id).scrollIntoView({ behavior: "smooth" });
-	} else {
+		document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+	} else if (h2 !== null) {
 		document.querySelectorAll('h2')[h2].scrollIntoView({ behavior: "smooth" });
 	}
 };
 
 // generate table of contents from h2's
 const toc = computed(
-	() => marked.lexer(docs[lang]).filter(t => t.type === 'heading' && t.depth === 2)
+	() => marked.lexer(docs[lang]).filter((t): t is Tokens.Heading => t.type === 'heading' && t.depth === 2)
 );
 
 // parse documentation markdown content with songdrive code highlight
-const marked = inject('marked');
+const marked = injectStrict(markedKey);
 const content = computed(
 	() => marked.parse(
 		docs[lang],
@@ -144,10 +141,6 @@ const content = computed(
 			pedantic: false,
 			gfm: true,
 			breaks: true,
-			sanitize: false,
-			smartLists: true,
-			smartypants: false,
-			xhtml: false
 		}
 	)
 );

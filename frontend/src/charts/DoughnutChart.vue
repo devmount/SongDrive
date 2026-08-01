@@ -20,25 +20,27 @@
 	</div>
 </template>
 
-<script setup>
-import { watch, onMounted } from 'vue';
+<script setup lang="ts">
+import { watch, onMounted, type PropType } from 'vue';
 import { Chart } from '@/chart.config.js';
+import type { ChartConfiguration, ChartDataset, TooltipItem } from 'chart.js';
 
 // inherited properties
 const props = defineProps({
 	title:       String,  // chart title to print as heading if set
 	description: String,  // chart descriptional text to print between heading and chart if set
-	info:        Object,  // chart info holding a featured number and corresponding label to show inside doughnut
-	labels:      Array,   // chart data labels (mandatory)
-	datasets:    Array,   // chart datasets (mandatory)
+	info:        Object as PropType<{ number: number | string; label: string }>,  // chart info holding a featured number and corresponding label to show inside doughnut
+	labels:      { type: Array as PropType<string[]>, required: true },   // chart data labels (mandatory)
+	datasets:    { type: Array as PropType<ChartDataset<'doughnut'>[]>, required: true },   // chart datasets (mandatory)
 });
 
 // non-reactive data
 const id = Math.random().toString(36).substring(7);
-let chart = null;
+let chart: Chart<'doughnut'> | null = null;
 
 // update chart if new data arrives
 watch (() => props.datasets, (newDatasets) => {
+	if (!chart) return;
 	chart.data.labels = props.labels;
 	chart.data.datasets = colorize(newDatasets);
 	chart.update();
@@ -72,38 +74,38 @@ const draw = () => {
 					intersect: true,
 					position: 'nearest',
 					callbacks: {
-						title: context => context[0].label,
-						label: context => ' ' + context.formattedValue + ' ' + context.dataset.label,
-						labelColor: context => {
+						title: (context: TooltipItem<'doughnut'>[]) => context[0].label,
+						label: (context: TooltipItem<'doughnut'>) => ' ' + context.formattedValue + ' ' + context.dataset.label,
+						labelColor: (context: TooltipItem<'doughnut'>) => {
+							const color = String(context.dataset.borderColor);
 							return {
 								borderWidth: 2,
-								borderColor: context.dataset.borderColor,
-								backgroundColor: context.dataset.borderColor + '33',
+								borderColor: color,
+								backgroundColor: color + '33',
 							};
 						}
 					}
 				}
 			}
 		}
-	});
+	} as ChartConfiguration<'doughnut'>);
 };
 // paint every segment depending on its data
-const colorize = (datasets) => {
+const colorize = (datasets: ChartDataset<'doughnut'>[]) => {
 	datasets.map(d => {
-		d.backgroundColor = dataColors(d.data, d.color);
-		d.borderColor = d.color;
+		d.backgroundColor = dataColors(d.data, d.borderColor as string);
 	});
 	return datasets;
 };
 // calculate list of background colors for each data arc
-const dataColors = (data, color) => {
-	const colors = [];
+const dataColors = (data: number[], color: string) => {
+	const colors: string[] = [];
 	const max = Math.max(...data);
 	data.forEach(d => colors.push(color + opacity(d, max)));
 	return colors;
 };
 // calculate opacity as two digit hex for given value based on max value
-const opacity = (value, max) => {
+const opacity = (value: number, max: number) => {
 	if (max == 0) return '00';
 	return Math.round(255*value/max).toString(16).padStart(2, "0");
 };

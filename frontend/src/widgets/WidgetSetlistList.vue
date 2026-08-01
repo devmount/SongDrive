@@ -2,7 +2,7 @@
 	<panel-box v-if="setlists.length">
 		<div class="flex justify-between items-start">
 			<div class="text-2xl">
-				{{ t('widget.' + keyByValue(sortBy, order)) }} {{ t('page.setlists', 2) }}
+				{{ t('widget.' + order) }} {{ t('page.setlists', 2) }}
 			</div>
 			<div class="flex gap-1">
 				<secondary-button
@@ -44,11 +44,11 @@
 			</div>
 		</div>
 		<div class="flex flex-wrap gap-1">
-			<secondary-button v-if="order != sortBy.newest" @click="newestSetlists">
+			<secondary-button v-if="order != SortOrder.Newest" @click="newestSetlists">
 				<icon-arrow-up class="w-5 h-5 stroke-1.5" />
 				{{ t('widget.newest') }}
 			</secondary-button>
-			<secondary-button v-if="order == sortBy.newest" @click="oldestSetlists">
+			<secondary-button v-if="order == SortOrder.Newest" @click="oldestSetlists">
 				<icon-arrow-down class="w-5 h-5 stroke-1.5" />
 				{{ t('widget.oldest') }}
 			</secondary-button>
@@ -60,9 +60,12 @@
 	</panel-box>
 </template>
 
-<script setup>
-import { keyByValue, humanDate } from '@/utils.js';
-import { ref, computed, inject } from 'vue';
+<script setup lang="ts">
+import { injectStrict, setlistsKey } from '@/keys';
+import { SortOrder } from '@/definitions';
+import { humanDate } from '@/utils.js';
+import { ref, computed } from 'vue';
+import type { Setlist } from '@backend/models';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import LinkButton from '@/elements/LinkButton.vue';
@@ -83,24 +86,18 @@ const { t, locale } = useI18n();
 const router = useRouter();
 
 // injected properties
-const setlists = inject('setlists');
-
-// sorting order
-const sortBy = {
-	newest: 1,
-	oldest: 2,
-}
+const setlists = injectStrict(setlistsKey);
 
 // list data
-const order      = ref(sortBy.newest);
-const reordered  = ref([]);
+const order      = ref<SortOrder>(SortOrder.Newest);
+const reordered  = ref<Setlist[]>([]);
 const page       = ref(0);
 const listLength = 6;
 
 // sort song list
 const newestSetlists = () => {
 	page.value = 0;
-	order.value = sortBy.newest;
+	order.value = SortOrder.Newest;
 	reordered.value = setlists.value.filter(s => s.entity.date != '').sort(
 		(a,b) => (new Date(a.entity.date) < new Date(b.entity.date)) ? 1 : ((new Date(b.entity.date) < new Date(a.entity.date)) ? -1 : 0)
 	);
@@ -108,7 +105,7 @@ const newestSetlists = () => {
 };
 const oldestSetlists = () => {
 	page.value = 0;
-	order.value = sortBy.oldest;
+	order.value = SortOrder.Oldest;
 	reordered.value = setlists.value.filter(s => s.entity.date != '').sort(
 		(a,b) => (new Date(a.entity.date) > new Date(b.entity.date)) ? 1 : ((new Date(b.entity.date) > new Date(a.entity.date)) ? -1 : 0)
 	);

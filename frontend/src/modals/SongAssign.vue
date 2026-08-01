@@ -7,7 +7,7 @@
 		@closed="emit('closed')"
 	>
 		<div class="grow grid grid-cols-1 grid-rows-2 xs:grid-cols-2 xs:grid-rows-1 gap-4">
-			<div class="max-h-[calc(50vh_-_6rem)] xs:max-h-[calc(66.666667vh_-_8.25rem)] flex flex-col gap-4">
+			<div class="max-h-[calc(50vh-6rem)] xs:max-h-[calc(66.666667vh-8.25rem)] flex flex-col gap-4">
 				<label class="relative">
 					<icon-filter class="absolute top-2 left-2 w-5 h-5 stroke-1.5 text-blade-500" />
 					<input
@@ -70,8 +70,9 @@
 	</modal-dialog>
 </template>
 
-<script setup>
-import { ref, computed, inject, onMounted, watch } from 'vue';
+<script setup lang="ts">
+import { injectStrict, songsKey } from '@/keys';
+import { ref, computed, onMounted, watch, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
@@ -88,10 +89,10 @@ import {
 const { t } = useI18n();
 
 // global properties
-const songs = inject('songs');
+const songs = injectStrict(songsKey);
 
 // user input properties
-const selectedSongs = ref([]);
+const selectedSongs = ref<string[]>([]);
 const searchInput = ref('');
 
 // inherited properties
@@ -99,7 +100,7 @@ const props = defineProps({
 	active:        Boolean, // state of modal display, true to show modal
 	language:      String,  // language key of song
 	id:            String,  // identifier of original song
-	assignedSongs: Array,   // already assigned songs
+	assignedSongs: { type: Array as PropType<string[]>, default: () => [] },   // already assigned songs
 });
 const initInput = () => {
 	selectedSongs.value = props.assignedSongs ?? [];
@@ -127,5 +128,5 @@ const filteredSongs = computed(() => {
 });
 
 // find a song's entity by id, for the selection panel
-const findSong = (id) => songs.value.find(s => s.id === id)?.entity;
+const findSong = (id: string) => songs.value.find(s => s.id === id)?.entity;
 </script>

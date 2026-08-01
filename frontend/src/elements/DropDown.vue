@@ -22,7 +22,7 @@
 	</transition-scale>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import TransitionScale from '@/elements/TransitionScale.vue';

@@ -49,9 +49,10 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { injectStrict, hkGoKey, noActiveModalKey } from '@/keys';
 import { logicAnd } from '@vueuse/math';
-import { inject, reactive, computed } from 'vue';
+import { reactive, computed } from 'vue';
 import { whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import Logo from '@/partials/Logo.vue';
@@ -66,7 +67,7 @@ const { t } = useI18n();
 const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
 
 // prefilled mailto links to request an invitation or a password reset
-const mailto = (subject, body) => `mailto:${adminEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+const mailto = (subject: string, body: string) => `mailto:${adminEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 const inviteMailto = computed(() => mailto(t('text.inviteMailSubject'), t('text.inviteMailBody')));
 const resetMailto = computed(() => mailto(t('text.resetMailSubject'), t('text.resetMailBody')));
 
@@ -79,9 +80,9 @@ defineProps({
 })
 
 // input data
-const email = defineModel('email');
-const password = defineModel('password');
-const stayLoggedIn = defineModel('stayLoggedIn');
+const email = defineModel<string>('email');
+const password = defineModel<string>('password');
+const stayLoggedIn = defineModel<boolean>('stayLoggedIn');
 
 // check if form errors occured
 const error = reactive({
@@ -101,7 +102,7 @@ const signIn = () => {
 };
 
 // component shortcuts
-const hkGo = inject('hkGo');
-const noActiveModal = inject('noActiveModal');
+const hkGo = injectStrict(hkGoKey);
+const noActiveModal = injectStrict(noActiveModalKey);
 whenever(logicAnd(hkGo, noActiveModal), () => signIn());
 </script>

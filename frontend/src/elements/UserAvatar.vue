@@ -43,7 +43,7 @@
 	</figure>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { initials } from '@/utils.js';
 
 // icons

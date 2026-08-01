@@ -13,11 +13,11 @@
 					<input
 						type="text"
 						v-model="song.title"
-						:class="{ 'border-rose-600!': (error.title & !song.title) || error.slug }"
+						:class="{ 'border-rose-600!': (error.title && !song.title) || error.slug }"
 						:placeholder="t('placeholder.exampleSongTitle')"
 						:disabled="existing"
 					/>
-					<div v-if="error.title & !song.title" class="text-rose-600">
+					<div v-if="error.title && !song.title" class="text-rose-600">
 						{{ t('error.requiredTitle') }}
 					</div>
 					<div v-if="error.slug" class="text-rose-600">
@@ -37,13 +37,13 @@
 					<!-- language -->
 					<label class="flex flex-col gap-1">
 						<div>{{ t('field.language') }} <span class="text-rose-600">*</span></div>
-						<select v-model="song.language" :class="{ 'border-rose-600!': error.language & !song.language }">
+						<select v-model="song.language" :class="{ 'border-rose-600!': error.language && !song.language }">
 							<option value="">{{ t('placeholder.select') }}</option>
 							<option v-for="l in languages" :value="l" :key="l">
 								{{ t('language.' + l) }}
 							</option>
 						</select>
-						<div v-if="error.language & !song.language" class="text-rose-600">
+						<div v-if="error.language && !song.language" class="text-rose-600">
 							{{ t('error.requiredLanguage') }}
 						</div>
 					</label>
@@ -88,7 +88,8 @@
 						<div>{{ t('field.year') }}</div>
 						<input
 							type="number"
-							v-model="song.year"
+							:value="song.year"
+							@input="e => song.year = parseNumberInput((e.target as HTMLInputElement).value)"
 							:placeholder="t('placeholder.exampleSongYear')"
 						>
 					</label>
@@ -111,7 +112,8 @@
 						</div>
 						<input
 							type="number"
-							v-model="song.ccli"
+							:value="song.ccli"
+							@input="e => song.ccli = parseNumberInput((e.target as HTMLInputElement).value)"
 							:placeholder="t('placeholder.exampleSongCcli')"
 						>
 					</label>
@@ -173,12 +175,12 @@
 				<prism-editor
 					id="song-content"
 					class="font-mono text-sm leading-4 p-1.5"
-					:class="{ 'border-rose-600!': error.content & !song.content }"
+					:class="{ 'border-rose-600!': error.content && !song.content }"
 					v-model="song.content"
 					:highlight="sdHighlight"
 					:placeholder="t('placeholder.exampleSongContent')"
 				></prism-editor>
-				<div v-if="error.content & !song.content" class="text-rose-600">
+				<div v-if="error.content && !song.content" class="text-rose-600">
 					{{ t('error.requiredContent') }}
 				</div>
 			</div>
@@ -222,15 +224,18 @@
 	/>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { injectStrict, setlistCollectionKey, setlistsKey, songsCollectionKey, songsKey, userKey } from '@/keys';
 import 'vue-prism-editor/dist/prismeditor.min.css';
-import { keyScale, sdHighlight, throwError, urlify, updateSongTranslations } from '@/utils.js';
+import { keyScale, sdHighlight, throwError, urlify, updateSongTranslations, parseNumberInput } from '@/utils.js';
+import type { ThrowableError, SongFormData } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
 import { PrismEditor } from 'vue-prism-editor';
-import { ref, reactive, computed, inject, watch, onMounted } from 'vue';
+import { ref, reactive, computed, watch, onMounted, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { SongLanguage, SongTag as SongTagEnum } from '@backend/definitions';
+import type { SongEntity, Setlist } from '@backend/models';
 import InfoSongSyntax from '@/modals/InfoSongSyntax.vue';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
@@ -255,18 +260,18 @@ const { t } = useI18n();
 const router = useRouter();
 
 // global properties
-const songs = inject('songs');
-const setlists = inject('setlists');
-const user = inject('user');
-const songsCollection = inject('songsCollection');
-const setlistCollection = inject('setlistCollection');
+const songs = injectStrict(songsKey);
+const setlists = injectStrict(setlistsKey);
+const user = injectStrict(userKey);
+const songsCollection = injectStrict(songsCollectionKey);
+const setlistCollection = injectStrict(setlistCollectionKey);
 
 // component properties
 const props = defineProps({
 	active:      Boolean, // state of modal display, true to show modal
 	existing:    Boolean, // song already exists
 	id:          String,  // song identifier
-	initialSong: Object,  // song structure to fill with data
+	initialSong: { type: Object as PropType<SongFormData>, required: true },  // song structure to fill with data
 });
 
 // list of all available languages and tags
@@ -274,7 +279,7 @@ const languages = Object.values(SongLanguage);
 const tags = Object.values(SongTagEnum);
 
 // find a song's entity by id, for translation display
-const findSong = (id) => songs.value.find(s => s.id === id)?.entity;
+const findSong = (id: string) => songs.value.find(s => s.id === id)?.entity;
 
 // check if form errors occured
 const error = reactive({
@@ -287,15 +292,13 @@ const errors = computed(() => {
 	return (error.title || error.language || error.content || error.slug);
 });
 const resetErrors = () => {
-	for (const key in error) {
-		if (Object.hasOwnProperty.call(error, key)) {
-			error[key] = false;
-		}
+	for (const key of Object.keys(error) as (keyof typeof error)[]) {
+		error[key] = false;
 	}
 };
 
 // song input data
-const song = ref({});
+const song = ref<SongFormData>({...props.initialSong});
 const initInput = () => {
 	resetErrors();
 	song.value = {...props.initialSong};
@@ -322,13 +325,13 @@ const showModal = reactive({
 const emit = defineEmits(['closed']);
 
 // assign selected tags to song
-const assignTags = (tags) => {
+const assignTags = (tags: string[]) => {
 	song.value.tags = tags;
 	showModal.tags = false;
 };
 
 // assign selected tags to song
-const assignTranslations = (translations) => {
+const assignTranslations = (translations: string[]) => {
 	song.value.translations = translations;
 	showModal.translations = false;
 };
@@ -339,11 +342,11 @@ const createSlug = () => {
 };
 
 // build the entity payload to send to Amberbase
-const buildEntity = (slug) => ({
+const buildEntity = (slug: string): SongEntity => ({
 	authors:      song.value.authors ?? [],
-	ccli:         song.value.ccli ? parseInt(song.value.ccli) : undefined,
+	ccli:         song.value.ccli,
 	content:      song.value.content,
-	createdBy:    props.existing ? props.initialSong.createdBy : user.value.id,
+	createdBy:    (props.existing ? props.initialSong.createdBy : user.value.id) ?? '',
 	key:          song.value.key || undefined,
 	language:     song.value.language,
 	publisher:    song.value.publisher,
@@ -352,13 +355,13 @@ const buildEntity = (slug) => ({
 	tags:         song.value.tags ?? [],
 	title:        song.value.title,
 	translations: song.value.translations ?? [],
-	year:         song.value.year ? parseInt(song.value.year) : undefined,
+	year:         song.value.year,
 	youtube:      song.value.youtube || undefined,
 });
 
 // overwrite one setlist's songs list, renaming one song id to another
-const renameSongInSetlist = async (setlistEntry, oldId, newId) => {
-	await setlistCollection.value.updateDoc(setlistEntry.id, setlistEntry.changeNumber, {
+const renameSongInSetlist = async (setlistEntry: Setlist, oldId: string, newId: string) => {
+	await setlistCollection.value?.updateDoc(setlistEntry.id, setlistEntry.changeNumber ?? 0, {
 		...setlistEntry.entity,
 		songs: setlistEntry.entity.songs.map(s => (s.id === oldId ? { ...s, id: newId } : s)),
 	});
@@ -376,17 +379,19 @@ const setSong = async () => {
 	// errors occured: abort
 	if (errors.value) return;
 
+	if (!songsCollection.value) return;
 	busy.value = true;
 	const entity = buildEntity(slug);
+	const collection = songsCollection.value;
 
 	try {
 		// new song should be created
 		if (!props.existing) {
-			await songsCollection.value.createDoc(entity, slug);
+			await collection.createDoc(entity, slug);
 			// persist translation back-references
 			await Promise.allSettled(
 				entity.translations.map(id =>
-					updateSongTranslations(songsCollection.value, songs.value, id, (arr) => (arr.includes(slug) ? arr : [...arr, slug]))
+					updateSongTranslations(collection, songs.value, id, (arr) => (arr.includes(slug) ? arr : [...arr, slug]))
 				)
 			);
 			router.push({ name: 'song-show', params: { id: slug }});
@@ -402,13 +407,13 @@ const setSong = async () => {
 		else if (props.id === slug) {
 			// key remained (no title or language changes): just update the existing song
 			const current = songs.value.find(s => s.id === props.id);
-			await songsCollection.value.updateDoc(props.id, current.changeNumber, entity);
+			await collection.updateDoc(props.id!, current?.changeNumber ?? 0, entity);
 			// persist translation references by removing and adding them
 			const removedIds = props.initialSong.translations.filter(t => !entity.translations.includes(t));
 			const addedIds   = entity.translations.filter(t => !props.initialSong.translations.includes(t));
 			await Promise.allSettled([
-				...removedIds.map(id => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => arr.filter(t => t !== slug))),
-				...addedIds.map(id   => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => (arr.includes(slug) ? arr : [...arr, slug]))),
+				...removedIds.map(id => updateSongTranslations(collection, songs.value, id, (arr) => arr.filter(t => t !== slug))),
+				...addedIds.map(id   => updateSongTranslations(collection, songs.value, id, (arr) => (arr.includes(slug) ? arr : [...arr, slug]))),
 			]);
 			// toast success update message
 			notify({
@@ -420,11 +425,11 @@ const setSong = async () => {
 		}
 		// key changed: add a new song, remove the old one and update references in other fields
 		else {
-			const oldId = props.id;
+			const oldId = props.id!;
 			const newId = slug;
 
-			await songsCollection.value.createDoc(entity, newId);
-			await songsCollection.value.deleteDoc(oldId);
+			await collection.createDoc(entity, newId);
+			await collection.deleteDoc(oldId);
 
 			// persist translation references by removing and adding them
 			const removedIds = props.initialSong.translations.filter(t => !entity.translations.includes(t));
@@ -443,9 +448,9 @@ const setSong = async () => {
 			const affectedSetlists = setlists.value.filter(sl => sl.entity.songs?.some(ss => ss.id === oldId));
 
 			await Promise.allSettled([
-				...renameTargets.map(id => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => arr.map(t => (t === oldId ? newId : t)))),
-				...removedIds.map(id   => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => arr.filter(t => t !== oldId && t !== newId))),
-				...addedIds.map(id     => updateSongTranslations(songsCollection.value, songs.value, id, (arr) => (arr.includes(newId) ? arr : [...arr, newId]))),
+				...renameTargets.map(id => updateSongTranslations(collection, songs.value, id, (arr) => arr.map(t => (t === oldId ? newId : t)))),
+				...removedIds.map(id   => updateSongTranslations(collection, songs.value, id, (arr) => arr.filter(t => t !== oldId && t !== newId))),
+				...addedIds.map(id     => updateSongTranslations(collection, songs.value, id, (arr) => (arr.includes(newId) ? arr : [...arr, newId]))),
 				...affectedSetlists.map(sl => renameSongInSetlist(sl, oldId, newId)),
 			]);
 
@@ -459,7 +464,7 @@ const setSong = async () => {
 			emit('closed');
 		}
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	} finally {
 		busy.value = false;
 	}

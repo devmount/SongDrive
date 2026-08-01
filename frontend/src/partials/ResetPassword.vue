@@ -62,9 +62,10 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { injectStrict, clientKey } from '@/keys';
 import { notify } from '@kyvg/vue3-notification';
-import { inject, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { randomString } from '@/utils.js';
@@ -83,9 +84,9 @@ import {
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const client = inject('client');
+const client = injectStrict(clientKey);
 const examplePassword = randomString(8);
-const token = route.query.token;
+const token = typeof route.query.token === 'string' ? route.query.token : '';
 
 // input data
 const password = ref('');
@@ -108,7 +109,7 @@ const submit = async () => {
 	error.missing = password.value === '';
 	error.mismatch = password.value !== repeat.value;
 	error.tooshort = password.value.length < 8;
-	if (error.missing || error.mismatch || error.tooshort) return;
+	if (error.missing || error.mismatch || error.tooshort || !client.value) return;
 
 	busy.value = true;
 	const success = await client.value.loginManager.getAmberUserApi().changePasswordWithToken(token, password.value);

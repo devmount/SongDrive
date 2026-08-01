@@ -201,19 +201,21 @@
 		:active="showModal.songset"
 		:existing="songSetModalData.existing"
 		:initial-song="songSetModalData.song"
-		:id="songSetModalData.id"
+		:id="songSetModalData.id ?? undefined"
 		@closed="showModal.songset = false"
 	/>
 	<setlist-set
 		:active="showModal.setlistset"
 		:existing="setlistSetModalData.existing"
 		:initial-setlist="setlistSetModalData.setlist"
-		:id="setlistSetModalData.id"
+		:id="setlistSetModalData.id ?? undefined"
 		@closed="showModal.setlistset = false"
 	/>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { clientKey, hkBackKey, hkCancelKey, hkChordsKey, hkDownKey, hkForwardKey, hkGoKey, hkHideKey, hkPresentKey, hkResetKey, hkSearchKey, hkSyncKey, hkThemeKey, hkUpKey, noActiveInputKey, noActiveModalKey, setlistCollectionKey, setlistsKey, songsCollectionKey, songsKey, tagsKey, userKey, usersKey } from '@/keys';
+import type { AppUser, SongFormData, SetlistFormData } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, provide, onMounted } from 'vue';
 import { useActiveElement, useMagicKeys } from '@vueuse/core';
@@ -227,8 +229,9 @@ import ResetPassword from '@/partials/ResetPassword.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistSet from '@/modals/SetlistSet.vue';
 import SongSet from '@/modals/SongSet.vue';
-import { amberClient } from 'amber-client';
-import { SongTag, can } from "@backend/definitions";
+import { amberClient, type AmberClient, type UserInTenant, type AmberCollections, type AmberCollection, type UserInfo } from 'amber-client';
+import { SongTag, can, UserRole } from "@backend/definitions";
+import type { Song, Setlist, SongEntity, SetlistEntity } from '@backend/models';
 
 // icons
 import {
@@ -256,7 +259,6 @@ const {
 	arrowup,
 	ctrl_b,
 	ctrl_f,
-	ctrl_i,
 	ctrl_l,
 	ctrl_k,
 	ctrl_p,
@@ -267,7 +269,7 @@ const {
 } = useMagicKeys({
 	passive: false,
 	onEventFired: (e) => {
-		if (e.ctrlKey && ['f','k','p','r','i','l','s','b'].includes(e.key) && e.type === 'keydown') {
+		if (e.ctrlKey && ['f','k','p','r','l','s','b'].includes(e.key) && e.type === 'keydown') {
 			e.preventDefault();
 		}
 	},
@@ -277,21 +279,20 @@ const noActiveInput = computed(() =>
 	activeElement.value?.tagName !== 'INPUT'
 	&& activeElement.value?.tagName !== 'TEXTAREA',
 );
-provide('hkBack',    arrowleft );
-provide('hkCancel',  escape    );
-provide('hkChords',  ctrl_k    );
-provide('hkDown',    arrowdown );
-provide('hkForward', arrowright);
-provide('hkGo',      enter     );
-provide('hkHide',    ctrl_b    );
-provide('hkInfo',    ctrl_i    );
-provide('hkPresent', ctrl_p    );
-provide('hkReset',   ctrl_r    );
-provide('hkSearch',  ctrl_f    );
-provide('hkSync',    ctrl_s    );
-provide('hkTheme',   ctrl_l    );
-provide('hkUp',      arrowup   );
-provide('noActiveInput', noActiveInput);
+provide(hkBackKey,    arrowleft );
+provide(hkCancelKey,  escape    );
+provide(hkChordsKey,  ctrl_k    );
+provide(hkDownKey,    arrowdown );
+provide(hkForwardKey, arrowright);
+provide(hkGoKey,      enter     );
+provide(hkHideKey,    ctrl_b    );
+provide(hkPresentKey, ctrl_p    );
+provide(hkResetKey,   ctrl_r    );
+provide(hkSearchKey,  ctrl_f    );
+provide(hkSyncKey,    ctrl_s    );
+provide(hkThemeKey,   ctrl_l    );
+provide(hkUpKey,      arrowup   );
+provide(noActiveInputKey, noActiveInput);
 
 // component constants
 const { t } = useI18n();
@@ -301,7 +302,7 @@ const route = useRoute();
 const open = ref(false);
 
 // setlist object
-const initialSetlist = {
+const initialSetlist: SetlistFormData = {
 	title: '',
 	isPublic: true,
 	date: '',
@@ -309,19 +310,18 @@ const initialSetlist = {
 };
 
 // song object
-const initialSong = {
+const initialSong: SongFormData = {
 	authors:      [],
-	ccli:         '',
+	ccli:         undefined,
 	content:      '',
 	key:          '',
 	language:     '',
-	note:         '', // deprecated
 	publisher:    '',
 	subtitle:     '',
 	tags:         [],
 	title:        '',
 	translations: [],
-	year:         '',
+	year:         undefined,
 	youtube:      '',
 };
 
@@ -333,13 +333,13 @@ const showModal = reactive({
 const noActiveModal = computed(() => {
 	return !showModal.songset && !showModal.setlistset;
 });
-provide('noActiveModal', noActiveModal);
+provide(noActiveModalKey, noActiveModal);
 
 // password reset via admin-issued link
 const isResetPasswordPage = computed(() => route.path === '/reset-password');
 
 // add and edit songs
-const songSetModalData = reactive({
+const songSetModalData = reactive<{ song: SongFormData | SongEntity, existing: boolean, id: string | null }>({
 	song:     structuredClone(initialSong),
 	existing: false,
 	id:       null,
@@ -350,7 +350,7 @@ const createNewSong = () => {
 	songSetModalData.id       = null;
 	showModal.songset         = true;
 };
-const editExistingSong = ({data, id, exists}) => {
+const editExistingSong = ({data, id, exists}: { data: SongEntity, id: string, exists: boolean }) => {
 	songSetModalData.song     = data;
 	songSetModalData.existing = exists;
 	songSetModalData.id       = id;
@@ -358,7 +358,7 @@ const editExistingSong = ({data, id, exists}) => {
 };
 
 // add and edit setlists
-const setlistSetModalData = reactive({
+const setlistSetModalData = reactive<{ setlist: SetlistFormData, existing: boolean, id: string | null }>({
 	setlist:  structuredClone(initialSetlist),
 	existing: false,
 	id:       null,
@@ -369,7 +369,7 @@ const createNewSetlist = () => {
 	setlistSetModalData.id       = null;
 	showModal.setlistset         = true;
 };
-const editExistingSetlist = ({data, id, exists}) => {
+const editExistingSetlist = ({data, id, exists}: { data: SetlistEntity, id: string, exists: boolean }) => {
 	setlistSetModalData.setlist  = data;
 	setlistSetModalData.existing = exists;
 	setlistSetModalData.id       = id;
@@ -384,11 +384,11 @@ const tenant = reactive({
 
 // Auth
 const ready = ref(false);
-const amberUser = ref(null);
-const client = ref(null);
+const amberUser = ref<UserInTenant | null>(null);
+const client = ref<AmberClient | null>(null);
 const authenticated = ref(true);
 const authFailed = ref(false);
-const authCallback = ref(() => {});
+const authCallback = ref<(creds: { email: string, pw: string, stayLoggedIn: boolean }) => void>(() => {});
 
 // Login
 const email = ref('');
@@ -396,37 +396,34 @@ const password = ref('');
 const stayLoggedIn = ref(true);
 
 // Data
-const songs = ref([]);
-const setlists = ref([]);
-const users = ref({}); // { [user id]: user info object }
+const songs = ref<Song[]>([]);
+const setlists = ref<Setlist[]>([]);
+const users = ref<Record<string, UserInfo>>({}); // { [user id]: user info object }
 const tags = Object.values(SongTag);
 
 // computed: get user name either from user object or from users db collection
-const user = computed(() => ({
+const user = computed<AppUser>(() => ({
 	id: amberUser.value?.user.id,
 	name: amberUser.value?.user.name ?? '',
 	email: amberUser.value?.user.email ?? '',
-	roles: amberUser.value?.roles,
+	roles: (amberUser.value?.roles ?? []) as UserRole[],
 	photo: null, // TODO
 }));
-// computed: check if at least one registration exists
-const registrationsExist = false; // TODO
 
 // Provide data for other views
-provide('user', user);
-provide('ready', ready);
-provide('setlists', setlists);
-provide('songs', songs);
-provide('tags', tags);
-provide('users', users);
+provide(userKey, user);
+provide(setlistsKey, setlists);
+provide(songsKey, songs);
+provide(tagsKey, tags);
+provide(usersKey, users);
 
 // Collections from Amberbase
-let collectionApi = null;
-const songsCollection = ref(null);
-const setlistCollection = ref(null);
-provide('songsCollection', songsCollection);
-provide('setlistCollection', setlistCollection);
-provide('client', client);
+let collectionApi: AmberCollections | null = null;
+const songsCollection = ref<AmberCollection<SongEntity> | null>(null);
+const setlistCollection = ref<AmberCollection<SetlistEntity> | null>(null);
+provide(songsCollectionKey, songsCollection);
+provide(setlistCollectionKey, setlistCollection);
+provide(clientKey, client);
 
 const init = async () => {
 	client.value = amberClient()

@@ -43,7 +43,7 @@
 						:class="{
 							'bg-spring-600!': i === presentation?.data.currentSlide
 						}"
-						@click="presentation.slideTo(i)"
+						@click="presentation?.slideTo(i)"
 					>
 						<span v-if="chords">{{ song.customTuning }}</span>
 					</secondary-button>
@@ -54,7 +54,7 @@
 					class="absolute bottom-0 left-4 md:left-auto md:right-1/2 flex items-center gap-1 mr-0.5"
 					:disabled="currentPosition <= 0"
 					title="Previous Song"
-					@click="presentation.prev()"
+					@click="presentation?.prev()"
 				>
 					<icon-arrow-left class="w-5 h-5 stroke-1.5" />
 					<div v-if="currentPosition > 0" class="hidden md:flex items-center gap-2">
@@ -72,7 +72,7 @@
 					class="absolute bottom-0 left-16 md:left-1/2 flex items-center gap-1 ml-0.5"
 					:disabled="currentPosition >= songs.length-1"
 					title="Next Song"
-					@click="presentation.next()"
+					@click="presentation?.next()"
 				>
 					<div v-if="currentPosition < songs.length-1" class="hidden md:flex items-center gap-2">
 						<div class="hidden 2xl:block max-w-3xs truncate">
@@ -88,15 +88,6 @@
 				<!-- Live clock -->
 				<div class="font-mono text-2xl px-4">{{ timeonly }}</div>
 
-				<!-- Song info -->
-				<secondary-button
-					class="hidden lg:block"
-					:disabled="!songs[currentPosition]?.note"
-					:title="tooltip('info')"
-					@click="songs[currentPosition].note ? showModal.infosongdata = true : null"
-				>
-					<icon-info-circle class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': showModal.infosongdata }" />
-				</secondary-button>
 				<!-- Toggle synchronisation -->
 				<secondary-button
 					class="hidden lg:block"
@@ -136,14 +127,6 @@
 				<!-- Dropdown for small viewports -->
 				<div class="lg:hidden">
 					<drop-down position="up">
-						<button
-							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
-							:disabled="!songs[currentPosition].note"
-							@click="songs[currentPosition].note ? showModal.infosongdata = true : null"
-						>
-							<icon-info-circle class="w-5 h-5 stroke-1.5" :class="{ 'stroke-spring-400': showModal.infosongdata }" />
-							{{ songs[currentPosition].note ? t('tooltip.infoSongData') : t('tooltip.noSongInfo') }}
-						</button>
 						<!-- toggle synchronisation -->
 						<button
 							class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
@@ -220,24 +203,18 @@
 			</div>
 		</div>
 	</modal-dialog>
-
-	<!-- Modal: info song note -->
-	<info-song-data
-		:active="showModal.infosongdata"
-		:song="songs[currentPosition]"
-		@closed="showModal.infosongdata = false"
-	/>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { injectStrict, hkBackKey, hkCancelKey, hkDownKey, hkForwardKey, hkHideKey, hkSyncKey, hkThemeKey, hkUpKey } from '@/keys';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide } from 'vue3-carousel';
 import { logicOr } from '@vueuse/math';
 import { whenever } from '@vueuse/core';
-import { reactive, ref, computed, watch, onMounted, onUnmounted, nextTick, inject } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted, nextTick, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { SetlistSongPresentation, CarouselInstance } from '@/definitions';
 import DropDown from '@/elements/DropDown.vue';
-import InfoSongData from '@/modals/InfoSongData.vue';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent.vue';
@@ -249,7 +226,6 @@ import {
 	IconBrightness,
 	IconEye,
 	IconEyeOff,
-	IconInfoCircle,
 	IconMusic,
 	IconMusicOff,
 	IconRefresh,
@@ -261,42 +237,37 @@ import {
 const { t } = useI18n();
 
 // handle hotkeys for this component
-const hkBack = inject('hkBack');
-const hkForward = inject('hkForward');
-const hkUp = inject('hkUp');
-const hkDown = inject('hkDown');
-const hkInfo = inject('hkInfo');
-const hkSync = inject('hkSync');
-const hkHide = inject('hkHide');
-const hkTheme = inject('hkTheme');
-const hkChords = inject('hkChords');
-const hkCancel = inject('hkCancel');
+const hkBack = injectStrict(hkBackKey);
+const hkForward = injectStrict(hkForwardKey);
+const hkUp = injectStrict(hkUpKey);
+const hkDown = injectStrict(hkDownKey);
+const hkSync = injectStrict(hkSyncKey);
+const hkHide = injectStrict(hkHideKey);
+const hkTheme = injectStrict(hkThemeKey);
+const hkCancel = injectStrict(hkCancelKey);
 
 // inherited properties
 const props = defineProps({
 	active:      Boolean, // state of modal display, true to show modal
 	chords:      Boolean, // true if chords shall be rendered
-	position:    Number,  // list position of current song in the presentation
+	position:    { type: Number, default: 0 },  // list position of current song in the presentation
 	remoteHide:  Boolean, // true if synced presentation should fade ouot
 	remoteLight: Boolean, // true if synced presentation should show up in light mde
 	remoteText:  Boolean, // true if synced presentation should be rendered without chords
-	songs:       Array,   // list of songs to present
+	songs:       { type: Array as PropType<SetlistSongPresentation[]>, default: () => [] },   // list of songs to present
 	sync:        Boolean, // true if setlist should send sync signals
 });
 
 // reactive data
-const showModal = reactive({
-	infosongdata: false
-});
-const presentation = ref();
-const songContentRef = ref([]);
+const presentation = ref<CarouselInstance>();
+const songContentRef = ref<InstanceType<typeof SongContent>[]>([]);
 const currentPosition = ref(0);
 const autoSync = ref(false);
 const hide = ref(false);
 const dark = ref(true);
 const now = ref(new Date);
 const blink = ref(true);
-const resizeTimeout = ref(null);
+const resizeTimeout = ref<ReturnType<typeof setTimeout>>();
 
 // emits
 const emit = defineEmits(['updatePosition', 'chords', 'updateHide', 'updateDark', 'updateChords', 'closed']);
@@ -325,11 +296,8 @@ const resizeHandler = () => {
 	}, 500);
 };
 // handle tooltips
-const tooltip = (target) => {
+const tooltip = (target: string) => {
 	switch (target) {
-		case 'info': return props.songs[currentPosition.value]?.note
-			? t('tooltip.infoSongData') + '\n' + t('key.ctrl') + ' + ' + t('key.I')
-			: t('tooltip.noSongInfo');
 		case 'sync':
 			return t('tooltip.sync' + (!autoSync.value ? 'On' : 'Off')) + '\n' + t('key.ctrl') + ' + ' + t('key.S');
 		case 'display':
@@ -360,7 +328,7 @@ watch (currentPosition, (newPosition) => {
 // watcher: update local position, content display and theme if autoSync was turned on
 watch (autoSync, () => {
 	if (autoSync.value) {
-		presentation.value.slideTo(props.position);
+		presentation.value?.slideTo(props.position);
 		hide.value = props.remoteHide;
 		dark.value = !props.remoteLight;
 	}
@@ -373,7 +341,7 @@ watch (
 // watcher: update local position if autoSync is on and remote position was updated
 watch (() => props.position, () => {
 	if (autoSync.value) {
-		presentation.value.slideTo(props.position);
+		presentation.value?.slideTo(props.position);
 	}
 });
 // update local chord display if autoSync is on and remote chords were updated
@@ -389,7 +357,7 @@ watch (() => props.remoteLight, () => {
 	}
 });
 // toggle local content display if autoSync is on and remote content display was updated
-watch (() => props.remoteHide, (val) => {
+watch (() => props.remoteHide, (val: boolean) => {
 	if (autoSync.value) {
 		hide.value = val;
 	}
@@ -430,10 +398,6 @@ whenever(
 			presentation.value?.next();
 		}
 	}
-);
-whenever(
-	hkInfo,
-	() => props.songs[currentPosition.value].note ? showModal.infosongdata = !showModal.infosongdata : null
 );
 whenever(
 	hkSync,

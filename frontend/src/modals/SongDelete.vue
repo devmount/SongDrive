@@ -25,10 +25,12 @@
 	</modal-dialog>
 </template>
 
-<script setup>
-import { inject, ref } from 'vue';
+<script setup lang="ts">
+import { injectStrict, songsCollectionKey, songsKey } from '@/keys';
+import { ref } from 'vue';
 import { notify } from '@kyvg/vue3-notification';
 import { throwError, updateSongTranslations } from '@/utils.js';
+import type { ThrowableError } from '@/definitions';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router'
 import ModalDialog from '@/elements/ModalDialog.vue';
@@ -46,8 +48,8 @@ const route = useRoute()
 const router = useRouter()
 
 // global properties
-const songs = inject('songs');
-const songsCollection = inject('songsCollection');
+const songs = injectStrict(songsKey);
+const songsCollection = injectStrict(songsCollectionKey);
 
 // component properties
 const props = defineProps({
@@ -65,16 +67,18 @@ const emit = defineEmits(['closed']);
 // execute song deletion
 const busy = ref(false);
 const deleteSong = async () => {
+	if (!props.id || !songsCollection.value) return;
+	const id = props.id;
 	busy.value = true;
 	try {
-		await songsCollection.value.deleteDoc(props.id);
+		await songsCollection.value.deleteDoc(id);
 		emit('closed');
 
 		// remove back-references from any song that lists this one as a translation
-		const affected = songs.value.filter(s => s.entity.translations?.includes(props.id));
+		const affected = songs.value.filter(s => s.entity.translations?.includes(id));
 		await Promise.allSettled(
 			affected.map(s =>
-				updateSongTranslations(songsCollection.value, songs.value, s.id, (arr) => arr.filter(t => t !== props.id))
+				updateSongTranslations(songsCollection.value!, songs.value, s.id, (arr) => arr.filter(t => t !== id))
 			)
 		);
 
@@ -89,7 +93,7 @@ const deleteSong = async () => {
 			type: 'primary'
 		});
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	} finally {
 		busy.value = false;
 	}

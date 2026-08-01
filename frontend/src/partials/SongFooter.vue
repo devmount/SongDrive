@@ -38,15 +38,15 @@
 		<div v-if="song.year || song.publisher" class="text-sm text-blade-500">
 			&copy; {{ song.year }} {{ song.publisher }}
 		</div>
-		<div v-if="song.note">{{ song.note }}</div>
 	</footer>
 </template>
 
-<script setup>
-import { computed } from 'vue';
+<script setup lang="ts">
+import { computed, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { sortTags } from '@/utils.js';
 import SongTag from '@/elements/SongTag.vue';
+import type { SongEntity } from '@backend/models';
 
 // icons
 import {
@@ -60,9 +60,9 @@ const loc = locale.value.substring(0, 2);
 
 // component properties
 const props = defineProps({
-	song: Object,
+	song: Object as PropType<SongEntity>,
 });
 
 // sort tag list
-const sortedTags = computed(() => sortTags(props.song.tags, loc));
+const sortedTags = computed(() => sortTags(props.song?.tags ?? [], loc));
 </script>

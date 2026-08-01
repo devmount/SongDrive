@@ -20,7 +20,7 @@
 						px-1 pt-0.5 flex items-center cursor-pointer
 						text-blade-500 hover:text-spring-600 transition-colors
 					"
-					@click="searchInput.focus()"
+					@click="searchInput?.focus()"
 					:title="t('placeholder.searchSongTitle')"
 				>
 					<icon-search class="w-7 h-7 stroke-1.5" />
@@ -100,7 +100,7 @@
 								type="search"
 								ref="searchInput"
 								v-model="filter.fulltext"
-								@input="e => filter.fulltext = e.target.value"
+								@input="e => filter.fulltext = (e.target as HTMLInputElement).value"
 								class="w-full pl-8"
 								:placeholder="t('placeholder.searchSongTitle')"
 							/>
@@ -112,7 +112,7 @@
 							<input
 								type="search"
 								v-model="filter.authors"
-								@input="e => filter.authors = e.target.value"
+								@input="e => filter.authors = (e.target as HTMLInputElement).value"
 								class="w-full pl-8"
 							/>
 						</label>
@@ -143,7 +143,7 @@
 							<input
 								type="search"
 								v-model="filter.year"
-								@input="e => filter.year = e.target.value"
+								@input="e => filter.year = (e.target as HTMLInputElement).value"
 								class="w-full pl-8"
 							/>
 						</label>
@@ -259,14 +259,16 @@
 	</div>
 </template>
 
-<script setup>
-import { ref, reactive, computed, watch, inject } from 'vue';
+<script setup lang="ts">
+import { injectStrict, hkBackKey, hkCancelKey, hkForwardKey, hkSearchKey, noActiveInputKey, noActiveModalKey, songsKey, userKey } from '@/keys';
+import { ref, reactive, computed, watch } from 'vue';
 import { logicAnd } from '@vueuse/math';
-import { keyScale, sortTags } from '@/utils.js';
+import { keyScale, sortTags, firstParam } from '@/utils.js';
 import { useI18n } from 'vue-i18n';
 import { whenever } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router'
 import { SongLanguage, SongTag as SongTagEnum, can } from "@backend/definitions";
+import type { Song, SongEntity } from '@backend/models';
 import DropDown from '@/elements/DropDown.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongDelete from '@/modals/SongDelete.vue';
@@ -295,39 +297,37 @@ const route = useRoute();
 const router = useRouter();
 
 // handle hotkeys for this component
-const hkSearch = inject('hkSearch');
-const hkBack = inject('hkBack');
-const hkForward = inject('hkForward');
-const hkCancel = inject('hkCancel');
-const noActiveInput = inject('noActiveInput');
-const noActiveModal = inject('noActiveModal');
+const hkSearch = injectStrict(hkSearchKey);
+const hkBack = injectStrict(hkBackKey);
+const hkForward = injectStrict(hkForwardKey);
+const hkCancel = injectStrict(hkCancelKey);
+const noActiveInput = injectStrict(noActiveInputKey);
+const noActiveModal = injectStrict(noActiveModalKey);
 
 // component properties
-const songs = inject('songs');
-const user = inject('user');
+const songs = injectStrict(songsKey);
+const user = injectStrict(userKey);
 const languages = Object.values(SongLanguage);
 const tags = Object.values(SongTagEnum);
 
 // template references
-const searchInput = ref(null);
+const searchInput = ref<HTMLInputElement | null>(null);
 
 // injects and emits
 const emit = defineEmits(['addSong', 'editSong']);
 
 // table filter
-const filter = reactive({
+const filter = reactive<Record<string, string | null>>({
 	fulltext: null,
 	authors: null,
-	tag: route.params.tag ?? null,
+	tag: firstParam(route.params.tag) ?? null,
 	language: null,
 	key: null,
 	year: null,
 });
 const resetFilter = () => {
-	for (const field in filter) {
-		if (Object.hasOwnProperty.call(filter, field)) {
-			filter[field] = null;
-		}
+	for (const field of Object.keys(filter)) {
+		filter[field] = null;
 	}
 };
 const isFiltered = computed(() => {
@@ -337,7 +337,7 @@ const isFiltered = computed(() => {
 // pagination and sorting
 const page = ref(0);
 const listLength = 16;
-const order = reactive({
+const order = reactive<{ field: keyof SongEntity, ascending: boolean }>({
 	field: 'title',
 	ascending: true
 });
@@ -352,7 +352,6 @@ const sortedSongs = computed(() => {
 		} else {
 			return propB.localeCompare(propA);
 		}
-		return 0;
 	})
 });
 
@@ -377,25 +376,25 @@ const filteredSongs = computed(() => {
 	if (filter.tag) {
 		// filter field: tags
 		songs = songs.filter(song => {
-			return song.entity.tags?.indexOf(filter.tag) !== -1;
+			return song.entity.tags?.indexOf(filter.tag!) !== -1;
 		});
 	}
 	if (filter.language) {
 		// filter field: language
 		songs = songs.filter(song => {
-			return song.entity.language.indexOf(filter.language) !== -1;
+			return song.entity.language.indexOf(filter.language!) !== -1;
 		});
 	}
 	if (filter.year) {
 		// filter field: year
 		songs = songs.filter(song => {
-			return String(song.entity.year).indexOf(filter.year) !== -1;
+			return String(song.entity.year).indexOf(filter.year!) !== -1;
 		});
 	}
 	if (filter.key) {
 		// filter field: key
 		songs = songs.filter(song => {
-			return song.entity.key?.indexOf(filter.key) !== -1;
+			return song.entity.key?.indexOf(filter.key!) !== -1;
 		});
 	}
 	return songs
@@ -417,7 +416,7 @@ const pageCount = computed(() => {
 });
 
 // methods
-const sortList = (field) => {
+const sortList = (field: keyof SongEntity) => {
 	if (order.field == field) {
 		order.ascending = !order.ascending;
 	} else {
@@ -425,7 +424,7 @@ const sortList = (field) => {
 	}
 	order.field = field;
 };
-const showPageItem = (p) => {
+const showPageItem = (p: number) => {
 	return pageCount.value < 6 || (
 		p == 1 || p == 2
 		|| (page.value == 0 && p == 3)
@@ -436,10 +435,10 @@ const showPageItem = (p) => {
 		|| p == pageCount.value-1 || p == pageCount.value
 	);
 };
-const showFirstEllipsis = (p) => {
+const showFirstEllipsis = (p: number) => {
 	return pageCount.value >= 6 && page.value > 2 && p == 2;
 };
-const showPageItemLink = (p) => {
+const showPageItemLink = (p: number) => {
 	return pageCount.value < 6 || (
 		p == 1
 		|| (page.value == 0 && p == 3)
@@ -450,7 +449,7 @@ const showPageItemLink = (p) => {
 		|| p == pageCount.value
 	);
 };
-const showLastEllipsis = (p) => {
+const showLastEllipsis = (p: number) => {
 	return pageCount.value >= 6 && page.value < pageCount.value-3 && p == pageCount.value-1;
 };
 
@@ -464,13 +463,13 @@ const songDeleteModalData = reactive({
 	title: '',
 	key:   '',
 });
-const deleteDialog = (song) => {
+const deleteDialog = (song: Song) => {
 	songDeleteModalData.title = song.entity.title;
 	songDeleteModalData.key   = song.entity.slug;
 	showModal.delete          = true;
 };
 
-const sortedTags = (song) => sortTags(song.tags, loc);
+const sortedTags = (song: SongEntity) => sortTags(song.tags, loc);
 
 // reset page when filter changes
 watch (filter, () => { page.value = 0 });
@@ -478,7 +477,7 @@ watch (filter, () => { page.value = 0 });
 // component shortcuts
 whenever(
 	logicAnd(hkSearch, noActiveModal),
-	() => !noSongs.value ? searchInput.value.focus() : null
+	() => !noSongs.value ? searchInput.value?.focus() : null
 );
 whenever(
 	logicAnd(hkCancel, noActiveModal),

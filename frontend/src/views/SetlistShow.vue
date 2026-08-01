@@ -7,7 +7,7 @@
 				<div class="text-3xl uppercase font-thin tracking-wider">
 					<span class="font-semibold mr-4">{{ setlist.entity.title }}</span>
 					<span class="inline-block whitespace-nowrap">
-						{{ t('object.song', setlist.entity.songs.length, { n: setlist.entity.songs.length }) }}
+						{{ t('object.song', setlist.entity.songs.length, { named: { n: setlist.entity.songs.length } }) }}
 					</span>
 				</div>
 				<!-- setlist meta data -->
@@ -249,14 +249,14 @@
 										name: 'song-show',
 										params: {
 											id: element.id,
-											key: element.key ? element.key : findSong(element.id).key,
+											key: element.key ? element.key : findSong(element.id)!.key,
 											setlist: setlistKey,
 										}
 									})"
 								>
 									<div class="truncate">
-										<span>{{ findSong(element.id).title }}</span>
-										<span class="text-blade-500 ml-3">{{ findSong(element.id).subtitle }}</span>
+										<span>{{ findSong(element.id)!.title }}</span>
+										<span class="text-blade-500 ml-3">{{ findSong(element.id)!.subtitle }}</span>
 									</div>
 								</td>
 								<td
@@ -265,42 +265,42 @@
 										name: 'song-show',
 										params: {
 											id: element.id,
-											key: element.key ? element.key : findSong(element.id).key,
+											key: element.key ? element.key : findSong(element.id)!.key,
 											setlist: setlistKey,
 										}
 									})"
 								>
-									<div class="truncate">{{ findSong(element.id).authors?.join(' | ') ?? '' }}</div>
+									<div class="truncate">{{ findSong(element.id)!.authors?.join(' | ') ?? '' }}</div>
 								</td>
 								<td class="px-3 py-2">
 									<div class="flex justify-center items-center gap-3">
 										<secondary-button
 											v-if="canUpdateSetlist"
 											class="px-2!"
-											@click.prevent="transposeDown(findSong(element.id), index)"
+											@click.prevent="transposeDown(findSong(element.id)!, index)"
 										>
 											<icon-chevron-left class="w-5 h-5 stroke-1.5" />
 										</secondary-button>
 										<div class="font-mono font-semibold text-xl w-6 text-center">
-											{{ element.key ? element.key : findSong(element.id).key }}
+											{{ element.key ? element.key : findSong(element.id)!.key }}
 										</div>
 										<secondary-button
 											v-if="canUpdateSetlist"
 											class="px-2!"
-											@click.prevent="transposeUp(findSong(element.id), index)"
+											@click.prevent="transposeUp(findSong(element.id)!, index)"
 										>
 											<icon-chevron-right class="w-5 h-5 stroke-1.5" />
 										</secondary-button>
 									</div>
 								</td>
 								<td class="px-3 py-2 hidden xl:table-cell text-center">
-									<div class="uppercase">{{ findSong(element.id).language }}</div>
+									<div class="uppercase">{{ findSong(element.id)!.language }}</div>
 								</td>
 								<td class="px-3 py-2 hidden md:table-cell text-center">
 									<a
-										v-if="findSong(element.id).youtube"
+										v-if="findSong(element.id)!.youtube"
 										class="text-red-600 inline-flex align-middle"
-										:href="'https://youtu.be/' + findSong(element.id).youtube"
+										:href="'https://youtu.be/' + findSong(element.id)!.youtube"
 										target="_blank"
 									>
 										<icon-brand-youtube class="w-6 h-6 stroke-1.5" />
@@ -308,12 +308,12 @@
 								</td>
 								<td class="px-3 py-2 hidden md:table-cell">
 									<a
-										v-if="findSong(element.id).ccli"
+										v-if="findSong(element.id)!.ccli"
 										class="text-spring-600"
-										:href="'https://songselect.ccli.com/Songs/' + findSong(element.id).ccli"
+										:href="'https://songselect.ccli.com/Songs/' + findSong(element.id)!.ccli"
 										target="_blank"
 									>
-										{{ findSong(element.id).ccli }}
+										{{ findSong(element.id)!.ccli }}
 									</a>
 								</td>
 							</template>
@@ -459,20 +459,24 @@
 	</div>
 </template>
 
-<script setup>
-import { keyScale, parsedContent, humanDate, throwError, download, openLyricsXML } from '@/utils.js';
+<script setup lang="ts">
+import { injectStrict, hkChordsKey, hkPresentKey, hkSyncKey, noActiveModalKey, setlistCollectionKey, setlistsKey, songsKey, userKey, usersKey, versionKey } from '@/keys';
+import { keyScale, parsedContent, humanDate, throwError, download, openLyricsXML, firstParam } from '@/utils.js';
+import type { ThrowableError, SetlistSongPresentation } from '@/definitions';
 import { logicAnd } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
-import { ref, reactive, computed, inject } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
 import { can } from '@backend/definitions';
+import type { SongEntity } from '@backend/models';
 import DoughnutChart from '@/charts/DoughnutChart.vue';
 import draggable from 'vuedraggable';
 import DropDown from '@/elements/DropDown.vue';
 import { BlobWriter, ZipWriter, TextReader } from '@zip.js/zip.js';
 import pdfMake from 'pdfmake/build/pdfmake';
+import type { Content, TDocumentDefinitions } from 'pdfmake/interfaces';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistDelete from '@/modals/SetlistDelete.vue';
@@ -517,14 +521,14 @@ const { t, locale } = useI18n();
 const loc = locale.value.substring(0, 2);
 const route = useRoute();
 const router = useRouter();
-const setlistKey = route.params.id; // slug from the url, for lookup only
+const setlistKey = firstParam(route.params.id) ?? ''; // slug from the url, for lookup only
 
 // handle hotkeys for this component
-const hkChords = inject('hkChords');
-const hkSync = inject('hkSync');
-const hkPresent = inject('hkPresent');
-const noActiveModal = inject('noActiveModal');
-const version = inject('version');
+const hkChords = injectStrict(hkChordsKey);
+const hkSync = injectStrict(hkSyncKey);
+const hkPresent = injectStrict(hkPresentKey);
+const noActiveModal = injectStrict(noActiveModalKey);
+const version = injectStrict(versionKey);
 
 // pdf creation
 pdfMake.fonts = {
@@ -537,11 +541,11 @@ pdfMake.fonts = {
 };
 
 // global properties
-const setlists = inject('setlists');
-const songs = inject('songs');
-const user = inject('user');
-const users = inject('users');
-const setlistCollection = inject('setlistCollection');
+const setlists = injectStrict(setlistsKey);
+const songs = injectStrict(songsKey);
+const user = injectStrict(userKey);
+const users = injectStrict(usersKey);
+const setlistCollection = injectStrict(setlistCollectionKey);
 const emit = defineEmits(['editSong', 'editSetlist']);
 
 // reactive data
@@ -556,7 +560,7 @@ const modal = reactive({
 const setlist = computed(() => setlists.value.find(s => s.entity.slug === setlistKey));
 
 // find a song's entity by id
-const findSong = (id) => songs.value.find(s => s.id === id)?.entity;
+const findSong = (id?: string) => songs.value.find(s => s.id === id)?.entity;
 
 // current user's permissions on this setlist, mirroring the backend's ownership/visibility rules
 const canUpdateSetlist = computed(() => !!setlist.value && can('updateSetlists', user.value.roles, {
@@ -570,16 +574,18 @@ const canDeleteSetlist = computed(() => !!setlist.value && can('deleteSetlists',
 }));
 
 // retrieve setlist song entities (only existing ones) with custom key overrides applied
-const setlistSongs = computed(() => {
-	const result = [];
+const setlistSongs = computed<SetlistSongPresentation[]>(() => {
+	const result: SetlistSongPresentation[] = [];
 	for (const setlistSong of setlist.value?.entity.songs ?? []) {
 		const song = findSong(setlistSong.id);
 		if (!song) continue; // song was deleted
 		const setlistTuning = setlistSong.key;
-		const customTuningDelta = setlistTuning != 0
-			? keyScale.indexOf(setlistTuning) - keyScale.indexOf(song.key)
+		// '' is the "no custom tuning" sentinel (see SetlistSet.vue's addSong);
+		// no other value stored here ever numerically coerces to 0
+		const customTuningDelta = setlistTuning !== ''
+			? keyScale.indexOf(setlistTuning) - keyScale.indexOf(song.key ?? '')
 			: 0;
-		const customTuning = setlistTuning != 0 ? setlistTuning : song.key;
+		const customTuning = setlistTuning !== '' ? setlistTuning : (song.key ?? '');
 		result.push({ ...song, customTuningDelta, customTuning });
 	}
 	return result;
@@ -587,7 +593,7 @@ const setlistSongs = computed(() => {
 
 // build data object for song languages doughnut chart
 const setlistLanguages = computed(() => {
-	let languages = {};
+	let languages: Record<string, number> = {};
 	for (let i = 0; i < setlistSongs.value.length; i++) {
 		const song = setlistSongs.value[i];
 		if (!languages.hasOwnProperty(song.language)) {
@@ -597,7 +603,7 @@ const setlistLanguages = computed(() => {
 	}
 	return {
 		datasets: [
-			{ label: t('page.songs', 2), data: Object.values(languages), color: '#88b544' },
+			{ label: t('page.songs', 2), data: Object.values(languages), borderColor: '#88b544' },
 		],
 		labels: Object.keys(languages).map(e => t('language.' + e))
 	};
@@ -605,7 +611,7 @@ const setlistLanguages = computed(() => {
 
 // build data object for song keys doughnut chart
 const setlistKeys = computed(() => {
-	let keys = {};
+	let keys: Record<string, number> = {};
 	for (let i = 0; i < setlistSongs.value.length; i++) {
 		const song = setlistSongs.value[i];
 		if (!keys.hasOwnProperty(song.customTuning)) {
@@ -615,7 +621,7 @@ const setlistKeys = computed(() => {
 	}
 	return {
 		datasets: [
-			{ label: t('page.songs', 2), data: Object.values(keys), color: '#88b544' },
+			{ label: t('page.songs', 2), data: Object.values(keys), borderColor: '#88b544' },
 		],
 		labels: Object.keys(keys)
 	};
@@ -628,23 +634,27 @@ const noSongs = computed(() => {
 
 // save new song order for setlist
 const saveOrder = async () => {
+	const sl = setlist.value;
+	if (!sl || !setlistCollection.value) return;
 	try {
-		await setlistCollection.value.updateDoc(setlist.value.id, setlist.value.changeNumber, { ...setlist.value.entity });
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
 		notify({
 			title: t('toast.songOrderUpdated'),
 			text: t('toast.setlistSavedText'),
 			type: 'primary'
 		});
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	}
 };
 
 // transpose key of given song up and save new key for setlist
-const transposeUp = async (song, songPosition) => {
-	const setlistSongList = setlist.value.entity.songs;
+const transposeUp = async (song: SongEntity, songPosition: number) => {
+	const sl = setlist.value;
+	if (!sl || !setlistCollection.value) return;
+	const setlistSongList = sl.entity.songs;
 	// update tuning
-	let tone = setlistSongList[songPosition].key ? setlistSongList[songPosition].key : song.key;
+	let tone = setlistSongList[songPosition].key ? setlistSongList[songPosition].key : (song.key ?? '');
 	let i = keyScale.indexOf(tone);
 	if (i>=keyScale.length-1) {
 		tone = keyScale[0];
@@ -654,17 +664,19 @@ const transposeUp = async (song, songPosition) => {
 	// save tuning in setlist
 	setlistSongList[songPosition].key = tone;
 	try {
-		await setlistCollection.value.updateDoc(setlist.value.id, setlist.value.changeNumber, { ...setlist.value.entity });
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	}
 };
 
 // transpose key of given song down and save new key for setlist
-const transposeDown = async (song, songPosition) => {
-	const setlistSongList = setlist.value.entity.songs;
+const transposeDown = async (song: SongEntity, songPosition: number) => {
+	const sl = setlist.value;
+	if (!sl || !setlistCollection.value) return;
+	const setlistSongList = sl.entity.songs;
 	// update tuning
-	let tone = setlistSongList[songPosition].key ? setlistSongList[songPosition].key : song.key;
+	let tone = setlistSongList[songPosition].key ? setlistSongList[songPosition].key : (song.key ?? '');
 	let i = keyScale.indexOf(tone);
 	if (i<=0) {
 		tone = keyScale[keyScale.length-1];
@@ -674,17 +686,19 @@ const transposeDown = async (song, songPosition) => {
 	// save tuning in setlist
 	setlistSongList[songPosition].key = tone;
 	try {
-		await setlistCollection.value.updateDoc(setlist.value.id, setlist.value.changeNumber, { ...setlist.value.entity });
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	}
 };
 
 // remove a song from setlist, currently used only for deleted songs
-const removeSong = async (songId) => {
-	setlist.value.entity.songs = setlist.value.entity.songs.filter(s => s.id != songId);
+const removeSong = async (songId: string) => {
+	const sl = setlist.value;
+	if (!sl || !setlistCollection.value) return;
+	sl.entity.songs = sl.entity.songs.filter(s => s.id != songId);
 	try {
-		await setlistCollection.value.updateDoc(setlist.value.id, setlist.value.changeNumber, { ...setlist.value.entity });
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
 		// toast success update message
 		notify({
 			title: t('toast.setlistUpdated'),
@@ -692,73 +706,79 @@ const removeSong = async (songId) => {
 			type: 'primary'
 		});
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	}
 };
 
 // toggle and save setlist's active flag to enable or disable sync
 const updateActive = async () => {
-	setlist.value.entity.active = !setlist.value.entity.active;
-	const sync = setlist.value.entity.active;
+	const sl = setlist.value;
+	if (!sl || !setlistCollection.value) return;
+	sl.entity.active = !sl.entity.active;
+	const sync = sl.entity.active;
 	// clear ephemeral remote props when sync is disabled
 	if (!sync) {
-		delete setlist.value.entity.remoteText;
-		delete setlist.value.entity.remoteLight;
-		delete setlist.value.entity.remoteHide;
+		delete sl.entity.remoteText;
+		delete sl.entity.remoteLight;
+		delete sl.entity.remoteHide;
 	}
 	try {
-		await setlistCollection.value.updateDoc(setlist.value.id, setlist.value.changeNumber, { ...setlist.value.entity });
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
 		notify({
 			title: t('toast.sync' + (sync ? 'Activated' : 'Deactivated')),
 			text: t('toast.setlistStatusSavedText'),
 			type: 'primary'
 		});
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	}
 };
 
 // save setlist presentation slide position when sync is enabled
-const updatePosition = async (val) => {
-	if (!setlist.value.entity.active) return;
-	setlist.value.entity.position = val;
+const updatePosition = async (val: number) => {
+	const sl = setlist.value;
+	if (!sl || !sl.entity.active || !setlistCollection.value) return;
+	sl.entity.position = val;
 	try {
-		await setlistCollection.value.updateDoc(setlist.value.id, setlist.value.changeNumber, { ...setlist.value.entity });
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	}
 };
 
 // save setlist chords visibility when sync is enabled
-const updateChords = async (val) => {
-	if (!setlist.value.entity.active) return;
-	setlist.value.entity.remoteText = val;
+const updateChords = async (val: boolean) => {
+	const sl = setlist.value;
+	if (!sl || !sl.entity.active || !setlistCollection.value) return;
+	sl.entity.remoteText = val;
 	try {
-		await setlistCollection.value.updateDoc(setlist.value.id, setlist.value.changeNumber, { ...setlist.value.entity });
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	}
 };
 
 // save setlist theme mode when sync enabled
-const updateDark = async (val) => {
-	if (!setlist.value.entity.active) return;
-	setlist.value.entity.remoteLight = val;
+const updateDark = async (val: boolean) => {
+	const sl = setlist.value;
+	if (!sl || !sl.entity.active || !setlistCollection.value) return;
+	sl.entity.remoteLight = val;
 	try {
-		await setlistCollection.value.updateDoc(setlist.value.id, setlist.value.changeNumber, { ...setlist.value.entity });
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	}
 };
 
 // save setlist content visibility when sync enabled
-const updateHide = async (val) => {
-	if (!setlist.value.entity.active) return;
-	setlist.value.entity.remoteHide = val;
+const updateHide = async (val: boolean) => {
+	const sl = setlist.value;
+	if (!sl || !sl.entity.active || !setlistCollection.value) return;
+	sl.entity.remoteHide = val;
 	try {
-		await setlistCollection.value.updateDoc(setlist.value.id, setlist.value.changeNumber, { ...setlist.value.entity });
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	}
 };
 
@@ -768,7 +788,7 @@ const deleteDialog = () => {
 };
 
 // copy list to clipboard in given format (plain|markdown|slack)
-const copyList = (format) => {
+const copyList = (format: 'plain' | 'markdown' | 'slack') => {
 	const list = setlistSongs.value.map((song, i) => {
 		const title = song.title;
 		const subtitle = song.subtitle;
@@ -798,7 +818,7 @@ const copyList = (format) => {
 };
 
 // download pdf in given mode (sheets|list)
-const exportPdf = (mode) => {
+const exportPdf = (mode: 'sheets' | 'list') => {
 	var content = mode == 'sheets' ? getPdfSongsheets() : getPdfSetlist();
 	// return page configuration with computed content
 	var doc = {
@@ -851,7 +871,7 @@ const exportPdf = (mode) => {
 				alignment: 'right'
 			}
 		}
-	};
+	} as TDocumentDefinitions;
 
 	// Trigger download
 	const type = (mode == 'sheets' ? t('text.songsheets') : t('text.list')).toLowerCase();
@@ -866,30 +886,32 @@ const exportPdf = (mode) => {
 };
 
 // create pdfMake object for list
-const getPdfSetlist = () => {
+const getPdfSetlist = (): Content[] => {
+	const sl = setlist.value;
+	if (!sl) return [];
 	const songLines = setlistSongs.value.map(song => ' ‒ ' + song.title + ' [' + song.customTuning + ']');
 	return [
-		{ text: setlist.value.entity.title.toUpperCase(), style: 'header' },
+		{ text: sl.entity.title.toUpperCase(), style: 'header' },
 		{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
 		{
-			text: (new Date(setlist.value.entity.date)).toLocaleDateString(
+			text: (new Date(sl.entity.date)).toLocaleDateString(
 				locale.value,
 				{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 			),
 			style: 'subtitle',
 			margin: [ 0, 6, 0, 0 ]
-		},
-		{ ol: songLines, style: 'list'},
+		} as Content,
+		{ ol: songLines, style: 'list'} as Content,
 		{ text: window.location.href, link: window.location.href, style: 'link' },
 	];
 };
 
 // create pdfMake object for songsheets
-const getPdfSongsheets = () => {
-	let sheets = [];
+const getPdfSongsheets = (): Content[] => {
+	let sheets: Content[] = [];
 	setlistSongs.value.forEach((song, index) => {
 		// handle song content parts
-		let content = [];
+		let content: Content[] = [];
 		let parts = parsedContent(
 			song.content,
 			song.customTuningDelta,
@@ -903,7 +925,7 @@ const getPdfSongsheets = () => {
 					columns: [
 						{
 							width: 'auto',
-							text: part.number,
+							text: String(part.number),
 							style: 'partnumber',
 						},
 						{
@@ -913,7 +935,7 @@ const getPdfSongsheets = () => {
 							style: 'code',
 						}
 					]
-				});
+				} as Content);
 			} else {
 				content.push({
 					// song content with respect to leading whitespaces
@@ -923,17 +945,16 @@ const getPdfSongsheets = () => {
 			}
 		});
 		// create footer
-		let footer = [{
+		let footer: Content[] = [{
 			// imprint with ccli#, author names and (c) year publisher
 			width: '*',
 			style: 'footer',
 			text: [
-				song.note ? t('field.note') + ':\n' + song.note + '\n\n' : '',
 				song.ccli ? 'CCLI Song Nr.: ' + song.ccli + '\n' : '',
 				song.authors?.length ? song.authors.join(' | ') + '\n' : '',
 				'© ' + (song.year ? song.year + ' ' : '') + song.publisher
 			]
-		}];
+		} as Content];
 		if (song.youtube) {
 			footer.push({
 				// QR code for YouTube link
@@ -941,12 +962,12 @@ const getPdfSongsheets = () => {
 				margin: [ 0, 20, 0, 0 ],
 				stack: [
 					{ text: 'https://youtu.be/' + song.youtube, style: 'qr' },
-					{ qr: 'https://youtu.be/' + song.youtube, fit: '90', style: 'qr', margin: [ 0, 5, 0, 0 ] }
+					{ qr: 'https://youtu.be/' + song.youtube, fit: 90, style: 'qr', margin: [ 0, 5, 0, 0 ] }
 				]
-			});
+			} as Content);
 		}
 		// put songsheet together
-		let songsheet = [
+		let songsheet: Content[] = [
 			// song title [tuning] with a line beneath
 			{ text: song.title.toUpperCase(), style: 'header' },
 			{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 505, y2: 0, lineWidth: .5 }] },
@@ -955,13 +976,13 @@ const getPdfSongsheets = () => {
 				style: 'subtitle',
 				alignment: 'right',
 				margin: [ 0, 4, 0, 0 ]
-			},
+			} as Content,
 			content,
 			{ columnGap: 8, columns: footer }
 		];
 		// add page break after every song exept for the last
 		if (index < setlistSongs.value.length-1) {
-			songsheet.push({ text: '', pageBreak: 'after', style: 'code' });
+			songsheet.push({ text: '', pageBreak: 'after', style: 'code' } as Content);
 		}
 		sheets = sheets.concat(songsheet);
 	});
@@ -970,7 +991,9 @@ const getPdfSongsheets = () => {
 
 const exportOsz = async () => {
 	// initialize file content of service data osj file for OpenLP
-	const content = [{
+	// (OpenLP's .osj format has no published types anywhere)
+	// oxlint-disable-next-line typescript/no-explicit-any
+	const content: any[] = [{
     'openlp_core': {
       'lite-service': false,
       'service-theme': null,
@@ -985,16 +1008,17 @@ const exportOsz = async () => {
 		let tSong = null;
 		if (lang !== song.language && song.translations.length > 0) {
 			const tKey = song.translations.find((tr) => tr.endsWith(`-${lang}`));
-			tSong = findSong(tKey);
+			tSong = findSong(tKey) ?? null;
 		}
 		// handle song content parts
-		const itemData = [];
+		// oxlint-disable-next-line typescript/no-explicit-any
+		const itemData: any[] = [];
 		const parts = parsedContent(song.content, 0, false, false);
 		const tParts = tSong ? parsedContent(tSong.content, 0, false, false) : [];
 		parts.forEach((part, i) => {
 			itemData.push({
 				'raw_slide': (i in tParts) ? `${part.content}\n\n{it}{gr}{fd}${tParts[i].content}{/fd}{/it}{/gr}` : part.content,
-				'verseTag': (part.type ? part.type.toUpperCase() : 'V') + (part.number > 0 ? part.number.toString() : '1'),
+				'verseTag': (part.type ? part.type.toUpperCase() : 'V') + (Number(part.number) > 0 ? part.number.toString() : '1'),
 			});
 		});
 		content.push({
@@ -1009,13 +1033,13 @@ const exportOsz = async () => {
 						`${t('field.authors')}: ${song.authors?.join(', ') ?? ''}`
 					],
 					'type': 1,
-					'audit': [song.title, song.authors ?? [], song.publisher, song.ccli.toString()],
+					'audit': [song.title, song.authors ?? [], song.publisher, (song.ccli ?? '').toString()],
 					'notes': '',
 					'from_plugin': false,
 					'capabilities': [2, 1, 5, 8, 9, 13, 22],
 					'search': '',
 					'data': {
-						'title': `${song.title.toLowerCase()}@${song.subtitle.toLowerCase()}`,
+						'title': `${song.title.toLowerCase()}@${(song.subtitle ?? '').toLowerCase()}`,
 						'alternate_title': song.subtitle,
 						'authors': song.authors?.join(', ') ?? '',
 						'ccli_number': song.ccli,

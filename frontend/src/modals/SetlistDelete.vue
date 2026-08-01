@@ -17,11 +17,13 @@
 	</modal-dialog>
 </template>
 
-<script setup>
-import { inject, ref } from 'vue';
+<script setup lang="ts">
+import { injectStrict, setlistCollectionKey, setlistsKey } from '@/keys';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { notify } from '@kyvg/vue3-notification';
 import { throwError } from '@/utils.js';
+import type { ThrowableError } from '@/definitions';
 import { useRoute, useRouter } from 'vue-router'
 import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
@@ -38,8 +40,8 @@ const route = useRoute()
 const router = useRouter()
 
 // global properties
-const setlists = inject('setlists');
-const setlistCollection = inject('setlistCollection');
+const setlists = injectStrict(setlistsKey);
+const setlistCollection = injectStrict(setlistCollectionKey);
 
 // component properties
 const props = defineProps({
@@ -54,9 +56,11 @@ const emit = defineEmits(['closed']);
 // execute setlist deletion
 const busy = ref(false);
 const deleteSetlist = async () => {
+	if (!setlistCollection.value) return;
 	busy.value = true;
 	try {
 		const current = setlists.value.find(s => s.entity.slug === props.id);
+		if (!current) return;
 		await setlistCollection.value.deleteDoc(current.id);
 		emit('closed');
 		if (route.name != 'setlists') {
@@ -69,7 +73,7 @@ const deleteSetlist = async () => {
 			type: 'primary'
 		});
 	} catch (err) {
-		throwError(err);
+		throwError(err as ThrowableError);
 	} finally {
 		busy.value = false;
 	}

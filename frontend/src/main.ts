@@ -1,5 +1,6 @@
 // init app
 import { createApp } from 'vue';
+import { markedKey, versionKey } from '@/keys';
 import App from '@/App.vue';
 const app = createApp(App);
 
@@ -8,7 +9,7 @@ import router from '@/router.js'
 app.use(router);
 
 // set global properties
-app.provide('version', APP_VERSION);
+app.provide(versionKey, APP_VERSION);
 
 // vue-notification
 import Notifications from '@kyvg/vue3-notification';
@@ -22,9 +23,9 @@ const messages = {
 	'de': de, // German
 	'en': en, // English
 };
-const loc = !('lang' in localStorage)
-	? navigator.language.substring(0, 2) || navigator.userLanguage.substring(0, 2)
-	: localStorage.getItem('lang');
+const loc: string = !('lang' in localStorage)
+	? navigator.language.substring(0, 2) || (navigator as Navigator & { userLanguage?: string }).userLanguage?.substring(0, 2) || 'en'
+	: (localStorage.getItem('lang') ?? 'en');
 const i18n = createI18n({
 	legacy: false,
 	globalInjection: true,
@@ -55,17 +56,7 @@ marked.use(markedHighlight({
 		}
 	},
 }));
-marked.use({
-	mangle: false,
-  headerIds: false,
-});
-app.provide('marked', marked);
-
-// extend Object for filtering
-Object.filter = (obj, predicate) =>
-	Object.keys(obj)
-		.filter(key => predicate(obj[key]))
-		.reduce((res, key) => (res[key] = obj[key], res), {});
+app.provide(markedKey, marked);
 
 // init basic css with tailwind imports
 import '@/assets/main.css';

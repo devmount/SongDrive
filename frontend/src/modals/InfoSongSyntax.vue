@@ -10,8 +10,9 @@
 	</modal-dialog>
 </template>
 
-<script setup>
-import { computed, inject } from 'vue';
+<script setup lang="ts">
+import { injectStrict, markedKey } from '@/keys';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import de from "@/docs/syntax-cheatsheet.de.md?raw";
 import en from "@/docs/syntax-cheatsheet.en.md?raw";
@@ -23,7 +24,7 @@ const { t, locale } = useI18n();
 const loc = locale.value.substring(0, 2);
 
 // cheatsheet contents
-const cheatsheets = { de, en };
+const cheatsheets: Record<string, string> = { de, en };
 const lang = ['de', 'en'].includes(loc) ? loc : 'en';
 
 // component properties
@@ -35,7 +36,7 @@ const props = defineProps({
 const emit = defineEmits(['closed']);
 
 // parse content of cheatsheet markdown file
-const marked = inject('marked');
+const marked = injectStrict(markedKey);
 const content = computed(() => marked.parse(
 	cheatsheets[lang],
 	{
@@ -43,10 +44,6 @@ const content = computed(() => marked.parse(
 		pedantic: false,
 		gfm: true,
 		breaks: true,
-		sanitize: false,
-		smartLists: true,
-		smartypants: false,
-		xhtml: false
 	}
 ));
 </script>
