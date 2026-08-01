@@ -109,7 +109,7 @@ export const can = (action: string, roles: UserRole[], context?: CanContext): bo
 	  [UserRole.Performer]: 2,
 	  [UserRole.Reader]: 1,
   };
-  const highestRole = roles.toSorted((a, b) => level[a] - level[b])[0];
+  const highestRole = roles.toSorted((a, b) => level[b] - level[a])[0];
 
   // Admins are allowed in general
   if (highestRole === UserRole.Admin) {
