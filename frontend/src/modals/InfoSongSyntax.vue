@@ -39,8 +39,6 @@ const emit = defineEmits(['closed']);
 const marked = injectStrict(markedKey);
 const content = computed(() => marked.parse(
 	cheatsheets[lang],
-	// sanitize/smartLists/smartypants/xhtml predate marked v15's MarkedOptions
-	// and were already silently ignored (dropped from the type, not just this cast)
 	{
 		renderer: new marked.Renderer(),
 		pedantic: false,

@@ -11,29 +11,6 @@ const tagTranslations: Record<string, Record<string, string>> = { de: de.tag, en
 // scale to use for song tuning and transponation
 const keyScale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'];
 
-/*
-  user roles and permissions: Administrator, Editor, Performer and Reader
-   A E P R
-  ------------------------------------------------------
-   x x x x  see dashboard, song list and setlist list
-   x x x x  see single songs (present, tune, export)
-   x x x x  see single setlists (present, copy, export)
-   x x x    create and edit setlists
-   x x x    custom song tuning in setlists
-   x x x    synchronize setlists
-   x x      create and edit songs
-   x x      delete songs and setlists
-   x        create, edit and delete song tags
-   x        create, edit and delete song languages
-   x        create, edit and delete users
-*/
-const userRoles: Record<string, number> = {
-  reader:    1,
-  performer: 2,
-  editor:    3,
-  admin:     4,
-};
-
 // identify chord lines
 const isChordLine = (line: string): boolean => {
 	if (line.trim() == '') return false;
@@ -317,8 +294,8 @@ const urlify = (s: string): string => {
     .replace(/³/g, '3');
 }
 
-// get the first key of given object that points to given value
-const keyByValue = (o: Record<string, unknown>, v: unknown): string | undefined => Object.keys(o).find(k => o[k]===v);
+// parse a number <input>'s raw value, treating an empty field as unset rather than 0
+const parseNumberInput = (value: string): number | undefined => value === '' ? undefined : parseInt(value);
 
 // sort tag keys by their translated name in the given locale
 const sortTags = (tags: string[], locale: string): string[] => {
@@ -397,7 +374,6 @@ const openLyricsXML = (song: SongEntity, version: string, translatedSong: SongEn
 
 export {
   keyScale,
-  userRoles,
   isChordLine,
   parsedContent,
   download,
@@ -408,7 +384,7 @@ export {
   throwError,
   randomString,
   urlify,
-  keyByValue,
+  parseNumberInput,
   sortTags,
   browserPrefersDark,
   mailto,

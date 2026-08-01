@@ -113,8 +113,9 @@ const songOfYear = computed(() => {
 			}
 		}
 		const song = songs.value.find(s => s.entity.slug == maxId);
-		if (!song) continue; // stale/unknown local reference - skip rather than crash
-		songsToYear.push({ year: year, song, count: maxCount });
+		if (song) {
+			songsToYear.push({ year: year, song, count: maxCount });
+		}
 	}
 	return songsToYear;
 });

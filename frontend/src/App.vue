@@ -215,7 +215,7 @@
 
 <script setup lang="ts">
 import { clientKey, hkBackKey, hkCancelKey, hkChordsKey, hkDownKey, hkForwardKey, hkGoKey, hkHideKey, hkPresentKey, hkResetKey, hkSearchKey, hkSyncKey, hkThemeKey, hkUpKey, noActiveInputKey, noActiveModalKey, setlistCollectionKey, setlistsKey, songsCollectionKey, songsKey, tagsKey, userKey, usersKey } from '@/keys';
-import type { AppUser, SongFormData, SetlistFormInitial } from '@/definitions';
+import type { AppUser, SongFormData, SetlistFormData } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, provide, onMounted } from 'vue';
 import { useActiveElement, useMagicKeys } from '@vueuse/core';
@@ -302,7 +302,7 @@ const route = useRoute();
 const open = ref(false);
 
 // setlist object
-const initialSetlist: SetlistFormInitial = {
+const initialSetlist: SetlistFormData = {
 	title: '',
 	isPublic: true,
 	date: '',
@@ -312,7 +312,7 @@ const initialSetlist: SetlistFormInitial = {
 // song object
 const initialSong: SongFormData = {
 	authors:      [],
-	ccli:         '',
+	ccli:         undefined,
 	content:      '',
 	key:          '',
 	language:     '',
@@ -321,7 +321,7 @@ const initialSong: SongFormData = {
 	tags:         [],
 	title:        '',
 	translations: [],
-	year:         '',
+	year:         undefined,
 	youtube:      '',
 };
 
@@ -358,7 +358,7 @@ const editExistingSong = ({data, id, exists}: { data: SongEntity, id: string, ex
 };
 
 // add and edit setlists
-const setlistSetModalData = reactive<{ setlist: SetlistFormInitial, existing: boolean, id: string | null }>({
+const setlistSetModalData = reactive<{ setlist: SetlistFormData, existing: boolean, id: string | null }>({
 	setlist:  structuredClone(initialSetlist),
 	existing: false,
 	id:       null,
@@ -406,8 +406,6 @@ const user = computed<AppUser>(() => ({
 	id: amberUser.value?.user.id,
 	name: amberUser.value?.user.name ?? '',
 	email: amberUser.value?.user.email ?? '',
-	// backend/definitions.ts's UserRole enum values match amber-client's plain
-	// role strings 1:1 (both come from the same tenant role configuration)
 	roles: (amberUser.value?.roles ?? []) as UserRole[],
 	photo: null, // TODO
 }));

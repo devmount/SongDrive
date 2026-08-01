@@ -41,7 +41,7 @@ export const versionKey: InjectionKey<string> = Symbol('version');
 export const markedKey: InjectionKey<typeof marked> = Symbol('marked');
 
 /**
- * Strict-typed inject(): throws instead of silently returning `T | undefined`,
+ * Strict-typed inject(): throws an error instead of silently returning `T | undefined`,
  * since every one of these keys is always provided before any child mounts.
  */
 export function injectStrict<T>(key: InjectionKey<T>): T {

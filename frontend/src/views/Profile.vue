@@ -76,8 +76,8 @@
 					<label class="flex flex-col gap-1">
 						{{ t('field.colorScheme') }}
 						<select v-model="theme">
-							<option v-for="(key, label) in colorSchemes" :key="key" :value="key">
-								{{ t('option.' + label) }}
+							<option v-for="scheme in ColorScheme" :key="scheme" :value="scheme">
+								{{ t('option.' + scheme) }}
 							</option>
 						</select>
 					</label>
@@ -111,6 +111,7 @@
 
 <script setup lang="ts">
 import { injectStrict, setlistsKey, userKey } from '@/keys';
+import { ColorScheme } from '@/definitions';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -161,24 +162,19 @@ watch(lang, (newValue) => {
 });
 
 // handle theme mode
-const colorSchemes: Record<string, number> = {
-	auto:  1,
-	dark:  2,
-	light: 3,
-};
-const initialTheme = !('theme' in localStorage) ? colorSchemes.auto : colorSchemes[localStorage.theme]
-const theme = ref(initialTheme);
+const initialTheme = (localStorage.getItem('theme') as ColorScheme | null) ?? ColorScheme.Auto;
+const theme = ref<ColorScheme>(initialTheme);
 watch(theme, (newValue) => {
 	switch (newValue) {
-		case colorSchemes.dark:
+		case ColorScheme.Dark:
 			localStorage.theme = 'dark';
 			document.documentElement.classList.add('dark');
 			break;
-		case colorSchemes.light:
+		case ColorScheme.Light:
 			localStorage.theme = 'light';
 			document.documentElement.classList.remove('dark');
 			break;
-		case colorSchemes.auto:
+		case ColorScheme.Auto:
 			localStorage.removeItem('theme');
 			if (!window.matchMedia('(prefers-color-scheme: dark)').matches) {
 				document.documentElement.classList.remove('dark');

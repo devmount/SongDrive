@@ -272,7 +272,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import { enGB, de } from 'date-fns/locale';
 import type { Locale } from 'date-fns';
 import { keyScale, humanDate, throwError, urlify, browserPrefersDark, sortTags } from '@/utils.js';
-import type { ThrowableError, SetlistFormInitial } from '@/definitions';
+import type { ThrowableError, SetlistFormData } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -331,7 +331,7 @@ const findSong = (id: string) => songs.value.find(s => s.id === id)?.entity;
 const props = defineProps({
 	active:         Boolean, // state of modal display, true to show modal
 	existing:       Boolean, // setlist already exists
-	initialSetlist: { type: Object as PropType<SetlistFormInitial>, required: true },  // setlist structure to fill with data
+	initialSetlist: { type: Object as PropType<SetlistFormData>, required: true },  // setlist structure to fill with data
 	id:             String,  // setlist identifier
 });
 
@@ -358,14 +358,14 @@ const resetErrors = () => {
 };
 
 // build local editable setlist state from the initial (blank or existing) setlist
-const buildFormState = (initial: SetlistFormInitial): SetlistFormInitial => ({
+const buildFormState = (initial: SetlistFormData): SetlistFormData => ({
 	...initial,
 	// only show undeleted songs
 	songs: initial.songs.filter(s => findSong(s.id)),
 });
 
 // setlist input data
-const setlist = ref<SetlistFormInitial>(buildFormState(props.initialSetlist));
+const setlist = ref<SetlistFormData>(buildFormState(props.initialSetlist));
 const initInput = () => {
 	resetErrors();
 	resetFilter();

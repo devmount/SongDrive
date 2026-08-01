@@ -820,8 +820,6 @@ const copyList = (format: 'plain' | 'markdown' | 'slack') => {
 // download pdf in given mode (sheets|list)
 const exportPdf = (mode: 'sheets' | 'list') => {
 	var content = mode == 'sheets' ? getPdfSongsheets() : getPdfSetlist();
-	// this predates @types/pdfmake and was never designed against pdfmake's
-	// strict TDocumentDefinitions/Content types - cast rather than rewrite
 	// return page configuration with computed content
 	var doc = {
 		pageSize: 'A4',
@@ -993,8 +991,7 @@ const getPdfSongsheets = (): Content[] => {
 
 const exportOsz = async () => {
 	// initialize file content of service data osj file for OpenLP
-	// (OpenLP's .osj format has no published types anywhere - OpenLP is a
-	// Python desktop app, not an npm package - so this is left as `any`)
+	// (OpenLP's .osj format has no published types anywhere)
 	// oxlint-disable-next-line typescript/no-explicit-any
 	const content: any[] = [{
     'openlp_core': {

@@ -134,8 +134,6 @@ const toc = computed(
 // parse documentation markdown content with songdrive code highlight
 const marked = injectStrict(markedKey);
 const content = computed(
-	// sanitize/smartLists/smartypants/xhtml predate marked v15's MarkedOptions
-	// and were already silently ignored (dropped from the type, not just this cast)
 	() => marked.parse(
 		docs[lang],
 		{

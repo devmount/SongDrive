@@ -2,8 +2,7 @@ import type { SongEntity, SetlistEntity, SetlistSong } from '@backend/models';
 import type { UserRole } from '@backend/definitions';
 
 /**
- * User shape provided by App.vue's `user` computed, combining Amberbase's
- * authenticated user with SongDrive's role model.
+ * Amberbase's authenticated user combined with SongDrive's role model.
  */
 export type AppUser = {
   id?: string;
@@ -14,8 +13,7 @@ export type AppUser = {
 };
 
 /**
- * A single parsed part of a song's content (verse, chorus, ...), as returned
- * by utils.ts's parsedContent().
+ * A single parsed part of a song's content (verse, chorus, ...).
  */
 export type SongPart = {
   type: string;
@@ -35,27 +33,20 @@ export type ThrowableError = {
 };
 
 /**
- * Form-shaped song data for SongSet.vue: also accepted directly from an
- * existing SongEntity when editing/duplicating a song (App.vue's
- * editExistingSong). `ccli`/`year` are `string | number` because Vue
- * auto-casts <input type="number"> v-models to number once non-empty (see
- * @vue/runtime-dom's vModelText castToNumber), while the blank-form default
- * and an empty field are both ''.
+ * Shape of SongSet.vue's `initialSong` prop: either the blank-form template
+ * (just authors/content/language/publisher/tags/title/translations, see
+ * App.vue's initialSong) or a full existing SongEntity when editing/
+ * duplicating a song (App.vue's editExistingSong) - the rest is only read
+ * when `existing` is true.
  */
-export type SongFormData = {
+export type SongFormData = Partial<SongEntity> & {
   authors: string[];
-  ccli?: string | number;
   content: string;
-  createdBy?: string;
-  key?: string;
   language: string;
   publisher: string;
-  subtitle?: string;
   tags: string[];
   title: string;
   translations: string[];
-  year?: string | number;
-  youtube?: string;
 };
 
 /**
@@ -64,7 +55,7 @@ export type SongFormData = {
  * a full existing SetlistEntity when editing - the rest is only read when
  * `existing` is true.
  */
-export type SetlistFormInitial = Partial<SetlistEntity> & {
+export type SetlistFormData = Partial<SetlistEntity> & {
   title: string;
   isPublic: boolean;
   date: string;
@@ -72,9 +63,7 @@ export type SetlistFormInitial = Partial<SetlistEntity> & {
 };
 
 /**
- * A setlist song hydrated with its full song entity plus per-setlist custom
- * tuning, as built by SetlistShow.vue's setlistSongs and consumed by
- * SetlistPresent.vue for presentation.
+ * A setlist song hydrated with its full song entity plus per-setlist custom key.
  */
 export type SetlistSongPresentation = SongEntity & { customTuningDelta: number; customTuning: string };
 
@@ -90,3 +79,22 @@ export type CarouselInstance = {
   next: () => void;
   updateSlideSize: () => void;
 };
+
+/**
+ * UI theme mode
+ */
+export enum ColorScheme {
+  Auto = 'auto',
+  Dark = 'dark',
+  Light = 'light',
+}
+
+/**
+ * Sort order for setlist and song lists.
+ */
+export enum SortOrder {
+  Newest = 'newest',
+  Oldest = 'oldest',
+  Random = 'random',
+  Popular = 'popular',
+}

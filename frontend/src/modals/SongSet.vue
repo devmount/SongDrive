@@ -88,7 +88,8 @@
 						<div>{{ t('field.year') }}</div>
 						<input
 							type="number"
-							v-model="song.year"
+							:value="song.year"
+							@input="e => song.year = parseNumberInput((e.target as HTMLInputElement).value)"
 							:placeholder="t('placeholder.exampleSongYear')"
 						>
 					</label>
@@ -111,7 +112,8 @@
 						</div>
 						<input
 							type="number"
-							v-model="song.ccli"
+							:value="song.ccli"
+							@input="e => song.ccli = parseNumberInput((e.target as HTMLInputElement).value)"
 							:placeholder="t('placeholder.exampleSongCcli')"
 						>
 					</label>
@@ -225,7 +227,7 @@
 <script setup lang="ts">
 import { injectStrict, setlistCollectionKey, setlistsKey, songsCollectionKey, songsKey, userKey } from '@/keys';
 import 'vue-prism-editor/dist/prismeditor.min.css';
-import { keyScale, sdHighlight, throwError, urlify, updateSongTranslations } from '@/utils.js';
+import { keyScale, sdHighlight, throwError, urlify, updateSongTranslations, parseNumberInput } from '@/utils.js';
 import type { ThrowableError, SongFormData } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
 import { PrismEditor } from 'vue-prism-editor';
@@ -342,7 +344,7 @@ const createSlug = () => {
 // build the entity payload to send to Amberbase
 const buildEntity = (slug: string): SongEntity => ({
 	authors:      song.value.authors ?? [],
-	ccli:         song.value.ccli ? parseInt(String(song.value.ccli)) : undefined,
+	ccli:         song.value.ccli,
 	content:      song.value.content,
 	createdBy:    (props.existing ? props.initialSong.createdBy : user.value.id) ?? '',
 	key:          song.value.key || undefined,
@@ -353,7 +355,7 @@ const buildEntity = (slug: string): SongEntity => ({
 	tags:         song.value.tags ?? [],
 	title:        song.value.title,
 	translations: song.value.translations ?? [],
-	year:         song.value.year ? parseInt(String(song.value.year)) : undefined,
+	year:         song.value.year,
 	youtube:      song.value.youtube || undefined,
 });
 

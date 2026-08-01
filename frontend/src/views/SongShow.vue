@@ -197,40 +197,40 @@
 						>
 							{{ t('page.setlists', 1) }}: {{ setlist.title }}
 						</router-link>
-						{{ t('page.songs', 1) }} #{{ positionSafe+1 }}
+						{{ t('page.songs', 1) }} #{{ (position ?? 0)+1 }}
 					</template>
 					<div class="flex justify-end items-center">
 						<div class="flex gap-1">
 							<!-- back navigation -->
 							<secondary-button
 								class="flex items-center gap-1"
-								:disabled="positionSafe == 0"
+								:disabled="(position ?? 0) == 0"
 								title="Previous Song"
 								@click="goToPreviousSong"
 							>
 								<icon-arrow-left class="w-5 h-5 stroke-1.5" />
-								<div v-if="positionSafe > 0" class="hidden sm:flex items-center gap-2">
+								<div v-if="(position ?? 0) > 0" class="hidden sm:flex items-center gap-2">
 									<div class="max-w-3xs truncate">
-										{{ findSong(setlist.songs[positionSafe-1]?.id)?.title }}
+										{{ findSong(setlist.songs[(position ?? 0)-1]?.id)?.title }}
 									</div>
 									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-										{{ setlist.songs[positionSafe-1]?.key }}
+										{{ setlist.songs[(position ?? 0)-1]?.key }}
 									</div>
 								</div>
 							</secondary-button>
 							<!-- forward navigation -->
 							<secondary-button
 								class="flex items-center gap-1"
-								:disabled="positionSafe == setlist.songs.length-1"
+								:disabled="(position ?? 0) == setlist.songs.length-1"
 								title="Next Song"
 								@click="goToNextSong"
 							>
-								<div v-if="positionSafe < setlist.songs.length-1" class="hidden sm:flex items-center gap-2">
+								<div v-if="(position ?? 0) < setlist.songs.length-1" class="hidden sm:flex items-center gap-2">
 									<div class="max-w-3xs truncate">
-										{{ findSong(setlist.songs[positionSafe+1]?.id)?.title }}
+										{{ findSong(setlist.songs[(position ?? 0)+1]?.id)?.title }}
 									</div>
 									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-										{{ setlist.songs[positionSafe+1]?.key }}
+										{{ setlist.songs[(position ?? 0)+1]?.key }}
 									</div>
 								</div>
 								<icon-arrow-right class="w-5 h-5 stroke-1.5" />
@@ -379,10 +379,6 @@ const position = computed<number | null>(() => setlistId && route.params.key
 	? (setlist.value?.songs.findIndex(s => s.id === songId ) ?? null)
 	: null
 );
-// non-null position for template arithmetic - only read once songInSetlist
-// (which requires position !== null) gates the setlist-navigation block
-const positionSafe = computed(() => position.value ?? 0);
-
 // array of tuples (song id, language) for all existing translations of this song
 const showLanguages = computed<[string, string | undefined][]>(() => {
 	if (song.value?.translations && song.value.translations.length > 0) {
@@ -538,8 +534,6 @@ const exportXml = () => {
 // export song sheet as PDF
 const exportPdf = () => {
 	var content = getPdfSongContent();
-	// this predates @types/pdfmake and was never designed against pdfmake's
-	// strict TDocumentDefinitions/Content types - cast rather than rewrite
 	var doc = {
 		pageSize: 'A4',
 		pageMargins: [ 50, 50, 40, 30 ],

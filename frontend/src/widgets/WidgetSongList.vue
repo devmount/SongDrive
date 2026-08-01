@@ -2,7 +2,7 @@
 	<panel-box v-if="songs?.length > 0">
 		<div class="flex justify-between items-start">
 			<div class="text-2xl">
-				{{ t('widget.' + keyByValue(sortBy, order)) }} {{ t('page.songs', 2) }}
+				{{ t('widget.' + order) }} {{ t('page.songs', 2) }}
 			</div>
 			<div class="flex gap-1">
 				<secondary-button
@@ -33,7 +33,7 @@
 						<div class="-mt-0.5">{{ song.entity.key }}</div>
 					</figure>
 					<figure
-						v-if="order == sortBy.popular"
+						v-if="order == SortOrder.Popular"
 						class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-12"
 						:title="t('title.songOccuredOn', { num: song.popularity })"
 					>
@@ -41,7 +41,7 @@
 						<icon-x class="w-3 h-3 stroke-2 -mr-1" />
 					</figure>
 					<figure
-						v-if="order == sortBy.newest || order == sortBy.oldest"
+						v-if="order == SortOrder.Newest || order == SortOrder.Oldest"
 						class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-12"
 						:title="song.entity.year ? t('title.songPublishedIn', { year: song.entity.year }) : t('title.noYear')"
 					>
@@ -59,11 +59,11 @@
 				<icon-arrows-shuffle class="w-5 h-5 stroke-1.5" />
 				{{ t('button.shuffle') }}
 			</secondary-button>
-			<secondary-button v-if="order != sortBy.newest" @click="newestSongs">
+			<secondary-button v-if="order != SortOrder.Newest" @click="newestSongs">
 				<icon-arrow-up class="w-5 h-5 stroke-1.5" />
 				{{ t('widget.newest') }}
 			</secondary-button>
-			<secondary-button v-if="order == sortBy.newest" @click="oldestSongs">
+			<secondary-button v-if="order == SortOrder.Newest" @click="oldestSongs">
 				<icon-arrow-down class="w-5 h-5 stroke-1.5" />
 				{{ t('widget.oldest') }}
 			</secondary-button>
@@ -81,7 +81,7 @@
 
 <script setup lang="ts">
 import { injectStrict, setlistsKey, songsKey } from '@/keys';
-import { keyByValue } from '@/utils.js';
+import { SortOrder } from '@/definitions';
 import { ref, computed } from 'vue';
 import type { Song } from '@backend/models';
 import { useI18n } from 'vue-i18n';
@@ -109,16 +109,8 @@ const router = useRouter();
 const songs = injectStrict(songsKey);
 const setlists = injectStrict(setlistsKey);
 
-// sorting order
-const sortBy: Record<string, number> = {
-	newest: 1,
-	oldest: 2,
-	random: 3,
-	popular: 4,
-}
-
 // list data
-const order      = ref(sortBy.newest);
+const order      = ref<SortOrder>(SortOrder.Newest);
 const reordered  = ref<(Song & { popularity?: number })[]>([]);
 const page       = ref(0);
 const listLength = 6;
@@ -126,7 +118,7 @@ const listLength = 6;
 // sort song list
 const shuffleSongs = () => {
 	page.value = 0;
-	order.value = sortBy.random;
+	order.value = SortOrder.Random;
 	let list = songs.value;
 	for (let i = list.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
@@ -136,7 +128,7 @@ const shuffleSongs = () => {
 };
 const newestSongs = () => {
 	page.value = 0;
-	order.value = sortBy.newest;
+	order.value = SortOrder.Newest;
 	reordered.value = songs.value.filter(s => (s.entity.year ?? 0) > 0).sort(
 		(a, b) => ((a.entity.year ?? 0) < (b.entity.year ?? 0)) ? 1 : (((b.entity.year ?? 0) < (a.entity.year ?? 0)) ? -1 : 0)
 	);
@@ -144,14 +136,14 @@ const newestSongs = () => {
 };
 const oldestSongs = () => {
 	page.value = 0;
-	order.value = sortBy.oldest;
+	order.value = SortOrder.Oldest;
 	reordered.value = songs.value.filter(s => (s.entity.year ?? 0) > 0).sort(
 		(a, b) => ((a.entity.year ?? 0) > (b.entity.year ?? 0)) ? 1 : (((b.entity.year ?? 0) > (a.entity.year ?? 0)) ? -1 : 0)
 	);
 };
 const popularSongs = () => {
 	page.value = 0;
-	order.value = sortBy.popular;
+	order.value = SortOrder.Popular;
 	let list: Record<string, number> = {};
 	setlists.value.forEach(setlist => {
 		if (setlist.entity.songs) {
