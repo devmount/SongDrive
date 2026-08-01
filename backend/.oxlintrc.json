@@ -1,0 +1,10 @@
+{
+  "plugins": ["typescript"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "typescript/no-explicit-any": "warn"
+  },
+  "ignorePatterns": ["dist", "node_modules"]
+}
