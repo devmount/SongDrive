@@ -22,7 +22,8 @@ import { injectStrict, setlistCollectionKey, setlistsKey } from '@/keys';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { notify } from '@kyvg/vue3-notification';
-import { throwError, type ThrowableError } from '@/utils.js';
+import { throwError } from '@/utils.js';
+import type { ThrowableError } from '@/definitions';
 import { useRoute, useRouter } from 'vue-router'
 import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';

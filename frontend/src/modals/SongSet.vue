@@ -225,7 +225,8 @@
 <script setup lang="ts">
 import { injectStrict, setlistCollectionKey, setlistsKey, songsCollectionKey, songsKey, userKey } from '@/keys';
 import 'vue-prism-editor/dist/prismeditor.min.css';
-import { keyScale, sdHighlight, throwError, urlify, updateSongTranslations, type ThrowableError } from '@/utils.js';
+import { keyScale, sdHighlight, throwError, urlify, updateSongTranslations } from '@/utils.js';
+import type { ThrowableError, SongFormData } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
 import { PrismEditor } from 'vue-prism-editor';
 import { ref, reactive, computed, watch, onMounted, type PropType } from 'vue';
@@ -240,27 +241,6 @@ import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongAssign from '@/modals/SongAssign.vue';
 import SongTag from '@/elements/SongTag.vue';
 import TagAssign from '@/modals/TagAssign.vue';
-
-// form-shaped song data: also accepted directly from an existing SongEntity
-// when editing/duplicating a song (App.vue's editExistingSong). `ccli`/`year`
-// are `string | number` because Vue auto-casts <input type="number"> v-models
-// to number once non-empty (see @vue/runtime-dom's vModelText castToNumber),
-// while the blank-form default and an empty field are both ''
-export type SongFormData = {
-	authors: string[];
-	ccli?: string | number;
-	content: string;
-	createdBy?: string;
-	key?: string;
-	language: string;
-	publisher: string;
-	subtitle?: string;
-	tags: string[];
-	title: string;
-	translations: string[];
-	year?: string | number;
-	youtube?: string;
-};
 
 // icons
 import {

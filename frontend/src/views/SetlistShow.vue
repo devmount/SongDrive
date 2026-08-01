@@ -461,7 +461,8 @@
 
 <script setup lang="ts">
 import { injectStrict, hkChordsKey, hkPresentKey, hkSyncKey, noActiveModalKey, setlistCollectionKey, setlistsKey, songsKey, userKey, usersKey, versionKey } from '@/keys';
-import { keyScale, parsedContent, humanDate, throwError, download, openLyricsXML, firstParam, type ThrowableError } from '@/utils.js';
+import { keyScale, parsedContent, humanDate, throwError, download, openLyricsXML, firstParam } from '@/utils.js';
+import type { ThrowableError, SetlistSongPresentation } from '@/definitions';
 import { logicAnd } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed } from 'vue';
@@ -480,10 +481,6 @@ import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistDelete from '@/modals/SetlistDelete.vue';
 import SetlistPresent from '@/modals/SetlistPresent.vue';
-
-// a setlist song hydrated with its full song entity plus per-setlist custom
-// tuning, as built by setlistSongs below
-type PresentedSong = SongEntity & { customTuningDelta: number; customTuning: string };
 
 // icons
 import {
@@ -577,8 +574,8 @@ const canDeleteSetlist = computed(() => !!setlist.value && can('deleteSetlists',
 }));
 
 // retrieve setlist song entities (only existing ones) with custom key overrides applied
-const setlistSongs = computed<PresentedSong[]>(() => {
-	const result: PresentedSong[] = [];
+const setlistSongs = computed<SetlistSongPresentation[]>(() => {
+	const result: SetlistSongPresentation[] = [];
 	for (const setlistSong of setlist.value?.entity.songs ?? []) {
 		const song = findSong(setlistSong.id);
 		if (!song) continue; // song was deleted
@@ -606,7 +603,7 @@ const setlistLanguages = computed(() => {
 	}
 	return {
 		datasets: [
-			{ label: t('page.songs', 2), data: Object.values(languages), color: '#88b544' },
+			{ label: t('page.songs', 2), data: Object.values(languages), borderColor: '#88b544' },
 		],
 		labels: Object.keys(languages).map(e => t('language.' + e))
 	};
@@ -624,7 +621,7 @@ const setlistKeys = computed(() => {
 	}
 	return {
 		datasets: [
-			{ label: t('page.songs', 2), data: Object.values(keys), color: '#88b544' },
+			{ label: t('page.songs', 2), data: Object.values(keys), borderColor: '#88b544' },
 		],
 		labels: Object.keys(keys)
 	};
@@ -876,7 +873,7 @@ const exportPdf = (mode: 'sheets' | 'list') => {
 				alignment: 'right'
 			}
 		}
-	} as unknown as TDocumentDefinitions;
+	} as TDocumentDefinitions;
 
 	// Trigger download
 	const type = (mode == 'sheets' ? t('text.songsheets') : t('text.list')).toLowerCase();
@@ -959,7 +956,7 @@ const getPdfSongsheets = (): Content[] => {
 				song.authors?.length ? song.authors.join(' | ') + '\n' : '',
 				'© ' + (song.year ? song.year + ' ' : '') + song.publisher
 			]
-		} as unknown as Content];
+		} as Content];
 		if (song.youtube) {
 			footer.push({
 				// QR code for YouTube link
@@ -967,9 +964,9 @@ const getPdfSongsheets = (): Content[] => {
 				margin: [ 0, 20, 0, 0 ],
 				stack: [
 					{ text: 'https://youtu.be/' + song.youtube, style: 'qr' },
-					{ qr: 'https://youtu.be/' + song.youtube, fit: '90', style: 'qr', margin: [ 0, 5, 0, 0 ] } as unknown as Content
+					{ qr: 'https://youtu.be/' + song.youtube, fit: 90, style: 'qr', margin: [ 0, 5, 0, 0 ] }
 				]
-			} as unknown as Content);
+			} as Content);
 		}
 		// put songsheet together
 		let songsheet: Content[] = [
@@ -987,7 +984,7 @@ const getPdfSongsheets = (): Content[] => {
 		];
 		// add page break after every song exept for the last
 		if (index < setlistSongs.value.length-1) {
-			songsheet.push({ text: '', pageBreak: 'after', style: 'code' } as unknown as Content);
+			songsheet.push({ text: '', pageBreak: 'after', style: 'code' } as Content);
 		}
 		sheets = sheets.concat(songsheet);
 	});

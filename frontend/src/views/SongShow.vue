@@ -570,7 +570,7 @@ const exportPdf = () => {
 				alignment: 'right'
 			}
 		}
-	} as unknown as TDocumentDefinitions;
+	} as TDocumentDefinitions;
 	pdfMake.createPdf(doc).download(songId + '.pdf');
 	// toast success message
 	notify({
@@ -622,7 +622,7 @@ const getPdfSongContent = (): Content[] => {
 			s.authors?.length ? s.authors.join(', ') + '\n' : '',
 			'\u00A9 ' + (s.year ? s.year + ' ' : '') + s.publisher
 		]
-	} as unknown as Content];
+	} as Content];
 	if (s.youtube) {
 		footer.push({
 			// QR code for YouTube link
@@ -630,9 +630,9 @@ const getPdfSongContent = (): Content[] => {
 			margin: [ 0, 20, 0, 0 ],
 			stack: [
 				{ text: 'https://youtu.be/' + s.youtube, style: 'qr' },
-				{ qr: 'https://youtu.be/' + s.youtube, fit: '90', style: 'qr', margin: [ 0, 5, 0, 0 ] } as unknown as Content
+				{ qr: 'https://youtu.be/' + s.youtube, fit: 90, style: 'qr', margin: [ 0, 5, 0, 0 ] }
 			]
-		} as unknown as Content);
+		} as Content);
 	}
 	// return array with song data ready for pdfMake
 	return [

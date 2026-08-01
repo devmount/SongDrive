@@ -213,30 +213,11 @@ import { logicOr } from '@vueuse/math';
 import { whenever } from '@vueuse/core';
 import { ref, computed, watch, onMounted, onUnmounted, nextTick, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { SetlistSongPresentation, CarouselInstance } from '@/definitions';
 import DropDown from '@/elements/DropDown.vue';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent.vue';
-
-// a song hydrated with its per-setlist custom tuning, as built by the parent
-// (SetlistShow.vue) for presentation - not the raw SetlistSong/SongEntity shape
-type PresentedSong = {
-	title: string;
-	content: string;
-	customTuning: string;
-	customTuningDelta: number;
-};
-
-// vue3-carousel's public .d.ts doesn't expose the imperative instance API
-// (data/slideTo/prev/next/updateSlideSize) that's actually available at
-// runtime via defineExpose, so it's typed loosely here instead
-type CarouselInstance = {
-	data: { currentSlide: number };
-	slideTo: (index: number) => void;
-	prev: () => void;
-	next: () => void;
-	updateSlideSize: () => void;
-};
 
 // icons
 import {
@@ -273,7 +254,7 @@ const props = defineProps({
 	remoteHide:  Boolean, // true if synced presentation should fade ouot
 	remoteLight: Boolean, // true if synced presentation should show up in light mde
 	remoteText:  Boolean, // true if synced presentation should be rendered without chords
-	songs:       { type: Array as PropType<PresentedSong[]>, default: () => [] },   // list of songs to present
+	songs:       { type: Array as PropType<SetlistSongPresentation[]>, default: () => [] },   // list of songs to present
 	sync:        Boolean, // true if setlist should send sync signals
 });
 

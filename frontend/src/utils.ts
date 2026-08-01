@@ -1,6 +1,7 @@
 import { notify } from '@kyvg/vue3-notification';
 import type { AmberCollection } from 'amber-client';
 import type { Song, SongEntity } from '@backend/models';
+import type { SongPart, ThrowableError } from '@/definitions';
 import de from '@/locales/de.json';
 import en from '@/locales/en.json';
 
@@ -37,14 +38,6 @@ const userRoles: Record<string, number> = {
 const isChordLine = (line: string): boolean => {
 	if (line.trim() == '') return false;
 	return line.slice(-2) === '  ';
-};
-
-// a single parsed part of a song's content (verse, chorus, ...)
-export type SongPart = {
-  type: string;
-  number: number | string;
-  class: string;
-  content: string;
 };
 
 // parse song content syntax
@@ -282,7 +275,6 @@ const initials = (userName?: string): string => {
 };
 
 // toast error message
-export type ThrowableError = { code?: string; errorCode?: string; message?: string; error?: string };
 const throwError = (error: ThrowableError): void => {
   notify({
     title: error.code ?? error.errorCode,

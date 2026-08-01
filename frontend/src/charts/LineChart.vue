@@ -21,25 +21,14 @@
 <script setup lang="ts">
 import { computed, watch, onMounted, type PropType } from 'vue';
 import { Chart, transparentGradientLine } from '@/chart.config.js';
-import type { ChartConfiguration, TooltipItem, ScriptableContext, ScriptableLineSegmentContext } from 'chart.js';
-
-// a chart.js line dataset, loosely typed: this component mutates arbitrary
-// extra fields onto dataset objects at runtime, which doesn't fit chart.js's
-// strict per-type ChartDataset shape
-type LineDataset = {
-	data: unknown[];
-	borderColor: string;
-	backgroundColor?: unknown;
-	segment?: unknown;
-	[key: string]: unknown;
-};
+import type { ChartConfiguration, ChartDataset, TooltipItem, ScriptableContext, ScriptableLineSegmentContext } from 'chart.js';
 
 // inherited properties
 const props = defineProps({
 	title:       String,  // chart title to print as heading if set
 	description: String,  // chart descriptional text to print between heading and chart if set
-	labels:      { type: Array as PropType<unknown[]>, required: true },   // chart data labels (mandatory)
-	datasets:    { type: Array as PropType<LineDataset[]>, required: true },   // chart datasets (mandatory)
+	labels:      { type: Array as PropType<string[]>, required: true },   // chart data labels (mandatory)
+	datasets:    { type: Array as PropType<ChartDataset<'line'>[]>, required: true },   // chart datasets (mandatory)
 	abscissa:    Boolean, // true if abscissa axis should be shown
 	ordinate:    Boolean, // true if ordinate axis should be shown
 	tooltips: {           // true if tooltips should be shown
@@ -69,8 +58,8 @@ const processedDatasets = computed(() => {
 		// gradient for background
 		d.backgroundColor = (context: ScriptableContext<'line'>) => {
 			const { ctx, chartArea } = context.chart;
-			if (!chartArea) return null;
-			return transparentGradientLine(ctx, chartArea, d.borderColor);
+			if (!chartArea) return undefined;
+			return transparentGradientLine(ctx, chartArea, String(d.borderColor));
 		};
 		// dashed line for last segment
 		d.segment = {
@@ -139,14 +128,14 @@ const draw = () => {
 				}
 			}
 		}
-	} as unknown as ChartConfiguration<'line'>);
+	} as ChartConfiguration<'line'>);
 };
 
 // update chart if new data arrives
 watch (() => props.datasets, () => {
 	if (!chart) return;
 	chart.data.labels = props.labels;
-	chart.data.datasets = processedDatasets.value as unknown as ChartConfiguration<'line'>['data']['datasets'];
+	chart.data.datasets = processedDatasets.value;
 	// show points if only one data column exists and therefore no line can be drawn
 	if (chart.options.datasets?.line) {
 		chart.options.datasets.line.pointRadius = props.labels.length == 1 ? 5 : 0;

@@ -29,7 +29,8 @@
 import { injectStrict, songsCollectionKey, songsKey } from '@/keys';
 import { ref } from 'vue';
 import { notify } from '@kyvg/vue3-notification';
-import { throwError, updateSongTranslations, type ThrowableError } from '@/utils.js';
+import { throwError, updateSongTranslations } from '@/utils.js';
+import type { ThrowableError } from '@/definitions';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router'
 import ModalDialog from '@/elements/ModalDialog.vue';

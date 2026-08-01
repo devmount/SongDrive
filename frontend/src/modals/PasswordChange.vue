@@ -64,7 +64,8 @@
 import { injectStrict, clientKey, userKey } from '@/keys';
 import { notify } from '@kyvg/vue3-notification';
 import { reactive, computed, ref, watch } from 'vue';
-import { throwError, randomString, type ThrowableError } from '@/utils.js';
+import { throwError, randomString } from '@/utils.js';
+import type { ThrowableError } from '@/definitions';
 import { useI18n } from 'vue-i18n';
 import DividerHorizontal from '@/elements/DividerHorizontal.vue';
 import ModalDialog from '@/elements/ModalDialog.vue';

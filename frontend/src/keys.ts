@@ -2,16 +2,8 @@ import { inject, type ComputedRef, type InjectionKey, type Ref } from 'vue';
 import type { marked } from 'marked';
 import type { AmberClient, AmberCollection, UserInfo } from 'amber-client';
 import type { Song, SongEntity, Setlist, SetlistEntity } from '@backend/models';
-import type { SongTag, UserRole } from '@backend/definitions';
-
-// user shape provided by App.vue's `user` computed
-export type AppUser = {
-  id?: string;
-  name: string;
-  email: string;
-  roles: UserRole[];
-  photo: null;
-};
+import type { SongTag } from '@backend/definitions';
+import type { AppUser } from '@/definitions';
 
 // data
 export const songsKey: InjectionKey<Ref<Song[]>> = Symbol('songs');
@@ -19,7 +11,6 @@ export const setlistsKey: InjectionKey<Ref<Setlist[]>> = Symbol('setlists');
 export const tagsKey: InjectionKey<SongTag[]> = Symbol('tags');
 export const userKey: InjectionKey<ComputedRef<AppUser>> = Symbol('user');
 export const usersKey: InjectionKey<Ref<Record<string, UserInfo>>> = Symbol('users');
-export const readyKey: InjectionKey<Ref<boolean>> = Symbol('ready');
 
 // amber client / collections
 export const clientKey: InjectionKey<Ref<AmberClient | null>> = Symbol('client');

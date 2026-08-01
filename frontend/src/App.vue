@@ -214,7 +214,8 @@
 </template>
 
 <script setup lang="ts">
-import { clientKey, hkBackKey, hkCancelKey, hkChordsKey, hkDownKey, hkForwardKey, hkGoKey, hkHideKey, hkPresentKey, hkResetKey, hkSearchKey, hkSyncKey, hkThemeKey, hkUpKey, noActiveInputKey, noActiveModalKey, readyKey, setlistCollectionKey, setlistsKey, songsCollectionKey, songsKey, tagsKey, userKey, usersKey, type AppUser } from '@/keys';
+import { clientKey, hkBackKey, hkCancelKey, hkChordsKey, hkDownKey, hkForwardKey, hkGoKey, hkHideKey, hkPresentKey, hkResetKey, hkSearchKey, hkSyncKey, hkThemeKey, hkUpKey, noActiveInputKey, noActiveModalKey, setlistCollectionKey, setlistsKey, songsCollectionKey, songsKey, tagsKey, userKey, usersKey } from '@/keys';
+import type { AppUser, SongFormData, SetlistFormInitial } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, provide, onMounted } from 'vue';
 import { useActiveElement, useMagicKeys } from '@vueuse/core';
@@ -226,8 +227,8 @@ import LoginForm from '@/partials/LoginForm.vue';
 import Logo from '@/partials/Logo.vue';
 import ResetPassword from '@/partials/ResetPassword.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
-import SetlistSet, { type SetlistFormInitial } from '@/modals/SetlistSet.vue';
-import SongSet, { type SongFormData } from '@/modals/SongSet.vue';
+import SetlistSet from '@/modals/SetlistSet.vue';
+import SongSet from '@/modals/SongSet.vue';
 import { amberClient, type AmberClient, type UserInTenant, type AmberCollections, type AmberCollection, type UserInfo } from 'amber-client';
 import { SongTag, can, UserRole } from "@backend/definitions";
 import type { Song, Setlist, SongEntity, SetlistEntity } from '@backend/models';
@@ -413,7 +414,6 @@ const user = computed<AppUser>(() => ({
 
 // Provide data for other views
 provide(userKey, user);
-provide(readyKey, ready);
 provide(setlistsKey, setlists);
 provide(songsKey, songs);
 provide(tagsKey, tags);

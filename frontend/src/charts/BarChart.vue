@@ -15,19 +15,14 @@
 <script setup lang="ts">
 import { computed, watch, onMounted, type PropType } from 'vue';
 import { Chart, transparentGradientBar } from '@/chart.config.js';
-import type { ChartConfiguration, TooltipItem, ScriptableContext } from 'chart.js';
-
-// a chart.js bar dataset, loosely typed: this component mutates arbitrary
-// extra fields (e.g. `color`) onto dataset objects at runtime, which doesn't
-// fit chart.js's strict per-type ChartDataset shape
-type BarDataset = Record<string, unknown>;
+import type { ChartConfiguration, ChartDataset, TooltipItem, ScriptableContext } from 'chart.js';
 
 // inherited properties
 const props = defineProps({
 	title:       String,  // chart title to print as heading if set
 	description: String,  // chart descriptional text to print between heading and chart if set
-	labels:      { type: Array as PropType<unknown[]>, required: true },   // chart data labels (mandatory)
-	datasets:    { type: Array as PropType<BarDataset[]>, required: true },   // chart datasets (mandatory)
+	labels:      { type: Array as PropType<string[]>, required: true },   // chart data labels (mandatory)
+	datasets:    { type: Array as PropType<ChartDataset<'bar'>[]>, required: true },   // chart datasets (mandatory)
 	horizontal:  Boolean, // true if bars should be horizontal instead of vertical
 	ordinate:    Boolean, // true if ordinate axis should be shown
 });
@@ -42,7 +37,7 @@ const processedDatasets = computed(() => {
 	datasets.map(d => {
 		d.backgroundColor = (context: ScriptableContext<'bar'>) => {
 			const { ctx, chartArea } = context.chart;
-			if (!chartArea) return null;
+			if (!chartArea) return undefined;
 			return transparentGradientBar(
 				ctx,
 				chartArea,
@@ -66,12 +61,12 @@ const draw = () => {
 			indexAxis: props.horizontal ? 'y' : 'x',
 			responsive: true,
 			maintainAspectRatio: false,
-			maxBarThickness: 50,
 			datasets: {
 				bar: {
 					borderWidth: props.horizontal ? { right: 2 } : { top: 2 },
 					barPercentage: 1,
 					categoryPercentage: .6,
+					maxBarThickness: 50,
 				}
 			},
 			plugins: {
@@ -118,14 +113,14 @@ const draw = () => {
 				}
 			}
 		}
-	} as unknown as ChartConfiguration<'bar'>);
+	} as ChartConfiguration<'bar'>);
 };
 
 // update chart if new data arrives
 watch (() => props.datasets, () => {
 	if (!chart) return;
 	chart.data.labels = props.labels;
-	chart.data.datasets = processedDatasets.value as unknown as ChartConfiguration<'bar'>['data']['datasets'];
+	chart.data.datasets = processedDatasets.value;
 	chart.update();
 });
 // update chart if ordinate is toggeled

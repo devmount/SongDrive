@@ -23,20 +23,15 @@
 <script setup lang="ts">
 import { watch, onMounted, type PropType } from 'vue';
 import { Chart } from '@/chart.config.js';
-import type { ChartConfiguration, TooltipItem } from 'chart.js';
-
-// a chart.js doughnut dataset, loosely typed: this component mutates arbitrary
-// extra fields (e.g. `color`) onto dataset objects at runtime, which doesn't
-// fit chart.js's strict per-type ChartDataset shape
-type DoughnutDataset = Record<string, unknown>;
+import type { ChartConfiguration, ChartDataset, TooltipItem } from 'chart.js';
 
 // inherited properties
 const props = defineProps({
 	title:       String,  // chart title to print as heading if set
 	description: String,  // chart descriptional text to print between heading and chart if set
 	info:        Object as PropType<{ number: number | string; label: string }>,  // chart info holding a featured number and corresponding label to show inside doughnut
-	labels:      { type: Array as PropType<unknown[]>, required: true },   // chart data labels (mandatory)
-	datasets:    { type: Array as PropType<DoughnutDataset[]>, required: true },   // chart datasets (mandatory)
+	labels:      { type: Array as PropType<string[]>, required: true },   // chart data labels (mandatory)
+	datasets:    { type: Array as PropType<ChartDataset<'doughnut'>[]>, required: true },   // chart datasets (mandatory)
 });
 
 // non-reactive data
@@ -47,7 +42,7 @@ let chart: Chart<'doughnut'> | null = null;
 watch (() => props.datasets, (newDatasets) => {
 	if (!chart) return;
 	chart.data.labels = props.labels;
-	chart.data.datasets = colorize(newDatasets) as unknown as ChartConfiguration<'doughnut'>['data']['datasets'];
+	chart.data.datasets = colorize(newDatasets);
 	chart.update();
 });
 
@@ -93,13 +88,12 @@ const draw = () => {
 				}
 			}
 		}
-	} as unknown as ChartConfiguration<'doughnut'>);
+	} as ChartConfiguration<'doughnut'>);
 };
 // paint every segment depending on its data
-const colorize = (datasets: DoughnutDataset[]) => {
+const colorize = (datasets: ChartDataset<'doughnut'>[]) => {
 	datasets.map(d => {
-		d.backgroundColor = dataColors(d.data as number[], d.color as string);
-		d.borderColor = d.color;
+		d.backgroundColor = dataColors(d.data, d.borderColor as string);
 	});
 	return datasets;
 };

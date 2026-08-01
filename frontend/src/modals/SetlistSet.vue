@@ -28,13 +28,13 @@
 				<label class="flex grow lg:grow-0 flex-col gap-1">
 					<div>{{ t('field.visibility') }} <span class="text-rose-600">*</span></div>
 					<select v-model="setlist.isPublic" required>
-						<option value="1">{{ t('option.public') }}</option>
-						<option value="0">{{ t('option.private') }}</option>
+						<option :value="true">{{ t('option.public') }}</option>
+						<option :value="false">{{ t('option.private') }}</option>
 					</select>
-					<div v-if="setlist.isPublic==0" class="text-blade-500">
+					<div v-if="!setlist.isPublic" class="text-blade-500">
 						{{ t('text.visibleForYou') }}
 					</div>
-					<div v-if="setlist.isPublic==1" class="text-blade-500">
+					<div v-if="setlist.isPublic" class="text-blade-500">
 						{{ t('text.visibleForAll') }}
 					</div>
 				</label>
@@ -77,7 +77,7 @@
 				</label>
 			</div>
 			<!-- song selection -->
-			<div class="max-h-[calc(50vh_-_6rem)] lg:max-h-[calc(80vh_-_8.25rem)] flex flex-col gap-1">
+			<div class="max-h-[calc(50vh-6rem)] lg:max-h-[calc(80vh-8.25rem)] flex flex-col gap-1">
 				<label>{{ t('field.songs') }}</label>
 				<!-- filter -->
 				<div class="flex gap-1">
@@ -191,7 +191,7 @@
 				</div>
 			</div>
 			<!-- song preview -->
-			<div class="max-h-[calc(50vh_-_6rem)] lg:max-h-[calc(80vh_-_8.25rem)] flex flex-col gap-1">
+			<div class="max-h-[calc(50vh-6rem)] lg:max-h-[calc(80vh-8.25rem)] flex flex-col gap-1">
 				<div v-if="setlist.songs?.length === 0" class="flex flex-col items-center gap-8 mt-4">
 					<icon-playlist class="w-12 h-12 stroke-1 text-blade-500" />
 					<div class="text-center">
@@ -271,13 +271,14 @@ import { injectStrict, setlistCollectionKey, setlistsKey, songsKey, userKey } fr
 import '@vuepic/vue-datepicker/dist/main.css';
 import { enGB, de } from 'date-fns/locale';
 import type { Locale } from 'date-fns';
-import { keyScale, humanDate, throwError, urlify, browserPrefersDark, sortTags, type ThrowableError } from '@/utils.js';
+import { keyScale, humanDate, throwError, urlify, browserPrefersDark, sortTags } from '@/utils.js';
+import type { ThrowableError, SetlistFormInitial } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { SongLanguage, SongTag as SongTagEnum } from '@backend/definitions';
-import type { SetlistEntity, SetlistSong } from '@backend/models';
+import type { SetlistEntity } from '@backend/models';
 import Datepicker from '@vuepic/vue-datepicker';
 import draggable from 'vuedraggable';
 import DropDown from '@/elements/DropDown.vue';
@@ -285,21 +286,6 @@ import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongTag from '@/elements/SongTag.vue';
-
-// shape of the `initialSetlist` prop: either the blank-form template (just
-// title/isPublic/date/songs, see App.vue's initialSetlist) or a full existing
-// SetlistEntity when editing - the rest is only read when `existing` is true
-export type SetlistFormInitial = Partial<SetlistEntity> & {
-	title: string;
-	isPublic: boolean;
-	date: string;
-	songs: SetlistSong[];
-};
-
-// local editable state: same shape, but `isPublic` is normalized to 0/1 to
-// match the <select> options's string values (compared with `==`) and is
-// only converted back to boolean in buildEntity() at submit time
-type SetlistFormData = Omit<SetlistFormInitial, 'isPublic'> & { isPublic: number };
 
 // icons
 import {
@@ -372,16 +358,14 @@ const resetErrors = () => {
 };
 
 // build local editable setlist state from the initial (blank or existing) setlist
-const buildFormState = (initial: SetlistFormInitial): SetlistFormData => ({
+const buildFormState = (initial: SetlistFormInitial): SetlistFormInitial => ({
 	...initial,
 	// only show undeleted songs
 	songs: initial.songs.filter(s => findSong(s.id)),
-	// init visibility state if not existing
-	isPublic: initial.isPublic ? 1 : 0,
 });
 
 // setlist input data
-const setlist = ref<SetlistFormData>(buildFormState(props.initialSetlist));
+const setlist = ref<SetlistFormInitial>(buildFormState(props.initialSetlist));
 const initInput = () => {
 	resetErrors();
 	resetFilter();
@@ -516,7 +500,7 @@ const buildEntity = (slug: string): SetlistEntity => ({
 	active:      (props.existing ? props.initialSetlist.active : false) ?? false,
 	createdBy:   (props.existing ? props.initialSetlist.createdBy : user.value.id) ?? '',
 	date:        setlist.value.date,
-	isPublic:    setlist.value.isPublic == 1,
+	isPublic:    setlist.value.isPublic,
 	position:    (props.existing ? props.initialSetlist.position : 0) ?? 0,
 	remoteHide:  props.existing ? props.initialSetlist.remoteHide : undefined,
 	remoteLight: props.existing ? props.initialSetlist.remoteLight : undefined,
