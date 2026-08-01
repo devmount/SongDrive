@@ -1,5 +1,6 @@
 allowBuilds:
   esbuild: true
+  vue-demi: true
 minimumReleaseAgeExclude:
   - '@vue/language-core@3.3.9'
   - vue-tsc@3.3.9

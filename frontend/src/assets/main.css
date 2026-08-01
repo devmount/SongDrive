@@ -186,7 +186,7 @@ kbd > * {
 }
 
 /* date picker */
-.dp__theme_dark {
+.dp--theme-dark {
   --dp-background-color: var(--color-blade-900);
   --dp-text-color: inherit;
   --dp-hover-color: var(--color-blade-700);
@@ -199,28 +199,31 @@ kbd > * {
   --dp-menu-border-color: var(--color-black);
   --dp-icon-color: inherit;
 }
-.dp__theme_light {
+.dp--theme-light {
   --dp-text-color: inherit;
   --dp-primary-color: var(--color-spring-700);
   --dp-primary-text-color: var(--color-white);
   --dp-icon-color: inherit;
 }
-.dp__menu,
-.dp__calendar,
-.dp__calendar_header {
+.dp--outer-menu-wrap {
+	width: 100%;
+}
+.dp--menu,
+.dp--calendar,
+.dp--calendar-header {
   @apply w-full
 }
-.dp__calendar_header_item {
+.dp--calendar-header-item {
   @apply font-normal uppercase text-sm
 }
-.dp__calendar_item,
-.dp__calendar_header_item {
+.dp--calendar-item,
+.dp--calendar-header-item {
   @apply flex-1
 }
-.dp__calendar_row {
+.dp--calendar-row {
   @apply gap-1
 }
-.dp__cell_inner,
-.dp__calendar_header_item {
+.dp--cell-inner,
+.dp--calendar-header-item {
   @apply h-10 w-auto rounded-xs!
 }

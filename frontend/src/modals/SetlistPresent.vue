@@ -208,12 +208,12 @@
 <script setup lang="ts">
 import { injectStrict, hkBackKey, hkCancelKey, hkDownKey, hkForwardKey, hkHideKey, hkSyncKey, hkThemeKey, hkUpKey } from '@/keys';
 import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide } from 'vue3-carousel';
+import { Carousel, Slide, type CarouselExposed } from 'vue3-carousel';
 import { logicOr } from '@vueuse/math';
 import { whenever } from '@vueuse/core';
 import { ref, computed, watch, onMounted, onUnmounted, nextTick, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { SetlistSongPresentation, CarouselInstance } from '@/definitions';
+import type { SetlistSongPresentation } from '@/definitions';
 import DropDown from '@/elements/DropDown.vue';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
@@ -259,7 +259,7 @@ const props = defineProps({
 });
 
 // reactive data
-const presentation = ref<CarouselInstance>();
+const presentation = ref<InstanceType<typeof Carousel> & CarouselExposed>();
 const songContentRef = ref<InstanceType<typeof SongContent>[]>([]);
 const currentPosition = ref(0);
 const autoSync = ref(false);
