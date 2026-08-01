@@ -60,7 +60,7 @@
 						auto-apply
 						:dark="isDark"
 						:enable-time-picker="false"
-						:locale="loc"
+						:locale="calendarLanguage[loc]"
 						:format-locale="calendarLanguage[loc]"
 						@update:model-value="updateDate"
 					>
@@ -279,7 +279,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { SongLanguage, SongTag as SongTagEnum } from '@backend/definitions';
 import type { SetlistEntity } from '@backend/models';
-import Datepicker from '@vuepic/vue-datepicker';
+import { VueDatePicker as Datepicker } from '@vuepic/vue-datepicker';
 import draggable from 'vuedraggable';
 import DropDown from '@/elements/DropDown.vue';
 import ModalDialog from '@/elements/ModalDialog.vue';

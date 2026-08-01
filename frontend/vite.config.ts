@@ -14,8 +14,8 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			"@": resolve(__dirname, "./src"),
-			"@backend": resolve(__dirname, "../backend/dist"),
+			"@": resolve(import.meta.dirname, "./src"),
+			"@backend": resolve(import.meta.dirname, "../backend/dist"),
 		},
 	},
 	build: {

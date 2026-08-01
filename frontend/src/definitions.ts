@@ -68,19 +68,6 @@ export type SetlistFormData = Partial<SetlistEntity> & {
 export type SetlistSongPresentation = SongEntity & { customTuningDelta: number; customTuning: string };
 
 /**
- * vue3-carousel's public .d.ts doesn't expose the imperative instance API
- * (data/slideTo/prev/next/updateSlideSize) that's actually available at
- * runtime via defineExpose, so it's typed loosely here instead.
- */
-export type CarouselInstance = {
-  data: { currentSlide: number };
-  slideTo: (index: number) => void;
-  prev: () => void;
-  next: () => void;
-  updateSlideSize: () => void;
-};
-
-/**
  * UI theme mode
  */
 export enum ColorScheme {
