@@ -1,0 +1,83 @@
+# Lints, builds and tests the backend and frontend on every push, but
+# only for the side(s) that actually changed.
+
+name: Verify
+
+permissions:
+  contents: read
+
+on:
+  push:
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        fetch-depth: 0
+    - uses: dorny/paths-filter@v4
+      id: filter
+      with:
+        filters: |
+          backend:
+            - 'backend/**'
+          frontend:
+            - 'frontend/**'
+
+  backend:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v6
+      with:
+        package_json_file: backend/package.json
+    - name: Use Node.js
+      uses: actions/setup-node@v7
+      with:
+        node-version: '24.x'
+        cache: 'pnpm'
+        cache-dependency-path: backend/pnpm-lock.yaml
+    - name: Install dependencies
+      run: cd backend/ && pnpm install
+    - name: Lint
+      run: cd backend/ && pnpm lint
+    - name: Build
+      run: cd backend/ && pnpm run build
+    - name: Test
+      run: cd backend/ && pnpm test
+
+  frontend:
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v6
+      with:
+        package_json_file: frontend/package.json
+    - name: Use Node.js
+      uses: actions/setup-node@v7
+      with:
+        node-version: '24.x'
+        cache: 'pnpm'
+        cache-dependency-path: |
+          backend/pnpm-lock.yaml
+          frontend/pnpm-lock.yaml
+    - name: Build backend (frontend imports its compiled types via the @backend alias)
+      run: cd backend/ && pnpm install && pnpm run build
+    - name: Install dependencies
+      run: cd frontend/ && pnpm install
+    - name: Lint
+      run: cd frontend/ && pnpm lint
+    - name: Build
+      run: cd frontend/ && pnpm run build
+    - name: Test
+      run: cd frontend/ && pnpm test
