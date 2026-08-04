@@ -331,4 +331,37 @@ describe('openLyricsXML', () => {
 			'<verse name=\'V1\'><lines>Original line<br/><br/><tag name=\'it\'><tag name=\'gr\'><tag name=\'fd\'>Translated line</tag></tag></tag></lines></verse>'
 		);
 	});
+
+	it('embeds chords inline at their column position', () => {
+		const song: SongEntity = { ...minimalSong, content: '--V1\nEm      D  \nAmazing grace' };
+		const xml = openLyricsXML(song, '1.0.0');
+		expect(xml).toContain(
+			'<verse name=\'V1\'><lines><chord name=\'Em\'/>Amazing <chord name=\'D\'/>grace</lines></verse>'
+		);
+	});
+
+	it('emits a bare chord tag for an instrumental chord line with no lyric', () => {
+		const song: SongEntity = { ...minimalSong, content: '--I\nEm  ' };
+		expect(openLyricsXML(song, '1.0.0')).toContain('<lines><chord name=\'Em\'/></lines>');
+	});
+
+	it('handles two consecutive chord lines without swallowing either', () => {
+		const song: SongEntity = { ...minimalSong, content: '--I\nEm  \nD  ' };
+		expect(openLyricsXML(song, '1.0.0')).toContain(
+			'<lines><chord name=\'Em\'/><br /><chord name=\'D\'/></lines>'
+		);
+	});
+
+	it('preserves a blank separator line after an orphan chord line in markerless content', () => {
+		// no '--' marker at all, so parsedContent takes the raw-passthrough branch and doesn't
+		// pre-strip blank lines itself, unlike the marked branch used by the other cases above
+		const song: SongEntity = { ...minimalSong, content: 'Em  \n\nSome lyric' };
+		const xml = openLyricsXML(song, '1.0.0');
+		expect(xml).toContain('<chord name=\'Em\'/><br /><br />Some lyric');
+	});
+
+	it('escapes special characters in chord names', () => {
+		const song: SongEntity = { ...minimalSong, content: '--V1\nA&B  \nline' };
+		expect(openLyricsXML(song, '1.0.0')).toContain('<chord name=\'A&amp;B\'/>');
+	});
 });
