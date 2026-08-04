@@ -227,6 +227,18 @@ describe('parseNumberInput', () => {
 	it('parses a numeric string', () => {
 		expect(parseNumberInput('42')).toBe(42);
 	});
+
+	it('trims a trailing space before parsing', () => {
+		expect(parseNumberInput('12345 ')).toBe(12345);
+	});
+
+	it('trims a leading space before parsing', () => {
+		expect(parseNumberInput(' 12345')).toBe(12345);
+	});
+
+	it('treats a whitespace-only string as unset', () => {
+		expect(parseNumberInput('   ')).toBeUndefined();
+	});
 });
 
 describe('sortTags', () => {
