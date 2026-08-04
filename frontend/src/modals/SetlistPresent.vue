@@ -210,7 +210,7 @@ import { injectStrict, hkBackKey, hkCancelKey, hkDownKey, hkForwardKey, hkHideKe
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, type CarouselExposed } from 'vue3-carousel';
 import { logicOr } from '@vueuse/math';
-import { whenever } from '@vueuse/core';
+import { useWakeLock, whenever } from '@vueuse/core';
 import { ref, computed, watch, onMounted, onUnmounted, nextTick, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { SetlistSongPresentation } from '@/definitions';
@@ -362,6 +362,13 @@ watch (() => props.remoteHide, (val: boolean) => {
 		hide.value = val;
 	}
 });
+
+// keep the screen awake while presenting
+const { request: requestWakeLock, release: releaseWakeLock } = useWakeLock();
+watch(() => props.active, (isActive) => {
+	if (isActive) requestWakeLock('screen');
+	else releaseWakeLock();
+}, { immediate: true });
 
 // handle mount / unmount hooks
 onMounted(() => {

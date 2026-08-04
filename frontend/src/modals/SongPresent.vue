@@ -47,7 +47,7 @@
 <script setup lang="ts">
 import { injectStrict, hkCancelKey, hkThemeKey } from '@/keys';
 import { ref, watch, onMounted, onUnmounted, nextTick, type PropType } from 'vue';
-import { whenever } from '@vueuse/core';
+import { useWakeLock, whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
@@ -121,6 +121,13 @@ watch (
 	[() => props.active, () => props.chords],
 	() => maximizeFontsize()
 );
+
+// keep the screen awake while presenting
+const { request: requestWakeLock, release: releaseWakeLock } = useWakeLock();
+watch(() => props.active, (isActive) => {
+	if (isActive) requestWakeLock('screen');
+	else releaseWakeLock();
+}, { immediate: true });
 
 // handle mount / unmount hooks
 onMounted(() => {
