@@ -17,6 +17,52 @@ const isChordLine = (line: string): boolean => {
 	return line.slice(-2) === '  ';
 };
 
+// escape a value for use inside a single-quoted XML attribute
+const escapeXmlAttr = (value: string): string =>
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&apos;');
+
+// splice a chord line's tokens into its paired lyric line as OpenLyrics <chord> tags at their column position.
+// Important: lyricLine must stay unescaped until after splicing — column offsets are computed against the raw
+// (unescaped) text, so escaping first would shift indices and misalign chords with text.
+const embedChords = (chordLine: string, lyricLine: string): string => {
+  const tokens: { name: string; column: number }[] = [];
+  const re = /\S+/g;
+  let match: RegExpExecArray | null;
+  while ((match = re.exec(chordLine)) !== null) {
+    tokens.push({ name: match[0], column: match.index });
+  }
+  let result = '', cursor = 0;
+  for (const { name, column } of tokens) {
+    result += lyricLine.slice(cursor, column); // slice clamps automatically if column > lyricLine.length
+    result += `<chord name='${escapeXmlAttr(name)}'/>`;
+    cursor = column;
+  }
+  return result + lyricLine.slice(cursor);
+};
+
+// walk a song part's raw lines (lyrics interleaved with chord lines), pairing each chord line with the
+// non-blank lyric line directly beneath it and join everything with the file's existing '<br />' convention
+const chordTaggedLines = (content: string): string => {
+  const lines = content.split('\n');
+  const result: string[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (isChordLine(lines[i])) {
+      const next = lines[i + 1];
+      if (next !== undefined && next.trim() !== '' && !isChordLine(next)) {
+        result.push(embedChords(lines[i], next));
+        i++;
+      } else {
+        // standalone/instrumental chord line (back-to-back chord lines, last line of a part, or
+        // followed by a blank separator line): emit bare chord tags, don't swallow a blank line
+        result.push(embedChords(lines[i], ''));
+      }
+    } else {
+      result.push(lines[i]);
+    }
+  }
+  return result.join('<br />');
+};
+
 // parse song content syntax
 function parsedContent(content: string, keyOffset: number, showChords: boolean, twoColumns: false): SongPart[];
 function parsedContent(content: string, keyOffset: number, showChords: boolean, twoColumns: true): [SongPart[], SongPart[]];
@@ -367,13 +413,13 @@ const openLyricsXML = (song: SongEntity, version: string, translatedSong: SongEn
     ? `<format><tags application='OpenLP'><tag name='it'><open><![CDATA[<em>]]></open><close><![CDATA[</em>]]></close><hidden><![CDATA[False]]></hidden></tag><tag name='gr'><open><![CDATA[<span style='-webkit-text-fill-color:grey'>]]></open><close><![CDATA[</span>]]></close><hidden><![CDATA[True]]></hidden></tag><tag name='fd'><open><![CDATA[<small>]]></open><close><![CDATA[</small>]]></close><hidden><![CDATA[True]]></hidden></tag></tags></format>`
     : '';
   const tParts = translatedSong ? parsedContent(translatedSong.content, 0, false, false) : [];
-	const lyrics = parsedContent(song.content, 0, false, false).map((p, i) => {
+	const lyrics = parsedContent(song.content, 0, true, false).map((p, i) => {
 		const type = p.type ? p.type.toUpperCase() : 'V';
 		const num = Number(p.number) > 0 ? p.number : '1';
     const tContent = (i in tParts)
       ? `<br/><br/><tag name='it'><tag name='gr'><tag name='fd'>${tParts[i].content.replace(/\n/g, "<br />")}</tag></tag></tag>`
       : '';
-		return `<verse name='${type}${num}'><lines>${p.content.replace(/\n/g, "<br />")}${tContent}</lines></verse>`;
+		return `<verse name='${type}${num}'><lines>${chordTaggedLines(p.content)}${tContent}</lines></verse>`;
 	}).join('');
 
 	return `<?xml version='1.0' encoding='UTF-8'?><song xmlns='http://openlyrics.info/namespace/2009/song' version='0.9' createdIn='SongDrive ${version}' modifiedIn='SongDrive ${version}' modifiedDate='${timestamp}'><properties><titles>${title}${subtitle}</titles>${copyright}${year}${ccli}${authors}${tags}</properties>${format}<lyrics>${lyrics}</lyrics></song>`;
