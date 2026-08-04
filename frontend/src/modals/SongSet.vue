@@ -87,7 +87,8 @@
 					<label class="flex flex-col gap-1">
 						<div>{{ t('field.year') }}</div>
 						<input
-							type="number"
+							type="text"
+							inputmode="numeric"
 							:value="song.year"
 							@input="e => song.year = parseNumberInput((e.target as HTMLInputElement).value)"
 							:placeholder="t('placeholder.exampleSongYear')"
@@ -111,7 +112,8 @@
 							<icon-number class="w-5 h-5 stroke-1.5 mt-0.5" />
 						</div>
 						<input
-							type="number"
+							type="text"
+							inputmode="numeric"
 							:value="song.ccli"
 							@input="e => song.ccli = parseNumberInput((e.target as HTMLInputElement).value)"
 							:placeholder="t('placeholder.exampleSongCcli')"

@@ -299,7 +299,10 @@ const urlify = (s: string): string => {
 }
 
 // parse a number <input>'s raw value, treating an empty field as unset rather than 0
-const parseNumberInput = (value: string): number | undefined => value === '' ? undefined : parseInt(value);
+const parseNumberInput = (value: string): number | undefined => {
+  const trimmed = value.trim();
+  return trimmed === '' ? undefined : parseInt(trimmed);
+};
 
 // sort tag keys by their translated name in the given locale
 const sortTags = (tags: string[], locale: string): string[] => {
