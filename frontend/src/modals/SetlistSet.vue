@@ -203,7 +203,7 @@
 					<div class="text-center">{{ setlist.songs?.length }} {{ t('text.selected') }}</div>
 					<draggable
 						v-model="setlist.songs"
-						item-key="id"
+						:item-key="(el: SetlistEntry) => isSlide(el) ? `slide-${setlist.songs.indexOf(el)}` : el.id"
 						handle=".handle"
 						ghost-class="bg-blade-950!"
 						class="overflow-y-scroll h-full flex flex-col gap-1 mt-3"
@@ -215,31 +215,36 @@
 								<button class="p-1 cursor-grab active:cursor-grabbing text-blade-500">
 									<icon-menu-order class="handle w-5 h-5" />
 								</button>
-								<div class="flex items-center">
-									<secondary-button @click.prevent="tuneDown(index)" class="w-6 h-6 p-1!">
-										<icon-chevron-left class="w-4 h-4 stroke-2 shrink-0" />
-									</secondary-button>
-									<figure
-										class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
-										:title="t('title.songTuning')"
-									>
-										<div class="-mt-0.5">{{ element.key ?? findSong(element.id)?.key }}</div>
-									</figure>
-									<secondary-button @click.prevent="tuneUp(index)" class="w-6 h-6 p-1!">
-										<icon-chevron-right class="w-4 h-4 stroke-2 shrink-0" />
-									</secondary-button>
-								</div>
-								<div class="flex flex-col overflow-hidden">
-									<div class="-mt-1 truncate">
-										{{ findSong(element.id)?.title }}
+								<template v-if="isSlide(element)">
+									<div class="flex-1 truncate">{{ element.title }}</div>
+								</template>
+								<template v-else>
+									<div class="flex items-center">
+										<secondary-button @click.prevent="tuneDown(index)" class="w-6 h-6 p-1!">
+											<icon-chevron-left class="w-4 h-4 stroke-2 shrink-0" />
+										</secondary-button>
+										<figure
+											class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
+											:title="t('title.songTuning')"
+										>
+											<div class="-mt-0.5">{{ element.key ?? findSong(element.id)?.key }}</div>
+										</figure>
+										<secondary-button @click.prevent="tuneUp(index)" class="w-6 h-6 p-1!">
+											<icon-chevron-right class="w-4 h-4 stroke-2 shrink-0" />
+										</secondary-button>
 									</div>
-									<div class="text-sm text-blade-500 -mt-1 truncate">
-										{{ findSong(element.id)?.subtitle }}
+									<div class="flex flex-col overflow-hidden">
+										<div class="-mt-1 truncate">
+											{{ findSong(element.id)?.title }}
+										</div>
+										<div class="text-sm text-blade-500 -mt-1 truncate">
+											{{ findSong(element.id)?.subtitle }}
+										</div>
 									</div>
-								</div>
+								</template>
 								<button
 									class="ml-auto p-1 text-blade-500"
-									@click="removeSong(element.id)"
+									@click="removeEntry(index)"
 								>
 									<icon-x class="w-4 h-4" />
 								</button>
@@ -271,14 +276,14 @@ import { injectStrict, setlistCollectionKey, setlistsKey, songsKey, userKey } fr
 import '@vuepic/vue-datepicker/dist/main.css';
 import { enGB, de } from 'date-fns/locale';
 import type { Locale } from 'date-fns';
-import { keyScale, humanDate, throwError, urlify, browserPrefersDark, sortTags } from '@/utils.js';
+import { keyScale, humanDate, throwError, urlify, browserPrefersDark, sortTags, isSlide } from '@/utils.js';
 import type { ThrowableError, SetlistFormData } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { SongLanguage, SongTag as SongTagEnum } from '@backend/definitions';
-import type { SetlistEntity } from '@backend/models';
+import type { SetlistEntity, SetlistEntry, SetlistSong } from '@backend/models';
 import { VueDatePicker as Datepicker } from '@vuepic/vue-datepicker';
 import draggable from 'vuedraggable';
 import DropDown from '@/elements/DropDown.vue';
@@ -360,8 +365,8 @@ const resetErrors = () => {
 // build local editable setlist state from the initial (blank or existing) setlist
 const buildFormState = (initial: SetlistFormData): SetlistFormData => ({
 	...initial,
-	// only show undeleted songs
-	songs: initial.songs.filter(s => findSong(s.id)),
+	// only show undeleted songs, keep slides as-is
+	songs: initial.songs.filter(s => isSlide(s) || findSong(s.id)),
 });
 
 // setlist input data
@@ -380,11 +385,16 @@ const addSong = (id: string) => {
 
 // remove song from current song selection
 const removeSong = (id: string) => {
-	setlist.value.songs = setlist.value.songs.filter((s) => s.id !== id);
+	setlist.value.songs = setlist.value.songs.filter((s) => isSlide(s) || s.id !== id);
+};
+
+// remove the setlist entry (song or slide) at the given position
+const removeEntry = (index: number) => {
+	setlist.value.songs.splice(index, 1);
 };
 
 // check if given song exists on current song selection
-const idExists = (id: string) => setlist.value?.songs.some((s) => s.id === id);
+const idExists = (id: string) => setlist.value?.songs.some((s) => !isSlide(s) && s.id === id);
 
 // add or remove song of given id
 const songSelection = (id: string, addition: boolean) => {
@@ -447,6 +457,7 @@ const performedSongs = computed(() => {
 	let sortedSetlists = setlists.value.toSorted((a, b) => b.entity.date.localeCompare(a.entity.date));
 	sortedSetlists.forEach(setlist => {
 		setlist.entity.songs.forEach(song => {
+			if (isSlide(song)) return;
 			if (!(song.id in songs)) {
 				songs[song.id] = humanDate(setlist.entity.date, loc, false);
 			}
@@ -460,9 +471,9 @@ const updateDate = (newDate: Date) => {
 	setlist.value.date = newDate.toISOString().slice(0,10);
 };
 
-// tune the song at given position up
+// tune the song at given position up (only ever called for song entries, never slides)
 const tuneUp = (position: number) => {
-	let songs = setlist.value.songs;
+	let songs = setlist.value.songs as SetlistSong[];
 	// update tuning
 	let tone = songs[position].key ? songs[position].key : findSong(songs[position].id)?.key;
 	let i = keyScale.indexOf(tone ?? '');
@@ -472,12 +483,12 @@ const tuneUp = (position: number) => {
 		tone = keyScale[++i];
 	}
 	// save tuning in setlist
-	setlist.value.songs[position].key = tone;
+	songs[position].key = tone;
 };
 
-// tune the song at given position down
+// tune the song at given position down (only ever called for song entries, never slides)
 const tuneDown = (position: number) => {
-	let songs = setlist.value.songs;
+	let songs = setlist.value.songs as SetlistSong[];
 	// update tuning
 	let tone = songs[position].key ? songs[position].key : findSong(songs[position].id)?.key;
 	let i = keyScale.indexOf(tone ?? '');
@@ -487,7 +498,7 @@ const tuneDown = (position: number) => {
 		tone = keyScale[--i];
 	}
 	// save tuning in setlist
-	setlist.value.songs[position].key = tone;
+	songs[position].key = tone;
 };
 
 // create a human readable record key of format YYYYMMDD-the-setlist-title

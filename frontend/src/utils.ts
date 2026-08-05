@@ -1,6 +1,6 @@
 import { notify } from '@kyvg/vue3-notification';
 import type { AmberCollection } from 'amber-client';
-import type { Song, SongEntity } from '@backend/models';
+import type { Song, SongEntity, SetlistEntry, SetlistSlide } from '@backend/models';
 import type { SongPart, ThrowableError } from '@/definitions';
 import de from '@/locales/de.json';
 import en from '@/locales/en.json';
@@ -16,6 +16,9 @@ const isChordLine = (line: string): boolean => {
 	if (line.trim() == '') return false;
 	return line.slice(-2) === '  ';
 };
+
+// true if a setlist entry is a custom slide rather than a song (songs always have an id, slides never do)
+const isSlide = (entry: SetlistEntry): entry is SetlistSlide => !('id' in entry);
 
 // escape a value for use inside a single-quoted XML attribute
 const escapeXmlAttr = (value: string): string =>
@@ -428,6 +431,7 @@ const openLyricsXML = (song: SongEntity, version: string, translatedSong: SongEn
 export {
   keyScale,
   isChordLine,
+  isSlide,
   parsedContent,
   download,
   humanDate,

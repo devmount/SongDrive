@@ -9,12 +9,14 @@
     "summary": "Speichern, Synchronisieren und Präsentieren von Liedern und Setlisten"
   },
   "button": {
+    "addSlide": "Folie hinzufügen",
     "assign": "Zuweisen",
     "back": "Zurück",
     "cancel": "Abbrechen",
     "changePassword": "Passwort ändern",
     "copy": "Kopieren",
     "createSetlist": "Setliste Erstellen",
+    "createSlide": "Folie Erstellen",
     "createSong": "Song Erstellen",
     "delete": "Löschen",
     "docsOnGithub": "Doku auf GitHub",
@@ -41,6 +43,7 @@
     "signOut": "Abmelden",
     "top": "Nach oben",
     "updateSetlist": "Setliste Aktualisieren",
+    "updateSlide": "Folie Aktualisieren",
     "updateSong": "Song Aktualisieren"
   },
   "divider": {
@@ -126,8 +129,10 @@
     "deleteSetlist": "Setlist Löschen",
     "deleteSong": "Song Löschen",
     "editSetlist": "Setlist Bearbeiten",
+    "editSlide": "Folie Bearbeiten",
     "editSong": "Song Bearbeiten",
     "newSetlist": "Neue Setlist",
+    "newSlide": "Neue Folie",
     "newSong": "Neuer Song",
     "songInfo": "Song Informationen",
     "songSyntaxCheatsheet": "Song-Syntax Spickzettel",

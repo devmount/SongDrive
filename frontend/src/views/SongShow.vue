@@ -211,26 +211,26 @@
 								<icon-arrow-left class="w-5 h-5 stroke-1.5" />
 								<div v-if="(position ?? 0) > 0" class="hidden sm:flex items-center gap-2">
 									<div class="max-w-3xs truncate">
-										{{ findSong(setlist.songs[(position ?? 0)-1]?.id)?.title }}
+										{{ findSong(setlistSongs[(position ?? 0)-1]?.id)?.title }}
 									</div>
 									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-										{{ setlist.songs[(position ?? 0)-1]?.key }}
+										{{ setlistSongs[(position ?? 0)-1]?.key }}
 									</div>
 								</div>
 							</secondary-button>
 							<!-- forward navigation -->
 							<secondary-button
 								class="flex items-center gap-1"
-								:disabled="(position ?? 0) == setlist.songs.length-1"
+								:disabled="(position ?? 0) == setlistSongs.length-1"
 								title="Next Song"
 								@click="goToNextSong"
 							>
-								<div v-if="(position ?? 0) < setlist.songs.length-1" class="hidden sm:flex items-center gap-2">
+								<div v-if="(position ?? 0) < setlistSongs.length-1" class="hidden sm:flex items-center gap-2">
 									<div class="max-w-3xs truncate">
-										{{ findSong(setlist.songs[(position ?? 0)+1]?.id)?.title }}
+										{{ findSong(setlistSongs[(position ?? 0)+1]?.id)?.title }}
 									</div>
 									<div class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-										{{ setlist.songs[(position ?? 0)+1]?.key }}
+										{{ setlistSongs[(position ?? 0)+1]?.key }}
 									</div>
 								</div>
 								<icon-arrow-right class="w-5 h-5 stroke-1.5" />
@@ -276,7 +276,8 @@
 
 <script setup lang="ts">
 import { injectStrict, hkBackKey, hkChordsKey, hkDownKey, hkForwardKey, hkPresentKey, hkResetKey, hkUpKey, noActiveModalKey, setlistsKey, songsKey, userKey, versionKey } from '@/keys';
-import { keyScale, isChordLine, parsedContent, download, openLyricsXML, firstParam } from '@/utils.js';
+import { keyScale, isChordLine, parsedContent, download, openLyricsXML, firstParam, isSlide } from '@/utils.js';
+import type { SetlistSong } from '@backend/models';
 import { logicAnd, logicOr } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, onMounted } from 'vue';
@@ -375,8 +376,11 @@ onMounted(() => {
 	key.value = route.params.key ? keyDiff.value : 0;
 });
 
+// songs-only view of the current setlist (slides excluded), used for prev/next song navigation
+const setlistSongs = computed<SetlistSong[]>(() => (setlist.value?.songs.filter(s => !isSlide(s)) as SetlistSong[] | undefined) ?? []);
+
 const position = computed<number | null>(() => setlistId && route.params.key
-	? (setlist.value?.songs.findIndex(s => s.id === songId ) ?? null)
+	? (setlistSongs.value.findIndex(s => s.id === songId ) ?? null)
 	: null
 );
 // array of tuples (song id, language) for all existing translations of this song
@@ -645,14 +649,14 @@ const deleteDialog = () => {
 
 // check if song is part of setlist given via url
 const songInSetlist = computed(() => {
-	return position.value !== null && setlist.value?.songs.find(s => s.id === songId);
+	return position.value !== null && setlistSongs.value.find(s => s.id === songId);
 });
 
 // navigation to previous setlist song (if setlist is set)
 const goToPreviousSong = () => {
 	if (position.value !== null && position.value > 0) {
-		const previousSongId  = setlist.value?.songs[position.value-1].id;
-		const previousSongKey = setlist.value?.songs[position.value-1].key;
+		const previousSongId  = setlistSongs.value[position.value-1].id;
+		const previousSongKey = setlistSongs.value[position.value-1].key;
 		router.push({
 			name: 'song-show',
 			params: {
@@ -666,9 +670,9 @@ const goToPreviousSong = () => {
 
 // navigation to next setlist song (if setlist is set)
 const goToNextSong = () => {
-	if (position.value !== null && setlist.value && position.value < setlist.value.songs.length) {
-		const nextSongId  = setlist.value?.songs[position.value+1].id;
-		const nextSongKey = setlist.value?.songs[position.value+1].key;
+	if (position.value !== null && position.value < setlistSongs.value.length) {
+		const nextSongId  = setlistSongs.value[position.value+1].id;
+		const nextSongKey = setlistSongs.value[position.value+1].key;
 		router.push({
 			name: 'song-show',
 			params: {

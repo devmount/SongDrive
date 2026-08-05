@@ -9,12 +9,14 @@
     "summary": "Store, manage, synchronize and present songs and setlists"
   },
   "button": {
+    "addSlide": "Add Slide",
     "assign": "Assign",
     "back": "Back",
     "cancel": "Cancel",
     "changePassword": "Change Password",
     "copy": "Copy",
     "createSetlist": "Create Setlist",
+    "createSlide": "Create Slide",
     "createSong": "Create Song",
     "delete": "Delete",
     "docsOnGithub": "Docs on GitHub",
@@ -41,6 +43,7 @@
     "signOut": "Sign Out",
     "top": "Top",
     "updateSetlist": "Update Setlist",
+    "updateSlide": "Update Slide",
     "updateSong": "Update Song"
   },
   "divider": {
@@ -126,8 +129,10 @@
     "deleteSetlist": "Delete Setlist",
     "deleteSong": "Delete Song",
     "editSetlist": "Edit Setlist",
+    "editSlide": "Edit Slide",
     "editSong": "Edit Song",
     "newSetlist": "New Setlist",
+    "newSlide": "New Slide",
     "newSong": "New Song",
     "songInfo": "Song Information",
     "songSyntaxCheatsheet": "Song Syntax Cheatsheet",

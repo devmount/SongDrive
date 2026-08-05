@@ -1,4 +1,4 @@
-import type { SongEntity, SetlistEntity, SetlistSong } from '@backend/models';
+import type { SongEntity, SetlistEntity, SetlistEntry } from '@backend/models';
 import type { UserRole } from '@backend/definitions';
 
 /**
@@ -59,7 +59,7 @@ export type SetlistFormData = Partial<SetlistEntity> & {
   title: string;
   isPublic: boolean;
   date: string;
-  songs: SetlistSong[];
+  songs: SetlistEntry[];
 };
 
 /**

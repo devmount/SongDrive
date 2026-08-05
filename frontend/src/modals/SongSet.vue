@@ -229,7 +229,7 @@
 <script setup lang="ts">
 import { injectStrict, setlistCollectionKey, setlistsKey, songsCollectionKey, songsKey, userKey } from '@/keys';
 import 'vue-prism-editor/dist/prismeditor.min.css';
-import { keyScale, sdHighlight, throwError, urlify, updateSongTranslations, parseNumberInput } from '@/utils.js';
+import { keyScale, sdHighlight, throwError, urlify, updateSongTranslations, parseNumberInput, isSlide } from '@/utils.js';
 import type { ThrowableError, SongFormData } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
 import { PrismEditor } from 'vue-prism-editor';
@@ -361,11 +361,11 @@ const buildEntity = (slug: string): SongEntity => ({
 	youtube:      song.value.youtube || undefined,
 });
 
-// overwrite one setlist's songs list, renaming one song id to another
+// overwrite one setlist's songs list, renaming one song id to another (slides are left untouched)
 const renameSongInSetlist = async (setlistEntry: Setlist, oldId: string, newId: string) => {
 	await setlistCollection.value?.updateDoc(setlistEntry.id, setlistEntry.changeNumber ?? 0, {
 		...setlistEntry.entity,
-		songs: setlistEntry.entity.songs.map(s => (s.id === oldId ? { ...s, id: newId } : s)),
+		songs: setlistEntry.entity.songs.map(s => (!isSlide(s) && s.id === oldId ? { ...s, id: newId } : s)),
 	});
 };
 
@@ -447,7 +447,7 @@ const setSong = async () => {
 				)
 				.map(s => s.id);
 			// setlists that reference the old song id
-			const affectedSetlists = setlists.value.filter(sl => sl.entity.songs?.some(ss => ss.id === oldId));
+			const affectedSetlists = setlists.value.filter(sl => sl.entity.songs?.some(ss => !isSlide(ss) && ss.id === oldId));
 
 			await Promise.allSettled([
 				...renameTargets.map(id => updateSongTranslations(collection, songs.value, id, (arr) => arr.map(t => (t === oldId ? newId : t)))),

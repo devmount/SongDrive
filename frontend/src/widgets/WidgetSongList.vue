@@ -82,6 +82,7 @@
 <script setup lang="ts">
 import { injectStrict, setlistsKey, songsKey } from '@/keys';
 import { SortOrder } from '@/definitions';
+import { isSlide } from '@/utils.js';
 import { ref, computed } from 'vue';
 import type { Song } from '@backend/models';
 import { useI18n } from 'vue-i18n';
@@ -148,6 +149,7 @@ const popularSongs = () => {
 	setlists.value.forEach(setlist => {
 		if (setlist.entity.songs) {
 			setlist.entity.songs.forEach(song => {
+				if (isSlide(song)) return;
 				if (!list.hasOwnProperty(song.id)) {
 					list[song.id] = 1;
 				} else {

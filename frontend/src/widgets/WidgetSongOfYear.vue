@@ -56,6 +56,7 @@
 
 <script setup lang="ts">
 import { injectStrict, setlistsKey, songsKey } from '@/keys';
+import { isSlide } from '@/utils.js';
 import { ref, computed } from 'vue';
 import type { Song } from '@backend/models';
 import { useI18n } from 'vue-i18n';
@@ -93,6 +94,7 @@ const songOfYear = computed(() => {
 				list[year] = {};
 			}
 			setlist.entity.songs.forEach(song => {
+				if (isSlide(song)) return;
 				if (songs.value.some(s => s.entity.slug == song.id)) {
 					if (!list[year].hasOwnProperty(song.id)) {
 						list[year][song.id] = 1;

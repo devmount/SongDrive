@@ -25,6 +25,15 @@ export type SetlistSong = {
   key: string; // Custom key (previously named 'tuning')
 };
 
+export type SetlistSlide = {
+  type: 'plain'; // slide content formatter; more types (e.g. 'markdown') may be added later
+  title: string; // Displayed slide title
+  content: string; // Slide content
+};
+
+// A setlist.songs entry: entries with an `id` are songs, entries without one are slides
+export type SetlistEntry = SetlistSong | SetlistSlide;
+
 export type SetlistEntity = {
   active: boolean; // If true, the setlist is currently syncing positions
   createdBy: string; // User id of the creator (previously named 'creator')
@@ -36,7 +45,7 @@ export type SetlistEntity = {
   remoteText?: boolean; // Presentation: broadcast chords-visible state to synced viewers
   sharedWith: string[]; // List of user ids with whom this setlist is shared
   slug: string; // Unique setlist url slug (previously named 'id')
-  songs: SetlistSong[]; // List of song ids and custom keys of songs the setlist contains
+  songs: SetlistEntry[]; // List of songs (with custom keys) and slides the setlist contains
   title: string; // Displayed setlist title
 };
 export type Setlist = {
