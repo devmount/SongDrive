@@ -192,7 +192,7 @@
 			</div>
 			<!-- song preview -->
 			<div class="max-h-[calc(50vh-6rem)] lg:max-h-[calc(80vh-8.25rem)] flex flex-col gap-1">
-				<div v-if="setlist.songs?.length === 0" class="flex flex-col items-center gap-8 mt-4">
+				<div v-if="setlist.entries?.length === 0" class="flex flex-col items-center gap-8 mt-4">
 					<icon-playlist class="w-12 h-12 stroke-1 text-blade-500" />
 					<div class="text-center">
 						<div class="text-lg">{{ t('text.noSongsSelected') }}</div>
@@ -200,10 +200,10 @@
 					</div>
 				</div>
 				<div v-else>
-					<div class="text-center">{{ setlist.songs?.length }} {{ t('text.selected') }}</div>
+					<div class="text-center">{{ setlist.entries?.length }} {{ t('text.selected') }}</div>
 					<draggable
-						v-model="setlist.songs"
-						:item-key="(el: SetlistEntry) => isSlide(el) ? `slide-${setlist.songs.indexOf(el)}` : el.id"
+						v-model="setlist.entries"
+						:item-key="(el: SetlistEntry) => isSlide(el) ? `slide-${setlist.entries.indexOf(el)}` : el.id"
 						handle=".handle"
 						ghost-class="bg-blade-950!"
 						class="overflow-y-scroll h-full flex flex-col gap-1 mt-3"
@@ -366,7 +366,7 @@ const resetErrors = () => {
 const buildFormState = (initial: SetlistFormData): SetlistFormData => ({
 	...initial,
 	// only show undeleted songs, keep slides as-is
-	songs: initial.songs.filter(s => isSlide(s) || findSong(s.id)),
+	entries: initial.entries.filter(s => isSlide(s) || findSong(s.id)),
 });
 
 // setlist input data
@@ -380,21 +380,21 @@ watch(() => props.active === true, () => initInput());
 
 // add song to current song selection
 const addSong = (id: string) => {
-	setlist.value.songs.push({ id: id, key: findSong(id)?.key ?? '' });
+	setlist.value.entries.push({ id: id, key: findSong(id)?.key ?? '' });
 };
 
 // remove song from current song selection
 const removeSong = (id: string) => {
-	setlist.value.songs = setlist.value.songs.filter((s) => isSlide(s) || s.id !== id);
+	setlist.value.entries = setlist.value.entries.filter((s) => isSlide(s) || s.id !== id);
 };
 
 // remove the setlist entry (song or slide) at the given position
 const removeEntry = (index: number) => {
-	setlist.value.songs.splice(index, 1);
+	setlist.value.entries.splice(index, 1);
 };
 
 // check if given song exists on current song selection
-const idExists = (id: string) => setlist.value?.songs.some((s) => !isSlide(s) && s.id === id);
+const idExists = (id: string) => setlist.value?.entries.some((s) => !isSlide(s) && s.id === id);
 
 // add or remove song of given id
 const songSelection = (id: string, addition: boolean) => {
@@ -456,7 +456,7 @@ const performedSongs = computed(() => {
 	let songs: Record<string, string> = {};
 	let sortedSetlists = setlists.value.toSorted((a, b) => b.entity.date.localeCompare(a.entity.date));
 	sortedSetlists.forEach(setlist => {
-		setlist.entity.songs.forEach(song => {
+		setlist.entity.entries.forEach(song => {
 			if (isSlide(song)) return;
 			if (!(song.id in songs)) {
 				songs[song.id] = humanDate(setlist.entity.date, loc, false);
@@ -473,7 +473,7 @@ const updateDate = (newDate: Date) => {
 
 // tune the song at given position up (only ever called for song entries, never slides)
 const tuneUp = (position: number) => {
-	let songs = setlist.value.songs as SetlistSong[];
+	let songs = setlist.value.entries as SetlistSong[];
 	// update tuning
 	let tone = songs[position].key ? songs[position].key : findSong(songs[position].id)?.key;
 	let i = keyScale.indexOf(tone ?? '');
@@ -488,7 +488,7 @@ const tuneUp = (position: number) => {
 
 // tune the song at given position down (only ever called for song entries, never slides)
 const tuneDown = (position: number) => {
-	let songs = setlist.value.songs as SetlistSong[];
+	let songs = setlist.value.entries as SetlistSong[];
 	// update tuning
 	let tone = songs[position].key ? songs[position].key : findSong(songs[position].id)?.key;
 	let i = keyScale.indexOf(tone ?? '');
@@ -518,7 +518,7 @@ const buildEntity = (slug: string): SetlistEntity => ({
 	remoteText:  props.existing ? props.initialSetlist.remoteText : undefined,
 	sharedWith:  (props.existing ? props.initialSetlist.sharedWith : []) ?? [],
 	slug,
-	songs:       setlist.value.songs,
+	entries:     setlist.value.entries,
 	title:       setlist.value.title,
 });
 

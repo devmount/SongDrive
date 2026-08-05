@@ -365,7 +365,7 @@ const buildEntity = (slug: string): SongEntity => ({
 const renameSongInSetlist = async (setlistEntry: Setlist, oldId: string, newId: string) => {
 	await setlistCollection.value?.updateDoc(setlistEntry.id, setlistEntry.changeNumber ?? 0, {
 		...setlistEntry.entity,
-		songs: setlistEntry.entity.songs.map(s => (!isSlide(s) && s.id === oldId ? { ...s, id: newId } : s)),
+		entries: setlistEntry.entity.entries.map(s => (!isSlide(s) && s.id === oldId ? { ...s, id: newId } : s)),
 	});
 };
 
@@ -447,7 +447,7 @@ const setSong = async () => {
 				)
 				.map(s => s.id);
 			// setlists that reference the old song id
-			const affectedSetlists = setlists.value.filter(sl => sl.entity.songs?.some(ss => !isSlide(ss) && ss.id === oldId));
+			const affectedSetlists = setlists.value.filter(sl => sl.entity.entries?.some(ss => !isSlide(ss) && ss.id === oldId));
 
 			await Promise.allSettled([
 				...renameTargets.map(id => updateSongTranslations(collection, songs.value, id, (arr) => arr.map(t => (t === oldId ? newId : t)))),

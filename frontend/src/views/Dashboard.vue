@@ -90,6 +90,7 @@
 
 <script setup lang="ts">
 import { injectStrict, setlistsKey, songsKey } from '@/keys';
+import { isSlide } from '@/utils.js';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BarChart  from '@/charts/BarChart.vue';
@@ -124,7 +125,7 @@ const languagesUsed = computed(() => {
 });
 
 // totala number of song performances
-const songsPerformed = computed(() => setlists.value.reduce((a, c) => a + c.entity.songs.length, 0));
+const songsPerformed = computed(() => setlists.value.reduce((a, c) => a + c.entity.entries.filter(s => !isSlide(s)).length, 0));
 
 // chart data providing number of setlists per year
 const setlistsPerYear = computed(() => {
@@ -156,7 +157,7 @@ const songsPerYear = computed(() => {
 			if (!years.hasOwnProperty(year)) {
 				years[year] = 0;
 			}
-			years[year] += setlist.entity.songs.length;
+			years[year] += setlist.entity.entries.filter(s => !isSlide(s)).length;
 		}
 	});
 	return {

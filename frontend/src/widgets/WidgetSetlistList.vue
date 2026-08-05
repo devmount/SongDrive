@@ -29,9 +29,9 @@
 				<div class="flex">
 					<figure
 						class="flex justify-center items-center bg-blade-300 dark:bg-blade-700 font-semibold py-1 w-8"
-						:title="t('title.setlistContains', { num: setlist.entity.songs.length })"
+						:title="t('title.setlistContains', { num: songCount(setlist) })"
 					>
-						<div class="-mt-0.5">{{ setlist.entity.songs.length }}</div>
+						<div class="-mt-0.5">{{ songCount(setlist) }}</div>
 					</figure>
 				</div>
 				<div class="flex flex-col overflow-hidden">
@@ -63,7 +63,7 @@
 <script setup lang="ts">
 import { injectStrict, setlistsKey } from '@/keys';
 import { SortOrder } from '@/definitions';
-import { humanDate } from '@/utils.js';
+import { humanDate, isSlide } from '@/utils.js';
 import { ref, computed } from 'vue';
 import type { Setlist } from '@backend/models';
 import { useI18n } from 'vue-i18n';
@@ -118,4 +118,7 @@ const setlistlist = computed(() => {
 });
 const isFirstPage = computed(() => page.value == 0);
 const isLastPage = computed(() => (page.value+1)*listLength >= reordered.value.length);
+
+// number of actual songs on a setlist, excluding slides
+const songCount = (setlist: Setlist) => setlist.entity.entries.filter(s => !isSlide(s)).length;
 </script>

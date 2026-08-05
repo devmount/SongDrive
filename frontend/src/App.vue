@@ -306,7 +306,7 @@ const initialSetlist: SetlistFormData = {
 	title: '',
 	isPublic: true,
 	date: '',
-	songs: [],
+	entries: [],
 };
 
 // song object

@@ -31,7 +31,7 @@ export type SetlistSlide = {
   content: string; // Slide content
 };
 
-// A setlist.songs entry: entries with an `id` are songs, entries without one are slides
+// A setlist.entries entry: entries with an `id` are songs, entries without one are slides
 export type SetlistEntry = SetlistSong | SetlistSlide;
 
 export type SetlistEntity = {
@@ -45,7 +45,7 @@ export type SetlistEntity = {
   remoteText?: boolean; // Presentation: broadcast chords-visible state to synced viewers
   sharedWith: string[]; // List of user ids with whom this setlist is shared
   slug: string; // Unique setlist url slug (previously named 'id')
-  songs: SetlistEntry[]; // List of songs (with custom keys) and slides the setlist contains
+  entries: SetlistEntry[]; // List of songs (with custom keys) and slides the setlist contains
   title: string; // Displayed setlist title
 };
 export type Setlist = {

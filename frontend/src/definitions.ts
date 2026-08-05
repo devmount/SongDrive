@@ -51,7 +51,7 @@ export type SongFormData = Partial<SongEntity> & {
 
 /**
  * Shape of SetlistSet.vue's `initialSetlist` prop: either the blank-form
- * template (just title/isPublic/date/songs, see App.vue's initialSetlist) or
+ * template (just title/isPublic/date/entries, see App.vue's initialSetlist) or
  * a full existing SetlistEntity when editing - the rest is only read when
  * `existing` is true.
  */
@@ -59,7 +59,7 @@ export type SetlistFormData = Partial<SetlistEntity> & {
   title: string;
   isPublic: boolean;
   date: string;
-  songs: SetlistEntry[];
+  entries: SetlistEntry[];
 };
 
 /**

@@ -377,7 +377,7 @@ onMounted(() => {
 });
 
 // songs-only view of the current setlist (slides excluded), used for prev/next song navigation
-const setlistSongs = computed<SetlistSong[]>(() => (setlist.value?.songs.filter(s => !isSlide(s)) as SetlistSong[] | undefined) ?? []);
+const setlistSongs = computed<SetlistSong[]>(() => (setlist.value?.entries.filter(s => !isSlide(s)) as SetlistSong[] | undefined) ?? []);
 
 const position = computed<number | null>(() => setlistId && route.params.key
 	? (setlistSongs.value.findIndex(s => s.id === songId ) ?? null)

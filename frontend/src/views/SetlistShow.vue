@@ -220,7 +220,7 @@
 			</div>
 			<!-- song list -->
 			<table
-				v-if="setlist.entity.songs.length > 0"
+				v-if="setlist.entity.entries.length > 0"
 				class="w-full"
 			>
 				<thead>
@@ -236,9 +236,9 @@
 					</tr>
 				</thead>
 				<draggable
-					v-model="setlist.entity.songs"
+					v-model="setlist.entity.entries"
 					tag="tbody"
-					:item-key="(el: SetlistEntry) => isSlide(el) ? `slide-${setlist!.entity.songs.indexOf(el)}` : el.id"
+					:item-key="(el: SetlistEntry) => isSlide(el) ? `slide-${setlist!.entity.entries.indexOf(el)}` : el.id"
 					handle=".handle"
 					ghost-class="bg-blade-950!"
 					@end="saveOrder"
@@ -415,7 +415,7 @@
 			</div>
 			<!-- stats -->
 			<div
-				v-if="setlist.entity.songs.length > 0"
+				v-if="setlist.entity.entries.length > 0"
 				class="flex flex-col sm:flex-row justify-center sm:justify-start items-center gap-8 mt-4"
 			>
 				<div class="w-64 max-w-full">
@@ -615,7 +615,7 @@ const canDeleteSetlist = computed(() => !!setlist.value && can('deleteSetlists',
 // retrieve setlist song entities (only existing ones) with custom key overrides applied
 const setlistSongs = computed<SetlistSongPresentation[]>(() => {
 	const result: SetlistSongPresentation[] = [];
-	for (const setlistSong of setlist.value?.entity.songs ?? []) {
+	for (const setlistSong of setlist.value?.entity.entries ?? []) {
 		if (isSlide(setlistSong)) continue;
 		const song = findSong(setlistSong.id);
 		if (!song) continue; // song was deleted
@@ -669,12 +669,12 @@ const setlistKeys = computed(() => {
 
 // true if this setlist has no songs
 const noSongs = computed(() => {
-	return !!setlist.value && setlist.value.entity.songs.length == 0;
+	return !!setlist.value && setlist.value.entity.entries.length == 0;
 });
 
 // number of actual songs in this setlist, excluding slides
 const songCount = computed(() => {
-	return setlist.value?.entity.songs.filter(s => !isSlide(s)).length ?? 0;
+	return setlist.value?.entity.entries.filter(s => !isSlide(s)).length ?? 0;
 });
 
 // save new song order for setlist
@@ -697,7 +697,7 @@ const saveOrder = async () => {
 const transposeUp = async (song: SongEntity, songPosition: number) => {
 	const sl = setlist.value;
 	if (!sl || !setlistCollection.value) return;
-	const setlistSongList = sl.entity.songs as SetlistSong[];
+	const setlistSongList = sl.entity.entries as SetlistSong[];
 	// update tuning
 	let tone = setlistSongList[songPosition].key ? setlistSongList[songPosition].key : (song.key ?? '');
 	let i = keyScale.indexOf(tone);
@@ -719,7 +719,7 @@ const transposeUp = async (song: SongEntity, songPosition: number) => {
 const transposeDown = async (song: SongEntity, songPosition: number) => {
 	const sl = setlist.value;
 	if (!sl || !setlistCollection.value) return;
-	const setlistSongList = sl.entity.songs as SetlistSong[];
+	const setlistSongList = sl.entity.entries as SetlistSong[];
 	// update tuning
 	let tone = setlistSongList[songPosition].key ? setlistSongList[songPosition].key : (song.key ?? '');
 	let i = keyScale.indexOf(tone);
@@ -741,7 +741,7 @@ const transposeDown = async (song: SongEntity, songPosition: number) => {
 const removeSong = async (songId: string) => {
 	const sl = setlist.value;
 	if (!sl || !setlistCollection.value) return;
-	sl.entity.songs = sl.entity.songs.filter(s => isSlide(s) || s.id != songId);
+	sl.entity.entries = sl.entity.entries.filter(s => isSlide(s) || s.id != songId);
 	try {
 		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
 		// toast success update message
@@ -849,9 +849,9 @@ const saveSlide = async (slide: SetlistSlide) => {
 	const sl = setlist.value;
 	if (!sl || !setlistCollection.value) return;
 	if (slideEdit.value.index === -1) {
-		sl.entity.songs.push(slide);
+		sl.entity.entries.push(slide);
 	} else {
-		sl.entity.songs[slideEdit.value.index] = slide;
+		sl.entity.entries[slideEdit.value.index] = slide;
 	}
 	try {
 		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });

@@ -89,11 +89,11 @@ const songOfYear = computed(() => {
 	let list: Record<string, Record<string, number>> = {};
 	setlists.value.forEach(setlist => {
 		let year = setlist.entity.date.slice(0, 4);
-		if (year && setlist.entity.songs) {
+		if (year && setlist.entity.entries) {
 			if (!list.hasOwnProperty(year)) {
 				list[year] = {};
 			}
-			setlist.entity.songs.forEach(song => {
+			setlist.entity.entries.forEach(song => {
 				if (isSlide(song)) return;
 				if (songs.value.some(s => s.entity.slug == song.id)) {
 					if (!list[year].hasOwnProperty(song.id)) {

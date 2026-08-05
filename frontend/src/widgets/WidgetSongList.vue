@@ -147,8 +147,8 @@ const popularSongs = () => {
 	order.value = SortOrder.Popular;
 	let list: Record<string, number> = {};
 	setlists.value.forEach(setlist => {
-		if (setlist.entity.songs) {
-			setlist.entity.songs.forEach(song => {
+		if (setlist.entity.entries) {
+			setlist.entity.entries.forEach(song => {
 				if (isSlide(song)) return;
 				if (!list.hasOwnProperty(song.id)) {
 					list[song.id] = 1;
