@@ -21,6 +21,7 @@ export default defineConfig({
 	build: {
     outDir: "../backend/dist/static",
     emptyOutDir: true,
-    sourcemap : true
+    sourcemap : true,
+		chunkSizeWarningLimit: 1024
   }
 });
