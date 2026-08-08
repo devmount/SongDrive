@@ -363,6 +363,14 @@
 										<icon-edit class="w-5 h-5 stroke-1.5" />
 										{{ t('button.edit') }}
 									</button>
+									<button
+										v-if="canUpdateSetlist"
+										class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+										@click.prevent="removeSlide(index)"
+									>
+										<icon-trash class="w-5 h-5 stroke-1.5" />
+										{{ t('button.delete') }}
+									</button>
 								</drop-down>
 								<drop-down v-else-if="findSong(element.id)">
 									<router-link
@@ -872,6 +880,23 @@ const saveSlide = async (slide: SetlistSlide) => {
 		throwError(err as ThrowableError);
 	} finally {
 		modal.slide = false;
+	}
+};
+
+// remove a slide from the setlist at the given position and save
+const removeSlide = async (index: number) => {
+	const sl = setlist.value;
+	if (!sl || !setlistCollection.value) return;
+	sl.entity.entries.splice(index, 1);
+	try {
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
+		notify({
+			title: t('toast.setlistUpdated'),
+			text: t('toast.setlistSavedText'),
+			type: 'primary'
+		});
+	} catch (err) {
+		throwError(err as ThrowableError);
 	}
 };
 
