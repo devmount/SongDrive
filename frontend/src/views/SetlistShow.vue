@@ -251,7 +251,12 @@
 								<icon-menu-order class="w-5 h-5 stroke-1.5 handle inline" />
 							</td>
 							<template v-if="isSlide(element)">
-								<td class="px-3 py-2 max-w-0" colspan="2">
+								<td
+									class="px-3 py-2 max-w-0"
+									:class="{ 'cursor-pointer': canUpdateSetlist }"
+									colspan="2"
+									@click="canUpdateSetlist ? openEditSlide(index, element) : undefined"
+								>
 									<div class="truncate">
 										<span>{{ element.title }}</span>
 										<span class="text-blade-500 ml-3">{{ element.content }}</span>
