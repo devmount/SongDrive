@@ -216,7 +216,15 @@
 									<icon-menu-order class="handle w-5 h-5" />
 								</button>
 								<template v-if="isSlide(element)">
-									<div class="flex-1 truncate">{{ element.title }}</div>
+									<div
+										class="flex-1 truncate cursor-pointer"
+										@click="openEditSlide(index, element)"
+									>
+										<span class="rounded-sm inline-flex items-center bg-blade-300 dark:bg-blade-750 gap-2 py-1 px-2">
+											<icon-notes class="w-5 h-5 stroke-1.5" />
+											{{ element.title }}
+										</span>
+									</div>
 								</template>
 								<template v-else>
 									<div class="flex items-center">
@@ -258,6 +266,10 @@
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>
+			<secondary-button @click="openAddSlide()">
+				<icon-notes class="w-5 h-5 stroke-1.5" />
+				{{ t('button.addSlide') }}
+			</secondary-button>
 			<primary-button @click="setSetlist">
 				<span v-if="!existing">{{ t('button.createSetlist') }}</span>
 				<span v-else>{{ t('button.updateSetlist') }}</span>
@@ -269,6 +281,14 @@
 			</primary-button>
 		</div>
 	</modal-dialog>
+	<!-- modal: add/edit slide -->
+	<slide-set
+		:active="showModal.slide"
+		:initial-slide="slideEdit.data"
+		:child="true"
+		@closed="showModal.slide = false"
+		@save="saveSlide"
+	/>
 </template>
 
 <script setup lang="ts">
@@ -283,7 +303,7 @@ import { ref, reactive, computed, watch, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { SongLanguage, SongTag as SongTagEnum } from '@backend/definitions';
-import type { SetlistEntity, SetlistEntry, SetlistSong } from '@backend/models';
+import type { SetlistEntity, SetlistEntry, SetlistSlide, SetlistSong } from '@backend/models';
 import { VueDatePicker as Datepicker } from '@vuepic/vue-datepicker';
 import draggable from 'vuedraggable';
 import DropDown from '@/elements/DropDown.vue';
@@ -291,6 +311,7 @@ import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongTag from '@/elements/SongTag.vue';
+import SlideSet from '@/modals/SlideSet.vue';
 
 // icons
 import {
@@ -304,6 +325,7 @@ import {
 	IconLoader2,
 	IconMenuOrder,
 	IconMusic,
+	IconNotes,
 	IconPlaylist,
 	IconPlus,
 	IconTags,
@@ -391,6 +413,34 @@ const removeSong = (id: string) => {
 // remove the setlist entry (song or slide) at the given position
 const removeEntry = (index: number) => {
 	setlist.value.entries.splice(index, 1);
+};
+
+// active modals state
+const showModal = reactive({ slide: false });
+
+// slide currently being added (index -1) or edited (index of entry)
+const slideEdit = ref<{ index: number; data: SetlistSlide | null }>({ index: -1, data: null });
+
+// open the slide modal to add a new slide
+const openAddSlide = () => {
+	slideEdit.value = { index: -1, data: null };
+	showModal.slide = true;
+};
+
+// open the slide modal to edit an existing slide
+const openEditSlide = (index: number, data: SetlistSlide) => {
+	slideEdit.value = { index, data };
+	showModal.slide = true;
+};
+
+// add or update the slide in the current entry selection
+const saveSlide = (slide: SetlistSlide) => {
+	if (slideEdit.value.index === -1) {
+		setlist.value.entries.push(slide);
+	} else {
+		setlist.value.entries[slideEdit.value.index] = slide;
+	}
+	showModal.slide = false;
 };
 
 // check if given song exists on current song selection

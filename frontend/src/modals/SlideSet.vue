@@ -3,6 +3,7 @@
 		:active="active"
 		:title="!initialSlide ? t('modal.newSlide') : t('modal.editSlide')"
 		size="lg"
+		:child="child"
 		@closed="emit('closed')"
 	>
 		<div class="flex flex-col gap-2">
@@ -54,6 +55,7 @@ const { t } = useI18n();
 const props = defineProps({
 	active:       Boolean, // state of modal display, true to show modal
 	initialSlide: { type: Object as PropType<SetlistSlide | null>, default: null }, // slide to edit, null when creating a new one
+	child:        { type: Boolean, default: false }, // true if modal is called from within another modal
 });
 
 // emits
