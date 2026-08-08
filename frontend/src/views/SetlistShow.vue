@@ -258,8 +258,11 @@
 									@click="canUpdateSetlist ? openEditSlide(index, element) : undefined"
 								>
 									<div class="truncate">
-										<span>{{ element.title }}</span>
-										<span class="text-blade-500 ml-3">{{ element.content }}</span>
+										<span class="align-middle rounded-sm inline-flex items-center bg-blade-300 dark:bg-blade-750 gap-2 py-1 px-2">
+											<icon-notes class="w-5 h-5 stroke-1.5" />
+											{{ element.title }}
+										</span>
+										<span class="align-middle italic text-blade-500 ml-3">{{ element.content }}</span>
 									</div>
 								</td>
 								<td class="hidden 2xl:table-cell"></td>
