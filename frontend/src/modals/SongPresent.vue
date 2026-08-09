@@ -15,7 +15,6 @@
 				:chords="chords"
 				:key-offset="keyOffset"
 				:presentation="true"
-				ref="songContentRef"
 			/>
 			<!-- toolbar -->
 			<div class="fixed bottom-2 right-2 flex gap-2">
@@ -49,6 +48,7 @@ import { injectStrict, hkCancelKey, hkThemeKey } from '@/keys';
 import { ref, watch, onMounted, onUnmounted, nextTick, type PropType } from 'vue';
 import { useWakeLock, whenever } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
+import { maximizePresentFontsize } from '@/utils.js';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongContent from '@/partials/SongContent.vue';
@@ -82,7 +82,6 @@ const dark = ref(true);
 
 // timeouts for resize debouncing
 const resizeTimeout = ref<ReturnType<typeof setTimeout>>();
-const songContentRef = ref<InstanceType<typeof SongContent>>();
 
 // emits
 const emit = defineEmits(['chords', 'closed']);
@@ -90,10 +89,7 @@ const emit = defineEmits(['chords', 'closed']);
 // adapt presentation content to viewport
 const maximizeFontsize = () => {
 	// wait for dom to be ready
-	nextTick(() => {
-		// maximize content of presented song
-		songContentRef.value?.maximizeFontsize();
-	});
+	nextTick(() => maximizePresentFontsize());
 };
 // handle viewport resize
 const resizeHandler = () => {

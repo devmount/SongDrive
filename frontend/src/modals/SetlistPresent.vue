@@ -30,11 +30,10 @@
 							:chords="chords"
 							:key-offset="entry.customTuningDelta"
 							:presentation="true"
-							ref="songContentRef"
 						/>
-						<div v-else class="flex flex-col items-center justify-center gap-6 w-full h-full text-center">
-							<h2 class="text-4xl font-semibold text-spring-600 dark:text-spring-400">{{ entry.title }}</h2>
-							<div class="font-fira text-2xl whitespace-pre-line">{{ entry.content }}</div>
+						<div v-else class="present flex flex-col items-center justify-center gap-7 w-full h-full text-center">
+							<pre class="font-fira text-4xl font-semibold text-spring-600 dark:text-spring-400">{{ entry.title }}</pre>
+							<pre class="font-fira text-2xl whitespace-pre-wrap wrap-break-word">{{ entry.content }}</pre>
 						</div>
 					</slide>
 				</carousel>
@@ -233,7 +232,7 @@ import { useWakeLock, whenever } from '@vueuse/core';
 import { ref, computed, watch, onMounted, onUnmounted, nextTick, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { SetlistPresentationEntry } from '@/definitions';
-import { isSlide } from '@/utils.js';
+import { isSlide, maximizePresentFontsize } from '@/utils.js';
 import DropDown from '@/elements/DropDown.vue';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
@@ -281,7 +280,6 @@ const props = defineProps({
 
 // reactive data
 const presentation = ref<InstanceType<typeof Carousel> & CarouselExposed>();
-const songContentRef = ref<InstanceType<typeof SongContent>[]>([]);
 const currentPosition = ref(0);
 const autoSync = ref(false);
 const hide = ref(false);
@@ -302,12 +300,7 @@ const timeonly = computed(() => {
 // adapt presentation content to viewport
 const maximizeFontsize = () => {
 	// wait for dom to be ready
-	nextTick(() => {
-		// maximize content of each song/slide
-		for (let i = 0; i < songContentRef.value.length; i++) {
-			songContentRef.value[i].maximizeFontsize();
-		}
-	});
+	nextTick(() => maximizePresentFontsize());
 };
 // handle viewport resize
 const resizeHandler = () => {
