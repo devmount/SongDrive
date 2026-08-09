@@ -1,4 +1,4 @@
-import type { SongEntity, SetlistEntity, SetlistEntry } from '@backend/models';
+import type { SongEntity, SetlistEntity, SetlistEntry, SetlistSlide } from '@backend/models';
 import type { UserRole } from '@backend/definitions';
 
 /**
@@ -66,6 +66,12 @@ export type SetlistFormData = Partial<SetlistEntity> & {
  * A setlist song hydrated with its full song entity plus per-setlist custom key.
  */
 export type SetlistSongPresentation = SongEntity & { customTuningDelta: number; customTuning: string };
+
+/**
+ * A single entry to feed to SetlistPresent's carousel: either a hydrated song or a plain slide,
+ * in the setlist's original entry order.
+ */
+export type SetlistPresentationEntry = SetlistSongPresentation | SetlistSlide;
 
 /**
  * UI theme mode

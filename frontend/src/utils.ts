@@ -1,7 +1,7 @@
 import { notify } from '@kyvg/vue3-notification';
 import type { AmberCollection } from 'amber-client';
 import type { Song, SongEntity, SetlistEntry, SetlistSlide } from '@backend/models';
-import type { SongPart, ThrowableError } from '@/definitions';
+import type { SongPart, ThrowableError, SetlistPresentationEntry } from '@/definitions';
 import de from '@/locales/de.json';
 import en from '@/locales/en.json';
 
@@ -17,8 +17,10 @@ const isChordLine = (line: string): boolean => {
 	return line.slice(-2) === '  ';
 };
 
-// true if a setlist entry is a custom slide rather than a song (songs always have an id, slides never do)
-const isSlide = (entry: SetlistEntry): entry is SetlistSlide => !('id' in entry);
+// true if a setlist entry (raw or hydrated for presentation) is a slide rather than a song.
+// Raw songs carry an `id`; hydrated songs (built from SongEntity) carry a `slug` instead — slides have neither.
+const isSlide = (entry: SetlistEntry | SetlistPresentationEntry): entry is SetlistSlide =>
+	!('id' in entry) && !('slug' in entry);
 
 // escape a value for use inside a single-quoted XML attribute
 const escapeXmlAttr = (value: string): string =>

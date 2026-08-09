@@ -491,7 +491,7 @@
 		/>
 		<setlist-present
 			:active="modal.present"
-			:songs="setlistSongs"
+			:entries="setlistPresentationEntries"
 			:sync="setlist?.entity.active"
 			:position="setlist?.entity.position"
 			:chords="chords"
@@ -511,7 +511,7 @@
 <script setup lang="ts">
 import { injectStrict, hkChordsKey, hkPresentKey, hkSyncKey, noActiveModalKey, setlistCollectionKey, setlistsKey, songsKey, userKey, usersKey, versionKey } from '@/keys';
 import { keyScale, parsedContent, humanDate, throwError, download, openLyricsXML, firstParam, isSlide } from '@/utils.js';
-import type { ThrowableError, SetlistSongPresentation } from '@/definitions';
+import type { ThrowableError, SetlistSongPresentation, SetlistPresentationEntry } from '@/definitions';
 import { logicAnd } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed } from 'vue';
@@ -628,21 +628,42 @@ const canDeleteSetlist = computed(() => !!setlist.value && can('deleteSetlists',
 	ownerId: setlist.value.entity.createdBy,
 }));
 
+// hydrate one setlist song entry into its full song entity plus per-setlist custom key
+// overrides (null if the song was deleted)
+const hydrateSetlistSong = (setlistSong: SetlistSong): SetlistSongPresentation | null => {
+	const song = findSong(setlistSong.id);
+	if (!song) return null; // song was deleted
+	const setlistTuning = setlistSong.key;
+	// '' is the "no custom tuning" sentinel (see SetlistSet.vue's addSong);
+	// no other value stored here ever numerically coerces to 0
+	const customTuningDelta = setlistTuning !== ''
+		? keyScale.indexOf(setlistTuning) - keyScale.indexOf(song.key ?? '')
+		: 0;
+	const customTuning = setlistTuning !== '' ? setlistTuning : (song.key ?? '');
+	return { ...song, customTuningDelta, customTuning };
+};
+
 // retrieve setlist song entities (only existing ones) with custom key overrides applied
 const setlistSongs = computed<SetlistSongPresentation[]>(() => {
 	const result: SetlistSongPresentation[] = [];
 	for (const setlistSong of setlist.value?.entity.entries ?? []) {
 		if (isSlide(setlistSong)) continue;
-		const song = findSong(setlistSong.id);
-		if (!song) continue; // song was deleted
-		const setlistTuning = setlistSong.key;
-		// '' is the "no custom tuning" sentinel (see SetlistSet.vue's addSong);
-		// no other value stored here ever numerically coerces to 0
-		const customTuningDelta = setlistTuning !== ''
-			? keyScale.indexOf(setlistTuning) - keyScale.indexOf(song.key ?? '')
-			: 0;
-		const customTuning = setlistTuning !== '' ? setlistTuning : (song.key ?? '');
-		result.push({ ...song, customTuningDelta, customTuning });
+		const hydrated = hydrateSetlistSong(setlistSong);
+		if (hydrated) result.push(hydrated);
+	}
+	return result;
+});
+
+// retrieve setlist entries (songs hydrated + slides), in original entries order, for SetlistPresent
+const setlistPresentationEntries = computed<SetlistPresentationEntry[]>(() => {
+	const result: SetlistPresentationEntry[] = [];
+	for (const entry of setlist.value?.entity.entries ?? []) {
+		if (isSlide(entry)) {
+			result.push(entry);
+			continue;
+		}
+		const hydrated = hydrateSetlistSong(entry);
+		if (hydrated) result.push(hydrated);
 	}
 	return result;
 });
