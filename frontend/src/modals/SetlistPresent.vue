@@ -8,7 +8,7 @@
 		<template #close><i></i></template>
 		<div class="h-full w-full! overflow-y-auto pb-12 xs:pb-0">
 			<div
-				v-if="songs && songs.length > 0"
+				v-if="entries && entries.length > 0"
 				class="transition-opacity h-full"
 				:class="{ 'opacity-0': hide }"
 			>
@@ -17,14 +17,24 @@
 					class="w-full! h-full bg-transparent"
 					v-model="currentPosition"
 				>
-					<slide v-for="(song, i) in songs" :key="i" :index="i" class="items-start! text-left px-4">
+					<slide
+						v-for="(entry, i) in entries"
+						:key="i"
+						:index="i"
+						class="px-4"
+						:class="isSlide(entry) ? 'items-center! text-center' : 'items-start! text-left'"
+					>
 						<song-content
-							:content="song.content"
+							v-if="!isSlide(entry)"
+							:content="entry.content"
 							:chords="chords"
-							:key-offset="song.customTuningDelta"
+							:key-offset="entry.customTuningDelta"
 							:presentation="true"
-							ref="songContentRef"
 						/>
+						<div v-else class="present flex flex-col items-center justify-center gap-7 w-full h-full text-center">
+							<pre class="font-fira text-4xl font-semibold text-spring-600 dark:text-spring-400">{{ entry.title }}</pre>
+							<pre class="font-fira text-2xl whitespace-pre-wrap wrap-break-word">{{ entry.content }}</pre>
+						</div>
 					</slide>
 				</carousel>
 			</div>
@@ -37,15 +47,15 @@
 				<!-- Pagination -->
 				<div class="hidden md:flex mr-auto ml-6 gap-2">
 					<secondary-button
-						v-for="(song, i) in songs"
+						v-for="(entry, i) in entries"
 						:key="i"
-						class="w-8 h-8 rounded-full!"
+						class="w-8 h-8 p-0! rounded-full!"
 						:class="{
 							'bg-spring-600!': i === presentation?.data.currentSlide
 						}"
 						@click="presentation?.slideTo(i)"
 					>
-						<span v-if="chords">{{ song.customTuning }}</span>
+						<span v-if="chords">{{ entryTuning(entry) }}</span>
 					</secondary-button>
 				</div>
 
@@ -59,27 +69,35 @@
 					<icon-arrow-left class="w-5 h-5 stroke-1.5" />
 					<div v-if="currentPosition > 0" class="hidden md:flex items-center gap-2">
 						<div class="hidden 2xl:block max-w-3xs truncate">
-							{{ songs[currentPosition-1].title }}
+							{{ entries[currentPosition-1].title }}
 						</div>
 						<div v-if="chords" class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-							{{ songs[currentPosition-1].customTuning }}
+							{{ entryTuning(entries[currentPosition-1]) }}
 						</div>
 					</div>
+					<icon-notes
+						v-if="entries[currentPosition-1] && isSlide(entries[currentPosition-1])"
+						class="w-5 h-5 stroke-1.5"
+					/>
 				</secondary-button>
 
 				<!-- Forward navigation -->
 				<secondary-button
 					class="absolute bottom-0 left-16 md:left-1/2 flex items-center gap-1 ml-0.5"
-					:disabled="currentPosition >= songs.length-1"
+					:disabled="currentPosition >= entries.length-1"
 					title="Next Song"
 					@click="presentation?.next()"
 				>
-					<div v-if="currentPosition < songs.length-1" class="hidden md:flex items-center gap-2">
+					<icon-notes
+						v-if="entries[currentPosition+1] && isSlide(entries[currentPosition+1])"
+						class="w-5 h-5 stroke-1.5"
+					/>
+					<div v-if="currentPosition < entries.length-1" class="hidden md:flex items-center gap-2">
 						<div class="hidden 2xl:block max-w-3xs truncate">
-							{{ songs[currentPosition+1].title }}
+							{{ entries[currentPosition+1].title }}
 						</div>
 						<div v-if="chords" class="text-lg leading-4 font-mono font-bold text-spring-600 dark:text-spring-400">
-							{{ songs[currentPosition+1].customTuning }}
+							{{ entryTuning(entries[currentPosition+1]) }}
 						</div>
 					</div>
 					<icon-arrow-right class="w-5 h-5 stroke-1.5" />
@@ -213,7 +231,8 @@ import { logicOr } from '@vueuse/math';
 import { useWakeLock, whenever } from '@vueuse/core';
 import { ref, computed, watch, onMounted, onUnmounted, nextTick, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { SetlistSongPresentation } from '@/definitions';
+import type { SetlistPresentationEntry } from '@/definitions';
+import { isSlide, maximizePresentFontsize } from '@/utils.js';
 import DropDown from '@/elements/DropDown.vue';
 import ModalDialog from '@/elements/ModalDialog.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
@@ -228,6 +247,7 @@ import {
 	IconEyeOff,
 	IconMusic,
 	IconMusicOff,
+	IconNotes,
 	IconRefresh,
 	IconRefreshOff,
 	IconX,
@@ -250,17 +270,16 @@ const hkCancel = injectStrict(hkCancelKey);
 const props = defineProps({
 	active:      Boolean, // state of modal display, true to show modal
 	chords:      Boolean, // true if chords shall be rendered
+	entries:     { type: Array as PropType<SetlistPresentationEntry[]>, default: () => [] },   // list of songs/slides to present
 	position:    { type: Number, default: 0 },  // list position of current song in the presentation
 	remoteHide:  Boolean, // true if synced presentation should fade ouot
 	remoteLight: Boolean, // true if synced presentation should show up in light mde
 	remoteText:  Boolean, // true if synced presentation should be rendered without chords
-	songs:       { type: Array as PropType<SetlistSongPresentation[]>, default: () => [] },   // list of songs to present
 	sync:        Boolean, // true if setlist should send sync signals
 });
 
 // reactive data
 const presentation = ref<InstanceType<typeof Carousel> & CarouselExposed>();
-const songContentRef = ref<InstanceType<typeof SongContent>[]>([]);
 const currentPosition = ref(0);
 const autoSync = ref(false);
 const hide = ref(false);
@@ -281,12 +300,7 @@ const timeonly = computed(() => {
 // adapt presentation content to viewport
 const maximizeFontsize = () => {
 	// wait for dom to be ready
-	nextTick(() => {
-		// maximize content of each song/slide
-		for (let i = 0; i < songContentRef.value.length; i++) {
-			songContentRef.value[i].maximizeFontsize();
-		}
-	});
+	nextTick(() => maximizePresentFontsize());
 };
 // handle viewport resize
 const resizeHandler = () => {
@@ -295,6 +309,11 @@ const resizeHandler = () => {
 		maximizeFontsize();
 	}, 500);
 };
+// tuning label for the given presentation entry's pagination dot / neighbor preview; undefined for
+// slides, since only hydrated songs carry a customTuning
+const entryTuning = (entry: SetlistPresentationEntry): string | undefined =>
+	isSlide(entry) ? undefined : entry.customTuning;
+
 // handle tooltips
 const tooltip = (target: string) => {
 	switch (target) {
@@ -333,9 +352,9 @@ watch (autoSync, () => {
 		dark.value = !props.remoteLight;
 	}
 });
-// watcher: maximize fontsize again when chords are toggled or songs change
+// watcher: maximize fontsize again when chords are toggled or entries change
 watch (
-	[() => props.active, () => props.chords, () => props.songs],
+	[() => props.active, () => props.chords, () => props.entries],
 	() => maximizeFontsize()
 );
 // watcher: update local position if autoSync is on and remote position was updated
@@ -401,7 +420,7 @@ whenever(
 whenever(
 	logicOr(hkDown, hkForward),
 	() => {
-		if (props.active && currentPosition.value < props.songs.length-1) {
+		if (props.active && currentPosition.value < props.entries.length-1) {
 			presentation.value?.next();
 		}
 	}

@@ -7,11 +7,11 @@ const setlist = (overrides: Partial<SetlistEntity> = {}): SetlistEntity => ({
 	active: false,
 	createdBy: 'owner',
 	date: '2026-01-01',
+	entries: [],
 	isPublic: false,
 	position: 0,
 	sharedWith: [],
 	slug: 'a-setlist',
-	songs: [],
 	title: 'A setlist',
 	...overrides,
 });

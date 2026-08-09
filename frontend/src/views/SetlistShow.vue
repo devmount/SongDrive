@@ -4,10 +4,10 @@
 			<!-- page heading -->
 			<div class="flex flex-col justify-between items-stretch gap-4">
 				<!-- title and visible setlist count -->
-				<div class="text-3xl uppercase font-thin tracking-wider">
-					<span class="font-semibold mr-4">{{ setlist.entity.title }}</span>
+				<div class="text-3xl uppercase font-thin tracking-wider flex flex-wrap gap-6">
+					<span class="font-semibold">{{ setlist.entity.title }}</span>
 					<span class="inline-block whitespace-nowrap">
-						{{ t('object.song', setlist.entity.songs.length, { named: { n: setlist.entity.songs.length } }) }}
+						{{ t('object.song', songCount, { named: { n: songCount } }) }}
 					</span>
 				</div>
 				<!-- setlist meta data -->
@@ -164,6 +164,14 @@
 								{{ t('button.duplicate') }}
 							</button>
 							<button
+								v-if="canUpdateSetlist"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+								@click.prevent="openAddSlide()"
+							>
+								<icon-notes class="w-5 h-5 stroke-1.5" />
+								{{ t('button.addSlide') }}
+							</button>
+							<button
 								v-if="canDeleteSetlist"
 								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
 								@click.prevent="deleteDialog()"
@@ -212,15 +220,15 @@
 			</div>
 			<!-- song list -->
 			<table
-				v-if="setlist.entity.songs.length > 0"
+				v-if="setlist.entity.entries.length > 0"
 				class="w-full"
 			>
 				<thead>
 					<tr>
 						<th v-if="canUpdateSetlist" class="w-11"></th>
 						<th class="uppercase p-2 font-normal">{{ t('field.title') }}</th>
-						<th class="uppercase p-2 font-normal w-96 hidden 2xl:table-cell">{{ t('field.authors') }}</th>
 						<th class="uppercase p-2 font-normal w-20 text-center">{{ t('field.key') }}</th>
+						<th class="uppercase p-2 font-normal w-96 hidden 2xl:table-cell">{{ t('field.authors') }}</th>
 						<th class="uppercase p-2 font-normal w-20 hidden xl:table-cell">{{ t('field.language') }}</th>
 						<th class="uppercase p-2 font-normal w-20 hidden md:table-cell">{{ t('field.youtube') }}</th>
 						<th class="uppercase p-2 font-normal w-20 hidden md:table-cell">{{ t('field.ccli') }}</th>
@@ -228,9 +236,9 @@
 					</tr>
 				</thead>
 				<draggable
-					v-model="setlist.entity.songs"
+					v-model="setlist.entity.entries"
 					tag="tbody"
-					item-key="id"
+					:item-key="(el: SetlistEntry) => isSlide(el) ? `slide-${setlist!.entity.entries.indexOf(el)}` : el.id"
 					handle=".handle"
 					ghost-class="bg-blade-950!"
 					@end="saveOrder"
@@ -242,7 +250,27 @@
 							<td v-if="canUpdateSetlist" class="cursor-grab active:cursor-grabbing text-center text-blade-500">
 								<icon-menu-order class="w-5 h-5 stroke-1.5 handle inline" />
 							</td>
-							<template v-if="findSong(element.id)">
+							<template v-if="isSlide(element)">
+								<td
+									class="px-3 py-2 max-w-0"
+									:class="{ 'cursor-pointer': canUpdateSetlist }"
+									colspan="2"
+									@click="canUpdateSetlist ? openEditSlide(index, element) : undefined"
+								>
+									<div class="truncate">
+										<span class="align-middle rounded-sm inline-flex items-center bg-blade-300 dark:bg-blade-750 gap-2 py-1 px-2">
+											<icon-notes class="w-5 h-5 stroke-1.5" />
+											{{ element.title }}
+										</span>
+										<span class="align-middle italic text-blade-500 ml-3">{{ element.content }}</span>
+									</div>
+								</td>
+								<td class="hidden 2xl:table-cell"></td>
+								<td class="hidden xl:table-cell"></td>
+								<td class="hidden md:table-cell"></td>
+								<td class="hidden md:table-cell"></td>
+							</template>
+							<template v-else-if="findSong(element.id)">
 								<td
 									class="cursor-pointer px-3 py-2 max-w-0"
 									@click="router.push({
@@ -258,19 +286,6 @@
 										<span>{{ findSong(element.id)!.title }}</span>
 										<span class="text-blade-500 ml-3">{{ findSong(element.id)!.subtitle }}</span>
 									</div>
-								</td>
-								<td
-									class="cursor-pointer px-3 py-2 max-w-0 hidden 2xl:table-cell"
-									@click="router.push({
-										name: 'song-show',
-										params: {
-											id: element.id,
-											key: element.key ? element.key : findSong(element.id)!.key,
-											setlist: setlistKey,
-										}
-									})"
-								>
-									<div class="truncate">{{ findSong(element.id)!.authors?.join(' | ') ?? '' }}</div>
 								</td>
 								<td class="px-3 py-2">
 									<div class="flex justify-center items-center gap-3">
@@ -292,6 +307,19 @@
 											<icon-chevron-right class="w-5 h-5 stroke-1.5" />
 										</secondary-button>
 									</div>
+								</td>
+								<td
+									class="cursor-pointer px-3 py-2 max-w-0 hidden 2xl:table-cell"
+									@click="router.push({
+										name: 'song-show',
+										params: {
+											id: element.id,
+											key: element.key ? element.key : findSong(element.id)!.key,
+											setlist: setlistKey,
+										}
+									})"
+								>
+									<div class="truncate">{{ findSong(element.id)!.authors?.join(' | ') ?? '' }}</div>
 								</td>
 								<td class="px-3 py-2 hidden xl:table-cell text-center">
 									<div class="uppercase">{{ findSong(element.id)!.language }}</div>
@@ -318,18 +346,33 @@
 								</td>
 							</template>
 							<template v-else>
-								<td colspan="3" class="px-3 py-2 max-w-0">
+								<td colspan="6" class="px-3 py-2 max-w-0">
 									<div class="truncate">
 										<span class="text-rose-600">{{ t('toast.songDeleted') }}</span>
 										<span class="text-blade-500 font-mono text-sm ml-3">{{ element.id }}</span>
 									</div>
 								</td>
-								<td class="hidden 2xl:table-cell"></td>
-								<td class="hidden xl:table-cell"></td>
-								<td class="hidden md:table-cell"></td>
 							</template>
 							<td class="px-1 py-2">
-								<drop-down v-if="findSong(element.id)">
+								<drop-down v-if="isSlide(element)">
+									<button
+										v-if="canUpdateSetlist"
+										class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+										@click.prevent="openEditSlide(index, element)"
+									>
+										<icon-edit class="w-5 h-5 stroke-1.5" />
+										{{ t('button.edit') }}
+									</button>
+									<button
+										v-if="canUpdateSetlist"
+										class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
+										@click.prevent="removeSlide(index)"
+									>
+										<icon-trash class="w-5 h-5 stroke-1.5" />
+										{{ t('button.delete') }}
+									</button>
+								</drop-down>
+								<drop-down v-else-if="findSong(element.id)">
 									<router-link
 										:to="{ name: 'song-show', params: { id: element.id }}"
 										class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
@@ -388,7 +431,7 @@
 			</div>
 			<!-- stats -->
 			<div
-				v-if="setlist.entity.songs.length > 0"
+				v-if="setlist.entity.entries.length > 0"
 				class="flex flex-col sm:flex-row justify-center sm:justify-start items-center gap-8 mt-4"
 			>
 				<div class="w-64 max-w-full">
@@ -440,9 +483,15 @@
 			:id="setlistKey"
 			@closed="modal.delete = false"
 		/>
+		<slide-set
+			:active="modal.slide"
+			:initial-slide="slideEdit.data"
+			@closed="modal.slide = false"
+			@save="saveSlide"
+		/>
 		<setlist-present
 			:active="modal.present"
-			:songs="setlistSongs"
+			:entries="setlistPresentationEntries"
 			:sync="setlist?.entity.active"
 			:position="setlist?.entity.position"
 			:chords="chords"
@@ -461,8 +510,8 @@
 
 <script setup lang="ts">
 import { injectStrict, hkChordsKey, hkPresentKey, hkSyncKey, noActiveModalKey, setlistCollectionKey, setlistsKey, songsKey, userKey, usersKey, versionKey } from '@/keys';
-import { keyScale, parsedContent, humanDate, throwError, download, openLyricsXML, firstParam } from '@/utils.js';
-import type { ThrowableError, SetlistSongPresentation } from '@/definitions';
+import { keyScale, parsedContent, humanDate, throwError, download, openLyricsXML, firstParam, isSlide } from '@/utils.js';
+import type { ThrowableError, SetlistSongPresentation, SetlistPresentationEntry } from '@/definitions';
 import { logicAnd } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed } from 'vue';
@@ -470,7 +519,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { whenever } from '@vueuse/core';
 import { can } from '@backend/definitions';
-import type { SongEntity } from '@backend/models';
+import type { SongEntity, SetlistEntry, SetlistSlide, SetlistSong } from '@backend/models';
 import DoughnutChart from '@/charts/DoughnutChart.vue';
 import draggable from 'vuedraggable';
 import DropDown from '@/elements/DropDown.vue';
@@ -481,6 +530,7 @@ import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistDelete from '@/modals/SetlistDelete.vue';
 import SetlistPresent from '@/modals/SetlistPresent.vue';
+import SlideSet from '@/modals/SlideSet.vue';
 
 // icons
 import {
@@ -505,6 +555,7 @@ import {
 	IconMenuOrder,
 	IconMusic,
 	IconMusicOff,
+	IconNotes,
 	IconPlaylist,
 	IconPresentation,
 	IconRefresh,
@@ -554,7 +605,11 @@ const modal = reactive({
 	set: false,
 	delete: false,
 	present: false,
+	slide: false,
 });
+
+// currently edited slide: index -1 means a new slide is being added
+const slideEdit = ref<{ index: number; data: SetlistSlide | null }>({ index: -1, data: null });
 
 // retrieve setlist object to show (the wrapper, since writes need .id/.changeNumber)
 const setlist = computed(() => setlists.value.find(s => s.entity.slug === setlistKey));
@@ -573,20 +628,42 @@ const canDeleteSetlist = computed(() => !!setlist.value && can('deleteSetlists',
 	ownerId: setlist.value.entity.createdBy,
 }));
 
+// hydrate one setlist song entry into its full song entity plus per-setlist custom key
+// overrides (null if the song was deleted)
+const hydrateSetlistSong = (setlistSong: SetlistSong): SetlistSongPresentation | null => {
+	const song = findSong(setlistSong.id);
+	if (!song) return null; // song was deleted
+	const setlistTuning = setlistSong.key;
+	// '' is the "no custom tuning" sentinel (see SetlistSet.vue's addSong);
+	// no other value stored here ever numerically coerces to 0
+	const customTuningDelta = setlistTuning !== ''
+		? keyScale.indexOf(setlistTuning) - keyScale.indexOf(song.key ?? '')
+		: 0;
+	const customTuning = setlistTuning !== '' ? setlistTuning : (song.key ?? '');
+	return { ...song, customTuningDelta, customTuning };
+};
+
 // retrieve setlist song entities (only existing ones) with custom key overrides applied
 const setlistSongs = computed<SetlistSongPresentation[]>(() => {
 	const result: SetlistSongPresentation[] = [];
-	for (const setlistSong of setlist.value?.entity.songs ?? []) {
-		const song = findSong(setlistSong.id);
-		if (!song) continue; // song was deleted
-		const setlistTuning = setlistSong.key;
-		// '' is the "no custom tuning" sentinel (see SetlistSet.vue's addSong);
-		// no other value stored here ever numerically coerces to 0
-		const customTuningDelta = setlistTuning !== ''
-			? keyScale.indexOf(setlistTuning) - keyScale.indexOf(song.key ?? '')
-			: 0;
-		const customTuning = setlistTuning !== '' ? setlistTuning : (song.key ?? '');
-		result.push({ ...song, customTuningDelta, customTuning });
+	for (const setlistSong of setlist.value?.entity.entries ?? []) {
+		if (isSlide(setlistSong)) continue;
+		const hydrated = hydrateSetlistSong(setlistSong);
+		if (hydrated) result.push(hydrated);
+	}
+	return result;
+});
+
+// retrieve setlist entries (songs hydrated + slides), in original entries order, for SetlistPresent
+const setlistPresentationEntries = computed<SetlistPresentationEntry[]>(() => {
+	const result: SetlistPresentationEntry[] = [];
+	for (const entry of setlist.value?.entity.entries ?? []) {
+		if (isSlide(entry)) {
+			result.push(entry);
+			continue;
+		}
+		const hydrated = hydrateSetlistSong(entry);
+		if (hydrated) result.push(hydrated);
 	}
 	return result;
 });
@@ -629,7 +706,12 @@ const setlistKeys = computed(() => {
 
 // true if this setlist has no songs
 const noSongs = computed(() => {
-	return !!setlist.value && setlist.value.entity.songs.length == 0;
+	return !!setlist.value && setlist.value.entity.entries.length == 0;
+});
+
+// number of actual songs in this setlist, excluding slides
+const songCount = computed(() => {
+	return setlist.value?.entity.entries.filter(s => !isSlide(s)).length ?? 0;
 });
 
 // save new song order for setlist
@@ -648,11 +730,11 @@ const saveOrder = async () => {
 	}
 };
 
-// transpose key of given song up and save new key for setlist
+// transpose key of given song up and save new key for setlist (only ever called for song rows, never slides)
 const transposeUp = async (song: SongEntity, songPosition: number) => {
 	const sl = setlist.value;
 	if (!sl || !setlistCollection.value) return;
-	const setlistSongList = sl.entity.songs;
+	const setlistSongList = sl.entity.entries as SetlistSong[];
 	// update tuning
 	let tone = setlistSongList[songPosition].key ? setlistSongList[songPosition].key : (song.key ?? '');
 	let i = keyScale.indexOf(tone);
@@ -670,11 +752,11 @@ const transposeUp = async (song: SongEntity, songPosition: number) => {
 	}
 };
 
-// transpose key of given song down and save new key for setlist
+// transpose key of given song down and save new key for setlist (only ever called for song rows, never slides)
 const transposeDown = async (song: SongEntity, songPosition: number) => {
 	const sl = setlist.value;
 	if (!sl || !setlistCollection.value) return;
-	const setlistSongList = sl.entity.songs;
+	const setlistSongList = sl.entity.entries as SetlistSong[];
 	// update tuning
 	let tone = setlistSongList[songPosition].key ? setlistSongList[songPosition].key : (song.key ?? '');
 	let i = keyScale.indexOf(tone);
@@ -696,7 +778,7 @@ const transposeDown = async (song: SongEntity, songPosition: number) => {
 const removeSong = async (songId: string) => {
 	const sl = setlist.value;
 	if (!sl || !setlistCollection.value) return;
-	sl.entity.songs = sl.entity.songs.filter(s => s.id != songId);
+	sl.entity.entries = sl.entity.entries.filter(s => isSlide(s) || s.id != songId);
 	try {
 		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
 		// toast success update message
@@ -785,6 +867,58 @@ const updateHide = async (val: boolean) => {
 // handle dialog modals
 const deleteDialog = () => {
 	modal.delete = true;
+};
+
+// open the slide modal to add a new slide
+const openAddSlide = () => {
+	slideEdit.value = { index: -1, data: null };
+	modal.slide = true;
+};
+
+// open the slide modal to edit an existing slide
+const openEditSlide = (index: number, data: SetlistSlide) => {
+	slideEdit.value = { index, data };
+	modal.slide = true;
+};
+
+// add or update a slide in the setlist and save
+const saveSlide = async (slide: SetlistSlide) => {
+	const sl = setlist.value;
+	if (!sl || !setlistCollection.value) return;
+	if (slideEdit.value.index === -1) {
+		sl.entity.entries.push(slide);
+	} else {
+		sl.entity.entries[slideEdit.value.index] = slide;
+	}
+	try {
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
+		notify({
+			title: t('toast.setlistUpdated'),
+			text: t('toast.setlistSavedText'),
+			type: 'primary'
+		});
+	} catch (err) {
+		throwError(err as ThrowableError);
+	} finally {
+		modal.slide = false;
+	}
+};
+
+// remove a slide from the setlist at the given position and save
+const removeSlide = async (index: number) => {
+	const sl = setlist.value;
+	if (!sl || !setlistCollection.value) return;
+	sl.entity.entries.splice(index, 1);
+	try {
+		await setlistCollection.value.updateDoc(sl.id, sl.changeNumber ?? 0, { ...sl.entity });
+		notify({
+			title: t('toast.setlistUpdated'),
+			text: t('toast.setlistSavedText'),
+			type: 'primary'
+		});
+	} catch (err) {
+		throwError(err as ThrowableError);
+	}
 };
 
 // copy list to clipboard in given format (plain|markdown|slack)

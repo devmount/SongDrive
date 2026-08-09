@@ -1,7 +1,7 @@
 import { notify } from '@kyvg/vue3-notification';
 import type { AmberCollection } from 'amber-client';
-import type { Song, SongEntity } from '@backend/models';
-import type { SongPart, ThrowableError } from '@/definitions';
+import type { Song, SongEntity, SetlistEntry, SetlistSlide } from '@backend/models';
+import type { SongPart, ThrowableError, SetlistPresentationEntry } from '@/definitions';
 import de from '@/locales/de.json';
 import en from '@/locales/en.json';
 
@@ -15,6 +15,80 @@ const keyScale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B', 'H'
 const isChordLine = (line: string): boolean => {
 	if (line.trim() == '') return false;
 	return line.slice(-2) === '  ';
+};
+
+// true if a setlist entry (raw or hydrated for presentation) is a slide rather than a song.
+// Raw songs carry an `id`; hydrated songs (built from SongEntity) carry a `slug` instead — slides have neither.
+const isSlide = (entry: SetlistEntry | SetlistPresentationEntry): entry is SetlistSlide =>
+	!('id' in entry) && !('slug' in entry);
+
+// grow/shrink the font size of every <pre> inside every .present element as large as possible while
+// still fitting its parent's width and, per .present group, the viewport's height.
+// Non-wrapping text (songs) and wrapping text (slides) are taken into account.
+const maximizePresentFontsize = (): void => {
+	// config
+	const WIDTH_MARGIN  = 20;
+	const HEIGHT_MARGIN = 30;
+	const MAX_FONTSIZE  = 48;
+	// all parent elements
+	for (let a of document.querySelectorAll<HTMLElement>('.present')) {
+		// all non-wrapping child elements
+		for (let b of a.querySelectorAll<HTMLElement>('pre:not(.whitespace-pre-wrap)')) {
+			let fontSize = parseInt(getComputedStyle(b).fontSize.match(/\d+/)![0]);
+			// increase font size as long as the child is still smaller than parent and not greater than max fontsize
+			let n1 = 100; // max of 100 iterations for performance reasons
+			while (b.offsetWidth < a.offsetWidth - WIDTH_MARGIN && n1 > 0 && fontSize <= MAX_FONTSIZE) {
+				b.style.fontSize = (fontSize += 2) + 'px';
+				n1--;
+			}
+			// decrease font size if the child width exceeds the parents width
+			let n2 = 100; // max of 100 iterations for performance reasons
+			while (b.offsetWidth > a.offsetWidth - WIDTH_MARGIN && n2 > 0) {
+				b.style.fontSize = (fontSize--) + 'px';
+				n2--;
+			}
+		}
+	}
+	// viewport height budget, shared by the growth pass below and the shrink pass further down
+	let vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 85;
+	// grow wrapping elements towards the height budget of their .present group
+	for (let a of document.querySelectorAll<HTMLElement>('.present')) {
+		for (let b of a.querySelectorAll<HTMLElement>('pre.whitespace-pre-wrap')) {
+			let fontSize = parseInt(getComputedStyle(b).fontSize.match(/\d+/)![0]);
+			let n = 100; // max of 100 iterations for performance reasons
+			while (fontSize <= MAX_FONTSIZE && n > 0) {
+				const groupHeight = Array.from(a.querySelectorAll<HTMLElement>('pre'))
+					.reduce((sum, part) => sum + part.offsetHeight + HEIGHT_MARGIN, 0);
+				if (groupHeight >= vh) break;
+				b.style.fontSize = (fontSize += 2) + 'px';
+				n--;
+			}
+		}
+	}
+	// decrease font size of parts with greatest font size first if it doesnt fit into viewport height
+	// handle both columns
+	for (let c of document.querySelectorAll<HTMLElement>('.present')) {
+		let parts: { part: HTMLElement, size: number, height: number }[] = [];
+		for (let d of c.querySelectorAll<HTMLElement>('pre')) {
+			parts.push({
+				part: d,
+				size: parseInt(getComputedStyle(d).fontSize.match(/\d+/)![0]),
+				height: d.offsetHeight + HEIGHT_MARGIN
+			});
+		}
+		// decrease font size of parts in columns with a greater height than viewport
+		// as long as the sum of the heights of the parts is greater than the viewport height with a max of 50 iterations
+		let n = 50;
+		while (parts.map(o => o.height).reduce((p,c) => p + c, 0) > vh && n > 0) {
+			parts.sort((a, b) => b.size - a.size);
+			if (parts.length > 0) {
+				parts[0].part.style.fontSize = (parts[0].size - 3) + 'px';
+				parts[0].size = parseInt(getComputedStyle(parts[0].part).fontSize.match(/\d+/)![0]);
+				parts[0].height = parts[0].part.offsetHeight + HEIGHT_MARGIN;
+			}
+			n--;
+		}
+	}
 };
 
 // escape a value for use inside a single-quoted XML attribute
@@ -428,6 +502,8 @@ const openLyricsXML = (song: SongEntity, version: string, translatedSong: SongEn
 export {
   keyScale,
   isChordLine,
+  isSlide,
+  maximizePresentFontsize,
   parsedContent,
   download,
   humanDate,

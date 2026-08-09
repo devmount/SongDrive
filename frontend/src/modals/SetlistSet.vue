@@ -192,7 +192,7 @@
 			</div>
 			<!-- song preview -->
 			<div class="max-h-[calc(50vh-6rem)] lg:max-h-[calc(80vh-8.25rem)] flex flex-col gap-1">
-				<div v-if="setlist.songs?.length === 0" class="flex flex-col items-center gap-8 mt-4">
+				<div v-if="setlist.entries?.length === 0" class="flex flex-col items-center gap-8 mt-4">
 					<icon-playlist class="w-12 h-12 stroke-1 text-blade-500" />
 					<div class="text-center">
 						<div class="text-lg">{{ t('text.noSongsSelected') }}</div>
@@ -200,10 +200,10 @@
 					</div>
 				</div>
 				<div v-else>
-					<div class="text-center">{{ setlist.songs?.length }} {{ t('text.selected') }}</div>
+					<div class="text-center">{{ setlist.entries?.length }} {{ t('text.selected') }}</div>
 					<draggable
-						v-model="setlist.songs"
-						item-key="id"
+						v-model="setlist.entries"
+						:item-key="(el: SetlistEntry) => isSlide(el) ? `slide-${setlist.entries.indexOf(el)}` : el.id"
 						handle=".handle"
 						ghost-class="bg-blade-950!"
 						class="overflow-y-scroll h-full flex flex-col gap-1 mt-3"
@@ -215,31 +215,44 @@
 								<button class="p-1 cursor-grab active:cursor-grabbing text-blade-500">
 									<icon-menu-order class="handle w-5 h-5" />
 								</button>
-								<div class="flex items-center">
-									<secondary-button @click.prevent="tuneDown(index)" class="w-6 h-6 p-1!">
-										<icon-chevron-left class="w-4 h-4 stroke-2 shrink-0" />
-									</secondary-button>
-									<figure
-										class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
-										:title="t('title.songTuning')"
+								<template v-if="isSlide(element)">
+									<div
+										class="flex-1 truncate cursor-pointer"
+										@click="openEditSlide(index, element)"
 									>
-										<div class="-mt-0.5">{{ element.key ?? findSong(element.id)?.key }}</div>
-									</figure>
-									<secondary-button @click.prevent="tuneUp(index)" class="w-6 h-6 p-1!">
-										<icon-chevron-right class="w-4 h-4 stroke-2 shrink-0" />
-									</secondary-button>
-								</div>
-								<div class="flex flex-col overflow-hidden">
-									<div class="-mt-1 truncate">
-										{{ findSong(element.id)?.title }}
+										<span class="rounded-sm inline-flex items-center bg-blade-300 dark:bg-blade-750 gap-2 py-1 px-2">
+											<icon-notes class="w-5 h-5 stroke-1.5" />
+											{{ element.title }}
+										</span>
 									</div>
-									<div class="text-sm text-blade-500 -mt-1 truncate">
-										{{ findSong(element.id)?.subtitle }}
+								</template>
+								<template v-else>
+									<div class="flex items-center">
+										<secondary-button @click.prevent="tuneDown(index)" class="w-6 h-6 p-1!">
+											<icon-chevron-left class="w-4 h-4 stroke-2 shrink-0" />
+										</secondary-button>
+										<figure
+											class="flex justify-center items-center bg-spring-700 text-white font-semibold py-1 w-8"
+											:title="t('title.songTuning')"
+										>
+											<div class="-mt-0.5">{{ element.key ?? findSong(element.id)?.key }}</div>
+										</figure>
+										<secondary-button @click.prevent="tuneUp(index)" class="w-6 h-6 p-1!">
+											<icon-chevron-right class="w-4 h-4 stroke-2 shrink-0" />
+										</secondary-button>
 									</div>
-								</div>
+									<div class="flex flex-col overflow-hidden">
+										<div class="-mt-1 truncate">
+											{{ findSong(element.id)?.title }}
+										</div>
+										<div class="text-sm text-blade-500 -mt-1 truncate">
+											{{ findSong(element.id)?.subtitle }}
+										</div>
+									</div>
+								</template>
 								<button
 									class="ml-auto p-1 text-blade-500"
-									@click="removeSong(element.id)"
+									@click="removeEntry(index)"
 								>
 									<icon-x class="w-4 h-4" />
 								</button>
@@ -253,6 +266,10 @@
 			<button class="px-3 py-2 text-blade-500" aria-label="Cancel" @click.prevent="emit('closed')">
 				{{ t('button.cancel') }}
 			</button>
+			<secondary-button @click="openAddSlide()">
+				<icon-notes class="w-5 h-5 stroke-1.5" />
+				{{ t('button.addSlide') }}
+			</secondary-button>
 			<primary-button @click="setSetlist">
 				<span v-if="!existing">{{ t('button.createSetlist') }}</span>
 				<span v-else>{{ t('button.updateSetlist') }}</span>
@@ -264,6 +281,14 @@
 			</primary-button>
 		</div>
 	</modal-dialog>
+	<!-- modal: add/edit slide -->
+	<slide-set
+		:active="showModal.slide"
+		:initial-slide="slideEdit.data"
+		:child="true"
+		@closed="showModal.slide = false"
+		@save="saveSlide"
+	/>
 </template>
 
 <script setup lang="ts">
@@ -271,14 +296,14 @@ import { injectStrict, setlistCollectionKey, setlistsKey, songsKey, userKey } fr
 import '@vuepic/vue-datepicker/dist/main.css';
 import { enGB, de } from 'date-fns/locale';
 import type { Locale } from 'date-fns';
-import { keyScale, humanDate, throwError, urlify, browserPrefersDark, sortTags } from '@/utils.js';
+import { keyScale, humanDate, throwError, urlify, browserPrefersDark, sortTags, isSlide } from '@/utils.js';
 import type { ThrowableError, SetlistFormData } from '@/definitions';
 import { notify } from '@kyvg/vue3-notification';
 import { ref, reactive, computed, watch, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { SongLanguage, SongTag as SongTagEnum } from '@backend/definitions';
-import type { SetlistEntity } from '@backend/models';
+import type { SetlistEntity, SetlistEntry, SetlistSlide, SetlistSong } from '@backend/models';
 import { VueDatePicker as Datepicker } from '@vuepic/vue-datepicker';
 import draggable from 'vuedraggable';
 import DropDown from '@/elements/DropDown.vue';
@@ -286,6 +311,7 @@ import ModalDialog from '@/elements/ModalDialog.vue';
 import PrimaryButton from '@/elements/PrimaryButton.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SongTag from '@/elements/SongTag.vue';
+import SlideSet from '@/modals/SlideSet.vue';
 
 // icons
 import {
@@ -299,6 +325,7 @@ import {
 	IconLoader2,
 	IconMenuOrder,
 	IconMusic,
+	IconNotes,
 	IconPlaylist,
 	IconPlus,
 	IconTags,
@@ -360,8 +387,8 @@ const resetErrors = () => {
 // build local editable setlist state from the initial (blank or existing) setlist
 const buildFormState = (initial: SetlistFormData): SetlistFormData => ({
 	...initial,
-	// only show undeleted songs
-	songs: initial.songs.filter(s => findSong(s.id)),
+	// only show undeleted songs, keep slides as-is
+	entries: initial.entries.filter(s => isSlide(s) || findSong(s.id)),
 });
 
 // setlist input data
@@ -375,16 +402,49 @@ watch(() => props.active === true, () => initInput());
 
 // add song to current song selection
 const addSong = (id: string) => {
-	setlist.value.songs.push({ id: id, key: findSong(id)?.key ?? '' });
+	setlist.value.entries.push({ id: id, key: findSong(id)?.key ?? '' });
 };
 
 // remove song from current song selection
 const removeSong = (id: string) => {
-	setlist.value.songs = setlist.value.songs.filter((s) => s.id !== id);
+	setlist.value.entries = setlist.value.entries.filter((s) => isSlide(s) || s.id !== id);
+};
+
+// remove the setlist entry (song or slide) at the given position
+const removeEntry = (index: number) => {
+	setlist.value.entries.splice(index, 1);
+};
+
+// active modals state
+const showModal = reactive({ slide: false });
+
+// slide currently being added (index -1) or edited (index of entry)
+const slideEdit = ref<{ index: number; data: SetlistSlide | null }>({ index: -1, data: null });
+
+// open the slide modal to add a new slide
+const openAddSlide = () => {
+	slideEdit.value = { index: -1, data: null };
+	showModal.slide = true;
+};
+
+// open the slide modal to edit an existing slide
+const openEditSlide = (index: number, data: SetlistSlide) => {
+	slideEdit.value = { index, data };
+	showModal.slide = true;
+};
+
+// add or update the slide in the current entry selection
+const saveSlide = (slide: SetlistSlide) => {
+	if (slideEdit.value.index === -1) {
+		setlist.value.entries.push(slide);
+	} else {
+		setlist.value.entries[slideEdit.value.index] = slide;
+	}
+	showModal.slide = false;
 };
 
 // check if given song exists on current song selection
-const idExists = (id: string) => setlist.value?.songs.some((s) => s.id === id);
+const idExists = (id: string) => setlist.value?.entries.some((s) => !isSlide(s) && s.id === id);
 
 // add or remove song of given id
 const songSelection = (id: string, addition: boolean) => {
@@ -446,7 +506,8 @@ const performedSongs = computed(() => {
 	let songs: Record<string, string> = {};
 	let sortedSetlists = setlists.value.toSorted((a, b) => b.entity.date.localeCompare(a.entity.date));
 	sortedSetlists.forEach(setlist => {
-		setlist.entity.songs.forEach(song => {
+		setlist.entity.entries.forEach(song => {
+			if (isSlide(song)) return;
 			if (!(song.id in songs)) {
 				songs[song.id] = humanDate(setlist.entity.date, loc, false);
 			}
@@ -460,9 +521,9 @@ const updateDate = (newDate: Date) => {
 	setlist.value.date = newDate.toISOString().slice(0,10);
 };
 
-// tune the song at given position up
+// tune the song at given position up (only ever called for song entries, never slides)
 const tuneUp = (position: number) => {
-	let songs = setlist.value.songs;
+	let songs = setlist.value.entries as SetlistSong[];
 	// update tuning
 	let tone = songs[position].key ? songs[position].key : findSong(songs[position].id)?.key;
 	let i = keyScale.indexOf(tone ?? '');
@@ -472,12 +533,12 @@ const tuneUp = (position: number) => {
 		tone = keyScale[++i];
 	}
 	// save tuning in setlist
-	setlist.value.songs[position].key = tone;
+	songs[position].key = tone;
 };
 
-// tune the song at given position down
+// tune the song at given position down (only ever called for song entries, never slides)
 const tuneDown = (position: number) => {
-	let songs = setlist.value.songs;
+	let songs = setlist.value.entries as SetlistSong[];
 	// update tuning
 	let tone = songs[position].key ? songs[position].key : findSong(songs[position].id)?.key;
 	let i = keyScale.indexOf(tone ?? '');
@@ -487,7 +548,7 @@ const tuneDown = (position: number) => {
 		tone = keyScale[--i];
 	}
 	// save tuning in setlist
-	setlist.value.songs[position].key = tone;
+	songs[position].key = tone;
 };
 
 // create a human readable record key of format YYYYMMDD-the-setlist-title
@@ -507,7 +568,7 @@ const buildEntity = (slug: string): SetlistEntity => ({
 	remoteText:  props.existing ? props.initialSetlist.remoteText : undefined,
 	sharedWith:  (props.existing ? props.initialSetlist.sharedWith : []) ?? [],
 	slug,
-	songs:       setlist.value.songs,
+	entries:     setlist.value.entries,
 	title:       setlist.value.title,
 });
 

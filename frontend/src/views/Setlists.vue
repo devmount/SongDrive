@@ -197,7 +197,7 @@
 						class="cursor-pointer p-3 hidden sm:table-cell text-center"
 						@click="router.push({ name: 'setlist-show', params: { id: setlist.entity.slug }})"
 					>
-						{{ setlist.entity.songs.length }}
+						{{ songCount(setlist) }}
 					</td>
 					<td>
 						<drop-down>
@@ -251,7 +251,7 @@
 
 <script setup lang="ts">
 import { injectStrict, hkBackKey, hkCancelKey, hkForwardKey, hkSearchKey, noActiveInputKey, noActiveModalKey, setlistsKey, userKey, usersKey } from '@/keys';
-import { humanDate, firstParam } from '@/utils.js';
+import { humanDate, firstParam, isSlide } from '@/utils.js';
 import { logicAnd } from '@vueuse/math';
 import { ref, reactive, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -339,13 +339,16 @@ const order = reactive<{ field: string, ascending: boolean }>({
 	ascending: false
 });
 
+// number of actual songs on a setlist, excluding slides
+const songCount = (setlist: Setlist) => setlist.entity.entries.filter(s => !isSlide(s)).length;
+
 // computed
 const sortedSetlists = computed(() => {
 	return setlists.value.toSorted((a, b) => {
 		let propA: string | number, propB: string | number;
 		if (order.field == 'songs') {
-			propA = a.entity.songs.length;
-			propB = b.entity.songs.length;
+			propA = songCount(a);
+			propB = songCount(b);
 		} else if (order.field == 'creator') {
 			propA = users.value[a.entity.createdBy]?.name ?? '';
 			propB = users.value[b.entity.createdBy]?.name ?? '';
@@ -401,7 +404,7 @@ const filteredSetlists = computed(() => {
 	if (filter.songs) {
 		// filter fields: songs
 		setlists = setlists.filter(s => {
-			return s.entity.songs.length.toString().indexOf(filter.songs as string) !== -1;
+			return songCount(s).toString().indexOf(filter.songs as string) !== -1;
 		})
 	}
 	return setlists;

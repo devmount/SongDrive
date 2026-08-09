@@ -112,6 +112,7 @@
 <script setup lang="ts">
 import { injectStrict, setlistsKey, userKey } from '@/keys';
 import { ColorScheme } from '@/definitions';
+import { isSlide } from '@/utils.js';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -150,7 +151,7 @@ const setlistsFromUser = computed(() => setlists.value.filter(s => s.entity.crea
 
 // number of songs on those setlists
 const songsFromUser = computed(() => {
-	return setlistsFromUser.value.reduce((p, c) => p + c.entity.songs.length, 0);
+	return setlistsFromUser.value.reduce((p, c) => p + c.entity.entries.filter(s => !isSlide(s)).length, 0);
 });
 
 // Handle UI language code and names

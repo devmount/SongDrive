@@ -1,4 +1,4 @@
-import type { SongEntity, SetlistEntity, SetlistSong } from '@backend/models';
+import type { SongEntity, SetlistEntity, SetlistEntry, SetlistSlide } from '@backend/models';
 import type { UserRole } from '@backend/definitions';
 
 /**
@@ -51,7 +51,7 @@ export type SongFormData = Partial<SongEntity> & {
 
 /**
  * Shape of SetlistSet.vue's `initialSetlist` prop: either the blank-form
- * template (just title/isPublic/date/songs, see App.vue's initialSetlist) or
+ * template (just title/isPublic/date/entries, see App.vue's initialSetlist) or
  * a full existing SetlistEntity when editing - the rest is only read when
  * `existing` is true.
  */
@@ -59,13 +59,19 @@ export type SetlistFormData = Partial<SetlistEntity> & {
   title: string;
   isPublic: boolean;
   date: string;
-  songs: SetlistSong[];
+  entries: SetlistEntry[];
 };
 
 /**
  * A setlist song hydrated with its full song entity plus per-setlist custom key.
  */
 export type SetlistSongPresentation = SongEntity & { customTuningDelta: number; customTuning: string };
+
+/**
+ * A single entry to feed to SetlistPresent's carousel: either a hydrated song or a plain slide,
+ * in the setlist's original entry order.
+ */
+export type SetlistPresentationEntry = SetlistSongPresentation | SetlistSlide;
 
 /**
  * UI theme mode
