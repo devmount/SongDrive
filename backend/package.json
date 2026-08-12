@@ -6,7 +6,7 @@
   "author": "",
   "type": "module",
   "main": "index.js",
-  "packageManager": "pnpm@11.9.0",
+  "packageManager": "pnpm@11.21.0",
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
@@ -18,13 +18,13 @@
   "dependencies": {
     "amberbase": "0.1.0-beta.1",
     "express": "^5.2.1",
-    "express-rate-limit": "^8.6.1"
+    "express-rate-limit": "^8.6.2"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
     "@types/ws": "^8.18.1",
-    "oxlint": "^1.76.0",
+    "oxlint": "^1.78.0",
     "oxlint-tsgolint": "^7.0.2001",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10"
