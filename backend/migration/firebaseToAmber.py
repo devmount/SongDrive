@@ -67,7 +67,7 @@ for batch in chunks(list(data['setlists'])):
       'active': data['setlists'][id]['active'],
       'createdBy': data['setlists'][id]['creator'],
       'date': data['setlists'][id]['date'],
-      'entries': [{ 'id': s['id'][:32], 'key': s['tuning'] } for s in data['setlists'][id]['songs']],
+      'entries': [{ 'id': s['id'][:36], 'key': s['tuning'] } for s in data['setlists'][id]['songs']],
       'isPublic': is_public,
       'position': data['setlists'][id]['position'],
       'sharedWith': [],
@@ -82,7 +82,7 @@ for batch in chunks(list(data['setlists'])):
 for batch in chunks(list(data['songs'])):
   query += 'INSERT INTO `documents` (`tenant`, `collection`, `id`, `change_number`, `change_user`, `change_time`, `data`, `tags`, `access_tags`) VALUES '
   for id in batch:
-    amber_id = id[:32]
+    amber_id = id[:36]
     change_user = 'NULL'
     change_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     song_data = json.dumps({
