@@ -438,7 +438,6 @@ const init = async () => {
 			
 			// Get login callback
 			return new Promise((resolve)=>{
-				// loginCallback ist eine variable die das resolve callback deinem UI zur Verfügung stellt. 
 				authenticated.value = false;
 				authFailed.value = failed;
 				authCallback.value = resolve;
@@ -446,7 +445,7 @@ const init = async () => {
 			})
 		})
 		.start();
-	
+
 	amberUser.value = await client.value.userInTenant();
 	authenticated.value = true;
 
