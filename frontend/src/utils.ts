@@ -22,6 +22,24 @@ const isChordLine = (line: string): boolean => {
 const isSlide = (entry: SetlistEntry | SetlistPresentationEntry): entry is SetlistSlide =>
 	!('id' in entry) && !('slug' in entry);
 
+// batch values arriving in quick succession into a single handler call, deferredCallDelay ms after the
+// first value of a burst arrives - collapses rapid-fire callbacks (e.g. one per network message) into one
+// downstream update per burst instead of one per value
+function bufferAndDefer<T>(handler: (buffer: T[]) => void, deferredCallDelay: number = 20): (value: T) => void {
+	let buffer: T[] = [];
+	return (value: T) => {
+		buffer.push(value);
+		if (buffer.length == 1) {
+			// only schedule one deferred call to handler if this is the first item in the buffer to avoid multiple calls
+			setTimeout(() => {
+				handler(buffer);
+				// clear buffer after handling the chunk of items
+				buffer = [];
+			}, deferredCallDelay);
+		}
+	}
+}
+
 // grow/shrink the font size of every <pre> inside every .present element as large as possible while
 // still fitting its parent's width and, per .present group, the viewport's height.
 // Non-wrapping text (songs) and wrapping text (slides) are taken into account.
@@ -503,6 +521,7 @@ export {
   keyScale,
   isChordLine,
   isSlide,
+  bufferAndDefer,
   maximizePresentFontsize,
   parsedContent,
   download,
