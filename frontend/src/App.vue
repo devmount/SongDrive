@@ -229,7 +229,7 @@ import ResetPassword from '@/partials/ResetPassword.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistSet from '@/modals/SetlistSet.vue';
 import SongSet from '@/modals/SongSet.vue';
-import { amberClient, type AmberClient, type UserInTenant, type AmberCollections, type AmberCollection, type UserInfo } from 'amber-client';
+import { amberClient, type AmberClient, type UserInTenant, type AmberCollections, type AmberCollection, type UserInfo, type CollectionDocument } from 'amber-client';
 import { SongTag, can, UserRole } from "@backend/definitions";
 import type { Song, Setlist, SongEntity, SetlistEntity } from '@backend/models';
 
@@ -425,6 +425,21 @@ provide(songsCollectionKey, songsCollection);
 provide(setlistCollectionKey, setlistCollection);
 provide(clientKey, client);
 
+function bufferAndDefer<T>(handler:(buffer:T[])=>void, deferredCallDelay:number = 20): (doc:T)=>void {
+	var buffer:T[] = [];
+	return (doc:T) => {
+		buffer.push(doc);
+		if (buffer.length == 1) {
+			// only schedule one deferred call to handler if this is the first item in the buffer to avoid multiple calls
+			setTimeout(() => {
+				handler(buffer);
+				// clear buffer after handling the chunk of items
+				buffer = [];
+			}, deferredCallDelay);	
+		}
+	}
+}
+
 const init = async () => {
 	client.value = amberClient()
 		.withPath('/amber')
@@ -453,29 +468,39 @@ const init = async () => {
 	songsCollection.value = collectionApi.getCollection('songs');
 	setlistCollection.value = collectionApi.getCollection('setlists');
 
-	songsCollection.value.subscribe(0, (doc) => {
-		let existing = songs.value.find(s => s.id === doc.id);
-		if (existing) {
-			existing.entity = doc.data;
-			existing.changeNumber = doc.change_number;
-		} else {
+	songsCollection.value.subscribe(0, bufferAndDefer<CollectionDocument<SongEntity>>((docs) => {
+		let documentsToAdd: CollectionDocument<SongEntity>[] = [];
+		for (const doc of docs) {
+			let existing = songs.value.find(s => s.id === doc.id);
+			if (existing) {
+				existing.entity = doc.data;
+				existing.changeNumber = doc.change_number;
+			} else {
+				documentsToAdd.push(doc);
+			}
+		}
+		for (const doc of documentsToAdd) {
 			songs.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
 		}
-
-	}, (docDeletedId) => {
+	}), (docDeletedId) => {
 		songs.value = songs.value.filter(s => s.id !== docDeletedId);
 	});
 
-	setlistCollection.value.subscribe(0, (doc) => {
-		let existing = setlists.value.find(s => s.id === doc.id);
-		if (existing) {
-			existing.entity = doc.data;
-			existing.changeNumber = doc.change_number;
-		} else {
+	setlistCollection.value.subscribe(0, bufferAndDefer<CollectionDocument<SetlistEntity>>((docs) => {
+		let documentsToAdd: CollectionDocument<SetlistEntity>[] = [];
+		for (const doc of docs) {
+			let existing = setlists.value.find(s => s.id === doc.id);
+			if (existing) {
+				existing.entity = doc.data;
+				existing.changeNumber = doc.change_number;
+			} else {
+				documentsToAdd.push(doc);
+			}
+		}
+		for (const doc of documentsToAdd) {
 			setlists.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
 		}
-
-	}, (docDeletedId) => {
+	}), (docDeletedId) => {
 		setlists.value = setlists.value.filter(s => s.id !== docDeletedId);
 	});
 
