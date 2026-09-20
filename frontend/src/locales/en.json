@@ -90,6 +90,7 @@
     "email": "Email",
     "key": "Key",
     "language": "Language",
+    "licenseType": "License type",
     "newPassword": "New Password",
     "note": "Note",
     "password": "Password",
@@ -147,7 +148,9 @@
     "dark": "Dark",
     "light": "Light",
     "private": "Private",
-    "public": "Public"
+    "protected": "Protected",
+    "public": "Public",
+    "publicDomain": "Public domain"
   },
   "page": {
     "account": "My user account",

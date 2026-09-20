@@ -5,6 +5,7 @@ export type SongEntity = {
   createdBy: string; // User id of the creator (new)
   key?: string; // Base key of the song (previously named 'tuning')
   language: string; // Language code, two letter iso
+  publicDomain?: boolean; // True if the song is public domain
   publisher: string; // Song publisher information
   slug: string; // Unique song url slug (previously named 'id')
   subtitle?: string; // Displayed song subtitle
