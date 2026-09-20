@@ -318,6 +318,7 @@ const initialSong: SongFormData = {
 	key:          '',
 	language:     '',
 	publisher:    '',
+	publicDomain: false,
 	subtitle:     '',
 	tags:         [],
 	title:        '',
@@ -352,7 +353,7 @@ const createNewSong = () => {
 	showModal.songset         = true;
 };
 const editExistingSong = ({data, id, exists}: { data: SongEntity, id: string, exists: boolean }) => {
-	songSetModalData.song     = data;
+	songSetModalData.song     = {...initialSong, ...data};
 	songSetModalData.existing = exists;
 	songSetModalData.id       = id;
 	showModal.songset         = true;
