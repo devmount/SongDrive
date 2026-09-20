@@ -229,9 +229,10 @@ import ResetPassword from '@/partials/ResetPassword.vue';
 import SecondaryButton from '@/elements/SecondaryButton.vue';
 import SetlistSet from '@/modals/SetlistSet.vue';
 import SongSet from '@/modals/SongSet.vue';
-import { amberClient, type AmberClient, type UserInTenant, type AmberCollections, type AmberCollection, type UserInfo } from 'amber-client';
+import { amberClient, type AmberClient, type UserInTenant, type AmberCollections, type AmberCollection, type UserInfo, type CollectionDocument } from 'amber-client';
 import { SongTag, can, UserRole } from "@backend/definitions";
 import type { Song, Setlist, SongEntity, SetlistEntity } from '@backend/models';
+import { bufferAndDefer } from '@/utils.js';
 
 // icons
 import {
@@ -397,7 +398,9 @@ const stayLoggedIn = ref(true);
 
 // Data
 const songs = ref<Song[]>([]);
+const songsById = new Map<string, Song>(); // For song existence lookup
 const setlists = ref<Setlist[]>([]);
+const setlistsById = new Map<string, Setlist>(); // For setlist existence lookup
 const users = ref<Record<string, UserInfo>>({}); // { [user id]: user info object }
 const tags = Object.values(SongTag);
 
@@ -453,29 +456,45 @@ const init = async () => {
 	songsCollection.value = collectionApi.getCollection('songs');
 	setlistCollection.value = collectionApi.getCollection('setlists');
 
-	songsCollection.value.subscribe(0, (doc) => {
-		let existing = songs.value.find(s => s.id === doc.id);
-		if (existing) {
-			existing.entity = doc.data;
-			existing.changeNumber = doc.change_number;
-		} else {
-			songs.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
+	songsCollection.value.subscribe(0, bufferAndDefer<CollectionDocument<SongEntity>>((docs) => {
+		const documentsToAdd: Song[] = [];
+		for (const doc of docs) {
+			const existing = songsById.get(doc.id);
+			if (existing) {
+				existing.entity = doc.data;
+				existing.changeNumber = doc.change_number;
+			} else {
+				const song: Song = { id: doc.id, entity: doc.data, changeNumber: doc.change_number };
+				songsById.set(doc.id, song);
+				documentsToAdd.push(song);
+			}
 		}
-
-	}, (docDeletedId) => {
+		if (documentsToAdd.length > 0) {
+			songs.value.push(...documentsToAdd);
+		}
+	}), (docDeletedId) => {
+		songsById.delete(docDeletedId);
 		songs.value = songs.value.filter(s => s.id !== docDeletedId);
 	});
 
-	setlistCollection.value.subscribe(0, (doc) => {
-		let existing = setlists.value.find(s => s.id === doc.id);
-		if (existing) {
-			existing.entity = doc.data;
-			existing.changeNumber = doc.change_number;
-		} else {
-			setlists.value.push({ id: doc.id, entity: doc.data, changeNumber: doc.change_number });
+	setlistCollection.value.subscribe(0, bufferAndDefer<CollectionDocument<SetlistEntity>>((docs) => {
+		const documentsToAdd: Setlist[] = [];
+		for (const doc of docs) {
+			const existing = setlistsById.get(doc.id);
+			if (existing) {
+				existing.entity = doc.data;
+				existing.changeNumber = doc.change_number;
+			} else {
+				const setlist: Setlist = { id: doc.id, entity: doc.data, changeNumber: doc.change_number };
+				setlistsById.set(doc.id, setlist);
+				documentsToAdd.push(setlist);
+			}
 		}
-
-	}, (docDeletedId) => {
+		if (documentsToAdd.length > 0) {
+			setlists.value.push(...documentsToAdd);
+		}
+	}), (docDeletedId) => {
+		setlistsById.delete(docDeletedId);
 		setlists.value = setlists.value.filter(s => s.id !== docDeletedId);
 	});
 

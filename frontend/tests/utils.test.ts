@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { SongEntity } from '@backend/models';
 import {
+	bufferAndDefer,
 	firstParam,
 	humanDate,
 	humanFileSize,
@@ -13,6 +14,68 @@ import {
 	sortTags,
 	urlify,
 } from '@/utils';
+
+describe('bufferAndDefer', () => {
+	beforeEach(() => {
+		vi.useFakeTimers();
+	});
+
+	afterEach(() => {
+		vi.useRealTimers();
+	});
+
+	it('defers the handler call until after the delay', () => {
+		const handler = vi.fn();
+		const push = bufferAndDefer(handler, 20);
+		push('a');
+		expect(handler).not.toHaveBeenCalled();
+		vi.advanceTimersByTime(20);
+		expect(handler).toHaveBeenCalledTimes(1);
+	});
+
+	it('batches values arriving within the delay window into a single call', () => {
+		const handler = vi.fn();
+		const push = bufferAndDefer(handler, 20);
+		push('a');
+		push('b');
+		push('c');
+		vi.advanceTimersByTime(20);
+		expect(handler).toHaveBeenCalledTimes(1);
+		expect(handler).toHaveBeenCalledWith(['a', 'b', 'c']);
+	});
+
+	it('starts a new batch once the previous one has flushed', () => {
+		const handler = vi.fn();
+		const push = bufferAndDefer(handler, 20);
+		push('a');
+		vi.advanceTimersByTime(20);
+		push('b');
+		vi.advanceTimersByTime(20);
+		expect(handler).toHaveBeenCalledTimes(2);
+		expect(handler).toHaveBeenNthCalledWith(1, ['a']);
+		expect(handler).toHaveBeenNthCalledWith(2, ['b']);
+	});
+
+	it('defaults the delay to 20ms', () => {
+		const handler = vi.fn();
+		const push = bufferAndDefer(handler);
+		push('a');
+		vi.advanceTimersByTime(19);
+		expect(handler).not.toHaveBeenCalled();
+		vi.advanceTimersByTime(1);
+		expect(handler).toHaveBeenCalledTimes(1);
+	});
+
+	it('respects a custom delay', () => {
+		const handler = vi.fn();
+		const push = bufferAndDefer(handler, 100);
+		push('a');
+		vi.advanceTimersByTime(99);
+		expect(handler).not.toHaveBeenCalled();
+		vi.advanceTimersByTime(1);
+		expect(handler).toHaveBeenCalledTimes(1);
+	});
+});
 
 describe('isChordLine', () => {
 	it('rejects empty and whitespace-only lines', () => {
