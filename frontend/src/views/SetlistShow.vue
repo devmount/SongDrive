@@ -171,6 +171,15 @@
 								<icon-notes class="w-5 h-5 stroke-1.5" />
 								{{ t('button.addSlide') }}
 							</button>
+							<a
+								v-if="ccliReportUrl"
+								:href="ccliReportUrl"
+								target="_blank"
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+							>
+								<icon-report class="w-5 h-5 stroke-1.5" />
+								{{ t('button.ccliReport') }}
+							</a>
 							<button
 								v-if="canDeleteSetlist"
 								class="px-3 py-2 w-full flex items-center gap-3 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30"
@@ -560,6 +569,7 @@ import {
 	IconPresentation,
 	IconRefresh,
 	IconRefreshOff,
+	IconReport,
 	IconTrash,
 	IconTxt,
 	IconUser,
@@ -712,6 +722,14 @@ const noSongs = computed(() => {
 // number of actual songs in this setlist, excluding slides
 const songCount = computed(() => {
 	return setlist.value?.entity.entries.filter(s => !isSlide(s)).length ?? 0;
+});
+
+// CCLI reporting link for songs with a CCLI id, excluding public domain songs (undefined if none)
+const ccliReportUrl = computed(() => {
+	const ids = setlistSongs.value
+		.filter(song => song.ccli && !song.publicDomain)
+		.map(song => song.ccli);
+	return ids.length > 0 ? `https://reporting.ccli.com/search?s=${ids.join(';')}` : undefined;
 });
 
 // save new song order for setlist
