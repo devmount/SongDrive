@@ -90,6 +90,7 @@
     "email": "E-Mail",
     "key": "Tonart",
     "language": "Sprache",
+    "licenseType": "Lizenztyp",
     "newPassword": "Neues Passwort",
     "note": "Notiz",
     "password": "Passwort",
@@ -147,7 +148,9 @@
     "dark": "Dunkel",
     "light": "Hell",
     "private": "Privat",
-    "public": "Öffentlich"
+    "protected": "Geschützt",
+    "public": "Öffentlich",
+    "publicDomain": "Gemeinfrei"
   },
   "page": {
     "account": "Mein Benutzerkonto",
