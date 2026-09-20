@@ -120,26 +120,16 @@
 						>
 					</label>
 				</div>
-				<div class="grid grid-cols-2/1 gap-4">
-					<!-- publisher -->
-					<label class="flex flex-col gap-1">
-						<div>{{ t('field.publisher') }}</div>
-						<textarea
-							v-model="song.publisher"
-							class="text-sm"
-							:placeholder="t('placeholder.exampleSongPublisher')"
-							rows="2"
-						></textarea>
-					</label>
-					<!-- license type -->
-					<label class="flex flex-col gap-1">
-						<div>{{ t('field.licenseType') }}</div>
-						<select v-model="song.publicDomain">
-							<option :value="true">{{ t('option.publicDomain') }}</option>
-							<option :value="false">{{ t('option.protected') }}</option>
-						</select>
-					</label>
-				</div>
+				<!-- publisher -->
+				<label class="flex flex-col gap-1">
+					<div>{{ t('field.publisher') }}</div>
+					<textarea
+						v-model="song.publisher"
+						class="text-sm"
+						:placeholder="t('placeholder.exampleSongPublisher')"
+						rows="2"
+					></textarea>
+				</label>
 				<!-- song translations -->
 				<label class="flex flex-col gap-2">
 					<div>{{ t('field.translations') }}</div>
@@ -361,7 +351,6 @@ const buildEntity = (slug: string): SongEntity => ({
 	createdBy:    (props.existing ? props.initialSong.createdBy : user.value.id) ?? '',
 	key:          song.value.key || undefined,
 	language:     song.value.language,
-	publicDomain: song.value.publicDomain ?? false,
 	publisher:    song.value.publisher,
 	slug,
 	subtitle:     song.value.subtitle || undefined,
