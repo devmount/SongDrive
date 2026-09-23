@@ -6,7 +6,7 @@
   "author": "",
   "type": "module",
   "main": "index.js",
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@12.6.0",
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
