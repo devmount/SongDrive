@@ -316,34 +316,24 @@ function parsedContent(content: string, keyOffset: number, showChords: boolean, 
   }
 };
 
-// build plain text content for a song's songsheet: header (title [key]), lyrics with chord lines optionally
-// stripped and verse markers numbered/stripped, and an authors/copyright footer
-const songPlainTextContent = (song: SongEntity, tuning: string, showChords: boolean): string => {
+// Build plain text content for a song's songsheet: header (title [key]), lyrics (transposed by keyOffset, with chord
+// lines optionally stripped and verse numbers re-attached to their lyric line), and an authors/copyright footer.
+const songPlainTextContent = (song: SongEntity, keyOffset: number, tuning: string, showChords: boolean): string => {
   // add header
   var content = song.title + ' [' + tuning + ']' + '\n\n';
-  var lines = song.content.split('\n');
-  // process lines
-  for (var i = 0; i < lines.length; i++) {
-    var line = lines[i];
-    // handle chord line
-    if (!showChords && isChordLine(line)) continue;
-    // handle verse marker indentation
-    if (line.trim().toLowerCase().indexOf('--v') >= 0 && !isNaN(parseInt(line.trim().charAt(3)))) {
-      // if next line is chord line, prepend number to the line after
-      if (isChordLine(lines[i+1])) {
-        lines[i+2] = line.trim().charAt(3) + '. ' + lines[i+2];
-        // add 3 spaces to next line to sync chords with text again
-        lines[i+1] = '   ' + lines[i+1];
-      } else {
-        lines[i+1] = line.trim().charAt(3) + '. ' + lines[i+1];
-      }
+  parsedContent(song.content, keyOffset, showChords, false).forEach(part => {
+    var block = part.content;
+    // re-attach the verse number to its lyric line (skipping a leading chord line, padded to stay aligned)
+    if (part.type == 'v' && part.number != '0') {
+      var lines = block.split('\n');
+      var target = isChordLine(lines[0]) ? 1 : 0;
+      if (target == 1) lines[0] = '   ' + lines[0];
+      lines[target] = part.number + '. ' + (lines[target] ?? '');
+      block = lines.join('\n');
     }
-    // handle marker
-    if (line.trim().indexOf('--') >= 0) continue;
-    // keep line for export
-    content += line + '\n';
-  }
-  content += '\n' + song.authors?.join(', ') + '\n\n'
+    content += block + '\n\n';
+  });
+  content += song.authors?.join(', ') + '\n\n'
     + '© ' + (song.year ? song.year + ' ' : '') + song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
   return content;
 };

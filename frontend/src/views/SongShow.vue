@@ -441,7 +441,7 @@ const exportTxt = () => {
 	if (!s) return;
 	const tuning = keyScale[(12 + keyScale.indexOf(s.key ?? '') + (key.value % 12)) % 12];
 	// start download
-	download(songPlainTextContent(s, tuning, chords.value), songId + '.txt');
+	download(songPlainTextContent(s, key.value, tuning, chords.value), songId + '.txt');
 	// toast success message
 	notify({
 		title: t('toast.exportedText'),

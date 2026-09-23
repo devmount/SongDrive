@@ -1014,7 +1014,7 @@ const copyList = (format: 'plain' | 'markdown' | 'slack') => {
 const exportTxt = (mode: 'sheets' | 'list') => {
 	const content = mode == 'list'
 		? setlistListText('plain')
-		: setlistSongs.value.map(song => songPlainTextContent(song, song.customTuning, chords.value)).join('\n\n');
+		: setlistSongs.value.map(song => songPlainTextContent(song, song.customTuningDelta, song.customTuning, chords.value)).join('\n\n');
 	const type = (mode == 'sheets' ? t('text.songsheets') : t('text.list')).toLowerCase();
 	download(content, `${setlistKey}-${type}.txt`);
 	// toast success message
