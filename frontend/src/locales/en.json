@@ -27,6 +27,7 @@
     "editThis": "Edit this page",
     "export": "Export",
     "exportSetlistList": "List as PDF",
+    "exportSetlistListTxt": "List as TXT",
     "exportSetlistSheets": "Sheets as PDF",
     "exportSetlistSheetsTxt": "Sheets as TXT",
     "filetypeOsz": "OpenLP Service [.osz]",

@@ -27,6 +27,7 @@
     "editThis": "Diese Seite bearbeiten",
     "export": "Export",
     "exportSetlistList": "Liste als PDF",
+    "exportSetlistListTxt": "Liste als TXT",
     "exportSetlistSheets": "Liedzettel als PDF",
     "exportSetlistSheetsTxt": "Liedzettel als TXT",
     "filetypeOsz": "OpenLP Service [.osz]",
