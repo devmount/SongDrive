@@ -519,7 +519,7 @@
 
 <script setup lang="ts">
 import { injectStrict, hkChordsKey, hkPresentKey, hkSyncKey, noActiveModalKey, setlistCollectionKey, setlistsKey, songsKey, userKey, usersKey, versionKey } from '@/keys';
-import { keyScale, parsedContent, humanDate, throwError, download, openLyricsXML, firstParam, isSlide } from '@/utils.js';
+import { keyScale, parsedContent, songPlainTextContent, humanDate, throwError, download, openLyricsXML, firstParam, isSlide } from '@/utils.js';
 import type { ThrowableError, SetlistSongPresentation, SetlistPresentationEntry } from '@/definitions';
 import { logicAnd } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
@@ -965,6 +965,20 @@ const copyList = (format: 'plain' | 'markdown' | 'slack') => {
 	notify({
 		title: t('toast.copiedToClipboard'),
 		text: t('toast.setlistFormatCopiedText', { format: format }),
+		type: 'primary'
+	});
+};
+
+// export setlist songsheets as one combined plain text file
+const exportTxt = () => {
+	const content = setlistSongs.value
+		.map(song => songPlainTextContent(song, song.customTuning, chords.value))
+		.join('\n\n');
+	download(content, `${setlistKey}.txt`);
+	// toast success message
+	notify({
+		title: t('toast.exportedText'),
+		text: t('toast.exportedSetlistTextText'),
 		type: 'primary'
 	});
 };
