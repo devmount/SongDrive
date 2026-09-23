@@ -316,6 +316,38 @@ function parsedContent(content: string, keyOffset: number, showChords: boolean, 
   }
 };
 
+// build plain text content for a song's songsheet: header (title [key]), lyrics with chord lines optionally
+// stripped and verse markers numbered/stripped, and an authors/copyright footer
+const songPlainTextContent = (song: SongEntity, tuning: string, showChords: boolean): string => {
+  // add header
+  var content = song.title + ' [' + tuning + ']' + '\n\n';
+  var lines = song.content.split('\n');
+  // process lines
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
+    // handle chord line
+    if (!showChords && isChordLine(line)) continue;
+    // handle verse marker indentation
+    if (line.trim().toLowerCase().indexOf('--v') >= 0 && !isNaN(parseInt(line.trim().charAt(3)))) {
+      // if next line is chord line, prepend number to the line after
+      if (isChordLine(lines[i+1])) {
+        lines[i+2] = line.trim().charAt(3) + '. ' + lines[i+2];
+        // add 3 spaces to next line to sync chords with text again
+        lines[i+1] = '   ' + lines[i+1];
+      } else {
+        lines[i+1] = line.trim().charAt(3) + '. ' + lines[i+1];
+      }
+    }
+    // handle marker
+    if (line.trim().indexOf('--') >= 0) continue;
+    // keep line for export
+    content += line + '\n';
+  }
+  content += '\n' + song.authors?.join(', ') + '\n\n'
+    + '© ' + (song.year ? song.year + ' ' : '') + song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
+  return content;
+};
+
 // file download
 const download = (data: string | Blob, filename: string, isBlob = false): void => {
   var a = document.createElement('a');
@@ -524,6 +556,7 @@ export {
   bufferAndDefer,
   maximizePresentFontsize,
   parsedContent,
+  songPlainTextContent,
   download,
   humanDate,
   humanFileSize,
