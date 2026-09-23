@@ -139,14 +139,14 @@
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 									@click="exportTxt()"
 								>
-									<icon-file-pencil class="w-5 h-5 stroke-1.5" />
+									<icon-file-stack class="w-5 h-5 stroke-1.5" />
 									{{ t('button.exportSetlistSheetsTxt') }}
 								</button>
 								<button
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 									@click="exportOsz()"
 								>
-									<icon-file class="w-5 h-5 stroke-1.5" />
+									<icon-file-music class="w-5 h-5 stroke-1.5" />
 									{{ t('button.filetypeOsz') }}
 								</button>
 							</template>
@@ -234,14 +234,14 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
 								@click="exportTxt()"
 							>
-								<icon-file-pencil class="w-5 h-5 stroke-1.5" />
+								<icon-file-stack class="w-5 h-5 stroke-1.5" />
 								{{ t('button.exportSetlistSheetsTxt') }}
 							</button>
 							<button
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
 								@click="exportOsz()"
 							>
-								<icon-file class="w-5 h-5 stroke-1.5" />
+								<icon-file-music class="w-5 h-5 stroke-1.5" />
 								{{ t('button.filetypeOsz') }}
 							</button>
 						</drop-down>
@@ -578,8 +578,8 @@ import {
 	IconExternalLink,
 	IconEye,
 	IconFiles,
-	IconFile,
-	IconFilePencil,
+	IconFileMusic,
+	IconFileStack,
 	IconFileText,
 	IconLock,
 	IconMarkdown,
