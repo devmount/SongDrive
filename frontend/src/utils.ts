@@ -316,6 +316,28 @@ function parsedContent(content: string, keyOffset: number, showChords: boolean, 
   }
 };
 
+// Build plain text content for a song's songsheet: header (title [key]), lyrics (transposed by keyOffset, with chord
+// lines optionally stripped and verse numbers re-attached to their lyric line), and an authors/copyright footer.
+const songPlainTextContent = (song: SongEntity, keyOffset: number, tuning: string, showChords: boolean): string => {
+  // add header
+  var content = song.title + ' [' + tuning + ']' + '\n\n';
+  parsedContent(song.content, keyOffset, showChords, false).forEach(part => {
+    var block = part.content;
+    // re-attach the verse number to its lyric line (skipping a leading chord line, padded to stay aligned)
+    if (part.type == 'v' && part.number != '0') {
+      var lines = block.split('\n');
+      var target = isChordLine(lines[0]) ? 1 : 0;
+      if (target == 1) lines[0] = '   ' + lines[0];
+      lines[target] = part.number + '. ' + (lines[target] ?? '');
+      block = lines.join('\n');
+    }
+    content += block + '\n\n';
+  });
+  content += song.authors?.join(', ') + '\n\n'
+    + '© ' + (song.year ? song.year + ' ' : '') + song.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
+  return content;
+};
+
 // file download
 const download = (data: string | Blob, filename: string, isBlob = false): void => {
   var a = document.createElement('a');
@@ -524,6 +546,7 @@ export {
   bufferAndDefer,
   maximizePresentFontsize,
   parsedContent,
+  songPlainTextContent,
   download,
   humanDate,
   humanFileSize,

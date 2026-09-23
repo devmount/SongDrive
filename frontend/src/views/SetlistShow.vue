@@ -125,7 +125,7 @@
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 									@click="exportPdf('list')"
 								>
-									<icon-file-text class="w-5 h-5 stroke-1.5" />
+									<icon-file-type-pdf class="w-5 h-5 stroke-1.5" />
 									{{ t('button.exportSetlistList') }}
 								</button>
 								<button
@@ -137,9 +137,23 @@
 								</button>
 								<button
 									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click="exportTxt('list')"
+								>
+									<icon-file-type-txt class="w-5 h-5 stroke-1.5" />
+									{{ t('button.exportSetlistListTxt') }}
+								</button>
+								<button
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
+									@click="exportTxt('sheets')"
+								>
+									<icon-file-stack class="w-5 h-5 stroke-1.5" />
+									{{ t('button.exportSetlistSheetsTxt') }}
+								</button>
+								<button
+									class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750"
 									@click="exportOsz()"
 								>
-									<icon-file class="w-5 h-5 stroke-1.5" />
+									<icon-file-music class="w-5 h-5 stroke-1.5" />
 									{{ t('button.filetypeOsz') }}
 								</button>
 							</template>
@@ -213,7 +227,7 @@
 								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
 								@click="exportPdf('list')"
 							>
-								<icon-file-text class="w-5 h-5 stroke-1.5" />
+								<icon-file-type-pdf class="w-5 h-5 stroke-1.5" />
 								{{ t('button.exportSetlistList') }}
 							</button>
 							<button
@@ -222,6 +236,27 @@
 							>
 								<icon-files class="w-5 h-5 stroke-1.5" />
 								{{ t('button.exportSetlistSheets') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+								@click="exportTxt('list')"
+							>
+								<icon-file-type-txt class="w-5 h-5 stroke-1.5" />
+								{{ t('button.exportSetlistListTxt') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+								@click="exportTxt('sheets')"
+							>
+								<icon-file-stack class="w-5 h-5 stroke-1.5" />
+								{{ t('button.exportSetlistSheetsTxt') }}
+							</button>
+							<button
+								class="px-3 py-2 w-full flex items-center gap-3 hover:bg-blade-100 dark:hover:bg-blade-750 sm:hidden"
+								@click="exportOsz()"
+							>
+								<icon-file-music class="w-5 h-5 stroke-1.5" />
+								{{ t('button.filetypeOsz') }}
 							</button>
 						</drop-down>
 					</div>
@@ -519,7 +554,7 @@
 
 <script setup lang="ts">
 import { injectStrict, hkChordsKey, hkPresentKey, hkSyncKey, noActiveModalKey, setlistCollectionKey, setlistsKey, songsKey, userKey, usersKey, versionKey } from '@/keys';
-import { keyScale, parsedContent, humanDate, throwError, download, openLyricsXML, firstParam, isSlide } from '@/utils.js';
+import { keyScale, parsedContent, songPlainTextContent, humanDate, throwError, download, openLyricsXML, firstParam, isSlide } from '@/utils.js';
 import type { ThrowableError, SetlistSongPresentation, SetlistPresentationEntry } from '@/definitions';
 import { logicAnd } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
@@ -557,8 +592,10 @@ import {
 	IconExternalLink,
 	IconEye,
 	IconFiles,
-	IconFile,
-	IconFileText,
+	IconFileMusic,
+	IconFileStack,
+	IconFileTypePdf,
+	IconFileTypeTxt,
 	IconLock,
 	IconMarkdown,
 	IconMenuOrder,
@@ -940,7 +977,8 @@ const removeSlide = async (index: number) => {
 };
 
 // copy list to clipboard in given format (plain|markdown|slack)
-const copyList = (format: 'plain' | 'markdown' | 'slack') => {
+// build setlist song list content in given format (plain|markdown|slack)
+const setlistListText = (format: 'plain' | 'markdown' | 'slack'): string => {
 	const list = setlistSongs.value.map((song, i) => {
 		const title = song.title;
 		const subtitle = song.subtitle;
@@ -959,12 +997,30 @@ const copyList = (format: 'plain' | 'markdown' | 'slack') => {
 	});
 	// Add link to list
 	list.push(...['', format === 'markdown' ? `<${window.location.href}>` : window.location.href]);
+	return list.join('\n');
+};
 
+const copyList = (format: 'plain' | 'markdown' | 'slack') => {
 	// Copy to clipboard
-	navigator.clipboard.writeText(list.join('\n'));
+	navigator.clipboard.writeText(setlistListText(format));
 	notify({
 		title: t('toast.copiedToClipboard'),
 		text: t('toast.setlistFormatCopiedText', { format: format }),
+		type: 'primary'
+	});
+};
+
+// export setlist as one combined plain text file (mode: sheets|list)
+const exportTxt = (mode: 'sheets' | 'list') => {
+	const content = mode == 'list'
+		? setlistListText('plain')
+		: setlistSongs.value.map(song => songPlainTextContent(song, song.customTuningDelta, song.customTuning, chords.value)).join('\n\n');
+	const type = (mode == 'sheets' ? t('text.songsheets') : t('text.list')).toLowerCase();
+	download(content, `${setlistKey}-${type}.txt`);
+	// toast success message
+	notify({
+		title: t('toast.exportedText'),
+		text: t('toast.exportedSetlistTextText'),
 		type: 'primary'
 	});
 };

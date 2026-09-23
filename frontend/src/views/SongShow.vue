@@ -276,7 +276,7 @@
 
 <script setup lang="ts">
 import { injectStrict, hkBackKey, hkChordsKey, hkDownKey, hkForwardKey, hkPresentKey, hkResetKey, hkUpKey, noActiveModalKey, setlistsKey, songsKey, userKey, versionKey } from '@/keys';
-import { keyScale, isChordLine, parsedContent, download, openLyricsXML, firstParam, isSlide } from '@/utils.js';
+import { keyScale, isChordLine, parsedContent, songPlainTextContent, download, openLyricsXML, firstParam, isSlide } from '@/utils.js';
 import type { SetlistSong } from '@backend/models';
 import { logicAnd, logicOr } from '@vueuse/math';
 import { notify } from '@kyvg/vue3-notification';
@@ -439,36 +439,9 @@ const songExists = computed(() => {
 const exportTxt = () => {
 	const s = song.value;
 	if (!s) return;
-	// add header
-	var content = s.title
-		+ ' [' + keyScale[(12 + keyScale.indexOf(s.key ?? '') + (key.value % 12)) % 12] + ']'
-		+ '\n\n';
-	var lines = s.content.split(EOL);
-	// process lines
-	for (var i = 0; i < lines.length; i++) {
-		var line = lines[i];
-		// handle chord line
-		if (!chords.value && isChordLine(line)) continue;
-		// handle verse marker indentation
-		if (line.trim().toLowerCase().indexOf('--v') >= 0 && !isNaN(parseInt(line.trim().charAt(3)))) {
-			// if next line is chord line, prepend number to the line after
-			if (isChordLine(lines[i+1])) {
-				lines[i+2] = line.trim().charAt(3) + '. ' + lines[i+2];
-				// add 3 spaces to next line to sync chords with text again
-				lines[i+1] = '   ' + lines[i+1];
-			} else {
-				lines[i+1] = line.trim().charAt(3) + '. ' + lines[i+1];
-			}
-		}
-		// handle marker
-		if (line.trim().indexOf('--') >= 0) continue;
-		// keep line for export
-		content += line + EOL;
-	}
-	content += EOL + s.authors?.join(', ') + EOL + EOL
-		+ '© ' + (s.year ? s.year + ' ' : '') + s.publisher.replace(/(?:\r\n|\r|\n)/g, '; ');
+	const tuning = keyScale[(12 + keyScale.indexOf(s.key ?? '') + (key.value % 12)) % 12];
 	// start download
-	download(content, songId + '.txt');
+	download(songPlainTextContent(s, key.value, tuning, chords.value), songId + '.txt');
 	// toast success message
 	notify({
 		title: t('toast.exportedText'),
