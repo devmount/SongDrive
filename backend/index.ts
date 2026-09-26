@@ -61,7 +61,7 @@ expressApp.get('/*splat', spaFallbackLimiter, (_req, res) => {
 	res.sendFile(path.join(__dirname, 'static', 'index.html'));
 });
 
-amberApp.addAdminIfNotExists('admin@songdrive.de', 'Admin', 'password');
+amberApp.addAdminIfNotExists('admin@songdrive.de', 'Admin', 'password', [UserRole.Editor]);
 amberApp.addOrUpdateTenant('default', 'Default Tenant', {});
 
 amberApp.listen(3333, '0.0.0.0');
