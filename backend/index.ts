@@ -64,4 +64,4 @@ expressApp.get('/*splat', spaFallbackLimiter, (_req, res) => {
 amberApp.addAdminIfNotExists('admin@songdrive.de', 'Admin', 'password', [UserRole.Editor]);
 amberApp.addOrUpdateTenant('default', 'Default Tenant', {});
 
-amberApp.listen(3333, '0.0.0.0');
+amberApp.listen(3000, '0.0.0.0');
