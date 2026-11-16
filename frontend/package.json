@@ -46,7 +46,7 @@
     "marked-highlight": "^2.2.4",
     "pdfmake": "^0.3.11",
     "vue": "^3.5.43",
-    "vue-i18n": "^11.4.12",
+    "vue-i18n": "^11.4.14",
     "vue-prism-editor": "2.0.0-alpha.2",
     "vue-router": "^5.3.1",
     "vue3-carousel": "^0.17.0",
